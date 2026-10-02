@@ -1,0 +1,38 @@
+# Credenciales y configuración privada
+.env
+.env.*
+!.env.example
+!*.env.example
+
+# Entornos, herramientas y datos locales (incluye LNbits)
+.venv/
+venv/
+.local/
+
+# Archivos generados por Python y herramientas de revisión
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Bases de datos y registros locales
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.log
+
+# Archivos del sistema y temporales del editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
