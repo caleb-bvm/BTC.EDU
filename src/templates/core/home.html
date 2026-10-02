@@ -1,0 +1,16 @@
+{% extends 'base.html' %}{% load static %}
+{% block content %}
+<section class="hero shell">
+  <div class="hero-copy"><p class="eyebrow">Aprende a tu ritmo</p>
+    <h1>Tu próximo paso<br>empieza aquí.</h1>
+    <p class="hero-description">Cursos, videos y materiales. Elige lo que quieres aprender.</p>
+    <div class="hero-actions"><a class="btn btn-dark btn-lg" href="{% url 'explore' %}">Explorar contenido <span aria-hidden="true">→</span></a><a class="btn btn-outline-dark btn-lg" href="{% url 'creators' %}">Soy creador</a></div>
+    <div class="hero-index" aria-hidden="true"><span>01</span><span>02</span><span>03</span></div>
+  </div>
+  <div class="hero-art"><img src="{% static 'images/industrial-hero.png' %}" alt="" width="1536" height="1024" fetchpriority="high"><div class="art-rail" aria-hidden="true"><span>＋</span><p>APRENDE<br>CREA<br>COMPARTE<br>AVANZA</p><span class="rail-bottom">BTC.EDU</span><span>＋</span></div></div>
+</section>
+<section class="catalog-section" aria-labelledby="catalog-title"><div class="shell">
+  <div class="section-heading"><div><p class="eyebrow">Catálogo</p><h2 id="catalog-title">Encuentra tu siguiente tema</h2></div></div>
+  {% include 'core/_catalog_empty.html' %}
+</div></section>
+{% endblock %}

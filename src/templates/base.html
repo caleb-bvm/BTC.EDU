@@ -1,0 +1,26 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BTC.EDU. Cursos, videos y materiales. Elige lo que quieres aprender.">
+  <meta name="htmx-config" content='{"historyRestoreAsHxRequest":false}'>
+  <title>{% block title %}BTC.EDU · Aprende a tu ritmo{% endblock %}</title>
+  <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}?v=fonts-20261001-2">
+  <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+<header class="site-header"><div class="shell header-inner">
+  <a class="brand" href="{% url 'home' %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU</span></a>
+  <nav aria-label="Navegación principal">
+    <a href="{% url 'explore' %}" {% if active == 'explore' %}aria-current="page"{% endif %}>Explorar</a>
+    <a href="{% url 'creators' %}" {% if active == 'creators' %}aria-current="page"{% endif %}>Para creadores</a>
+    {% if user.is_authenticated %}<a class="btn btn-dark" href="{% url 'workspace' %}">Mi espacio</a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}">Entrar</a>{% endif %}
+  </nav>
+</div></header>
+<main id="main">{% block content %}{% endblock %}</main>
+<footer class="site-footer shell"><span>BTC.EDU <span class="footer-dot">●</span> Conocimiento en libertad.</span><span>Una plataforma en construcción.</span></footer>
+</body></html>

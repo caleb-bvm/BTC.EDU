@@ -1,0 +1,10 @@
+<div id="catalog" aria-live="polite">
+  <nav class="catalog-filters" aria-label="Filtrar contenido">
+    <a class="filter {% if not category or category == 'todos' %}selected{% endif %}" href="{% url 'explore' %}?tipo=todos" hx-get="{% url 'explore' %}?tipo=todos" hx-target="#catalog" hx-swap="outerHTML" hx-push-url="true" {% if not category or category == 'todos' %}aria-current="true"{% endif %}>Todo</a>
+    <a class="filter {% if category == 'cursos' %}selected{% endif %}" href="{% url 'explore' %}?tipo=cursos" hx-get="{% url 'explore' %}?tipo=cursos" hx-target="#catalog" hx-swap="outerHTML" hx-push-url="true" {% if category == 'cursos' %}aria-current="true"{% endif %}>Cursos</a>
+    <a class="filter {% if category == 'videos' %}selected{% endif %}" href="{% url 'explore' %}?tipo=videos" hx-get="{% url 'explore' %}?tipo=videos" hx-target="#catalog" hx-swap="outerHTML" hx-push-url="true" {% if category == 'videos' %}aria-current="true"{% endif %}>Videos</a>
+    <a class="filter {% if category == 'materiales' %}selected{% endif %}" href="{% url 'explore' %}?tipo=materiales" hx-get="{% url 'explore' %}?tipo=materiales" hx-target="#catalog" hx-swap="outerHTML" hx-push-url="true" {% if category == 'materiales' %}aria-current="true"{% endif %}>Materiales</a>
+  </nav>
+  <div class="empty-catalog"><div class="empty-symbol" aria-hidden="true">+</div><div><p class="mono muted">EL SIGUIENTE PASO ESTÁ EN CAMINO</p><h3>{% if category == 'cursos' %}Todavía no hay cursos{% elif category == 'videos' %}Todavía no hay videos{% elif category == 'materiales' %}Todavía no hay materiales{% else %}Un espacio para lo que viene{% endif %}</h3><p>Estamos preparando este espacio. Cuando se publique contenido, lo encontrarás aquí.</p></div><span class="empty-number" aria-label="Cero contenidos">00</span></div>
+  <p class="catalog-note">Cursos · Videos · Materiales <span aria-hidden="true">/</span> Tú eliges por dónde empezar.</p>
+</div>
