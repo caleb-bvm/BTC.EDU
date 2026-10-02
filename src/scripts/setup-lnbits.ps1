@@ -4,7 +4,7 @@ Push-Location $projectRoot
 try {
     New-Item -ItemType Directory -Force .local/tools | Out-Null
     if (-not (Test-Path .local/tools/uv.exe)) {
-        Invoke-WebRequest 'https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-pc-windows-msvc.zip' -OutFile .local/tools/uv.zip
+        Invoke-WebRequest 'https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-pc-windows-msvc.zip' -UseBasicParsing -OutFile .local/tools/uv.zip
         Expand-Archive -LiteralPath .local/tools/uv.zip -DestinationPath .local/tools -Force
     }
     if (-not (Test-Path .local/lnbits)) {

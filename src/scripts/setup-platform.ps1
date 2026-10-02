@@ -10,7 +10,7 @@ try {
         $toolsRoot = Join-Path $srcRoot '.local/tools'
         New-Item -ItemType Directory -Force $toolsRoot | Out-Null
         $uvArchive = Join-Path $toolsRoot 'uv.zip'
-        Invoke-WebRequest 'https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-pc-windows-msvc.zip' -OutFile $uvArchive
+        Invoke-WebRequest 'https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-pc-windows-msvc.zip' -UseBasicParsing -OutFile $uvArchive
         Expand-Archive -LiteralPath $uvArchive -DestinationPath $toolsRoot -Force
         if (-not (Test-Path $uvPath)) { throw 'No se pudo preparar uv.' }
     }
@@ -18,7 +18,9 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'No se pudieron instalar las dependencias.' }
     if (-not (Test-Path .env)) {
         $randomBytes = [byte[]]::new(48)
-        [System.Security.Cryptography.RandomNumberGenerator]::Fill($randomBytes)
+        $randomGenerator = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+        try { $randomGenerator.GetBytes($randomBytes) }
+        finally { $randomGenerator.Dispose() }
         $secret = [Convert]::ToBase64String($randomBytes)
         (Get-Content config/platform.env.example -Raw).Replace('GENERAR_EN_SETUP', $secret) | Set-Content .env -Encoding utf8
     }
