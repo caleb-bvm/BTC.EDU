@@ -1,46 +1,25 @@
 # Plan y registro de decisiones
 
-## Calendario
+## Alcance
 
-| Fecha de 2026 | Dev | Business |
-|---|---|---|
-| 1–2 octubre | Arquitectura, datos, cuenta y contratos | Revisar especificaciones, iniciar investigación y prototipo visual |
-| 3–5 octubre | Catálogo, protección y primera compra | Completar prototipo y revisar muestras y precios |
-| 6–8 octubre | Estados, paquetes y biblioteca | Entrevistas y pruebas exploratorias |
-| 9–11 octubre | Administración, eventos y adaptación a dispositivos | Analizar hallazgos, operación y recomendación inicial |
-| 12 octubre | Integración y verificación | Preparar evidencia y mentoría |
-| 13 octubre | Demostrar y recoger retroalimentación | Explicar decisiones y validación |
-| 14–15 octubre | Corregir, probar y documentar; cerrar desarrollo | Consolidar especificaciones y resultados disponibles |
-| 16 octubre–1 noviembre | Desarrollo cerrado | PDF estratégico, evidencia y ensayos con la versión cerrada |
-| 2–3 noviembre | Revisión de entrega | Entrega según instrucciones confirmadas |
-| 8 noviembre | Demo | Demo |
+Plataforma con cursos, capítulos, videos y materiales gratis o de pago, cuentas de alumnos y creadores, progreso, evaluaciones, certificados, preguntas, comunidad y membresías. Las compras individuales son permanentes; las membresías tienen acceso por periodo y renovación manual con pagos simulados de LNbits. Los documentos 07 y 08 sustentan y detallan esta ampliación.
 
-No se añaden funciones después del 11 de octubre. Del 12 al 15 se corrigen incumplimientos y errores del alcance acordado.
+## Calendario propuesto
 
-## Decisiones del equipo
+El objetivo anterior de cerrar desarrollo el 15 de octubre se debe revisar con el equipo ante el alcance solicitado. Proponemos trabajar durante el sprint completo hasta la entrega planificada el 3 de noviembre. No se garantiza que todo esté terminado: el documento 08 estima 23–35 jornadas técnicas y la disponibilidad real aún debe comprobarse.
 
-- Contenido educativo y entretenimiento exclusivo.
-- Compras individuales y freemium; paquetes solo educativos.
-- Contenido genérico de prueba durante la construcción.
-- Un Dev y una persona de Business; cierre de desarrollo el 15 de octubre.
-- Aceptada la solución de bloquear paquetes parcialmente adquiridos.
+Construir por dependencias: primero cuentas, cursos, pagos y protección; luego panel de creador y publicación; después progreso, evaluaciones y certificados; comunidad y membresías sobre esa base; cerrar con integración, accesibilidad y documentación. Investigación, prototipo y pruebas de Business avanzan en paralelo.
 
-## Supuestos de implementación documentados
+Mentoría del 13 de octubre: demostrar el curso gratuito, una compra de contenido y protección en el servidor, junto al editor y las demás funciones que estén realmente terminadas. Revisar el plazo al completar la primera fase. Reservar los últimos días antes de la entrega para correcciones y evidencia.
 
-Cuenta con correo y contraseña, acceso permanente, piezas de texto, seis recursos y un paquete fijo, precios demostrativos, facturas de 15 minutos, simulador controlable y administración centralizada. Estas decisiones hacen concreto el MVP; pueden ajustarse antes de iniciar las funciones afectadas.
+## Estado verificado
 
-## Registro diario
+LNbits 1.6.2 funciona localmente con uv y FakeWallet. Se verificó creación de factura, pago interno y consulta por API, también después de mover todo el entorno técnico a src. El sitio y los módulos nuevos están documentados, todavía no implementados.
 
-Formato: fecha; responsable; trabajo realizado; evidencia o enlace; decisión y motivo; bloqueo; próximo paso. Registrar trabajo real, sin crear entradas retroactivas que sugieran actividad no realizada.
+La investigación oficial de Udemy, Teachable, Thinkific y Patreon se registra con fuentes y fecha en el documento 07. No hay entrevistas ni resultados de validación externos todavía. La publicación por creadores, certificados, comunidad, progreso y membresías sustituyen las exclusiones anteriores.
 
-Enlace al Google Doc con historial: PENDIENTE. Business debe crearlo y conceder el acceso exigido para auditoría. El repositorio conservará especificaciones y resultados, pero no sustituye ese historial.
+## Trabajo diario y requisitos oficiales
 
-## Aclaraciones oficiales pendientes
+Registrar fecha, responsable, trabajo real, evidencia, decisiones, bloqueo y próximo paso. No crear actividad retroactiva. El assignment pide avances diarios en GitHub y un Google Doc con historial para Business; el enlace sigue pendiente.
 
-- Aceptación del equipo de dos personas frente a los cuatro exigidos.
-- Expectativa de evolución diaria tras el cierre anticipado.
-- Fecha de entrega: planificar con 3 de noviembre; un párrafo menciona 8 de noviembre.
-
-## Preparación para desarrollo
-
-Comprobar que cada requisito tiene criterio de aceptación, cada oferta tiene muestra y cuerpo definido, los estados de pago tienen comportamiento y las reglas de paquetes son coherentes. El Dev elegirá tecnología y diseñará la arquitectura siguiendo estos documentos. La investigación externa y el prototipo visual siguen pendientes y deben avanzar en paralelo.
+Aclarar equipo de dos integrantes frente a cuatro exigidos, fecha de cierre interna y fecha oficial de entrega: el documento indica tanto 3 como 8 de noviembre. Planificar con el 3 hasta confirmar. Demo prevista el 8 de noviembre.

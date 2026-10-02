@@ -1,67 +1,37 @@
 # Catálogo de prueba
 
-Todo el material de esta sección es ficticio y sirve para probar el producto. Los precios en sats son valores de demostración, no precios validados ni equivalencias monetarias. No se mostrarán reseñas, ventas o credenciales inventadas.
+Los títulos, creadores y precios son ficticios. No representan contenido terminado, ventas ni precios validados. Los videos y archivos deben producirse o seleccionarse con permiso de uso antes de la demo.
 
-| ID | Título | Categoría | Creador ficticio | Acceso | Precio |
-|---|---|---|---|---|---|
-| EDU-001 | Primeros pasos con JavaScript | Educación | Aula Demo | Gratuito | 0 sats |
-| EDU-002 | Guía práctica de funciones | Educación | Aula Demo | Premium | 100 sats |
-| EDU-003 | Práctica de funciones y soluciones | Educación | Aula Demo | Premium | 150 sats |
-| ENT-001 | Diario de una idea creativa | Entretenimiento | Estudio Demo | Gratuito | 0 sats |
-| ENT-002 | Detrás de cámaras de una publicación | Entretenimiento | Estudio Demo | Premium | 80 sats |
-| ENT-003 | Relato exclusivo La señal | Entretenimiento | Estudio Demo | Premium | 120 sats |
-| PKG-001 | Practica funciones en JavaScript | Paquete educativo | Aula Demo | EDU-002 y EDU-003 | 200 sats |
+| ID | Contenido | Organización | Acceso y precio |
+|---|---|---|---|
+| CUR-001 | Primeros pasos con JavaScript | Curso completamente gratuito | Gratis |
+| LES-001 | Variables y operaciones | Lección de CUR-001 | Gratis |
+| VID-001 | Ejemplo con variables | Video de CUR-001 | Gratis |
+| CUR-002 | Funciones en JavaScript | Curso con lecciones gratis y capítulos de pago | Explorar gratis; compras indicadas abajo |
+| LES-002 | Qué es una función | Lección de CUR-002 | Gratis |
+| CHP-001 | Parámetros y resultados | Capítulo de CUR-002 con una lección y un video | 100 sats |
+| VID-002 | Resolver un ejercicio con funciones | Video de CUR-002 vendido por separado, fuera de CHP-001 | 80 sats |
+| MAT-001 | Ejercicios y soluciones | Archivo adicional de CUR-002 | 50 sats; no obligatorio |
+| CUR-003 | Construye una API sencilla | Curso completo de pago | 300 sats por CHP-002 y CHP-003 |
+| LES-003 | Presentación del proyecto | Lección de muestra de CUR-003 | Gratis |
+| CHP-002 | Crear una ruta | Capítulo de CUR-003, con texto y video | 150 sats individualmente |
+| CHP-003 | Validar los datos | Capítulo de CUR-003, con texto y video | 200 sats individualmente |
+| MAT-002 | Lista de comprobación | Material de CUR-003, fuera de la compra del curso | Gratis |
+| MAT-003 | Ejercicios adicionales de API | Material de CUR-003, fuera de la compra del curso | 60 sats |
 
-Los formatos iniciales son texto y ejemplos de código. Videos, descargas y cursos extensos quedan fuera para evitar necesidades adicionales de alojamiento y protección.
+## Muestras y contenido
 
-## Contenido y muestras
+Cada página explica objetivo, requisitos, creador, formato y contenidos incluidos. Las lecciones gratuitas se muestran completas. Los capítulos de pago tienen una descripción y una muestra de texto separada del contenido comprado. Cada video de pago tiene una muestra pública independiente; el archivo completo no se entrega antes de verificar la compra. Los materiales describen formato y contenido y pueden mostrar un extracto público separado.
 
-### EDU-001 Primeros pasos con JavaScript
+Ejemplo gratuito LES-001: `const precio = 10; const cantidad = 2;` y explicación de `precio * cantidad`.
+Ejemplo de muestra de CHP-001: explicar qué son los parámetros e indicar que la compra incluye explicación completa y un video práctico.
+Ejemplo de MAT-001: dos ejercicios con soluciones; la muestra muestra un enunciado y la compra entrega el archivo completo.
 
-Descripción: introducción breve a variables y operaciones. Requisito: ninguno. Duración orientativa de prueba: 5 minutos.
+CUR-003 incluye únicamente CHP-002 y CHP-003 y sus lecciones y videos. MAT-003 se compra aparte. Su composición queda fija durante el MVP. La compra del curso cuesta 300 sats frente a 350 sats por los capítulos separados. Los recursos que se compran aparte también se enumeran antes de pagar.
 
-Contenido gratuito completo: Una variable conserva un valor que puedes utilizar después. Declara `const precio = 10` y `const cantidad = 2`. La expresión `precio * cantidad` produce 20. Cambia cantidad a 3 y observa que el resultado es 30. Este ejercicio introduce cómo combinar valores para obtener un resultado.
+Si ya se compró parte de CUR-003, se ofrecen los capítulos faltantes individualmente. Si ya se compró todo, se muestran los enlaces para abrirlo. No se calcula un descuento personalizado en esta versión.
 
-### EDU-002 Guía práctica de funciones
+## Datos adicionales para probar el alcance ampliado
 
-Descripción: crear y utilizar una función con parámetros. Requisito: comprender variables. Duración orientativa: 10 minutos. No requiere otra compra.
+Preparar un creador autorizado Aula Demo y otro creador para comprobar aislamiento; una evaluación de prueba con preguntas, nota mínima e intentos; una versión de CUR-003 con requisitos de certificado; un espacio de preguntas por lección y comunidad del curso; y un plan de 30 días con contenidos explícitos y precio ficticio. Los valores concretos de nota, intentos y precio se fijan en los datos de prueba y no representan validación comercial. Probar un alumno con compra individual y membresía que vence; no borrar su compra ni progreso.
 
-Muestra pública: Una función reúne instrucciones que puedes reutilizar. En esta guía construirás una función que recibe precio y cantidad y devuelve el total. Incluye explicación y ejemplo completo.
-
-Contenido protegido: Define `function calcularTotal(precio, cantidad) { return precio * cantidad; }`. Ejecuta `calcularTotal(10, 2)` para obtener 20. Los parámetros son los datos que recibe la función; `return` entrega el resultado. Mantén el cálculo dentro de la función y prueba al menos dos entradas diferentes.
-
-### EDU-003 Práctica de funciones y soluciones
-
-Descripción: dos ejercicios con soluciones comentadas. Requisito: conocimientos básicos de funciones; se pueden obtener por cualquier medio. Duración orientativa: 15 minutos. No requiere comprar EDU-002.
-
-Muestra pública: Practicarás una función para sumar dos valores y otra para aplicar un descuento. La compra incluye ambos enunciados, soluciones y ejemplos de comprobación.
-
-Contenido protegido: Ejercicio 1: implementa `sumar(a, b)`. Solución: `function sumar(a, b) { return a + b; }`. Comprueba `sumar(2, 3) === 5`. Ejercicio 2: implementa `aplicarDescuento(precio, porcentaje)`. Solución: `function aplicarDescuento(precio, porcentaje) { return precio * (1 - porcentaje / 100); }`. Comprueba que 100 con 10 por ciento produce 90. Estos ejercicios usan números válidos; el tratamiento de entradas inválidas puede estudiarse por separado.
-
-### ENT-001 Diario de una idea creativa
-
-Descripción: una publicación sobre el inicio de una historia.
-
-Contenido gratuito completo: Hoy anoté una escena: una radio encendida en una habitación vacía. Antes de desarrollar la historia elegí el lugar, el sonido y la persona que escucharía la transmisión. Esas tres decisiones me dieron el primer párrafo.
-
-### ENT-002 Detrás de cámaras de una publicación
-
-Descripción: texto exclusivo con el proceso de una publicación ficticia.
-
-Muestra pública: Una mirada al proceso de Estudio Demo: cómo cambió el inicio de una historia entre el borrador y la versión final. Incluye dos fragmentos y el motivo de la revisión.
-
-Contenido protegido: Borrador: «La radio sonó y Ana entró». Revisión: «Ana reconoció su nombre entre el ruido de la radio». El primer texto cuenta dos acciones; el segundo introduce una pregunta. Conservé la habitación vacía para que el mensaje fuera el centro de la escena. Esta publicación es un ejemplo ficticio de contenido exclusivo.
-
-### ENT-003 Relato exclusivo La señal
-
-Descripción: relato breve original de prueba.
-
-Muestra pública: Ana encuentra una radio que transmite un mensaje dirigido a ella. La compra desbloquea el relato completo.
-
-Contenido protegido: Ana encontró la radio en el armario. Al encenderla escuchó su nombre y una dirección. La calle quedaba cerca, pero el número no existía. Regresó a casa y volvió a girar el dial. Esta vez oyó su propia voz: «Busca el sobre debajo de la radio». Dentro había una fotografía de la casa antes de que construyeran el armario. En el reverso estaba escrito el número que faltaba. Ana salió otra vez, llevando la fotografía.
-
-## Paquete PKG-001
-
-Objetivo: estudiar una explicación de funciones y practicar con soluciones. Incluye únicamente EDU-002 y EDU-003, sin contenido adicional ni certificados. Precio conjunto: 200 sats frente a 250 sats al comprar por separado. La diferencia es demostrativa y se validará después.
-
-Si no posee ninguno, puede comprar el paquete. Si posee uno, se ofrece el otro individualmente. Si posee ambos, el paquete figura como adquirido. Su composición no cambia en el MVP.

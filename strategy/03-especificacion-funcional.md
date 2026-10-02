@@ -1,65 +1,80 @@
 # Especificación funcional
 
-Todos los requisitos de este documento son obligatorios para el MVP. Las decisiones técnicas quedan a cargo del Dev siempre que cumplan estas reglas.
+## Plataforma y cuentas
 
-## Identidad y permisos
+El sitio incluye catálogo de cursos y contenidos, páginas de cursos con capítulos y lecciones ordenados, reproductor de video, materiales descargables, cuenta, pago, Mis cursos y compras, y administración. Permite filtrar por formato, tema y contenido gratuito o de pago.
 
-Visitante: catálogo, perfiles informativos, recursos gratuitos y muestras. Comprador: lo anterior, compras y biblioteca propia. Administrador: gestión básica del catálogo, transacciones y métricas globales.
+El visitante explora cursos, abre contenidos gratuitos y ve muestras sin cuenta. Para comprar se registra con correo y contraseña. Al iniciar sesión desde otro dispositivo recupera sus compras. La recuperación de contraseña se implementa con un token de un solo uso y correo configurable según el documento 08. La verificación de correo para publicación pública se definirá al configurar el despliegue; las pruebas usan cuentas ficticias.
 
-Registro con correo y contraseña; inicio y cierre de sesión. El correo identifica la cuenta, pero no prueba que su propietario haya sido verificado. El MVP no enviará correos de verificación ni recuperación automática. La limitación será visible en la documentación; para la demo se usarán cuentas de prueba. La biblioteca debe recuperarse con las mismas credenciales desde otro navegador.
+Los creadores aprobados tienen perfil y panel para crear y gestionar su propio contenido. El administrador revisa las publicaciones. El comprador no puede consultar compras o facturas ajenas ni acceder al panel. Ser administrador no equivale a tener una compra.
 
-El comprador no puede consultar facturas o permisos ajenos. El administrador no obtiene automáticamente permisos de compra: usa su vista de administración para gestionar contenido.
+## Cursos y compras
 
-## Facturas y simulación
+Un curso organiza capítulos, lecciones, videos y materiales. Cada recurso tiene formato y condición gratuita o de pago. Los capítulos pueden agrupar varias lecciones y videos. Un video puede venderse individualmente. El usuario no debe comprar un curso para comprar un video individual o un material que se ofrece por separado.
 
-Una factura pertenece a una cuenta y una oferta individual o paquete. Conserva el precio y los recursos incluidos al generarse. Una modificación posterior del precio no cambia esa factura.
+Las ofertas de curso completo o capítulo enumeran los recursos incluidos. Los materiales adicionales pueden quedar fuera y venderse aparte. Las relaciones del catálogo se distinguen de los permisos: estar asociado a un curso no concede acceso por sí mismo.
 
-Estados: Pending, Paid, Expired y Failed. Una factura nace Pending y vence 15 minutos después de su creación. Pending puede pasar a uno de los otros tres estados; los estados terminales no cambian.
+Cada compra concede permisos permanentes a los recursos incluidos. Una oferta completamente adquirida muestra enlaces para abrir su contenido. Si una oferta de curso o capítulo está parcialmente adquirida, su compra conjunta queda bloqueada y se ofrecen los contenidos faltantes que tengan oferta individual. El catálogo de prueba garantiza esas ofertas. No hay descuentos personalizados.
 
-El área de demostración permite confirmar, fallar o expirar la factura mediante el servicio simulado. El vencimiento también se aplica al transcurrir el plazo. La interfaz identifica estos controles como simulación. El servidor verifica propietario, estado y plazo: el navegador no puede concederse acceso directamente.
+Los permisos, compras y fechas se conservan en la base de datos. Las versiones publicadas conservan su composición para compras existentes; nuevas versiones y sus condiciones se gestionan según el documento 08.
 
-Al confirmarse antes del vencimiento, el sistema registra el pago y concede los permisos automáticamente. No habrá una confirmación manual adicional por el administrador. Cuando falla o expira, se ofrece generar una nueva factura al precio vigente, sin borrar el historial anterior.
+## Facturas y LNbits
 
-Una cuenta solo mantiene una factura Pending vigente por oferta. Al solicitarla otra vez, se devuelve la existente. No hay devoluciones ni cancelaciones voluntarias en el MVP, y no se transfieren fondos reales.
+LNbits con FakeWallet genera y verifica pagos internos de prueba. No se transfieren fondos reales. Las claves se usan únicamente en el servidor de la plataforma.
 
-## Acceso y paquetes
+La factura pertenece a una cuenta y una oferta: curso, capítulo, video o material. Guarda una copia del importe y los recursos incluidos. Cambiar el precio no modifica facturas existentes.
 
-La biblioteca muestra recursos adquiridos y fecha de adquisición. El pago de paquete concede permisos para sus dos recursos. Los registros de compra y acceso sobreviven a recargas y reinicios.
+Estados: Pending, Paid, Expired y Failed. Nace Pending, vence en 15 minutos y solo puede pasar a un estado terminal. Una cuenta solo mantiene una factura Pending vigente por oferta; solicitar otra devuelve la existente.
 
-Las piezas adquiridas muestran «Abrir contenido» en lugar de comprar. El paquete parcialmente adquirido queda bloqueado para compra y muestra los recursos faltantes. El completamente adquirido muestra «Ya tienes todos los recursos».
+El servidor verifica propietario, plazo y pago. La confirmación válida concede acceso automáticamente, en una operación que no puede duplicar compras, permisos ni eventos. El navegador no concede permisos.
 
-Antes de crear una factura de paquete se comprueba elegibilidad. Antes de confirmarla se vuelve a comprobar que ningún recurso se haya adquirido por otra factura: si existe solapamiento, la factura pendiente pasa a Failed con motivo de conflicto y no concede permisos. En el simulador no existe cobro externo que reembolsar. La misma regla evita compras duplicadas en facturas individuales concurrentes.
+Antes de crear y confirmar una factura se comprueba lo ya adquirido. Ante solapamiento por compras concurrentes, la segunda factura falla sin conceder permisos. Esta regla está diseñada para la simulación; una integración real debe resolver los cobros confirmados antes de aplicar bloqueos comerciales.
 
-El contenido protegido se entrega únicamente tras verificar permiso en el servidor. No se incluye escondido en HTML, respuestas públicas, datos iniciales del navegador ni archivos estáticos públicos.
+La demostración permite confirmar, fallar y expirar mediante controles claramente identificados. El vencimiento también se aplica por tiempo. FakeWallet no resuelve por sí sola todos los estados ni la recuperación de pendientes tras reiniciar: se debe implementar y probar en el servicio de pagos de la plataforma.
+
+Un fallo o vencimiento permite reintentar con una nueva factura si la oferta sigue siendo elegible. Un error de conexión permite consultar la misma factura; no se presume fallo ni se crea otra automáticamente.
+
+## Protección de contenido
+
+El servidor verifica permiso antes de entregar textos, videos completos y descargas de pago. No se incluyen en HTML público, datos iniciales ni archivos estáticos accesibles sin autorización. El reproductor obtiene el video a través de una ruta protegida que permite reproducción y solicitudes parciales. Las muestras públicas usan contenido separado. No se promete impedir que un comprador copie lo que ya puede ver.
 
 ## Administración
 
-Un administrador puede crear y editar piezas, descripción, muestra, contenido y precio. Puede ocultar una pieza del catálogo sin eliminar compras ni impedir el acceso de propietarios. No podrá eliminar piezas adquiridas. El paquete inicial tiene composición fija.
+Crear y editar cursos, orden de capítulos y lecciones, textos, videos, archivos, descripciones, muestras, precios y visibilidad. Validar formato y tamaño de archivos. Los archivos de pago se guardan fuera del almacenamiento público.
 
-Ve fecha, identificador de factura, oferta, cuenta compradora, importe y estado; filtra por estado. No muestra contraseñas ni credenciales. Consulta métricas definidas en el documento 05. El panel queda protegido por rol.
+Ocultar contenido lo retira del catálogo pero conserva el acceso de quienes lo compraron. No se eliminan recursos adquiridos. El panel muestra facturas, cuenta compradora, oferta, importe, estado y fecha; permite filtrar por estado y consultar actividad y métricas. No muestra contraseñas ni claves de LNbits.
 
 ## Criterios de aceptación
 
-| ID | Escenario | Resultado verificable |
+| ID | Escenario | Resultado |
 |---|---|---|
-| AC-01 | Visitante explora y filtra | Puede encontrar ambas categorías y consultar contenido gratuito sin cuenta |
-| AC-02 | Visitante pide contenido premium por URL o API | El servidor no entrega el cuerpo protegido |
-| AC-03 | Visitante intenta comprar | Se solicita acceso o registro y se conserva el destino elegido |
-| AC-04 | Comprador confirma factura individual vigente | Estado Paid, un permiso y acceso automático a la pieza correcta |
-| AC-05 | Comprador confirma paquete elegible | Una transacción y dos permisos; ambas piezas aparecen en biblioteca |
-| AC-06 | Factura pendiente, fallida o expirada | No concede acceso; un reintento válido crea otra factura |
-| AC-07 | Se repite la misma confirmación | No duplica transacción, permisos ni evento de pago |
-| AC-08 | Se recarga o reinicia el servicio | Compras, estados y biblioteca permanecen |
-| AC-09 | Se entra desde otro navegador con la misma cuenta | Se recuperan los recursos adquiridos |
-| AC-10 | Otra cuenta consulta factura o contenido ajeno | Se deniega el acceso |
-| AC-11 | Cuenta posee parte o todo el paquete | Compra bloqueada según la regla y recursos faltantes visibles |
-| AC-12 | Dos facturas generan un solapamiento | Solo la primera confirmación elegible concede acceso; la otra falla sin duplicar compra |
-| AC-13 | Confirmación llega tras el vencimiento | Estado Expired y ningún permiso nuevo |
-| AC-14 | Se modifica el precio después de facturar | La factura conserva el precio original |
-| AC-15 | Comprador abre administración | Acceso denegado; administrador ve transacciones y métricas |
-| AC-16 | Uso móvil y escritorio | Catálogo, pago y biblioteca se pueden completar sin controles inaccesibles |
-| AC-17 | Se oculta una pieza comprada | Desaparece del catálogo pero sigue disponible en la biblioteca |
+| AC-01 | Explorar un curso gratis | Todas sus lecciones gratuitas abren sin cuenta |
+| AC-02 | Curso gratis con capítulo de pago | Lo gratuito sigue disponible; el capítulo se compra y abre por separado |
+| AC-03 | Material de pago de un curso gratis | Se compra el archivo sin exigir comprar el curso |
+| AC-04 | Comprar video individual | Se abre el video completo sin comprar otros contenidos |
+| AC-05 | Comprar curso completo | Se conceden todos los recursos enumerados y ningún extra excluido |
+| AC-06 | Pedir texto, video o archivo de pago sin compra | El servidor deniega entrega, incluso por URL directa |
+| AC-07 | Comprar sin iniciar sesión | Se solicita cuenta y se conserva el destino |
+| AC-08 | Confirmar factura válida | Paid y acceso automático a los recursos correctos |
+| AC-09 | Fallo, pendiente o vencimiento | No hay permisos nuevos; reintento según elegibilidad |
+| AC-10 | Repetir confirmación | Una sola compra, permisos sin duplicados y un evento de pago |
+| AC-11 | Reiniciar y volver a iniciar sesión | Compras y permisos permanecen; pendientes se concilian sin conceder acceso indebidamente |
+| AC-12 | Entrar desde otro navegador | Se recuperan cursos y compras |
+| AC-13 | Consultar facturas de otra cuenta | Acceso denegado |
+| AC-14 | Tener parte de un curso de pago | Se bloquea compra conjunta y se ofrecen capítulos faltantes |
+| AC-15 | Confirmaciones concurrentes con solapamiento | Solo la primera elegible concede permisos; la otra falla |
+| AC-16 | Confirmar después del plazo | Expired, sin permisos nuevos |
+| AC-17 | Cambiar precio después de facturar | Se conserva el importe facturado |
+| AC-18 | Entrar a administración como comprador | Acceso denegado |
+| AC-19 | Usar móvil y escritorio | Catálogo, lecciones, video, compras y biblioteca funcionan |
+| AC-20 | Ocultar contenido comprado | Sigue disponible para su comprador |
 
-## Fuera del MVP
+## Fuera de esta primera versión
 
-Integración Bitcoin/Lightning real, videos o archivos protegidos, carga pública por creadores, comisiones, liquidaciones, membresías, progreso de curso, certificados, recomendaciones y descuentos por propiedad parcial. Documentar posibilidades futuras sin presentar estas funciones como implementadas.
+Bitcoin/Lightning con fondos reales, comisiones y liquidaciones, recomendaciones automáticas, vigilancia de exámenes y descuentos personalizados. Se incluyen creación por usuarios aprobados, progreso, evaluaciones, certificados, comunidad y membresías; ver documento 08. Las renovaciones iniciales se pagan manualmente con facturas simuladas.
+
+## Ampliación de requisitos
+
+El documento [08](08-aprendizaje-creadores-y-membresias.md) forma parte de esta especificación: define progreso, evaluaciones, certificados, roles de creador, publicación, comunidad, membresías y criterios AC-21 a AC-35. El acceso se concede por recurso gratuito, compra permanente o membresía vigente. La inscripción gratuita no concede recursos de pago. Para compras individuales se mantienen los criterios anteriores.
+
+

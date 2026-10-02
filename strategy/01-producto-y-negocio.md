@@ -2,42 +2,32 @@
 
 ## Propuesta
 
-Una plataforma para descubrir y adquirir contenido educativo y entretenimiento exclusivo mediante micropagos simulados en Bitcoin. Permite conocer una muestra, comprar una pieza o un paquete educativo y conservar el acceso en una biblioteca personal.
+Una plataforma web para explorar cursos, ver lecciones y videos, y obtener materiales adicionales. Combina contenido gratuito con compras de cursos completos, capítulos, videos individuales y materiales. Las compras se pagan con LNbits en un entorno simulado, sin fondos reales.
 
-Bitcoin es el medio de pago propuesto; el catálogo no se limita a Bitcoin. El MVP demuestra el recorrido y las reglas con un simulador.
+## Formas de ofrecer contenido
 
-## Públicos e hipótesis
+- Curso completamente gratuito: todas sus lecciones son gratuitas.
+- Curso gratuito con capítulos de pago: las lecciones gratuitas siguen disponibles y cada capítulo de pago se puede comprar por separado.
+- Curso gratuito con materiales de pago: el curso no exige comprar los ejercicios, guías o archivos adicionales.
+- Curso completo de pago: la compra incluye las lecciones enumeradas antes de pagar. Puede tener lecciones de muestra gratuitas.
+- Video de pago individual: se compra sin exigir la compra del curso al que pertenece.
+- Material adicional gratuito o de pago: guías, ejercicios, textos y archivos descargables, con una descripción clara de lo incluido.
 
-Educación: personas que aprenden tecnología o programación y buscan una guía o práctica para una tarea concreta. Entretenimiento: seguidores interesados en una publicación especial de un creador.
+Cada oferta debe indicar exactamente qué entrega. Pertenecer a un curso no significa que un material adicional esté incluido en la compra del curso. El acceso comprado es permanente dentro del MVP y se recupera al iniciar sesión desde otro dispositivo.
 
-Creadores: educadores y productores de entretenimiento que desean combinar contenido abierto y ventas individuales. Para el MVP, perfiles y contenido serán ficticios y administrados por el equipo.
+## Público y validación
 
-El público prioritario para la primera validación será quien aprende programación. El entretenimiento tendrá el mismo flujo y una validación separada; no se asumirá que las motivaciones o precios son equivalentes.
+El público inicial son personas que aprenden tecnología o programación y quieren adquirir lo que necesitan sin una suscripción. Los creadores iniciales son ficticios y los creadores preparan contenido y el administrador revisa su publicación. La demanda, los precios y la preferencia entre comprar un curso o contenidos separados todavía deben validarse.
 
-Hipótesis por comprobar: algunas personas prefieren adquirir un recurso específico a contratar una suscripción; una muestra útil reduce incertidumbre; un paquete coherente puede resultar atractivo para quien necesita varios recursos. No hay entrevistas ni ventas reales que confirmen estas hipótesis en este proyecto todavía.
+Business investigará suscripción, publicidad, freemium y micropagos; definirá muestras, precios, recorrido, prototipo visual, métricas y recomendación final. La compra simulada no demuestra ingresos ni demanda real.
 
-## Modalidades
+## Operación
 
-- Individual: una pieza premium y un permiso de acceso permanente.
-- Freemium: recursos completos gratuitos y muestras públicas de piezas premium. La parte gratuita debe ser útil y dejar claro qué requiere pago.
-- Paquete educativo: dos recursos premium relacionados por un precio conjunto; una factura concede dos permisos.
+Business selecciona contenidos y verifica derechos de uso. Dev construye y mantiene la plataforma, almacenamiento, base de datos y conexión con LNbits. Los creadores gestionan sus cursos, capítulos, videos, materiales y comunidad; el administrador revisa publicaciones y atiende reportes. Se incluyen progreso, evaluaciones, certificados y membresías según el documento 08.
 
-No habrá membresías, suscripciones, certificados, progreso académico, comunidad ni venta de paquetes de entretenimiento en esta versión.
+Una posible comisión futura requiere investigación. El MVP no calcula comisiones ni liquidaciones. Los costos de alojamiento y entrega de videos y archivos deben incluirse en la estimación de recursos.
 
-## Valor propuesto
+## Aprendizaje y relación con creadores
 
-Comprador: elegir una pieza, conocer exactamente lo incluido y recuperar sus compras sin volver a pagar.
+La plataforma también incluirá progreso guardado, evaluaciones, certificados de finalización, preguntas, comunidad y un panel de creación. Las membresías ofrecen periodos temporales de acceso, con renovación simulada y manual mediante LNbits, junto a compras individuales permanentes. El detalle está en [funciones completas](08-aprendizaje-creadores-y-membresias.md); las referencias y necesidades propuestas están en [investigación](07-investigacion-y-necesidades.md).
 
-Creador: combinar muestras y piezas de pago, y observar el recorrido de interés a compra. Estos beneficios son propuestas que deben validarse, no resultados demostrados.
-
-## Sostenibilidad y operación
-
-Para una etapa futura se propone explorar una comisión sobre ventas confirmadas. La tasa y los costos se definirán tras investigar viabilidad y conversar con creadores. El MVP no calcula comisiones, saldos ni liquidaciones.
-
-Business selecciona contenido, revisa permisos de uso, descripciones, muestras y precios. Dev mantiene aplicación, base de datos y simulador. Ambos atienden errores de acceso y documentan cambios. Los recursos adquiridos no se eliminan ni se revocan desde el panel del MVP.
-
-Recursos a estimar antes de la recomendación final: alojamiento, almacenamiento, operación, soporte, mantenimiento y eventual integración con un proveedor de pagos. Con simulación no se demostrará rentabilidad ni demanda comercial.
-
-## Investigación pendiente
-
-Comparar alternativas de suscripción, publicidad, freemium y micropagos usando fuentes verificables. Platzi y Patreon son referencias mencionadas por el equipo; sus funciones y precios no se han investigado aquí. Documentar cuándo conviene cada alternativa, el costo de cambiar de solución y las necesidades reales de creadores y compradores.

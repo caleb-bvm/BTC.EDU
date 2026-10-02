@@ -1,50 +1,55 @@
 # Pantallas y recorrido
 
-Esta es una especificación textual para construir el prototipo visual. No sustituye los wireframes de alta fidelidad pedidos por el assignment.
+Esta especificación textual guía la construcción del sitio. El prototipo visual y su validación siguen pendientes.
 
-## Catálogo
+## Inicio y catálogo
 
-Encabezado: marca provisional, Educación, Entretenimiento, Mi biblioteca y acceso a cuenta. Aviso breve de pagos simulados. Tarjetas con título, creador, descripción corta, formato y precio o «Gratis». Filtro por categoría y creador. El paquete educativo se identifica como paquete de dos recursos.
+Mostrar cursos, videos y materiales con filtros por tema, formato y gratis o de pago. Cada tarjeta indica título, creador, descripción y precio cuando corresponde. Un curso con lecciones gratuitas y otras de pago muestra esa combinación sin sugerir que todo está incluido gratis. Navegación: Cursos, Videos, Materiales, Mis cursos y compras, y Cuenta.
 
-## Detalle individual
+## Curso
 
-Título, creador, categoría, descripción y muestra pública. Educación añade objetivo, requisitos y duración orientativa. La oferta premium indica qué incluye, precio total y acceso permanente.
+Descripción, objetivo, requisitos, creador y capítulos ordenados. Cada lección indica formato y si es gratuita, comprada o de pago. Los cursos de pago enumeran lo incluido y el precio completo. Los materiales adicionales muestran si están incluidos, son gratis o se compran aparte.
 
-Visitante: «Comprar por X sats» conduce a acceso o registro. Comprador sin permiso: genera factura. Propietario: «Abrir contenido». Pieza gratuita: contenido completo disponible.
+En cursos gratuitos con compras opcionales, abrir las lecciones gratis no exige comprar nada. Un capítulo de pago muestra su precio y contenidos. Un curso parcialmente adquirido ofrece los capítulos faltantes; el totalmente adquirido permite abrirlos.
 
-## Detalle de paquete
+## Lección, video y material
 
-Objetivo, lista de las dos piezas con enlaces, precio conjunto y suma de precios individuales. Cuenta sin recursos: «Comprar paquete». Con propiedad parcial: «Ya tienes parte de este paquete» y compra individual del recurso faltante. Propietario de ambos: enlaces para abrirlos.
+Lección: texto o reproductor, navegación entre lecciones y materiales asociados. Video individual: descripción, muestra independiente y compra de ese video. Material: descripción, formato, muestra y botón de descarga cuando sea gratis o esté comprado. La compra no exige completar lecciones previas.
 
-## Cuenta
+Quien ya compró ve Abrir o Descargar. Antes de comprar se muestra exactamente qué recibe y el precio en sats de prueba.
 
-Registro: correo, contraseña y confirmación de contraseña. Acceso: correo y contraseña. Errores legibles; no perder el destino de compra. Mostrar la ausencia de recuperación automática de contraseña en esta versión de prueba.
+## Cuenta y compras
+
+Registro y acceso con correo y contraseña, conservando el destino elegido. Enlace para recuperar contraseña mediante correo y token de un solo uso. Mis cursos y compras organiza cursos, capítulos, videos y materiales adquiridos, con fecha y enlaces para abrir. Muestra progreso guardado, última lección y posición de video, distinguiendo lo disponible por compra o membresía.
 
 ## Pago simulado
 
-Oferta, piezas incluidas, importe, identificador de factura, estado y tiempo restante. No mostrar una dirección Bitcoin o QR que sugiera transferir fondos reales. Aviso: «Pago de prueba. No envíes bitcoin».
+Oferta, contenidos incluidos, importe, identificador, estado y tiempo restante. Aviso visible: Pago de prueba. No envíes bitcoin. No mostrar QR ni instrucciones para transferir fondos reales.
 
-- Pending: mensaje de espera y controles separados de simulación para confirmar, fallar o expirar.
-- Paid: «Pago confirmado» y acceso a la pieza o biblioteca del paquete.
-- Expired: «La factura expiró» y nueva factura si sigue siendo elegible.
-- Failed: explicación y reintento; si hubo conflicto de propiedad, llevar a biblioteca u oferta actualizada.
-- Error de conexión: permitir consultar de nuevo el estado de la misma factura, sin asumir fallo ni generar automáticamente otra.
-
-## Biblioteca y lector
-
-Biblioteca: piezas adquiridas, fecha y botón para abrir. Estado vacío: explicación y enlace al catálogo. Las compras de paquete se muestran como recursos utilizables individualmente.
-
-Lector: título, creador y cuerpo protegido; navegación de regreso a biblioteca. No implementar progreso académico. Si la sesión vence, solicitar acceso conservando el destino.
+Pending: espera y controles de simulación separados. Paid: confirmación y enlaces al contenido. Expired o Failed: motivo y reintento si corresponde. Conflicto por compra previa: llevar a las compras o a la oferta actualizada. Error de conexión: consultar el estado de la misma factura.
 
 ## Administración
 
-Listado de piezas con edición básica y visibilidad. Tabla de facturas con filtros. Resumen de métricas y actividad por categoría y modalidad. Etiquetar importes como sats simulados.
+Gestión de cursos, capítulos, lecciones, videos, materiales, muestras, precios y visibilidad. Tabla de facturas y resumen de actividad. Los importes se identifican como sats simulados.
 
-## Guiones para el prototipo
+## Recorridos para demostrar
 
-1. Visitante ve guía gratuita, revisa premium, se registra, compra y abre.
-2. Comprador adquiere paquete y encuentra dos piezas en biblioteca.
-3. Seguidor explora muestra de entretenimiento y compra exclusiva.
-4. Pago expira o falla, se reintenta y se confirma.
-5. Propietario parcial revisa paquete y compra únicamente el recurso faltante.
-6. Usuario vuelve desde otro navegador y recupera biblioteca.
+1. Abrir un curso completamente gratuito.
+2. Abrir una lección gratis y comprar un capítulo del mismo curso.
+3. Comprar material adicional de un curso gratuito.
+4. Comprar un video individual sin comprar el curso.
+5. Comprar un curso completo y comprobar lo incluido y los extras excluidos.
+6. Resolver pago fallido o vencido y recuperar compras en otro navegador.
+7. Comprobar que el servidor bloquea videos y archivos de pago sin compra.
+
+## Pantallas de aprendizaje, creadores y membresías
+
+Continuar aprendiendo con posición guardada. Evaluación con instrucciones, nota requerida, intentos, envío y resultado. Certificados con requisitos pendientes, descarga y verificación. Preguntas por lección y comunidad con publicaciones, respuestas y reportes. Notificaciones internas y recuperación de contraseña.
+
+Panel de creador con borradores, editor de temario, cargas, muestras, precios, evaluaciones, criterios de certificado, vista como alumno, revisión, respuestas y métricas propias. Panel administrador con revisión de versiones y moderación.
+
+Membresías: comparar planes, contenidos incluidos, duración, pago de prueba, renovación manual, fecha de vencimiento y cancelación. Separar biblioteca comprada de acceso temporal sin borrar progreso.
+
+Añadir pruebas: retomar video en otro dispositivo; aprobar evaluación y emitir certificado; publicar curso mediante revisión; preguntar y moderar; renovar o cancelar membresía conservando compras individuales.
+
+

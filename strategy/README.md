@@ -1,28 +1,33 @@
-# Business y especificaciones del MVP
+# Producto y especificaciones
 
-Esta carpeta define el producto y sus reglas para comenzar el desarrollo. El equipo trabajará con un Dev y una persona de Business, con cierre del desarrollo el 15 de octubre de 2026. El contenido, los creadores y los precios iniciales son datos de prueba. Las hipótesis comerciales todavía requieren investigación y validación.
+El proyecto es una plataforma web de cursos, videos y materiales, con contenido gratis y de pago. Un curso gratuito puede ofrecer capítulos o materiales adicionales de pago. También se pueden comprar videos individuales y cursos completos. El catálogo inicial es ficticio y los precios son de prueba.
 
 ## Documentos
 
-- [Enfoque y modelo de negocio](01-producto-y-negocio.md)
-- [Catálogo y precios de prueba](02-catalogo-de-prueba.md)
+- [Producto y negocio](01-producto-y-negocio.md)
+- [Catálogo de prueba](02-catalogo-de-prueba.md)
 - [Reglas y criterios de aceptación](03-especificacion-funcional.md)
 - [Pantallas y recorrido](04-pantallas-y-recorrido.md)
 - [Métricas y validación](05-metricas-y-validacion.md)
-- [Calendario y registro de decisiones](06-plan-y-decisiones.md)
+- [Plan y decisiones](06-plan-y-decisiones.md)
+- [Investigación y necesidades de alumnos y creadores](07-investigacion-y-necesidades.md)
+- [Aprendizaje, creadores, comunidad y membresías](08-aprendizaje-creadores-y-membresias.md)
 
-## Decisiones para desarrollar
+## Qué exige el assignment y qué decidimos
 
-La plataforma ofrece educación sobre tecnología y programación, y entretenimiento exclusivo. Combina contenido gratuito y premium, compras individuales y un paquete educativo fijo. El acceso adquirido es permanente dentro del MVP.
+El assignment exige plataforma con contenidos gratis y de pago, facturas simuladas, protección en el servidor, acceso persistente, administración, eventos, diseño adaptable y documentación técnica. Permite lecciones, videos y descargas; no obliga a desarrollar todas las funciones de una plataforma educativa.
 
-El visitante puede explorar y ver muestras sin cuenta. Para comprar utiliza una cuenta con correo y contraseña. La biblioteca se recupera iniciando sesión desde otro navegador o dispositivo. Solo el administrador carga y gestiona contenido; los creadores tienen perfiles informativos y no cuentas de publicación.
+El equipo eligió organizar el producto en cursos, capítulos, lecciones, videos y materiales con compras individuales y de cursos completos. El acceso comprado será permanente dentro del MVP, asociado a una cuenta con correo y contraseña. El creador aprobado prepara su contenido y el administrador revisa su publicación. Los contenidos parcialmente adquiridos se ofrecen por separado sin descuentos personalizados.
 
-Los pagos se simulan y no transfieren fondos. El simulador permite demostrar confirmación, fallo y expiración; únicamente la confirmación concede acceso. Un paquete parcialmente adquirido no se puede comprar: se ofrecen los recursos faltantes por separado. No hay descuentos personalizados.
+LNbits con FakeWallet será el servicio de pagos de prueba. No hay fondos reales. La conexión básica ya se probó; falta construir el sitio y sus permisos. El simulador de fallos y vencimientos, la recuperación de pendientes y las reglas de compra requieren trabajo adicional.
 
-## Qué está listo y qué queda pendiente
+Todo el código y la documentación técnica están en [src](../src/README.md). Esta carpeta conserva investigación, requisitos, prototipo y decisiones de Business. Los documentos originales del assignment permanecen en docs sin modificaciones.
 
-El alcance, las reglas, el catálogo de prueba, el recorrido, los criterios y las métricas están definidos para implementar. El Dev debe convertirlos en arquitectura, contratos de API y pruebas.
+## Pendientes
 
-Antes de la entrega final, Business debe completar investigación con fuentes, entrevistas, validación del prototipo, recomendación final y estimación de recursos. El archivo de pantallas es una especificación textual: aún falta producir el prototipo visual y probarlo. También debe crear el Google Doc con historial de trabajo exigido por el assignment y añadir aquí su enlace. Este registro local no sustituye ese requisito.
+Prototipo visual, investigación con fuentes, entrevistas, validación, recomendación, estimación de recursos y Google Doc con historial. También revisar calendario ante el alcance actualizado y aclarar composición del equipo y fecha oficial de entrega.
 
-La documentación oficial exige cuatro integrantes y trabajo continuo durante el sprint. Se debe aclarar con CUBO+ la composición de dos personas y el cierre anticipado. La fecha de entrega se planifica para el 3 de noviembre de 2026; existe un párrafo que indica el 8 de noviembre y requiere aclaración.
+## Alcance ampliado
+
+Se incluyen progreso, evaluaciones, certificados, preguntas, comunidad, panel de creador y membresías con renovación simulada manual. Los detalles están en el documento 08 y el diseño técnico en src/docs/diseno-plataforma.md. Las funciones observadas en otras plataformas respaldan el diseño, pero todavía deben validarse con usuarios. No están implementadas por estar documentadas.
+
