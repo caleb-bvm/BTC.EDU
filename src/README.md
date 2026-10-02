@@ -6,6 +6,24 @@ Todo el código, configuración, herramientas y documentación técnica vive en 
 
 ## Arranque local en Windows
 
+Para desarrollar e inicializar todo desde la raíz, usa **Windows PowerShell 5.1 o PowerShell 7**:
+
+```powershell
+./dev.ps1
+```
+
+Prepara o actualiza ambos entornos, aplica migraciones pendientes y arranca Django con recarga automática y LNbits con FakeWallet. Conserva las bases de datos y los `.env` existentes. El primer arranque requiere internet y Git para descargar LNbits. Ctrl+C detiene los servicios iniciados por el script. Los puertos 8000 y 5000 deben estar libres; los registros de LNbits quedan en `src/.local/lnbits-dev.*.log`. La integración de facturas con Django sigue pendiente.
+
+Para preparar y arrancar únicamente la plataforma con recarga automática:
+
+```powershell
+./dev-platform.ps1
+```
+
+Si Windows bloquea los scripts, puedes invocarlos con `powershell -ExecutionPolicy Bypass -File .\dev.ps1` o `powershell -ExecutionPolicy Bypass -File .\dev-platform.ps1`. El permiso se aplica solo a ese proceso.
+
+También puedes preparar y arrancar cada componente por separado:
+
 Desde la raíz del repositorio, en PowerShell:
 
 ```powershell
