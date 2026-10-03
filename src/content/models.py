@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.validators import URLValidator
 from django.db import models
 
 
@@ -10,6 +11,30 @@ class PublicationStatus(models.TextChoices):
 class AccessType(models.TextChoices):
     FREE = "free", "Gratis"
     PAID = "paid", "De pago"
+
+
+class CourseKind(models.TextChoices):
+    COURSE = "course", "Curso"
+    TUTORIAL = "tutorial", "Tutorial"
+
+
+class CourseLevel(models.TextChoices):
+    BEGINNER = "beginner", "Principiante"
+    INTERMEDIATE = "intermediate", "Intermedio"
+    ADVANCED = "advanced", "Avanzado"
+
+
+class Topic(models.Model):
+    name = models.CharField("nombre", max_length=100, unique=True)
+    slug = models.SlugField("identificador", unique=True)
+
+    class Meta:
+        ordering = ("name", "pk")
+        verbose_name = "tema"
+        verbose_name_plural = "temas"
+
+    def __str__(self):
+        return self.name
 
 
 class Publication(models.Model):
@@ -31,6 +56,10 @@ class Course(Publication):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="courses", verbose_name="creador")
     objective = models.TextField("objetivo", blank=True)
     requirements = models.TextField("requisitos", blank=True)
+    kind = models.CharField("tipo", max_length=12, choices=CourseKind, default=CourseKind.COURSE)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="tema")
+    level = models.CharField("nivel", max_length=12, choices=CourseLevel, blank=True)
+    estimated_minutes = models.PositiveIntegerField("duración estimada en minutos", null=True, blank=True)
 
     class Meta(Publication.Meta):
         abstract = False
@@ -65,6 +94,7 @@ class Lesson(Publication):
 class StandaloneResource(Publication):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name="creador")
     access_type = models.CharField("acceso", max_length=8, choices=AccessType, default=AccessType.FREE)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="tema")
 
     class Meta(Publication.Meta):
         abstract = True
@@ -82,3 +112,14 @@ class Material(StandaloneResource):
         abstract = False
         verbose_name = "material"
         verbose_name_plural = "materiales"
+
+
+class ExternalReference(Publication):
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="tema")
+    source_name = models.CharField("fuente", max_length=160)
+    source_url = models.URLField("enlace a la fuente", max_length=500, validators=[URLValidator(schemes=["http", "https"])])
+
+    class Meta(Publication.Meta):
+        abstract = False
+        verbose_name = "referencia externa"
+        verbose_name_plural = "referencias externas"

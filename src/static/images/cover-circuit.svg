@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" fill="none">
+  <defs><linearGradient id="metal" x1="120" y1="80" x2="330" y2="230" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset=".5" stop-color="#e7e7df"/><stop offset="1" stop-color="#c8c9c0"/></linearGradient><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="1" fill="#9b9b91"/></pattern></defs>
+  <path stroke="#d5d5cd" stroke-dasharray="3 6" d="M0 150h480M240 0v300"/><ellipse cx="240" cy="252" rx="113" ry="9" fill="#deded6"/>
+  <path d="m131 106 105-48 109 53-105 50-109-55Z" fill="#fafaf7" stroke="#35352e"/><path d="m131 106 109 55v79l-109-55v-79Z" fill="url(#metal)" stroke="#35352e"/><path d="m240 161 105-50v79l-105 50v-79Z" fill="#dadbd2" stroke="#35352e"/>
+  <path d="m148 111 88-39 89 43-85 39-92-43Z" fill="url(#dots)" stroke="#b9b9af"/>
+  <path d="m153 151 66 33v14l-66-33v-14Z" fill="#ed9655" stroke="#ab6330"/><path d="m263 177 60-28v23l-60 28v-23Z" fill="#35352e"/>
+  <path stroke="#707067" d="m153 188 38 19m77-29 39-18"/><circle cx="211" cy="210" r="3" fill="#53534b"/><path stroke="#aaa99d" d="M93 81h22m-11-11v22m255 118h22m-11-11v22"/>
+</svg>

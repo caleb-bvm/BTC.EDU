@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Chapter, Course, Lesson, Material, Video
+from .models import Chapter, Course, ExternalReference, Lesson, Material, Topic, Video
 
 
 class ChapterInline(admin.TabularInline):
@@ -20,7 +20,7 @@ class LessonInline(admin.TabularInline):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ("title", "creator", "status", "updated_at")
-    list_filter = ("status",)
+    list_filter = ("status", "kind", "topic", "level")
     search_fields = ("title", "creator__email")
     autocomplete_fields = ("creator",)
     readonly_fields = ("created_at", "updated_at")
@@ -56,3 +56,5 @@ class ResourceAdmin(admin.ModelAdmin):
 
 admin.site.register(Video, ResourceAdmin)
 admin.site.register(Material, ResourceAdmin)
+admin.site.register(Topic)
+admin.site.register(ExternalReference)

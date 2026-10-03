@@ -9,18 +9,21 @@
   <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
   <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/site.css' %}?v=learning-20261002">
+  <link rel="stylesheet" href="{% static 'css/academy.css' %}?v=academy-20261002">
   <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
+  <script src="{% static 'js/academy.js' %}" defer></script>
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
 <a class="skip-link" href="#main">Saltar al contenido</a>
-<header class="site-header"><div class="shell header-inner">
+{% block header %}<header class="site-header"><div class="shell header-inner">
   <a class="brand" href="{% url 'home' %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU</span></a>
   <nav aria-label="Navegación principal">
     <a href="{% url 'explore' %}" {% if active == 'explore' %}aria-current="page"{% endif %}>Explorar</a>
     <a href="{% url 'creators' %}" {% if active == 'creators' %}aria-current="page"{% endif %}>Para creadores</a>
     {% if user.is_authenticated %}<a class="btn btn-dark" href="{% url 'workspace' %}">Mi espacio</a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}">Entrar</a>{% endif %}
   </nav>
-</div></header>
+</div></header>{% endblock %}
+{% if academy_preview %}<div class="preview-banner" role="note">VISTA PREVIA / Contenido temporal de demostración. Tu catálogo real permanece intacto.</div>{% endif %}
 <main id="main">{% block content %}{% endblock %}</main>
-<footer class="site-footer shell"><span>BTC.EDU <span class="footer-dot">●</span> Conocimiento en libertad.</span><span>Una plataforma en construcción.</span></footer>
+{% block footer %}<footer class="site-footer shell"><span>BTC.EDU <span class="footer-dot">●</span> Conocimiento en libertad.</span><span>Una plataforma en construcción.</span></footer>{% endblock %}
 </body></html>

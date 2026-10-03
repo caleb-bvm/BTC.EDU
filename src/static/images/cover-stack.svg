@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" fill="none">
+  <defs><linearGradient id="metal" x1="130" y1="80" x2="330" y2="230" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#d3d4ca"/></linearGradient></defs>
+  <path stroke="#d5d5cd" stroke-dasharray="3 6" d="M0 150h480M240 0v300"/><ellipse cx="240" cy="252" rx="113" ry="9" fill="#deded6"/>
+  <path d="m133 171 107-51 106 53-105 54-108-56Z" fill="#dadbd2" stroke="#35352e"/><path d="m133 171 108 56v16l-108-55v-17Zm108 56 105-54v16l-105 54v-16Z" fill="url(#metal)" stroke="#35352e"/>
+  <path d="m133 132 107-51 106 53-105 54-108-56Z" fill="#ed9655" stroke="#ab6330"/><path d="m133 132 108 56v16l-108-55v-17Zm108 56 105-54v16l-105 54v-16Z" fill="#e5a575" stroke="#ab6330"/>
+  <path d="m133 93 107-51 106 53-105 54-108-56Z" fill="#fafaf7" stroke="#35352e"/><path d="m133 93 108 56v16l-108-55V93Zm108 56 105-54v16l-105 54v-16Z" fill="url(#metal)" stroke="#35352e"/>
+  <path stroke="#828277" d="m207 66 51 25m-66-16 50 25m-65-16 51 25"/><path stroke="#aaa99d" d="M93 81h22m-11-11v22m255 118h22m-11-11v22"/>
+</svg>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block body_class %}academy{% endblock %}
+{% block header %}
+<header class="academy-header">
+  <div class="academy-brand"><a class="brand" href="{% url 'home' %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU</span></a><span class="system-label mono">ACADEMIA ABIERTA<span>APRENDE / CONSTRUYE / COMPARTE</span></span></div>
+  <div class="academy-header-actions"><a class="header-home" href="{% url 'home' %}">Inicio ↗</a>{% if user.is_authenticated %}<a class="btn btn-dark" href="{% url 'workspace' %}"><span class="account-long">Mi aprendizaje</span><span class="account-short">Mi espacio</span> <span aria-hidden="true">↗</span></a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">Entrar <span aria-hidden="true">↗</span></a>{% endif %}<button class="nav-toggle js-only" type="button" aria-expanded="false" aria-controls="academy-navigation">Menú <span aria-hidden="true">☰</span></button></div>
+</header>
+{% endblock %}
+{% block content %}
+<div class="academy-layout">
+  <aside class="academy-sidebar" id="academy-navigation">
+    <p class="nav-caption mono">01 / EXPLORAR</p>
+    <nav class="academy-navigation" aria-label="Academia">
+      <a href="{% url 'courses' %}" {% if active == 'courses' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">▦</span><span>Cursos<small>Aprende a tu ritmo</small></span><span class="nav-index mono" aria-hidden="true">01</span></a>
+      <a href="{% url 'tutorials' %}" {% if active == 'tutorials' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">⌘</span><span>Tutoriales<small>Hazlo paso a paso</small></span><span class="nav-index mono" aria-hidden="true">02</span></a>
+      <a href="{% url 'resources' %}" {% if active == 'resources' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">▤</span><span>Recursos<small>Amplía tu perspectiva</small></span><span class="nav-index mono" aria-hidden="true">03</span></a>
+    </nav>
+    <p class="nav-caption mono">02 / TU ESPACIO</p>
+    <nav class="academy-navigation" aria-label="Tu espacio"><a href="{% url 'workspace' %}" {% if active == 'workspace' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">↗</span><span>Mi aprendizaje</span></a><a href="{% url 'creators' %}" {% if active == 'creators' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">＋</span><span>Para creadores</span></a></nav>
+    <div class="sidebar-footer"><span class="sidebar-mark" aria-hidden="true">＋ ─── ＋</span><p class="mono">CONOCIMIENTO<br>EN LIBERTAD.</p><span class="sidebar-status">Una academia en construcción</span></div>
+  </aside>
+  <button class="nav-backdrop" type="button" aria-label="Cerrar menú" hidden></button>
+  <div class="academy-workbench">
+    {% block academy_tabs %}{% endblock %}
+    <div class="academy-page">{% block academy_content %}{% endblock %}</div>
+    <footer class="academy-footer"><span class="mono">BTC.EDU / APRENDE A TU RITMO</span><span>El siguiente paso lo eliges tú. <span aria-hidden="true">＋</span></span></footer>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}

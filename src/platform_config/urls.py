@@ -2,12 +2,23 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from content.views import course_detail, lesson_content, lesson_detail, resource_detail
+from content.views import (
+    course_detail,
+    lesson_content,
+    lesson_detail,
+    reference_detail,
+    resource_detail,
+)
 from core import views
 
 urlpatterns = [
     path("", views.home, name="home"),
     path("explorar/", views.explore, name="explore"),
+    path("cursos/", views.academy_catalog, {"section": "cursos"}, name="courses"),
+    path("cursos/selector/", views.course_selector, name="course-selector"),
+    path("tutoriales/", views.academy_catalog, {"section": "tutoriales"}, name="tutorials"),
+    path("recursos/", views.academy_catalog, {"section": "recursos"}, name="resources"),
+    path("referencias/<int:pk>/", reference_detail, name="reference-detail"),
     path("para-creadores/", views.creators, name="creators"),
     path("mi-espacio/", views.workspace, name="workspace"),
     path("cuenta/entrar/", auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
