@@ -1,8 +1,10 @@
 # BTC.EDU — base técnica y visual
 
-Estado al **2 de octubre de 2026** (Guatemala): portada y catálogo conectados al contenido publicado, búsqueda y filtros, detalle de curso y pantalla de lectura con temario y navegación. La página para creadores, entrada por correo y espacio privado siguen disponibles. Las lecciones de pago están protegidas; precios y compras siguen pendientes. No se han creado registros de cursos, capítulos, videos, materiales, ofertas ni precios en la base del usuario. Los ejemplos de la imagen aprobada y de strategy/02 no se cargan. Ver [recorrido e investigación aplicada](docs/recorrido-aprendizaje-2026-10-02.md) y [base de contenido](docs/contenido.md).
+Estado al **2 de octubre de 2026** (Guatemala): interfaz de academia industrial con cursos, selector, tutoriales y recursos, filtros por tema/nivel/acceso, fichas y lectura protegida. Cuenta, Mi aprendizaje vacío y página de creadores integrados visualmente. Clasificación y referencias externas en administración; compras, archivos, versiones y progreso siguen pendientes. No se cargó contenido en la base del usuario. Ver [interfaz y verificación](docs/interfaz-academia-2026-10-02.md), [recorrido previo](docs/recorrido-aprendizaje-2026-10-02.md) y [base de contenido](docs/contenido.md).
 
 Todo el código, configuración, herramientas y documentación técnica vive en `/src`. Business y requisitos están en `/strategy`; los originales del assignment permanecen en `/docs`, sin modificaciones.
+
+**Dirección de desarrollo definida el 2 de octubre:** academia con cursos, tutoriales y biblioteca de recursos; catálogo por temas/niveles, selector, archivos protegidos, compras simuladas y continuidad de aprendizaje. Eventos educativos después. La [definición de producto y experiencia](../strategy/10-arquitectura-y-experiencia-btc-edu.md) y la [arquitectura técnica](docs/arquitectura-btc-edu.md) son diseños para implementar por fases, no funciones ya disponibles. Conservan Django/HTMX, SQLite local y la identidad visual aprobada.
 
 ## Arranque local en Windows
 
@@ -94,7 +96,7 @@ Las líneas discontinuas son funciones futuras. Django mantendrá autorización 
 ./src/scripts/check-platform.ps1
 ```
 
-SQLite restaurado y dependencias MySQL retiradas. Veinticuatro pruebas Django pasan, migraciones consistentes y revisión estática sin errores. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
+SQLite restaurado y dependencias MySQL retiradas. Treinta y dos pruebas Django pasan, migraciones consistentes y revisión estática sin errores. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
 
 Esta base **no completa el MVP del assignment**. Faltan contenidos, compras, permisos, estados de factura integrados, actividad, creadores, progreso, evaluaciones, certificados, comunidad y membresías. Ver [diseño completo](docs/diseno-plataforma.md). No hay prueba de concurrencia de compras: comercio no está implementado. SQLite no demuestra bloqueos de filas ni capacidad de compras concurrentes; esa limitación se mantiene explícita.
 

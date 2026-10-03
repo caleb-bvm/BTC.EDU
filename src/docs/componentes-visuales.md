@@ -1,5 +1,7 @@
 # Componentes visuales de BTC.EDU
 
+**2 de octubre:** la estructura de academia adopta una estética industrial más marcada, elegida por el usuario. Cursos, selector, tutoriales, recursos, fichas, lectura, login y Mi aprendizaje vacío usan plantilla común y componentes en `academy.css`. Ver [pantallas, comportamiento y verificación](interfaz-academia-2026-10-02.md). Los apartados siguientes documentan la base visual previa que se conserva; no representan toda la navegación vigente.
+
 Referencia inspeccionada: design/btc-edu-concepto-aprobado.png, aprobada el 1 de octubre de 2026. Se conserva nombre de puntos, encabezado, dos columnas, título grande, botones negros/con borde y objetos industriales. En móvil las columnas se apilan. Las tarjetas de ejemplo no son datos.
 
 | Componente | Fuente | Comportamiento |
