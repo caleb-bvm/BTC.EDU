@@ -1,5 +1,7 @@
 # Interfaz de academia — 2 de octubre de 2026
 
+**Actualización posterior:** [versiones y archivos](contenido-versiones-y-archivos-2026-10-02.md) conecta reproducción, subtítulos, transcripción y descarga cuando existe revisión publicada. Este registro describe el bloque visual previo; sus avisos de archivos/versiones pendientes son el estado de esa entrega.
+
 Dirección confirmada por el usuario: **estética industrial más marcada**, conservando nombre y fuentes aprobadas. Primera implementación de la [arquitectura de producto](../../strategy/10-arquitectura-y-experiencia-btc-edu.md); las siguientes funciones se distinguen de las pantallas construidas.
 
 ## Sistema visual y componentes

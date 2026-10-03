@@ -1,6 +1,6 @@
 # BTC.EDU — base técnica y visual
 
-Estado al **2 de octubre de 2026** (Guatemala): interfaz de academia industrial con cursos, selector, tutoriales y recursos, filtros por tema/nivel/acceso, fichas y lectura protegida. Cuenta, Mi aprendizaje vacío y página de creadores integrados visualmente. Clasificación y referencias externas en administración; compras, archivos, versiones y progreso siguen pendientes. No se cargó contenido en la base del usuario. Ver [interfaz y verificación](docs/interfaz-academia-2026-10-02.md), [recorrido previo](docs/recorrido-aprendizaje-2026-10-02.md) y [base de contenido](docs/contenido.md).
+Estado al **2 de octubre de 2026** (Guatemala): academia industrial con cursos, selector, tutoriales y recursos; publicación de versiones selladas y revisiones reutilizables; archivos privados MP4/PDF/TXT/VTT, reproducción/subtítulos/transcripción y descarga autorizada. Carga/publicación disponibles en administración. Compras, acceso adquirido a versiones anteriores, inscripciones/progreso y panel de creador siguen pendientes. No se cargó contenido en la base real. **54 pruebas pasan.** Ver [contenido/versiones/archivos y límites](docs/contenido-versiones-y-archivos-2026-10-02.md) e [interfaz](docs/interfaz-academia-2026-10-02.md).
 
 Todo el código, configuración, herramientas y documentación técnica vive en `/src`. Business y requisitos están en `/strategy`; los originales del assignment permanecen en `/docs`, sin modificaciones.
 

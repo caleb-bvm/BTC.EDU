@@ -1,5 +1,7 @@
 # Base de contenido — 1 de octubre de 2026
 
+**Entrega posterior del 2 de octubre:** [versiones y archivos privados](contenido-versiones-y-archivos-2026-10-02.md) amplía esta base con publicación sellada y entrega autorizada. Los apartados siguientes registran la implementación inicial.
+
 Primera etapa del backend de BTC.EDU. Implementación local con SQLite; no se crean datos educativos ni cuentas de ejemplo.
 
 ## Estructura implementada
