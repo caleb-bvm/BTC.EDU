@@ -2,6 +2,8 @@
 
 Este documento amplía el alcance e invalida las exclusiones anteriores de progreso, evaluaciones, certificados, comunidad, membresías y publicación por creadores. Describe propuestas de implementación sustentadas en la investigación del documento 07; todavía no están construidas. No son requisitos adicionales del assignment.
 
+La [arquitectura y experiencia del 2 de octubre](10-arquitectura-y-experiencia-btc-edu.md) conserva este alcance completo y escalona las entregas: primero academia con cursos/tutoriales/recursos, compra y progreso básico; luego operación por creadores y módulos ampliados. Las estimaciones de este documento preceden esa definición; deben revisarse, no reutilizarse como compromiso para el alcance nuevo.
+
 ## Alumno
 
 Puede explorar sin cuenta. Necesita cuenta para conservar progreso, participar, realizar evaluaciones y comprar. Inscribirse en un curso gratuito es gratis y no compra sus extras. La pantalla principal muestra Continuar aprendiendo, cursos inscritos, compras, membresías, preguntas, notificaciones y certificados.

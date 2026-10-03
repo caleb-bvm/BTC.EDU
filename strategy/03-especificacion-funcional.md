@@ -1,5 +1,7 @@
 # Especificación funcional
 
+**Referencia vigente de estructura, 2 de octubre de 2026:** [arquitectura y experiencia](10-arquitectura-y-experiencia-btc-edu.md). Incorpora tutoriales y biblioteca de referencias/recursos, selector por tema/nivel, versiones y reglas de disponibilidad. Se conservan AC-01…35. Archivar para descubrimiento no equivale a convertir en borrador ni retirar acceso adquirido; evidencia de pago tardío o solapado se conserva para conciliación aunque no conceda permisos. El diseño no demuestra implementación.
+
 ## Plataforma y cuentas
 
 El sitio incluye catálogo de cursos y contenidos, páginas de cursos con capítulos y lecciones ordenados, reproductor de video, materiales descargables, cuenta, pago, Mis cursos y compras, y administración. Permite filtrar por formato, tema y contenido gratuito o de pago.

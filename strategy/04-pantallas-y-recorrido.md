@@ -1,6 +1,6 @@
 # Pantallas y recorrido
 
-Esta especificación textual guía la construcción del sitio. El prototipo visual y su validación siguen pendientes.
+Este documento conserva los recorridos comerciales originales. La estructura de navegación y pantallas vigente está en [arquitectura y experiencia](10-arquitectura-y-experiencia-btc-edu.md): Cursos (Todos/Selector), Tutoriales, Recursos, Mi aprendizaje y Compras y acceso. Hay dirección visual aprobada y pantallas base implementadas; los prototipos de las nuevas vistas y su validación con usuarios siguen pendientes.
 
 ## Inicio y catálogo
 
