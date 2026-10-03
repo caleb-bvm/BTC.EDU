@@ -14,11 +14,13 @@ Mentoría del 13 de octubre: demostrar el curso gratuito, una compra de contenid
 
 ## Estado verificado
 
-LNbits 1.6.2 funciona localmente con uv y FakeWallet. Se verificó creación de factura, pago interno y consulta por API, también después de mover todo el entorno técnico a src. El sitio y los módulos nuevos están documentados, todavía no implementados.
+LNbits 1.6.2 funciona localmente con uv y FakeWallet. Se verificó creación de factura, pago interno y consulta por API, también después de mover todo el entorno técnico a src. Al 2 de octubre, el sitio cuenta con cuentas por correo, modelos de contenido, catálogo publicado con búsqueda y filtros, detalle de curso y lectura protegida de lecciones. Los pagos integrados y los módulos educativos adicionales siguen pendientes.
 
 La investigación oficial de Udemy, Teachable, Thinkific y Patreon se registra con fuentes y fecha en el documento 07. No hay entrevistas ni resultados de validación externos todavía. La publicación por creadores, certificados, comunidad, progreso y membresías sustituyen las exclusiones anteriores.
 
 ## Trabajo diario y requisitos oficiales
+
+**2 de octubre de 2026 — desarrollo con Codex:** se implementó el recorrido catálogo → curso → lección siguiendo las necesidades propuestas de claridad del acceso, objetivos, requisitos y navegación del documento 07. Evidencia: 24 pruebas, revisión estática y [registro técnico](../src/docs/recorrido-aprendizaje-2026-10-02.md). No se cargó contenido en la base del usuario. Próximo paso: ofertas, precios y compras simuladas con permisos persistentes. La validación con personas sigue pendiente.
 
 Registrar fecha, responsable, trabajo real, evidencia, decisiones, bloqueo y próximo paso. No crear actividad retroactiva. El assignment pide avances diarios en GitHub y un Google Doc con historial para Business; el enlace sigue pendiente.
 

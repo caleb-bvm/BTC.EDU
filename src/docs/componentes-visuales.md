@@ -10,7 +10,7 @@ Referencia inspeccionada: design/btc-edu-concepto-aprobado.png, aprobada el 1 de
 | Ilustración | static/images/industrial-hero.png | Imagen independiente decorativa, sin interfaz ni textos |
 | Etiquetas | .eyebrow / .mono | Monoespaciadas, línea naranja y texto oscuro |
 | Botones | .btn + site.css | Primario negro, secundario con borde; foco visible |
-| Filtros y estado vacío | core/_catalog_empty.html | Selección aria-current, actualización HTMX y enlace normal sin JS |
+| Catálogo, búsqueda y filtros | core/_catalog.html | Formulario con etiquetas, filtros combinados, actualización HTMX y envío normal sin JS |
 | Creadores | core/creators.html | Bloques explicativos y aviso de publicación pendiente |
 | Login | registration/login.html | Labels, autocompletado, email/password, CSRF y error visible |
 | Mi espacio | core/workspace.html | Correo escapado, biblioteca vacía y cierre POST |

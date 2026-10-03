@@ -31,4 +31,4 @@ Los datos de prueba viven en una base temporal y se destruyen al terminar. No se
 
 ## Próxima etapa
 
-Conectar el catálogo y el detalle de curso a los modelos publicados, sin incluir el cuerpo de las lecciones en las respuestas públicas del catálogo. Construir después la pantalla de lección usando la misma decisión de acceso. Mantener el catálogo vacío hasta que el usuario autorice crear contenido.
+El 2 de octubre se conectaron catálogo, detalle de curso y pantalla de lección a los modelos publicados y a la misma decisión de acceso. Ver [recorrido de aprendizaje](recorrido-aprendizaje-2026-10-02.md). El catálogo real permanece vacío hasta que el usuario autorice crear contenido. La próxima etapa es implementar ofertas, precios, facturas simuladas y acceso comprado persistente.

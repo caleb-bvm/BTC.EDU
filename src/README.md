@@ -1,6 +1,6 @@
 # BTC.EDU — base técnica y visual
 
-Estado al **1 de octubre de 2026** (Guatemala): portada navegable, catálogo vacío con filtros, página para creadores, entrada por correo y espacio privado vacío. La administración incluye cuentas y modelos de contenido; existe entrega protegida de lecciones de texto. No se han creado registros de cursos, capítulos, videos, materiales, ofertas ni precios. Los ejemplos de la imagen aprobada y de strategy/02 no se cargan. Ver [base de contenido y límites](docs/contenido.md).
+Estado al **2 de octubre de 2026** (Guatemala): portada y catálogo conectados al contenido publicado, búsqueda y filtros, detalle de curso y pantalla de lectura con temario y navegación. La página para creadores, entrada por correo y espacio privado siguen disponibles. Las lecciones de pago están protegidas; precios y compras siguen pendientes. No se han creado registros de cursos, capítulos, videos, materiales, ofertas ni precios en la base del usuario. Los ejemplos de la imagen aprobada y de strategy/02 no se cargan. Ver [recorrido e investigación aplicada](docs/recorrido-aprendizaje-2026-10-02.md) y [base de contenido](docs/contenido.md).
 
 Todo el código, configuración, herramientas y documentación técnica vive en `/src`. Business y requisitos están en `/strategy`; los originales del assignment permanecen en `/docs`, sin modificaciones.
 
@@ -67,10 +67,11 @@ flowchart LR
     B[Navegador: HTML + Bootstrap propio + HTMX] --> D[Django 5.2 LTS / Python 3.12]
     D --> A[Cuentas por correo / sesiones / administración]
     A --> S[(SQLite local)]
-    D --> T[Plantillas: portada y estados vacíos]
+    D --> T[Plantillas: catálogo, curso y lectura]
     D -. integración pendiente .-> L[LNbits 1.6.2 / FakeWallet / puerto 5000]
     L --> LS[(SQLite propio de LNbits)]
-    D -. pendiente .-> F[Contenido protegido y permisos]
+    D --> F[Lecciones protegidas / gratis y vista previa]
+    D -. pendiente .-> P[Compras y permisos permanentes]
 ```
 
 Las líneas discontinuas son funciones futuras. Django mantendrá autorización y reglas comerciales en el servidor; LNbits no sustituye catálogo, compras ni cuentas. Sus claves nunca llegan al navegador.
@@ -81,7 +82,7 @@ Las líneas discontinuas son funciones futuras. Django mantendrá autorización 
 - `core/`: páginas, catálogo vacío, health y pruebas.
 - `content/`: cursos, capítulos, lecciones de texto, fichas de videos/materiales, administración y regla de acceso.
 - `platform_config/`: configuración, rutas y WSGI.
-- `templates/`, `static/`: interfaz, NType82, Ndot77 y Space Mono locales e ilustración industrial independiente; Bootstrap 5.3.8 y HTMX 2.0.8 locales.
+- `templates/`, `static/`: portada, catálogo, curso, lectura y estados vacíos; NType82, Ndot77 y Space Mono locales e ilustración industrial independiente; Bootstrap 5.3.8 y HTMX 2.0.8 locales.
 - `design/`: concepto aprobado conservado.
 - `scripts/`, `config/`: preparación, arranque, comprobación y ejemplos sin secretos.
 - `docs/`: arquitectura, componentes, pruebas y límites.
@@ -93,7 +94,7 @@ Las líneas discontinuas son funciones futuras. Django mantendrá autorización 
 ./src/scripts/check-platform.ps1
 ```
 
-SQLite restaurado y dependencias MySQL retiradas. Diecisiete pruebas Django pasan, migraciones consistentes y revisión estática sin errores. [Resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
+SQLite restaurado y dependencias MySQL retiradas. Veinticuatro pruebas Django pasan, migraciones consistentes y revisión estática sin errores. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
 
 Esta base **no completa el MVP del assignment**. Faltan contenidos, compras, permisos, estados de factura integrados, actividad, creadores, progreso, evaluaciones, certificados, comunidad y membresías. Ver [diseño completo](docs/diseno-plataforma.md). No hay prueba de concurrencia de compras: comercio no está implementado. SQLite no demuestra bloqueos de filas ni capacidad de compras concurrentes; esa limitación se mantiene explícita.
 
