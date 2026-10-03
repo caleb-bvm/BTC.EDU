@@ -3,19 +3,16 @@ from django.db import DatabaseError, connection
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from content.catalog import catalog_context
+
 
 def home(request):
-    return render(request, "core/home.html", {"active": "home"})
+    return render(request, "core/home.html", {"active": "home", **catalog_context({})})
 
 
 def explore(request):
-    # Estado vacío deliberado: todavía no se han creado cursos ni ofertas.
-    categories = {"todos": "Todo", "cursos": "Cursos", "videos": "Videos", "materiales": "Materiales"}
-    category = request.GET.get("tipo", "todos")
-    if category not in categories:
-        category = "todos"
-    context = {"active": "explore", "category": category, "categories": categories}
-    template = "core/_catalog_empty.html" if request.headers.get("HX-Request") == "true" else "core/explore.html"
+    context = {"active": "explore", **catalog_context(request.GET)}
+    template = "core/_catalog.html" if request.headers.get("HX-Request") == "true" else "core/explore.html"
     return render(request, template, context)
 
 

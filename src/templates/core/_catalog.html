@@ -1,0 +1,23 @@
+<div id="catalog" aria-live="polite">
+  <form class="catalog-search" action="{% url 'explore' %}" method="get" hx-get="{% url 'explore' %}" hx-target="#catalog" hx-swap="outerHTML" hx-push-url="true">
+    <div><label for="catalog-query">¿Qué quieres aprender?</label><input class="form-control" id="catalog-query" type="search" name="q" value="{{ query }}" maxlength="200" placeholder="Buscar por título o descripción"></div>
+    <div><label for="catalog-type">Formato</label><select class="form-control" id="catalog-type" name="tipo">{% for value, label in categories.items %}<option value="{{ value }}" {% if category == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+    <div><label for="catalog-access">Acceso</label><select class="form-control" id="catalog-access" name="acceso"><option value="todos" {% if access_filter == 'todos' %}selected{% endif %}>Todo</option><option value="gratis" {% if access_filter == 'gratis' %}selected{% endif %}>Con contenido gratis</option><option value="pago" {% if access_filter == 'pago' %}selected{% endif %}>Con contenido de pago</option></select></div>
+    <button class="btn btn-dark" type="submit">Buscar</button>
+  </form>
+  {% if cards %}
+  <p class="muted">{{ cards|length }} resultado{{ cards|length|pluralize:"s" }}{% if query %} para «{{ query }}»{% endif %}</p>
+  <div class="catalog-grid">{% for card in cards %}<article class="content-card">
+    <div class="card-meta"><span class="mono">{{ card.kind }}</span><span class="access-badge">{{ card.access_label }}</span></div>
+    <h3><a href="{{ card.url }}">{{ card.item.title }}</a></h3><p class="creator-name">Por {{ card.creator }}</p>
+    <p>{{ card.item.description|truncatechars:180|default:'Consulta la ficha para conocer el contenido.' }}</p>
+    {% if card.summary %}<p class="muted">{{ card.summary.lessons|length }} {% if card.summary.lessons|length == 1 %}lección{% else %}lecciones{% endif %} de texto</p>{% else %}<p class="muted">Ficha informativa · archivo pendiente</p>{% endif %}
+    <a class="card-link" href="{{ card.url }}">{% if card.summary %}Ver curso{% else %}Ver ficha{% endif %}<span aria-hidden="true"> →</span><span class="visually-hidden">: {{ card.item.title }}</span></a>
+  </article>{% endfor %}</div>
+  {% elif filtered %}
+  <div class="empty-catalog"><div><h2>No encontramos coincidencias</h2><p>Prueba otra palabra o cambia el formato y el acceso.</p><a href="{% url 'explore' %}" class="btn btn-outline-dark mt-3">Ver todo el catálogo</a></div></div>
+  {% else %}
+  <div class="empty-catalog"><div class="empty-symbol" aria-hidden="true">+</div><div><h3>{% if category == 'cursos' %}Todavía no hay cursos{% elif category == 'videos' %}Todavía no hay videos{% elif category == 'materiales' %}Todavía no hay materiales{% else %}Un espacio para lo que viene{% endif %}</h3><p>Cuando se publique contenido, lo encontrarás aquí.</p></div><span class="empty-number" aria-label="Cero contenidos">00</span></div>
+  {% endif %}
+  <p class="catalog-note">Puedes abrir las lecciones gratis sin comprar las de pago.</p>
+</div>

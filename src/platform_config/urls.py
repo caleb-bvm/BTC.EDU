@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from content.views import lesson_content
+from content.views import course_detail, lesson_content, lesson_detail, resource_detail
 from core import views
 
 urlpatterns = [
@@ -14,6 +14,9 @@ urlpatterns = [
     path("cuenta/salir/", auth_views.LogoutView.as_view(), name="logout"),
     path("health/", views.health, name="health"),
     path("lecciones/<int:pk>/contenido/", lesson_content, name="lesson-content"),
+    path("cursos/<int:pk>/", course_detail, name="course-detail"),
+    path("lecciones/<int:pk>/", lesson_detail, name="lesson-detail"),
+    path("recursos/<str:kind>/<int:pk>/", resource_detail, name="resource-detail"),
     path("admin/", admin.site.urls),
 ]
 admin.site.site_header = "Administración de BTC.EDU"
