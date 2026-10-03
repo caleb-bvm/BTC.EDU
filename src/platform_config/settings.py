@@ -15,7 +15,7 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split("
 INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
-    "accounts", "core", "content",
+    "accounts", "core", "content", "media",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
@@ -56,6 +56,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / ".local/staticfiles"
 # No existe ruta pública de MEDIA: los contenidos de pago tendrán entrega autorizada.
 MEDIA_ROOT = BASE_DIR / ".local/private-media"
+CONTENT_MAX_UPLOAD_BYTES = 256 * 1024 * 1024
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "/cuenta/entrar/"
 LOGIN_REDIRECT_URL = "/mi-espacio/"

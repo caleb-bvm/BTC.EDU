@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator
-from django.db.models import Count, Prefetch, Q
+from django.db.models import Case, Count, F, Prefetch, Q, When
+from django.db.models.functions import Coalesce
 from django.urls import reverse
 
 from .models import (
@@ -43,9 +44,12 @@ def course_summary(course):
 
 def published_courses():
     visible = Q(chapters__status=PublicationStatus.PUBLISHED, chapters__lessons__status=PublicationStatus.PUBLISHED)
-    return Course.objects.filter(status=PublicationStatus.PUBLISHED).select_related('creator', 'topic').defer('objective', 'requirements').annotate(
-        free_count=Count('chapters__lessons', filter=visible & Q(chapters__lessons__access_type=AccessType.FREE), distinct=True),
-        paid_count=Count('chapters__lessons', filter=visible & Q(chapters__lessons__access_type=AccessType.PAID), distinct=True),
+    return Course.objects.filter(status=PublicationStatus.PUBLISHED).select_related('creator', 'topic', 'current_version__topic').defer('objective', 'requirements', 'current_version__objective', 'current_version__requirements').annotate(
+        public_title=Coalesce('current_version__title', 'title'), public_description=Coalesce('current_version__description', 'description'),
+        public_kind=Coalesce('current_version__kind', 'kind'), public_level=Coalesce('current_version__level', 'level'),
+        public_topic_id=Case(When(current_version__isnull=False, then=F('current_version__topic_id')), default=F('topic_id')),
+        free_count=Case(When(current_version__isnull=False, then=Count('current_version__chapters__lessons', filter=Q(current_version__chapters__lessons__content__access_type=AccessType.FREE), distinct=True)), default=Count('chapters__lessons', filter=visible & Q(chapters__lessons__access_type=AccessType.FREE), distinct=True)),
+        paid_count=Case(When(current_version__isnull=False, then=Count('current_version__chapters__lessons', filter=Q(current_version__chapters__lessons__content__access_type=AccessType.PAID), distinct=True)), default=Count('chapters__lessons', filter=visible & Q(chapters__lessons__access_type=AccessType.PAID), distinct=True)),
     )
 
 
@@ -74,20 +78,21 @@ def catalog_context(params, section=None):
             continue
         items = published_courses() if model == Course else model.objects.filter(status=PublicationStatus.PUBLISHED).select_related('topic')
         if model == Course:
-            items = items.filter(kind=CourseKind.TUTORIAL if kind == 'tutoriales' else CourseKind.COURSE)
+            items = items.filter(public_kind=CourseKind.TUTORIAL if kind == 'tutoriales' else CourseKind.COURSE)
         elif model != ExternalReference:
-            items = items.select_related('creator')
-        topic_ids.update(items.exclude(topic=None).values_list('topic_id', flat=True))
+            items = items.select_related('creator', 'revision').defer('revision__body').annotate(public_title=Coalesce('revision__title', 'title'), public_description=Coalesce('revision__description', 'description'), public_access=Coalesce('revision__access_type', 'access_type'))
+        topic_field = 'public_topic_id' if model == Course else 'topic_id'
+        topic_ids.update(items.exclude(**{topic_field: None}).values_list(topic_field, flat=True))
         if category != 'todos' and category != kind:
             continue
         if query:
-            items = items.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            items = items.filter(Q(title__icontains=query) | Q(description__icontains=query)) if model == ExternalReference else items.filter(Q(public_title__icontains=query) | Q(public_description__icontains=query))
         if topic_slug:
-            items = items.filter(topic__slug=topic_slug)
+            items = items.filter(**{topic_field + '__in': Topic.objects.filter(slug=topic_slug).values('pk')})
         if level:
             if model != Course:
                 continue
-            items = items.filter(level=level)
+            items = items.filter(public_level=level)
         if model == Course:
             if access == 'gratis':
                 items = items.filter(free_count__gt=0)
@@ -97,7 +102,7 @@ def catalog_context(params, section=None):
             if access != 'todos':
                 continue
         elif access != 'todos':
-            items = items.filter(access_type=AccessType.FREE if access == 'gratis' else AccessType.PAID)
+            items = items.filter(public_access=AccessType.FREE if access == 'gratis' else AccessType.PAID)
         catalog_items.append((kind, model, label, items))
     topics = list(Topic.objects.filter(pk__in=topic_ids))
     cards = []
@@ -105,11 +110,16 @@ def catalog_context(params, section=None):
         for item in items:
             summary = None
             if model == Course:
+                if item.current_version_id:
+                    for field in ('title', 'description', 'kind', 'level', 'topic', 'estimated_minutes'):
+                        setattr(item, field, getattr(item.current_version, field))
                 summary = {'free_count': item.free_count, 'paid_count': item.paid_count, 'lesson_count': item.free_count + item.paid_count, 'access_label': access_label(item.free_count, item.paid_count)}
                 url = reverse('course-detail', args=[item.pk])
             elif model == ExternalReference:
                 url = reverse('reference-detail', args=[item.pk])
             else:
+                if item.revision_id:
+                    item.title, item.description, item.access_type = item.revision.title, item.revision.description, item.revision.access_type
                 url = reverse('resource-detail', args=[kind, item.pk])
             creator = item.source_name if model == ExternalReference else item.creator.get_full_name().strip() or 'Creador de BTC.EDU'
             cards.append({'item': item, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})

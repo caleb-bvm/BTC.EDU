@@ -174,3 +174,6 @@
 .academy-filters label{font-size:12px}.academy-filters .form-control{font-size:14px}.filter-submit{font-size:14px}.academy-card .card-meta .mono{font-size:10px}.card-description{font-size:14px}.academy-card .creator-name{font-size:12px}.access-badge{font-size:11px}.card-duration{font-size:12px}.selector-detail>p,.tutorial-row p{font-size:14px}.spec-list>div{font-size:12px}.selector-topics a,.selector-courses a{font-size:14px}
 .card-availability{font-size:11px;line-height:1.7;color:var(--accent-ink);margin:0}
 @media(max-width:640px){.academy .mobile-temario-link{display:inline-block}}
+.lesson-video { display: block; width: 100%; max-height: 70vh; background: #141414; }
+.media-transcript { margin-top: 1rem; border: 1px solid var(--line, #dcdcd7); padding: 1rem; }
+.media-panel .media-error[hidden] { display: none; }

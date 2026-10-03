@@ -25,6 +25,7 @@ settings.TEMPLATES[0]["OPTIONS"]["loaders"] = [
 django.setup()
 
 from django.contrib.auth import get_user_model  # noqa: E402
+from django.core.files.uploadedfile import SimpleUploadedFile  # noqa: E402
 from django.db import connections  # noqa: E402
 
 from content.models import (  # noqa: E402
@@ -35,11 +36,17 @@ from content.models import (  # noqa: E402
     CourseLevel,
     ExternalReference,
     Lesson,
+    LessonResource,
     Material,
     PublicationStatus,
     Topic,
     Video,
 )
+from content.publication import publish_course, publish_resource  # noqa: E402
+from media.models import Asset  # noqa: E402
+
+preview_media = tempfile.TemporaryDirectory(prefix="academy-media-", dir=SRC_ROOT / ".local")
+settings.MEDIA_ROOT = Path(preview_media.name)
 
 
 def populate():
@@ -62,8 +69,20 @@ def populate():
         tutorial = Course.objects.create(creator=creator, title=title, description="Una guía práctica para completar una tarea y entender cada decisión del recorrido.", kind=CourseKind.TUTORIAL, topic=topics[topic], level=level, estimated_minutes=20, objective="Completar una tarea práctica siguiendo los pasos.", status=PublicationStatus.PUBLISHED)
         chapter = Chapter.objects.create(course=tutorial, title="Paso a paso", status=PublicationStatus.PUBLISHED)
         Lesson.objects.create(chapter=chapter, title="Antes de empezar", body="Contenido temporal para revisar cómo se lee un tutorial.", status=PublicationStatus.PUBLISHED)
-    Video.objects.create(creator=creator, title="Las piezas de una red", description="Ficha temporal de un video. La reproducción todavía no está disponible.", topic=topics["Bitcoin"], status=PublicationStatus.PUBLISHED)
-    Material.objects.create(creator=creator, title="Guía de práctica", description="Ficha temporal de un material. La descarga todavía no está disponible.", topic=topics["Desarrollo"], status=PublicationStatus.PUBLISHED)
+    reviewer = get_user_model().objects.create_user("reviewer@example.invalid", is_staff=True, is_superuser=True)
+    clip = Asset.objects.create(creator=creator, file=SimpleUploadedFile("prueba-reproduccion.mp4", (SRC_ROOT / "media/fixtures/white.mp4").read_bytes(), content_type="video/mp4"))
+    captions = Asset.objects.create(creator=creator, file=SimpleUploadedFile("ejemplo.vtt", "WEBVTT\n\n00:00.000 --> 00:05.000\nPrueba temporal de reproducción de BTC.EDU.\n".encode(), content_type="text/vtt"))
+    guide = Asset.objects.create(creator=creator, file=SimpleUploadedFile("guia-de-practica.txt", "BTC.EDU — material temporal\n\n1. Escribe tu objetivo.\n2. Resume lo aprendido.\n3. Elige una próxima práctica.\n".encode(), content_type="text/plain"))
+    extra = Asset.objects.create(creator=creator, file=SimpleUploadedFile("ejercicio-extra.txt", b"Ejercicio privado de prueba. No debe entregarse sin permiso.", content_type="text/plain"))
+    video = Video.objects.create(creator=creator, title="Prueba de reproducción", description="Clip técnico de pantalla blanca de Web Platform Tests para comprobar reproducción y subtítulos. No es una clase.", topic=topics["Bitcoin"], pending_asset=clip, pending_subtitles=captions, transcript="La pantalla blanca es intencional: este clip sirve para verificar el reproductor y los subtítulos.")
+    material = Material.objects.create(creator=creator, title="Guía de práctica", description="Material temporal descargable para revisar el recorrido de aprendizaje.", topic=topics["Desarrollo"], pending_asset=guide)
+    paid = Material.objects.create(creator=creator, title="Ejercicio adicional", description="Material de pago temporal para verificar el bloqueo.", topic=topics["Bitcoin"], pending_asset=extra, access_type=AccessType.PAID)
+    lesson = Lesson.objects.order_by("pk").first()
+    for position, resource in enumerate((video, material, paid), 1):
+        revision = publish_resource(resource, reviewer)
+        LessonResource.objects.create(lesson=lesson, resource=revision, position=position)
+    for course in Course.objects.all():
+        publish_course(course, reviewer)
     ExternalReference.objects.create(title="Referencia de lectura", description="Ejemplo temporal de una fuente externa curada.", source_name="Fuente de demostración", source_url="https://example.org/", topic=topics["Seguridad"], status=PublicationStatus.PUBLISHED)
 
 
@@ -75,3 +94,5 @@ try:
 finally:
     connections.close_all()
     preview_path.unlink(missing_ok=True)
+    assert Path(preview_media.name).resolve().is_relative_to((SRC_ROOT / ".local").resolve())
+    preview_media.cleanup()

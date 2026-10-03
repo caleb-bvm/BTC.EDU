@@ -1,12 +1,14 @@
 from urllib.parse import urlsplit
 
-from django.db.models import Prefetch
-from django.http import Http404, JsonResponse
+from django.db.models import F, Prefetch
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_safe
+
+from media.delivery import file_response
 
 from .access import content_access
 from .catalog import course_summary, course_tree
@@ -17,6 +19,7 @@ from .models import (
     Lesson,
     Material,
     PublicationStatus,
+    VersionLesson,
     Video,
 )
 
@@ -46,12 +49,20 @@ def load_course(user, pk):
         .select_related("creator", "topic")
         .get(pk=pk)
     )
+    course.detail_url = reverse("course-detail", args=[course.pk])
+    for chapter in course.visible_chapters:
+        for lesson in chapter.visible_lessons:
+            lesson.detail_url = reverse("lesson-detail", args=[lesson.pk])
     return course, preview
 
 
 @require_GET
 @never_cache
 def course_detail(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    if course.current_version_id and not (request.GET.get("borrador") == "1" and is_owner(request.user, course)):
+        from .version_views import course_version_detail
+        return course_version_detail(request, pk, course.current_version.number)
     course, preview = load_course(request.user, pk)
     summary = course_summary(course)
     first = next(
@@ -81,7 +92,13 @@ def course_detail(request, pk):
 @require_GET
 @never_cache
 def lesson_detail(request, pk):
+    frozen = VersionLesson.objects.select_related("chapter__version__course").filter(source_lesson_id=pk, chapter__version_id=F("chapter__version__course__current_version_id")).first()
+    if frozen and request.GET.get("borrador") != "1":
+        from .version_views import version_lesson_detail
+        return version_lesson_detail(request, frozen.chapter.version.course_id, frozen.chapter.version.number, frozen.pk)
     lesson = get_object_or_404(Lesson.objects.select_related("chapter__course"), pk=pk)
+    if lesson.chapter.course.current_version_id and not is_owner(request.user, lesson.chapter.course):
+        raise Http404
     decision = content_access(request.user, lesson)
     if decision.reason == "unpublished":
         raise Http404
@@ -112,6 +129,7 @@ def lesson_detail(request, pk):
 
 
 @require_GET
+@never_cache
 def resource_detail(request, kind, pk):
     model = {"videos": Video, "materiales": Material}.get(kind)
     if model is None:
@@ -121,6 +139,12 @@ def resource_detail(request, kind, pk):
         pk=pk,
         status=PublicationStatus.PUBLISHED,
     )
+    decision = content_access(request.user, resource)
+    revision = resource.revision
+    if revision:
+        resource.title, resource.description, resource.access_type = revision.title, revision.description, revision.access_type
+    file_url = reverse("resource-file", args=[kind, pk, revision.number, "archivo"]) if revision and decision.allowed else ""
+    subtitles_url = reverse("resource-file", args=[kind, pk, revision.number, "subtitulos"]) if revision and revision.subtitles_id and decision.allowed else ""
     return render(
         request,
         "content/resource.html",
@@ -128,6 +152,10 @@ def resource_detail(request, kind, pk):
             "active": "resources",
             "resource": resource,
             "kind": "Video" if kind == "videos" else "Material",
+            "allowed": decision.allowed, "file_url": file_url, "subtitle_url": subtitles_url,
+            "asset": revision.asset if revision else None,
+            "transcript": revision.body if revision and decision.allowed else "",
+            "media": {"standalone": True, "title": resource.title, "kind": "video" if kind == "videos" else "material", "allowed": decision.allowed, "file_url": file_url if revision and revision.asset.file.storage.exists(revision.asset.file.name) else "", "subtitle_url": subtitles_url, "body": revision.body if revision and decision.allowed else "", "size": revision.asset.size if revision else 0, "mime": revision.asset.mime_type if revision else ""},
             "return_to": return_path(request, "resources"),
             "creator_name": resource.creator.get_full_name().strip()
             or "Creador de BTC.EDU",
@@ -147,7 +175,15 @@ def reference_detail(request, pk):
 @require_GET
 @never_cache
 def lesson_content(request, pk):
+    frozen = VersionLesson.objects.select_related("content", "chapter__version__course").filter(source_lesson_id=pk, chapter__version_id=F("chapter__version__course__current_version_id")).first()
+    if frozen:
+        decision = content_access(request.user, frozen)
+        if not decision.allowed:
+            return JsonResponse({"error": "not_found" if decision.reason == "unpublished" else "purchase_required"}, status=404 if decision.reason == "unpublished" else 403)
+        return JsonResponse({"id": pk, "title": frozen.content.title, "body": frozen.content.body, "access": decision.reason, "version": frozen.chapter.version.number})
     lesson = get_object_or_404(Lesson.objects.select_related("chapter__course"), pk=pk)
+    if lesson.chapter.course.current_version_id:
+        raise Http404
     decision = content_access(request.user, lesson)
     if not decision.allowed:
         if decision.reason == "unpublished":
@@ -161,3 +197,24 @@ def lesson_content(request, pk):
             "access": decision.reason,
         }
     )
+
+
+@require_safe
+@never_cache
+def resource_file(request, kind, pk, number, part):
+    model = {"videos": Video, "materiales": Material}.get(kind)
+    if model is None:
+        raise Http404
+    resource = get_object_or_404(model.objects.select_related("revision__asset", "revision__subtitles"), pk=pk)
+    revision = resource.revision
+    if revision is None or revision.number != number:
+        raise Http404
+    decision = content_access(request.user, resource)
+    if not decision.allowed:
+        if decision.reason == "unpublished":
+            raise Http404
+        return HttpResponse("Este contenido requiere una compra.", status=403)
+    asset = revision.asset if part == "archivo" else revision.subtitles if part == "subtitulos" else None
+    if asset is None:
+        raise Http404
+    return file_response(request, asset)

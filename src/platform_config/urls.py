@@ -2,12 +2,18 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
+from content.version_views import (
+    attachment_file,
+    course_version_detail,
+    version_lesson_detail,
+)
 from content.views import (
     course_detail,
     lesson_content,
     lesson_detail,
     reference_detail,
     resource_detail,
+    resource_file,
 )
 from core import views
 
@@ -26,6 +32,10 @@ urlpatterns = [
     path("health/", views.health, name="health"),
     path("lecciones/<int:pk>/contenido/", lesson_content, name="lesson-content"),
     path("cursos/<int:pk>/", course_detail, name="course-detail"),
+    path("cursos/<int:course_pk>/versiones/<int:number>/", course_version_detail, name="course-version"),
+    path("cursos/<int:course_pk>/versiones/<int:number>/lecciones/<int:lesson_pk>/", version_lesson_detail, name="version-lesson"),
+    path("adjuntos/<int:pk>/<str:part>/", attachment_file, name="attachment-file"),
+    path("recursos/<str:kind>/<int:pk>/revisiones/<int:number>/<str:part>/", resource_file, name="resource-file"),
     path("lecciones/<int:pk>/", lesson_detail, name="lesson-detail"),
     path("recursos/<str:kind>/<int:pk>/", resource_detail, name="resource-detail"),
     path("admin/", admin.site.urls),

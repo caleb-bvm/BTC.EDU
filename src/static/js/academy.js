@@ -70,3 +70,9 @@
     error.textContent = 'Se perdió la conexión. Conservamos tus filtros; vuelve a buscar cuando recuperes conexión.';
   });
 })();
+document.addEventListener('error', (event) => {
+  if (event.target instanceof HTMLVideoElement) {
+    const message = event.target.closest('.media-panel')?.querySelector('.media-error');
+    if (message) message.hidden = false;
+  }
+}, true);
