@@ -1,5 +1,7 @@
 # BTC.EDU — plataforma educativa
 
+Actualización de experiencia del **4 de octubre**: compra con resumen, «Continuar al pago», «Pagar [importe] sats», procesamiento y confirmación con fecha; aviso de saldo de prueba concentrado en el entorno. 60 pruebas relacionadas, integración FakeWallet y recorrido en navegador pasan. [Registro y capturas](docs/experiencia-compra-2026-10-04.md).
+
 Estado vigente al **4 de octubre de 2026** (Guatemala): ofertas revisadas con precios en sats de prueba, facturas integradas con LNbits FakeWallet, compras y derechos permanentes sobre revisiones, biblioteca, inscripción y progreso con continuación por versión. **129 pruebas pasan**, junto con concurrencia SQLite en archivo y compra real contra el proveedor ficticio. [Comportamiento, preparación y evidencia](docs/comercio-y-aprendizaje-2026-10-04.md). Los registros fechados siguientes conservan los estados anteriores.
 
 Actualización de acceso del **3 de octubre de 2026**: cuentas independientes de creador y estudiante, registros, logins, perfiles y recuperación separados; el mismo correo puede pertenecer a identidades distintas. Estudio con navegación propia y aprobación de creador conservada. **96 pruebas pasan.** [Rutas, migración y límites](docs/cuentas-independientes-2026-10-03.md). Este bloque sustituye la cuenta compartida y la ausencia de registro público descritas en los registros anteriores.
