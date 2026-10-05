@@ -1,6 +1,7 @@
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F, Max
+from django.utils import timezone
 
 from .models import (
     Course,
@@ -109,6 +110,8 @@ def publish_course(course, actor):
     original = course
     authorize_publisher(actor)
     version = prepare_course(course, actor)
+    CourseVersion._base_manager.filter(pk=version.pk).update(published_at=timezone.now())
+    version.refresh_from_db()
     Course.objects.filter(pk=course.pk).update(current_version=version, status=PublicationStatus.PUBLISHED)
     original.current_version = version
     original.status = PublicationStatus.PUBLISHED

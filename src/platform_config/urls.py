@@ -24,6 +24,8 @@ from core import views
 from creators.views import public_profile
 
 urlpatterns = [
+    path("", include("commerce.urls")),
+    path("aprendizaje/", include("learning.urls")),
     path("", views.home, name="home"),
     path("explorar/", views.explore, name="explore"),
     path("cursos/", views.academy_catalog, {"section": "cursos"}, name="courses"),

@@ -22,7 +22,8 @@ from .models import (
 def load_version(user, course_pk, number):
     version = get_object_or_404(CourseVersion.objects.select_related("course__creator", "topic"), course_id=course_pk, number=number, sealed=True)
     owner = user.is_authenticated and user.is_active and user.pk == version.course.creator_id
-    if not owner and (version.course.status != PublicationStatus.PUBLISHED or version.course.current_version_id != version.pk):
+    from learning.services import can_visit_version
+    if not owner and (version.course.status not in (PublicationStatus.PUBLISHED, PublicationStatus.ARCHIVED) or not can_visit_version(user, version)):
         raise Http404
     return version, owner
 
@@ -57,7 +58,9 @@ def course_version_detail(request, course_pk, number):
     course = version_course(version)
     summary = course_summary(course)
     first = next((item for item in summary["lessons"] if content_access(request.user, item.version_record).allowed), None)
-    return render(request, "content/course.html", {"course": course, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": version.creator_name, "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses")})
+    from commerce.catalog import version_offers, version_owned
+    from learning.services import enrolled
+    return render(request, "content/course.html", {"course": course, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": version.creator_name, "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": version_offers(version), "version": version, "enrolled": enrolled(request.user, version), "has_purchase": version_owned(request.user, version)})
 
 
 def attachment_cards(request, attachments):
@@ -90,7 +93,8 @@ def version_lesson_detail(request, course_pk, number, lesson_pk):
     body = record.content.body if decision.allowed else None
     lesson.body = ""
     attachments = attachment_cards(request, record.attachments.select_related("resource__asset", "resource__subtitles", "lesson__chapter__version__course")) if decision.allowed else []
-    return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "allowed": decision.allowed, "preview": preview, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments}, status=200 if decision.allowed else 403)
+    from commerce.catalog import version_offers
+    return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "allowed": decision.allowed, "preview": preview, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments, "offers": version_offers(version)}, status=200 if decision.allowed else 403)
 
 
 @require_safe

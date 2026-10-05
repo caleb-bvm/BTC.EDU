@@ -11,6 +11,7 @@ from .immutability import FrozenRecord
 class PublicationStatus(models.TextChoices):
     DRAFT = "draft", "Borrador"
     PUBLISHED = "published", "Publicado"
+    ARCHIVED = "archived", "Retirado del catálogo"
 
 
 class AccessType(models.TextChoices):
@@ -192,6 +193,7 @@ class CourseVersion(FrozenRecord):
     creator_name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     sealed = models.BooleanField(default=False, editable=False)
+    published_at = models.DateTimeField(null=True, blank=True, editable=False)
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=("course", "number"), name="unique_course_version")]

@@ -1,0 +1,1 @@
+<ul class="offer-inventory">{% for item in items %}<li><span>{{ item.resource.title }}<small>{{ item.resource.get_kind_display }} · revisión {{ item.resource.number }}</small></span><span class="access-badge">{{ item.resource.get_access_type_display }}</span></li>{% endfor %}</ul>

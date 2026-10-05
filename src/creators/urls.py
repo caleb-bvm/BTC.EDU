@@ -2,10 +2,13 @@ from django.urls import path
 
 from accounts.recovery import recovery_patterns
 from accounts.views import CreatorLoginView, CreatorLogoutView, register
+from commerce.views import creator_offer, creator_offers
 
 from . import views
 
 urlpatterns = [
+    path("ofertas/", creator_offers, name="creator-offers"),
+    path("ofertas/<int:pk>/", creator_offer, name="creator-offer"),
     *recovery_patterns(creator=True),
     path("entrar/", CreatorLoginView.as_view(), name="creator-login"),
     path("registro/", register, {"creator": True}, name="creator-signup"),

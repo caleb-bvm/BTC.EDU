@@ -1,0 +1,3 @@
+{% extends 'academy.html' %}
+{% block title %}{{ resource.title }} · Mi biblioteca · BTC.EDU{% endblock %}
+{% block academy_content %}<section class="learning-page"><a class="text-link" href="{% url 'workspace' %}">← Mi aprendizaje</a><p class="eyebrow">TU BIBLIOTECA / ACCESO PERMANENTE</p><h1>{{ resource.title }}</h1><p>Revisión {{ resource.number }} · {{ resource.get_kind_display }}</p><div class="reading-copy">{{ resource.description|linebreaks }}</div>{% if resource.kind == 'text' %}<div class="reading-copy">{{ resource.body|linebreaks }}</div>{% else %}{% include 'content/_media.html' %}{% endif %}</section>{% endblock %}

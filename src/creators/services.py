@@ -3,7 +3,7 @@ from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
 
-from content.models import Course, Material, PublicationStatus, Video
+from content.models import Course, CourseVersion, Material, PublicationStatus, Video
 from content.publication import prepare_course, prepare_resource
 
 from .models import CreatorProfile, Submission
@@ -64,6 +64,8 @@ def decide(submission, actor, approve, feedback=""):
         if current and current.number >= submission.snapshot.number:
             raise ValidationError("Ya existe una publicación posterior. Solicita un nuevo envío para revisar los cambios.")
         type(item).objects.filter(pk=item.pk).update(**{pointer: submission.snapshot, "status": PublicationStatus.PUBLISHED})
+        if submission.course_id:
+            CourseVersion._base_manager.filter(pk=submission.course_version_id).update(published_at=timezone.now())
     submission.status = Submission.Status.APPROVED if approve else Submission.Status.CHANGES
     submission.feedback = feedback.strip()
     submission.reviewed_by = actor

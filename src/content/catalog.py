@@ -124,6 +124,17 @@ def catalog_context(params, section=None):
             creator = item.source_name if model == ExternalReference else item.creator.get_full_name().strip() or 'Creador de BTC.EDU'
             cards.append({'item': item, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})
     cards.sort(key=lambda card: (card['item'].title.casefold(), card['category'], card['item'].pk))
+    from commerce.models import Offer
+    course_ids = [card['item'].current_version_id for card in cards if card['summary'] and card['item'].current_version_id]
+    resource_ids = [card['item'].revision_id for card in cards if card['category'] in ('videos', 'materiales') and card['item'].revision_id]
+    prices = {}
+    offers = Offer.objects.filter(status='active', creator__is_active=True, creator__creator_profile__status='approved').filter(Q(course_version_id__in=course_ids) | Q(resource_id__in=resource_ids)).values('amount_sats', 'course_version_id', 'resource_id')
+    for offer in offers:
+        key = ('course', offer['course_version_id']) if offer['course_version_id'] else ('resource', offer['resource_id'])
+        prices[key] = min(prices.get(key, offer['amount_sats']), offer['amount_sats'])
+    for card in cards:
+        key = ('course', card['item'].current_version_id) if card['summary'] else ('resource', getattr(card['item'], 'revision_id', None))
+        card['price'] = prices.get(key)
     link_params = params.copy()
     link_params.pop('pagina', None)
     link_params.pop('curso', None)

@@ -72,7 +72,8 @@ def creators(request):
 def workspace(request):
     if request.user.account_type != "student":
         return redirect_to_login(request.get_full_path(), reverse("login"))
-    return render(request, "core/workspace.html", {"active": "workspace"})
+    from learning.views import library
+    return library(request)
 
 
 def health(request):

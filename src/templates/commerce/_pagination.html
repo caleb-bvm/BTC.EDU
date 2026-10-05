@@ -1,0 +1,1 @@
+{% if page.has_other_pages %}<nav class="catalog-pagination" aria-label="Páginas">{% if page.has_previous %}<a href="?pagina={{ page.previous_page_number }}">← Anterior</a>{% endif %}<span>{{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a href="?pagina={{ page.next_page_number }}">Siguiente →</a>{% endif %}</nav>{% endif %}

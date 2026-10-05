@@ -23,7 +23,7 @@ class StudentLoginView(LoginView):
 
     def get_redirect_url(self):
         destination = super().get_redirect_url()
-        return destination if destination.startswith(("/mi-espacio/", "/cuenta/perfil/", "/cursos/", "/tutoriales/", "/recursos/", "/lecciones/")) else ""
+        return destination if destination.startswith(("/mi-espacio/", "/cuenta/perfil/", "/cursos/", "/tutoriales/", "/recursos/", "/lecciones/", "/ofertas/", "/facturas/", "/aprendizaje/")) else ""
 
 
 class CreatorLoginView(LoginView):

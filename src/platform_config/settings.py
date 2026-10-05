@@ -3,10 +3,11 @@ import os
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
-from dotenv import load_dotenv
+from dotenv import dotenv_values, load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
+load_dotenv(BASE_DIR / ".local/commerce.env")
 DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 if not SECRET_KEY:
@@ -15,7 +16,7 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split("
 INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
-    "accounts", "core", "content", "media", "creators",
+    "accounts", "core", "content", "media", "creators", "commerce", "learning",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
@@ -39,7 +40,7 @@ AUTHENTICATION_BACKENDS = ["accounts.backends.AccountBackend"]
 # SQLite es el motor elegido para esta etapa local.
 DATABASES = {"default": {
     "ENGINE": "django.db.backends.sqlite3",
-    "NAME": BASE_DIR / ".local/platform.sqlite3",
+    "NAME": os.getenv("DJANGO_DB_PATH", str(BASE_DIR / ".local/platform.sqlite3")),
     "OPTIONS": {"timeout": 20},
 }}
 AUTH_PASSWORD_VALIDATORS = [
@@ -69,3 +70,10 @@ CSRF_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = not DEBUG
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
+# Only local, fictitious payments are supported by this integration.
+COMMERCE_SIMULATION = os.getenv("COMMERCE_SIMULATION", "false").lower() == "true"
+LNBITS_URL = os.getenv("LNBITS_URL", "http://127.0.0.1:5000")
+_commerce_private = dotenv_values(BASE_DIR / ".local/commerce.env")
+LNBITS_INVOICE_KEY = os.getenv("LNBITS_INVOICE_KEY") or _commerce_private.get("LNBITS_INVOICE_KEY", "")
+LNBITS_PAYER_KEY = os.getenv("LNBITS_PAYER_KEY") or _commerce_private.get("LNBITS_PAYER_KEY", "")
+LNBITS_ADMIN_TOKEN = os.getenv("LNBITS_ADMIN_TOKEN") or _commerce_private.get("LNBITS_ADMIN_TOKEN", "")

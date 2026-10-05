@@ -145,6 +145,9 @@ def resource_detail(request, kind, pk):
         resource.title, resource.description, resource.access_type = revision.title, revision.description, revision.access_type
     file_url = reverse("resource-file", args=[kind, pk, revision.number, "archivo"]) if revision and decision.allowed else ""
     subtitles_url = reverse("resource-file", args=[kind, pk, revision.number, "subtitulos"]) if revision and revision.subtitles_id and decision.allowed else ""
+    from commerce.catalog import available
+    from commerce.models import Offer
+    offers = [offer for offer in Offer.objects.filter(resource=revision, status="active").select_related("creator", "resource") if available(offer)] if revision else []
     return render(
         request,
         "content/resource.html",
@@ -153,6 +156,7 @@ def resource_detail(request, kind, pk):
             "resource": resource,
             "kind": "Video" if kind == "videos" else "Material",
             "allowed": decision.allowed, "file_url": file_url, "subtitle_url": subtitles_url,
+            "offers": offers,
             "asset": revision.asset if revision else None,
             "transcript": revision.body if revision and decision.allowed else "",
             "media": {"standalone": True, "title": resource.title, "kind": "video" if kind == "videos" else "material", "allowed": decision.allowed, "file_url": file_url if revision and revision.asset.file.storage.exists(revision.asset.file.name) else "", "subtitle_url": subtitles_url, "body": revision.body if revision and decision.allowed else "", "size": revision.asset.size if revision else 0, "mime": revision.asset.mime_type if revision else ""},

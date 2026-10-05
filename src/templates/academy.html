@@ -16,7 +16,7 @@
       <a href="{% url 'resources' %}" {% if active == 'resources' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">▤</span><span>Recursos<small>Amplía tu perspectiva</small></span><span class="nav-index mono" aria-hidden="true">03</span></a>
     </nav>
     <p class="nav-caption mono">02 / TU ESPACIO</p>
-    <nav class="academy-navigation" aria-label="Tu espacio"><a href="{% url 'workspace' %}" {% if active == 'workspace' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">↗</span><span>Mi aprendizaje</span></a><a href="{% url 'student-profile' %}">Perfil de estudiante</a><a href="{% url 'creators' %}" {% if active == 'creators' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">↗</span><span>Para creadores</span></a></nav>
+    <nav class="academy-navigation" aria-label="Tu espacio"><a href="{% url 'workspace' %}" {% if active == 'workspace' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">↗</span><span>Mi aprendizaje</span></a><a href="{% url 'purchases' %}" {% if active == 'purchases' %}aria-current="page"{% endif %}>Compras y facturas</a><a href="{% url 'student-profile' %}">Perfil de estudiante</a><a href="{% url 'creators' %}" {% if active == 'creators' %}aria-current="page"{% endif %}><span class="nav-glyph" aria-hidden="true">↗</span><span>Para creadores</span></a></nav>
     <div class="sidebar-footer"><span class="sidebar-mark" aria-hidden="true">＋ ─── ＋</span><p class="mono">CONOCIMIENTO<br>EN LIBERTAD.</p><span class="sidebar-status">Una academia en construcción</span></div>
   </aside>
   <button class="nav-backdrop" type="button" aria-label="Cerrar menú" hidden></button>
