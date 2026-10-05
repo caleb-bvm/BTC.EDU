@@ -1,0 +1,4 @@
+{% csrf_token %}
+{% if form.errors %}<div class="studio-notice studio-error" role="alert">Revisa los campos indicados. Tus cambios siguen en este formulario.{{ form.non_field_errors }}</div>{% endif %}
+{% for field in form %}<div class="studio-field">{{ field.label_tag }}{{ field }}{% if field.help_text %}<small id="{{ field.auto_id }}_helptext">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endfor %}
+<div class="studio-actions"><button class="btn btn-dark" type="submit">{{ save_label|default:'Guardar borrador' }}</button><span class="studio-save" role="status">Sin cambios pendientes</span></div>

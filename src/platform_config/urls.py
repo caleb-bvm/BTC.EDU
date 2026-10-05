@@ -1,7 +1,12 @@
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import include, path
 
+from accounts.views import (
+    StudentLoginView,
+    StudentLogoutView,
+    register,
+    student_profile,
+)
 from content.version_views import (
     attachment_file,
     course_version_detail,
@@ -16,6 +21,7 @@ from content.views import (
     resource_file,
 )
 from core import views
+from creators.views import public_profile
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -26,9 +32,14 @@ urlpatterns = [
     path("recursos/", views.academy_catalog, {"section": "recursos"}, name="resources"),
     path("referencias/<int:pk>/", reference_detail, name="reference-detail"),
     path("para-creadores/", views.creators, name="creators"),
+    path("crear/", include("creators.urls")),
+    path("creadores/<int:pk>/", public_profile, name="creator-public-profile"),
     path("mi-espacio/", views.workspace, name="workspace"),
-    path("cuenta/entrar/", auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
-    path("cuenta/salir/", auth_views.LogoutView.as_view(), name="logout"),
+    path("cuenta/entrar/", StudentLoginView.as_view(), name="login"),
+    path("cuenta/registro/", register, name="student-signup"),
+    path("cuenta/perfil/", student_profile, name="student-profile"),
+    path("cuenta/", include("accounts.urls")),
+    path("cuenta/salir/", StudentLogoutView.as_view(), name="logout"),
     path("health/", views.health, name="health"),
     path("lecciones/<int:pk>/contenido/", lesson_content, name="lesson-content"),
     path("cursos/<int:pk>/", course_detail, name="course-detail"),

@@ -9,7 +9,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'La configuración tiene errores.' }
     & $pythonPath manage.py makemigrations --check --dry-run
     if ($LASTEXITCODE -ne 0) { throw 'Faltan migraciones.' }
-    & $pythonPath manage.py test core content media --verbosity 2
+    & $pythonPath manage.py test accounts core content media creators --verbosity 2
     if ($LASTEXITCODE -ne 0) { throw 'Fallaron las pruebas.' }
     & ./.venv/Scripts/ruff.exe check .
     if ($LASTEXITCODE -ne 0) { throw 'Hay errores de revisión estática.' }

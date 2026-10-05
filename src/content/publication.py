@@ -25,9 +25,10 @@ def next_revision(key):
 
 
 @transaction.atomic
-def publish_resource(resource, actor):
-    original = resource
-    if not actor.is_authenticated or not actor.is_active or not actor.is_staff or not actor.has_perm(f"content.change_{resource._meta.model_name}"):
+def prepare_resource(resource, actor):
+    if not actor.is_authenticated or not actor.is_active or not (
+        actor.pk == resource.creator_id or (actor.is_staff and actor.has_perm(f"content.change_{resource._meta.model_name}"))
+    ):
         raise PermissionDenied
     model = type(resource)
     if model not in (Video, Material):
@@ -35,26 +36,41 @@ def publish_resource(resource, actor):
     # Reserve the SQLite writer before reading the mutable composition.
     model.objects.filter(pk=resource.pk).update(updated_at=F("updated_at"))
     resource = model.objects.select_related("pending_asset", "pending_subtitles").get(pk=resource.pk)
+    if actor.pk != resource.creator_id and not (actor.is_staff and actor.has_perm(f"content.change_{resource._meta.model_name}")):
+        raise PermissionDenied
     revision = ResourceVersion.objects.create(
         resource_key=resource.resource_key, number=next_revision(resource.resource_key),
         creator=resource.creator, kind="video" if model == Video else "material",
         title=resource.title, description=resource.description, access_type=resource.access_type,
         body=resource.transcript, asset=resource.pending_asset, subtitles=resource.pending_subtitles,
     )
-    model.objects.filter(pk=resource.pk).update(revision=revision, status=PublicationStatus.PUBLISHED)
+    return revision
+
+
+@transaction.atomic
+def publish_resource(resource, actor):
+    original = resource
+    if not actor.is_authenticated or not actor.is_active or not actor.is_staff or not actor.has_perm(f"content.change_{resource._meta.model_name}"):
+        raise PermissionDenied
+    revision = prepare_resource(resource, actor)
+    type(resource).objects.filter(pk=resource.pk).update(revision=revision, status=PublicationStatus.PUBLISHED)
     original.revision = revision
     original.status = PublicationStatus.PUBLISHED
     return revision
 
 
 @transaction.atomic
-def publish_course(course, actor):
-    original = course
-    authorize_publisher(actor)
+def prepare_course(course, actor):
+    if not actor.is_authenticated or not actor.is_active or not (
+        actor.pk == course.creator_id or (actor.is_staff and actor.has_perm("content.change_course"))
+    ):
+        raise PermissionDenied
     # No remote operations under the write transaction. Constraint numbers are
     # still unique; SQLite lock failures propagate, never report false success.
     Course.objects.filter(pk=course.pk).update(updated_at=F("updated_at"))
     course = Course.objects.select_related("creator", "topic").get(pk=course.pk)
+    if actor.pk != course.creator_id and not (actor.is_staff and actor.has_perm("content.change_course")):
+        raise PermissionDenied
     chapters = list(course.chapters.filter(status=PublicationStatus.PUBLISHED).prefetch_related("lessons__attachments__resource"))
     visible = [(chapter, list(chapter.lessons.filter(status=PublicationStatus.PUBLISHED).prefetch_related("attachments__resource"))) for chapter in chapters]
     if not visible or any(not lessons for _, lessons in visible):
@@ -62,11 +78,13 @@ def publish_course(course, actor):
     if any(not lesson.body.strip() for _, lessons in visible for lesson in lessons):
         raise ValidationError("Cada lección publicada necesita texto, aunque incluya video o materiales.")
     number = (course.versions.aggregate(value=Max("number"))["value"] or 0) + 1
+    profile = getattr(course.creator, "creator_profile", None)
+    creator_name = profile.display_name if profile and profile.status == "approved" else course.creator.get_full_name().strip() or "Creador de BTC.EDU"
     version = CourseVersion.objects.create(
         course=course, number=number, title=course.title, description=course.description,
         objective=course.objective, requirements=course.requirements, kind=course.kind,
         topic=course.topic, level=course.level, estimated_minutes=course.estimated_minutes,
-        creator_name=course.creator.get_full_name().strip() or "Creador de BTC.EDU",
+        creator_name=creator_name,
     )
     for chapter, lessons in visible:
         frozen_chapter = VersionChapter.objects.create(version=version, title=chapter.title, description=chapter.description, position=chapter.position)
@@ -82,8 +100,16 @@ def publish_course(course, actor):
     # Only the publication service seals a composition; public managers reject
     # mutations, and children reject additions once sealed.
     CourseVersion._base_manager.filter(pk=version.pk).update(sealed=True)
-    Course.objects.filter(pk=course.pk).update(current_version=version, status=PublicationStatus.PUBLISHED)
     version.sealed = True
+    return version
+
+
+@transaction.atomic
+def publish_course(course, actor):
+    original = course
+    authorize_publisher(actor)
+    version = prepare_course(course, actor)
+    Course.objects.filter(pk=course.pk).update(current_version=version, status=PublicationStatus.PUBLISHED)
     original.current_version = version
     original.status = PublicationStatus.PUBLISHED
     return version

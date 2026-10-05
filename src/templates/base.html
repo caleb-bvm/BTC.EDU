@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/site.css' %}?v=learning-20261002">
   <link rel="stylesheet" href="{% static 'css/academy.css' %}?v=academy-20261002">
+  {% block extra_head %}{% endblock %}
   <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
   <script src="{% static 'js/academy.js' %}" defer></script>
 </head>
@@ -20,7 +21,7 @@
   <nav aria-label="Navegación principal">
     <a href="{% url 'explore' %}" {% if active == 'explore' %}aria-current="page"{% endif %}>Explorar</a>
     <a href="{% url 'creators' %}" {% if active == 'creators' %}aria-current="page"{% endif %}>Para creadores</a>
-    {% if user.is_authenticated %}<a class="btn btn-dark" href="{% url 'workspace' %}">Mi espacio</a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}">Entrar</a>{% endif %}
+    {% if user.is_authenticated and user.account_type == 'student' %}<a class="btn btn-dark" href="{% url 'workspace' %}">Mi aprendizaje</a>{% elif user.is_authenticated and user.account_type == 'creator' %}<a class="btn btn-dark" href="{% if user.creator_profile.status == 'approved' %}{% url 'creator-dashboard' %}{% else %}{% url 'creator-application' %}{% endif %}">Mi estudio</a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}">Entrar</a>{% endif %}
   </nav>
 </div></header>{% endblock %}
 {% if academy_preview %}<div class="preview-banner" role="note">VISTA PREVIA / Contenido temporal de demostración. Tu catálogo real permanece intacto.</div>{% endif %}

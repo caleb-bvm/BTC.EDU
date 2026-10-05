@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% load static %}
+{% block body_class %}academy creator-auth{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/creators.css' %}">{% endblock %}
+{% block header %}<header class="academy-header"><div class="academy-brand"><a class="brand" href="{% url 'creators' %}" aria-label="BTC.EDU, creadores"><span class="brand-wordmark" aria-hidden="true">BTC.EDU</span></a><span class="system-label mono">PARA CREADORES<span>UN ESPACIO PARA ENSEÑAR</span></span></div><a href="{% url 'courses' %}">Explorar academia ↗</a></header>{% endblock %}
+{% block content %}<div class="creator-auth-page">{% block auth_content %}{% endblock %}</div>{% endblock %}
+{% block footer %}<footer class="site-footer shell"><span>BTC.EDU / CREADORES</span><a href="{% url 'login' %}">Acceso de estudiantes ↗</a></footer>{% endblock %}

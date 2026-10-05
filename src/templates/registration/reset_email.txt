@@ -1,0 +1,6 @@
+Recibimos una solicitud para cambiar la contraseña de tu cuenta de {{ space_label }} en BTC.EDU.
+
+Abre este enlace para elegir una nueva contraseña:
+{{ protocol }}://{{ domain }}{% url reset_confirm_name uidb64=uid token=token %}
+
+Este cambio solo afecta la cuenta de {{ space_label }}. Si no lo solicitaste, puedes ignorar este correo.

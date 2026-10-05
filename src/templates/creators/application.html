@@ -1,0 +1,5 @@
+{% extends 'creators/base.html' %}
+{% block studio_content %}<p class="eyebrow">Estudio de creador / incorporación</p><h1>Comparte lo que sabes.</h1><p class="page-intro">Presenta tu experiencia y prepara tu perfil público. Revisaremos tu solicitud antes de habilitar las herramientas de creación.</p>
+{% if profile %}<div class="studio-panel"><strong>{{ profile.get_status_display }}</strong>{% if profile.feedback %}<p>{{ profile.feedback|linebreaksbr }}</p>{% endif %}{% if profile.status == 'approved' %}<a class="btn btn-dark" href="{% url 'creator-dashboard' %}">Abrir mi estudio →</a> <a href="{% url 'creator-public-profile' profile.user_id %}">Ver perfil público ↗</a>{% endif %}</div>{% endif %}
+{% if form %}<form class="studio-form" method="post" data-dirty-form>{% include 'creators/_form.html' with save_label='Guardar perfil y solicitud' %}</form>{% endif %}
+{% endblock %}
