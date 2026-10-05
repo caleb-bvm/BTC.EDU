@@ -16,7 +16,7 @@ Certificados: un curso indica si ofrece certificado y cuáles son sus lecciones 
 
 ## Creador y publicación
 
-Una cuenta solicita ser creador y el administrador aprueba el rol. El creador gestiona únicamente sus cursos y materiales: perfil, objetivos, requisitos, temario, videos, textos, archivos, subtítulos, muestras, precios, evaluaciones, certificados y comunidad.
+Una persona registra una cuenta de creador independiente de su cuenta de estudiante y solicita aprobación al administrador. El creador gestiona únicamente sus cursos y materiales: perfil, objetivos, requisitos, temario, videos, textos, archivos, subtítulos, muestras, precios, evaluaciones, certificados y comunidad. Esta separación fue confirmada el 3 de octubre; reutilizar correo no comparte contraseña, perfil ni actividad entre cuentas.
 
 Estados de publicación: Draft, InReview, Published, ChangesRequested y Archived. El creador puede guardar borradores y verlos como alumno sin hacerlos públicos. Envía a revisión cuando contiene los campos, muestras y archivos necesarios. El administrador aprueba o devuelve observaciones. Modificar un curso publicado prepara otra versión; no cambia silenciosamente lo incluido en compras o los requisitos de certificados ya emitidos.
 

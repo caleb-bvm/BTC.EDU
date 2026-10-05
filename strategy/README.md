@@ -16,6 +16,7 @@ La [arquitectura de producto y experiencia](10-arquitectura-y-experiencia-btc-ed
 - [Aprendizaje, creadores, comunidad y membresías](08-aprendizaje-creadores-y-membresias.md)
 - [Identidad visual](09-identidad-visual.md)
 - [Arquitectura y experiencia de BTC.EDU](10-arquitectura-y-experiencia-btc-edu.md)
+- [Enfoque integral para creadores](11-enfoque-creadores.md)
 
 ## Qué exige el assignment y qué decidimos
 
