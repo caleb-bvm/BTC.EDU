@@ -54,7 +54,7 @@ def reserve_invoice(actor, offer_id):
         return pending
     inventory = [{"resource_id": item.resource_id, "title": item.resource.title, "kind": item.resource.kind, "paid": item.resource.access_type == "paid"} for item in offer.items.select_related("resource").order_by("resource_id")]
     invoice = Invoice.objects.create(buyer=actor, offer=offer, logical_key=offer.logical_key, title=offer.title, amount_sats=offer.amount_sats, inventory=inventory, expires_at=now + timedelta(minutes=15))
-    event(invoice, "reserved", "Factura de prueba reservada por 15 minutos.")
+    event(invoice, "reserved", "Factura reservada por 15 minutos.")
     return invoice
 
 
@@ -83,7 +83,7 @@ def ensure_emitted(invoice, gateway=None):
         elif invoice.issue_state in ("requested", "unknown"):
             result = gateway.recover(invoice)
             if result is None:
-                raise ProviderUnavailable("La emisión sigue por conciliar. No generaremos una segunda factura a ciegas.")
+                raise ProviderUnavailable("Estamos comprobando la factura. Actualiza su estado para continuar.")
         else:
             return invoice
         Invoice.objects.filter(pk=invoice.pk, payment_hash__isnull=True).update(payment_hash=result.payment_hash, payment_request=result.payment_request, issue_state="ready", incident="")
@@ -110,7 +110,7 @@ def settle(invoice_id, provider_status, observed_at=None):
             event(invoice, "expired", "La factura venció sin conceder acceso nuevo.")
         elif invoice.status == "pending" and provider_status.failed:
             Invoice.objects.filter(pk=invoice.pk).update(status="failed", incident="provider_failed")
-            event(invoice, "failed", "El proveedor indicó un pago de prueba fallido.")
+            event(invoice, "failed", "No se pudo completar el pago.")
         invoice.refresh_from_db()
         return invoice
     if PaymentEvidence.objects.filter(invoice=invoice).exists():
@@ -132,7 +132,7 @@ def settle(invoice_id, provider_status, observed_at=None):
             right, _ = Entitlement.objects.get_or_create(buyer=invoice.buyer, resource_id=item["resource_id"])
             EntitlementSource.objects.create(entitlement=right, purchase=purchase)
         Invoice.objects.filter(pk=invoice.pk).update(status="paid", incident="")
-        event(invoice, "paid", "Tu compra de prueba está confirmada. El contenido adquirido permanece en tu biblioteca.")
+        event(invoice, "paid", "Tu compra está confirmada. El contenido adquirido permanece en tu biblioteca.")
         if invoice.offer.course_version_id:
             from learning.models import Enrollment
             Enrollment.objects.get_or_create(student=invoice.buyer, version=invoice.offer.course_version)
@@ -171,7 +171,7 @@ def simulate_payment(actor, invoice, gateway=None):
     if invoice.buyer_id != actor.pk:
         raise PermissionDenied
     if invoice.status != "pending" or invoice.expires_at <= timezone.now():
-        raise ValidationError("La factura ya terminó o venció. No se puede simular un nuevo pago.")
+        raise ValidationError("Esta factura ya terminó o venció. Revisa su estado antes de continuar.")
     own_gateway = gateway is None
     gateway = gateway or LNbitsGateway()
     try:

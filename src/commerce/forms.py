@@ -6,8 +6,8 @@ from .catalog import target_choices
 class OfferForm(forms.Form):
     target = forms.ChoiceField(label="Qué incluye", choices=())
     title = forms.CharField(label="Nombre de la oferta", max_length=200)
-    amount_sats = forms.IntegerField(label="Precio en sats de prueba", min_value=1, max_value=100000,
-        help_text="Importe simulado. Para cambiarlo después, crea otra oferta y retira la anterior.")
+    amount_sats = forms.IntegerField(label="Precio en sats", min_value=1, max_value=100000,
+        help_text="Para cambiar el precio después, prepara una nueva oferta. Las facturas pendientes conservarán el importe original.")
 
     def __init__(self, *args, actor, **kwargs):
         super().__init__(*args, **kwargs)

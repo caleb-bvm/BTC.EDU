@@ -28,9 +28,9 @@ class LNbitsGateway:
     def __init__(self, transport=None):
         parsed = urlsplit(settings.LNBITS_URL)
         if not settings.COMMERCE_SIMULATION or parsed.hostname != "127.0.0.1" or parsed.scheme != "http" or parsed.username or parsed.password or parsed.path not in ("", "/") or parsed.query or parsed.fragment:
-            raise ProviderUnavailable("La simulación requiere LNbits local.")
+            raise ProviderUnavailable("El servicio de pagos no está disponible en este entorno.")
         if not settings.LNBITS_INVOICE_KEY or not settings.LNBITS_PAYER_KEY or not settings.LNBITS_ADMIN_TOKEN:
-            raise ProviderUnavailable("Falta preparar el proveedor de prueba.")
+            raise ProviderUnavailable("El servicio de pagos no está disponible. Inténtalo más tarde.")
         self.client = httpx.Client(base_url=settings.LNBITS_URL, timeout=8, trust_env=False, follow_redirects=False, transport=transport)
 
     def request(self, method, path, key=None, **kwargs):
@@ -43,7 +43,7 @@ class LNbitsGateway:
                 raise ValueError
             return data
         except (httpx.HTTPError, ValueError):
-            raise ProviderUnavailable("No pudimos confirmar la respuesta del proveedor. Conservamos la factura para conciliarla.") from None
+            raise ProviderUnavailable("No pudimos confirmar el estado del pago. Consulta esta misma factura antes de volver a pagar.") from None
 
     def ensure_fake_wallet(self):
         try:
@@ -51,9 +51,9 @@ class LNbitsGateway:
             response.raise_for_status()
             data = response.json()
             if data.get("lnbits_backend_wallet_class") != "FakeWallet":
-                raise ProviderUnavailable("Solo se permiten fondos ficticios de FakeWallet.")
+                raise ProviderUnavailable("El servicio de pagos no está disponible en este entorno.")
         except (httpx.HTTPError, ValueError, AttributeError):
-            raise ProviderUnavailable("No pudimos verificar la fuente de fondos ficticios.") from None
+            raise ProviderUnavailable("No pudimos verificar el servicio de pagos. Inténtalo más tarde.") from None
 
     def parse_invoice(self, data):
         payment_hash = data.get("payment_hash", "")

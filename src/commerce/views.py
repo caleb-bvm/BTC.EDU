@@ -141,12 +141,12 @@ def invoice_detail(request, pk):
 def invoice_action(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk, buyer=request.user)
     try:
-        if request.POST.get("action") == "simulate":
+        if request.POST.get("action") in ("pay", "simulate"):
             invoice = simulate_payment(request.user, invoice)
         else:
             invoice = reconcile(invoice)
         if invoice.status == "paid":
-            messages.success(request, "Pago de prueba confirmado. Tu compra está disponible.")
+            messages.success(request, "Compra confirmada. Tu contenido ya está disponible.")
     except (ProviderUnavailable, ValidationError) as exc:
         messages.warning(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else str(exc))
     return redirect("invoice-detail", pk=pk)

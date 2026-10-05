@@ -195,7 +195,7 @@ class CommerceJourneyTests(TestCase):
         client = Client(enforce_csrf_checks=True)
         client.force_login(self.student)
         self.assertEqual(client.post(reverse("checkout", args=[self.bundle.pk])).status_code, 403)
-        self.assertEqual(client.post(reverse("invoice-action", args=[invoice.pk]), {"action": "simulate"}).status_code, 403)
+        self.assertEqual(client.post(reverse("invoice-action", args=[invoice.pk]), {"action": "pay"}).status_code, 403)
         self.assertEqual(client.get(reverse("checkout", args=[self.bundle.pk])).status_code, 405)
 
     def test_simulation_uses_provider_and_repeated_click_does_not_repay(self):
@@ -224,7 +224,7 @@ class CommerceJourneyTests(TestCase):
         self.assertEqual(self.gateway.simulated, 0)
         with patch("commerce.services.LNbitsGateway", return_value=self.gateway):
             response = self.client.get(reverse("invoice-detail", args=[invoice.pk]))
-        self.assertNotContains(response, "Simular pago")
+        self.assertNotContains(response, 'name="action" value="pay"')
         self.assertContains(response, "Ya adquiriste parte")
 
     def test_overlapping_paid_invoices_keep_evidence_without_duplicate_rights(self):
@@ -330,10 +330,10 @@ class CommerceJourneyTests(TestCase):
             self.client.post(reverse("checkout", args=[self.bundle.pk]))
             invoice = Invoice.objects.get()
             response = self.client.get(reverse("invoice-detail", args=[invoice.pk]))
-        self.assertContains(response, "Simular pago")
+        self.assertContains(response, 'name="action" value="pay"')
         self.assertNotContains(response, invoice.payment_request)
         self.assertNotContains(response, invoice.payment_hash)
-        self.assertContains(self.client.get(reverse("courses")), "Desde 70 sats de prueba")
+        self.assertContains(self.client.get(reverse("courses")), "Desde 70 sats")
         self.client.force_login(self.creator)
         self.assertContains(self.client.get(reverse("creator-offers")), "Ofertas y precios")
         self.assertEqual(self.client.get(reverse("purchases")).status_code, 302)

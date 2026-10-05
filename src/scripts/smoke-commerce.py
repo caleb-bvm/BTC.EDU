@@ -66,7 +66,7 @@ def run():
                 browser_contract.get(reverse("offer-detail", args=[data.individual.pk]))
                 from django.conf import settings
                 csrf = browser_contract.cookies[settings.CSRF_COOKIE_NAME].value
-                response = browser_contract.post(reverse("invoice-action", args=[unknown.pk]), {"action": "simulate", "csrfmiddlewaretoken": csrf})
+                response = browser_contract.post(reverse("invoice-action", args=[unknown.pk]), {"action": "pay", "csrfmiddlewaretoken": csrf})
                 assert response.status_code == 302
                 unknown.refresh_from_db()
                 assert unknown.status == "paid" and Purchase.objects.count() == 2 and PaymentEvidence.objects.count() == 2

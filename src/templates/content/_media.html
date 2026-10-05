@@ -12,5 +12,5 @@
       {% if media.body %}<details class="media-transcript"><summary>Leer transcripción</summary><div class="reading-copy">{{ media.body|linebreaks }}</div></details>{% endif %}
       {% else %}<p>{{ media.mime }} · {{ media.size|filesizeformat }}</p><a class="btn btn-dark" href="{{ media.file_url }}">Descargar material ↓</a>{% endif %}
     {% else %}<div class="status-strip"><p>El archivo no está disponible. Vuelve a intentar más tarde o avisa al creador.</p></div>{% endif %}
-  {% else %}<div class="locked-panel"><span class="access-badge">Contenido de pago</span><p>Este recurso requiere una compra. Las compras todavía no están disponibles.</p></div>{% endif %}
+  {% else %}<div class="locked-panel"><span class="access-badge">Contenido de pago</span><p>Este recurso requiere una compra. Consulta las opciones de acceso disponibles.</p></div>{% endif %}
 </section>

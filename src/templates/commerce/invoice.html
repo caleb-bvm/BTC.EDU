@@ -1,3 +1,55 @@
 {% extends 'academy.html' %}
-{% block title %}Factura de prueba · BTC.EDU{% endblock %}
-{% block academy_content %}<section class="learning-page"><a class="text-link" href="{% url 'purchases' %}">← Mis compras</a><p class="eyebrow">FACTURA DE PRUEBA / {{ invoice.get_status_display }}</p><h1>{{ invoice.title }}</h1>{% for message in messages %}<div class="studio-notice" role="status">{{ message }}</div>{% endfor %}<div class="commerce-grid"><section><h2>Contenido de esta factura</h2><ul class="offer-inventory">{% for item in invoice.inventory %}<li>{{ item.title }} <span class="access-badge">{% if item.paid %}De pago{% else %}Gratis{% endif %}</span></li>{% endfor %}</ul><p class="small-note">Referencia: {{ invoice.pk }}</p></section><aside class="commerce-panel" aria-label="Estado de pago"><p class="offer-price">{{ invoice.amount_sats }} <small>sats de prueba</small></p><p role="status"><strong>{{ invoice.get_status_display }}</strong></p><p>Vigencia hasta {{ invoice.expires_at|date:'d/m/Y H:i' }} (Guatemala).</p>{% if invoice.status == 'paid' %}<p>Pago confirmado desde el servidor. El acceso permanente ya está disponible.</p><a class="btn btn-dark" href="{{ destination }}">Abrir contenido →</a><a class="text-link" href="{% url 'workspace' %}">Ver Mi aprendizaje →</a>{% elif invoice.incident and invoice.incident != 'emission_unknown' %}<p>La factura requiere revisión administrativa. Conservamos la evidencia del proveedor; no se concedió acceso nuevo.</p>{% elif invoice.status == 'pending' %}<p>Simulación con fondos ficticios. No envíes dinero ni bitcoin real.</p>{% if purchase_blocked %}<p>Ya adquiriste parte del contenido de esta factura. Abre tu biblioteca o revisa únicamente los componentes que faltan; no se simulará otro pago de este paquete.</p><a href="{% url 'workspace' %}">Abrir Mi aprendizaje →</a>{% elif can_pay %}<form method="post" action="{% url 'invoice-action' invoice.pk %}">{% csrf_token %}<button class="btn btn-dark" name="action" value="simulate">Simular pago →</button></form>{% else %}<p>La emisión sigue pendiente de confirmación. Reintenta comprobar esta misma factura.</p>{% endif %}<form method="post" action="{% url 'invoice-action' invoice.pk %}">{% csrf_token %}<button class="btn btn-outline-dark" name="action" value="check">Comprobar pago</button></form>{% else %}<p>Esta factura terminó sin una compra. No concede acceso nuevo.</p><a href="{% url 'offer-detail' invoice.offer_id %}">Revisar oferta →</a>{% endif %}</aside></div></section>{% endblock %}
+{% block title %}{% if invoice.status == 'paid' %}Compra confirmada{% else %}Pago{% endif %} · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="learning-page">
+  <a class="text-link" href="{% url 'purchases' %}">← Mis compras</a>
+  <p class="eyebrow">TU COMPRA / {% if invoice.status == 'paid' %}CONFIRMADA{% elif invoice.status == 'pending' %}PENDIENTE DE PAGO{% else %}{{ invoice.get_status_display }}{% endif %}</p>
+  <h1>{% if invoice.status == 'paid' %}Tu compra está confirmada.{% elif invoice.status == 'pending' %}Finaliza tu compra.{% else %}Consulta el estado de tu compra.{% endif %}</h1>
+  {% for message in messages %}<div class="studio-notice" role="status">{{ message }}</div>{% endfor %}
+  <div class="commerce-grid">
+    <section>
+      <h2>{{ invoice.title }}</h2>
+      <h3>Contenido incluido</h3>
+      <ul class="offer-inventory">{% for item in invoice.inventory %}<li>{{ item.title }} <span class="access-badge">{% if item.paid %}De pago{% else %}Gratis{% endif %}</span></li>{% endfor %}</ul>
+      <p class="small-note">Referencia de compra: {{ invoice.pk }}</p>
+    </section>
+    <aside class="commerce-panel" aria-label="Estado de pago">
+      <h2>{% if invoice.status == 'paid' %}Pago confirmado{% else %}Total a pagar{% endif %}</h2>
+      <p class="offer-price">{{ invoice.amount_sats }} <small>sats · Pago único</small></p>
+      <p role="status"><strong>{% if invoice.status == 'pending' %}Pendiente de pago{% else %}{{ invoice.get_status_display }}{% endif %}</strong></p>
+      {% if invoice.status == 'paid' %}
+        <p>Confirmada el {{ invoice.purchase.created_at|date:'d/m/Y H:i' }} (Guatemala).</p>
+        <p>El contenido ya está en tu biblioteca. Tu acceso a lo adquirido es permanente.</p>
+        <a class="btn btn-dark" href="{{ destination }}">Empezar a aprender →</a>
+        <a class="text-link" href="{% url 'workspace' %}">Ir a mi biblioteca →</a>
+      {% elif invoice.incident and invoice.incident != 'emission_unknown' %}
+        <p>El estado de este pago requiere revisión. Conservamos su referencia; el acceso todavía no se ha activado. Consulta esta factura para conocer su estado.</p>
+      {% elif invoice.status == 'pending' %}
+        <p>Puedes pagar hasta el {{ invoice.expires_at|date:'d/m/Y H:i' }} (Guatemala).</p>
+        {% if purchase_blocked %}
+          <p>Ya adquiriste parte del contenido de esta factura. Abre tu biblioteca o compra únicamente lo que falta.</p>
+          <a href="{% url 'workspace' %}">Ir a mi biblioteca →</a>
+        {% elif can_pay %}
+          <p>Al confirmar el pago, se habilitará el contenido incluido.</p>
+          <form method="post" action="{% url 'invoice-action' invoice.pk %}" data-payment-form data-pending-label="Procesando tu pago…">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="pay">
+            <button class="btn btn-dark" type="submit">Pagar {{ invoice.amount_sats }} sats →</button>
+          </form>
+        {% else %}
+          <p>Estamos preparando tu factura. Actualiza su estado para continuar.</p>
+        {% endif %}
+        <form method="post" action="{% url 'invoice-action' invoice.pk %}" data-payment-form data-pending-label="Comprobando el pago…">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="check">
+          <button class="btn btn-outline-dark" type="submit">Actualizar estado del pago</button>
+        </form>
+        <p class="small-note">Si el pago no responde, actualiza esta misma factura antes de volver a pagar.</p>
+      {% else %}
+        <p>Esta factura terminó sin completar la compra. Revisa la oferta para continuar.</p>
+        <a href="{% url 'offer-detail' invoice.offer_id %}">Revisar oferta →</a>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}

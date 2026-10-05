@@ -40,7 +40,7 @@ class Offer(models.Model):
             models.UniqueConstraint(fields=("logical_key",), condition=models.Q(status="active"), name="one_active_offer_per_target")]
 
     def __str__(self):
-        return f"{self.title} · {self.amount_sats} sats de prueba"
+        return f"{self.title} · {self.amount_sats} sats"
 
     def save(self, *args, **kwargs):
         if not self._state.adding:
