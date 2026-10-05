@@ -216,6 +216,17 @@ class CommerceJourneyTests(TestCase):
             reserve_invoice(self.student, self.individual.pk)
         self.assertEqual(ownership(self.student, self.individual), "owned")
 
+    def test_reserved_package_cannot_be_simulated_after_partial_purchase(self):
+        invoice = self.invoice()
+        self.pay(self.individual)
+        with self.assertRaises(ValidationError):
+            simulate_payment(self.student, invoice, self.gateway)
+        self.assertEqual(self.gateway.simulated, 0)
+        with patch("commerce.services.LNbitsGateway", return_value=self.gateway):
+            response = self.client.get(reverse("invoice-detail", args=[invoice.pk]))
+        self.assertNotContains(response, "Simular pago")
+        self.assertContains(response, "Ya adquiriste parte")
+
     def test_overlapping_paid_invoices_keep_evidence_without_duplicate_rights(self):
         package, individual = self.invoice(), self.invoice(self.individual)
         settle(individual.pk, ProviderStatus(True, individual.amount_sats * 1000, individual.payment_hash))

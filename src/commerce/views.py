@@ -132,7 +132,8 @@ def invoice_detail(request, pk):
             invoice = reconcile(invoice)
         except ProviderUnavailable as exc:
             messages.warning(request, str(exc))
-    return render(request, "commerce/invoice.html", {"invoice": invoice, "destination": offer_destination(invoice.offer), "can_pay": invoice.status == "pending" and invoice.issue_state == "ready", "active": "purchases"})
+    blocked = invoice.status == "pending" and ownership(request.user, invoice.offer) != "none"
+    return render(request, "commerce/invoice.html", {"invoice": invoice, "destination": offer_destination(invoice.offer), "can_pay": invoice.status == "pending" and invoice.issue_state == "ready" and not blocked, "purchase_blocked": blocked, "active": "purchases"})
 
 
 @student_required

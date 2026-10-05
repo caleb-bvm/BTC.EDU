@@ -61,11 +61,19 @@ def run():
                 unknown = ensure_emitted(unknown, gateway)
                 assert unknown.issue_state == "ready"
                 assert gateway.recover(unknown).payment_hash == unknown.payment_hash
-                unknown = simulate_payment(data.other, unknown, gateway)
+                browser_contract = Client(enforce_csrf_checks=True)
+                browser_contract.force_login(data.other)
+                browser_contract.get(reverse("offer-detail", args=[data.individual.pk]))
+                from django.conf import settings
+                csrf = browser_contract.cookies[settings.CSRF_COOKIE_NAME].value
+                response = browser_contract.post(reverse("invoice-action", args=[unknown.pk]), {"action": "simulate", "csrfmiddlewaretoken": csrf})
+                assert response.status_code == 302
+                unknown.refresh_from_db()
                 assert unknown.status == "paid" and Purchase.objects.count() == 2 and PaymentEvidence.objects.count() == 2
                 assert Invoice.objects.count() == 2
+                assert browser_contract.get(reverse("invoice-detail", args=[unknown.pk])).status_code == 200
                 print("OK: LNbits FakeWallet real; factura pendiente -> pagada; derechos, biblioteca e idempotencia comprobados.")
-                print("OK: respuesta perdida después de emisión recuperada por external_id, sin segunda factura.")
+                print("OK: respuesta perdida recuperada por external_id; pago mediante vista autenticada y CSRF, sin segunda factura.")
                 print("Base y archivos de plataforma temporales; la base principal permanece intacta.")
             finally:
                 if gateway:

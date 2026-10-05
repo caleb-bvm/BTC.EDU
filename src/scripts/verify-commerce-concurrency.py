@@ -25,6 +25,8 @@ def run():
         from commerce.gateway import ProviderStatus
         from commerce.models import Entitlement, Invoice, PaymentEvidence, Purchase
         from commerce.services import reserve_invoice, settle
+        from learning.models import Enrollment, LessonProgress
+        from learning.services import StaleProgress, enroll, save_progress
 
         with override_settings(MEDIA_ROOT=Path(temporary) / "media"):
             call_command("migrate", verbosity=0)
@@ -55,7 +57,18 @@ def run():
                 parallel(lambda number: settle(winning.pk, ProviderStatus(True, winning.amount_sats * 1000, winning.payment_hash)))
                 assert Purchase.objects.count() == 1
                 assert Entitlement.objects.count() in (1, 4)
-                print("OK: dos conexiones SQLite en archivo: reserva simultánea única, pagos solapados y confirmaciones repetidas.")
+                enrollment = enroll(data.student, data.version)
+                def progress(number):
+                    try:
+                        save_progress(get_user_model().objects.get(pk=data.student.pk), enrollment.pk, data.records[0].pk, 0, "complete" if number == 0 else "position")
+                        return "saved"
+                    except StaleProgress:
+                        return "stale"
+                outcomes = parallel(progress)
+                assert sorted(outcomes) == ["saved", "stale"]
+                assert Enrollment.objects.get(pk=enrollment.pk).revision == 1
+                assert LessonProgress.objects.filter(enrollment=enrollment).count() <= 1
+                print("OK: dos conexiones SQLite en archivo: reserva única, pagos solapados, confirmaciones repetidas y avance concurrente sin sobrescritura.")
             finally:
                 connections.close_all()
 

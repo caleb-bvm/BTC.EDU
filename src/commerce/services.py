@@ -180,6 +180,9 @@ def simulate_payment(actor, invoice, gateway=None):
         invoice = settle(invoice.pk, gateway.status(invoice))
         if invoice.status != "pending":
             return invoice
+        paid_ids = {item["resource_id"] for item in invoice.inventory if item["paid"]}
+        if Entitlement.objects.filter(buyer=actor, resource_id__in=paid_ids).exists():
+            raise ValidationError("Ya adquiriste contenido de esta factura. Abre tu biblioteca o compra solo los componentes que faltan.")
         gateway.simulate(invoice)
         return reconcile(invoice, gateway)
     finally:
