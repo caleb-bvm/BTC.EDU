@@ -24,7 +24,7 @@ El assignment exige plataforma con contenidos gratis y de pago, facturas simulad
 
 El equipo eligió organizar el producto en cursos, capítulos, lecciones, videos y materiales con compras individuales y de cursos completos. El acceso comprado será permanente dentro del MVP, asociado a una cuenta con correo y contraseña. El creador aprobado prepara su contenido y el administrador revisa su publicación. Los contenidos parcialmente adquiridos se ofrecen por separado sin descuentos personalizados.
 
-LNbits con FakeWallet será el servicio de pagos de prueba. No hay fondos reales. La conexión básica ya se probó; el sitio tiene catálogo, curso y lectura protegida, pero todavía faltan compras y permisos persistentes. El simulador de fallos y vencimientos, la recuperación de pendientes y las reglas de compra requieren trabajo adicional.
+Al 4 de octubre de 2026, LNbits FakeWallet está integrado: ofertas y revisión, facturas, compra simulada, derechos permanentes sobre revisiones, biblioteca, inscripción y progreso funcionan en desarrollo. No hay fondos reales. Se verificaron vencimientos, pagos en conflicto, recuperación de respuesta perdida y actualizaciones simultáneas. Hay un comando de conciliación; su ejecución periódica supervisada queda pendiente. [Estado, 129 pruebas y evidencia](../src/docs/comercio-y-aprendizaje-2026-10-04.md).
 
 Todo el código y la documentación técnica están en [src](../src/README.md). Esta carpeta conserva investigación, requisitos, prototipo y decisiones de Business. Los documentos originales del assignment permanecen en docs sin modificaciones.
 
@@ -34,5 +34,5 @@ Prototipos de las nuevas pantallas, entrevistas, validación, recomendación, es
 
 ## Alcance ampliado
 
-Se incluyen progreso, evaluaciones, certificados, preguntas, comunidad, panel de creador y membresías con renovación simulada manual. Los detalles están en el documento 08 y el diseño técnico en src/docs/diseno-plataforma.md. Las funciones observadas en otras plataformas respaldan el diseño, pero todavía deben validarse con usuarios. No están implementadas por estar documentadas.
+Se incluyen progreso, evaluaciones, certificados, preguntas, comunidad, panel de creador y membresías con renovación simulada manual. Los detalles están en el documento 08 y el diseño técnico en src/docs/diseno-plataforma.md. Las funciones observadas en otras plataformas respaldan el diseño, pero todavía deben validarse con usuarios. El estudio de creadores y el progreso básico ya están implementados; evaluaciones, certificados, preguntas, comunidad y membresías siguen en la siguiente fase. La documentación de diseño no acredita funciones entregadas.
 

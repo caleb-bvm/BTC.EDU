@@ -1,8 +1,10 @@
 # Arquitectura técnica prevista de BTC.EDU
 
-**Entrega posterior del 2 de octubre:** [contenido, versiones y archivos privados](contenido-versiones-y-archivos-2026-10-02.md) implementa composición sellada, revisiones reutilizables y entrega autorizada. El resto del documento conserva el diseño completo; compras, derechos adquiridos, inscripciones y progreso siguen pendientes.
+**Estado vigente al 4 de octubre:** [comercio y aprendizaje](comercio-y-aprendizaje-2026-10-04.md) implementa ofertas, LNbits FakeWallet integrado, compras, derechos históricos, biblioteca, inscripción y progreso. Cuentas independientes y estudio/revisión también están implementados. El resto conserva el diseño por fases, incluido trabajo futuro como supervisión periódica, evaluaciones y comunidad.
 
-Actualizada el **2 de octubre de 2026**, Guatemala. Traduce la [definición de producto y experiencia](../../strategy/10-arquitectura-y-experiencia-btc-edu.md). Es un diseño para implementar por fases. Estado real: cuentas por correo, administración básica, cursos/capítulos/lecciones de texto, fichas Video/Material, catálogo, detalle y lectura protegida. LNbits funciona aparte. No existen aún compras, archivos entregables, progreso ni módulos ampliados.
+**Registro histórico del 2 de octubre:** [contenido, versiones y archivos privados](contenido-versiones-y-archivos-2026-10-02.md) implementa composición sellada, revisiones reutilizables y entrega autorizada. En esa entrega todavía estaban pendientes compras, derechos adquiridos, inscripciones y progreso; se completaron en el bloque del 4 de octubre.
+
+Diseño original del **2 de octubre de 2026**, Guatemala. Traduce la [definición de producto y experiencia](../../strategy/10-arquitectura-y-experiencia-btc-edu.md). Es un diseño para implementar por fases. Estado de esa fecha: cuentas por correo, administración básica, cursos/capítulos/lecciones de texto, fichas Video/Material, catálogo, detalle y lectura protegida. LNbits funciona aparte. No existen aún compras, archivos entregables, progreso ni módulos ampliados.
 
 ## Plataforma y fronteras
 
