@@ -1,6 +1,8 @@
 # Funciones de aprendizaje y creación
 
-Este documento amplía el alcance e invalida las exclusiones anteriores de progreso, evaluaciones, certificados, comunidad, membresías y publicación por creadores. Describe propuestas de implementación sustentadas en la investigación del documento 07; todavía no están construidas. No son requisitos adicionales del assignment.
+Este documento amplía el alcance e invalida exclusiones anteriores. Es diseño sustentado en 07, no requisitos adicionales del assignment. Cuentas, publicación, creadores y progreso básico están registrados como implementados al 4 de octubre; evaluaciones, certificados, preguntas, comunidad y membresías siguen pendientes. Ver [estado](../src/README.md).
+
+La [comparación comercial](13-monetizacion-precios-y-muestras.md) documenta posibilidades, no demanda. Las [sesiones propuestas](16-validacion-con-usuarios.md) deberán evaluar necesidades y comprensión. No cambia renovación manual de 30 días ni derechos históricos. Probar módulos pendientes en prototipos identificados.
 
 La [arquitectura y experiencia del 2 de octubre](10-arquitectura-y-experiencia-btc-edu.md) conserva este alcance completo y escalona las entregas: primero academia con cursos/tutoriales/recursos, compra y progreso básico; luego operación por creadores y módulos ampliados. Las estimaciones de este documento preceden esa definición; deben revisarse, no reutilizarse como compromiso para el alcance nuevo.
 

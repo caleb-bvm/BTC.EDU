@@ -50,7 +50,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 LANGUAGE_CODE = "es"
-TIME_ZONE = "America/Guatemala"
+TIME_ZONE = "America/El_Salvador"
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = "/static/"

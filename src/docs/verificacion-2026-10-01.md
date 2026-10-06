@@ -1,6 +1,6 @@
 # Verificación — 1 de octubre de 2026
 
-Fecha del usuario: Guatemala. Evidencia local de esta fase, sin publicaciones ni actividad inventada.
+Fecha del usuario: El Salvador. Evidencia local de esta fase, sin publicaciones ni actividad inventada.
 
 ## Comprobaciones ejecutadas
 

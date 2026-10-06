@@ -1,6 +1,6 @@
 # Experiencia de compra
 
-Actualización del **4 de octubre de 2026**, Guatemala, solicitada por el usuario: desarrollar una experiencia de producto con lenguaje y estados propios de una compra. Commit funcional: `d36b152`.
+Actualización del **4 de octubre de 2026**, El Salvador, solicitada por el usuario: desarrollar una experiencia de producto con lenguaje y estados propios de una compra. Commit funcional: `d36b152`.
 
 ## Recorrido entregado
 

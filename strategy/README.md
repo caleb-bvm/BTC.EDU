@@ -6,6 +6,10 @@ La [arquitectura de producto y experiencia](10-arquitectura-y-experiencia-btc-ed
 
 ## Documentos
 
+- [Documento de BTC.EDU](19-recomendacion-y-entrega-final.md): texto completo para copiar a Google Docs y actualizar con cada entrega.
+- [Monetización, precios y muestras](13-monetizacion-precios-y-muestras.md): comparación, fuentes, cálculos y límites.
+- [Validación con usuarios](16-validacion-con-usuarios.md): guiones, tareas, precios y registro; ejecución pendiente.
+- [Plan de documentación Business → Desarrollo (5 de octubre)](12-plan-documentacion-business-a-desarrollo.md): brechas, entregables, dependencias y condiciones de paso.
 - [Producto y negocio](01-producto-y-negocio.md)
 - [Catálogo de prueba](02-catalogo-de-prueba.md)
 - [Reglas y criterios de aceptación](03-especificacion-funcional.md)
@@ -30,7 +34,7 @@ Todo el código y la documentación técnica están en [src](../src/README.md). 
 
 ## Pendientes
 
-Prototipos de las nuevas pantallas, entrevistas, validación, recomendación, estimación de recursos y Google Doc con historial. Hay investigación con fuentes y una dirección visual aprobada; faltan pruebas de esa propuesta con usuarios. También revisar calendario ante el alcance actualizado y aclarar composición del equipo y fecha oficial de entrega.
+La comparación documental de modelos/tarifas/costos y los instrumentos de entrevistas/usabilidad/precios están preparados al 5 de octubre. Hay una recomendación provisional y un documento principal integrado. Siguen pendientes sesiones externas, precios validados, prototipos nuevos, presupuesto completo, recomendación final y enlace al Google Doc con historial. El usuario incorporará el texto manualmente. Revisar capacidad, equipo y fechas oficiales. No se añadieron funciones ni se modificaron precios por esta actualización.
 
 ## Alcance ampliado
 

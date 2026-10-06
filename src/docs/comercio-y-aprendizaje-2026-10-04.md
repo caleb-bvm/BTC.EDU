@@ -1,6 +1,6 @@
 # Comercio y continuidad de aprendizaje
 
-Estado verificado el **4 de octubre de 2026**, Guatemala. Este bloque cierra en desarrollo el recorrido creador → publicación revisada → oferta → compra simulada → biblioteca → aprendizaje. Conserva el alcance de plataforma completa. No constituye un despliegue público ni una entrega de todos los módulos previstos.
+Estado verificado el **4 de octubre de 2026**, El Salvador. Este bloque cierra en desarrollo el recorrido creador → publicación revisada → oferta → compra simulada → biblioteca → aprendizaje. Conserva el alcance de plataforma completa. No constituye un despliegue público ni una entrega de todos los módulos previstos.
 
 Commits funcionales: `1e470de` (ofertas, pagos y derechos) y `aa70fca` (progreso, continuación y comprobaciones adicionales). La documentación y las capturas se versionan en un commit separado.
 

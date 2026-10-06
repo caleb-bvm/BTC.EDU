@@ -1,6 +1,14 @@
 # Investigación de plataformas y necesidades
 
-Consulta realizada el 1 de octubre de 2026. Se revisaron páginas oficiales de producto y ayuda. Esta investigación documenta funciones existentes; no demuestra que nuestros usuarios las necesiten ni sustituye entrevistas. Las necesidades y decisiones propuestas se identifican como interpretación del equipo. No se compararon precios de planes ni se verificaron funciones mediante cuentas de prueba.
+La comparación funcional conserva la consulta del 1 de octubre de 2026. El 5 de octubre se amplió con [modelos, tarifas, muestras y costos](13-monetizacion-precios-y-muestras.md), y [guiones/pruebas](16-validacion-con-usuarios.md). La ausencia de comparación de precios correspondía a la consulta inicial. No se usaron cuentas externas ni se realizaron entrevistas. Las necesidades siguen siendo propuestas por validar.
+
+## Ampliación
+
+Las fuentes documentan coexistencia de compras y membresías, freemium y muestras por módulo. No permiten presentar la compra individual como una modalidad inexistente en el mercado. La recomendación provisional mantiene gratuito + compras individuales, validando utilidad y claridad.
+
+Los costos distinguen suscripción del creador, precio al alumno, comisión, procesamiento y video. Un cargo fijo pesa sobre compras pequeñas; el acceso permanente requiere estimar consumo posterior y archivos históricos. No se eligió proveedor ni se fijaron precios de mercado.
+
+Los instrumentos no producen resultados hasta ejecutarse. Fuentes comerciales y metodológicas con fecha en 13 y 16; síntesis integrada en el [documento principal](19-recomendacion-y-entrega-final.md).
 
 ## Plataformas de referencia
 

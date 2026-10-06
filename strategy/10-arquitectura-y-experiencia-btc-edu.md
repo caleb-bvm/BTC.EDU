@@ -1,10 +1,12 @@
 # BTC.EDU — arquitectura de producto y experiencia
 
-Definición de trabajo del **2 de octubre de 2026**, Guatemala. Orienta las siguientes implementaciones; no acredita que las funciones descritas ya existan. El usuario confirmó cursos, tutoriales y recursos en la primera versión, y eventos después. Las reglas anteriores de compras simuladas, acceso permanente, revisión por administrador y membresías manuales se conservan. Las decisiones nuevas de organización y comportamiento son la base propuesta para desarrollar y validar, no resultados de entrevistas.
+Definición de trabajo del **2 de octubre de 2026**, El Salvador. Orienta las siguientes implementaciones; no acredita que las funciones descritas ya existan. El usuario confirmó cursos, tutoriales y recursos en la primera versión, y eventos después. Las reglas anteriores de compras simuladas, acceso permanente, revisión por administrador y membresías manuales se conservan. Las decisiones nuevas de organización y comportamiento son la base propuesta para desarrollar y validar, no resultados de entrevistas.
 
 **Estado de implementación al 4 de octubre:** cuentas independientes, aprobación/perfil, estudio/editor/archivos, revisión, versiones, ofertas y compras simuladas, biblioteca, inscripción y progreso básico ya funcionan. 129 pruebas pasan. [Entrega y límites verificados](../src/docs/comercio-y-aprendizaje-2026-10-04.md). Evaluaciones, certificados, preguntas, comunidad, membresías y métricas completas permanecen pendientes; las secciones siguientes definen el horizonte del producto.
 
 ## 1. Producto y referencia
+
+La investigación incorporada el 5 de octubre en [13](13-monetizacion-precios-y-muestras.md) conserva gratuito + compras individuales como hipótesis principal. Los [instrumentos](16-validacion-con-usuarios.md) probarán inclusiones, unidades, pago, recuperación y compra parcial. No alteran reglas de arquitectura ni acreditan demanda. Presupuestar consumo gratuito, acceso permanente y archivos históricos antes de operación pública.
 
 BTC.EDU será una academia donde una persona puede encontrar contenido adecuado, entender qué aprenderá y qué incluye el acceso, estudiar a su ritmo y retomar su avance. Los micropagos permiten adquirir capítulos, videos o materiales sin obligar a comprar un curso entero. Coexisten cursos gratuitos, muestras gratuitas, compras permanentes y, en una fase posterior, membresías temporales.
 

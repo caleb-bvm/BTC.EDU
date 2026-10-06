@@ -53,6 +53,8 @@ Una retirada excepcional de acceso por contenido problemático requiere interven
 
 ## Comercio y relación con alumnos
 
+La [comparación de costos](13-monetizacion-precios-y-muestras.md) no define comisiones, liquidaciones ni precios aceptados. Los [guiones](16-validacion-con-usuarios.md) explorarán unidades vendibles, derechos, mantenimiento, atención y actualización; las tareas observarán oferta/revisión/versiones. No se realizaron sesiones ni se compromete un tiempo de atención. Los hallazgos deberán alimentar operación y prioridades del estudio.
+
 El creador define contenido gratuito, muestras, ofertas individuales, paquetes y membresías conforme a las reglas comerciales vigentes. Antes de enviar a revisión ve lo incluido, lo excluido, precio en sats de prueba y duración del acceso. Cambiar precio afecta nuevas facturas; las pendientes conservan sus condiciones.
 
 Las compras individuales son permanentes para la composición adquirida. Las membresías conceden acceso temporal y se renuevan manualmente con facturas simuladas de 30 días. Vencimiento conserva compras, progreso y certificados. El panel distingue ventas confirmadas, pendientes e incidencias; no presenta volumen simulado como ingreso real ni saldo disponible para retirar. Fondos reales y liquidaciones requerirán una definición comercial y operativa propia.

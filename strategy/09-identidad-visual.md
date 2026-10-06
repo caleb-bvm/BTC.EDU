@@ -38,6 +38,8 @@ Referencias consultadas el 1 de octubre de 2026: https://intl.nothing.tech/ y ht
 
 ## Orden de trabajo
 
+La aprobación visual no acredita usabilidad. El [plan de pruebas](16-validacion-con-usuarios.md) observará precios/inclusiones, estados, navegación y recuperación. Los hallazgos pueden ajustar texto, jerarquía y controles dentro de la identidad acordada. No hay sesiones externas ni cambio de identidad derivados de esta investigación.
+
 1. Revisar esta dirección visual, tipografía y tratamiento del nombre.
 2. Preparar una lámina de estilo con colores, nombre, botones y tarjetas de ejemplo sin cursos reales.
 3. Revisar la portada y la estructura vacía del catálogo en escritorio y móvil.
