@@ -2,6 +2,8 @@
 
 ## Eventos
 
+Este marco no acredita cobertura completa de eventos o paneles. Verificar implementación y consultas antes de informar conversión/retención. La comparación documental y los instrumentos de investigación se actualizaron el 5 de octubre; resultados externos pendientes.
+
 | Evento | Disparador | Fuente |
 |---|---|---|
 | offer_viewed | Se abre un detalle de curso, capítulo, video o material | Interfaz |
@@ -34,7 +36,7 @@ En apertura, cada compra de curso o capítulo aporta tantos permisos como recurs
 
 ## Plan de investigación
 
-Business buscará de tres a cinco compradores educativos, de tres a cinco personas interesadas en videos o materiales individuales y, si es posible, al menos un creador por categoría. Es una muestra exploratoria propuesta, no un reclutamiento realizado ni una estimación estadística.
+La ronda propuesta es de seis a diez alumnos —compradores y usuarios de alternativas gratuitas— y tres a cinco creadores con material preparado/publicado. Sustituye la propuesta anterior; no hay reclutamiento realizado ni estimación estadística. Priorizar público pertinente de El Salvador y diversidad de dispositivo/pagos. Guiones y consentimiento en [16](16-validacion-con-usuarios.md).
 
 Preguntar por la última necesidad concreta, recursos utilizados, compras anteriores, motivos para pagar o desistir y alternativas gratuitas. Explorar precios después de conocer la necesidad. Evitar presentar aceptación del concepto como compra real.
 
@@ -46,9 +48,11 @@ Solicitar encontrar un recurso, explicar lo incluido, comprar con simulación, r
 
 Registrar tarea, resultado, dificultad, cita autorizada y cambio propuesto. Obtener consentimiento para notas o grabaciones. Separar pruebas manuales del equipo de sesiones con participantes externos.
 
+Clasificar sin ayuda / con ayuda / no completada / no intentada. Informar cantidades, versión y denominador por tarea, sin sumar versiones distintas. Separar observación, declaración, interpretación y decisión; reprobar cambios relevantes. La compra simulada no demuestra disposición a pagar. Explorar precios según [13](13-monetizacion-precios-y-muestras.md) sin declarar precio óptimo con una muestra pequeña.
+
 ## Entregables pendientes
 
-Ampliar la comparación preliminar de plataformas del documento 07 con investigación de precios y modelos de suscripción, publicidad, freemium y micropagos; resultados de entrevistas; prototipo visual; informe de usabilidad; revisión de precios; recomendación final con limitaciones. No se han completado todavía. Los datos del simulador no prueban ingresos reales ni voluntad de pago.
+La comparación de modelos/tarifas/costos y métodos de precios está incorporada en 13; guiones y tareas en 16. Pendientes: ejecutar sesiones, analizar resultados, completar prototipos, validar precios, auditar analítica y presupuesto, y cerrar recomendación final. Los datos del simulador no prueban ingresos reales ni voluntad de pago.
 
 ## Actividad de cursos y formatos
 

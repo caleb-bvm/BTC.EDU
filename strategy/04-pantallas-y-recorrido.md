@@ -34,6 +34,8 @@ Gestión de cursos, capítulos, lecciones, videos, materiales, muestras, precios
 
 ## Recorridos para demostrar
 
+El [plan de validación](16-validacion-con-usuarios.md) observará elección, inclusiones/extras, compra individual, vencimiento, recuperación y compra parcial, además del editor/revisión/versiones para creadores. Registrar ayudas, errores y versión; no revelar caminos en los enunciados. Probar solo módulos disponibles o prototipos identificados. Las sesiones externas siguen pendientes.
+
 1. Abrir un curso completamente gratuito.
 2. Abrir una lección gratis y comprar un capítulo del mismo curso.
 3. Comprar material adicional de un curso gratuito.
@@ -43,6 +45,8 @@ Gestión de cursos, capítulos, lecciones, videos, materiales, muestras, precios
 7. Comprobar que el servidor bloquea videos y archivos de pago sin compra.
 
 ## Pantallas de aprendizaje, creadores y membresías
+
+Probar las [variantes de muestra](13-monetizacion-precios-y-muestras.md) antes de fijar proporciones. La estética aprobada no demuestra comprensión. Una equivalencia USD es solo propuesta de investigación para comprensión de sats, no una función entregada ni un cambio de moneda.
 
 Continuar aprendiendo con posición guardada. Evaluación con instrucciones, nota requerida, intentos, envío y resultado. Certificados con requisitos pendientes, descarga y verificación. Preguntas por lección y comunidad con publicaciones, respuestas y reportes. Notificaciones internas y recuperación de contraseña.
 

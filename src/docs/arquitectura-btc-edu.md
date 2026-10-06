@@ -4,9 +4,11 @@
 
 **Registro histórico del 2 de octubre:** [contenido, versiones y archivos privados](contenido-versiones-y-archivos-2026-10-02.md) implementa composición sellada, revisiones reutilizables y entrega autorizada. En esa entrega todavía estaban pendientes compras, derechos adquiridos, inscripciones y progreso; se completaron en el bloque del 4 de octubre.
 
-Diseño original del **2 de octubre de 2026**, Guatemala. Traduce la [definición de producto y experiencia](../../strategy/10-arquitectura-y-experiencia-btc-edu.md). Es un diseño para implementar por fases. Estado de esa fecha: cuentas por correo, administración básica, cursos/capítulos/lecciones de texto, fichas Video/Material, catálogo, detalle y lectura protegida. LNbits funciona aparte. No existen aún compras, archivos entregables, progreso ni módulos ampliados.
+Diseño original del **2 de octubre de 2026**, El Salvador. Traduce la [definición de producto y experiencia](../../strategy/10-arquitectura-y-experiencia-btc-edu.md). Es un diseño para implementar por fases. Estado de esa fecha: cuentas por correo, administración básica, cursos/capítulos/lecciones de texto, fichas Video/Material, catálogo, detalle y lectura protegida. LNbits funciona aparte. No existen aún compras, archivos entregables, progreso ni módulos ampliados.
 
 ## Plataforma y fronteras
+
+La investigación del 5 de octubre en [13](../../strategy/13-monetizacion-precios-y-muestras.md) identifica costos de procesamiento/video como referencias externas; no elige infraestructura. Los [instrumentos](../../strategy/16-validacion-con-usuarios.md) no acreditan demanda o capacidad. Presupuestar muestras gratuitas, reproducciones posteriores y archivos históricos; verificar cobertura de analítica antes de informar KPIs. Estas tareas conservan contratos de acceso y la configuración técnica vigente. El [informe](../../strategy/19-recomendacion-y-entrega-final.md) debe acompañar cada entrega.
 
 Conservar Django 5.2 LTS, Python 3.12, plantillas, HTMX y Bootstrap con estilos propios. Una aplicación Django modular controla cuentas, publicación, comercio y aprendizaje. LNbits es un proveedor separado; no organiza contenido ni autoriza alumnos. HTML generado en servidor es la interfaz principal; JavaScript acotado atiende reproductor, cargas, guardado y componentes interactivos.
 

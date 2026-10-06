@@ -19,13 +19,15 @@ Cada oferta debe indicar exactamente qué entrega. Pertenecer a un curso no sign
 
 El público inicial son personas que aprenden tecnología o programación y quieren adquirir lo que necesitan sin una suscripción. Los creadores iniciales son ficticios y los creadores preparan contenido y el administrador revisa su publicación. La demanda, los precios y la preferencia entre comprar un curso o contenidos separados todavía deben validarse.
 
-Business investigará suscripción, publicidad, freemium y micropagos; definirá muestras, precios, recorrido, prototipo visual, métricas y recomendación final. La compra simulada no demuestra ingresos ni demanda real.
+La [comparación de modelos](13-monetizacion-precios-y-muestras.md) está documentada con precios externos, procesamiento y video. La hipótesis principal conserva contenido gratuito/muestras + compras individuales; evaluar membresías para uso frecuente. Los modelos pueden combinarse. No hay demanda ni precios validados.
+
+Los [guiones y tareas](16-validacion-con-usuarios.md) están preparados para una primera ronda propuesta de seis a diez alumnos y tres a cinco creadores. No hay reclutamiento ni sesiones realizadas. Investigar experiencias anteriores y observar comprensión de ofertas, pagos y recuperación de acceso.
 
 ## Operación
 
 Business selecciona contenidos y verifica derechos de uso. Dev construye y mantiene la plataforma, almacenamiento, base de datos y conexión con LNbits. Los creadores gestionan sus cursos, capítulos, videos, materiales y comunidad; el administrador revisa publicaciones y atiende reportes. Se incluyen progreso, evaluaciones, certificados y membresías según el documento 08.
 
-Una posible comisión futura requiere investigación. El MVP no calcula comisiones ni liquidaciones. Los costos de alojamiento y entrega de videos y archivos deben incluirse en la estimación de recursos.
+El MVP no calcula comisiones ni liquidaciones. Las referencias de 13 no son tarifas propias ni una elección de proveedor. Presupuestar consumo gratuito, reproducciones posteriores a compra permanente, versiones históricas, correo, respaldos, soporte y mantenimiento. La estimación operativa completa y las condiciones de liquidación siguen pendientes.
 
 ## Aprendizaje y relación con creadores
 
