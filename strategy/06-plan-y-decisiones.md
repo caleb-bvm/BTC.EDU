@@ -6,7 +6,7 @@ Plataforma con cursos, capítulos, videos y materiales gratis o de pago, cuentas
 
 ## Calendario propuesto
 
-El objetivo anterior de cerrar desarrollo el 15 de octubre se debe revisar con el equipo ante el alcance solicitado. Proponemos trabajar durante el sprint completo hasta la entrega planificada el 3 de noviembre. No se garantiza que todo esté terminado: el documento 08 estima 23–35 jornadas técnicas y la disponibilidad real aún debe comprobarse.
+El objetivo anterior de cerrar desarrollo el 15 de octubre se debe revisar con el equipo ante el alcance solicitado. Proponemos trabajar durante el sprint completo hasta la entrega planificada el 3 de noviembre. No se garantiza que todo esté terminado. Las 23–35 jornadas de 08 son una estimación histórica anterior y no representan el trabajo restante. Desde el 7 de octubre, el usuario confirma que trabaja solo en Business y Dev; las horas disponibles aún no están definidas.
 
 Construir según la [arquitectura vigente](10-arquitectura-y-experiencia-btc-edu.md): primero modelo/versiones, estructura visual y descubrimiento (cursos, selector, tutoriales y recursos); cerrar cuenta, archivos protegidos, compras, inscripción y progreso básico; después panel de creador/revisión, evaluaciones/certificados, preguntas, comunidad y membresías. Accesibilidad y pruebas acompañan cada entrega. Eventos educativos después. Investigación, contenido y validación de Business avanzan en paralelo. El registro diario siguiente determina el avance vigente; el calendario y la disponibilidad todavía requieren revisión.
 
@@ -20,6 +20,13 @@ LNbits 1.6.2 funciona localmente con uv y FakeWallet. Se verificó creación de 
 
 La investigación funcional se conserva en 07. Al 5 de octubre, [13](13-monetizacion-precios-y-muestras.md) incorpora modelos, tarifas y costos con fuentes; [16](16-validacion-con-usuarios.md), métodos y guiones. No hay entrevistas, resultados externos ni precios validados. La publicación por creadores, certificados, comunidad, progreso y membresías conservan su lugar en el alcance.
 
+## Organización actual
+
+El 7 de octubre el usuario confirmó que BTC.EDU continúa como proyecto individual. Caleb asume Business y Dev: investigación, decisiones, desarrollo, verificación y documentación. La disponibilidad semanal no está definida; no se asignan jornadas ni fechas de cierre de módulos sin estimación. Se prioriza cerrar brechas del núcleo oficial y preparar el recorrido de mentoría antes de comprometer ampliaciones. El requisito original de cuatro integrantes sigue pendiente de aclaración con CUBO+; no se presupone una excepción autorizada.
+
+## Trabajo del 7 de octubre
+
+Se revisaron rama, historial, plan, requisitos originales y registros técnicos. La documentación anterior está integrada en main mediante d0bb7e4; se continuó en business/teorica actualizada a esa base. Se creó la matriz inicial 14 con requisitos oficiales, AC-01…35 y UX-01…12, evidencias relacionadas y tareas. La matriz identifica cobertura parcial de progreso de video, recuperación tras reinicio, accesibilidad y analítica administrativa. No se reejecutaron las 129 pruebas ni se realizaron entrevistas. D01 sigue abierto por disponibilidad y aclaración del equipo; D04 por auditoría de pruebas y recorridos específicos. Próximo paso: T-02/T-03, comprobar cobertura por criterio y especificar eventos/panel; preparar demo del núcleo para el 13 de octubre. El informe y la exportación copiable incorporan esta organización. Google Docs permanece a cargo del usuario; no se editó directamente.
 ## Trabajo diario y requisitos oficiales
 
 **5 de octubre de 2026 — documentación de Business:** por autorización del usuario se incorporó la investigación presentada sobre monetización, tarifas, muestras, video y métodos de validación. Se actualizaron las referencias y pendientes, y se preparó el [documento principal](19-recomendacion-y-entrega-final.md) con títulos sencillos y sin campos de portada añadidos. El usuario copiará el contenido a Google Docs; no se editó allí ni se creó historial retroactivo. Trabajo realizado en `business/teorica`; cambios locales, sin publicación. Evidencias: documentos 13 y 16 con fuentes y cálculos; informe 19 y documentos relacionados. Las 129 pruebas siguen siendo el registro del 4 de octubre. No hay participantes ni validación externa. Próximo paso: responsables, reclutamiento/consentimiento, ejecución y análisis; completar presupuesto y trazabilidad. Esta entrada se actualiza si los cambios se versionan o publican posteriormente.

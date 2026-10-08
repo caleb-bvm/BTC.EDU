@@ -8,6 +8,7 @@ La [arquitectura de producto y experiencia](10-arquitectura-y-experiencia-btc-ed
 
 - [Documento de BTC.EDU](19-recomendacion-y-entrega-final.md): texto completo para copiar a Google Docs y actualizar con cada entrega.
 - [Monetización, precios y muestras](13-monetizacion-precios-y-muestras.md): comparación, fuentes, cálculos y límites.
+- [Trazabilidad y trabajo pendiente](14-trazabilidad-y-backlog.md): requisitos oficiales, criterios AC/UX y matriz inicial de evidencias y brechas.
 - [Validación con usuarios](16-validacion-con-usuarios.md): guiones, tareas, precios y registro; ejecución pendiente.
 - [Plan de documentación Business → Desarrollo (5 de octubre)](12-plan-documentacion-business-a-desarrollo.md): brechas, entregables, dependencias y condiciones de paso.
 - [Producto y negocio](01-producto-y-negocio.md)
