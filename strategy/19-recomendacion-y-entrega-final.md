@@ -186,10 +186,19 @@ Los creadores cuentan con aprobación, editor, vista previa y revisión. El acom
 
 El comercio dispone de compras simuladas y derechos históricos. Faltan conciliación periódica supervisada y analítica completa.
 
-El aprendizaje dispone de biblioteca, inscripción y progreso por versión. Evaluaciones y certificados están pendientes.
+El aprendizaje dispone de biblioteca, inscripción y progreso por versión. Desde la entrega de evaluaciones, una lección puede exigir aprobación antes de marcarse como completada. Los certificados siguen pendientes.
 
 Preguntas, avisos, comunidad y membresías tienen diseño definido, pero necesitan implementación y validación. Las membresías propuestas tendrán acceso temporal y renovación manual.
 
+### Evaluaciones
+
+El creador puede preparar preguntas de selección única y múltiple, configurar la nota mínima, el límite de intentos, la espera y cuándo se muestran las soluciones. Las preguntas y reglas se conservan en la composición enviada a revisión. Editar el borrador después no cambia esa copia ni los intentos de las versiones anteriores.
+
+El alumno necesita inscripción y acceso a la lección. Antes de empezar ve las reglas; puede guardar respuestas, retomar el intento y entregarlo cuando ha respondido todas las preguntas. Iniciar consume un intento. El servidor corrige con preguntas de igual peso y exige coincidencia exacta en selección múltiple, sin crédito parcial. La aprobación usa la puntuación exacta; el redondeo solo afecta la nota mostrada.
+
+Una evaluación obligatoria requiere aprobación para completar la lección. El creador puede autorizar otro intento con motivo cuando se agotan los disponibles. Esta autorización conserva resultados y espera, sin borrar notas anteriores. Una aprobación previa tampoco se pierde por una nota posterior menor.
+
+La entrega aprobó 148 pruebas técnicas y comprobaciones de concurrencia. Se verificaron guardado, recuperación, fallo, aprobación, edición y conservación de versiones en navegador, con el cliente de Django. Las pantallas comprobadas funcionaron en tamaños de escritorio y móvil; la conexión HTTP directa al servidor local no pudo verificarse en este entorno. La migración conservó las filas originales y mantuvo los ejemplos fuera de la base principal. Esta evidencia comprueba funcionamiento, sin demostrar aprendizaje ni sustituir sesiones con usuarios.
 ### Publicación y acceso
 
 El envío editorial conserva una composición revisable. Aprobar publica esa composición; las ediciones posteriores preparan otra versión.
@@ -204,17 +213,24 @@ La aplicación utiliza Django, plantillas HTML y HTMX; SQLite sostiene la etapa 
 
 Los registros informan 129 pruebas aprobadas, concurrencia SQLite e integración FakeWallet, además de recorridos de escritorio/móvil. Son evidencias fechadas de la entrega registrada, no pruebas reejecutadas por la actualización documental.
 
+### Organización del trabajo
+
+BTC.EDU continúa como proyecto individual. Caleb asume la investigación, las decisiones de producto, el desarrollo y la documentación. La planificación debe ajustarse a su disponibilidad, que todavía no está cuantificada. Priorizaremos cerrar el recorrido central y sus evidencias antes de comprometer fechas para los módulos adicionales.
+
+La matriz inicial de trazabilidad relaciona los requisitos del reto y los criterios de producto con registros técnicos y tareas pendientes. Esta revisión documental no acredita nuevas funciones ni una ejecución nueva de las pruebas. Sigue pendiente comprobar la cobertura de cada criterio, completar la analítica administrativa y verificar los recorridos de la versión que demostraremos.
+
+El original de evaluación exige cuatro integrantes. La continuidad individual requiere aclarar con CUBO+ cómo se aplicará esa condición; no contamos con una excepción confirmada.
 ### Actualizaciones
 
 Cada entrega revisará comportamiento, decisiones, pruebas, límites y próximos pasos. El estado actual se mantendrá separado de la bitácora para conservar evolución sin contradicciones.
 
-Esta revisión incorpora investigación y métodos. No añade funciones, cambia precios ni modifica condiciones comerciales de la aplicación.
+La investigación documental incorporó métodos y referencias comerciales. La entrega de evaluaciones amplía el aprendizaje y conserva las condiciones comerciales y los pagos simulados existentes.
 
 ## A dónde queremos llegar
 
 Queremos una experiencia en la que el alumno encuentre contenido pertinente, comprenda la compra y pueda continuar aprendiendo. El creador debe preparar, publicar y mantener sus materiales sin perjudicar el acceso existente.
 
-El alcance contempla evaluaciones, certificados de finalización, preguntas, comunidad, notificaciones y membresías renovadas manualmente. Se construirán y verificarán por entregas.
+Las evaluaciones ya permiten comprobar respuestas y conservar resultados por versión. El siguiente bloque será definir y construir certificados de finalización sobre requisitos históricos. Preguntas, comunidad, notificaciones y membresías renovadas manualmente se desarrollarán y verificarán por entregas.
 
 Necesitamos analítica que explique consulta, pago, uso y regreso sin confundir actividad con aprendizaje. También un presupuesto que considere consumo gratuito, acceso permanente, archivos históricos, correo, respaldos, supervisión y soporte.
 
@@ -224,13 +240,13 @@ La operación pública y una integración con fondos reales requerirán decision
 
 La evidencia técnica registrada muestra una oferta que genera una factura simulada y una confirmación válida que concede acceso específico. Documenta persistencia, protección y conservación de referencias históricas.
 
-La revisión permite publicar una composición aprobada mientras se preparan cambios posteriores.
+La revisión permite publicar una composición aprobada mientras se preparan cambios posteriores. Las evaluaciones verifican respuestas en el servidor y conservan reglas e intentos de cada versión; estos resultados técnicos no prueban dominio educativo.
 
 La investigación documenta alternativas de monetización y condiciones externas de costos. Todavía no demuestra preferencia por BTC.EDU, disposición real a pagar, frecuencia de compra o mejora educativa.
 
 ## Logros
 
-Definimos unidades de compra, muestras, permisos y responsabilidades de publicación. Conectamos creación, revisión, oferta, compra simulada y aprendizaje, conservando versiones históricas.
+Definimos unidades de compra, muestras, permisos y responsabilidades de publicación. Conectamos creación, revisión, oferta, compra simulada y aprendizaje, conservando versiones históricas. Incorporamos evaluaciones con resultados persistentes y control de intentos, sin alterar las compras existentes.
 
 Ampliamos la comparación de modelos y costos, y preparamos instrumentos para entrevistas, usabilidad y precios. Es un avance de investigación documental y preparación, no una validación externa terminada.
 

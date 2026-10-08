@@ -1,0 +1,16 @@
+{% extends 'academy.html' %}
+{% block title %}Intento {{ attempt.number }} · BTC.EDU{% endblock %}
+{% block academy_content %}<section class="learning-page">
+<a href="{% url 'quiz-detail' attempt.quiz_id %}">← Evaluación y reglas</a><p class="eyebrow">Intento {{ attempt.number }} / versión {{ attempt.enrollment.version.number }}</p><h1>{{ attempt.quiz.title }}</h1>
+{% for message in messages %}<p role="status">{{ message }}</p>{% endfor %}
+{% if attempt.submitted_at %}
+<section class="commerce-panel"><h2>{% if attempt.passed %}Evaluación aprobada{% else %}Evaluación no aprobada{% endif %}</h2><p>{{ attempt.correct_count }} de {{ attempt.quiz.questions|length }} preguntas correctas · Nota {{ attempt.score }} / 100.</p><p>Entregado el {{ attempt.submitted_at|date:'d/m/Y H:i' }}. La aprobación usa la puntuación exacta; la nota mostrada se redondea a dos decimales.</p>
+{% if not solutions_visible %}<p>Las soluciones se mostrarán en un intento aprobado.</p>{% endif %}
+{% for row in review %}<article class="quiz-question"><h3>{{ forloop.counter }}. {{ row.prompt }}</h3><p>Tu respuesta: {{ row.selected|join:'; ' }}</p>{% if solutions_visible %}<p>{% if row.correct %}Correcta{% else %}Incorrecta{% endif %}. Respuesta correcta: {{ row.solutions|join:'; ' }}</p>{% if row.explanation %}<p>{{ row.explanation|linebreaksbr }}</p>{% endif %}{% endif %}</article>{% endfor %}
+<a class="btn btn-outline-dark" href="{% url 'version-lesson' attempt.enrollment.version.course_id attempt.enrollment.version.number attempt.quiz.lesson_id %}">Volver a la lección</a></section>
+{% else %}<form method="post" class="commerce-panel quiz-form">{% csrf_token %}
+{{ form.non_field_errors }}{{ form.revision }}{{ form.revision.errors }}
+{% for field in form.visible_fields %}<fieldset class="quiz-question"><legend>{{ forloop.counter }}. {{ field.label }}</legend>{{ field }}{{ field.errors }}</fieldset>{% endfor %}
+<p>Guarda antes de salir. Al entregar, este intento se cierra y sus respuestas ya no se pueden modificar.</p>
+<div class="library-controls"><button class="btn btn-outline-dark" type="submit" name="action" value="save">Guardar respuestas</button><button class="btn btn-dark" type="submit" name="action" value="submit">Entregar intento</button></div>
+</form>{% endif %}</section>{% endblock %}

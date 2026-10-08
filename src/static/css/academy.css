@@ -177,3 +177,9 @@
 .lesson-video { display: block; width: 100%; max-height: 70vh; background: #141414; }
 .media-transcript { margin-top: 1rem; border: 1px solid var(--line, #dcdcd7); padding: 1rem; }
 .media-panel .media-error[hidden] { display: none; }
+
+.quiz-question { min-width: 0; border: 0; padding: 1.25rem 0; border-bottom: 1px solid var(--line, #ccc); }
+.quiz-question legend { font-size: 1.1rem; overflow-wrap: anywhere; }
+.quiz-question label { display: flex; align-items: baseline; gap: .6rem; padding: .4rem 0; overflow-wrap: anywhere; }
+.quiz-question input { flex-shrink: 0; }
+.quiz-form .errorlist { color: #a32418; }

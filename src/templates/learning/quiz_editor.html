@@ -1,0 +1,15 @@
+{% extends 'creators/base.html' %}{% load static %}
+{% block studio_content %}
+<a href="{% url 'creator-course' lesson.chapter.course_id %}">← Volver al curso</a>
+<p class="eyebrow">Evaluación / borrador</p><h1>{{ lesson.title }}</h1>
+<p class="page-intro">Cada pregunta vale lo mismo. En selección múltiple deben elegirse todas las respuestas correctas y ninguna incorrecta. La evaluación se publica junto al curso, después de la revisión.</p>
+<section class="studio-panel"><form method="post" class="studio-form" data-quiz-editor>
+{% csrf_token %}{{ form.non_field_errors }}
+{% for field in form %}<div class="studio-field">{% if field.is_hidden %}{{ field }}{% else %}{{ field.label_tag }}{{ field }}{{ field.errors }}{% endif %}</div>{% endfor %}
+<h2>Preguntas</h2><p>Puedes guardar una pregunta y añadir otra al volver. Para quitar una pregunta, marca «Eliminar» y guarda.</p>
+{{ questions.management_form }}{{ questions.non_form_errors }}
+<div data-question-list>{% for question in questions %}<fieldset class="studio-chapter"><legend>Pregunta {{ forloop.counter }}</legend>{{ question.non_field_errors }}{% for field in question %}<div class="studio-field">{{ field.label_tag }}{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endfor %}</fieldset>{% endfor %}</div>
+<template data-question-template><fieldset class="studio-chapter"><legend>Nueva pregunta</legend>{% for field in questions.empty_form %}<div class="studio-field">{{ field.label_tag }}{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}</div>{% endfor %}</fieldset></template>
+<div class="studio-actions"><button class="btn btn-outline-dark" type="button" data-add-question hidden>Añadir pregunta</button><button class="btn btn-dark" type="submit">Guardar evaluación</button></div><p role="status" data-question-status></p>
+</form></section><script src="{% static 'js/quizzes.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'academy.html' %}
+{% block title %}{{ quiz.title }} · BTC.EDU{% endblock %}
+{% block academy_content %}<section class="learning-page">
+<a href="{% url 'version-lesson' enrollment.version.course_id enrollment.version.number quiz.lesson_id %}">← Volver a la lección</a>
+<p class="eyebrow">Evaluación / versión {{ enrollment.version.number }}</p><h1>{{ quiz.title }}</h1>
+{% for message in messages %}<p role="status">{{ message }}</p>{% endfor %}
+<section class="commerce-panel"><h2>Antes de empezar</h2><p>{{ quiz.questions|length }} preguntas. Nota mínima: {{ quiz.pass_mark }} de 100. Cada pregunta tiene el mismo peso. La selección múltiple requiere elegir todas las opciones correctas y ninguna incorrecta.</p>
+<p>{{ allowance }} intentos autorizados; {{ remaining }} disponibles para iniciar. Espera entre entregas e inicio del siguiente intento: {{ quiz.wait_minutes }} minutos.</p>
+<p>Iniciar consume un intento. Puedes guardar las respuestas y retomarlo; no hay tiempo límite. Las respuestas que no guardes se perderán al salir.</p>
+<p>{% if quiz.feedback == 'submitted' %}Verás las soluciones y explicaciones al entregar.{% else %}Verás las soluciones y explicaciones solo si apruebas ese intento.{% endif %} {% if quiz.required %}Debes aprobar para poder marcar esta lección como completada.{% else %}Esta evaluación es opcional para completar la lección.{% endif %}</p>
+{% if passed_quiz %}<p role="status">Ya aprobaste esta evaluación. La aprobación se conserva aunque otro intento tenga una nota menor.</p>{% endif %}
+{% if active_attempt %}<a class="btn btn-dark" href="{% url 'quiz-attempt' active_attempt.pk %}">Continuar intento {{ active_attempt.number }}</a>
+{% elif remaining and not waiting %}<form method="post" action="{% url 'quiz-start' quiz.pk %}">{% csrf_token %}<button class="btn btn-dark" type="submit">Empezar un intento</button></form>
+{% elif waiting and remaining %}<p>Puedes iniciar otro intento a partir del {{ ready_at|date:'d/m/Y H:i' }} (El Salvador).</p>
+{% else %}<p>Agotaste los intentos autorizados. Solicita otro al creador si necesitas continuar.</p>{% endif %}</section>
+<section class="commerce-panel"><h2>Tus intentos</h2>{% for attempt in attempts %}<p><a href="{% url 'quiz-attempt' attempt.pk %}">Intento {{ attempt.number }}</a> · {% if attempt.submitted_at %}{{ attempt.score }} / 100 · {% if attempt.passed %}Aprobado{% else %}No aprobado{% endif %}{% else %}En curso{% endif %}</p>{% empty %}<p>Todavía no has iniciado un intento.</p>{% endfor %}</section>
+</section>{% endblock %}

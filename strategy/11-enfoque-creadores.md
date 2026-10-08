@@ -2,7 +2,9 @@
 
 Definición del 3 de octubre de 2026. El proyecto se aborda como una plataforma completa. Este documento amplía el recorrido de creación de los documentos 08 y 10; define producto y orden de construcción, no funciones ya implementadas ni una fecha de entrega comprometida.
 
-**Estado de implementación al 4 de octubre:** cuentas independientes, aprobación/perfil, estudio/editor/archivos, revisión, versiones, ofertas y compras simuladas, biblioteca, inscripción y progreso básico ya funcionan. 129 pruebas pasan. [Entrega y límites verificados](../src/docs/comercio-y-aprendizaje-2026-10-04.md). Evaluaciones, certificados, preguntas, comunidad, membresías y métricas completas permanecen pendientes; las secciones siguientes definen el horizonte del producto.
+**Registro de implementación al 4 de octubre:** cuentas independientes, aprobación/perfil, estudio/editor/archivos, revisión, versiones, ofertas y compras simuladas, biblioteca, inscripción y progreso básico ya funcionan. 129 pruebas pasan. [Entrega y límites verificados](../src/docs/comercio-y-aprendizaje-2026-10-04.md). Evaluaciones, certificados, preguntas, comunidad, membresías y métricas completas permanecen pendientes; las secciones siguientes definen el horizonte del producto.
+
+**Actualización del 7 de octubre:** el creador configura evaluaciones por lección, las envía como parte del curso y consulta resultados privados por versión. Puede autorizar un intento adicional con motivo, conservando notas y espera. Selección exacta, corrección, completado obligatorio y permisos comprobados; 148 pruebas aprobadas. [Entrega y límites](../src/docs/evaluaciones-2026-10-07.md). Certificados, preguntas, comunidad, membresías y métricas completas siguen pendientes.
 
 ## Propósito
 

@@ -95,6 +95,8 @@ def prepare_course(course, actor):
             if text is None or any(getattr(text, key) != value for key, value in values.items()):
                 text = ResourceVersion.objects.create(resource_key=lesson.resource_key, number=next_revision(lesson.resource_key), creator=course.creator, kind="text", **values)
             frozen_lesson = VersionLesson.objects.create(chapter=frozen_chapter, source_lesson_id=lesson.pk, position=lesson.position, content=text)
+            from learning.assessment_services import freeze_quiz
+            freeze_quiz(lesson, frozen_lesson)
             for attachment in lesson.attachments.all():
                 attachment.full_clean()
                 VersionAttachment.objects.create(lesson=frozen_lesson, resource=attachment.resource, position=attachment.position)

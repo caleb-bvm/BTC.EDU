@@ -12,7 +12,7 @@ from content.access import content_access
 from content.models import CourseVersion, VersionLesson
 from media.delivery import file_response
 
-from .models import Enrollment
+from .models import Enrollment, QuizAttempt, VersionQuiz
 from .services import StaleProgress, enroll, save_progress
 
 
@@ -60,11 +60,13 @@ def lesson_learning_context(user, version, record):
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return {}
     enrollment = Enrollment.objects.filter(student=user, version=version).first()
+    quiz = VersionQuiz.objects.filter(lesson=record).first()
     if not enrollment:
-        return {"version": version}
+        return {"version": version, "lesson_quiz": quiz}
     completed = enrollment.completed_lessons.count()
     total = VersionLesson.objects.filter(chapter__version=version).count()
-    return {"enrollment": enrollment, "record_id": record.pk, "completed": enrollment.completed_lessons.filter(lesson=record).exists(), "completed_count": completed, "lesson_total": total, "percentage": round(completed * 100 / total) if total else 0}
+    passed = bool(quiz and QuizAttempt.objects.filter(enrollment=enrollment, quiz=quiz, passed=True, submitted_at__isnull=False).exists())
+    return {"enrollment": enrollment, "lesson_quiz": quiz, "quiz_passed": passed, "quiz_blocks_completion": bool(quiz and quiz.required and not passed), "record_id": record.pk, "completed": enrollment.completed_lessons.filter(lesson=record).exists(), "completed_count": completed, "lesson_total": total, "percentage": round(completed * 100 / total) if total else 0}
 
 
 @student_required

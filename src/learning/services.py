@@ -57,6 +57,10 @@ def save_progress(actor, enrollment_id, lesson_id, expected_revision, action):
     if lesson is None or not content_access(actor, lesson).allowed:
         raise PermissionDenied("Solo puedes guardar una lección accesible de esta inscripción.")
     if action == "complete":
+        from .models import QuizAttempt, VersionQuiz
+        quiz = VersionQuiz.objects.filter(lesson=lesson, required=True).first()
+        if quiz and not QuizAttempt.objects.filter(enrollment=enrollment, quiz=quiz, passed=True, submitted_at__isnull=False).exists():
+            raise ValidationError("Aprueba la evaluación obligatoria antes de completar esta lección.")
         LessonProgress.objects.get_or_create(enrollment=enrollment, lesson=lesson)
     elif action == "incomplete":
         LessonProgress.objects.filter(enrollment=enrollment, lesson=lesson).delete()

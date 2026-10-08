@@ -64,25 +64,25 @@ Los micropagos permiten comprar una unidad concreta por un importe pequeño. Su 
 
 Esta comparación es nuestra interpretación. Los modelos pueden combinarse: freemium describe acceso gratuito/pagado y micropagos describe la unidad e importe de compra.
 
-Patreon admite compras únicas y membresías; Codecademy ofrece acceso gratuito y planes pagados. Son referencias de coexistencia, sin demostrar preferencia por nuestra oferta. Patreon: https://www.patreon.com/policy/legal, Codecademy: https://www.codecademy.com/pricing.
+Patreon admite compras únicas y membresías; Codecademy ofrece acceso gratuito y planes pagados. Son referencias de coexistencia, sin demostrar preferencia por nuestra oferta. Patreon (https://www.patreon.com/policy/legal), Codecademy (https://www.codecademy.com/pricing).
 
 La hipótesis principal sigue siendo contenido gratuito y muestras junto con compras individuales. La membresía se evaluará para un uso frecuente. No proponemos incorporar publicidad por esta comparación.
 
 Costos
 
-Separamos el precio al alumno del costo de la plataforma para el creador. Teachable publica Starter a USD 39 mensuales y Builder a USD 89 con facturación mensual; Thinkific publica Basic a USD 54 y Start a USD 109. Son referencias externas que deben revisarse antes de una contratación, no precios sugeridos para BTC.EDU. Teachable: https://www.teachable.com/pricing, Thinkific: https://www.thinkific.com/pricing/.
+Separamos el precio al alumno del costo de la plataforma para el creador. Teachable publica Starter a USD 39 mensuales y Builder a USD 89 con facturación mensual; Thinkific publica Basic a USD 54 y Start a USD 109. Son referencias externas que deben revisarse antes de una contratación, no precios sugeridos para BTC.EDU. Teachable (https://www.teachable.com/pricing), Thinkific (https://www.thinkific.com/pricing/).
 
-El componente fijo de procesamiento puede pesar sobre compras pequeñas. Con las tarifas publicadas del plan estándar de Patreon para tarjeta y liquidación en USD, calculamos cargos de USD 0.429 sobre USD 1 y USD 0.945 sobre USD 5, antes de impuestos y otros cargos. Es una ilustración externa, no nuestro costo. Tarifas de Patreon: https://support.patreon.com/hc/en-us/articles/11111747095181-Creator-fees-overview.
+El componente fijo de procesamiento puede pesar sobre compras pequeñas. Con las tarifas publicadas del plan estándar de Patreon para tarjeta y liquidación en USD, calculamos cargos de USD 0.429 sobre USD 1 y USD 0.945 sobre USD 5, antes de impuestos y otros cargos. Es una ilustración externa, no nuestro costo. Tarifas de Patreon (https://support.patreon.com/hc/en-us/articles/11111747095181-Creator-fees-overview).
 
-Lightning contempla comisiones y liquidez. La integración elegida necesitará su propia evaluación; la simulación actual no acredita costos de fondos reales. Lightning Labs: https://docs.lightning.engineering/the-lightning-network/pathfinding/channel-fees.
+Lightning contempla comisiones y liquidez. La integración elegida necesitará su propia evaluación; la simulación actual no acredita costos de fondos reales. Lightning Labs (https://docs.lightning.engineering/the-lightning-network/pathfinding/channel-fees).
 
-También debemos estimar consumo después de comprar. Cloudflare Stream ofrece una referencia de almacenamiento por minutos y entrega por reproducciones. Con sus tarifas, mil minutos almacenados y seis mil entregados al mes sumarían USD 11 por esos conceptos. No incluye toda la operación ni implica elegir ese servicio. Cloudflare Stream: https://developers.cloudflare.com/stream/pricing/.
+También debemos estimar consumo después de comprar. Cloudflare Stream ofrece una referencia de almacenamiento por minutos y entrega por reproducciones. Con sus tarifas, mil minutos almacenados y seis mil entregados al mes sumarían USD 11 por esos conceptos. No incluye toda la operación ni implica elegir ese servicio. Cloudflare Stream (https://developers.cloudflare.com/stream/pricing/).
 
 El acceso permanente exige presupuestar entrega futura y conservación de versiones. La estimación completa de sostenibilidad sigue pendiente.
 
 Muestras
 
-Coursera documenta muestra gratuita del primer módulo de la mayoría de sus cursos. Esta referencia muestra una forma de explorar antes de pagar; no fija la muestra adecuada para nuestro contenido. Coursera: https://blog.coursera.org/introducing-courseras-new-course-preview-experience/.
+Coursera documenta muestra gratuita del primer módulo de la mayoría de sus cursos. Esta referencia muestra una forma de explorar antes de pagar; no fija la muestra adecuada para nuestro contenido. Coursera (https://blog.coursera.org/introducing-courseras-new-course-preview-experience/).
 
 Proponemos una lección útil con temario para cursos, una actividad representativa para capítulos, un fragmento para videos y un extracto con formato e inclusiones para materiales.
 
@@ -94,7 +94,7 @@ Las entrevistas partirán de experiencias recientes antes de presentar BTC.EDU. 
 
 Proponemos una ronda inicial de seis a diez alumnos y tres a cinco creadores. Incluiremos compradores y usuarios de alternativas gratuitas, con distinta experiencia en dispositivos y pagos, priorizando el público relacionado con El Salvador. Es una muestra exploratoria, no una representación del mercado.
 
-Los guiones se pilotarán y la participación contará con consentimiento. Evitaremos preguntas que sugieran respuestas y contrastaremos declaraciones con tareas observadas, porque recuerdos e intenciones pueden diferir del comportamiento. GOV.UK: entrevistas: https://www.gov.uk/service-manual/user-research/using-in-depth-interviews, NN/G: https://www.nngroup.com/articles/why-user-interviews-fail/.
+Los guiones se pilotarán y la participación contará con consentimiento. Evitaremos preguntas que sugieran respuestas y contrastaremos declaraciones con tareas observadas, porque recuerdos e intenciones pueden diferir del comportamiento. GOV.UK: entrevistas (https://www.gov.uk/service-manual/user-research/using-in-depth-interviews), NN/G (https://www.nngroup.com/articles/why-user-interviews-fail/).
 
 No se han realizado estas sesiones ni existen resultados externos registrados.
 
@@ -104,7 +104,7 @@ Las pruebas observarán encontrar un recurso, explicar la oferta, comprar indivi
 
 Con creadores observaremos preparar una lección, organizar un curso, configurar una oferta, resolver revisión y actualizar contenido. Cada sesión utilizará tareas pertinentes a módulos disponibles o a un prototipo claramente identificado.
 
-Registraremos finalización sin ayuda, con ayuda o no completada, además de tiempo, dudas y errores. No revelaremos el camino al plantear tareas. Usaremos cuentas temporales y pagos simulados. GOV.UK: usabilidad: https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing.
+Registraremos finalización sin ayuda, con ayuda o no completada, además de tiempo, dudas y errores. No revelaremos el camino al plantear tareas. Usaremos cuentas temporales y pagos simulados. GOV.UK: usabilidad (https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing).
 
 Las sesiones con usuarios y los pilotos internos tendrán registros separados. Una compra simulada permite observar comprensión, sin demostrar voluntad de gastar dinero real.
 
@@ -112,13 +112,13 @@ Precios
 
 Los precios actuales son ficticios. La evaluación comenzará con experiencias de gasto y una oferta definida, manteniendo el mismo contenido al comparar.
 
-Van Westendorp ayuda a explorar rangos percibidos y Gabor-Granger aceptación de precios definidos. Sus respuestas siguen siendo declaraciones. Con pocas entrevistas no calcularemos un precio óptimo ni una demanda representativa. Qualtrics: https://www.qualtrics.com/en-au/articles/strategy-research/pricing-survey-questions/.
+Van Westendorp ayuda a explorar rangos percibidos y Gabor-Granger aceptación de precios definidos. Sus respuestas siguen siendo declaraciones. Con pocas entrevistas no calcularemos un precio óptimo ni una demanda representativa. Qualtrics (https://www.qualtrics.com/en-au/articles/strategy-research/pricing-survey-questions/).
 
-Un metaanálisis documenta diferencias entre disposición declarada y real. Contrastaremos percepción con costos y alternativas, permitiendo elegir ninguna compra. También observaremos comprensión de sats y, si hace falta, probaremos una equivalencia informativa. Schmidt y Bijmolt: https://link.springer.com/article/10.1007/s11747-019-00666-6.
+Un metaanálisis documenta diferencias entre disposición declarada y real. Contrastaremos percepción con costos y alternativas, permitiendo elegir ninguna compra. También observaremos comprensión de sats y, si hace falta, probaremos una equivalencia informativa. Schmidt y Bijmolt (https://link.springer.com/article/10.1007/s11747-019-00666-6).
 
 Cómo registraremos los resultados
 
-Separaremos observaciones, interpretaciones y decisiones. Cada sesión conservará identificador, fecha, versión, tarea, resultado, evidencia y cambio propuesto, respetando consentimiento y privacidad. GOV.UK: análisis: https://www.gov.uk/service-manual/user-research/analyse-a-research-session.
+Separaremos observaciones, interpretaciones y decisiones. Cada sesión conservará identificador, fecha, versión, tarea, resultado, evidencia y cambio propuesto, respetando consentimiento y privacidad. GOV.UK: análisis (https://www.gov.uk/service-manual/user-research/analyse-a-research-session).
 
 Los informes mostrarán cantidades reales y casos contrarios a nuestras hipótesis. Los cambios relevantes se comprobarán de nuevo. No extrapolaremos una pequeña muestra al mercado.
 
@@ -186,10 +186,19 @@ Los creadores cuentan con aprobación, editor, vista previa y revisión. El acom
 
 El comercio dispone de compras simuladas y derechos históricos. Faltan conciliación periódica supervisada y analítica completa.
 
-El aprendizaje dispone de biblioteca, inscripción y progreso por versión. Evaluaciones y certificados están pendientes.
+El aprendizaje dispone de biblioteca, inscripción y progreso por versión. Desde la entrega de evaluaciones, una lección puede exigir aprobación antes de marcarse como completada. Los certificados siguen pendientes.
 
 Preguntas, avisos, comunidad y membresías tienen diseño definido, pero necesitan implementación y validación. Las membresías propuestas tendrán acceso temporal y renovación manual.
 
+Evaluaciones
+
+El creador puede preparar preguntas de selección única y múltiple, configurar la nota mínima, el límite de intentos, la espera y cuándo se muestran las soluciones. Las preguntas y reglas se conservan en la composición enviada a revisión. Editar el borrador después no cambia esa copia ni los intentos de las versiones anteriores.
+
+El alumno necesita inscripción y acceso a la lección. Antes de empezar ve las reglas; puede guardar respuestas, retomar el intento y entregarlo cuando ha respondido todas las preguntas. Iniciar consume un intento. El servidor corrige con preguntas de igual peso y exige coincidencia exacta en selección múltiple, sin crédito parcial. La aprobación usa la puntuación exacta; el redondeo solo afecta la nota mostrada.
+
+Una evaluación obligatoria requiere aprobación para completar la lección. El creador puede autorizar otro intento con motivo cuando se agotan los disponibles. Esta autorización conserva resultados y espera, sin borrar notas anteriores. Una aprobación previa tampoco se pierde por una nota posterior menor.
+
+La entrega aprobó 148 pruebas técnicas y comprobaciones de concurrencia. Se verificaron guardado, recuperación, fallo, aprobación, edición y conservación de versiones en navegador, con el cliente de Django. Las pantallas comprobadas funcionaron en tamaños de escritorio y móvil; la conexión HTTP directa al servidor local no pudo verificarse en este entorno. La migración conservó las filas originales y mantuvo los ejemplos fuera de la base principal. Esta evidencia comprueba funcionamiento, sin demostrar aprendizaje ni sustituir sesiones con usuarios.
 Publicación y acceso
 
 El envío editorial conserva una composición revisable. Aprobar publica esa composición; las ediciones posteriores preparan otra versión.
@@ -204,17 +213,24 @@ La aplicación utiliza Django, plantillas HTML y HTMX; SQLite sostiene la etapa 
 
 Los registros informan 129 pruebas aprobadas, concurrencia SQLite e integración FakeWallet, además de recorridos de escritorio/móvil. Son evidencias fechadas de la entrega registrada, no pruebas reejecutadas por la actualización documental.
 
+Organización del trabajo
+
+BTC.EDU continúa como proyecto individual. Caleb asume la investigación, las decisiones de producto, el desarrollo y la documentación. La planificación debe ajustarse a su disponibilidad, que todavía no está cuantificada. Priorizaremos cerrar el recorrido central y sus evidencias antes de comprometer fechas para los módulos adicionales.
+
+La matriz inicial de trazabilidad relaciona los requisitos del reto y los criterios de producto con registros técnicos y tareas pendientes. Esta revisión documental no acredita nuevas funciones ni una ejecución nueva de las pruebas. Sigue pendiente comprobar la cobertura de cada criterio, completar la analítica administrativa y verificar los recorridos de la versión que demostraremos.
+
+El original de evaluación exige cuatro integrantes. La continuidad individual requiere aclarar con CUBO+ cómo se aplicará esa condición; no contamos con una excepción confirmada.
 Actualizaciones
 
 Cada entrega revisará comportamiento, decisiones, pruebas, límites y próximos pasos. El estado actual se mantendrá separado de la bitácora para conservar evolución sin contradicciones.
 
-Esta revisión incorpora investigación y métodos. No añade funciones, cambia precios ni modifica condiciones comerciales de la aplicación.
+La investigación documental incorporó métodos y referencias comerciales. La entrega de evaluaciones amplía el aprendizaje y conserva las condiciones comerciales y los pagos simulados existentes.
 
 A dónde queremos llegar
 
 Queremos una experiencia en la que el alumno encuentre contenido pertinente, comprenda la compra y pueda continuar aprendiendo. El creador debe preparar, publicar y mantener sus materiales sin perjudicar el acceso existente.
 
-El alcance contempla evaluaciones, certificados de finalización, preguntas, comunidad, notificaciones y membresías renovadas manualmente. Se construirán y verificarán por entregas.
+Las evaluaciones ya permiten comprobar respuestas y conservar resultados por versión. El siguiente bloque será definir y construir certificados de finalización sobre requisitos históricos. Preguntas, comunidad, notificaciones y membresías renovadas manualmente se desarrollarán y verificarán por entregas.
 
 Necesitamos analítica que explique consulta, pago, uso y regreso sin confundir actividad con aprendizaje. También un presupuesto que considere consumo gratuito, acceso permanente, archivos históricos, correo, respaldos, supervisión y soporte.
 
@@ -224,13 +240,13 @@ Qué demostramos
 
 La evidencia técnica registrada muestra una oferta que genera una factura simulada y una confirmación válida que concede acceso específico. Documenta persistencia, protección y conservación de referencias históricas.
 
-La revisión permite publicar una composición aprobada mientras se preparan cambios posteriores.
+La revisión permite publicar una composición aprobada mientras se preparan cambios posteriores. Las evaluaciones verifican respuestas en el servidor y conservan reglas e intentos de cada versión; estos resultados técnicos no prueban dominio educativo.
 
 La investigación documenta alternativas de monetización y condiciones externas de costos. Todavía no demuestra preferencia por BTC.EDU, disposición real a pagar, frecuencia de compra o mejora educativa.
 
 Logros
 
-Definimos unidades de compra, muestras, permisos y responsabilidades de publicación. Conectamos creación, revisión, oferta, compra simulada y aprendizaje, conservando versiones históricas.
+Definimos unidades de compra, muestras, permisos y responsabilidades de publicación. Conectamos creación, revisión, oferta, compra simulada y aprendizaje, conservando versiones históricas. Incorporamos evaluaciones con resultados persistentes y control de intentos, sin alterar las compras existentes.
 
 Ampliamos la comparación de modelos y costos, y preparamos instrumentos para entrevistas, usabilidad y precios. Es un avance de investigación documental y preparación, no una validación externa terminada.
 

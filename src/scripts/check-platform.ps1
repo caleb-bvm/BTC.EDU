@@ -15,4 +15,6 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Hay errores de revisión estática.' }
     & $pythonPath scripts/verify-commerce-concurrency.py
     if ($LASTEXITCODE -ne 0) { throw 'Falló la comprobación de concurrencia comercial.' }
+    & $pythonPath scripts/verify-assessment-concurrency.py
+    if ($LASTEXITCODE -ne 0) { throw 'Falló la comprobación de concurrencia de evaluaciones.' }
 } finally { Pop-Location }

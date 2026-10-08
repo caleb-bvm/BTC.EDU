@@ -1,10 +1,14 @@
 # Funciones de aprendizaje y creación
 
-Este documento amplía el alcance e invalida exclusiones anteriores. Es diseño sustentado en 07, no requisitos adicionales del assignment. Cuentas, publicación, creadores y progreso básico están registrados como implementados al 4 de octubre; evaluaciones, certificados, preguntas, comunidad y membresías siguen pendientes. Ver [estado](../src/README.md).
+Este documento amplía el alcance e invalida exclusiones anteriores. Es diseño sustentado en 07, no requisitos adicionales del assignment. Cuentas, publicación, creadores y progreso básico están registrados como implementados al 4 de octubre; las evaluaciones se entregaron el 7 de octubre; certificados, preguntas, comunidad y membresías siguen pendientes. Ver [estado](../src/README.md).
 
 La [comparación comercial](13-monetizacion-precios-y-muestras.md) documenta posibilidades, no demanda. Las [sesiones propuestas](16-validacion-con-usuarios.md) deberán evaluar necesidades y comprensión. No cambia renovación manual de 30 días ni derechos históricos. Probar módulos pendientes en prototipos identificados.
 
 La [arquitectura y experiencia del 2 de octubre](10-arquitectura-y-experiencia-btc-edu.md) conserva este alcance completo y escalona las entregas: primero academia con cursos/tutoriales/recursos, compra y progreso básico; luego operación por creadores y módulos ampliados. Las estimaciones de este documento preceden esa definición; deben revisarse, no reutilizarse como compromiso para el alcance nuevo.
+
+## Evaluaciones entregadas
+
+Al 7 de octubre funcionan selección única/múltiple, preguntas con igual peso y coincidencia exacta, límites, espera, guardado/retoma y soluciones al entregar o al aprobar. Iniciar consume un intento; el abierto se retoma sin consumir otro. La evaluación obligatoria exige aprobación antes de completar la lección. Autorizar un intento adicional conserva motivo e historia y no borra notas ni elimina espera. Preguntas y reglas se congelan con la composición enviada a revisión. [Recorrido, pruebas y límites](../src/docs/evaluaciones-2026-10-07.md).
 
 ## Alumno
 
