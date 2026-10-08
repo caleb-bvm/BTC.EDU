@@ -205,7 +205,9 @@ El envío editorial conserva una composición revisable. Aprobar publica esa com
 
 Las facturas conservan precio e inclusiones. El servidor confirma condiciones y concede acceso sin duplicar compras. Los derechos permanecen asociados a la cuenta y la versión adquirida.
 
-LNbits FakeWallet proporciona el entorno simulado. No se utilizan fondos reales ni se acreditan ingresos.
+La integración de pagos permite conservar FakeWallet para pruebas internas o utilizar LNbits conectado a Polar en regtest. No se utilizan fondos reales ni se acreditan ingresos.
+
+El usuario confirmó un pago de prueba desde ZEUS en Android hacia LNbits a través del canal de Polar. BTC.EDU ahora muestra el QR de la factura regtest y permite abrirla en una wallet o copiarla. Mientras la página está visible, consulta el estado cada cinco segundos; también conserva la actualización manual. El servidor concede acceso únicamente después de verificar el pago, el importe y las condiciones de la compra. Verificamos la emisión de facturas, la consulta de estado y la entrega privada del QR. La compra completa desde ZEUS dentro de BTC.EDU sigue pendiente de comprobación; la prueba previa se realizó directamente en LNbits.
 
 ### Base técnica y pruebas
 

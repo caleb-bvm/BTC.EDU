@@ -1,10 +1,15 @@
 from functools import wraps
+from io import BytesIO
 
+import qrcode
+import qrcode.image.svg
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
@@ -133,7 +138,36 @@ def invoice_detail(request, pk):
         except ProviderUnavailable as exc:
             messages.warning(request, str(exc))
     blocked = invoice.status == "pending" and ownership(request.user, invoice.offer) != "none"
-    return render(request, "commerce/invoice.html", {"invoice": invoice, "destination": offer_destination(invoice.offer), "can_pay": invoice.status == "pending" and invoice.issue_state == "ready" and not blocked, "purchase_blocked": blocked, "active": "purchases"})
+    return render(request, "commerce/invoice.html", {"invoice": invoice, "destination": offer_destination(invoice.offer), "can_pay": invoice.status == "pending" and invoice.issue_state == "ready" and not blocked and not invoice.incident, "external_payment": settings.COMMERCE_PAYMENT_MODE == "regtest", "purchase_blocked": blocked, "active": "purchases"})
+
+
+@student_required
+@require_GET
+def invoice_qr(request, pk):
+    from django.http import Http404
+    from django.utils import timezone
+    invoice = get_object_or_404(Invoice.objects.select_related("offer"), pk=pk, buyer=request.user)
+    if (settings.COMMERCE_PAYMENT_MODE != "regtest" or invoice.status != "pending"
+            or invoice.issue_state != "ready" or invoice.incident or invoice.expires_at <= timezone.now()
+            or ownership(request.user, invoice.offer) != "none"
+            or not invoice.payment_request.lower().startswith("lnbcrt")):
+        raise Http404
+    output = BytesIO()
+    qrcode.make(invoice.payment_request.upper(), image_factory=qrcode.image.svg.SvgPathImage, border=4).save(output)
+    response = HttpResponse(output.getvalue(), content_type="image/svg+xml")
+    response["Cache-Control"] = "private, no-store"
+    return response
+
+
+@student_required
+@require_GET
+def invoice_status(request, pk):
+    invoice = get_object_or_404(Invoice, pk=pk, buyer=request.user)
+    try:
+        invoice = reconcile(invoice)
+    except ProviderUnavailable:
+        return JsonResponse({"error": "No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo."}, status=503)
+    return JsonResponse({"status": invoice.status, "incident": invoice.incident})
 
 
 @student_required
@@ -142,6 +176,8 @@ def invoice_action(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk, buyer=request.user)
     try:
         if request.POST.get("action") in ("pay", "simulate"):
+            if settings.COMMERCE_PAYMENT_MODE != "fake":
+                raise ProviderUnavailable("Escanea el QR y paga desde tu wallet de prueba.")
             invoice = simulate_payment(request.user, invoice)
         else:
             invoice = reconcile(invoice)

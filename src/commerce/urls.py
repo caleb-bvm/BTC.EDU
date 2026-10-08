@@ -8,5 +8,7 @@ urlpatterns = [
     path("ofertas/<int:pk>/comprar/", views.checkout, name="checkout"),
     path("facturas/", views.purchases, name="purchases"),
     path("facturas/<uuid:pk>/", views.invoice_detail, name="invoice-detail"),
+    path("facturas/<uuid:pk>/qr/", views.invoice_qr, name="invoice-qr"),
+    path("facturas/<uuid:pk>/estado/", views.invoice_status, name="invoice-status"),
     path("facturas/<uuid:pk>/comprobar/", views.invoice_action, name="invoice-action"),
 ]

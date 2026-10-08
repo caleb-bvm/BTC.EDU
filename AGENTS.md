@@ -21,6 +21,8 @@ Estas instrucciones conservan las preferencias expresadas por el usuario para el
 
 ## Actualizaciones
 
+- En la interfaz del producto, evitar banners y textos técnicos sobre desarrollo, demostración, saldo de prueba, regtest o wallets específicas. Explicar el entorno en documentación o durante la presentación, sin distraer al usuario o evaluador dentro de la aplicación. Mostrar los precios únicamente como cantidad y sats; no añadir «Pago único». La comprobación automática del pago debe ser silenciosa; mostrar mensajes cuando exista un error que requiera una acción.
+
 - Cada entrega de desarrollo debe incluir una revisión de la documentación afectada: comportamiento, decisiones, recorridos, pruebas, límites y próximos pasos.
 - Para el documento de Google Docs, indicar qué sección reemplazar o añadir y entregar el texto completo correspondiente. Revisar las otras secciones cuando un cambio las afecte.
 - Mantener el estado actual separado del historial de cambios. La bitácora debe conservar fechas, versión o commit y evidencias reales; no crear actividad retroactiva.

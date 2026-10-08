@@ -29,7 +29,9 @@ class LNbitsGateway:
         parsed = urlsplit(settings.LNBITS_URL)
         if not settings.COMMERCE_SIMULATION or parsed.hostname != "127.0.0.1" or parsed.scheme != "http" or parsed.username or parsed.password or parsed.path not in ("", "/") or parsed.query or parsed.fragment:
             raise ProviderUnavailable("El servicio de pagos no está disponible en este entorno.")
-        if not settings.LNBITS_INVOICE_KEY or not settings.LNBITS_PAYER_KEY or not settings.LNBITS_ADMIN_TOKEN:
+        if settings.COMMERCE_PAYMENT_MODE not in ("fake", "regtest"):
+            raise ProviderUnavailable("El modo de pago no está disponible.")
+        if not settings.LNBITS_INVOICE_KEY or not settings.LNBITS_ADMIN_TOKEN or (settings.COMMERCE_PAYMENT_MODE == "fake" and not settings.LNBITS_PAYER_KEY):
             raise ProviderUnavailable("El servicio de pagos no está disponible. Inténtalo más tarde.")
         self.client = httpx.Client(base_url=settings.LNBITS_URL, timeout=8, trust_env=False, follow_redirects=False, transport=transport)
 
@@ -45,12 +47,13 @@ class LNbitsGateway:
         except (httpx.HTTPError, ValueError):
             raise ProviderUnavailable("No pudimos confirmar el estado del pago. Consulta esta misma factura antes de volver a pagar.") from None
 
-    def ensure_fake_wallet(self):
+    def ensure_backend(self):
         try:
             response = self.client.get("/admin/api/v1/settings", headers={"Authorization": "Bearer " + settings.LNBITS_ADMIN_TOKEN})
             response.raise_for_status()
             data = response.json()
-            if data.get("lnbits_backend_wallet_class") != "FakeWallet":
+            expected = "LndRestWallet" if settings.COMMERCE_PAYMENT_MODE == "regtest" else "FakeWallet"
+            if data.get("lnbits_backend_wallet_class") != expected:
                 raise ProviderUnavailable("El servicio de pagos no está disponible en este entorno.")
         except (httpx.HTTPError, ValueError, AttributeError):
             raise ProviderUnavailable("No pudimos verificar el servicio de pagos. Inténtalo más tarde.") from None
@@ -60,10 +63,12 @@ class LNbitsGateway:
         payment_request = data.get("bolt11", "")
         if not isinstance(payment_hash, str) or not re.fullmatch(r"[a-fA-F0-9]{64}", payment_hash) or not isinstance(payment_request, str) or not payment_request.startswith("ln"):
             raise ProviderUnavailable("El proveedor no devolvió una factura válida.")
+        if settings.COMMERCE_PAYMENT_MODE == "regtest" and not payment_request.lower().startswith("lnbcrt"):
+            raise ProviderUnavailable("El proveedor no devolvió una factura de regtest.")
         return ProviderInvoice(payment_hash.lower(), payment_request)
 
     def create(self, invoice):
-        self.ensure_fake_wallet()
+        self.ensure_backend()
         data = self.request("POST", "/api/v1/payments", json={"out": False, "amount": invoice.amount_sats,
             "memo": f"BTC.EDU factura {invoice.pk}", "expiry": 900, "external_id": str(invoice.pk)})
         return self.parse_invoice(data)
@@ -86,7 +91,9 @@ class LNbitsGateway:
         return ProviderStatus(data.get("paid") is True, details["amount"], invoice.payment_hash, data.get("status") == "failed")
 
     def simulate(self, invoice):
-        self.ensure_fake_wallet()
+        if settings.COMMERCE_PAYMENT_MODE != "fake":
+            raise ProviderUnavailable("Paga esta factura desde tu wallet de prueba.")
+        self.ensure_backend()
         self.request("POST", "/api/v1/payments", key=settings.LNBITS_PAYER_KEY, json={"out": True, "bolt11": invoice.payment_request})
 
     def close(self):

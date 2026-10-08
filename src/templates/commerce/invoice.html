@@ -15,7 +15,7 @@
     </section>
     <aside class="commerce-panel" aria-label="Estado de pago">
       <h2>{% if invoice.status == 'paid' %}Pago confirmado{% else %}Total a pagar{% endif %}</h2>
-      <p class="offer-price">{{ invoice.amount_sats }} <small>sats · Pago único</small></p>
+      <p class="offer-price">{{ invoice.amount_sats }} <small>sats</small></p>
       <p role="status"><strong>{% if invoice.status == 'pending' %}Pendiente de pago{% else %}{{ invoice.get_status_display }}{% endif %}</strong></p>
       {% if invoice.status == 'paid' %}
         <p>Confirmada el {{ invoice.purchase.created_at|date:'d/m/Y H:i' }} (El Salvador).</p>
@@ -31,11 +31,18 @@
           <a href="{% url 'workspace' %}">Ir a mi biblioteca →</a>
         {% elif can_pay %}
           <p>Al confirmar el pago, se habilitará el contenido incluido.</p>
+          {% if external_payment %}
+          <img src="{% url 'invoice-qr' invoice.pk %}" width="320" height="320" style="max-width:100%;height:auto;background:white" alt="QR de la factura Lightning para pagar {{ invoice.amount_sats }} sats">
+          <a class="btn btn-dark" href="lightning:{{ invoice.payment_request }}">Abrir en mi wallet</a>
+          <details><summary>Copiar factura</summary><textarea readonly aria-label="Factura Lightning" rows="4" style="width:100%">{{ invoice.payment_request }}</textarea></details>
+          <p hidden class="small-note" role="status" data-invoice-status="{% url 'invoice-status' invoice.pk %}"></p>
+          {% else %}
           <form method="post" action="{% url 'invoice-action' invoice.pk %}" data-payment-form data-pending-label="Procesando tu pago…">
             {% csrf_token %}
             <input type="hidden" name="action" value="pay">
             <button class="btn btn-dark" type="submit">Pagar {{ invoice.amount_sats }} sats →</button>
           </form>
+          {% endif %}
         {% else %}
           <p>Estamos preparando tu factura. Actualiza su estado para continuar.</p>
         {% endif %}

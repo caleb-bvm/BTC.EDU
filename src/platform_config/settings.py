@@ -7,7 +7,7 @@ from dotenv import dotenv_values, load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
-load_dotenv(BASE_DIR / ".local/commerce.env")
+load_dotenv(BASE_DIR / ".local/commerce.env", override=True)
 DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 if not SECRET_KEY:
@@ -72,6 +72,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
 # Only local, fictitious payments are supported by this integration.
 COMMERCE_SIMULATION = os.getenv("COMMERCE_SIMULATION", "false").lower() == "true"
+COMMERCE_PAYMENT_MODE = os.getenv("COMMERCE_PAYMENT_MODE", "fake")
 LNBITS_URL = os.getenv("LNBITS_URL", "http://127.0.0.1:5000")
 _commerce_private = dotenv_values(BASE_DIR / ".local/commerce.env")
 LNBITS_INVOICE_KEY = os.getenv("LNBITS_INVOICE_KEY") or _commerce_private.get("LNBITS_INVOICE_KEY", "")

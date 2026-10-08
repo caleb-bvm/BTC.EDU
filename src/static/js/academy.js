@@ -70,6 +70,30 @@
     error.textContent = 'Se perdió la conexión. Conservamos tus filtros; vuelve a buscar cuando recuperes conexión.';
   });
 })();
+const paymentStatus = document.querySelector('[data-invoice-status]');
+if (paymentStatus) {
+  const checkPayment = async () => {
+    if (document.hidden) {
+      window.setTimeout(checkPayment, 5000);
+      return;
+    }
+    try {
+      const response = await fetch(paymentStatus.dataset.invoiceStatus, {cache: 'no-store', headers: {'Accept': 'application/json'}});
+      if (!response.ok || response.redirected) throw new Error('Payment check failed');
+      const result = await response.json();
+      if (result.status !== 'pending' || result.incident) {
+        window.location.reload();
+        return;
+      }
+    } catch {
+      paymentStatus.textContent = 'No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo.';
+      paymentStatus.hidden = false;
+      return;
+    }
+    window.setTimeout(checkPayment, 5000);
+  };
+  window.setTimeout(checkPayment, 5000);
+}
 document.addEventListener('error', (event) => {
   if (event.target instanceof HTMLVideoElement) {
     const message = event.target.closest('.media-panel')?.querySelector('.media-error');

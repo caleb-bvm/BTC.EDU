@@ -65,7 +65,36 @@ class FakeGateway:
         self.closed += 1
 
 
+@override_settings(COMMERCE_PAYMENT_MODE="fake")
 class CommerceJourneyTests(TestCase):
+    @override_settings(COMMERCE_PAYMENT_MODE="regtest")
+    def test_qr_is_private_expires_and_does_not_grant_access(self):
+        invoice = self.invoice()
+        Invoice.objects.filter(pk=invoice.pk).update(payment_request="lnbcrt1500n1test")
+        url = reverse("invoice-qr", args=[invoice.pk])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "image/svg+xml")
+        self.assertIn("no-store", response["Cache-Control"])
+        self.assertEqual(Purchase.objects.count(), 0)
+        with patch("commerce.services.LNbitsGateway", return_value=self.gateway):
+            detail = self.client.get(reverse("invoice-detail", args=[invoice.pk]))
+        self.assertContains(detail, url)
+        self.assertNotContains(detail, 'name="action" value="pay"')
+        self.client.force_login(self.other)
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.client.force_login(self.student)
+        from django.utils import timezone
+        Invoice.objects.filter(pk=invoice.pk).update(expires_at=timezone.now() - timedelta(seconds=1))
+        self.assertEqual(self.client.get(url).status_code, 404)
+
+    @override_settings(COMMERCE_PAYMENT_MODE="regtest")
+    def test_regtest_browser_cannot_simulate_a_payment(self):
+        invoice = self.invoice()
+        self.client.post(reverse("invoice-action", args=[invoice.pk]), {"action": "pay"})
+        self.assertEqual(Purchase.objects.count(), 0)
+        self.assertEqual(self.gateway.simulated, 0)
+
     def setUp(self):
         self.media = tempfile.TemporaryDirectory()
         self.addCleanup(self.media.cleanup)
@@ -343,8 +372,25 @@ class CommerceJourneyTests(TestCase):
         self.assertContains(self.client.get(reverse("workspace")), "Ejercicio")
 
 
-@override_settings(COMMERCE_SIMULATION=True, LNBITS_URL="http://127.0.0.1:5000", LNBITS_INVOICE_KEY="invoice-secret", LNBITS_PAYER_KEY="payer-secret", LNBITS_ADMIN_TOKEN="admin-secret")
+@override_settings(COMMERCE_PAYMENT_MODE="fake", COMMERCE_SIMULATION=True, LNBITS_URL="http://127.0.0.1:5000", LNBITS_INVOICE_KEY="invoice-secret", LNBITS_PAYER_KEY="payer-secret", LNBITS_ADMIN_TOKEN="admin-secret")
 class GatewayTests(TestCase):
+    @override_settings(COMMERCE_PAYMENT_MODE="regtest", LNBITS_PAYER_KEY="")
+    def test_regtest_rejects_mainnet_invoice_and_never_sends_payment(self):
+        calls = []
+        def handler(request):
+            calls.append(request)
+            if request.url.path == "/admin/api/v1/settings":
+                return httpx.Response(200, json={"lnbits_backend_wallet_class": "LndRestWallet"})
+            return httpx.Response(200, json={"payment_hash": "a" * 64, "bolt11": "lnbc100n1mainnet"})
+        gateway = LNbitsGateway(httpx.MockTransport(handler))
+        self.addCleanup(gateway.close)
+        with self.assertRaises(ProviderUnavailable):
+            gateway.create(Invoice(amount_sats=10))
+        with self.assertRaises(ProviderUnavailable):
+            gateway.simulate(Invoice(amount_sats=10))
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(gateway.parse_invoice({"payment_hash": "a" * 64, "bolt11": "lnbcrt100n1regtest"}).payment_hash, "a" * 64)
+
     def test_real_api_payload_and_wallet_detail_validation(self):
         calls = []
         def handler(request):

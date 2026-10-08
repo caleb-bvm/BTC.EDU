@@ -27,7 +27,6 @@
     {% if user.is_authenticated and user.account_type == 'student' %}<a class="btn btn-dark" href="{% url 'workspace' %}">Mi aprendizaje</a>{% elif user.is_authenticated and user.account_type == 'creator' %}<a class="btn btn-dark" href="{% if user.creator_profile.status == 'approved' %}{% url 'creator-dashboard' %}{% else %}{% url 'creator-application' %}{% endif %}">Mi estudio</a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}">Entrar</a>{% endif %}
   </nav>
 </div></header>{% endblock %}
-{% if payment_test_environment %}<div class="preview-banner" role="note">ENTORNO DE DESARROLLO · Pagos con saldo de prueba.</div>{% elif academy_preview %}<div class="preview-banner" role="note">VISTA PREVIA · Contenido de demostración.</div>{% endif %}
 <main id="main">{% block content %}{% endblock %}</main>
 {% block footer %}<footer class="site-footer shell"><span>BTC.EDU <span class="footer-dot">●</span> Conocimiento en libertad.</span><span>Una plataforma en construcción.</span></footer>{% endblock %}
 </body></html>
