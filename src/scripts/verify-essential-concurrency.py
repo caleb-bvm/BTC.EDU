@@ -66,6 +66,8 @@ def run():
         try:
             ids = parallel(lambda index: issue_certificate(users.get(pk=student.pk), enrollment.pk, "Alumno").pk)
             assert ids[0] == ids[1] and Certificate.objects.count() == 1
+            from learning.certificate_integrity import certificate_intact
+            assert certificate_intact(Certificate.objects.get(pk=ids[0]))
             assert Notification.objects.filter(event_key=f"certificate:{ids[0]}").count() == 1
             key = uuid4()
             questions = parallel(lambda index: post_question(users.get(pk=student.pk), record.pk, "Pregunta", key).pk)

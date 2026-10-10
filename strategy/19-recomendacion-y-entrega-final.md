@@ -190,6 +190,8 @@ El creador elige las lecciones requeridas y la publicación conserva esos requis
 
 Al confirmar su nombre, el alumno obtiene una credencial única por inscripción, con evidencia histórica y descarga PDF privada. La verificación pública requiere que habilite compartir y puede ocultarse nuevamente. La administración puede revocar con motivo, sin borrar el historial. La corrección o sustitución después de emitir queda pendiente. El certificado acredita finalización según esas reglas, sin constituir una titulación oficial ni demostrar aprendizaje por sí mismo.
 
+Cada credencial conserva una huella SHA-256 de sus datos y evidencia histórica. El PDF y la página de verificación muestran esa huella; quien recibe el certificado puede compararla con el registro y descargar los datos para recalcularla. La comprobación detecta diferencias y mantiene visible cualquier revocación. La huella verifica integridad frente a la referencia de BTC.EDU; la autenticidad del emisor depende de consultar su página legítima. No constituye una firma digital ni un registro en Bitcoin.
+
 ### Preguntas y notificaciones
 
 El alumno inscrito con acceso puede preguntar desde una lección. Solo el participante y el creador aprobado del curso consultan la conversación. Los mensajes enviados se conservan; una corrección se añade como aclaración. Los límites de frecuencia, la protección de formularios y las claves de envío impiden duplicados y restringen la participación.
@@ -210,7 +212,7 @@ Los pagos pueden probarse con FakeWallet o con LNbits conectado a Polar en regte
 
 ### Base técnica y pruebas
 
-La aplicación utiliza Django, HTML y HTMX, con SQLite para la etapa local. La entrega esencial pasó 179 pruebas y comprobaciones de concurrencia comercial, de evaluaciones y de certificados y mensajes. Se recorrieron las nuevas pantallas por HTTP en escritorio y móvil y se verificaron formularios, privacidad y PDF. La migración tuvo respaldo y conservó los 211 registros originales, sin cargar ejemplos en la base principal.
+La aplicación utiliza Django, HTML y HTMX, con SQLite para la etapa local. La entrega esencial con huellas SHA-256 pasó 184 pruebas y comprobaciones de concurrencia comercial, de evaluaciones y de certificados y mensajes. Se recorrieron las nuevas pantallas por HTTP en escritorio y móvil y se verificaron formularios, privacidad y PDF. La migración tuvo respaldo y conservó los 211 registros originales, sin cargar ejemplos en la base principal.
 
 ### Organización y próximos pasos
 

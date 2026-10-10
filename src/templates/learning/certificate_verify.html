@@ -1,1 +1,21 @@
-{% extends 'base.html' %}{% block title %}Verificar certificado · BTC.EDU{% endblock %}{% block content %}<div class="shell credential-page">{% include 'learning/_credential.html' %}{% if not certificate.revocation %}<p>La credencial coincide con el registro de finalización de BTC.EDU.</p>{% endif %}</div>{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Verificar certificado · BTC.EDU{% endblock %}
+{% block content %}
+<div class="shell credential-page">
+{% include 'learning/_credential.html' %}
+{% if not integrity_ok %}
+<p role="alert">No se pudo comprobar la integridad del registro. Contacta con BTC.EDU antes de aceptar este certificado.</p>
+{% else %}
+{% if not certificate.revocation %}<p>La credencial coincide con el registro de finalización de BTC.EDU.</p>{% endif %}
+<section class="commerce-panel">
+<h2>Comprobar la huella</h2>
+<p>Introduce la huella SHA-256 que aparece en el certificado recibido.</p>
+<p>Comprueba también que el nombre, curso, creador, versión y fecha del documento coincidan con los que aparecen arriba.</p>
+<form method="get" class="studio-form">{{ fingerprint_form.as_p }}<button class="btn btn-dark">Comprobar huella</button></form>
+{% if fingerprint_matches == True %}<p role="status">La huella coincide con los datos registrados.{% if certificate.revocation %} El certificado está revocado.{% endif %}</p>{% elif fingerprint_matches == False %}<p role="alert">La huella no coincide con este certificado.</p>{% endif %}
+<p><a href="{% url 'certificate-public-data' certificate.pk %}">Descargar datos para comprobar SHA-256</a></p>
+<p>La huella corresponde a estos datos, no al archivo PDF completo. Para comprobar la emisión y el estado, consulta esta página de BTC.EDU.</p>
+</section>
+{% endif %}
+</div>
+{% endblock %}

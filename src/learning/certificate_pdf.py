@@ -26,6 +26,8 @@ def render_certificate(certificate):
              Paragraph(f"Por completar las lecciones requeridas y aprobar las evaluaciones obligatorias de la versión {certificate.enrollment.version.number}.", body),
              Paragraph(f"Por {escape(certificate.creator_name)}. Emitido el {timezone.localtime(certificate.issued_at):%d/%m/%Y}.", body),
              Spacer(1, 5 * mm), Paragraph(f"Identificador: {certificate.pk}", small),
+             Paragraph("Huella SHA-256 de los datos del certificado:", small),
+             Paragraph(f'<font name="Courier" size="8">{escape(certificate.fingerprint)}</font>', small),
              Paragraph("Certificado de finalización. No acredita una titulación oficial.", small),
              Paragraph("El titular puede activar y compartir su página de verificación desde BTC.EDU.", small)]
 

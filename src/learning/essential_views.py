@@ -1,4 +1,5 @@
 from functools import wraps
+from hmac import compare_digest
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -18,8 +19,14 @@ from content.models import Course, VersionLesson
 from creators.services import require_creator
 from creators.views import creator_required, protect_legacy
 
+from .certificate_integrity import certificate_bytes, certificate_intact
 from .certificates import completion_status, issue_certificate, revoke_certificate
-from .essential_forms import CertificateNameForm, CertificatePolicyForm, MessageForm
+from .essential_forms import (
+    CertificateFingerprintForm,
+    CertificateNameForm,
+    CertificatePolicyForm,
+    MessageForm,
+)
 from .models import (
     Certificate,
     CertificateDraft,
@@ -127,10 +134,38 @@ def certificate_share(request, pk):
 @never_cache
 def certificate_verify(request, pk):
     certificate = get_object_or_404(Certificate.objects.select_related("enrollment__version", "revocation"), pk=pk, sharing__public=True)
-    response = render(request, "learning/certificate_verify.html", {"certificate": certificate})
+    intact = certificate_intact(certificate)
+    form = CertificateFingerprintForm(request.GET if "sha256" in request.GET else None)
+    matches = compare_digest(form.cleaned_data["sha256"].lower(), certificate.fingerprint) if form.is_bound and form.is_valid() else None
+    response = render(request, "learning/certificate_verify.html", {"certificate": certificate, "integrity_ok": intact, "fingerprint_form": form, "fingerprint_matches": matches})
     response["X-Robots-Tag"] = "noindex, nofollow"
     response["Referrer-Policy"] = "no-referrer"
     return response
+
+
+def certificate_data_response(certificate):
+    if not certificate_intact(certificate):
+        return HttpResponse("No se pudo comprobar la integridad del certificado.", status=409)
+    response = HttpResponse(certificate_bytes(certificate), content_type="application/json; charset=utf-8")
+    response["Content-Disposition"] = f'attachment; filename="certificado-{certificate.pk}.json"'
+    response["X-Robots-Tag"] = "noindex, nofollow"
+    response["Referrer-Policy"] = "no-referrer"
+    return response
+
+
+@student_required
+@never_cache
+@require_GET
+def certificate_data(request, pk):
+    certificate = get_object_or_404(Certificate.objects.select_related("enrollment__version"), pk=pk, enrollment__student=request.user)
+    return certificate_data_response(certificate)
+
+
+@never_cache
+@require_GET
+def certificate_public_data(request, pk):
+    certificate = get_object_or_404(Certificate.objects.select_related("enrollment__version"), pk=pk, sharing__public=True)
+    return certificate_data_response(certificate)
 
 
 @student_required
@@ -139,6 +174,8 @@ def certificate_pdf(request, pk):
     certificate = get_object_or_404(Certificate.objects.select_related("enrollment__version", "revocation"), pk=pk, enrollment__student=request.user)
     if hasattr(certificate, "revocation"):
         raise Http404
+    if not certificate_intact(certificate):
+        return HttpResponse("No se pudo comprobar la integridad del certificado.", status=409)
     from .certificate_pdf import render_certificate
     response = HttpResponse(render_certificate(certificate), content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="certificado-{certificate.pk}.pdf"'

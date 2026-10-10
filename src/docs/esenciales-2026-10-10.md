@@ -55,3 +55,7 @@ Desde `src`, `./.venv/Scripts/python.exe scripts/preview-essential.py` prepara u
 ## Próximos pasos
 
 El usuario comprobará posteriormente el pago completo desde ZEUS dentro de BTC.EDU; esta entrega no reejecuta esa integración ni acredita fondos reales. Para terminar la preparación esencial de una demostración quedan catálogo y derechos comprobados, manuales y ensayo del recorrido. Para operación pública: entrega de correo, conciliación supervisada, procedimientos de respaldo/restauración, presupuesto, capacidad y seguimiento de incidencias. Comunidad, membresías, corrección de credenciales y eventos de reproducción siguen como ampliaciones explícitas.
+
+## Ampliación posterior de esta entrega
+
+El mismo 10 de octubre se añadieron huellas SHA-256 persistentes, visibles en PDF/web, comparación y datos reproducibles para comprobación independiente. El registro anterior conserva sus 179 pruebas y migración originales; la ampliación pasa 184 pruebas y tiene [evidencia, respaldo y límites propios](certificados-sha256-2026-10-10.md).

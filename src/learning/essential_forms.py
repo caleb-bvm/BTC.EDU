@@ -5,6 +5,12 @@ from django import forms
 from content.models import Lesson
 
 
+class CertificateFingerprintForm(forms.Form):
+    sha256 = forms.RegexField(r"\A[0-9a-fA-F]{64}\Z", label="Huella SHA-256 del certificado", max_length=64,
+                             error_messages={"invalid": "Introduce los 64 caracteres hexadecimales de la huella."},
+                             widget=forms.TextInput(attrs={"autocomplete": "off", "spellcheck": "false", "maxlength": 64, "class": "fingerprint-input"}))
+
+
 class CertificatePolicyForm(forms.Form):
     enabled = forms.BooleanField(label="Ofrecer certificado de finalización", required=False)
     required_lessons = forms.ModelMultipleChoiceField(label="Lecciones obligatorias", queryset=Lesson.objects.none(), required=False, widget=forms.CheckboxSelectMultiple)

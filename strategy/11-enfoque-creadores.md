@@ -87,3 +87,9 @@ Cada entrega debe cerrar un recorrido utilizable y verificar sus permisos. Este 
 - Las métricas corresponden a registros verificables y las operaciones simuladas se identifican claramente.
 - Los recorridos principales funcionan con teclado y en móvil; fallos de sesión, red y carga permiten recuperar el trabajo.
 - La validación con creadores comprueba preparar una lección, organizar un curso, entender su oferta, resolver una revisión y responder a un alumno. Se registran dificultades reales.
+
+## Huellas de certificados
+
+Cada credencial conserva una huella SHA-256 de sus datos y evidencia histórica. El PDF y la página de verificación muestran esa huella; quien recibe el certificado puede compararla con el registro y descargar los datos para recalcularla. La comprobación detecta diferencias y mantiene visible cualquier revocación. La huella verifica integridad frente a la referencia de BTC.EDU; la autenticidad del emisor depende de consultar su página legítima. No constituye una firma digital ni un registro en Bitcoin.
+
+Implementado y verificado el 10 de octubre. [Contrato, privacidad, migración y pruebas](../src/docs/certificados-sha256-2026-10-10.md). La exportación permite recalcular exactamente los bytes JSON; no representa el hash de todo el PDF.

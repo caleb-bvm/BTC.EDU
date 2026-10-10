@@ -94,3 +94,9 @@ Una jornada significa un día de trabajo técnico concentrado de una persona. So
 Total orientativo: 23–35 jornadas técnicas, con trabajo de diseño y pruebas de Business en paralelo. Hasta el 3 de noviembre hay 33 días transcurridos desde el 1 de octubre; eso no equivale a 33 jornadas disponibles. Con un Dev, la capacidad y las dependencias deben comprobarse con las primeras entregas. El cierre del 15 de octubre no es una base realista para comprometer toda esta lista sin estimación adicional. Proponemos usar el sprint completo como planificación de trabajo, sujeto al acuerdo del equipo.
 
 Hito del 13 de octubre: demostrar plataforma navegable, curso gratuito, compra de capítulo o video, acceso protegido y editor de creador en el estado alcanzado. Registrar lo que de verdad esté construido. Después integrar las otras funciones por dependencia y cerrar cambios antes de la entrega confirmada. Revisar las estimaciones al terminar la fase 1; mantener todo en el diseño y declarar honestamente lo implementado en la entrega.
+
+## Huellas de certificados
+
+Cada credencial conserva una huella SHA-256 de sus datos y evidencia histórica. El PDF y la página de verificación muestran esa huella; quien recibe el certificado puede compararla con el registro y descargar los datos para recalcularla. La comprobación detecta diferencias y mantiene visible cualquier revocación. La huella verifica integridad frente a la referencia de BTC.EDU; la autenticidad del emisor depende de consultar su página legítima. No constituye una firma digital ni un registro en Bitcoin.
+
+Implementado y verificado el 10 de octubre. [Contrato, privacidad, migración y pruebas](../src/docs/certificados-sha256-2026-10-10.md). La exportación permite recalcular exactamente los bytes JSON; no representa el hash de todo el PDF.

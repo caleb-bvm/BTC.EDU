@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.utils import timezone
 
 from content.immutability import FrozenRecord
 
@@ -125,7 +126,14 @@ class Certificate(FrozenRecord):
     course_title = models.CharField(max_length=200)
     creator_name = models.CharField(max_length=200)
     evidence = models.JSONField(default=dict)
-    issued_at = models.DateTimeField(auto_now_add=True)
+    issued_at = models.DateTimeField(default=timezone.now, editable=False)
+    fingerprint = models.CharField(max_length=64, editable=False)
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            from .certificate_integrity import certificate_digest
+            self.fingerprint = certificate_digest(self)
+        return super().save(*args, **kwargs)
 
 
 class CertificateSharing(models.Model):

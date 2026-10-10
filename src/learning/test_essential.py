@@ -1,7 +1,14 @@
+import hashlib
+import importlib
+import json
+from copy import copy
+from types import SimpleNamespace
 from uuid import uuid4
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import connection
+from django.db.migrations.executor import MigrationExecutor
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
@@ -11,6 +18,11 @@ from creators.models import CreatorProfile
 from creators.services import decide, submit
 
 from .assessment_services import save_attempt, start_attempt
+from .certificate_integrity import (
+    certificate_bytes,
+    certificate_digest,
+    certificate_intact,
+)
 from .certificates import completion_status, issue_certificate, revoke_certificate
 from .models import (
     Certificate,
@@ -60,6 +72,88 @@ class EssentialTests(TestCase):
 
     def question(self):
         return post_question(self.student, self.record.pk, "¿Cómo se conserva la versión?", uuid4())
+
+    def test_fingerprint_persisted_reproducible_and_sensitive_to_changes(self):
+        certificate = self.certificate()
+        self.assertRegex(certificate.fingerprint, r"\A[0-9a-f]{64}\Z")
+        expected = hashlib.sha256(certificate_bytes(certificate)).hexdigest()
+        certificate.refresh_from_db()
+        self.assertEqual(certificate.fingerprint, expected)
+        self.assertTrue(certificate_intact(certificate))
+        malformed = copy(certificate)
+        malformed.fingerprint = "é" * 64
+        self.assertFalse(certificate_intact(malformed))
+        for field, value in (("student_name", "Otro"), ("course_title", "Otro curso"), ("creator_name", "Otro docente"), ("evidence", {"lessons": []}), ("pk", uuid4())):
+            changed = copy(certificate)
+            setattr(changed, field, value)
+            self.assertNotEqual(certificate_digest(changed), expected)
+        reversed_evidence = copy(certificate)
+        reversed_evidence.evidence = dict(reversed(list(certificate.evidence.items())))
+        self.assertEqual(certificate_digest(reversed_evidence), expected)
+        save_progress(self.student, self.enrollment.pk, self.record.pk, 1, "incomplete")
+        revoke_certificate(self.admin, certificate.pk, "Prueba")
+        certificate.refresh_from_db()
+        self.assertEqual(certificate.fingerprint, expected)
+
+    def test_canonical_download_private_public_opt_in_and_independent_hash(self):
+        certificate = self.certificate()
+        url = reverse("certificate-data", args=[certificate.pk])
+        public_url = reverse("certificate-public-data", args=[certificate.pk])
+        private = self.client.get(url)
+        self.assertEqual(hashlib.sha256(private.content).hexdigest(), certificate.fingerprint)
+        record = json.loads(private.content)
+        self.assertEqual(record["student_name"], "Lucía López")
+        self.assertNotIn("evidence", record)
+        self.assertNotContains(private, self.student.email)
+        self.assertEqual(Client().get(public_url).status_code, 404)
+        CertificateSharing.objects.filter(certificate=certificate).update(public=True)
+        public = Client().get(public_url)
+        self.assertEqual(public.content, private.content)
+        self.assertIn("no-store", public["Cache-Control"])
+        CertificateSharing.objects.filter(certificate=certificate).update(public=False)
+        self.assertEqual(Client().get(public_url).status_code, 404)
+        self.client.force_login(self.other)
+        self.assertEqual(self.client.get(url).status_code, 404)
+
+    def test_public_fingerprint_comparison_valid_wrong_invalid_and_revoked(self):
+        certificate = self.certificate()
+        CertificateSharing.objects.filter(certificate=certificate).update(public=True)
+        url = reverse("certificate-verify", args=[certificate.pk])
+        anonymous = Client()
+        self.assertContains(anonymous.get(url, {"sha256": certificate.fingerprint.upper()}), "La huella coincide")
+        self.assertContains(anonymous.get(url, {"sha256": "0" * 64}), "La huella no coincide")
+        invalid = anonymous.get(url, {"sha256": "<script>"})
+        self.assertContains(invalid, "64 caracteres hexadecimales")
+        self.assertNotContains(invalid, "La huella coincide")
+        revoke_certificate(self.admin, certificate.pk, "Prueba")
+        revoked = anonymous.get(url, {"sha256": certificate.fingerprint})
+        self.assertContains(revoked, "La huella coincide")
+        self.assertContains(revoked, "El certificado está revocado")
+
+    def test_corrupted_record_cannot_claim_validity_or_generate_pdf_or_data(self):
+        certificate = self.certificate()
+        CertificateSharing.objects.filter(certificate=certificate).update(public=True)
+        # Simulate a write outside the immutable application API.
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE learning_certificate SET student_name = %s WHERE id = %s", ["Alterado", certificate.pk.hex])
+        page = Client().get(reverse("certificate-verify", args=[certificate.pk]), {"sha256": certificate.fingerprint})
+        self.assertContains(page, "No se pudo comprobar la integridad")
+        self.assertNotContains(page, "La credencial coincide")
+        self.assertNotContains(page, "La huella coincide")
+        for endpoint in ("certificate-pdf", "certificate-data", "certificate-public-data"):
+            self.assertEqual(self.client.get(reverse(endpoint, args=[certificate.pk])).status_code, 409)
+
+    def test_historical_backfill_preserves_existing_certificate_data(self):
+        certificate = self.certificate()
+        original = (certificate.student_name, certificate.issued_at, certificate.evidence, certificate.fingerprint)
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE learning_certificate SET fingerprint = %s WHERE id = %s", ["", certificate.pk.hex])
+        executor = MigrationExecutor(connection)
+        apps = executor.loader.project_state([("learning", "0005_certificate_fingerprint")]).apps
+        migration = importlib.import_module("learning.migrations.0005_certificate_fingerprint")
+        migration.backfill_fingerprints(apps, SimpleNamespace(connection=connection))
+        certificate.refresh_from_db()
+        self.assertEqual((certificate.student_name, certificate.issued_at, certificate.evidence, certificate.fingerprint), original)
 
     def test_certificate_requires_completion_and_approval_not_only_enrollment(self):
         self.assertFalse(completion_status(self.enrollment)["eligible"])

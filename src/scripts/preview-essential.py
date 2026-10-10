@@ -64,7 +64,9 @@ def run():
         (directory / "certificado.pdf").write_bytes(render_certificate(certificate))
         long = SimpleNamespace(course_title="Fundamentos de micropagos, publicación educativa y conservación de derechos históricos " * 2,
                                student_name="María José Álvarez " * 8, creator_name="Ana López", issued_at=certificate.issued_at,
-                               enrollment=certificate.enrollment, pk=certificate.pk)
+                               enrollment=certificate.enrollment, pk=certificate.pk, evidence=certificate.evidence)
+        from learning.certificate_integrity import certificate_digest
+        long.fingerprint = certificate_digest(long)
         (directory / "certificado-nombres-largos.pdf").write_bytes(render_certificate(long))
         metadata = {"directory": str(directory), "certificate": str(certificate.pk), "question": question.pk, "course": data.course.pk, "version": version.number}
         (ROOT / ".local/essential-preview.json").write_text(json.dumps(metadata), encoding="utf-8")
