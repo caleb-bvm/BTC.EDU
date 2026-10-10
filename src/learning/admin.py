@@ -5,6 +5,10 @@ from commerce.admin import HistoryAdmin
 from .models import (
     Certificate,
     CertificateRevocation,
+    CommunityDecision,
+    CommunityPost,
+    CommunityReport,
+    CommunitySuspension,
     Enrollment,
     ExtraQuizAttempt,
     LessonProgress,
@@ -26,6 +30,20 @@ admin.site.register(LessonQuestion, HistoryAdmin)
 admin.site.register(QuestionReply, HistoryAdmin)
 admin.site.register(Notification, HistoryAdmin)
 admin.site.register(CertificateRevocation, HistoryAdmin)
+admin.site.register(CommunityDecision, HistoryAdmin)
+admin.site.register(CommunityReport, HistoryAdmin)
+admin.site.register(CommunitySuspension, HistoryAdmin)
+
+
+@admin.register(CommunityPost)
+class CommunityPostAdmin(HistoryAdmin):
+    list_display = ("id", "version", "created_at", "hidden", "closed", "moderation_link")
+
+    @admin.display(description="Moderación")
+    def moderation_link(self, obj):
+        from django.urls import reverse
+        from django.utils.html import format_html
+        return format_html('<a href="{}">Abrir comunidad</a>', reverse("community-space", args=[obj.version_id]))
 
 
 @admin.register(Certificate)

@@ -1,0 +1,3 @@
+<header class="page-heading"><div><p class="eyebrow">APRENDE Y COMPARTE</p><h1>Comunidad</h1><p>Conversa con los alumnos y el creador de cada curso. Tu nombre será visible a los participantes; tu correo permanece privado.</p></div></header>
+<div class="library-grid">{% for version in versions %}<article class="commerce-panel"><h2>{{ version.title }}</h2><p>Versión {{ version.number }}</p><a class="btn btn-dark" href="{% url 'community-space' version.pk %}">Entrar a la comunidad →</a></article>{% empty %}<p>Todavía no tienes comunidades disponibles. Inscríbete en un curso desde su ficha.</p>{% endfor %}</div>
+{% include 'commerce/_pagination.html' with page=versions %}

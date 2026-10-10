@@ -1,0 +1,8 @@
+<a class="text-link" href="{% url 'community-space' version.pk %}">← {{ version.title }} · Comunidad</a><h1>Conversación</h1>
+{% for message in messages %}<p class="studio-notice" role="status">{{ message }}</p>{% endfor %}
+{% include 'learning/_community_post.html' with item=post %}
+{% if post.closed %}<p role="status">Esta conversación está cerrada y no admite respuestas.</p>{% endif %}
+<section class="learning-section"><h2>Respuestas</h2>{% for item in replies %}{% include 'learning/_community_post.html' %}{% empty %}<p>Aún no hay respuestas.</p>{% endfor %}</section>
+{% include 'commerce/_pagination.html' with page=replies %}
+{% if can_write and not post.closed and not post.hidden %}<section class="commerce-panel"><h2>Responder</h2><form class="studio-form" method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-dark">Enviar respuesta</button></form></section>{% elif suspended %}<p role="status">Tu escritura está suspendida. Puedes seguir leyendo y estudiando.</p>{% endif %}
+{% if can_moderate %}<a class="btn btn-outline-dark" href="{% url 'community-moderation' version.pk %}">Reportes e historial de moderación</a>{% endif %}

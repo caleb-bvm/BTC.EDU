@@ -1,8 +1,14 @@
 from django.urls import path
 
-from . import assessment_views, essential_views, views
+from . import assessment_views, community_views, essential_views, views
 
 urlpatterns = [
+    path("comunidad/", community_views.spaces, name="community-spaces"),
+    path("comunidad/versiones/<int:version_pk>/", community_views.space, name="community-space"),
+    path("comunidad/versiones/<int:version_pk>/moderacion/", community_views.moderation, name="community-moderation"),
+    path("comunidad/versiones/<int:version_pk>/decision/", community_views.decision, name="community-decision"),
+    path("comunidad/conversaciones/<int:pk>/", community_views.thread, name="community-thread"),
+    path("comunidad/mensajes/<int:pk>/reportar/", community_views.report, name="community-report"),
     path("certificados/", essential_views.certificates_list, name="certificates"),
     path("inscripciones/<int:enrollment_pk>/certificado/", essential_views.certificate_request, name="certificate-request"),
     path("certificados/<uuid:pk>/", essential_views.certificate_detail, name="certificate-detail"),

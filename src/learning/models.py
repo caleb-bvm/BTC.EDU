@@ -181,3 +181,49 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ("-created_at", "-pk")
+
+
+class CommunityPost(FrozenRecord):
+    version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.PROTECT, related_name="replies")
+    body = models.TextField(max_length=2000)
+    request_key = models.UUIDField()
+    hidden = models.BooleanField(default=False)
+    closed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("created_at", "pk")
+        permissions = [("moderate_community", "Moderar comunidades de todos los cursos")]
+        constraints = [models.UniqueConstraint(fields=("author", "request_key"), name="unique_community_post_request")]
+
+
+class CommunityReport(FrozenRecord):
+    post = models.ForeignKey(CommunityPost, on_delete=models.PROTECT, related_name="reports")
+    reporter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    reason = models.CharField(max_length=500)
+    resolved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=("post", "reporter"), name="unique_community_report")]
+
+
+class CommunitySuspension(models.Model):
+    version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT)
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=("version", "student"), name="unique_community_suspension")]
+
+
+class CommunityDecision(FrozenRecord):
+    version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    post = models.ForeignKey(CommunityPost, null=True, blank=True, on_delete=models.PROTECT)
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name="community_decisions")
+    action = models.CharField(max_length=12, choices=(("hide", "Ocultar"), ("show", "Mostrar"), ("close", "Cerrar"), ("open", "Reabrir"), ("dismiss", "Descartar reportes"), ("suspend", "Suspender escritura"), ("restore", "Restablecer escritura")))
+    reason = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)

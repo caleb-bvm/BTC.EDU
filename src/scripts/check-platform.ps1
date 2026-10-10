@@ -19,4 +19,6 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Falló la comprobación de concurrencia de evaluaciones.' }
     & $pythonPath scripts/verify-essential-concurrency.py
     if ($LASTEXITCODE -ne 0) { throw 'Falló la comprobación de concurrencia de certificados y preguntas.' }
+    & $pythonPath scripts/verify-community-concurrency.py
+    if ($LASTEXITCODE -ne 0) { throw 'Falló la comprobación de concurrencia de comunidad.' }
 } finally { Pop-Location }
