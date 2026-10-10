@@ -1,6 +1,6 @@
 # Funciones de aprendizaje y creación
 
-Este documento amplía el alcance e invalida exclusiones anteriores. Es diseño sustentado en 07, no requisitos adicionales del assignment. Cuentas, publicación, creadores y progreso básico están registrados como implementados al 4 de octubre; las evaluaciones se entregaron el 7 de octubre; certificados, preguntas, notificaciones y paneles esenciales se entregaron el 10 de octubre. Comunidad, membresías, reproducción medida y operación pública siguen pendientes. Ver [estado](../src/README.md).
+Este documento amplía el alcance e invalida exclusiones anteriores. Es diseño sustentado en 07, no requisitos adicionales del assignment. Cuentas, publicación, creadores y progreso básico están registrados como implementados al 4 de octubre; las evaluaciones se entregaron el 7 de octubre; certificados, preguntas, notificaciones y paneles esenciales se entregaron el 10 de octubre. Comunidad y moderación por versión se incorporan el 10 de octubre. Membresías, reproducción medida y operación pública siguen pendientes. Ver [estado](../src/README.md).
 
 La [comparación comercial](13-monetizacion-precios-y-muestras.md) documenta posibilidades, no demanda. Las [sesiones propuestas](16-validacion-con-usuarios.md) deberán evaluar necesidades y comprensión. No cambia renovación manual de 30 días ni derechos históricos. Probar módulos pendientes en prototipos identificados.
 
@@ -100,3 +100,7 @@ Hito del 13 de octubre: demostrar plataforma navegable, curso gratuito, compra d
 Cada credencial conserva una huella SHA-256 de sus datos y evidencia histórica. El PDF y la página de verificación muestran esa huella; quien recibe el certificado puede compararla con el registro y descargar los datos para recalcularla. La comprobación detecta diferencias y mantiene visible cualquier revocación. La huella verifica integridad frente a la referencia de BTC.EDU; la autenticidad del emisor depende de consultar su página legítima. No constituye una firma digital ni un registro en Bitcoin.
 
 Implementado y verificado el 10 de octubre. [Contrato, privacidad, migración y pruebas](../src/docs/certificados-sha256-2026-10-10.md). La exportación permite recalcular exactamente los bytes JSON; no representa el hash de todo el PDF.
+
+## Comunidad implementada
+
+El 10 de octubre se incorpora conversación por versión para alumnos inscritos y creador aprobado; reportes, moderación con motivo e historial, cierre/reapertura, ocultación y suspensión/restablecimiento de escritura. La administración interviene con permiso específico. Conserva lectura, compras y progreso; no habilita membresías ni acceso público. Avisos internos, límites y condiciones en [reglas adoptadas](15-especificaciones-modulos-pendientes.md) y [registro técnico](../src/docs/comunidad-2026-10-10.md). Las propuestas anteriores de otros tipos de espacio permanecen como diseño.

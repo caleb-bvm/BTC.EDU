@@ -129,3 +129,7 @@ La siguiente prioridad esencial es catálogo/derechos, manuales y ensayo de la d
 ## Avance técnico posterior del 10 de octubre
 
 Por petición del usuario de continuar el desarrollo técnico, se implementó conciliación periódica con `reconcile_payments --watch`. Se verificaron reintentos, rotación de lotes y conservación de reglas de acceso: 192 pruebas, revisión estática, migraciones y tres controles de concurrencia aprobados. [Evidencia y límites](../src/docs/conciliacion-2026-10-10.md). La herramienta se ejecuta en un terminal supervisado; instalación como servicio, alertas y comprobación de pago desde ZEUS siguen pendientes. Este avance no acredita validación externa ni cierra D09/D12.
+
+## Comunidad y moderación del 10 de octubre
+
+Por elección del usuario se continúa desarrollo técnico con comunidad por versión, acceso por inscripción, respuestas y reportes, moderación con motivo e historial y suspensión reversible de escritura. Se mantienen compras, progreso y lectura. Se añaden avisos internos y pruebas de permisos, privacidad, reintentos y concurrencia. [Reglas y evidencia](../src/docs/comunidad-2026-10-10.md). Trabajo en main; se preservan los archivos de revisión integrada que ya estaban sin seguimiento. Membresías y operación pública siguen pendientes. No se ejecutan sesiones externas ni se publica al remoto.

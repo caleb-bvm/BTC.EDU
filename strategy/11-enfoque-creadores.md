@@ -8,7 +8,7 @@ Definición del 3 de octubre de 2026. El proyecto se aborda como una plataforma 
 
 ## Cobertura vigente
 
-Entrega del 10 de octubre: configuración de certificados por versión, bandeja de preguntas, notificaciones internas y panel de actividad agregado por creador, además del panel administrativo con permisos. 179 pruebas y recorridos HTTP de escritorio/móvil verificados. [Reglas y evidencia](../src/docs/esenciales-2026-10-10.md). Comunidad, membresías, reproducción medida y operación pública siguen pendientes. Los registros fechados anteriores conservan el estado de sus entregas; el horizonte siguiente no acredita funciones adicionales.
+Entrega del 10 de octubre: configuración de certificados por versión, bandeja de preguntas, notificaciones internas y panel de actividad agregado por creador, además del panel administrativo con permisos. 179 pruebas y recorridos HTTP de escritorio/móvil verificados. [Reglas y evidencia](../src/docs/esenciales-2026-10-10.md). Comunidad y moderación por versión se incorporan el 10 de octubre. Membresías, reproducción medida y operación pública siguen pendientes. Los registros fechados anteriores conservan el estado de sus entregas; el horizonte siguiente no acredita funciones adicionales.
 
 ## Propósito
 
@@ -93,3 +93,7 @@ Cada entrega debe cerrar un recorrido utilizable y verificar sus permisos. Este 
 Cada credencial conserva una huella SHA-256 de sus datos y evidencia histórica. El PDF y la página de verificación muestran esa huella; quien recibe el certificado puede compararla con el registro y descargar los datos para recalcularla. La comprobación detecta diferencias y mantiene visible cualquier revocación. La huella verifica integridad frente a la referencia de BTC.EDU; la autenticidad del emisor depende de consultar su página legítima. No constituye una firma digital ni un registro en Bitcoin.
 
 Implementado y verificado el 10 de octubre. [Contrato, privacidad, migración y pruebas](../src/docs/certificados-sha256-2026-10-10.md). La exportación permite recalcular exactamente los bytes JSON; no representa el hash de todo el PDF.
+
+## Comunidad implementada
+
+El 10 de octubre se incorpora conversación por versión para alumnos inscritos y creador aprobado; reportes, moderación con motivo e historial, cierre/reapertura, ocultación y suspensión/restablecimiento de escritura. La administración interviene con permiso específico. Conserva lectura, compras y progreso; no habilita membresías ni acceso público. Avisos internos, límites y condiciones en [reglas adoptadas](15-especificaciones-modulos-pendientes.md) y [registro técnico](../src/docs/comunidad-2026-10-10.md). Las propuestas anteriores de otros tipos de espacio permanecen como diseño.

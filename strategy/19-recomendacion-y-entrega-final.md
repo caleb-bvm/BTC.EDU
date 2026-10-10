@@ -198,6 +198,12 @@ El alumno inscrito con acceso puede preguntar desde una lección. Solo el partic
 
 La bandeja propia avisa de preguntas, respuestas, decisiones editoriales, intentos adicionales y cambios del certificado. Abrir el aviso conserva su lectura. Esta entrega utiliza notificaciones internas; el envío de correo sigue pendiente.
 
+### Comunidad y moderación
+
+Cada versión publicada tiene una comunidad para sus alumnos inscritos y el creador aprobado. Las conversaciones y respuestas se comparten dentro de ese espacio; las preguntas por lección conservan su carácter privado. Inscribirse permite participar, pero no compra las lecciones de pago. Una nueva versión tiene otro espacio y las comunidades anteriores conservan su historial.
+
+Los participantes pueden reportar mensajes. El creador modera sus cursos y la administración interviene con permiso específico. Ocultar mensajes, cerrar conversaciones, suspender escritura y restablecerla requiere un motivo y conserva quién tomó la decisión y cuándo. La suspensión mantiene lectura, compras y progreso. Los avisos internos informan de respuestas, reportes y cambios de participación; los controles de acceso, formularios y reintentos se verifican con datos temporales. Todavía no hay operación pública ni validación con personas.
+
 ### Métricas y paneles
 
 El creador consulta resultados de sus contenidos; la administración consulta el conjunto con permisos específicos. Los paneles muestran compras confirmadas y volumen, conversión desde oferta, aperturas posteriores, regreso a biblioteca, compra repetida, inscripciones, progreso agregado, evaluaciones, certificados y atención de preguntas.
@@ -220,15 +226,17 @@ La aplicación utiliza Django, HTML y HTMX, con SQLite para la etapa local. La e
 
 La ampliación de conciliación pasó 192 pruebas Django, revisión estática y comprobación de migraciones, junto con los tres controles de concurrencia. No necesitó una migración nueva ni modificó la base principal. La verificación usó datos de prueba y un proveedor controlado; el ensayo adicional con ZEUS sigue pendiente.
 
+La incorporación de comunidad y moderación pasó 210 pruebas Django, revisión estática, consistencia de migraciones y cuatro controles de concurrencia con conexiones SQLite independientes. La migración local se aplicó con respaldo y sin ejemplos. Se comprobó el recorrido de alumno y el envío de una respuesta en Chrome, incluida la vista móvil; los formularios de moderación se verificaron en las pruebas automatizadas. Esta entrega no repite el pago desde ZEUS ni acredita operación pública.
+
 ### Organización y próximos pasos
 
-Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, instalación de la conciliación como servicio y procedimientos para operación pública. Comunidad y membresías permanecen como ampliaciones pendientes. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
+Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, instalación de la conciliación como servicio y procedimientos para operación pública. Las membresías permanecen como ampliación pendiente; la comunidad por versión ya permite conversar y moderar con historial. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
 
 ## A dónde queremos llegar
 
 Queremos una experiencia en la que el alumno encuentre contenido pertinente, comprenda la compra y pueda continuar aprendiendo. El creador debe preparar, publicar y mantener sus materiales sin perjudicar el acceso existente.
 
-Las evaluaciones y certificados conservan requisitos y resultados por versión. Las preguntas y notificaciones ya permiten acompañar al alumno; los paneles ofrecen indicadores con fuentes y denominadores explícitos. Comunidad y membresías renovadas manualmente quedan como ampliaciones por desarrollar y verificar.
+Las evaluaciones y certificados conservan requisitos y resultados por versión. Las preguntas y notificaciones ya permiten acompañar al alumno; los paneles ofrecen indicadores con fuentes y denominadores explícitos. La comunidad por versión incorpora conversación y moderación; las membresías renovadas manualmente quedan como ampliación por desarrollar y verificar.
 
 Necesitamos analítica que explique consulta, pago, uso y regreso sin confundir actividad con aprendizaje. También un presupuesto que considere consumo gratuito, acceso permanente, archivos históricos, correo, respaldos, supervisión y soporte.
 

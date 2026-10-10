@@ -1,0 +1,6 @@
+Respaldo privado creado antes de migrar; no se publica en Git.
+Operations to perform:
+  Apply all migrations: accounts, admin, auth, commerce, content, contenttypes, core, creators, learning, media, sessions
+Running migrations:
+  Applying learning.0006_communitypost_communitydecision_communityreport_and_more... OK
+OK: 47 tablas previas y 0 filas de negocio conservadas; integridad y claves foráneas correctas; comunidad sin ejemplos.

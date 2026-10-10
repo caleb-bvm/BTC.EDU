@@ -68,3 +68,7 @@ Por petición del usuario se implementaron certificados, preguntas, notificacion
 ## Ampliación de certificados del 10 de octubre
 
 El usuario solicitó SHA-256 para verificar certificados. Se adoptó una huella de datos históricos guardada al emitir, visible en PDF/web y reproducible con JSON; comparación con el registro de BTC.EDU, conservando privacidad y revocación. Se documenta la diferencia entre hash y firma y no se presenta como registro Bitcoin. Evidencia técnica y pruebas específicas en el registro de certificados SHA-256. Se guardará el bloque en commit local, sin push.
+
+## Comunidad y moderación del 10 de octubre
+
+Por elección del usuario se continúa desarrollo técnico con comunidad por versión, acceso por inscripción, respuestas y reportes, moderación con motivo e historial y suspensión reversible de escritura. Se mantienen compras, progreso y lectura. Se añaden avisos internos y pruebas de permisos, privacidad, reintentos y concurrencia. [Reglas y evidencia](../src/docs/comunidad-2026-10-10.md). Implementación en commit local 3a465c3, sobre main; se preservan los archivos de revisión integrada que ya estaban sin seguimiento. Membresías y operación pública siguen pendientes. No se ejecutan sesiones externas ni se publica al remoto.
