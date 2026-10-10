@@ -1,6 +1,8 @@
 # BTC.EDU — plataforma educativa
 
-Estado vigente al **7 de octubre de 2026** (El Salvador): evaluaciones de selección única/múltiple por versión, reglas del creador, corrección en servidor, guardado/retoma, límites y espera, resultados privados y autorización de otro intento con motivo. La evaluación obligatoria requiere aprobación para completar la lección. **148 pruebas pasan**, junto con concurrencia comercial y de evaluaciones. Migración aplicada con respaldo, sin datos de demo en la base principal. [Uso, reglas, capturas y límites de verificación](docs/evaluaciones-2026-10-07.md). Certificados y preguntas son los próximos módulos; pagos continúan simulados.
+Estado vigente al **10 de octubre de 2026** (El Salvador): certificados históricos con PDF privado, compartición voluntaria y revocación; preguntas privadas por lección; notificaciones internas; paneles de creador y administración con periodos, permisos y denominadores. **179 pruebas pasan**, revisión estática/migraciones y tres controles de concurrencia. Recorridos HTTP en Chrome, formularios con CSRF, escritorio/móvil y PDF comprobados. Base principal migrada con respaldo y 211 registros conservados, sin datos de demostración. [Reglas, uso, evidencia y límites](docs/esenciales-2026-10-10.md). Comunidad, membresías y operación pública siguen pendientes; el usuario comprobará posteriormente el pago desde ZEUS. Los párrafos fechados siguientes conservan el historial.
+
+Estado registrado al **7 de octubre de 2026** (El Salvador): evaluaciones de selección única/múltiple por versión, reglas del creador, corrección en servidor, guardado/retoma, límites y espera, resultados privados y autorización de otro intento con motivo. La evaluación obligatoria requiere aprobación para completar la lección. **148 pruebas pasan**, junto con concurrencia comercial y de evaluaciones. Migración aplicada con respaldo, sin datos de demo en la base principal. [Uso, reglas, capturas y límites de verificación](docs/evaluaciones-2026-10-07.md). Certificados y preguntas son los próximos módulos; pagos continúan simulados.
 
 Actualización de experiencia del **4 de octubre**: compra con resumen, «Continuar al pago», «Pagar [importe] sats», procesamiento y confirmación con fecha; aviso de saldo de prueba concentrado en el entorno. 60 pruebas relacionadas, integración FakeWallet y recorrido en navegador pasan. [Registro y capturas](docs/experiencia-compra-2026-10-04.md).
 
@@ -111,10 +113,10 @@ Django mantiene autorización y reglas comerciales en el servidor; LNbits no sus
 ## Estructura
 
 - `accounts/`: cuentas independientes por tipo/correo, registro, recuperación y administración.
-- `core/`: páginas, espacio personal, health y pruebas.
+- `core/`: páginas, espacio personal, health, eventos y paneles de métricas.
 - `creators/`: aprobación, estudio, editor, perfil público y revisión editorial.
 - `commerce/`: ofertas, integración FakeWallet, facturas, compras, evidencia y derechos.
-- `learning/`: inscripción por versión, biblioteca y avance con control de actualizaciones simultáneas.
+- `learning/`: inscripción, biblioteca, progreso, evaluaciones, certificados, preguntas y notificaciones.
 - `content/`: cursos, capítulos, lecciones de texto, fichas de videos/materiales, administración y regla de acceso.
 - `platform_config/`: configuración, rutas y WSGI.
 - `templates/`, `static/`: portada, catálogo, curso, lectura y estados vacíos; NType82, Ndot77 y Space Mono locales e ilustración industrial independiente; Bootstrap 5.3.8 y HTMX 2.0.8 locales.
@@ -129,8 +131,8 @@ Django mantiene autorización y reglas comerciales en el servidor; LNbits no sus
 ./src/scripts/check-platform.ps1
 ```
 
-129 pruebas Django pasan, migraciones consistentes y revisión estática sin errores. La comprobación incluye dos conexiones independientes a SQLite en archivo para reservas, pagos y avance concurrentes. La prueba de integración adicional crea y paga facturas contra LNbits FakeWallet, incluida recuperación de respuesta perdida. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
+179 pruebas Django pasan, migraciones consistentes y revisión estática sin errores. Incluye concurrencia comercial, de evaluaciones y de certificados/preguntas/notificaciones. La comprobación incluye dos conexiones independientes a SQLite en archivo para reservas, pagos y avance concurrentes. La prueba de integración adicional crea y paga facturas contra LNbits FakeWallet, incluida recuperación de respuesta perdida. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
 
-El proyecto completo sigue en desarrollo. Faltan evaluaciones, certificados, preguntas, comunidad, membresías, métricas completas de creadores y operación pública. También faltan catálogo editorial real y validación con usuarios. Ver [diseño completo](docs/diseno-plataforma.md). Las pruebas locales de concurrencia no son una medición de capacidad para tráfico público; la conciliación periódica, entrega de correo y supervisión deben prepararse antes del despliegue.
+El proyecto completo sigue en desarrollo. Faltan comunidad, membresías, corrección de credenciales, eventos de reproducción/muestras y operación pública. Evaluaciones, certificados, preguntas, avisos internos y paneles esenciales están implementados. También faltan catálogo editorial real y validación con usuarios. Ver [diseño completo](docs/diseno-plataforma.md). Las pruebas locales de concurrencia no son una medición de capacidad para tráfico público; la conciliación periódica, entrega de correo y supervisión deben prepararse antes del despliegue.
 
 No se publicó, desplegó ni hizo push. Historial diario GitHub, Google Doc de Business, entrevistas y validación externa siguen pendientes. Las fechas oficiales 3/8 de noviembre y el equipo dos/cuatro integrantes continúan sin aclarar.

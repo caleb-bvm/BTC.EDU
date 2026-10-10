@@ -164,9 +164,9 @@ La finalización del pago compara las facturas pagadas con las creadas en el per
 
 La apertura posterior compara los permisos adquiridos que registraron una apertura después de la compra con el total de permisos adquiridos en el periodo.
 
-El regreso a biblioteca compara los compradores que vuelven en una sesión posterior con los compradores del periodo. La compra repetida compara los compradores del periodo que tienen dos o más facturas pagadas al cierre con el total de compradores de ese periodo.
+El regreso a biblioteca compara los compradores que vuelven después de confirmar la compra, en una sesión distinta, con los compradores del periodo cuya sesión de compra está registrada; los no observables se informan aparte. La compra repetida compara los compradores del periodo que tienen dos o más facturas pagadas al cierre con el total de compradores de ese periodo.
 
-Cada indicador necesita fuente, intervalo y denominador; si este es cero se mostrará que no hay datos. Una compra de conjunto puede conceder varios permisos, pero es una sola transacción. La cobertura de eventos y paneles deberá auditarse antes de informar resultados. Apertura, reproducción y finalización declarada no demuestran aprendizaje.
+Cada indicador necesita fuente, intervalo y denominador; si este es cero se mostrará que no hay datos. Una compra de conjunto puede conceder varios permisos, pero es una sola transacción. Los paneles esenciales y sus consultas están implementados y probados. La cobertura comienza con los eventos registrados, sin reconstruir visitas anteriores ni medir reproducción o muestras por separado. Apertura, reproducción y finalización declarada no demuestran aprendizaje.
 
 ### Operación
 
@@ -176,63 +176,51 @@ El creador mantiene materiales propios; la administración revisa publicaciones 
 
 ### Estado actual
 
-Los registros al 4 de octubre describen cuentas independientes, aprobación de creadores, estudio y revisión, contenido versionado, archivos protegidos, ofertas, facturas, compras, biblioteca, inscripción y progreso.
-
-Las cuentas tienen registro, acceso, perfiles y recuperación independientes. La entrega de correo para operación pública sigue pendiente de preparación y verificación.
-
-El contenido se organiza en cursos, tutoriales y recursos con archivos protegidos. El catálogo editorial definitivo requiere producción y comprobación de derechos de uso.
-
-Los creadores cuentan con aprobación, editor, vista previa y revisión. El acompañamiento y las métricas completas siguen pendientes.
-
-El comercio dispone de compras simuladas y derechos históricos. Faltan conciliación periódica supervisada y analítica completa.
-
-El aprendizaje dispone de biblioteca, inscripción y progreso por versión. Desde la entrega de evaluaciones, una lección puede exigir aprobación antes de marcarse como completada. Los certificados siguen pendientes.
-
-Preguntas, avisos, comunidad y membresías tienen diseño definido, pero necesitan implementación y validación. Las membresías propuestas tendrán acceso temporal y renovación manual.
+BTC.EDU dispone de cuentas independientes, aprobación de creadores, edición y revisión editorial, contenido y archivos protegidos por versión, ofertas, facturas, compras, biblioteca, inscripción, progreso y evaluaciones. La entrega esencial añade certificados, preguntas por lección, notificaciones internas y paneles de creador y administración.
 
 ### Evaluaciones
 
-El creador puede preparar preguntas de selección única y múltiple, configurar la nota mínima, el límite de intentos, la espera y cuándo se muestran las soluciones. Las preguntas y reglas se conservan en la composición enviada a revisión. Editar el borrador después no cambia esa copia ni los intentos de las versiones anteriores.
+El creador configura selección única o múltiple, nota mínima, intentos, espera y presentación de soluciones. El alumno puede guardar, retomar y entregar respuestas; iniciar consume un intento. El servidor corrige con igual peso por pregunta y coincidencia exacta en selección múltiple, sin crédito parcial. La aprobación usa la puntuación exacta; el redondeo afecta solo la presentación.
 
-El alumno necesita inscripción y acceso a la lección. Antes de empezar ve las reglas; puede guardar respuestas, retomar el intento y entregarlo cuando ha respondido todas las preguntas. Iniciar consume un intento. El servidor corrige con preguntas de igual peso y exige coincidencia exacta en selección múltiple, sin crédito parcial. La aprobación usa la puntuación exacta; el redondeo solo afecta la nota mostrada.
+Las evaluaciones obligatorias requieren aprobación para completar la lección. El creador puede autorizar un intento adicional con motivo, conservando notas y espera. Preguntas, reglas y resultados permanecen asociados a su versión; editar el borrador no cambia los intentos históricos.
 
-Una evaluación obligatoria requiere aprobación para completar la lección. El creador puede autorizar otro intento con motivo cuando se agotan los disponibles. Esta autorización conserva resultados y espera, sin borrar notas anteriores. Una aprobación previa tampoco se pierde por una nota posterior menor.
+### Certificados
 
-La entrega aprobó 148 pruebas técnicas y comprobaciones de concurrencia. Se verificaron guardado, recuperación, fallo, aprobación, edición y conservación de versiones en navegador, con el cliente de Django. Las pantallas comprobadas funcionaron en tamaños de escritorio y móvil; la conexión HTTP directa al servidor local no pudo verificarse en este entorno. La migración conservó las filas originales y mantuvo los ejemplos fuera de la base principal. Esta evidencia comprueba funcionamiento, sin demostrar aprendizaje ni sustituir sesiones con usuarios.
+El creador elige las lecciones requeridas y la publicación conserva esos requisitos. El alumno debe completarlas y aprobar todas las evaluaciones obligatorias de la versión, incluso las de lecciones opcionales. Comprar o inscribirse no cumple estas condiciones.
+
+Al confirmar su nombre, el alumno obtiene una credencial única por inscripción, con evidencia histórica y descarga PDF privada. La verificación pública requiere que habilite compartir y puede ocultarse nuevamente. La administración puede revocar con motivo, sin borrar el historial. La corrección o sustitución después de emitir queda pendiente. El certificado acredita finalización según esas reglas, sin constituir una titulación oficial ni demostrar aprendizaje por sí mismo.
+
+### Preguntas y notificaciones
+
+El alumno inscrito con acceso puede preguntar desde una lección. Solo el participante y el creador aprobado del curso consultan la conversación. Los mensajes enviados se conservan; una corrección se añade como aclaración. Los límites de frecuencia, la protección de formularios y las claves de envío impiden duplicados y restringen la participación.
+
+La bandeja propia avisa de preguntas, respuestas, decisiones editoriales, intentos adicionales y cambios del certificado. Abrir el aviso conserva su lectura. Esta entrega utiliza notificaciones internas; el envío de correo sigue pendiente.
+
+### Métricas y paneles
+
+El creador consulta resultados de sus contenidos; la administración consulta el conjunto con permisos específicos. Los paneles muestran compras confirmadas y volumen, conversión desde oferta, aperturas posteriores, regreso a biblioteca, compra repetida, inscripciones, progreso agregado, evaluaciones, certificados y atención de preguntas.
+
+Cada indicador presenta periodo y denominador, con fechas de El Salvador y ausencia de datos explícita. Una compra conjunta se cuenta una vez como transacción y aporta varios permisos. Los eventos nuevos no reconstruyen visitas anteriores; reproducción y muestras siguen sin medición específica. La actividad técnica no demuestra aprendizaje ni validación comercial.
+
 ### Publicación y acceso
 
-El envío editorial conserva una composición revisable. Aprobar publica esa composición; las ediciones posteriores preparan otra versión.
+Enviar a revisión conserva una composición; aprobar publica exactamente esa copia. Las facturas mantienen precio e inclusiones y los derechos conservan la versión adquirida. El servidor verifica pagos y condiciones antes de conceder acceso, sin duplicar compras.
 
-Las facturas conservan precio e inclusiones. El servidor confirma condiciones y concede acceso sin duplicar compras. Los derechos permanecen asociados a la cuenta y la versión adquirida.
-
-La integración de pagos permite conservar FakeWallet para pruebas internas o utilizar LNbits conectado a Polar en regtest. No se utilizan fondos reales ni se acreditan ingresos.
-
-El usuario confirmó un pago de prueba desde ZEUS en Android hacia LNbits a través del canal de Polar. BTC.EDU ahora muestra el QR de la factura regtest y permite abrirla en una wallet o copiarla. Mientras la página está visible, consulta el estado cada cinco segundos; también conserva la actualización manual. El servidor concede acceso únicamente después de verificar el pago, el importe y las condiciones de la compra. Verificamos la emisión de facturas, la consulta de estado y la entrega privada del QR. La compra completa desde ZEUS dentro de BTC.EDU sigue pendiente de comprobación; la prueba previa se realizó directamente en LNbits.
+Los pagos pueden probarse con FakeWallet o con LNbits conectado a Polar en regtest. El usuario confirmó previamente un pago desde ZEUS hacia LNbits. BTC.EDU muestra el QR y consulta el estado silenciosamente; la compra completa desde ZEUS dentro de la aplicación queda para su comprobación posterior. No se acreditan fondos reales ni ingresos.
 
 ### Base técnica y pruebas
 
-La aplicación utiliza Django, plantillas HTML y HTMX; SQLite sostiene la etapa local. El servidor controla contenido, cuentas, compras y aprendizaje, y conserva las claves del proveedor.
+La aplicación utiliza Django, HTML y HTMX, con SQLite para la etapa local. La entrega esencial pasó 179 pruebas y comprobaciones de concurrencia comercial, de evaluaciones y de certificados y mensajes. Se recorrieron las nuevas pantallas por HTTP en escritorio y móvil y se verificaron formularios, privacidad y PDF. La migración tuvo respaldo y conservó los 211 registros originales, sin cargar ejemplos en la base principal.
 
-Los registros informan 129 pruebas aprobadas, concurrencia SQLite e integración FakeWallet, además de recorridos de escritorio/móvil. Son evidencias fechadas de la entrega registrada, no pruebas reejecutadas por la actualización documental.
+### Organización y próximos pasos
 
-### Organización del trabajo
-
-BTC.EDU continúa como proyecto individual. Caleb asume la investigación, las decisiones de producto, el desarrollo y la documentación. La planificación debe ajustarse a su disponibilidad, que todavía no está cuantificada. Priorizaremos cerrar el recorrido central y sus evidencias antes de comprometer fechas para los módulos adicionales.
-
-La matriz inicial de trazabilidad relaciona los requisitos del reto y los criterios de producto con registros técnicos y tareas pendientes. Esta revisión documental no acredita nuevas funciones ni una ejecución nueva de las pruebas. Sigue pendiente comprobar la cobertura de cada criterio, completar la analítica administrativa y verificar los recorridos de la versión que demostraremos.
-
-El original de evaluación exige cuatro integrantes. La continuidad individual requiere aclarar con CUBO+ cómo se aplicará esa condición; no contamos con una excepción confirmada.
-### Actualizaciones
-
-Cada entrega revisará comportamiento, decisiones, pruebas, límites y próximos pasos. El estado actual se mantendrá separado de la bitácora para conservar evolución sin contradicciones.
-
-La investigación documental incorporó métodos y referencias comerciales. La entrega de evaluaciones amplía el aprendizaje y conserva las condiciones comerciales y los pagos simulados existentes.
+Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, conciliación y procedimientos para operación pública. Comunidad y membresías permanecen como ampliaciones pendientes. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
 
 ## A dónde queremos llegar
 
 Queremos una experiencia en la que el alumno encuentre contenido pertinente, comprenda la compra y pueda continuar aprendiendo. El creador debe preparar, publicar y mantener sus materiales sin perjudicar el acceso existente.
 
-Las evaluaciones ya permiten comprobar respuestas y conservar resultados por versión. El siguiente bloque será definir y construir certificados de finalización sobre requisitos históricos. Preguntas, comunidad, notificaciones y membresías renovadas manualmente se desarrollarán y verificarán por entregas.
+Las evaluaciones y certificados conservan requisitos y resultados por versión. Las preguntas y notificaciones ya permiten acompañar al alumno; los paneles ofrecen indicadores con fuentes y denominadores explícitos. Comunidad y membresías renovadas manualmente quedan como ampliaciones por desarrollar y verificar.
 
 Necesitamos analítica que explique consulta, pago, uso y regreso sin confundir actividad con aprendizaje. También un presupuesto que considere consumo gratuito, acceso permanente, archivos históricos, correo, respaldos, supervisión y soporte.
 
@@ -242,13 +230,13 @@ La operación pública y una integración con fondos reales requerirán decision
 
 La evidencia técnica registrada muestra una oferta que genera una factura simulada y una confirmación válida que concede acceso específico. Documenta persistencia, protección y conservación de referencias históricas.
 
-La revisión permite publicar una composición aprobada mientras se preparan cambios posteriores. Las evaluaciones verifican respuestas en el servidor y conservan reglas e intentos de cada versión; estos resultados técnicos no prueban dominio educativo.
+La revisión permite publicar una composición aprobada mientras se preparan cambios posteriores. Las evaluaciones y certificados conservan reglas, intentos y evidencia de finalización por versión. También comprobamos preguntas privadas, avisos persistentes y paneles con datos de prueba; estos resultados técnicos no prueban dominio educativo.
 
 La investigación documenta alternativas de monetización y condiciones externas de costos. Todavía no demuestra preferencia por BTC.EDU, disposición real a pagar, frecuencia de compra o mejora educativa.
 
 ## Logros
 
-Definimos unidades de compra, muestras, permisos y responsabilidades de publicación. Conectamos creación, revisión, oferta, compra simulada y aprendizaje, conservando versiones históricas. Incorporamos evaluaciones con resultados persistentes y control de intentos, sin alterar las compras existentes.
+Definimos unidades de compra, muestras, permisos y responsabilidades de publicación. Conectamos creación, revisión, oferta, compra simulada y aprendizaje, conservando versiones históricas. Incorporamos evaluaciones con resultados persistentes, certificados históricos, acompañamiento por preguntas y avisos, y paneles con consultas verificadas, conservando las compras existentes.
 
 Ampliamos la comparación de modelos y costos, y preparamos instrumentos para entrevistas, usabilidad y precios. Es un avance de investigación documental y preparación, no una validación externa terminada.
 
@@ -258,7 +246,7 @@ Los resultados de mercado y aprendizaje se incorporarán cuando exista evidencia
 
 Preparar reclutamiento y consentimiento; ejecutar entrevistas y tareas con la versión identificada; analizar dificultades y objeciones; comprobar los cambios relevantes.
 
-Contrastar rangos de precio con costos y preparar escenarios de sostenibilidad. Completar la cobertura de analítica y las especificaciones de módulos pendientes.
+Contrastar rangos de precio con costos y preparar escenarios de sostenibilidad. Preparar la demostración y los manuales de la entrega esencial; completar operación y especificaciones de las ampliaciones pendientes. Extender analítica solo cuando los nuevos eventos tengan reglas y utilidad definidas.
 
 Actualizar el documento con cada entrega, vinculando decisiones y resultados a sus evidencias reales.
 

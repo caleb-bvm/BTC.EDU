@@ -119,3 +119,9 @@ Ejecutar D01/D04: responsables, capacidad y matriz requisito → evidencia → t
 ## Revisión del 7 de octubre
 
 El usuario confirma continuidad individual: Caleb asume Business y Dev, con horas disponibles por definir. D01 registra esta organización en 06; la condición de cuatro integrantes requiere aclaración con CUBO+. D04 tiene una matriz inicial en 14 con los requisitos oficiales y 47 criterios AC/UX; sigue abierto hasta auditar pruebas y recorridos específicos. La siguiente tarea documental es T-02/T-03: precisar cobertura y contrato de analítica administrativa. No se ejecutaron sesiones ni nuevas pruebas. El calendario continúa siendo orientativo y se ajustará a capacidad real.
+
+## Entrega esencial del 10 de octubre
+
+Por prioridad del usuario, certificados, preguntas, notificaciones y paneles quedaron implementados y verificados sobre main, sin cambiar de rama. D06 dispone de reglas adoptadas en 15 y evidencia técnica; mantiene comunidad, membresías y correcciones de credenciales pendientes. D07 dispone de contrato actualizado en 05, consultas, permisos y paneles probados; no declara reproducción, muestras ni actividad histórica inexistente. D04 enlaza los nuevos criterios en 14. D13 refleja la versión disponible en 19 y el texto plano para copia manual. D08 sigue sin sesiones externas y D09 sin presupuesto completo.
+
+La siguiente prioridad esencial es catálogo/derechos, manuales y ensayo de la demostración; posteriormente correo, conciliación supervisada y procedimientos operativos. El usuario conserva la comprobación móvil del pago. La entrega no cierra automáticamente el assignment completo ni las ampliaciones pendientes; resultados y límites en [registro](../src/docs/esenciales-2026-10-10.md).

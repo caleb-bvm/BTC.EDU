@@ -14,6 +14,8 @@ Mentoría del 13 de octubre: demostrar el curso gratuito, una compra de contenid
 
 ## Estado verificado
 
+**10 de octubre de 2026:** bloque esencial de certificados, preguntas, notificaciones y paneles implementado. 179 pruebas, migraciones, revisión estática y tres comprobaciones de concurrencia pasan. Navegación y formularios por HTTP, escritorio/móvil y PDF comprobados; migración con respaldo conservó 211 filas originales, sin ejemplos en la base principal. [Entrega vigente y límites](../src/docs/esenciales-2026-10-10.md). Comunidad, membresías, operación pública y validación externa siguen pendientes. El usuario comprobará después el pago completo desde ZEUS.
+
 **4 de octubre de 2026:** cuentas independientes, estudio y revisión editorial, ofertas, compra simulada integrada, derechos históricos, biblioteca, inscripción y progreso por versión. 129 pruebas pasan; integración real contra FakeWallet y concurrencia SQLite en archivo verificadas. Próxima fase: evaluaciones/certificados y preguntas; operación supervisada y validación siguen pendientes. Los párrafos fechados anteriores conservan su contexto histórico.
 
 LNbits 1.6.2 funciona localmente con uv y FakeWallet. Se verificó creación de factura, pago interno y consulta por API, también después de mover todo el entorno técnico a src. Al 2 de octubre, el sitio cuenta con cuentas por correo, modelos de contenido, catálogo publicado con búsqueda y filtros, detalle de curso y lectura protegida de lecciones. Los pagos integrados y los módulos educativos adicionales siguen pendientes.
@@ -52,3 +54,9 @@ Se revisaron rama, historial, plan, requisitos originales y registros técnicos.
 Registrar fecha, responsable, trabajo real, evidencia, decisiones, bloqueo y próximo paso. No crear actividad retroactiva. El assignment pide avances diarios en GitHub y un Google Doc con historial para Business; el enlace sigue pendiente.
 
 Aclarar equipo de dos integrantes frente a cuatro exigidos, fecha de cierre interna y fecha oficial de entrega: el documento indica tanto 3 como 8 de noviembre. Planificar con el 3 hasta confirmar. Demo prevista el 8 de noviembre.
+
+## Trabajo del 10 de octubre
+
+Commit funcional local: `bb3745c`. La documentación y evidencia se conservan en el commit de cierre de esta entrega. No se publicaron al remoto.
+
+Por petición del usuario se implementaron certificados, preguntas, notificaciones, métricas y paneles para cerrar el desarrollo esencial. Se congelan requisitos con el envío editorial; emisión histórica única, PDF privado, compartir voluntario y revocación auditada. Se añadieron conversaciones privadas, avisos idempotentes y consultas con cohortes/denominadores explícitos. Pruebas y evidencias reales en el registro técnico; base temporal para ejemplos y respaldo de la base principal. Se actualizaron 05/08/11/12/14/15/19 y la exportación de texto. No se ejecutaron entrevistas, pruebas con fondos reales ni despliegue público. El cierre se guarda en commits locales, sin publicar al remoto.

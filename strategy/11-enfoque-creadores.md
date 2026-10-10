@@ -6,6 +6,10 @@ Definición del 3 de octubre de 2026. El proyecto se aborda como una plataforma 
 
 **Actualización del 7 de octubre:** el creador configura evaluaciones por lección, las envía como parte del curso y consulta resultados privados por versión. Puede autorizar un intento adicional con motivo, conservando notas y espera. Selección exacta, corrección, completado obligatorio y permisos comprobados; 148 pruebas aprobadas. [Entrega y límites](../src/docs/evaluaciones-2026-10-07.md). Certificados, preguntas, comunidad, membresías y métricas completas siguen pendientes.
 
+## Cobertura vigente
+
+Entrega del 10 de octubre: configuración de certificados por versión, bandeja de preguntas, notificaciones internas y panel de actividad agregado por creador, además del panel administrativo con permisos. 179 pruebas y recorridos HTTP de escritorio/móvil verificados. [Reglas y evidencia](../src/docs/esenciales-2026-10-10.md). Comunidad, membresías, reproducción medida y operación pública siguen pendientes. Los registros fechados anteriores conservan el estado de sus entregas; el horizonte siguiente no acredita funciones adicionales.
+
 ## Propósito
 
 El creador es un docente y responsable de su oferta educativa. BTC.EDU debe permitirle preparar, publicar, mantener y comercializar contenido, acompañar a sus alumnos y mejorar a partir de resultados. El panel será su espacio de trabajo cotidiano, con identidad visual compartida con la academia y navegación propia.
