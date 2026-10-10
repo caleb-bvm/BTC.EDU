@@ -71,4 +71,8 @@ def decide(submission, actor, approve, feedback=""):
     submission.reviewed_by = actor
     submission.reviewed_at = timezone.now()
     submission.save(update_fields=("status", "feedback", "reviewed_by", "reviewed_at"))
+    from django.urls import reverse
+
+    from learning.support import notify
+    notify(submission.creator, f"submission:{submission.pk}", "Tu revisión editorial tiene una decisión", reverse("creator-review", args=[submission.pk]))
     return submission

@@ -59,8 +59,15 @@ def course_version_detail(request, course_pk, number):
     summary = course_summary(course)
     first = next((item for item in summary["lessons"] if content_access(request.user, item.version_record).allowed), None)
     from commerce.catalog import version_offers, version_owned
+    from core.telemetry import offer_views
     from learning.services import enrolled
-    return render(request, "content/course.html", {"course": course, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": version.creator_name, "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": version_offers(version), "version": version, "enrolled": enrolled(request.user, version), "has_purchase": version_owned(request.user, version)})
+    offers = version_offers(version)
+    if not preview:
+        offer_views(request, offers)
+    from learning.models import VersionCertificatePolicy
+    policy = VersionCertificatePolicy.objects.filter(version=version).first()
+    required_lessons = VersionLesson.objects.filter(pk__in=policy.required_lesson_ids).select_related("content") if policy else []
+    return render(request, "content/course.html", {"course": course, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": version.creator_name, "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": offers, "version": version, "enrolled": enrolled(request.user, version), "has_purchase": version_owned(request.user, version), "certificate_policy": policy, "certificate_lessons": required_lessons})
 
 
 def attachment_cards(request, attachments):
@@ -96,6 +103,9 @@ def version_lesson_detail(request, course_pk, number, lesson_pk):
     from commerce.catalog import version_offers
     from learning.views import lesson_learning_context
     learning = lesson_learning_context(request.user, version, record) if decision.allowed else {}
+    if decision.allowed and not preview:
+        from core.telemetry import content_opened
+        content_opened(request, record.content, version)
     return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "allowed": decision.allowed, "preview": preview, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments, "offers": version_offers(version), **learning}, status=200 if decision.allowed else 403)
 
 
@@ -111,4 +121,8 @@ def attachment_file(request, pk, part):
     asset = attachment.resource.asset if part == "archivo" else attachment.resource.subtitles if part == "subtitulos" else None
     if asset is None:
         raise Http404
-    return file_response(request, asset)
+    response = file_response(request, asset)
+    if request.method == "GET" and response.status_code in (200, 206) and part == "archivo":
+        from core.telemetry import content_opened
+        content_opened(request, attachment.resource, attachment.lesson.chapter.version)
+    return response

@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -94,3 +96,80 @@ class ExtraQuizAttempt(FrozenRecord):
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=("enrollment", "quiz", "allowance_before"), name="unique_extra_quiz_allowance")]
+
+
+class CertificateDraft(models.Model):
+    course = models.OneToOneField("content.Course", on_delete=models.CASCADE, related_name="certificate_draft")
+    enabled = models.BooleanField("Ofrecer certificado de finalización", default=False)
+    required_lessons = models.ManyToManyField("content.Lesson", blank=True)
+    revision = models.PositiveIntegerField(default=0)
+
+
+class VersionCertificatePolicy(FrozenRecord):
+    version = models.OneToOneField("content.CourseVersion", on_delete=models.PROTECT, related_name="certificate_policy")
+    required_lesson_ids = models.JSONField(default=list)
+
+    def clean(self):
+        from content.models import VersionLesson
+        ids = self.required_lesson_ids
+        if (self.version.sealed or not isinstance(ids, list) or not ids
+                or any(type(value) is not int for value in ids) or len(ids) != len(set(ids))
+                or VersionLesson.objects.filter(chapter__version=self.version, pk__in=ids).count() != len(ids)):
+            raise ValidationError("El certificado requiere lecciones incluidas en esta versión sin sellar.")
+
+
+class Certificate(FrozenRecord):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    enrollment = models.OneToOneField(Enrollment, on_delete=models.PROTECT, related_name="certificate")
+    student_name = models.CharField(max_length=150)
+    course_title = models.CharField(max_length=200)
+    creator_name = models.CharField(max_length=200)
+    evidence = models.JSONField(default=dict)
+    issued_at = models.DateTimeField(auto_now_add=True)
+
+
+class CertificateSharing(models.Model):
+    certificate = models.OneToOneField(Certificate, on_delete=models.PROTECT, related_name="sharing")
+    public = models.BooleanField(default=False)
+
+
+class CertificateRevocation(FrozenRecord):
+    certificate = models.OneToOneField(Certificate, on_delete=models.PROTECT, related_name="revocation")
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    reason = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class LessonQuestion(FrozenRecord):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT, related_name="questions")
+    lesson = models.ForeignKey("content.VersionLesson", on_delete=models.PROTECT)
+    body = models.TextField(max_length=2000)
+    request_key = models.UUIDField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=("enrollment", "request_key"), name="unique_student_question_request")]
+
+
+class QuestionReply(FrozenRecord):
+    question = models.ForeignKey(LessonQuestion, on_delete=models.PROTECT, related_name="replies")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    body = models.TextField(max_length=2000)
+    request_key = models.UUIDField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("created_at", "pk")
+        constraints = [models.UniqueConstraint(fields=("question", "author", "request_key"), name="unique_question_reply_request")]
+
+
+class Notification(models.Model):
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="notifications")
+    event_key = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=200)
+    url = models.CharField(max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True)
+    read_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ("-created_at", "-pk")

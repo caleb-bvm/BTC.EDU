@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block title %}Verificar certificado · BTC.EDU{% endblock %}{% block content %}<div class="shell credential-page">{% include 'learning/_credential.html' %}{% if not certificate.revocation %}<p>La credencial coincide con el registro de finalización de BTC.EDU.</p>{% endif %}</div>{% endblock %}

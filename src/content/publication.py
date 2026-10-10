@@ -100,6 +100,8 @@ def prepare_course(course, actor):
             for attachment in lesson.attachments.all():
                 attachment.full_clean()
                 VersionAttachment.objects.create(lesson=frozen_lesson, resource=attachment.resource, position=attachment.position)
+    from learning.certificates import freeze_certificate_policy
+    freeze_certificate_policy(course, version)
     # Only the publication service seals a composition; public managers reject
     # mutations, and children reject additions once sealed.
     CourseVersion._base_manager.filter(pk=version.pk).update(sealed=True)

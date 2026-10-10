@@ -3,11 +3,16 @@ from django.urls import path
 from accounts.recovery import recovery_patterns
 from accounts.views import CreatorLoginView, CreatorLogoutView, register
 from commerce.views import creator_offer, creator_offers
-from learning import assessment_views
+from core.analytics_views import creator_analytics
+from learning import assessment_views, essential_views
 
 from . import views
 
 urlpatterns = [
+    path("estadisticas/", creator_analytics, name="creator-analytics"),
+    path("preguntas/", essential_views.creator_questions, name="creator-questions"),
+    path("preguntas/<int:pk>/", essential_views.question_detail, {"creator_space": True}, name="creator-question"),
+    path("cursos/<int:course_pk>/certificado/", essential_views.certificate_policy_edit, name="creator-certificate-policy"),
     path("lecciones/<int:lesson_pk>/evaluacion/", assessment_views.quiz_edit, name="creator-quiz"),
     path("cursos/<int:course_pk>/resultados/", assessment_views.quiz_results, name="creator-quiz-results"),
     path("intentos/<int:pk>/autorizar/", assessment_views.quiz_grant, name="creator-quiz-grant"),

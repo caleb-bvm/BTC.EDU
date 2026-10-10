@@ -35,7 +35,7 @@ def event(invoice, kind, message):
 
 
 @transaction.atomic
-def reserve_invoice(actor, offer_id):
+def reserve_invoice(actor, offer_id, activity_session=None):
     require_student(actor)
     reserve_writer(actor.pk)
     actor.refresh_from_db()
@@ -55,6 +55,10 @@ def reserve_invoice(actor, offer_id):
     inventory = [{"resource_id": item.resource_id, "title": item.resource.title, "kind": item.resource.kind, "paid": item.resource.access_type == "paid"} for item in offer.items.select_related("resource").order_by("resource_id")]
     invoice = Invoice.objects.create(buyer=actor, offer=offer, logical_key=offer.logical_key, title=offer.title, amount_sats=offer.amount_sats, inventory=inventory, expires_at=now + timedelta(minutes=15))
     event(invoice, "reserved", "Factura reservada por 15 minutos.")
+    if activity_session and not actor.is_staff:
+        from core.models import ActivityEvent
+        ActivityEvent.objects.create(event_key=f"invoice:{invoice.pk}", kind="invoice_created", session_id=activity_session,
+                                     actor=actor, creator=offer.creator, offer=offer, invoice=invoice, version=offer.course_version)
     return invoice
 
 

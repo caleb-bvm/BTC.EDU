@@ -1,0 +1,8 @@
+{% extends 'creators/base.html' %}
+{% block studio_content %}
+<a href="{% url 'creator-course' course.pk %}">← Volver al curso</a>
+<p class="eyebrow">Requisitos de finalización</p><h1>Certificado de {{ course.title }}</h1>
+<p>Selecciona las lecciones que deben completarse. Todas las evaluaciones obligatorias del curso deben aprobarse, incluso cuando pertenecen a una lección opcional.</p>
+<p>Los requisitos se conservan con la versión enviada a revisión. Comprar contenido no completa estos requisitos.</p>
+<section class="studio-panel"><form method="post" class="studio-form">{% csrf_token %}{{ form.as_p }}<button class="btn btn-dark">Guardar requisitos</button></form></section>
+{% endblock %}

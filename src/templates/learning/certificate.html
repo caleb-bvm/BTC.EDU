@@ -1,0 +1,6 @@
+{% extends 'academy.html' %}{% block academy_content %}
+<a href="{% url 'certificates' %}">← Mis certificados</a>{% include 'learning/_credential.html' %}
+{% if certificate.revocation %}<p>Motivo: {{ certificate.revocation.reason }}</p>{% else %}<a class="btn btn-dark" href="{% url 'certificate-pdf' certificate.pk %}">Descargar PDF</a>{% endif %}
+<section class="commerce-panel"><h2>Compartir verificación</h2><p>Al activar la verificación, cualquier persona con el enlace podrá ver tu nombre, curso, creador, versión, fecha y estado. Tus notas y respuestas permanecen privadas.</p>
+<form method="post" action="{% url 'certificate-share' certificate.pk %}">{% csrf_token %}{% if certificate.sharing.public %}<p><a href="{{ verification_url }}">{{ verification_url }}</a></p><button class="btn btn-outline-dark" name="public" value="no">Desactivar verificación pública</button>{% else %}<p>La verificación está desactivada.</p><button class="btn btn-outline-dark" name="public" value="yes">Activar verificación pública</button>{% endif %}</form></section>
+{% endblock %}

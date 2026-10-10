@@ -148,6 +148,10 @@ def resource_detail(request, kind, pk):
     from commerce.catalog import available
     from commerce.models import Offer
     offers = [offer for offer in Offer.objects.filter(resource=revision, status="active").select_related("creator", "resource") if available(offer)] if revision else []
+    from core.telemetry import content_opened, offer_views
+    offer_views(request, offers)
+    if revision and decision.allowed:
+        content_opened(request, revision)
     return render(
         request,
         "content/resource.html",
@@ -184,6 +188,8 @@ def lesson_content(request, pk):
         decision = content_access(request.user, frozen)
         if not decision.allowed:
             return JsonResponse({"error": "not_found" if decision.reason == "unpublished" else "purchase_required"}, status=404 if decision.reason == "unpublished" else 403)
+        from core.telemetry import content_opened
+        content_opened(request, frozen.content, frozen.chapter.version)
         return JsonResponse({"id": pk, "title": frozen.content.title, "body": frozen.content.body, "access": decision.reason, "version": frozen.chapter.version.number})
     lesson = get_object_or_404(Lesson.objects.select_related("chapter__course"), pk=pk)
     if lesson.chapter.course.current_version_id:
@@ -221,4 +227,8 @@ def resource_file(request, kind, pk, number, part):
     asset = revision.asset if part == "archivo" else revision.subtitles if part == "subtitulos" else None
     if asset is None:
         raise Http404
-    return file_response(request, asset)
+    response = file_response(request, asset)
+    if request.method == "GET" and response.status_code in (200, 206) and part == "archivo":
+        from core.telemetry import content_opened
+        content_opened(request, revision)
+    return response

@@ -21,9 +21,11 @@ from content.views import (
     resource_file,
 )
 from core import views
+from core.analytics_views import admin_analytics
 from creators.views import public_profile
 
 urlpatterns = [
+    path("administracion/estadisticas/", admin_analytics, name="admin-analytics"),
     path("", include("commerce.urls")),
     path("aprendizaje/", include("learning.urls")),
     path("", views.home, name="home"),

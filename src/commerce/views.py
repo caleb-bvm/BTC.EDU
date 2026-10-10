@@ -109,6 +109,8 @@ def offer_detail(request, pk):
         from django.http import Http404
         raise Http404
     state = ownership(request.user, offer)
+    from core.telemetry import offer_views
+    offer_views(request, [offer])
     return render(request, "commerce/offer.html", {"offer": offer, "items": offer.items.select_related("resource"), "ownership": state, "alternatives": missing_alternatives(request.user, offer) if state == "partial" else [], "destination": offer_destination(offer)})
 
 
@@ -117,7 +119,8 @@ def offer_detail(request, pk):
 def checkout(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
     try:
-        invoice = reserve_invoice(request.user, offer.pk)
+        from core.telemetry import session_id
+        invoice = reserve_invoice(request.user, offer.pk, activity_session=session_id(request))
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
         return redirect("offer-detail", pk=pk)

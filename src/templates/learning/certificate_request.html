@@ -1,0 +1,8 @@
+{% extends 'academy.html' %}
+{% block academy_content %}
+<a href="{% url 'workspace' %}">← Mi aprendizaje</a><p class="eyebrow">Finalización / versión {{ enrollment.version.number }}</p><h1>{{ enrollment.version.title }}</h1>
+{% if enabled %}<p>{{ completed_required }} de {{ required_count }} lecciones requeridas completadas. {{ pending_quizzes }} evaluaciones obligatorias pendientes.</p>
+{% if eligible %}<section class="commerce-panel"><h2>Prepara tu certificado</h2><p>Confirma tu nombre antes de emitirlo. Su verificación será privada hasta que decidas compartirla.</p><form method="post" class="studio-form">{% csrf_token %}{{ form.as_p }}<button class="btn btn-dark">Emitir certificado</button></form></section>{% else %}<p>Completa los requisitos de esta versión para emitir el certificado.</p>{% endif %}
+{% else %}<p>Esta versión no ofrece certificado.</p>{% endif %}
+<a class="text-link" href="{% url 'course-version' enrollment.version.course_id enrollment.version.number %}">Ver temario y requisitos →</a>
+{% endblock %}

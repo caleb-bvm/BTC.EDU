@@ -122,4 +122,9 @@ def grant_attempt(actor, enrollment_id, quiz_id, allowance_before, reason):
     status = quiz_status(enrollment, quiz)
     if status["allowance"] != allowance_before or status["remaining"] or status["active_attempt"]:
         raise ValidationError("Solo puedes conceder otro intento cuando el alumno haya agotado los disponibles. Recarga los resultados.")
-    return ExtraQuizAttempt.objects.create(enrollment=enrollment, quiz=quiz, granted_by=actor, reason=reason.strip(), allowance_before=allowance_before)
+    grant = ExtraQuizAttempt.objects.create(enrollment=enrollment, quiz=quiz, granted_by=actor, reason=reason.strip(), allowance_before=allowance_before)
+    from django.urls import reverse
+
+    from .support import notify
+    notify(enrollment.student, f"grant:{grant.pk}", "Tienes otro intento autorizado", reverse("quiz-detail", args=[quiz.pk]))
+    return grant

@@ -1,0 +1,4 @@
+{% extends 'academy.html' %}{% block academy_content %}
+<p class="eyebrow">Tu aprendizaje</p><h1>Certificados</h1><p>Tus credenciales conservan el nombre, el curso y los requisitos de la versión que completaste.</p>
+<div class="library-grid">{% for certificate in certificates %}<article class="commerce-panel"><h2>{{ certificate.course_title }}</h2><p>{{ certificate.student_name }} · Versión {{ certificate.enrollment.version.number }}</p><p>{{ certificate.issued_at|date:'d/m/Y' }}{% if certificate.revocation %} · Revocado{% endif %}</p><a href="{% url 'certificate-detail' certificate.pk %}">Ver certificado →</a></article>{% empty %}<p>Todavía no tienes certificados. Consulta los requisitos desde Mi aprendizaje.</p>{% endfor %}</div>
+{% include 'commerce/_pagination.html' with page=certificates %}{% endblock %}
