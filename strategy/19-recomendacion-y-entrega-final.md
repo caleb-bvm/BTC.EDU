@@ -210,13 +210,19 @@ Enviar a revisión conserva una composición; aprobar publica exactamente esa co
 
 Los pagos pueden probarse con FakeWallet o con LNbits conectado a Polar en regtest. El usuario confirmó previamente un pago desde ZEUS hacia LNbits. BTC.EDU muestra el QR y consulta el estado silenciosamente; la compra completa desde ZEUS dentro de la aplicación queda para su comprobación posterior. No se acreditan fondos reales ni ingresos.
 
+### Conciliación de pagos
+
+La conciliación puede mantenerse en un proceso periódico supervisado, sin que el alumno conserve abierta la página de pago. El sistema consulta lotes de facturas, reintenta cuando el proveedor no responde y evita que las reservas antiguas sin emitir retrasen la revisión de otros pagos. Conserva las reglas de acceso: una confirmación repetida no duplica compras y un pago observado después del vencimiento se registra como incidencia sin conceder permisos. El proceso puede detenerse y reanudarse; su instalación como servicio con reinicio automático y alertas sigue pendiente. Las pruebas con un proveedor controlado verifican este comportamiento, sin acreditar una nueva prueba de pago desde ZEUS ni operación pública.
+
 ### Base técnica y pruebas
 
 La aplicación utiliza Django, HTML y HTMX, con SQLite para la etapa local. La entrega esencial con huellas SHA-256 pasó 184 pruebas y comprobaciones de concurrencia comercial, de evaluaciones y de certificados y mensajes. Se recorrieron las nuevas pantallas por HTTP en escritorio y móvil y se verificaron formularios, privacidad y PDF. La migración tuvo respaldo y conservó los 211 registros originales, sin cargar ejemplos en la base principal.
 
+La ampliación de conciliación pasó 192 pruebas Django, revisión estática y comprobación de migraciones, junto con los tres controles de concurrencia. No necesitó una migración nueva ni modificó la base principal. La verificación usó datos de prueba y un proveedor controlado; el ensayo adicional con ZEUS sigue pendiente.
+
 ### Organización y próximos pasos
 
-Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, conciliación y procedimientos para operación pública. Comunidad y membresías permanecen como ampliaciones pendientes. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
+Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, instalación de la conciliación como servicio y procedimientos para operación pública. Comunidad y membresías permanecen como ampliaciones pendientes. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
 
 ## A dónde queremos llegar
 

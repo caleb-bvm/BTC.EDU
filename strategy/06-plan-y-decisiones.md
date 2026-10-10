@@ -14,6 +14,8 @@ Mentoría del 13 de octubre: demostrar el curso gratuito, una compra de contenid
 
 ## Estado verificado
 
+**10 de octubre de 2026 — conciliación periódica:** `reconcile_payments --watch` consulta lotes sin navegador, reintenta indisponibilidad, rota reservas sin emitir y conserva incidencias tardías sin permisos. 192 pruebas, migraciones, Ruff y los tres controles de concurrencia aprobados. Desarrollado en `main`, sin migración nueva ni cambios en la base principal. [Registro y evidencia](../src/docs/conciliacion-2026-10-10.md). Requiere un terminal supervisado; servicio, alertas y prueba adicional de ZEUS siguen pendientes.
+
 **10 de octubre de 2026 — ampliación SHA-256:** huella persistente por certificado, comparación web y exportación reproducible privada o compartida por decisión del titular. 184 pruebas, migraciones, Ruff y concurrencia aprobados; comprobación independiente con Node y formularios HTTP. La migración conservó 258 filas originales en 50 tablas, con respaldo. [Entrega vigente](../src/docs/certificados-sha256-2026-10-10.md). El registro anterior conserva el estado del bloque esencial antes de añadir las huellas.
 
 **10 de octubre de 2026:** bloque esencial de certificados, preguntas, notificaciones y paneles implementado. 179 pruebas, migraciones, revisión estática y tres comprobaciones de concurrencia pasan. Navegación y formularios por HTTP, escritorio/móvil y PDF comprobados; migración con respaldo conservó 211 filas originales, sin ejemplos en la base principal. [Entrega vigente y límites](../src/docs/esenciales-2026-10-10.md). Comunidad, membresías, operación pública y validación externa siguen pendientes. El usuario comprobará después el pago completo desde ZEUS.

@@ -1,5 +1,7 @@
 # BTC.EDU — plataforma educativa
 
+Estado vigente al **10 de octubre de 2026**: conciliación periódica supervisada con `reconcile_payments --watch`, lotes rotativos, reintento del proveedor y parada con Ctrl+C. **192 pruebas pasan**, revisión estática y migraciones consistentes. [Comportamiento, evidencia y límites](docs/conciliacion-2026-10-10.md). La instalación como servicio y alertas siguen pendientes; los registros siguientes conservan sus cifras históricas.
+
 Estado vigente al **10 de octubre de 2026**: cada certificado conserva una huella SHA-256 de sus datos; PDF, verificación web y descarga JSON reproducible, sin divulgar notas ni respuestas. Se detectan diferencias y se conserva la revocación. **184 pruebas pasan**, con migraciones, Ruff y tres comprobaciones de concurrencia. Se verificó SHA-256 con Node sobre el archivo descargado y el formulario real en escritorio/móvil. Migración con respaldo, sin ejemplos en la base principal. [Reglas, reproducción y evidencia](docs/certificados-sha256-2026-10-10.md). Es una huella de integridad comparada con BTC.EDU, sin firma digital ni registro Bitcoin.
 
 Estado registrado al **10 de octubre de 2026** (El Salvador): certificados históricos con PDF privado, compartición voluntaria y revocación; preguntas privadas por lección; notificaciones internas; paneles de creador y administración con periodos, permisos y denominadores. **179 pruebas pasan**, revisión estática/migraciones y tres controles de concurrencia. Recorridos HTTP en Chrome, formularios con CSRF, escritorio/móvil y PDF comprobados. Base principal migrada con respaldo y 211 registros conservados, sin datos de demostración. [Reglas, uso, evidencia y límites](docs/esenciales-2026-10-10.md). Comunidad, membresías y operación pública siguen pendientes; el usuario comprobará posteriormente el pago desde ZEUS. Los párrafos fechados siguientes conservan el historial.
@@ -91,7 +93,13 @@ Para conciliar pendientes sin abrir el navegador, desde `src`:
 ./.venv/Scripts/python.exe manage.py reconcile_payments --limit 100
 ```
 
-El comando está disponible; su ejecución periódica supervisada sigue pendiente.
+Para mantener la conciliación periódica en un terminal supervisado, desde `src`:
+
+```powershell
+./.venv/Scripts/python.exe manage.py reconcile_payments --watch --interval 30 --limit 100
+```
+
+Revisa un lote y espera 30 segundos después de terminarlo. Ctrl+C detiene el proceso; el mismo comando permite reanudarlo. Los errores del proveedor se reintentan en pasadas posteriores, las confirmaciones inválidas se informan en el terminal y los pagos tardíos conservan evidencia sin conceder acceso. No se inicia automáticamente con el servidor. [Funcionamiento, pruebas y límites](docs/conciliacion-2026-10-10.md).
 
 ## Arquitectura actual
 
@@ -133,8 +141,8 @@ Django mantiene autorización y reglas comerciales en el servidor; LNbits no sus
 ./src/scripts/check-platform.ps1
 ```
 
-184 pruebas Django pasan, migraciones consistentes y revisión estática sin errores. Incluye concurrencia comercial, de evaluaciones y de certificados/preguntas/notificaciones. La comprobación incluye dos conexiones independientes a SQLite en archivo para reservas, pagos y avance concurrentes. La prueba de integración adicional crea y paga facturas contra LNbits FakeWallet, incluida recuperación de respuesta perdida. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
+192 pruebas Django pasan, migraciones consistentes y revisión estática sin errores. Incluye concurrencia comercial, de evaluaciones y de certificados/preguntas/notificaciones. La comprobación incluye dos conexiones independientes a SQLite en archivo para reservas, pagos y avance concurrentes. La prueba de integración adicional crea y paga facturas contra LNbits FakeWallet, incluida recuperación de respuesta perdida; no se reejecutó en la ampliación de conciliación. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
 
-El proyecto completo sigue en desarrollo. Faltan comunidad, membresías, corrección de credenciales, eventos de reproducción/muestras y operación pública. Evaluaciones, certificados, preguntas, avisos internos y paneles esenciales están implementados. También faltan catálogo editorial real y validación con usuarios. Ver [diseño completo](docs/diseno-plataforma.md). Las pruebas locales de concurrencia no son una medición de capacidad para tráfico público; la conciliación periódica, entrega de correo y supervisión deben prepararse antes del despliegue.
+El proyecto completo sigue en desarrollo. Faltan comunidad, membresías, corrección de credenciales, eventos de reproducción/muestras y operación pública. Evaluaciones, certificados, preguntas, avisos internos y paneles esenciales están implementados. También faltan catálogo editorial real y validación con usuarios. Ver [diseño completo](docs/diseno-plataforma.md). Las pruebas locales de concurrencia no son una medición de capacidad para tráfico público; la instalación de la conciliación como servicio, entrega de correo y alertas deben prepararse antes del despliegue.
 
 No se publicó, desplegó ni hizo push. Historial diario GitHub, Google Doc de Business, entrevistas y validación externa siguen pendientes. Las fechas oficiales 3/8 de noviembre y el equipo dos/cuatro integrantes continúan sin aclarar.
