@@ -30,6 +30,11 @@ Estas instrucciones conservan las preferencias expresadas por el usuario para el
 
 ## Referencias
 
-- El texto principal listo para copiar a Google Docs está en `strategy/19-recomendacion-y-entrega-final.md`. Mantenerlo coherente con cada entrega. Investigación comercial y costos: `strategy/13-monetizacion-precios-y-muestras.md`; guiones, tareas y resultados pendientes: `strategy/16-validacion-con-usuarios.md`. No presentar preparación de instrumentos como ejecución de sesiones.
+- El texto principal listo para copiar a Google Docs está en `strategy/19-recomendacion-y-entrega-final.md`. Mantenerlo coherente con cada entrega. Investigación comercial y costos: `strategy/investigacion-y-requisitos.md#13-monetizacion-precios-y-muestras`; guiones, tareas y resultados pendientes: `strategy/investigacion-y-requisitos.md#16-validacion-con-usuarios`. No presentar preparación de instrumentos como ejecución de sesiones.
 - Consultar los originales de CUBO+ en `docs/Micropayments for Content.docx` y `docs/assignment final evaluation.docx` para requisitos y evaluación.
-- El plan de trabajo está en `strategy/12-plan-documentacion-business-a-desarrollo.md`. La estructura y el estilo del informe principal deben seguir las indicaciones posteriores del usuario conservadas aquí, aunque el plan inicial proponga metadatos o títulos distintos.
+- El plan de trabajo está en `strategy/investigacion-y-requisitos.md#12-plan-documentacion-business-a-desarrollo`. La estructura y el estilo del informe principal deben seguir las indicaciones posteriores del usuario conservadas aquí, aunque el plan inicial proponga metadatos o títulos distintos.
+
+## Consolidación documental
+
+- Mantener un máximo de cuatro archivos principales entre `strategy` y `src/docs`: informe, exportación TXT, investigación y requisitos, operación y bitácora. Actualizar sus secciones en lugar de crear informes por entrega.
+- Las fuentes CUBO+ y las evidencias originales se conservan aparte. Los documentos de origen integrados son antecedentes; consultar el estado actual y las entregas fechadas antes de interpretar sus pendientes.
