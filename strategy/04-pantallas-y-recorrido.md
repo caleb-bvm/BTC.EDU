@@ -57,3 +57,18 @@ Membresías: comparar planes, contenidos incluidos, duración, pago de prueba, r
 Añadir pruebas: retomar video en otro dispositivo; aprobar evaluación y emitir certificado; publicar curso mediante revisión; preguntar y moderar; renovar o cancelar membresía conservando compras individuales.
 
 
+
+## Recorrido de cursos y lectura vigente
+
+La ficha ofrece empezar, continuar, repasar o revisar acceso según la versión y el avance de la cuenta. El temario muestra finalización, evaluación y acceso. El lector organiza prácticas y soluciones desplegables, permite enfocar la lectura y mantiene la continuación tras el guardado confirmado. Mi aprendizaje presenta resumen, recorrido destacado, búsqueda y estados. En móvil el temario precede al texto. La descripción y sus límites técnicos están en [la entrega de aprendizaje](../src/docs/experiencia-aprendizaje-2026-10-12.md); las tareas con participantes permanecen pendientes en el documento 16.
+
+
+## Navegación por contexto
+
+La barra lateral cambia según la página visitada. El catálogo reúne cursos, tutoriales y recursos; el espacio de aprendizaje reúne el avance, los certificados y las preguntas; las compras agrupan las facturas; y la comunidad reúne conversaciones, personas y notificaciones. La cuenta concentra los datos del perfil. Los accesos para cambiar de espacio permiten continuar el recorrido sin mostrar todas las opciones en cada página.
+
+Dentro de un curso o tutorial, la barra prioriza el regreso al curso y, durante una lección, el acceso a su temario. Cuando existe una inscripción a una versión publicada, también ofrece la comunidad del curso. El estudio de creador distingue la gestión del contenido, el acompañamiento de alumnos y el perfil. Las opciones respetan el tipo de cuenta y el estado de aprobación del creador; estos cambios de navegación no sustituyen las comprobaciones de acceso de cada página.
+
+## Recorrido vigente de evaluaciones
+
+La preparación distingue reglas y disponibilidad de intentos. El alumno responde una pregunta por pantalla con JavaScript, puede navegar libremente, guardar y retomar, y revisa las respuestas antes de entregar. El avance cuenta preguntas con alguna selección, sin anticipar aciertos. Sin JavaScript conserva un formulario completo. El resultado separa nota y repaso; el editor ofrece preguntas plegables y los resultados del creador conservan autorización adicional con motivo. [Decisiones, evidencia y límites](../src/docs/experiencia-evaluaciones-2026-10-12.md).

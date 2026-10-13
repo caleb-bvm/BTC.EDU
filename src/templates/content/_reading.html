@@ -1,0 +1,7 @@
+<div class="reading-copy lesson-body">
+{% for section in reading_sections %}
+  {% if section.kind == 'solution' %}<details class="reading-solution"><summary>{{ section.title }} <span aria-hidden="true">＋</span></summary><div>{{ section.text|linebreaks|urlize }}</div></details>
+  {% elif section.kind == 'text' %}{{ section.text|linebreaks|urlize }}
+  {% else %}<section class="reading-block reading-{{ section.kind }}"><h2>{{ section.title }}</h2>{{ section.text|linebreaks|urlize }}</section>{% endif %}
+{% empty %}<p class="muted">Esta lección todavía no tiene texto.</p>{% endfor %}
+</div>

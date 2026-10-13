@@ -1,0 +1,8 @@
+<li class="curriculum-item{% if item.learning_completed %} is-complete{% endif %}{% if item.learning_current %} is-current{% endif %}">
+  <a href="{{ item.detail_url }}?volver={{ return_to|urlencode }}"{% if item.learning_current %} aria-current="page"{% endif %} data-outline-lesson="{{ item.learning_id }}">
+    <span class="lesson-marker" aria-hidden="true" data-lesson-marker>{% if item.learning_completed %}✓{% else %}{{ item.learning_number|stringformat:'02d' }}{% endif %}</span>
+    <span class="curriculum-copy"><span>{{ item.title }}</span><small>Lectura{% if item.learning_quiz %} · {% if item.learning_required_quiz %}Evaluación obligatoria{% else %}Evaluación opcional{% endif %}{% endif %}{% if item.status == 'draft' %} · Borrador{% endif %}</small></span>
+    <span class="lesson-state{% if item.learning_completed %} state-complete{% elif not item.learning_allowed %} state-locked{% endif %}" data-lesson-state>{% if item.learning_completed %}Completada{% elif not item.learning_allowed %}Requiere acceso{% elif item.learning_current %}Estás aquí{% elif item.access_type == 'free' %}Gratis{% else %}Disponible{% endif %}</span>
+    <span class="curriculum-arrow" aria-hidden="true">↗</span>
+  </a>
+</li>

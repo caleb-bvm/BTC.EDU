@@ -1,0 +1,4 @@
+<div class="learning-meter">
+  <div class="meter-label"><span><span data-progress-count>{{ journey.completed }} de {{ journey.total }}</span> lecciones completadas</span><strong data-progress-percentage>{{ journey.percentage }}%</strong></div>
+  <progress class="progress-track" data-course-progress value="{{ journey.completed }}" max="{{ journey.total|default:1 }}" aria-label="Progreso del curso"></progress>
+</div>

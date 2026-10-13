@@ -3,6 +3,7 @@ from django.db import transaction
 from django.db.models import F, Max
 from django.utils import timezone
 
+from .identity import public_creator_name
 from .models import (
     Course,
     CourseVersion,
@@ -36,13 +37,13 @@ def prepare_resource(resource, actor):
         raise ValidationError("Formato de recurso no admitido.")
     # Reserve the SQLite writer before reading the mutable composition.
     model.objects.filter(pk=resource.pk).update(updated_at=F("updated_at"))
-    resource = model.objects.select_related("pending_asset", "pending_subtitles").get(pk=resource.pk)
+    resource = model.objects.select_related("pending_asset", "pending_subtitles", "topic").get(pk=resource.pk)
     if actor.pk != resource.creator_id and not (actor.is_staff and actor.has_perm(f"content.change_{resource._meta.model_name}")):
         raise PermissionDenied
     revision = ResourceVersion.objects.create(
         resource_key=resource.resource_key, number=next_revision(resource.resource_key),
         creator=resource.creator, kind="video" if model == Video else "material",
-        title=resource.title, description=resource.description, access_type=resource.access_type,
+        title=resource.title, description=resource.description, topic=resource.topic, access_type=resource.access_type,
         body=resource.transcript, asset=resource.pending_asset, subtitles=resource.pending_subtitles,
     )
     return revision
@@ -79,8 +80,7 @@ def prepare_course(course, actor):
     if any(not lesson.body.strip() for _, lessons in visible for lesson in lessons):
         raise ValidationError("Cada lección publicada necesita texto, aunque incluya video o materiales.")
     number = (course.versions.aggregate(value=Max("number"))["value"] or 0) + 1
-    profile = getattr(course.creator, "creator_profile", None)
-    creator_name = profile.display_name if profile and profile.status == "approved" else course.creator.get_full_name().strip() or "Creador de BTC.EDU"
+    creator_name = public_creator_name(course.creator)
     version = CourseVersion.objects.create(
         course=course, number=number, title=course.title, description=course.description,
         objective=course.objective, requirements=course.requirements, kind=course.kind,

@@ -63,7 +63,7 @@ Explorar autoría/derechos y frecuencia de actualización sin asumir que todos v
 
 Presentar metas creíbles sin decir botones o caminos. Observar y pedir que explique lo que está pensando; no corregir inmediatamente. Anotar cada ayuda. Las pruebas moderadas permiten detectar comprensión y problemas de interacción. [GOV.UK](https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing).
 
-Solo ejecutar tareas correspondientes a módulos disponibles. Preguntas, evaluaciones o membresías podrán probarse en un prototipo identificado; no describirlas como implementación. Usar facturas simuladas y datos temporales, sin modificar la base principal.
+Solo ejecutar tareas correspondientes a módulos disponibles. Preguntas y evaluaciones están implementadas; las membresías u otras funciones pendientes podrán probarse en un prototipo identificado, sin describirlas como implementación. Usar facturas simuladas y datos temporales, sin modificar la base principal.
 
 | ID | Tarea de alumno | Evidencia buscada |
 |---|---|---|
@@ -114,3 +114,25 @@ Clasificar problemas como bloqueo de tarea, error de compra/acceso, dificultad r
 ## Resultados
 
 Pendientes. No existe evidencia externa que permita afirmar comprensión, disposición a pagar, preferencias de compra o usabilidad del creador. La primera ejecución deberá registrar participantes, versión, tareas, cantidades, hallazgos, cambios y limitaciones. Actualizar 01/04/05/07/13 y el documento principal con los resultados que realmente se obtengan.
+
+## Tareas de perfiles y comunidad
+
+Instrumentos añadidos el 12 de octubre de 2026; sesiones con participantes todavía pendientes. Pedir al estudiante que elija un alias, prepare una presentación y explique qué información aparecerá al compartirla. Después, pedirle que oculte el perfil y compruebe la diferencia entre el alias de los mensajes y el acceso a la ficha. Registrar confusiones sobre privacidad sin sugerir la respuesta.
+
+Pedir a un participante inscrito que encuentre una conversación sin respuesta, busque un término presente en una respuesta visible, siga una conversación ajena y localice el aviso interno. Pedir al creador que abra una ficha desde la comunidad y vuelva a su estudio. Registrar éxito, dificultades y comprensión de los límites de acceso. Estas tareas deben ejecutarse sobre una versión identificada y con consentimiento; la revisión técnica con cuentas sintéticas no cuenta como una sesión educativa o comercial.
+
+## Tareas de continuidad y lectura
+
+Instrumentos preparados el 12 de octubre de 2026; ejecución con participantes pendiente. Pedir que retome un curso tras estudiar una lección, explique su progreso y encuentre una pendiente. Comprobar que distingue abrir, completar y aprobar evaluación. Pedir que complete una muestra gratuita y explique qué puede estudiar después sin comprar. Registrar errores, ayudas, comprensión y versión, sin sugerir botones.
+
+Pedir que encuentre el temario en móvil, intente una práctica antes de consultar la solución y use la lectura enfocada. Pedir que busque un curso en su biblioteca y encuentre los completados. Comparar la comprensión del certificado con la finalización de todas las lecciones. La revisión en navegador con cuentas sintéticas es evidencia técnica y no cuenta como ejecución de estas sesiones. [Diseño y límites de la entrega](../src/docs/experiencia-aprendizaje-2026-10-12.md).
+
+## Tareas de conversación en lecciones
+
+Instrumentos preparados el 12 de octubre de 2026; ejecución con participantes pendiente. Pedir al estudiante que comente al terminar una lección, explique quién puede leer su mensaje, responda a un compañero y siga una conversación. Pedirle que distinga ese recorrido de la pregunta privada al creador y que encuentre el mismo comentario desde Comunidad. Observar si entiende la inscripción y el acceso cuando una lección está bloqueada.
+
+Pedir al creador que encuentre un comentario nuevo mediante su aviso, responda y vuelva a la lección. Registrar claridad del contexto, dificultades, ayuda necesaria y expectativas de atención. Una respuesta recibida no prueba que la duda esté resuelta. Las pruebas técnicas y las cuentas ficticias de esta entrega no son sesiones con usuarios.
+
+## Tareas de evaluaciones
+
+Instrumentos actualizados el 12 de octubre de 2026; ejecución externa pendiente. Pedir al alumno que explique las condiciones antes de empezar, responda parcialmente, guarde, salga y retome. Observar si distingue preguntas respondidas de respuestas correctas y si entiende que navegar no guarda. Pedir que revise una respuesta, encuentre una pendiente, entregue y explique la nota y el siguiente paso. Con creadores, observar configuración de reglas, edición de una pregunta plegada, incorporación de otra y autorización adicional con motivo. Registrar ayudas, errores, dudas y versión, incluyendo móvil y teclado. Las comprobaciones técnicas registradas en la entrega de UI no cuentan como sesiones con participantes.

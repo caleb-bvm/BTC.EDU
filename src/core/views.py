@@ -15,6 +15,16 @@ def discovery_links(context, request):
     """Conserva el contexto de búsqueda al abrir una ficha."""
     for card in context["all_cards"]:
         card["url"] += "?" + urlencode({"volver": request.get_full_path()})
+    if request.user.is_authenticated and request.user.is_active and request.user.account_type == "student":
+        from django.db.models import Count
+
+        from learning.models import Enrollment
+        version_ids = [card["item"].current_version_id for card in context["all_cards"] if card["summary"]]
+        enrollments = Enrollment.objects.filter(student=request.user, version_id__in=version_ids).annotate(done=Count("completed_lessons", distinct=True), total=Count("version__chapters__lessons", distinct=True))
+        progress = {item.version_id: {"done": item.done, "total": item.total, "percentage": round(item.done * 100 / item.total) if item.total else 0} for item in enrollments}
+        for card in context["all_cards"]:
+            if card["summary"]:
+                card["learning"] = progress.get(card["item"].current_version_id)
     return context
 
 

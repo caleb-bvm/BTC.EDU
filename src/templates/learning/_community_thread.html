@@ -1,6 +1,8 @@
 <a class="text-link" href="{% url 'community-space' version.pk %}">← {{ version.title }} · Comunidad</a><h1>Conversación</h1>
+{% if post.lesson_id %}<p class="community-meta">Lección: {{ post.lesson.content.title }}</p><a class="text-link" href="{% url 'version-lesson' version.course_id version.number post.lesson_id %}#lesson-community">Volver a la lección →</a>{% endif %}
 {% for message in messages %}<p class="studio-notice" role="status">{{ message }}</p>{% endfor %}
 {% include 'learning/_community_post.html' with item=post %}
+{% if not post.hidden %}{% if user.pk == post.author_id %}<p class="community-meta">Recibirás avisos internos cuando respondan a tu conversación.</p>{% else %}<form method="post" action="{% url 'community-subscription' post.pk %}" class="community-follow">{% csrf_token %}<input type="hidden" name="following" value="{% if following %}no{% else %}yes{% endif %}"><button class="btn btn-outline-dark">{% if following %}Dejar de seguir{% else %}Seguir conversación{% endif %}</button><p>Los avisos de nuevas respuestas aparecen en Notificaciones.</p></form>{% endif %}{% endif %}
 {% if post.closed %}<p role="status">Esta conversación está cerrada y no admite respuestas.</p>{% endif %}
 <section class="learning-section"><h2>Respuestas</h2>{% for item in replies %}{% include 'learning/_community_post.html' %}{% empty %}<p>Aún no hay respuestas.</p>{% endfor %}</section>
 {% include 'commerce/_pagination.html' with page=replies %}

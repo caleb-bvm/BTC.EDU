@@ -5,6 +5,7 @@ from . import assessment_views, bookmark_views, community_views, essential_views
 urlpatterns = [
     path("guardados/<int:pk>/", bookmark_views.open_saved, name="bookmark-open"),
     path("guardar/<str:kind>/<int:pk>/", bookmark_views.toggle, name="bookmark-toggle"),
+    path("comunidad/conversaciones/<int:pk>/seguir/", community_views.subscription, name="community-subscription"),
     path("comunidad/", community_views.spaces, name="community-spaces"),
     path("comunidad/versiones/<int:version_pk>/", community_views.space, name="community-space"),
     path("comunidad/versiones/<int:version_pk>/moderacion/", community_views.moderation, name="community-moderation"),

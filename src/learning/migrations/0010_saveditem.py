@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('content', '0004_courseversion_published_at_alter_chapter_status_and_more'),
+        ('content', '0005_resourceversion_topic'),
         ('learning', '0009_notification_category'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]

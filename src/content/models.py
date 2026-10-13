@@ -155,6 +155,7 @@ class ResourceVersion(FrozenRecord):
     kind = models.CharField(max_length=12, choices=(("text", "Texto"), ("video", "Video"), ("material", "Material")))
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    topic = models.ForeignKey(Topic, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
     access_type = models.CharField(max_length=8, choices=AccessType)
     body = models.TextField(blank=True)
     asset = models.ForeignKey("media.Asset", on_delete=models.PROTECT, null=True, blank=True, related_name="+")

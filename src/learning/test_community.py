@@ -217,3 +217,104 @@ class CommunityTests(TestCase):
         for body, key in ((" ", uuid4()), ("x" * 2001, uuid4()), ("Hola", "invalid")):
             with self.assertRaises(ValidationError):
                 post_message(self.student, self.version, body, key)
+
+    def test_follow_is_idempotent_and_unfollow_stops_peer_notifications(self):
+        from .community import follow_thread
+        from .models import CommunitySubscription
+        root = self.post()
+        follow_thread(self.peer, root.pk, True)
+        follow_thread(self.peer, root.pk, True)
+        self.assertEqual(CommunitySubscription.objects.count(), 1)
+        key = uuid4()
+        reply = post_message(self.creator, self.version, "Primera respuesta", key, root.pk)
+        post_message(self.creator, self.version, "Primera respuesta", key, root.pk)
+        self.assertEqual(Notification.objects.filter(recipient=self.peer, event_key=f"community-reply:{reply.pk}:{self.peer.pk}").count(), 1)
+        follow_thread(self.peer, root.pk, False)
+        follow_thread(self.peer, root.pk, False)
+        post_message(self.creator, self.version, "Otra respuesta", uuid4(), root.pk)
+        self.assertEqual(Notification.objects.filter(recipient=self.peer).count(), 1)
+
+    def test_follow_does_not_grant_access_or_allow_hidden_threads(self):
+        from .community import follow_thread
+        root = self.post()
+        with self.assertRaises(PermissionDenied):
+            follow_thread(self.outsider, root.pk, True)
+        moderate(self.creator, self.version, "hide", "Privacidad", root.pk)
+        with self.assertRaises(PermissionDenied):
+            follow_thread(self.peer, root.pk, True)
+
+    def test_follow_notifications_recheck_current_access_and_exclude_sender(self):
+        from .community import follow_thread
+        root = self.post()
+        follow_thread(self.peer, root.pk, True)
+        follow_thread(self.creator, root.pk, True)
+        self.peer.is_active = False
+        self.peer.save()
+        post_message(self.creator, self.version, "Una respuesta", uuid4(), root.pk)
+        self.assertFalse(Notification.objects.filter(recipient=self.peer).exists())
+        self.assertFalse(Notification.objects.filter(recipient=self.creator).exists())
+        self.assertEqual(Notification.objects.filter(recipient=self.student).count(), 1)
+
+    def test_follow_endpoint_is_post_only_csrf_protected_and_validated(self):
+        root = self.post()
+        url = reverse("community-subscription", args=[root.pk])
+        self.assertEqual(self.client.get(url).status_code, 405)
+        self.assertEqual(self.client.post(url, {"following": "wrong"}).status_code, 400)
+        secure = Client(enforce_csrf_checks=True)
+        secure.force_login(self.student)
+        self.assertEqual(secure.post(url, {"following": "yes"}).status_code, 403)
+        self.assertEqual(self.client.post(url, {"following": "yes"}).status_code, 302)
+
+    def test_search_filters_counts_and_order_do_not_expose_hidden_activity(self):
+        root = self.post("Micropagos educativos")
+        later = self.post("Otra conversación")
+        reply = post_message(self.peer, self.version, "Texto secreto", uuid4(), root.pk)
+        moderate(self.creator, self.version, "hide", "Ocultar respuesta", reply.pk)
+        url = reverse("community-space", args=[self.version.pk])
+        response = self.client.get(url, {"q": "Micropagos", "estado": "sin-respuesta"})
+        self.assertEqual([p.pk for p in response.context["posts"]], [root.pk])
+        self.assertEqual(response.context["posts"][0].reply_count, 0)
+        self.assertEqual(response.context["posts"][0].last_activity, root.created_at)
+        self.assertNotContains(response, "Texto secreto")
+        self.assertEqual(len(self.client.get(url, {"q": "Texto secreto"}).context["posts"]), 0)
+        moderate(self.creator, self.version, "show", "Restablecer", reply.pk)
+        self.assertEqual([p.pk for p in self.client.get(url, {"q": "Texto secreto"}).context["posts"]], [root.pk])
+        response = self.client.get(url)
+        self.assertEqual([p.pk for p in response.context["posts"]], [root.pk, later.pk])
+        self.assertEqual(response.context["posts"][0].reply_count, 1)
+        self.assertEqual([p.pk for p in self.client.get(url, {"orden": "recientes"}).context["posts"]], [later.pk, root.pk])
+        self.assertEqual([p.pk for p in self.client.get(url, {"estado": "sin-respuesta"}).context["posts"]], [later.pk])
+
+    def test_hidden_roots_and_other_versions_never_appear_in_search(self):
+        root = self.post("Reservado")
+        moderate(self.creator, self.version, "hide", "Ocultar", root.pk)
+        later = publish_course(self.course, self.admin)
+        post_message(self.creator, later, "Reservado nuevo", uuid4())
+        response = self.client.get(reverse("community-space", args=[self.version.pk]), {"q": "Reservado"})
+        self.assertEqual(len(response.context["posts"]), 0)
+
+    def test_community_uses_alias_and_links_only_shared_profiles(self):
+        self.student.display_name = "Aprendiz"
+        self.student.save()
+        root = self.post()
+        url = reverse("community-thread", args=[root.pk])
+        response = self.client.get(url)
+        self.assertContains(response, "Aprendiz")
+        self.assertNotContains(response, self.student.email)
+        self.assertNotContains(response, self.student.first_name)
+        self.assertNotContains(response, reverse("member-profile", args=[self.student.pk]))
+        self.student.profile_public = True
+        self.student.save()
+        self.assertContains(self.client.get(url), reverse("member-profile", args=[self.student.pk]))
+
+    def test_followed_filter_counts_distinct_replies(self):
+        from .community import follow_thread
+        root = self.post()
+        follow_thread(self.peer, root.pk, True)
+        follow_thread(self.creator, root.pk, True)
+        post_message(self.creator, self.version, "Respuesta", uuid4(), root.pk)
+        response = self.client.get(reverse("community-space", args=[self.version.pk]), {"estado": "seguidas"})
+        self.assertEqual(len(response.context["posts"]), 1)
+        self.assertEqual(response.context["posts"][0].reply_count, 1)
+        self.client.force_login(self.peer)
+        self.assertContains(self.client.get(reverse("community-thread", args=[root.pk])), "Dejar de seguir")

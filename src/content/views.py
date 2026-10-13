@@ -65,6 +65,8 @@ def course_detail(request, pk):
         from .version_views import course_version_detail
         return course_version_detail(request, pk, course.current_version.number)
     course, preview = load_course(request.user, pk)
+    from learning.presentation import course_learning_context
+    journey = course_learning_context(request.user, course)
     summary = course_summary(course)
     first = next(
         (
@@ -85,6 +87,7 @@ def course_detail(request, pk):
             "first_lesson": first,
             "return_to": return_path(request, "tutorials" if course.kind == CourseKind.TUTORIAL else "courses"),
             "creator_name": public_creator_name(course.creator),
+            **journey,
         },
     )
 
@@ -108,6 +111,10 @@ def lesson_detail(request, pk):
     # El cuerpo protegido no se pasa a la plantilla cuando falta acceso.
     body = lesson.body if decision.allowed else None
     lesson.body = ""
+    from learning.presentation import course_learning_context
+
+    from .reading import reading_sections
+    journey = course_learning_context(request.user, course, current_id=lesson.pk)
     return render(
         request,
         "content/lesson.html",
@@ -123,6 +130,8 @@ def lesson_detail(request, pk):
             "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None,
             "lesson_number": index + 1,
             "lesson_count": len(lessons),
+            "reading_sections": reading_sections(body),
+            **journey,
         },
         status=200 if decision.allowed else 403,
     )
@@ -136,7 +145,7 @@ def resource_detail(request, kind, pk):
     if model is None:
         raise Http404
     resource = get_object_or_404(
-        model.objects.select_related("creator__creator_profile"),
+        model.objects.select_related("creator__creator_profile", "revision__topic"),
         pk=pk,
         status=PublicationStatus.PUBLISHED,
     )
@@ -144,6 +153,7 @@ def resource_detail(request, kind, pk):
     revision = resource.revision
     if revision:
         resource.title, resource.description, resource.access_type = revision.title, revision.description, revision.access_type
+        resource.topic = revision.topic
     file_url = reverse("resource-file", args=[kind, pk, revision.number, "archivo"]) if revision and decision.allowed else ""
     subtitles_url = reverse("resource-file", args=[kind, pk, revision.number, "subtitulos"]) if revision and revision.subtitles_id and decision.allowed else ""
     from commerce.catalog import available

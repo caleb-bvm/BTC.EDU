@@ -3,19 +3,23 @@
 <html lang="es">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="{% static 'js/theme.js' %}"></script>
   <meta name="description" content="BTC.EDU. Cursos, videos y materiales. Elige lo que quieres aprender.">
   <meta name="htmx-config" content='{"historyRestoreAsHxRequest":false}'>
   <title>{% block title %}BTC.EDU · Aprende a tu ritmo{% endblock %}</title>
   <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
   <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/site.css' %}?v=learning-20261002">
-  <link rel="stylesheet" href="{% static 'css/academy.css' %}?v=academy-20261002">
-  <link rel="stylesheet" href="{% static 'css/commerce.css' %}?v=commerce-20261004">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}?v=marker-20261012-1">
+  <link rel="stylesheet" href="{% static 'css/academy.css' %}?v=dark-20261012-2">
+  <link rel="stylesheet" href="{% static 'css/commerce.css' %}?v=dark-20261012-2">
   {% block extra_head %}{% endblock %}
-  <link rel="stylesheet" href="{% static 'css/essential.css' %}">
+  <link rel="stylesheet" href="{% static 'css/essential.css' %}?v=dark-20261012-2">
+  <link rel="stylesheet" href="{% static 'css/learning-experience.css' %}?v=marker-20261012-1">
+  <link rel="stylesheet" href="{% static 'css/lesson-community.css' %}?v=lessons-20261012-1">
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}?v=dark-20261012-2">
   <link rel="stylesheet" href="{% static 'css/accounts.css' %}?v=accounts-20261012-1">
   <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
-  <script src="{% static 'js/learning.js' %}" defer></script>
+  <script src="{% static 'js/learning.js' %}?v=20261012-2" defer></script>
   <script src="{% static 'js/commerce.js' %}" defer></script>
   <script src="{% static 'js/academy.js' %}" defer></script>
   <script src="{% static 'js/accounts.js' %}?v=accounts-20261012-1" defer></script>
@@ -25,6 +29,7 @@
 {% block header %}<header class="site-header"><div class="shell header-inner">
   <a class="brand" href="{% url 'home' %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU</span></a>
   <nav aria-label="Navegación principal">
+    {% include '_theme_toggle.html' %}
     <a href="{% url 'explore' %}" {% if active == 'explore' %}aria-current="page"{% endif %}>Explorar</a>
     <a href="{% url 'creators' %}" {% if active == 'creators' %}aria-current="page"{% endif %}>Para creadores</a>
     {% if user.is_authenticated and user.account_type == 'student' %}<a class="btn btn-dark" href="{% url 'workspace' %}">Mi aprendizaje</a>{% elif user.is_authenticated and user.account_type == 'creator' %}<a class="btn btn-dark" href="{% if user.creator_profile.status == 'approved' %}{% url 'creator-dashboard' %}{% else %}{% url 'creator-application' %}{% endif %}">Mi estudio</a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}">Entrar</a>{% endif %}

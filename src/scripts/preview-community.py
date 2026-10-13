@@ -32,8 +32,8 @@ def run():
         call_command("migrate", verbosity=0)
         users = get_user_model().objects
         creator = users.create_user("creator@community.invalid", password="CommunityQA_42!", account_type="creator", first_name="Ana")
-        CreatorProfile.objects.create(user=creator, display_name="Ana López", status="approved")
-        student = users.create_user("student@community.invalid", password="CommunityQA_42!", first_name="Lucía")
+        CreatorProfile.objects.create(user=creator, display_name="Ana López", bio="Creo materiales para comprender Bitcoin y practicar con Lightning.", specialty="Bitcoin y Lightning", status="approved")
+        student = users.create_user("student@community.invalid", password="CommunityQA_42!", first_name="Lucía", display_name="Lucía aprende", profile_public=True, bio="Aprendo sobre pagos y educación digital.", interests="Bitcoin, Lightning y micropagos")
         admin = users.create_superuser("admin@community.invalid", password="CommunityQA_42!")
         course = Course.objects.create(creator=creator, title="Fundamentos de micropagos", description="Aprende y comparte")
         chapter = Chapter.objects.create(course=course, title="Inicio", status="published")
@@ -43,7 +43,7 @@ def run():
         root = post_message(student, version, "¿Cómo explicarías la diferencia entre comprar una lección y comprar el curso completo?", uuid4())
         post_message(creator, version, "Una lección permite resolver una necesidad concreta. Revisa siempre los materiales incluidos antes de elegir.", uuid4(), root.pk)
         report_message(student, root.pk, "Reporte de prueba para recorrer la moderación")
-        metadata = {"directory": directory, "version": version.pk, "thread": root.pk}
+        metadata = {"directory": directory, "version": version.pk, "thread": root.pk, "student": student.pk, "creator": creator.pk}
         (ROOT / ".local/community-preview.json").write_text(json.dumps(metadata), encoding="utf-8")
         print("Vista temporal: http://127.0.0.1:8019/aprendizaje/comunidad/", flush=True)
         print(json.dumps(metadata), flush=True)

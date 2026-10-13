@@ -1,0 +1,32 @@
+Verificación de conversaciones en lecciones — 12 de octubre de 2026
+Rama: main. Base: 4000ed5. Cambios locales.
+
+Pruebas compartidas finales (grupos de comunidad, lecciones y migraciones):
+Creating test database for alias 'default'...
+
+System check identified some issues:
+
+WARNINGS:
+accounts.User: (auth.W004) 'User.email' is named as the 'USERNAME_FIELD', but it is not unique.
+	HINT: Ensure that your authentication backend(s) can handle non-unique usernames.
+
+System check identified 1 issue (0 silenced).
+.........................................................
+----------------------------------------------------------------------
+Ran 57 tests in 22.063s
+
+OK
+Destroying test database for alias 'default'...
+
+Found 57 test(s).
+
+Concurrencia compartida final:
+OK: publicaciones y reportes únicos, moderación y seguimiento sin duplicados, suspensión aplicada y comentarios/respuestas de lección con avisos únicos en conexiones SQLite independientes.
+
+Ruff: aprobado para los archivos funcionales de conversaciones y script de vista temporal.
+makemigrations --check --dry-run: No changes detected al comprobar la coherencia de migraciones.
+
+Migración learning.0008 aplicada con respaldo: 52 tablas y 227 filas originales preservadas; integridad ok, 0 errores de claves foráneas. No se insertaron ejemplos en la base principal.
+Revisión de navegador: comentario, respuesta y seguimiento como estudiante; login y respuesta como creador en copia aislada. Móvil 390 x 844: clientWidth 375, scrollWidth 375.
+
+La revisión general de todas las tareas compartidas no se acredita como aprobada. Sus límites se detallan en comunidad-en-lecciones-2026-10-12.md.

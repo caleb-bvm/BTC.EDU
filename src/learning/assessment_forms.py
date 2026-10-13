@@ -70,6 +70,7 @@ class AttemptForm(forms.Form):
             choices = [(str(option), label) for option, label in enumerate(question["options"])]
             field = forms.MultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple, required=False) if question["multiple"] else forms.ChoiceField(choices=choices, widget=forms.RadioSelect, required=False)
             field.label = question["prompt"]
+            field.help_text = "Selecciona todas las respuestas correctas." if question["multiple"] else "Elige una respuesta."
             selected = [str(option) for option in answers.get(str(index), [])]
             field.initial = selected if question["multiple"] else selected[0] if selected else ""
             self.fields[f"question_{index}"] = field

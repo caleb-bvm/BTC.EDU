@@ -17,7 +17,7 @@ Cada oferta debe indicar exactamente qué entrega. Pertenecer a un curso no sign
 
 ## Público y validación
 
-El público inicial son personas que aprenden tecnología o programación y quieren adquirir lo que necesitan sin una suscripción. Los creadores iniciales son ficticios y los creadores preparan contenido y el administrador revisa su publicación. La demanda, los precios y la preferencia entre comprar un curso o contenidos separados todavía deben validarse.
+El catálogo inicial se centra en Bitcoin y Lightning para personas que quieren aprender fundamentos y recorridos técnicos sin una suscripción. La primera colección se publica bajo el perfil editorial BTC.EDU, sin atribuirla a instructores ficticios. Los creadores preparan contenido y la administración revisa su publicación. La demanda, los precios y la preferencia entre comprar un curso o contenidos separados todavía deben validarse.
 
 La [comparación de modelos](13-monetizacion-precios-y-muestras.md) está documentada con precios externos, procesamiento y video. La hipótesis principal conserva contenido gratuito/muestras + compras individuales; evaluar membresías para uso frecuente. Los modelos pueden combinarse. No hay demanda ni precios validados.
 
@@ -33,3 +33,6 @@ El MVP no calcula comisiones ni liquidaciones. Las referencias de 13 no son tari
 
 La plataforma también incluirá progreso guardado, evaluaciones, certificados de finalización, preguntas, comunidad y un panel de creación. Las membresías ofrecen periodos temporales de acceso, con renovación simulada y manual mediante LNbits, junto a compras individuales permanentes. El detalle está en [funciones completas](08-aprendizaje-creadores-y-membresias.md); las referencias y necesidades propuestas están en [investigación](07-investigacion-y-necesidades.md).
 
+## Comunidad junto al contenido
+
+El lector incorpora conversaciones al final de las lecciones, conectadas con Comunidad y separadas de las preguntas privadas al creador. Los estudiantes inscritos con acceso a la lección pueden comentar y responder; el creador aprobado atiende y modera sus cursos. Esta decisión busca conservar el contexto de las dudas y reunir aclaraciones compartidas. Su utilidad educativa y el esfuerzo operativo siguen como hipótesis por evaluar. [Alcance y evaluación](20-comunidad-en-lecciones.md).

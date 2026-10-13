@@ -1,6 +1,6 @@
 # Producto y especificaciones
 
-El proyecto es una plataforma web de cursos, videos y materiales, con contenido gratis y de pago. Un curso gratuito puede ofrecer capítulos o materiales adicionales de pago. También se pueden comprar videos individuales y cursos completos. El catálogo inicial es ficticio y los precios son de prueba.
+El proyecto es una plataforma web de cursos, videos y materiales, con contenido gratis y de pago. La colección inicial publicada localmente reúne seis cursos de Bitcoin y Lightning con 24 lecciones de texto, prácticas y soluciones. Tres cursos son gratuitos y tres combinan muestra gratuita y lecciones de pago. Los precios son de prueba y la revisión educativa externa sigue pendiente. Los ejemplos históricos de programación permanecen documentados por separado.
 
 La [arquitectura de producto y experiencia](10-arquitectura-y-experiencia-btc-edu.md) es la referencia vigente de estructura: cursos, tutoriales y biblioteca de recursos en la primera academia funcional, eventos educativos después. Distingue lo implementado del diseño y organiza las ampliaciones por entregas.
 
@@ -39,5 +39,8 @@ La comparación documental de modelos/tarifas/costos y los instrumentos de entre
 
 ## Alcance ampliado
 
-Se incluyen progreso, evaluaciones, certificados, preguntas, comunidad, panel de creador y membresías con renovación simulada manual. Los detalles están en el documento 08 y el diseño técnico en src/docs/diseno-plataforma.md. Las funciones observadas en otras plataformas respaldan el diseño, pero todavía deben validarse con usuarios. El estudio de creadores y el progreso básico ya están implementados; evaluaciones, certificados, preguntas, comunidad y membresías siguen en la siguiente fase. La documentación de diseño no acredita funciones entregadas.
+Se incluyen progreso, evaluaciones, certificados, preguntas, comunidad, panel de creador y membresías con renovación simulada manual. Los detalles están en el documento 08 y el diseño técnico en src/docs/diseno-plataforma.md. Las funciones observadas en otras plataformas respaldan el diseño, pero todavía deben validarse con usuarios. El estudio de creadores, progreso, evaluaciones, certificados, preguntas y comunidad por versión están implementados. La entrega de perfiles integra Personas, presentación voluntaria, búsqueda y seguimiento de conversaciones; las membresías siguen pendientes. La documentación de diseño no acredita funciones entregadas.
 
+La comunidad también se integra al final de cada lección con comentarios, respuestas del creador, seguimiento y avisos internos, respetando inscripción y acceso al contenido. [Decisión y alcance](20-comunidad-en-lecciones.md) y [entrega técnica](../src/docs/comunidad-en-lecciones-2026-10-12.md). La validación con usuarios permanece pendiente.
+
+La experiencia de cursos, lectura y continuidad fue ampliada el 12 de octubre: temario con estados, continuación compartida, prácticas con solución desplegable, lectura enfocada y biblioteca con filtros. [Entrega, fuentes, evidencias y alcance de las pruebas](../src/docs/experiencia-aprendizaje-2026-10-12.md). La revisión técnica no equivale a validación educativa o comercial.

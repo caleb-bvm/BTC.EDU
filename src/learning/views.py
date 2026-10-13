@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
+from django.db.models import Count, F, Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -13,6 +14,7 @@ from content.models import CourseVersion, VersionLesson
 from media.delivery import file_response
 
 from .models import Enrollment, QuizAttempt, SavedItem, VersionQuiz
+from .presentation import continuation
 from .services import StaleProgress, enroll, save_progress
 
 
@@ -21,11 +23,20 @@ from .services import StaleProgress, enroll, save_progress
 def enrollment_create(request, version_pk):
     version = get_object_or_404(CourseVersion.objects.select_related("course"), pk=version_pk)
     try:
-        enroll(request.user, version)
+        enrollment = enroll(request.user, version)
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
     else:
         messages.success(request, "Curso añadido a Mi aprendizaje. La inscripción conserva esta versión y no compra los contenidos de pago.")
+        if request.POST.get("start") == "1":
+            lessons = list(VersionLesson.objects.filter(chapter__version=version).select_related("content", "chapter__version__course").order_by("chapter__position", "chapter__pk", "position", "pk"))
+            target = continuation(lessons, set(enrollment.completed_lessons.values_list("lesson_id", flat=True)), enrollment.last_lesson_id,
+                                  {lesson.pk for lesson in lessons if content_access(request.user, lesson).allowed})
+            requested = next((lesson for lesson in lessons if str(lesson.pk) == request.POST.get("lesson")), None)
+            if requested and content_access(request.user, requested).allowed:
+                target = requested
+            if target:
+                return redirect("version-lesson", course_pk=version.course_id, number=version.number, lesson_pk=target.pk)
     return redirect("course-version", course_pk=version.course_id, number=version.number)
 
 
@@ -34,31 +45,46 @@ def enrollment_create(request, version_pk):
 def library(request):
     from core.telemetry import record_activity
     record_activity(request, "library_viewed")
-    enrollments = Enrollment.objects.filter(student=request.user).select_related("version__course", "last_lesson__content", "last_lesson__chapter__version__course").prefetch_related("version__chapters__lessons__content", "completed_lessons")
+    enrollments = Enrollment.objects.filter(student=request.user).select_related("version__course", "version__topic", "last_lesson__content", "last_lesson__chapter__version__course").prefetch_related("version__chapters__lessons__content", "completed_lessons").annotate(learning_total=Count("version__chapters__lessons", distinct=True), learning_done=Count("completed_lessons", distinct=True))
+    stats = {"courses": enrollments.count(), "completed": enrollments.filter(learning_total__gt=0, learning_done=F("learning_total")).count(),
+             "lessons": enrollments.aggregate(total=Sum("learning_done"))["total"] or 0}
+    state = request.GET.get("estado", "todos")
+    if state == "en-curso":
+        enrollments = enrollments.filter(Q(learning_done__gt=0) | Q(last_lesson__isnull=False)).filter(learning_done__lt=F("learning_total"))
+    elif state == "completados":
+        enrollments = enrollments.filter(learning_total__gt=0, learning_done=F("learning_total"))
+    elif state == "por-empezar":
+        enrollments = enrollments.filter(learning_done=0, last_lesson__isnull=True)
+    else:
+        state = "todos"
+    query = request.GET.get("q", "").strip()[:200]
+    if query:
+        enrollments = enrollments.filter(version__title__icontains=query)
     page = Paginator(enrollments.order_by("-updated_at", "-pk"), 12).get_page(request.GET.get("pagina"))
+    resume = None
     for enrollment in page:
         version = enrollment.version
         lessons = [lesson for chapter in version.chapters.all() for lesson in chapter.lessons.all()]
         completed = {item.lesson_id for item in enrollment.completed_lessons.all()}
-        unfinished = [lesson for lesson in lessons if lesson.pk not in completed and content_access(request.user, lesson).allowed]
-        last_index = next((index for index, lesson in enumerate(lessons) if lesson.pk == enrollment.last_lesson_id), -1)
-        if enrollment.last_lesson_id and enrollment.last_lesson_id not in completed and content_access(request.user, enrollment.last_lesson).allowed:
-            first = enrollment.last_lesson
-        else:
-            first = next((lesson for lesson in lessons[last_index + 1:] if lesson in unfinished), unfinished[0] if unfinished else None)
-        if not first and len(completed) == len(lessons):
-            first = next((lesson for lesson in lessons if content_access(request.user, lesson).allowed), None)
-        enrollment.open_label = "Ver acceso" if not first else "Repasar" if len(completed) == len(lessons) else "Continuar" if enrollment.last_lesson_id else "Estudiar"
+        first = continuation(lessons, completed, enrollment.last_lesson_id, {lesson.pk for lesson in lessons if content_access(request.user, lesson).allowed})
+        enrollment.is_complete = bool(lessons and len(completed) == len(lessons))
+        enrollment.open_label = "Ver acceso" if not first else "Repasar" if enrollment.is_complete else "Continuar" if enrollment.last_lesson_id or completed else "Empezar"
         enrollment.open_url = reverse("version-lesson", args=[version.course_id, version.number, first.pk]) if first else reverse("course-version", args=[version.course_id, version.number])
         enrollment.lesson_count = len(lessons)
         enrollment.completed_count = len(completed)
         enrollment.percentage = round(len(completed) * 100 / len(lessons)) if lessons else 0
         enrollment.retired = version.course.status == "archived" or version.course.current_version_id != version.pk
+        enrollment.next_title = first.content.title if first else "Revisa las opciones de acceso"
+        enrollment.state_label = "Completado" if enrollment.is_complete else "En curso" if enrollment.last_lesson_id or completed else "Por empezar"
+        started = bool(enrollment.last_lesson_id or completed)
+        resume_started = bool(resume and (resume.last_lesson_id or resume.completed_count))
+        if first and not enrollment.is_complete and (not resume or (started and not resume_started)):
+            resume = enrollment
         from .certificates import completion_status
         enrollment.certificate_status = completion_status(enrollment)
     resources = Entitlement.objects.filter(buyer=request.user, resource__kind__in=("video", "material")).select_related("resource__asset").order_by("-created_at")
     saved = SavedItem.objects.filter(student=request.user).select_related("resource", "reference")
-    return render(request, "core/workspace.html", {"enrollments": page, "resources": Paginator(resources, 12).get_page(request.GET.get("recursos_pagina")), "active": "workspace", "saved_items": Paginator(saved, 12).get_page(request.GET.get("guardados_pagina"))})
+    return render(request, "core/workspace.html", {"enrollments": page, "resources": Paginator(resources, 12).get_page(request.GET.get("recursos_pagina")), "saved_items": Paginator(saved, 12).get_page(request.GET.get("guardados_pagina")), "active": "workspace", "learning_stats": stats, "learning_state": state, "learning_query": query, "resume": resume})
 
 
 def lesson_learning_context(user, version, record):

@@ -1,0 +1,37 @@
+.lesson-discussion{margin-top:48px;padding-top:32px;border-top:1px solid var(--line);min-width:0;color:var(--ink)}
+.discussion-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:24px}
+.discussion-heading .eyebrow{font-size:9px;margin-bottom:12px}
+.academy .lesson-discussion h2{font-size:27px;letter-spacing:-.6px;line-height:1.25;margin:0 0 12px}
+.discussion-heading p:not(.eyebrow){font-size:13px;line-height:1.75;color:var(--muted);max-width:58ch;margin:0}
+.discussion-heading>.text-link{flex-shrink:0;font-size:12px}
+.lesson-discussion .discussion-compose{padding:22px;background:var(--paper);border:1px solid var(--line);margin-bottom:28px}
+.lesson-discussion label{display:block;font-size:13px;margin-bottom:10px}
+.lesson-discussion textarea{display:block;box-sizing:border-box;width:100%;min-height:100px;border:1px solid var(--line);background:var(--surface,var(--paper));color:var(--ink);padding:12px;font:inherit;font-size:14px;line-height:1.6;resize:vertical;border-radius:0}
+.lesson-discussion textarea:focus{outline:2px solid var(--ink);outline-offset:2px}
+.discussion-compose-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px}
+.discussion-compose-footer>span,.discussion-actions>span{font-size:11px;color:var(--muted)}
+.lesson-discussion .btn{font-size:12px;min-height:44px;padding:10px 18px}
+.discussion-thread{border:1px solid var(--line);margin-bottom:20px;padding:22px;scroll-margin-top:24px;overflow-wrap:anywhere}
+.lesson-discussion .commerce-panel{border:0;padding:0;margin:0;background:transparent;min-height:0}
+.lesson-discussion .commerce-panel>p{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:11px;color:var(--muted);margin-bottom:14px}
+.lesson-discussion .commerce-panel>div{font-size:14px;line-height:1.8;white-space:normal}
+.lesson-discussion .commerce-panel>details{display:inline-block;margin:14px 14px 0 0;vertical-align:top;font-size:11px}
+.lesson-discussion details>summary{cursor:pointer;min-height:32px;align-content:center}
+.lesson-discussion details[open]{display:block}
+.lesson-discussion .studio-form p{margin:14px 0}
+.lesson-discussion .studio-form select{max-width:100%;padding:8px;background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.discussion-actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:16px}
+.discussion-actions .text-link,.discussion-all-replies{font-size:12px}
+.discussion-follow{font:inherit;font-size:12px;padding:8px 0;background:transparent;border:0;color:var(--ink);text-decoration:underline;text-underline-offset:4px;cursor:pointer;min-height:40px}
+.discussion-replies{border-left:2px solid var(--line);margin-top:20px;padding-left:18px}
+.lesson-discussion .discussion-replies .commerce-panel{padding:16px 0;border-top:1px solid var(--line)}
+.lesson-discussion .discussion-replies .commerce-panel:first-child{border-top:0}
+.discussion-all-replies{display:inline-block;margin:12px 0}
+.discussion-reply{margin-top:16px;border-top:1px solid var(--line);padding-top:12px;font-size:13px}
+.discussion-reply .studio-form{padding:8px 0}
+.discussion-closed{font-size:12px;color:var(--muted);margin:18px 0 0}
+.discussion-empty{padding:26px;border:1px dashed var(--line);background:var(--paper);font-size:14px}
+.discussion-empty p{font-size:13px;line-height:1.7;color:var(--muted);margin:12px 0 0}
+.discussion-pagination{display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:14px;font-size:12px;margin:24px 0}
+.lesson-discussion .errorlist{font-size:13px;color:var(--ink);border-left:3px solid var(--ink);padding:10px 12px 10px 28px;margin:12px 0}
+@media(max-width:640px){.discussion-heading{flex-direction:column;gap:14px}.academy .lesson-discussion h2{font-size:25px}.lesson-discussion .discussion-compose,.discussion-thread{padding:18px}.discussion-compose-footer{flex-direction:column;align-items:stretch}.discussion-compose-footer .btn{width:100%}.discussion-replies{padding-left:12px}.discussion-actions{gap:10px}.lesson-discussion{margin-top:32px}}

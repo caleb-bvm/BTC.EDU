@@ -1,0 +1,24 @@
+/* Shared appearance; content images, video and payment QR codes keep their colors. */
+.theme-toggle{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:4px;padding:8px 12px;min-height:44px;white-space:nowrap;font:inherit;font-size:12px;cursor:pointer;flex-shrink:0}
+.theme-toggle[hidden]{display:none}
+.theme-toggle:hover{background:var(--soft)}
+html[data-theme=dark]{color-scheme:dark;--paper:#1c201f;--ink:#eceee5;--muted:#b4bbb4;--line:#424b45;--grid:#303832;--soft:#382b22;--accent-ink:#efac78;
+--tone-141414:#eceee5;--tone-141817:#eceee5;--tone-161616:#eceee5;--tone-1d2321:#eceee5;--tone-242424:#eceee5;--tone-555555:#eceee5;--tone-626257:#b4bbb4;--tone-626262:#b4bbb4;--tone-636363:#b4bbb4;--tone-666666:#b4bbb4;--tone-76766a:#b4bbb4;--tone-777777:#b4bbb4;--tone-94948a:#b4bbb4;--tone-99998c:#b4bbb4;--tone-999999:#b4bbb4;--tone-9e9e90:#b4bbb4;--tone-a3a39c:#b4bbb4;--tone-a4a4a4:#b4bbb4;--tone-aaaaaa:#424b45;--tone-b3b3a5:#424b45;--tone-b3b3a7:#424b45;--tone-b6bbb9:#424b45;--tone-cbcbbe:#424b45;--tone-cccccc:#424b45;--tone-cdcdc5:#424b45;--tone-d0c4b8:#424b45;--tone-d5d2ca:#424b45;--tone-dcdcd7:#252b28;--tone-e5e5db:#252b28;--tone-e7e7df:#252b28;--tone-ece6db:#252b28;--tone-ecece5:#252b28;--tone-eeeee7:#252b28;--tone-f0f0eb:#252b28;--tone-f1f1eb:#252b28;--tone-f2eadf:#252b28;--tone-f2f2eb:#252b28;--tone-f3f3ed:#252b28;--tone-f4f4ef:#252b28;--tone-fafaf7:#1c201f;--tone-fafbf9:#1c201f;--tone-fbeadd:#252b28;--tone-ffeded:#1c201f;--tone-fffdf7:#1c201f;--tone-ffffff:#1c201f;}
+html[data-theme=dark] body{--bs-body-color:var(--ink);--bs-body-bg:var(--paper);--bs-border-color:var(--line);--bs-secondary-color:var(--muted)}
+html[data-theme=dark] .btn-dark{color:#1c201f;background:#eceee5;border-color:#eceee5}
+html[data-theme=dark] .btn-dark:hover{background:#d5d9ce;border-color:#d5d9ce}
+html[data-theme=dark] .btn-outline-dark{color:var(--ink);border-color:var(--muted)}
+html[data-theme=dark] .btn-outline-dark:hover{background:var(--ink);color:var(--paper)}
+html[data-theme=dark] :is(input,select,textarea,.form-control,.form-select){color:var(--ink);background-color:var(--paper);border-color:var(--line)}
+html[data-theme=dark] :is(input,textarea)::placeholder{color:var(--muted);opacity:1}
+html[data-theme=dark] .hero-art img{mix-blend-mode:normal;border-radius:6px}
+html[data-theme=dark] :focus-visible{outline-color:#efac78!important}
+html[data-theme=dark] :is(.errorlist,.studio-error){color:#ffaaa3}
+html[data-theme=dark] .form-error{background:#442725;color:#ffb5af}
+@media(max-width:700px){.academy-header-actions{gap:10px;flex-wrap:wrap}.site-header nav{flex-wrap:wrap}.theme-toggle{padding:8px;font-size:11px}}
+@media print{.theme-toggle{display:none}}
+
+html[data-theme=dark]{--learning-green:#8ad1a5;--learning-green-soft:#263c30;--learning-tone-246347:#8ad1a5;--learning-tone-4d6653:#b4bbb4;--learning-tone-51514c:#b4bbb4;--learning-tone-57574f:#b4bbb4;--learning-tone-5e5e57:#b4bbb4;--learning-tone-78451e:#efac78;--learning-tone-99998c:#b4bbb4;--learning-tone-a12828:#efac78;--learning-tone-b63232:#efac78;--learning-tone-bebeb1:#424b45;--learning-tone-bed9c9:#424b45;--learning-tone-bfbfb5:#424b45;--learning-tone-c4c4b8:#424b45;--learning-tone-c7c7bd:#424b45;--learning-tone-cce0d2:#252b28;--learning-tone-dac9b5:#424b45;--learning-tone-e8e8e0:#252b28;--learning-tone-ead2be:#252b28;--learning-tone-eaeae3:#252b28;--learning-tone-eef6f0:#252b28;--learning-tone-efefe8:#252b28;--learning-tone-f6f6f0:#252b28;--learning-tone-f8f8f4:#252b28;--learning-tone-fff:#252b28;--learning-tone-fff0ed:#252b28;--learning-tone-fff8f1:#252b28;--learning-tone-white:#252b28;}
+html[data-theme=dark] :is(.lesson-video,.studio-media video){background:#161616}
+
+html[data-theme=dark]{--text-67411e:#efac78;--text-815031:#efac78;--text-8b542b:#efac78;--text-9a2323:#ffaaa3;--text-9b231d:#ffaaa3;--text-a12525:#ffaaa3;--text-a65d28:#efac78;--text-ad3d18:#ffaaa3;}

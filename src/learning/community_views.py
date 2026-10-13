@@ -2,6 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
+from django.db.models import Count, Max, Q
+from django.db.models.functions import Coalesce
+from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
@@ -9,12 +12,22 @@ from django.views.decorators.http import require_GET, require_http_methods, requ
 from content.models import CourseVersion
 from creators.services import require_creator
 
-from .community import access, moderate, moderator, post_message, report_message
+from .community import (
+    access,
+    accessible_posts,
+    follow_thread,
+    moderate,
+    moderator,
+    post_access,
+    post_message,
+    report_message,
+)
 from .essential_forms import MessageForm
 from .models import (
     CommunityDecision,
     CommunityPost,
     CommunityReport,
+    CommunitySubscription,
     CommunitySuspension,
 )
 
@@ -62,10 +75,31 @@ def space(request, version_pk):
         else:
             return redirect("community-thread", pk=post.pk)
     data = context(request, version)
-    posts = CommunityPost.objects.filter(version=version, parent__isnull=True).select_related("author")
+    posts = accessible_posts(request.user, version).filter(parent__isnull=True).select_related("author__creator_profile", "lesson__content")
     if not data["can_moderate"]:
         posts = posts.filter(hidden=False)
-    data.update(form=form, posts=Paginator(posts.order_by("-created_at", "-pk"), 20).get_page(request.GET.get("pagina")))
+    visible = Q(replies__hidden=False) if not data["can_moderate"] else Q()
+    posts = posts.annotate(reply_count=Count("replies", filter=visible, distinct=True), last_activity=Coalesce(Max("replies__created_at", filter=visible), "created_at"))
+    query = request.GET.get("q", "").strip()[:100]
+    state = request.GET.get("estado", "")
+    order = request.GET.get("orden", "actividad")
+    if query:
+        matches = accessible_posts(request.user, version).filter(parent__isnull=False, body__icontains=query)
+        if not data["can_moderate"]:
+            matches = matches.filter(hidden=False)
+        posts = posts.filter(Q(body__icontains=query) | Q(pk__in=matches.values("parent_id")))
+    if state == "sin-respuesta":
+        posts = posts.filter(reply_count=0, closed=False)
+    elif state == "abiertas":
+        posts = posts.filter(closed=False)
+    elif state == "seguidas":
+        posts = posts.filter(Q(subscriptions__user=request.user) | Q(author=request.user)).distinct()
+    else:
+        state = ""
+    if order not in ("actividad", "recientes"):
+        order = "actividad"
+    posts = posts.order_by("-last_activity" if order == "actividad" else "-created_at", "-pk")
+    data.update(form=form, query=query, state=state, order=order, posts=Paginator(posts, 20).get_page(request.GET.get("pagina")))
     return render(request, "learning/community_space.html", data)
 
 
@@ -73,8 +107,8 @@ def space(request, version_pk):
 @never_cache
 @require_http_methods(["GET", "POST"])
 def thread(request, pk):
-    post = get_object_or_404(CommunityPost.objects.select_related("version__course", "author"), pk=pk, parent__isnull=True)
-    access(request.user, post.version)
+    post = get_object_or_404(CommunityPost.objects.select_related("version__course", "author__creator_profile", "lesson__content", "lesson__chapter__version__course"), pk=pk, parent__isnull=True)
+    post_access(request.user, post)
     data = context(request, post.version)
     if post.hidden and not data["can_moderate"]:
         # No content or replies from a hidden thread are exposed.
@@ -88,11 +122,26 @@ def thread(request, pk):
             form.add_error(None, exc)
         else:
             return redirect("community-thread", pk=pk)
-    replies = post.replies.select_related("author")
+    replies = post.replies.select_related("author__creator_profile")
     if not data["can_moderate"]:
         replies = replies.filter(hidden=False)
-    data.update(post=post, replies=Paginator(replies, 20).get_page(request.GET.get("pagina")), form=form)
+    data.update(post=post, replies=Paginator(replies, 20).get_page(request.GET.get("pagina")), form=form, following=CommunitySubscription.objects.filter(thread=post, user=request.user).exists())
     return render(request, "learning/community_thread.html", data)
+
+
+@login_required
+@never_cache
+@require_POST
+def subscription(request, pk):
+    get_object_or_404(CommunityPost, pk=pk, parent__isnull=True)
+    following = request.POST.get("following")
+    if following not in ("yes", "no"):
+        return HttpResponseBadRequest("Selecciona una acción válida.")
+    follow_thread(request.user, pk, following == "yes")
+    destination = lesson_return(request, pk)
+    if destination:
+        return redirect(destination)
+    return redirect("community-thread", pk=pk)
 
 
 @login_required
@@ -100,14 +149,24 @@ def thread(request, pk):
 @require_POST
 def report(request, pk):
     post = get_object_or_404(CommunityPost.objects.select_related("version__course"), pk=pk)
-    access(request.user, post.version)
+    post_access(request.user, post)
     try:
         report_message(request.user, pk, request.POST.get("reason", ""))
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
     else:
         messages.success(request, "Reporte recibido. El equipo de moderación lo revisará.")
-    return redirect("community-thread", pk=post.parent_id or post.pk)
+    destination = lesson_return(request, post.pk)
+    return redirect(destination) if destination else redirect("community-thread", pk=post.parent_id or post.pk)
+
+
+def lesson_return(request, post_pk):
+    """Accept only the post's own lesson; never a user supplied redirect URL."""
+    from .lesson_discussion import conversation_url
+    post = CommunityPost.objects.select_related("version", "lesson").get(pk=post_pk)
+    if post.lesson_id and request.POST.get("lesson_return") == str(post.lesson_id):
+        return conversation_url(request.user, post)
+    return None
 
 
 @login_required

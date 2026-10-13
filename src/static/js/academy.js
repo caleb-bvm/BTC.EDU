@@ -27,6 +27,13 @@
   const navigation = document.querySelector('#academy-navigation');
   if (toggle && backdrop && navigation) {
     document.documentElement.classList.add('js-ready');
+    const header = document.querySelector('.academy-header');
+    if (header) {
+      const updateMenuOffset = () => document.documentElement.style.setProperty('--academy-nav-offset', `${header.getBoundingClientRect().height}px`);
+      updateMenuOffset();
+      if (window.ResizeObserver) new ResizeObserver(updateMenuOffset).observe(header);
+      else window.addEventListener('resize', updateMenuOffset);
+    }
     const setOpen = (open, restoreFocus = false) => {
       document.body.classList.toggle('nav-open', open);
       toggle.setAttribute('aria-expanded', String(open));
@@ -36,6 +43,9 @@
     };
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
     backdrop.addEventListener('click', () => setOpen(false, true));
+    navigation.addEventListener('click', (event) => {
+      if (event.target.closest('a')) setOpen(false);
+    });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && document.body.classList.contains('nav-open')) setOpen(false, true);
     });

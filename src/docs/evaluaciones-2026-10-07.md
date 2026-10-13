@@ -1,5 +1,7 @@
 # Evaluaciones por versión
 
+La interfaz vigente se describe en [la entrega de UI/UX del 12 de octubre](experiencia-evaluaciones-2026-10-12.md). Este documento conserva las reglas y evidencias de la entrega original; sus capturas son históricas.
+
 Entrega del 7 de octubre de 2026, El Salvador. Añade el recorrido creador → borrador → revisión → evaluación del alumno → resultado y autorización de otro intento. Conserva compras, inscripción y progreso existentes. Certificados y preguntas por lección continúan como próximos módulos.
 
 ## Reglas implementadas

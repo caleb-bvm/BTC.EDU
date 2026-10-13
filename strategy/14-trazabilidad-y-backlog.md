@@ -109,3 +109,15 @@ Al 10 de octubre, O-06/O-10 y T-03 disponen de paneles de creador/administració
 Cada credencial conserva una huella SHA-256 de sus datos y evidencia histórica. El PDF y la página de verificación muestran esa huella; quien recibe el certificado puede compararla con el registro y descargar los datos para recalcularla. La comprobación detecta diferencias y mantiene visible cualquier revocación. La huella verifica integridad frente a la referencia de BTC.EDU; la autenticidad del emisor depende de consultar su página legítima. No constituye una firma digital ni un registro en Bitcoin.
 
 Implementado y verificado el 10 de octubre. [Contrato, privacidad, migración y pruebas](../src/docs/certificados-sha256-2026-10-10.md). La exportación permite recalcular exactamente los bytes JSON; no representa el hash de todo el PDF.
+
+## Perfiles y comunidad
+
+Entrega del 12 de octubre de 2026 sobre `main`, base `4000ed5`, con cambios locales. Estudiantes con alias, presentación e intereses, perfil privado por defecto y compartición reversible. Creadores con ficha y catálogo existentes integrados en Personas y conversaciones. Comunidad por versión con búsqueda que respeta ocultación, filtros y seguimiento con avisos internos. Cubre ampliación de AC-28 sin abrir espacios a terceros ni publicar información académica privada. 227 pruebas, Ruff, migraciones y cuatro controles de concurrencia; 35 pruebas específicas repetidas tras ajustes. [Contrato y evidencia](../src/docs/perfiles-y-comunidad-2026-10-12.md). Verificación de correo, preferencias de avisos, soluciones, apelaciones y operación pública siguen pendientes. Este registro no convierte preparación de instrumentos en sesiones con usuarios.
+
+## Conversaciones en lecciones
+
+Entrega del 12 de octubre de 2026 en `main`, base `4000ed5`, cambios locales. Amplía AC-28 y el acompañamiento de AC-35 con comentarios compartidos ligados a una lección y versión; conserva las preguntas privadas. Incluye respuestas, seguimiento, avisos al creador y permisos de lección en lectura, búsqueda, reportes, respuestas y notificaciones. [Diseño y criterios](20-comunidad-en-lecciones.md) y [verificación técnica](../src/docs/comunidad-en-lecciones-2026-10-12.md). Marcar soluciones, destacar respuestas y evaluar utilidad con participantes siguen pendientes.
+
+## Evidencia del recorrido de aprendizaje
+
+Entrega del 12 de octubre de 2026: continuidad compartida entre ficha y biblioteca, inscripción para empezar, estados del temario, práctica/solución, lectura enfocada, filtros y precios por unidad. Se verificaron 39 pruebas enfocadas, la recuperación del cliente y cuatro controles de concurrencia. Las capturas usan cuentas temporales; las sesiones externas siguen pendientes. El chequeo general de esta tarea registró seis incidencias en cambios concurrentes de cuentas/creadores, por lo que no acredita verificación global. [Comportamiento, respaldo, resultados y límites](../src/docs/experiencia-aprendizaje-2026-10-12.md).

@@ -203,6 +203,7 @@ class Notification(models.Model):
 
 class CommunityPost(FrozenRecord):
     version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT)
+    lesson = models.ForeignKey("content.VersionLesson", on_delete=models.PROTECT, null=True, blank=True, related_name="community_posts")
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.PROTECT, related_name="replies")
     body = models.TextField(max_length=2000)
@@ -211,10 +212,24 @@ class CommunityPost(FrozenRecord):
     closed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def clean(self):
+        if self.lesson_id and self.lesson.chapter.version_id != self.version_id:
+            raise ValidationError("La conversación debe pertenecer a una lección de esta versión.")
+        if self.parent_id and (self.parent.parent_id or self.parent.version_id != self.version_id or self.parent.lesson_id != self.lesson_id):
+            raise ValidationError("La respuesta debe conservar la versión y lección de su conversación.")
+
     class Meta:
         ordering = ("created_at", "pk")
         permissions = [("moderate_community", "Moderar comunidades de todos los cursos")]
         constraints = [models.UniqueConstraint(fields=("author", "request_key"), name="unique_community_post_request")]
+
+
+class CommunitySubscription(models.Model):
+    thread = models.ForeignKey(CommunityPost, on_delete=models.CASCADE, related_name="subscriptions")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=("thread", "user"), name="unique_community_subscription")]
 
 
 class CommunityReport(FrozenRecord):

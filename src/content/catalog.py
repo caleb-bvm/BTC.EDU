@@ -81,8 +81,8 @@ def catalog_context(params, section=None):
         if model == Course:
             items = items.filter(public_kind=CourseKind.TUTORIAL if kind == 'tutoriales' else CourseKind.COURSE)
         elif model != ExternalReference:
-            items = items.select_related('creator__creator_profile', 'revision').defer('revision__body').annotate(public_title=Coalesce('revision__title', 'title'), public_description=Coalesce('revision__description', 'description'), public_access=Coalesce('revision__access_type', 'access_type'))
-        topic_field = 'public_topic_id' if model == Course else 'topic_id'
+            items = items.select_related('creator__creator_profile', 'revision__topic').defer('revision__body').annotate(public_title=Coalesce('revision__title', 'title'), public_description=Coalesce('revision__description', 'description'), public_access=Coalesce('revision__access_type', 'access_type'), public_topic_id=Case(When(revision__isnull=False, then=F('revision__topic_id')), default=F('topic_id')))
+        topic_field = 'topic_id' if model == ExternalReference else 'public_topic_id'
         topic_ids.update(items.exclude(**{topic_field: None}).values_list(topic_field, flat=True))
         if category != 'todos' and category != kind:
             continue
@@ -121,6 +121,7 @@ def catalog_context(params, section=None):
             else:
                 if item.revision_id:
                     item.title, item.description, item.access_type = item.revision.title, item.revision.description, item.revision.access_type
+                    item.topic = item.revision.topic
                 url = reverse('resource-detail', args=[kind, item.pk])
             creator = item.source_name if model == ExternalReference else public_creator_name(item.creator)
             cards.append({'item': item, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})
@@ -129,13 +130,20 @@ def catalog_context(params, section=None):
     course_ids = [card['item'].current_version_id for card in cards if card['summary'] and card['item'].current_version_id]
     resource_ids = [card['item'].revision_id for card in cards if card['category'] in ('videos', 'materiales') and card['item'].revision_id]
     prices = {}
-    offers = Offer.objects.filter(status='active', creator__is_active=True, creator__creator_profile__status='approved').filter(Q(course_version_id__in=course_ids) | Q(resource_id__in=resource_ids)).values('amount_sats', 'course_version_id', 'resource_id')
+    price_kinds = {}
+    ranks = {'course': 3, 'chapter': 2, 'lesson': 1, 'resource': 1}
+    offers = Offer.objects.filter(status='active', creator__is_active=True, creator__creator_profile__status='approved').filter(Q(course_version_id__in=course_ids) | Q(resource_id__in=resource_ids)).values('amount_sats', 'course_version_id', 'resource_id', 'kind')
     for offer in offers:
         key = ('course', offer['course_version_id']) if offer['course_version_id'] else ('resource', offer['resource_id'])
-        prices[key] = min(prices.get(key, offer['amount_sats']), offer['amount_sats'])
+        rank = ranks.get(offer['kind'], 0)
+        previous_rank = ranks.get(price_kinds.get(key), -1)
+        if rank > previous_rank or (rank == previous_rank and offer['amount_sats'] < prices[key]):
+            prices[key] = offer['amount_sats']
+            price_kinds[key] = offer['kind']
     for card in cards:
         key = ('course', card['item'].current_version_id) if card['summary'] else ('resource', getattr(card['item'], 'revision_id', None))
         card['price'] = prices.get(key)
+        card['price_label'] = {'course': f"{card['kind']} completo", 'chapter': 'Capítulo', 'lesson': 'Lección individual'}.get(price_kinds.get(key), '')
     link_params = params.copy()
     link_params.pop('pagina', None)
     link_params.pop('curso', None)

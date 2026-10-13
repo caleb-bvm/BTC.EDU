@@ -140,7 +140,7 @@ Facilitar la preparación y revisión del contenido, medir la compra y el uso me
 
 ### Producto
 
-Nos enfocamos inicialmente en aprendizaje de tecnología/programación. El contenido gratuito, las muestras y las unidades de compra deben responder a necesidades educativas reconocibles. La investigación orientará qué combinación conservar y qué cambiar.
+El catálogo inicial se centra en Bitcoin y Lightning: fundamentos, wallets y autocustodia, canales y liquidez, facturas, laboratorio con LNbits y acceso a contenido mediante micropagos. El contenido gratuito, las muestras y las unidades de compra deben responder a necesidades educativas reconocibles. La investigación orientará qué combinación conservar y qué cambiar.
 
 ### Experiencia
 
@@ -174,15 +174,43 @@ El creador mantiene materiales propios; la administración revisa publicaciones 
 
 ## Desarrollo
 
+### Catálogo inicial
+
+Publicamos seis cursos introductorios de Bitcoin y Lightning con 24 lecciones de texto. Cada lección incluye explicación, ejemplo, práctica y solución. Los cursos presentan objetivos, requisitos, temario y duración estimada para realizar las actividades; todavía no hemos medido esos tiempos con alumnos.
+
+Bitcoin desde cero, Wallets y autocustodia y Lightning desde cero son gratuitos. Facturas Lightning, Laboratorio con LNbits y Contenido con micropagos ofrecen la primera lección gratis y tres lecciones de pago. El precio inicial es 120 sats por curso o 50 sats por lección individual, como valores de prueba sin validación comercial.
+
+Cada curso incluye una pregunta final y un certificado condicionado a completar las cuatro lecciones y aprobar esa comprobación. Es una comprobación introductoria limitada, no una evaluación exhaustiva ni evidencia de dominio. Las prácticas usan cálculos, escenarios y diseños que no exigen fondos reales. Los textos son material introductorio propio de BTC.EDU con referencias técnicas; no incorporan videos ni sesiones realizadas con usuarios.
+
+La carga conserva versiones publicadas, registra decisiones de publicación y ofertas, crea un respaldo local y evita duplicar cursos al repetirse. Comprobamos el catálogo, sus fichas y las 24 lecciones por HTTP en una copia de la base, incluida la protección del texto de pago. La revisión educativa externa y la comprobación del nuevo catálogo con personas siguen pendientes.
+
 ### Estado actual
 
 BTC.EDU dispone de cuentas independientes, aprobación de creadores, edición y revisión editorial, contenido y archivos protegidos por versión, ofertas, facturas, compras, biblioteca, inscripción, progreso y evaluaciones. La entrega esencial añade certificados, preguntas por lección, notificaciones internas y paneles de creador y administración.
 
+### Apariencia
+
+La interfaz ofrece modo claro y oscuro desde la cabecera. En la primera visita utiliza la preferencia del sistema; al elegir un modo, conserva esa elección en el navegador para las siguientes visitas. La apariencia se aplica a la academia, la lectura, las compras, los perfiles y el espacio de creadores. Esta preferencia es local al navegador y no se sincroniza con la cuenta.
+
+### Cursos, lectura y progreso
+
+La experiencia de aprendizaje conecta la ficha del curso, el temario, la lección y Mi aprendizaje. La acción principal permite empezar, retomar una lección pendiente o repasar un recorrido completado. El temario identifica las lecciones completadas, las evaluaciones y el contenido que requiere acceso. El catálogo distingue el precio del curso completo de las ofertas por capítulo o lección. La ficha y la biblioteca utilizan la misma decisión de continuación y conservan la versión estudiada.
+
+El lector organiza la explicación, los ejemplos, la práctica y la solución. Esta última se despliega cuando el alumno decide consultarla. El modo de lectura enfocada reduce las distracciones y mantiene la navegación del curso. En móvil, el temario está disponible antes del texto. Completar una lección sigue siendo una acción explícita: abrirla guarda el punto de continuación, y las evaluaciones obligatorias deben aprobarse antes de marcarla.
+
+Mi aprendizaje destaca un curso accesible ya iniciado entre los resultados visibles y permite buscar y filtrar por estado. El progreso se actualiza después de la confirmación del servidor y puede corregirse desmarcando una lección. Los errores de guardado ofrecen recuperación sin sobrescribir un avance más reciente. Las comprobaciones técnicas y la revisión de pantallas se registran por separado; todavía debemos evaluar comprensión, facilidad de uso y resultados educativos con participantes.
+
 ### Evaluaciones
 
-El creador configura selección única o múltiple, nota mínima, intentos, espera y presentación de soluciones. El alumno puede guardar, retomar y entregar respuestas; iniciar consume un intento. El servidor corrige con igual peso por pregunta y coincidencia exacta en selección múltiple, sin crédito parcial. La aprobación usa la puntuación exacta; el redondeo afecta solo la presentación.
+La preparación de la evaluación separa las reglas, la nota mínima, las preguntas y los intentos disponibles. El creador configura selección única o múltiple, nota mínima, intentos, espera y presentación de soluciones. El editor agrupa las reglas y permite abrir cada pregunta para editarla; los resultados distinguen estudiante, versión, intento y nota.
 
-Las evaluaciones obligatorias requieren aprobación para completar la lección. El creador puede autorizar un intento adicional con motivo, conservando notas y espera. Preguntas, reglas y resultados permanecen asociados a su versión; editar el borrador no cambia los intentos históricos.
+Con JavaScript, el alumno responde una pregunta a la vez, con opciones amplias, un indicador de preguntas respondidas y navegación para volver a cualquiera de ellas. Antes de entregar, revisa sus respuestas y completa las pendientes. El indicador cuenta preguntas con alguna selección; no indica aciertos. Sin JavaScript, el formulario completo conserva el guardado y la entrega.
+
+El alumno puede guardar y retomar; iniciar consume un intento. Cambiar de pregunta no guarda respuestas y salir sin guardar puede perder los cambios locales. El servidor corrige con igual peso por pregunta y coincidencia exacta en selección múltiple, sin crédito parcial. La aprobación usa la puntuación exacta; el redondeo afecta solo la presentación. El resultado separa nota, estado y revisión de respuestas, respetando cuándo pueden mostrarse las soluciones.
+
+Las evaluaciones obligatorias requieren aprobación para completar la lección. Aprobar no la marca automáticamente como completada. El creador puede autorizar un intento adicional con motivo, conservando notas y espera. Preguntas, reglas y resultados permanecen asociados a su versión; editar el borrador no cambia los intentos históricos.
+
+La revisión técnica comprobó guardado, retoma, navegación, revisión previa y entregas, además del editor y los resultados en pantallas de escritorio y móvil. Estas comprobaciones no demuestran mejoras de aprendizaje ni sustituyen la validación de usabilidad con alumnos y creadores, que sigue pendiente.
 
 ### Certificados
 
@@ -198,11 +226,21 @@ El alumno inscrito con acceso puede preguntar desde una lección. Solo el partic
 
 La bandeja propia avisa de preguntas, respuestas, decisiones editoriales, intentos adicionales y cambios del certificado. Abrir el aviso conserva su lectura. Esta entrega utiliza notificaciones internas; el envío de correo sigue pendiente.
 
+### Perfiles
+
+Cada estudiante puede elegir un alias, escribir una presentación e indicar sus intereses y sitio web. Su perfil comienza privado y puede compartirlo voluntariamente o volver a ocultarlo. El alias identifica sus mensajes en la comunidad; el nombre de cuenta, correo, compras, progreso y notas permanecen privados.
+
+Los creadores aprobados mantienen una ficha con nombre público, biografía, especialidad, sitio web y contenido publicado. El directorio Personas permite encontrar estudiantes que comparten su perfil y creadores aprobados por nombre o tema. Las fichas se conectan con las conversaciones, sin publicar las comunidades de cada persona ni conceder acceso a otros cursos.
+
 ### Comunidad y moderación
 
-Cada versión publicada tiene una comunidad para sus alumnos inscritos y el creador aprobado. Las conversaciones y respuestas se comparten dentro de ese espacio; las preguntas por lección conservan su carácter privado. Inscribirse permite participar, pero no compra las lecciones de pago. Una nueva versión tiene otro espacio y las comunidades anteriores conservan su historial.
+Cada versión publicada tiene una comunidad para sus alumnos inscritos y el creador aprobado. Al final de cada lección, «Conversación de esta lección» permite comentar, responder y seguir conversaciones junto al contenido. Esos mismos mensajes aparecen en Comunidad, identificados con la lección y un enlace para volver a ella. Las preguntas privadas al creador conservan su recorrido separado.
 
-Los participantes pueden reportar mensajes. El creador modera sus cursos y la administración interviene con permiso específico. Ocultar mensajes, cerrar conversaciones, suspender escritura y restablecerla requiere un motivo y conserva quién tomó la decisión y cuándo. La suspensión mantiene lectura, compras y progreso. Los avisos internos informan de respuestas, reportes y cambios de participación; los controles de acceso, formularios y reintentos se verifican con datos temporales. Todavía no hay operación pública ni validación con personas.
+Leer o escribir en la conversación requiere inscripción en la misma versión y acceso a la lección. Inscribirse no compra contenido de pago. La búsqueda, los recuentos y los avisos respetan estos permisos y la ocultación de mensajes. Una nueva versión conserva un espacio separado; las conversaciones anteriores mantienen su contexto histórico.
+
+Los perfiles permiten reconocer a quienes participan y las respuestas del autor del curso se identifican como «Creador». El creador recibe avisos internos por nuevos comentarios de lección. El autor de una conversación y sus seguidores reciben avisos de respuestas de otras personas, según sus preferencias y sin duplicarlos por un reintento. Participar es opcional y no condiciona completar la lección.
+
+Los participantes pueden reportar mensajes. El creador modera sus cursos y la administración interviene con permiso específico. Ocultar mensajes, cerrar conversaciones, suspender escritura y restablecerla requiere un motivo y conserva quién tomó la decisión y cuándo. La suspensión mantiene lectura, seguimiento, compras y progreso. La utilidad educativa y la capacidad de atención todavía requieren evaluación con personas.
 
 ### Métricas y paneles
 
@@ -228,9 +266,15 @@ La ampliación de conciliación pasó 192 pruebas Django, revisión estática y 
 
 La incorporación de comunidad y moderación pasó 210 pruebas Django, revisión estática, consistencia de migraciones y cuatro controles de concurrencia con conexiones SQLite independientes. La migración local se aplicó con respaldo y sin ejemplos. Se comprobó el recorrido de alumno y el envío de una respuesta en Chrome, incluida la vista móvil; los formularios de moderación se verificaron en las pruebas automatizadas. Esta entrega no repite el pago desde ZEUS ni acredita operación pública.
 
+La ampliación de perfiles y comunidad pasó 227 pruebas Django, revisión estática, comprobación de migraciones y cuatro controles de concurrencia, incluido el seguimiento simultáneo. Tras los últimos ajustes se repitieron las 35 pruebas de perfiles y comunidad. Se revisaron el directorio, la ficha pública y la edición de alias en navegador con cuentas sintéticas, incluida la ficha en móvil. Las migraciones locales tuvieron respaldo y se comprobó la conservación de las filas anteriores; las adiciones de catálogo observadas durante la revisión corresponden a actividad concurrente y se conservaron. Esta evidencia no acredita uso público ni validación educativa.
+
+La integración de conversaciones en lecciones pasó 57 pruebas de lecciones, comunidad, acceso e historial, además de la comprobación de concurrencia para envíos y avisos únicos. Se revisaron comentarios, respuestas y seguimiento del estudiante, la respuesta del creador y la presentación móvil con cuentas ficticias. La migración conservó los 227 registros previos, con respaldo y sin añadir ejemplos. La revisión general del conjunto debe repetirse al cerrar las otras entregas concurrentes; estas comprobaciones no constituyen validación educativa.
+
 ### Organización y próximos pasos
 
 Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, instalación de la conciliación como servicio y procedimientos para operación pública. Las membresías permanecen como ampliación pendiente; la comunidad por versión ya permite conversar y moderar con historial. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
+
+La siguiente ampliación de perfiles y comunidad debería incorporar verificación de correo, preferencias de avisos, respuestas marcadas como solución y apelaciones de moderación. Estas propuestas requieren diseño y pruebas propios; no se presentan como funciones disponibles.
 
 ## A dónde queremos llegar
 
@@ -281,3 +325,11 @@ Las fuentes externas se enlazan junto a las afirmaciones que sustentan. Los prec
 Los documentos originales de CUBO+ definen el reto y la evaluación. La investigación funcional, las decisiones y los registros técnicos del proyecto conservan el detalle y los límites de cada entrega.
 
 La bitácora y los anexos reunirán las evidencias de desarrollo, instrumentos y resultados reales. El enlace al Google Doc y la validación con participantes siguen pendientes de incorporar.
+
+
+
+## Navegación por contexto
+
+La barra lateral cambia según la página visitada. El catálogo reúne cursos, tutoriales y recursos; el espacio de aprendizaje reúne el avance, los certificados y las preguntas; las compras agrupan las facturas; y la comunidad reúne conversaciones, personas y notificaciones. La cuenta concentra los datos del perfil. Los accesos para cambiar de espacio permiten continuar el recorrido sin mostrar todas las opciones en cada página.
+
+Dentro de un curso o tutorial, la barra prioriza el regreso al curso y, durante una lección, el acceso a su temario. Cuando existe una inscripción a una versión publicada, también ofrece la comunidad del curso. El estudio de creador distingue la gestión del contenido, el acompañamiento de alumnos y el perfil. Las opciones respetan el tipo de cuenta y el estado de aprobación del creador; estos cambios de navegación no sustituyen las comprobaciones de acceso de cada página.

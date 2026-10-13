@@ -3,16 +3,20 @@ from datetime import timedelta
 
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
+from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
 
 from commerce.services import reserve_writer
+from content.access import content_access
+from content.models import VersionLesson
 from creators.services import require_creator
 
 from .models import (
     CommunityDecision,
     CommunityPost,
     CommunityReport,
+    CommunitySubscription,
     CommunitySuspension,
     Enrollment,
 )
@@ -46,29 +50,100 @@ def access(actor, version, writing=False):
 
 
 @transaction.atomic
-def post_message(actor, version, body, key, parent_id=None):
+def post_message(actor, version, body, key, parent_id=None, lesson_id=None):
     body, key = valid_message(body, key)
     reserve_writer(actor.pk)
     actor.refresh_from_db()
     version.refresh_from_db()
     access(actor, version)
+    parent = None
+    if parent_id is not None:
+        parent = CommunityPost.objects.filter(pk=parent_id, version=version, parent__isnull=True).first()
+        if not parent or (lesson_id is not None and lesson_id != parent.lesson_id):
+            raise ValidationError("Selecciona una conversación de esta lección.")
+        lesson_id = parent.lesson_id
+    if lesson_id is not None:
+        lesson = VersionLesson.objects.select_related("content", "chapter__version__course").filter(pk=lesson_id, chapter__version=version).first()
+        if lesson is None:
+            raise ValidationError("Selecciona una lección de esta versión.")
+        lesson_access(actor, version, lesson)
     previous = CommunityPost.objects.filter(author=actor, request_key=key).first()
     if previous:
-        if previous.body != body or previous.version_id != version.pk or previous.parent_id != parent_id:
+        if previous.body != body or previous.version_id != version.pk or previous.parent_id != parent_id or previous.lesson_id != lesson_id:
             raise ValidationError("Este envío ya fue utilizado. Recarga el formulario.")
         return previous
     access(actor, version, writing=True)
-    if parent_id is not None:
-        parent = CommunityPost.objects.filter(pk=parent_id, version=version, parent__isnull=True).first()
-        if not parent or parent.hidden or parent.closed:
+    if parent is not None:
+        if parent.hidden or parent.closed:
             raise ValidationError("Esta conversación no admite respuestas.")
     since = timezone.now() - timedelta(hours=1)
     if CommunityPost.objects.filter(author=actor, created_at__gte=since).count() >= 30:
         raise ValidationError("Has enviado muchos mensajes. Espera antes de escribir de nuevo.")
-    post = CommunityPost.objects.create(version=version, author=actor, body=body, request_key=key, parent_id=parent_id)
-    if parent_id and parent.author_id != actor.pk:
-        notify(parent.author, f"community-reply:{post.pk}", "Tu conversación tiene una respuesta", reverse("community-thread", args=[parent.pk]))
+    post = CommunityPost.objects.create(version=version, lesson_id=lesson_id, author=actor, body=body, request_key=key, parent_id=parent_id)
+    if parent_id:
+        recipients = {parent.author_id: parent.author}
+        recipients.update({sub.user_id: sub.user for sub in parent.subscriptions.select_related("user")})
+        for recipient in recipients.values():
+            if recipient.pk == actor.pk:
+                continue
+            try:
+                access(recipient, version)
+                if lesson_id:
+                    lesson_access(recipient, version, lesson)
+            except PermissionDenied:
+                continue
+            key = f"community-reply:{post.pk}" if recipient.pk == parent.author_id else f"community-reply:{post.pk}:{recipient.pk}"
+            notify(recipient, key, "Una conversación tiene una respuesta", reverse("community-thread", args=[parent.pk]))
+    elif lesson_id and version.course.creator_id != actor.pk:
+        creator = version.course.creator
+        try:
+            access(creator, version)
+            lesson_access(creator, version, lesson)
+        except PermissionDenied:
+            pass
+        else:
+            notify(creator, f"community-lesson:{post.pk}", "Un nuevo comentario en una lección", reverse("community-thread", args=[post.pk]))
     return post
+
+
+def lesson_access(actor, version, lesson):
+    """Course community membership never unlocks a lesson's discussion."""
+    if lesson.chapter.version_id != version.pk or (not moderator(actor, version) and not content_access(actor, lesson).allowed):
+        raise PermissionDenied("Necesitas acceso a esta lección para consultar su conversación.")
+
+
+def post_access(actor, post):
+    access(actor, post.version)
+    if post.lesson_id:
+        lesson_access(actor, post.version, post.lesson)
+
+
+def accessible_posts(actor, version):
+    """Filter before searching, counting or paginating, including replies."""
+    posts = CommunityPost.objects.filter(version=version)
+    if moderator(actor, version):
+        return posts
+    from commerce.models import Entitlement
+    lessons = VersionLesson.objects.filter(chapter__version=version)
+    if version.course.status not in ("published", "archived"):
+        lessons = lessons.none()
+    else:
+        lessons = lessons.filter(Q(content__access_type="free") | Q(content_id__in=Entitlement.objects.filter(buyer=actor).values("resource_id")))
+    return posts.filter(Q(lesson__isnull=True) | Q(lesson_id__in=lessons.values("pk")))
+
+
+@transaction.atomic
+def follow_thread(actor, post_id, following):
+    reserve_writer(actor.pk)
+    actor.refresh_from_db()
+    post = CommunityPost.objects.select_related("version__course", "lesson__content", "lesson__chapter__version__course").get(pk=post_id, parent__isnull=True)
+    post_access(actor, post)
+    if post.hidden:
+        raise PermissionDenied
+    if following:
+        CommunitySubscription.objects.get_or_create(thread=post, user=actor)
+    else:
+        CommunitySubscription.objects.filter(thread=post, user=actor).delete()
 
 
 def reason_text(reason):
@@ -82,8 +157,8 @@ def report_message(actor, post_id, reason):
     reason = reason_text(reason)
     reserve_writer(actor.pk)
     actor.refresh_from_db()
-    post = CommunityPost.objects.select_related("version__course", "parent").get(pk=post_id)
-    access(actor, post.version)
+    post = CommunityPost.objects.select_related("version__course", "parent", "lesson__content", "lesson__chapter__version__course").get(pk=post_id)
+    post_access(actor, post)
     previous = CommunityReport.objects.filter(post=post, reporter=actor).first()
     if previous:
         return previous

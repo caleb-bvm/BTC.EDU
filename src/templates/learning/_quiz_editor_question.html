@@ -1,0 +1,4 @@
+<details class="assessment-review assessment-editor-question" {% if question.errors or expanded %}open{% endif %}>
+  <summary><span class="assessment-number">{{ number }}</span><span><strong data-question-title>{{ question.prompt.value|default:'Nueva pregunta' }}</strong><small>{% if question.multiple.value %}Varias respuestas{% else %}Una respuesta{% endif %}</small></span><span class="assessment-expand" aria-hidden="true">＋</span></summary>
+  <div class="assessment-review-body">{{ question.non_field_errors }}{% for field in question %}<div class="studio-field">{{ field.label_tag }}{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endfor %}</div>
+</details>

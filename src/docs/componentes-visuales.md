@@ -32,3 +32,26 @@ Toda información y acción vive en HTML. No se cargó contenido educativo, prec
 ## Fuentes incorporadas el 1 de octubre de 2026
 
 Encontradas en la carpeta de fuentes de Windows del usuario; también existen copias en Documents/Design Assets/Fonts/August 2026/nothingfont. Archivos copiados a static/fonts: NType82-Regular.otf, NType82-Headline.otf, SpaceMono-Regular.otf y Ndot77JPExtended.ttf. La variante encontrada de Ndot77 es JP Extended, cuyo nombre interno es Ndot77JPExtended. Se preservaron los originales sin modificación ni conversión. font-display: swap conserva lectura mientras cargan; Ndot77 se usa únicamente en la marca. Ndot77 JP Extended pesa aproximadamente 14.9 MB y es el archivo completo. No se publicó ni verificó licencia de distribución web; la incorporación corresponde a esta revisión local.
+
+## Cursos y lectura
+
+La entrega del 12 de octubre amplía la identidad aprobada con temario por capítulos, estados expresados en texto, medidor de avance, preparación del curso, biblioteca con continuación, prácticas y soluciones desplegables. Las superficies están en `learning-experience.css` y reutilizan la paleta de la academia, incluida la adaptación al tema compartido. El modo enfocado y el guardado se gestionan en `learning.js`; la altura real del encabezado determina la posición del menú móvil. [Reglas, evidencia y límites](experiencia-aprendizaje-2026-10-12.md).
+
+
+## Barra lateral contextual
+
+La configuración de navegación está en `core/navigation.py` y se entrega mediante un procesador de contexto. Usa el nombre de la ruta resuelta, no el parámetro `active` de las vistas, porque un curso y su catálogo comparten ese parámetro pero necesitan opciones distintas. Academia y estudio incluyen `_context_navigation.html`; revisión editorial conserva su acceso administrativo.
+
+Los grupos son catálogo, aprendizaje, compras, comunidad, cuenta, acceso, curso, contenido del creador y acompañamiento de alumnos. Los detalles conservan el enlace activo de su sección. Los visitantes no reciben enlaces del espacio privado de estudiantes. Los creadores vuelven a su estudio desde las páginas compartidas; una solicitud pendiente conduce al perfil de creador. En cursos se conserva la URL de la versión consultada y el retorno al recorrido previo. Las lecciones enlazan al temario existente para evitar duplicarlo.
+
+El menú móvil conserva el control de apertura, Escape y fondo; al elegir un enlace se cierra, incluso para el ancla del temario. La navegación no modifica permisos ni concede acceso a contenido.
+
+Verificación: `core.test_navigation` comprueba grupos, detalles activos, visitantes, creadores, solicitud pendiente, recuperación de acceso y versión del curso. Se ejecutan también `learning.test_experience` y `accounts.test_destinations` para revisar continuidad del aprendizaje y destino de acceso. La comprobación visual en navegador y la validación con participantes quedan pendientes; las pruebas automatizadas no demuestran comprensión de la interfaz.
+
+
+Registro de verificación del 12 de octubre de 2026: la primera ejecución ampliada completó 21 pruebas y detectó la pérdida del parámetro `next` en el enlace lateral de registro. Se corrigió conservando el destino en los enlaces de acceso y registro y se añadió una prueba específica. La siguiente ejecución de aprendizaje y destinos quedó impedida por una modificación concurrente del modelo de usuario: `accounts_user` no contiene la columna `avatar` en la base de pruebas creada a partir de las migraciones actuales. No se modificaron las migraciones de perfiles desde esta entrega. La comprobación de Django informa además la advertencia existente sobre el correo no único.
+Resultado final de la comprobación aislada: las siete pruebas de core.test_navigation pasaron, incluida la conservación del destino de compra durante el acceso y registro.
+
+## Evaluaciones
+
+`assessments.css` organiza preparación, mapa de preguntas, opciones amplias, revisión previa, resultados y editor plegable. Conserva paleta, marca y fuentes locales de títulos/etiquetas; el texto funcional usa Arial del sistema. `quizzes.js` añade navegación, resumen y estado de cambios sin guardar; el formulario nativo conserva guardado y entrega sin JavaScript. Las reglas, corrección y privacidad siguen en el servidor. [Diagnóstico, referencias, evidencia y límites](experiencia-evaluaciones-2026-10-12.md).
