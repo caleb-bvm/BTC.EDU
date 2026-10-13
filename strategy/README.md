@@ -1,13 +1,17 @@
 # Producto y especificaciones
 
-El proyecto es una plataforma web de cursos, videos y materiales, con contenido gratis y de pago. Un curso gratuito puede ofrecer capítulos o materiales adicionales de pago. También se pueden comprar videos individuales y cursos completos. El catálogo inicial es ficticio y los precios son de prueba.
+BTC.EDU es una plataforma integral de educación con cursos, tutoriales, recursos, aprendizaje personal, evaluaciones, certificados, acompañamiento, comunidad y espacios para creadores. Combina contenido gratuito con compras específicas y acceso conservado por versión. La colección introductoria local aborda Bitcoin, Lightning y micropagos; los precios y duraciones todavía no están validados con alumnos. Los ejemplos históricos de programación permanecen documentados por separado.
 
 La [arquitectura de producto y experiencia](10-arquitectura-y-experiencia-btc-edu.md) es la referencia vigente de estructura: cursos, tutoriales y biblioteca de recursos en la primera academia funcional, eventos educativos después. Distingue lo implementado del diseño y organiza las ampliaciones por entregas.
 
 ## Documentos
 
+- [Cuentas de estudiantes y creadores](22-usuarios-creadores-y-estudiantes.md): funcionamiento actual, comprobaciones de acceso y privacidad, debilidades y propuesta de servicio por entregas.
+- [Mejoras integrales](21-mejoras-integrales-btc-edu.md): estado de cada debilidad, criterios de aceptación, dependencias y registro de implementaciones.
+- [Revisión integral de la plataforma](20-analisis-integral-plataforma-educativa.md): comportamiento por apartado, puntos débiles, mejoras, investigación, comprobaciones y prioridades del 12 de octubre de 2026.
 - [Documento de BTC.EDU](19-recomendacion-y-entrega-final.md): texto completo para copiar a Google Docs y actualizar con cada entrega.
 - [Monetización, precios y muestras](13-monetizacion-precios-y-muestras.md): comparación, fuentes, cálculos y límites.
+- [Trazabilidad y trabajo pendiente](14-trazabilidad-y-backlog.md): requisitos oficiales, criterios AC/UX y matriz inicial de evidencias y brechas.
 - [Validación con usuarios](16-validacion-con-usuarios.md): guiones, tareas, precios y registro; ejecución pendiente.
 - [Plan de documentación Business → Desarrollo (5 de octubre)](12-plan-documentacion-business-a-desarrollo.md): brechas, entregables, dependencias y condiciones de paso.
 - [Producto y negocio](01-producto-y-negocio.md)
@@ -38,5 +42,8 @@ La comparación documental de modelos/tarifas/costos y los instrumentos de entre
 
 ## Alcance ampliado
 
-Se incluyen progreso, evaluaciones, certificados, preguntas, comunidad, panel de creador y membresías con renovación simulada manual. Los detalles están en el documento 08 y el diseño técnico en src/docs/diseno-plataforma.md. Las funciones observadas en otras plataformas respaldan el diseño, pero todavía deben validarse con usuarios. El estudio de creadores y el progreso básico ya están implementados; evaluaciones, certificados, preguntas, comunidad y membresías siguen en la siguiente fase. La documentación de diseño no acredita funciones entregadas.
+Se incluyen progreso, evaluaciones, certificados, preguntas, comunidad, panel de creador y membresías con renovación simulada manual. Los detalles están en el documento 08 y el diseño técnico en src/docs/diseno-plataforma.md. Las funciones observadas en otras plataformas respaldan el diseño, pero todavía deben validarse con usuarios. El estudio de creadores, progreso, evaluaciones, certificados, preguntas y comunidad por versión están implementados. La entrega de perfiles integra Personas, presentación voluntaria, búsqueda y seguimiento de conversaciones; las membresías siguen pendientes. La documentación de diseño no acredita funciones entregadas.
 
+## Entrega de cuentas y fotografías
+
+Mi cuenta, foto opcional, acceso, avisos, atención del creador y guardados están implementados. [Estado actual](22-usuarios-creadores-y-estudiantes.md), [detalle y límites](../src/docs/cuentas-y-fotos-2026-10-12.md). El [texto completo](BTC-EDU-para-Google-Docs.txt) y las [secciones para reemplazar](BTC-EDU-secciones-cuentas-implementadas.txt) corresponden a esta entrega; se incorporan manualmente al Google Doc. Correo real y sesiones externas siguen pendientes.

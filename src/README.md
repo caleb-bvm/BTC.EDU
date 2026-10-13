@@ -1,8 +1,24 @@
 # BTC.EDU — plataforma educativa
 
+Estado vigente al **12 de octubre de 2026**: retorno seguro tras registro, identidad pública del creador consistente y tema de video/material conservado por revisión aprobada. **238 pruebas**, Ruff, migraciones y cuatro controles de concurrencia pasan. Migración local con respaldo y conservación de los 496 registros anteriores; pantallas verificadas con datos temporales. [Comportamiento, migración y límites](docs/registro-identidad-y-clasificacion-2026-10-12.md). El trabajo restante se organiza en [Mejoras integrales](../strategy/21-mejoras-integrales-btc-edu.md). Los registros fechados siguientes conservan su evidencia histórica.
+
+Estado vigente al **12 de octubre de 2026**: perfiles de estudiante con alias, presentación, intereses y compartición voluntaria; directorio Personas y fichas de creadores integradas con la comunidad. Búsqueda en conversaciones/respuestas visibles, filtros, recuentos, actividad y seguimiento con avisos internos. **227 pruebas pasan**, Ruff, migraciones y cuatro controles de concurrencia; 35 pruebas de perfiles/comunidad repetidas tras los últimos ajustes. Migraciones locales con respaldo y conservación de filas anteriores; revisión del directorio, perfil móvil y edición de alias en navegador con base temporal. [Reglas, uso, evidencia y próximos pasos](docs/perfiles-y-comunidad-2026-10-12.md). Operación pública y validación con personas siguen pendientes; los registros siguientes conservan su alcance histórico.
+
+Catálogo local ampliado el **12 de octubre de 2026**: seis cursos introductorios de Bitcoin y Lightning, 24 lecciones de texto con ejercicios y soluciones, seis comprobaciones finales y políticas de certificado. Tres cursos gratuitos; los otros tres ofrecen una lección gratuita y tres de pago. Importador con respaldo e idempotencia, sin modificar cursos existentes. [Contenido, carga, verificación y límites](docs/catalogo-editorial-2026-10-12.md). Los resultados fechados siguientes conservan el historial de desarrollo.
+
+Estado vigente al **10 de octubre de 2026**: comunidad por versión para alumnos inscritos y creador aprobado, con conversaciones, respuestas, reportes y moderación auditada. Ocultar/mostrar, cerrar/reabrir y suspender/restablecer escritura requieren motivo; se conservan lectura, compras y progreso. Avisos internos y acceso administrativo con permiso específico. **210 pruebas pasan**, Ruff y migraciones consistentes, cuatro controles de concurrencia. Migración local con respaldo y sin ejemplos; recorrido de alumno en Chrome y móvil. [Reglas, uso y límites](docs/comunidad-2026-10-10.md). Membresías, apelaciones por formulario y operación pública siguen pendientes; los registros siguientes conservan sus resultados históricos.
+
+Estado vigente al **10 de octubre de 2026**: conciliación periódica supervisada con `reconcile_payments --watch`, lotes rotativos, reintento del proveedor y parada con Ctrl+C. **192 pruebas pasan**, revisión estática y migraciones consistentes. [Comportamiento, evidencia y límites](docs/conciliacion-2026-10-10.md). La instalación como servicio y alertas siguen pendientes; los registros siguientes conservan sus cifras históricas.
+
+Estado vigente al **10 de octubre de 2026**: cada certificado conserva una huella SHA-256 de sus datos; PDF, verificación web y descarga JSON reproducible, sin divulgar notas ni respuestas. Se detectan diferencias y se conserva la revocación. **184 pruebas pasan**, con migraciones, Ruff y tres comprobaciones de concurrencia. Se verificó SHA-256 con Node sobre el archivo descargado y el formulario real en escritorio/móvil. Migración con respaldo, sin ejemplos en la base principal. [Reglas, reproducción y evidencia](docs/certificados-sha256-2026-10-10.md). Es una huella de integridad comparada con BTC.EDU, sin firma digital ni registro Bitcoin.
+
+Estado registrado al **10 de octubre de 2026** (El Salvador): certificados históricos con PDF privado, compartición voluntaria y revocación; preguntas privadas por lección; notificaciones internas; paneles de creador y administración con periodos, permisos y denominadores. **179 pruebas pasan**, revisión estática/migraciones y tres controles de concurrencia. Recorridos HTTP en Chrome, formularios con CSRF, escritorio/móvil y PDF comprobados. Base principal migrada con respaldo y 211 registros conservados, sin datos de demostración. [Reglas, uso, evidencia y límites](docs/esenciales-2026-10-10.md). Comunidad, membresías y operación pública siguen pendientes; el usuario comprobará posteriormente el pago desde ZEUS. Los párrafos fechados siguientes conservan el historial.
+
+Estado registrado al **7 de octubre de 2026** (El Salvador): evaluaciones de selección única/múltiple por versión, reglas del creador, corrección en servidor, guardado/retoma, límites y espera, resultados privados y autorización de otro intento con motivo. La evaluación obligatoria requiere aprobación para completar la lección. **148 pruebas pasan**, junto con concurrencia comercial y de evaluaciones. Migración aplicada con respaldo, sin datos de demo en la base principal. [Uso, reglas, capturas y límites de verificación](docs/evaluaciones-2026-10-07.md). Certificados y preguntas son los próximos módulos; pagos continúan simulados.
+
 Actualización de experiencia del **4 de octubre**: compra con resumen, «Continuar al pago», «Pagar [importe] sats», procesamiento y confirmación con fecha; aviso de saldo de prueba concentrado en el entorno. 60 pruebas relacionadas, integración FakeWallet y recorrido en navegador pasan. [Registro y capturas](docs/experiencia-compra-2026-10-04.md).
 
-Estado vigente al **4 de octubre de 2026** (El Salvador): ofertas revisadas con precios en sats de prueba, facturas integradas con LNbits FakeWallet, compras y derechos permanentes sobre revisiones, biblioteca, inscripción y progreso con continuación por versión. **129 pruebas pasan**, junto con concurrencia SQLite en archivo y compra real contra el proveedor ficticio. [Comportamiento, preparación y evidencia](docs/comercio-y-aprendizaje-2026-10-04.md). Los registros fechados siguientes conservan los estados anteriores.
+Estado registrado al **4 de octubre de 2026** (El Salvador): ofertas revisadas con precios en sats de prueba, facturas integradas con LNbits FakeWallet, compras y derechos permanentes sobre revisiones, biblioteca, inscripción y progreso con continuación por versión. **129 pruebas pasan**, junto con concurrencia SQLite en archivo y compra real contra el proveedor ficticio. [Comportamiento, preparación y evidencia](docs/comercio-y-aprendizaje-2026-10-04.md). Los registros fechados siguientes conservan los estados anteriores.
 
 Actualización de acceso del **3 de octubre de 2026**: cuentas independientes de creador y estudiante, registros, logins, perfiles y recuperación separados; el mismo correo puede pertenecer a identidades distintas. Estudio con navegación propia y aprobación de creador conservada. **96 pruebas pasan.** [Rutas, migración y límites](docs/cuentas-independientes-2026-10-03.md). Este bloque sustituye la cuenta compartida y la ausencia de registro público descritas en los registros anteriores.
 
@@ -85,7 +101,13 @@ Para conciliar pendientes sin abrir el navegador, desde `src`:
 ./.venv/Scripts/python.exe manage.py reconcile_payments --limit 100
 ```
 
-El comando está disponible; su ejecución periódica supervisada sigue pendiente.
+Para mantener la conciliación periódica en un terminal supervisado, desde `src`:
+
+```powershell
+./.venv/Scripts/python.exe manage.py reconcile_payments --watch --interval 30 --limit 100
+```
+
+Revisa un lote y espera 30 segundos después de terminarlo. Ctrl+C detiene el proceso; el mismo comando permite reanudarlo. Los errores del proveedor se reintentan en pasadas posteriores, las confirmaciones inválidas se informan en el terminal y los pagos tardíos conservan evidencia sin conceder acceso. No se inicia automáticamente con el servidor. [Funcionamiento, pruebas y límites](docs/conciliacion-2026-10-10.md).
 
 ## Arquitectura actual
 
@@ -109,10 +131,10 @@ Django mantiene autorización y reglas comerciales en el servidor; LNbits no sus
 ## Estructura
 
 - `accounts/`: cuentas independientes por tipo/correo, registro, recuperación y administración.
-- `core/`: páginas, espacio personal, health y pruebas.
+- `core/`: páginas, espacio personal, health, eventos y paneles de métricas.
 - `creators/`: aprobación, estudio, editor, perfil público y revisión editorial.
 - `commerce/`: ofertas, integración FakeWallet, facturas, compras, evidencia y derechos.
-- `learning/`: inscripción por versión, biblioteca y avance con control de actualizaciones simultáneas.
+- `learning/`: inscripción, biblioteca, progreso, evaluaciones, certificados, preguntas y notificaciones.
 - `content/`: cursos, capítulos, lecciones de texto, fichas de videos/materiales, administración y regla de acceso.
 - `platform_config/`: configuración, rutas y WSGI.
 - `templates/`, `static/`: portada, catálogo, curso, lectura y estados vacíos; NType82, Ndot77 y Space Mono locales e ilustración industrial independiente; Bootstrap 5.3.8 y HTMX 2.0.8 locales.
@@ -127,8 +149,14 @@ Django mantiene autorización y reglas comerciales en el servidor; LNbits no sus
 ./src/scripts/check-platform.ps1
 ```
 
-129 pruebas Django pasan, migraciones consistentes y revisión estática sin errores. La comprobación incluye dos conexiones independientes a SQLite en archivo para reservas, pagos y avance concurrentes. La prueba de integración adicional crea y paga facturas contra LNbits FakeWallet, incluida recuperación de respuesta perdida. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
+227 pruebas Django pasan, migraciones consistentes y revisión estática sin errores. Incluye comunidad y su control de concurrencia. Incluye concurrencia comercial, de evaluaciones y de certificados/preguntas/notificaciones. La comprobación incluye dos conexiones independientes a SQLite en archivo para reservas, pagos y avance concurrentes. La prueba de integración adicional crea y paga facturas contra LNbits FakeWallet, incluida recuperación de respuesta perdida; no se reejecutó en la ampliación de conciliación. [Recorrido de aprendizaje](docs/recorrido-aprendizaje-2026-10-02.md), [resultados de la base visual](docs/verificacion-2026-10-01.md), [pruebas de contenido](docs/contenido.md), [componentes](docs/componentes-visuales.md).
 
-El proyecto completo sigue en desarrollo. Faltan evaluaciones, certificados, preguntas, comunidad, membresías, métricas completas de creadores y operación pública. También faltan catálogo editorial real y validación con usuarios. Ver [diseño completo](docs/diseno-plataforma.md). Las pruebas locales de concurrencia no son una medición de capacidad para tráfico público; la conciliación periódica, entrega de correo y supervisión deben prepararse antes del despliegue.
+El proyecto completo sigue en desarrollo. Faltan membresías, corrección de credenciales educativas, eventos de reproducción/muestras y operación pública. Evaluaciones, certificados, preguntas, avisos internos y paneles esenciales están implementados. La colección de Bitcoin y Lightning está publicada localmente; faltan revisión educativa externa, producción audiovisual y validación con usuarios. Ver [diseño completo](docs/diseno-plataforma.md). Las pruebas locales de concurrencia no son una medición de capacidad para tráfico público; la instalación de la conciliación como servicio, entrega de correo y alertas deben prepararse antes del despliegue.
 
 No se publicó, desplegó ni hizo push. Historial diario GitHub, Google Doc de Business, entrevistas y validación externa siguen pendientes. Las fechas oficiales 3/8 de noviembre y el equipo dos/cuatro integrantes continúan sin aclarar.
+
+## Gestión de cuentas y fotos
+
+Mi cuenta está disponible para estudiantes y creadores, con foto privada normalizada, presentación, contraseña, correo, sesiones, avisos y ayuda. Se mantienen identidades independientes y detección del cambio de sesión entre pestañas. Incluye historial/revisión del creador, suspensión restringida, exportación, desactivación/reactivación y guardados en Mi aprendizaje.
+
+La entrega pasó 310 pruebas completas, 39 relacionadas después del ajuste final y cinco controles de concurrencia. El respaldo y la migración conservaron 540 filas anteriores. [Comportamiento, operación de correo, recorridos y límites](docs/cuentas-y-fotos-2026-10-12.md). El proveedor y la entrega real de correo siguen por configurar y comprobar; los procesos de reintento y mantenimiento requieren supervisión. Esta documentación describe el código de main, no una actualización del código antiguo de esta rama documental.

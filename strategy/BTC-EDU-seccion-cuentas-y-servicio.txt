@@ -1,0 +1,21 @@
+Cuentas y servicio
+
+BTC.EDU conserva cuentas independientes para estudiantes y creadores, aunque compartan correo. Cada espacio mantiene contraseña, perfil y actividad propios. Mi cuenta reúne foto, presentación, acceso, avisos y ayuda. Cambiar de espacio exige entrar con la otra cuenta y explica que la sesión cambia también en las demás pestañas; los formularios detectan el cambio y conservan los datos pendientes.
+
+Se implementaron fotografía con recorte, cambio de contraseña, confirmación de correo, cambio confirmado desde ambos buzones, gestión de sesiones, exportación y desactivación con reactivación. Estas acciones conservan el identificador, compras y registros históricos. Los enlaces tienen propósito y vencimiento, y el acceso aplica límites temporales. El correo tiene cola y reintentos; la entrega real requiere configurar y comprobar un proveedor.
+
+El creador consulta estado, observaciones e historial de su solicitud. Cada decisión genera un aviso. Si está suspendido, puede gestionar su cuenta y solicitar revisión desde un área restringida, mientras las herramientas de publicación siguen bloqueadas. Su estudio reúne preguntas pendientes, cambios editoriales y reportes, y orienta la primera publicación. El alumno puede guardar recursos y fuentes en Mi aprendizaje sin que guardar compre o amplíe sus permisos.
+
+La suite completa pasó 310 pruebas; tras el último ajuste de confirmaciones simultáneas se repitieron las 39 pruebas de cuentas y guardados. También pasaron cinco controles de concurrencia y se revisaron pantallas de escritorio y móvil con datos temporales. La migración tuvo respaldo y conservó los valores de 540 filas anteriores. Es evidencia técnica; la comprensión de los recorridos y su utilidad deben comprobarse con participantes. El informe de cuentas (22-usuarios-creadores-y-estudiantes.md) conserva comportamiento, evidencias y límites.
+
+Perfiles
+
+Cada estudiante puede elegir alias, foto, presentación, intereses y sitio web. También puede indicar un objetivo privado de aprendizaje. La ficha empieza privada y puede compartirse voluntariamente o volver a ocultarse. Antes de compartir, se explica que sus campos públicos pueden verse sin iniciar sesión; nombre de cuenta, correo, compras, progreso y notas permanecen privados. Ocultar la ficha no elimina los mensajes enviados.
+
+Los creadores aprobados mantienen una ficha con foto, nombre público, biografía, especialidad y contenido publicado. Personas permite encontrar perfiles compartidos y creadores aprobados. Las fotos se validan, recortan y almacenan sin metadatos originales; su entrega comprueba privacidad y participación autorizada. Sustituirlas o retirarlas revoca el acceso a la imagen anterior desde el servicio. Perfil y certificado conservan decisiones de compartición independientes.
+
+Preguntas y notificaciones
+
+El alumno inscrito con acceso puede preguntar desde una lección. Solo el participante y el creador aprobado del curso consultan la conversación. Los mensajes enviados se conservan; una corrección se añade como aclaración. Los límites de frecuencia, la protección de formularios y las claves de envío impiden duplicados y restringen la participación.
+
+La bandeja propia distingue avisos de servicio, preguntas y comunidad, incorpora contexto del curso y permite filtrar pendientes o marcar como leídos los propios. Cada cuenta elige si recibe nuevos avisos de preguntas y comunidad; las decisiones necesarias de cuenta, revisión y moderación se mantienen. Son avisos internos. El correo se utiliza para acceso y confirmaciones, con entrega real todavía por comprobar.

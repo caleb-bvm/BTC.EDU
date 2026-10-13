@@ -1,0 +1,23 @@
+{
+  "scenario": "equal creation timestamps and valid UUID sorting before invalid UUID",
+  "before_fixture_fix": {
+    "tests": 1,
+    "failures": 1,
+    "errors": 0
+  },
+  "after_fixture_fix": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0
+  },
+  "natural_repetitions_before_fix": {
+    "tests": 30,
+    "failures": 0
+  },
+  "first_related_suite_before_fix": {
+    "tests": 169,
+    "failures": 1,
+    "seconds": 95.637
+  },
+  "initial_failure_cause": "The original run was not instrumented; the controlled scenario proves order dependence, not its timestamp values."
+}

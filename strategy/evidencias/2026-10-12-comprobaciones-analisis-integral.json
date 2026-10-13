@@ -1,0 +1,58 @@
+{
+  "configured_database_counts": {
+    "accounts_user": 2,
+    "content_course": 6,
+    "content_video": 0,
+    "content_material": 0,
+    "content_externalreference": 0,
+    "learning_enrollment": 0,
+    "learning_communitypost": 0,
+    "learning_certificate": 0,
+    "commerce_invoice": 0
+  },
+  "local_profile_migrations_applied": {
+    "accounts.0003_user_bio_user_display_name_user_interests_and_more": true,
+    "learning.0007_communitysubscription": true
+  },
+  "catalog_creator_name": {
+    "catalog": "Ana López",
+    "public_profile": "Alias docente público"
+  },
+  "publish_without_objective_or_requirements": true,
+  "draft_topic_changes_public_resource_filter": {
+    "before": 1,
+    "after": 0,
+    "new_topic_results": 1
+  },
+  "signup_link_keeps_next": false,
+  "signup_redirect": {
+    "status": 302,
+    "location": "/mi-espacio/"
+  },
+  "community_search_reply_only": {
+    "status": 200,
+    "matches": 1
+  },
+  "free_resource_has_save_action": {
+    "status": 200,
+    "save_action": false
+  },
+  "library_contains_opened_free_resource": false,
+  "http_client_session_persists": {
+    "login": 302,
+    "workspace": 200
+  },
+  "review_date": "2026-10-12",
+  "review_context": "El Salvador",
+  "source_branch": "main",
+  "source_base_commit": "4000ed5",
+  "documentation_branch": "business/teorica",
+  "tests": {
+    "count": 227,
+    "seconds": 100.047,
+    "passed": true,
+    "source_files": 341,
+    "source_manifest_sha256": "a34420a7479467f316a82923dc34726ddfe195aeace392bd8b62c6447f1eb834"
+  },
+  "interpretation": "Solo cuentas sintéticas y bases temporales para comprobaciones; consultas agregadas de la base principal en modo de solo lectura. La búsqueda en respuestas visibles funciona; no es una brecha."
+}

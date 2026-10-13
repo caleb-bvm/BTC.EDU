@@ -45,3 +45,22 @@ La investigación funcional se conserva en 07. Al 5 de octubre, [13](13-monetiza
 Registrar fecha, responsable, trabajo real, evidencia, decisiones, bloqueo y próximo paso. No crear actividad retroactiva. El assignment pide avances diarios en GitHub y un Google Doc con historial para Business; el enlace sigue pendiente.
 
 Aclarar equipo de dos integrantes frente a cuatro exigidos, fecha de cierre interna y fecha oficial de entrega: el documento indica tanto 3 como 8 de noviembre. Planificar con el 3 hasta confirmar. Demo prevista el 8 de noviembre.
+
+## Revisión de cuentas y servicio — 12 de octubre de 2026
+
+Se revisaron en `main`, base `4000ed5` más cambios locales, las cuentas de estudiantes y creadores, sus recorridos, permisos, recuperación, privacidad y solicitudes. Se conservaron las identidades independientes. Veinte comprobaciones HTTP y de servicios con SQLite temporal verificaron el acceso público voluntario, sustitución de sesión, falta de aviso de solicitud y tratamiento de suspensión. Se consultaron fuentes primarias y los originales de CUBO+.
+
+Se corrigió únicamente el orden del escenario de una prueba de conciliación; la lógica comercial no cambió. La reproducción controlada pasó tras el ajuste y la regresión relacionada pasó 169 pruebas, junto con Ruff y consistencia de migraciones. No se acredita una nueva ejecución completa de 238 pruebas. Se actualizaron documentación principal, exportación e instrumentos en `business/teorica`. Propuestas funcionales, correo operativo y sesiones con participantes siguen pendientes; no se hicieron commit, push o cambios a cuentas reales. [Informe, prioridades y evidencia](22-usuarios-creadores-y-estudiantes.md).
+
+## Implementación de cuentas y fotografías — 12 de octubre de 2026
+
+Tras la petición explícita de implementación y fotos, se desarrollaron Mi cuenta, tratamiento privado de imágenes, contraseña/correo/sesiones, límites de acceso, cola de correo, preferencias, exportación, desactivación/reactivación, historial/atención del creador y guardados. Código en main sobre 4000ed5 más cambios locales, documentación en business/teorica. Se conservaron trabajos concurrentes; no hubo commit, push ni despliegue.
+
+Pasaron 310 pruebas completas en 163,907 segundos, 39 relacionadas tras el ajuste final en 1,868 segundos, revisión estática, migraciones, sintaxis de cliente y cinco controles de concurrencia. La migración principal tuvo respaldo y conservó 540 filas anteriores en 61 tablas, excluyendo sesiones y registro de migraciones. No se sembraron cuentas de ejemplo en la base principal.
+
+Se verificaron en Chrome las pantallas de estudiante y creador en escritorio/móvil, alias guardado, suspensión con ayuda y borrador conservado tras cambio de identidad en otra pestaña. La selección automatizada de archivo quedó limitada por el permiso de la extensión; no se modificó. Carga, recorte y privacidad se verificaron por HTTP/servicios. Correo real, supervisión, responsables humanos y validación externa siguen pendientes. [Entrega y evidencias](../src/docs/cuentas-y-fotos-2026-10-12.md). El diagnóstico previo se conserva separado; no se convierte su preparación en uso real.
+
+
+## Commit de cuentas — 12 de octubre de 2026
+
+A petición del usuario se registró `71a19a4eee6a165ddc2ce89c7a2d2b63307cd916` en main: cuentas, fotos, acceso, solicitud del creador, avisos y guardados, con perfiles y navegación necesarios. Se separaron archivos compartidos sin alterar los archivos de trabajo; las mejoras independientes quedaron fuera del commit. Una copia exacta pasó 271 pruebas en 205,271 segundos, Ruff, migraciones y cinco controles de concurrencia. Se compararon los 112 archivos probados con el commit y coincidieron. El registro previo de 310 pruebas corresponde al conjunto local y conserva su alcance original. Esta documentación y sus evidencias se consolidan en business/teorica. No hubo push ni despliegue. [Evidencia de versión](evidencias/2026-10-12-commit-cuentas.json).

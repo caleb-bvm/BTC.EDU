@@ -1,0 +1,136 @@
+{
+  "project_date": "2026-10-12",
+  "timezone": "America/El_Salvador",
+  "code_branch": "main",
+  "base_commit": "4000ed5aba7bcd2c5b6074d0c5c9e7e383596e85",
+  "uncommitted": true,
+  "full_suite": {
+    "tests": 310,
+    "seconds": 163.907,
+    "result": "OK"
+  },
+  "after_concurrent_confirmation_adjustment": {
+    "tests": 39,
+    "seconds": 1.868,
+    "result": "OK"
+  },
+  "concurrency_checks": [
+    {
+      "script": "verify-commerce-concurrency.py",
+      "result": "OK"
+    },
+    {
+      "script": "verify-assessment-concurrency.py",
+      "result": "OK"
+    },
+    {
+      "script": "verify-essential-concurrency.py",
+      "result": "OK"
+    },
+    {
+      "script": "verify-community-concurrency.py",
+      "result": "OK"
+    },
+    {
+      "script": "verify-accounts-concurrency.py",
+      "result": "OK"
+    }
+  ],
+  "ruff": "OK",
+  "migration_consistency": "No changes detected",
+  "javascript_syntax": "OK",
+  "migration": {
+    "backup": "C:\\Users\\caleb\\Documents\\Estudios\\CUBO +\\Micropayments\\src\\.local\\backups\\accounts-before-20261013T045714Z.sqlite3",
+    "database": "C:\\Users\\caleb\\Documents\\Estudios\\CUBO +\\Micropayments\\src\\.local\\platform.sqlite3",
+    "original_rows_checked": 540,
+    "tables_checked": 61,
+    "changed_original_rows": [],
+    "excluded_operational_tables": [
+      "django_session",
+      "django_migrations"
+    ],
+    "seeded_accounts": 0
+  },
+  "browser": {
+    "engine": "Chrome",
+    "data": "synthetic, temporary SQLite/media; abstract images",
+    "reviewed": [
+      "student account and photo page",
+      "student alias saved via AJAX",
+      "creator dashboard and account",
+      "creator application and suspension reason/help",
+      "two-tab identity change preserves unsaved text",
+      "mobile and light/dark appearance"
+    ],
+    "mobile_viewport_requested": {
+      "width": 390,
+      "height": 844
+    },
+    "mobile_css_width_observed": 300,
+    "horizontal_document_overflow": false,
+    "file_chooser_completed": false,
+    "file_chooser_limit": "Chrome extension lacks file URL permission; unchanged"
+  },
+  "preview_cleanup": {
+    "server_stopped": true,
+    "tabs_closed": true,
+    "temporary_folder_remains": ".local/accounts-preview-mjh453li",
+    "deletion_rejected_by_execution_policy": true
+  },
+  "smtp_real": false,
+  "participants": 0,
+  "new_real_payment": false,
+  "files": {
+    "accounts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "accounts/account_forms.py": "0bc67291514fb1349e474c1773ddb1587347e389ed934df15c0b24afb9deadec",
+    "accounts/account_views.py": "e9acec1e7c548832b160c6b67b02021963f486a22b6c4708ac4d4f1ef40521ea",
+    "accounts/admin.py": "c901bba6e9387e597fc926c9f0d352351bc2c82d783c7eb28ac6ee84ac87662b",
+    "accounts/apps.py": "8bbf7bc120deeb8797d81e0b393f6153d1273fc61922f879546dedbf41cd0017",
+    "accounts/avatars.py": "f1fef97a065fca8f503ac3c5006f6c3dace08f0f5c2da51034661ae82cc3398c",
+    "accounts/backends.py": "bda7bc3845479dca420b0e842f1c5901cba7d0474cde1120ce23c2acc0979fc8",
+    "accounts/checks.py": "49df3f511d554cc4ed537af801e21ca63eed745eded06aa7235f64be16f32450",
+    "accounts/destinations.py": "8b02c64fc05ee86581922592faba664b36d0bd1456565cb31c968419520c9239",
+    "accounts/export.py": "118828cd0704739960dcff1a971f5267973c476584306f41f43d9320042099eb",
+    "accounts/forms.py": "a01f9eb1fc50afb5664f98515f1ee0df18635b3d0bacfbb690b380a251fe5a78",
+    "accounts/mail.py": "1536a11aa2ec75ab2382526155ad83672c57e64d101e001c83604ee0aefbffe9",
+    "accounts/middleware.py": "0b521b9a962064f2f7828d2b54d62edcb4467f5496833865d8c73fac8b74d74b",
+    "accounts/models.py": "03fc851051b894ded111d242b8da8b1804f632838a0a2199853db2c44fb0b8e8",
+    "accounts/recovery.py": "ad7b1cb9331b70a15592eed6f4e0cdcbe2249a37470cf318060d6a27c7561382",
+    "accounts/security.py": "e2ead2531d6684be24e91ff4d521c8cfbc5c139fd1b7d5b18e33f91f639c73e6",
+    "accounts/settings_urls.py": "8e835218106a2dad70249fdd14196d43ea1c5ed8f6d1e1bde95cb78b7db3e9a7",
+    "accounts/support.py": "7b0cf318eab6526c427774734a70efb2bd8dac5d642369ba9b7fc53b5f30be04",
+    "accounts/test_destinations.py": "44050f199fee152efc6980654cbf83d197bac9dca9f42e91e00470cad08127db",
+    "accounts/test_profiles.py": "857333f561da8431a26183d731cd746e36d38f420d4e16bc938c5137f8737c8f",
+    "accounts/test_service.py": "12f09a3b3d1a79a240a84fa629ff4c0bd447a04f28f5c12e9a06bae4283641cc",
+    "accounts/tests.py": "501becea70da0a483638f9e453f437f11f3dfdf3ee0aa6c5ec5decc46225c7f4",
+    "accounts/throttling.py": "bf394b3b3f1282c90aca05f955765bed34e6b771e2054521716ebc95facfee94",
+    "accounts/urls.py": "f4f8bbdea693affafbd0d69cf49ac035b6a2eeca9aba8a30fee0fea83c0d6f6b",
+    "accounts/views.py": "95718954ccea088060d3788c37a280b58d9e6191c6470d52354707b12fb084af",
+    "creators/application_service.py": "02078970da0e020a3f105c328c3beff495191001411d03b3ef1906af5e5934c0",
+    "learning/bookmark_views.py": "6c3c6bdfe0df21a6e01111cdf1e05888d28653572a7c996a3c7e3f43c60ed210",
+    "learning/bookmarks.py": "ea2f66df47251e581889bb7ca01a242ec1f41c9a349901d397ec4b7bc3e76496",
+    "scripts/check-platform.ps1": "247a3b7b9925fee36315c9656a6db8085be881533f12c6f66b5466fd237b56af",
+    "scripts/preview-accounts.py": "0bd7acb990727226aec883e17fe7875f01a6ff716977c3e655016cc9d50142f4",
+    "scripts/verify-accounts-concurrency.py": "f78a4d622a3cfec39d4f21c2c30395f6d0d3df04ee64be4492e1e2f6c29a992b",
+    "static/css/accounts.css": "5424b165835675cd28f3ded85966b047ab2259010a5975a78935044c6d30ad2e",
+    "static/js/accounts.js": "7a721809ea5b8eaf89602d686c9bf85a57c1bacb294218792981d4694466c33f",
+    "static/js/creators.js": "4ae095b70a64f43f8158f221c1c33750dbdd29b0460079de512e90c8408b5178",
+    "templates/accounts/_avatar.html": "af524210b391f9bc561228d23db094f561e2a9bc8bdc3e2c2a091bdff4457379",
+    "templates/accounts/_fields.html": "edbc8f11ea617e451290710c741aa55736c80f42b86ac2979b4887492be2f3a2",
+    "templates/accounts/_filtered_pagination.html": "8c14a2d5353eae0ec12535dd1ec0fb222394d493b45239e5a33fd2b535054cbd",
+    "templates/accounts/_identity.html": "f186f664f953de9c1c419d4370c090823ccb563ba0d209faee7beb08fd1a8f95",
+    "templates/accounts/_member_profile.html": "c9f2d5a21389d9d297dd69b782f04708f1e6f41bc8ebf9c25742dc2199f887c5",
+    "templates/accounts/_members.html": "b5cca6264c6002b907a8855b67f0aff3730c3c83829611c1ca5945e439b04f81",
+    "templates/accounts/_settings.html": "9bf77953f724523f672b5d5f193077c1d092f81d454e0f4f8b0c9462652dac1f",
+    "templates/accounts/_settings_header.html": "dcc8d21cf855da44e00cb496c5dd45cd6629b23bc1b32240bd52ab1f9566c021",
+    "templates/accounts/closed.html": "8429a4b5db8095283e85de5a6ec86c2963be98cecd949465283b0901d95774dd",
+    "templates/accounts/confirm_email.html": "d58c523591c373bbf996395468e1042eb7010aa07bbe658ddf37709b7c553306",
+    "templates/accounts/member_profile.html": "e13c90db6b24acfd9a3d8c5dd75cd1e1bd460671895a906641caa79da5fbc323",
+    "templates/accounts/members.html": "ab609f89ff65ae2a1926c2eec1f553bd125c6f7b56ac697ecca0eb13f2a556a3",
+    "templates/accounts/restore.html": "8045b145471b03a3411bcbe1990920ab3dbc5053d6ef56a5af0c2328e9f30ce7",
+    "templates/accounts/session_changed.html": "1dfc82d8d2ad02a893af83b6c810de8542938a166747b0f28eb80d48e531d926",
+    "templates/accounts/settings.html": "6ed0f9383350e19ce2fd897c61a453298d7762f822aaed5579aa4f289b5e580f"
+  },
+  "subsequent_code_commit": "71a19a4eee6a165ddc2ce89c7a2d2b63307cd916",
+  "commit_scope_evidence": "2026-10-12-commit-cuentas.json"
+}

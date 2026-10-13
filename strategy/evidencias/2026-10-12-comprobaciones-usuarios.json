@@ -1,0 +1,30 @@
+{
+  "review_date": "2026-10-12",
+  "project_timezone": "America/El_Salvador",
+  "source_branch": "main",
+  "source_base_commit": "4000ed5",
+  "uncommitted_source_changes": true,
+  "method": "Django HTTP test client, synthetic accounts, temporary SQLite database",
+  "facts": {
+    "isolated_database": true,
+    "duplicate_email_separate_ids": true,
+    "anonymous_directory_status": 302,
+    "anonymous_shared_student_profile_status": 200,
+    "shared_profile_email_exposed": false,
+    "anonymous_private_student_profile_status": 404,
+    "student_login_destination": "/mi-espacio/",
+    "student_in_session_before_switch": true,
+    "pending_creator_login_destination": "/crear/solicitud/",
+    "creator_replaces_student_session": true,
+    "pending_creator_studio_status": 403,
+    "creator_application_decision_notification_count": 0,
+    "approved_creator_studio_status": 200,
+    "existing_suspended_session_application_status": 403,
+    "existing_suspended_session_shows_feedback": true,
+    "suspended_fresh_login_authenticated": false,
+    "suspended_fresh_login_shows_generic_error": true,
+    "suspended_fresh_login_shows_feedback": false,
+    "student_signup_keeps_destination": true,
+    "user_email_verification_field_present": false
+  }
+}

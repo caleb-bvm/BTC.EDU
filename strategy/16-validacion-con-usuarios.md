@@ -114,3 +114,25 @@ Clasificar problemas como bloqueo de tarea, error de compra/acceso, dificultad r
 ## Resultados
 
 Pendientes. No existe evidencia externa que permita afirmar comprensión, disposición a pagar, preferencias de compra o usabilidad del creador. La primera ejecución deberá registrar participantes, versión, tareas, cantidades, hallazgos, cambios y limitaciones. Actualizar 01/04/05/07/13 y el documento principal con los resultados que realmente se obtengan.
+
+## Cuentas y servicio
+
+Instrumentos añadidos el 12 de octubre de 2026 tras la [revisión de cuentas](22-usuarios-creadores-y-estudiantes.md). No hay sesiones ejecutadas por esta ampliación. La gestión de cuenta, fotos, guardados, preferencias y atención del creador ya están implementadas. Las tareas siguen pendientes de ejecución con participantes; los controles con cuentas sintéticas son verificación técnica.
+
+Pedir al estudiante que llegue a una oferta, cree su cuenta y explique dónde regresó y qué acceso tiene. Pedirle que comparta una presentación y explique quién podrá verla antes de confirmarlo; después, que la oculte y distinga ficha, alias comunitario y certificado. Probar visitante sin sesión para comprobar el alcance, sin usar datos personales reales.
+
+Pedir a alguien con cuentas de ambos tipos que entre al otro espacio y explique cuál está activo, qué ocurrió en la otra pestaña y qué contraseña corresponde. Incluir un formulario con cambios pendientes para observar pérdidas o dudas. Las cuentas temporales pueden compartir correo sin compartir contraseña.
+
+Para gestión de acceso, pedir cambio de contraseña, recuperación y cambio confirmado de correo. Observar mensajes, regreso, estados y acceso conservado. El investigador no debe conocer contraseñas personales ni pedir acceso al correo privado; utilizar buzones de prueba bajo control del participante.
+
+Pedir al creador que prepare su solicitud, consulte una observación y sepa qué corregir. En un escenario de suspensión identificado, observar si encuentra el motivo y la vía de atención sin acceder a herramientas bloqueadas. Después, pedirle que identifique qué falta para publicar su primer contenido y para ofrecerlo con precio, y que encuentre una pregunta pendiente.
+
+Registrar versión, tipo de cuenta, tarea intentada, ayuda, errores, resultado y explicación del participante. Verificar cambios relevantes en otra ronda y separar comprensión declarada de comportamiento observado. No transformar pruebas técnicas o cuentas creadas por el equipo en usuarios activos reales o validación de demanda.
+
+### Foto y guardados: tareas pendientes
+
+Pedir que elija una fotografía de prueba, ajuste el recorte, explique dónde se verá y la sustituya o retire. Probar ficha privada, ficha compartida y conversación autorizada con cuentas temporales. Preguntar qué espera que desaparezca al ocultar el perfil; observar la diferencia con los mensajes ya enviados.
+
+Pedir que guarde un material gratuito y una ficha de pago, los encuentre en Mi aprendizaje y explique qué acceso obtuvo. Después, que retire un guardado de un recurso adquirido y compruebe que conserva la compra. Pedir que reduzca avisos de comunidad y distinga esa preferencia de una decisión necesaria de cuenta.
+
+Probar exportación y desactivación/reactivación solo con cuentas de ensayo y buzones controlados. Observar comprensión de conservación de compras, retiro de foto y compartición de certificados. No pedir contraseñas o fotografías personales al investigador. Estas tareas no se ejecutaron con participantes en esta entrega.

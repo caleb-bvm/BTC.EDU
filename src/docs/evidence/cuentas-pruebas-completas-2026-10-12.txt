@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+
+System check identified some issues:
+
+WARNINGS:
+accounts.User: (auth.W004) 'User.email' is named as the 'USERNAME_FIELD', but it is not unique.
+	HINT: Ensure that your authentication backend(s) can handle non-unique usernames.
+
+System check identified 1 issue (0 silenced).
+.............................Account email delivery failed; queued for retry (121f8231-51db-4933-a9d9-d4bdcdd1e9ee).
+.........................................................................................................................................................................................................................................................................................
+----------------------------------------------------------------------
+Ran 310 tests in 163.907s
+
+OK
+Destroying test database for alias 'default'...
+
+Found 310 test(s).
