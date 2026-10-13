@@ -12,7 +12,7 @@ from content.access import content_access
 from content.models import CourseVersion, VersionLesson
 from media.delivery import file_response
 
-from .models import Enrollment, QuizAttempt, VersionQuiz
+from .models import Enrollment, QuizAttempt, SavedItem, VersionQuiz
 from .services import StaleProgress, enroll, save_progress
 
 
@@ -57,7 +57,8 @@ def library(request):
         from .certificates import completion_status
         enrollment.certificate_status = completion_status(enrollment)
     resources = Entitlement.objects.filter(buyer=request.user, resource__kind__in=("video", "material")).select_related("resource__asset").order_by("-created_at")
-    return render(request, "core/workspace.html", {"enrollments": page, "resources": Paginator(resources, 12).get_page(request.GET.get("recursos_pagina")), "active": "workspace"})
+    saved = SavedItem.objects.filter(student=request.user).select_related("resource", "reference")
+    return render(request, "core/workspace.html", {"enrollments": page, "resources": Paginator(resources, 12).get_page(request.GET.get("recursos_pagina")), "active": "workspace", "saved_items": Paginator(saved, 12).get_page(request.GET.get("guardados_pagina"))})
 
 
 def lesson_learning_context(user, version, record):
@@ -100,6 +101,7 @@ def progress_update(request, pk):
 @student_required
 @require_GET
 def purchased_resource(request, pk):
+    from .bookmarks import bookmark_context
     right = get_object_or_404(Entitlement.objects.select_related("resource__asset", "resource__subtitles", "resource__creator"), buyer=request.user, resource_id=pk)
     resource = right.resource
     from core.telemetry import content_opened
@@ -109,7 +111,7 @@ def purchased_resource(request, pk):
             return redirect("version-lesson", course_pk=lesson.chapter.version.course_id, number=lesson.chapter.version.number, lesson_pk=lesson.pk)
     content_opened(request, resource)
     file_url = reverse("purchased-resource-file", args=[resource.pk, "archivo"]) if resource.asset_id and resource.asset.file.storage.exists(resource.asset.file.name) else ""
-    return render(request, "learning/resource.html", {"resource": resource, "media": {"standalone": True, "title": resource.title, "kind": resource.kind, "allowed": True, "file_url": file_url, "subtitle_url": reverse("purchased-resource-file", args=[resource.pk, "subtitulos"]) if resource.subtitles_id else "", "body": resource.body, "size": resource.asset.size if resource.asset_id else 0, "mime": resource.asset.mime_type if resource.asset_id else ""}, "active": "workspace"})
+    return render(request, "learning/resource.html", {"resource": resource, "media": {"standalone": True, "title": resource.title, "kind": resource.kind, "allowed": True, "file_url": file_url, "subtitle_url": reverse("purchased-resource-file", args=[resource.pk, "subtitulos"]) if resource.subtitles_id else "", "body": resource.body, "size": resource.asset.size if resource.asset_id else 0, "mime": resource.asset.mime_type if resource.asset_id else ""}, "active": "workspace", **bookmark_context(request.user, resource=resource)})
 
 
 @student_required

@@ -9,8 +9,9 @@ document.querySelectorAll('[data-dirty-form]').forEach(form => {
     button.disabled = true;
     if (status) status.textContent = 'Guardando…';
     try {
+      if (window.btcAccountContext) await window.btcAccountContext(form);
       const response = await fetch(form.action || window.location.href, {method:'POST', body:new FormData(form), credentials:'same-origin', headers:{'X-Requested-With':'XMLHttpRequest'}});
-      if (response.url.includes('/cuenta/entrar/')) {
+      if (/\/(?:cuenta|crear)\/entrar\//.test(response.url)) {
         if (status) status.textContent = 'Tu sesión venció. Abre Entrar en otra pestaña y reintenta; tus cambios siguen aquí.';
       } else if (response.ok) {
         if (response.headers.get('Content-Type')?.includes('application/json')) {
@@ -37,15 +38,15 @@ document.querySelectorAll('[data-dirty-form]').forEach(form => {
       } else if (status) {
         status.textContent = response.status === 403 ? 'No se pudo autorizar el guardado. Abre Entrar en otra pestaña y reintenta; tus cambios siguen aquí.' : 'No se pudo guardar. Conservamos tus cambios para reintentar.';
       }
-    } catch {
-      if (status) status.textContent = 'Se perdió la conexión. Tus cambios siguen aquí; reintenta al recuperar conexión.';
+    } catch (error) {
+      if (status) status.textContent = error.message === 'account-session-changed' ? 'La cuenta activa cambió. Entra con esta cuenta en otra pestaña y reintenta; tus cambios siguen aquí.' : 'Se perdió la conexión. Tus cambios siguen aquí; reintenta al recuperar conexión.';
     } finally { button.disabled = false; }
   });
   window.addEventListener('beforeunload', event => { if (dirty) { event.preventDefault(); event.returnValue = ''; } });
 });
 document.querySelectorAll('[data-upload-form]').forEach(form => {
   if (!window.XMLHttpRequest || !window.FormData) return;
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', async event => {
     event.preventDefault();
     const button = form.querySelector('button[type=submit]');
     const status = form.querySelector('.studio-save');
@@ -53,11 +54,17 @@ document.querySelectorAll('[data-upload-form]').forEach(form => {
     const xhr = new XMLHttpRequest();
     button.disabled = true; progress.hidden = false;
     status.textContent = 'Cargando archivo…';
+    try {
+      if (window.btcAccountContext) await window.btcAccountContext(form);
+    } catch {
+      status.textContent = 'La sesión o cuenta cambió. Entra con esta cuenta en otra pestaña y reintenta; el archivo sigue seleccionado.';
+      button.disabled = false; progress.hidden = true; return;
+    }
     xhr.open('POST', form.action || window.location.href);
     xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
     xhr.upload.addEventListener('progress', event => { if (event.lengthComputable) progress.value = event.loaded / event.total * 100; });
     xhr.addEventListener('load', () => {
-      if (xhr.status === 200 && !xhr.responseURL.includes('/cuenta/entrar/')) {
+      if (xhr.status === 200 && !/\/(?:cuenta|crear)\/entrar\//.test(xhr.responseURL)) {
         if (xhr.getResponseHeader('Content-Type')?.includes('application/json')) {
           window.location.assign(JSON.parse(xhr.responseText).redirect); return;
         }
@@ -70,7 +77,7 @@ document.querySelectorAll('[data-upload-form]').forEach(form => {
         errors.scrollIntoView({block:'center'});
         status.textContent = 'Corrige el archivo y vuelve a intentarlo';
       } else {
-        status.textContent = xhr.responseURL.includes('/cuenta/entrar/') ? 'Tu sesión venció. Abre Entrar en otra pestaña y reintenta; el archivo sigue seleccionado.' : 'No se pudo guardar. Conservamos tu selección para reintentar.';
+        status.textContent = /\/(?:cuenta|crear)\/entrar\//.test(xhr.responseURL) ? 'Tu sesión venció. Abre Entrar en otra pestaña y reintenta; el archivo sigue seleccionado.' : 'No se pudo guardar. Conservamos tu selección para reintentar.';
       }
       button.disabled = false;
     });

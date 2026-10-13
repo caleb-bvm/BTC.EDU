@@ -1,8 +1,10 @@
 from django.urls import path
 
-from . import assessment_views, community_views, essential_views, views
+from . import assessment_views, bookmark_views, community_views, essential_views, views
 
 urlpatterns = [
+    path("guardados/<int:pk>/", bookmark_views.open_saved, name="bookmark-open"),
+    path("guardar/<str:kind>/<int:pk>/", bookmark_views.toggle, name="bookmark-toggle"),
     path("comunidad/", community_views.spaces, name="community-spaces"),
     path("comunidad/versiones/<int:version_pk>/", community_views.space, name="community-space"),
     path("comunidad/versiones/<int:version_pk>/moderacion/", community_views.moderation, name="community-moderation"),
@@ -22,6 +24,7 @@ urlpatterns = [
     path("lecciones/<int:lesson_pk>/preguntar/", essential_views.question_create, name="question-create"),
     path("preguntas/<int:pk>/", essential_views.question_detail, name="student-question"),
     path("avisos/", essential_views.notifications, name="notifications"),
+    path("avisos/leidos/", essential_views.notifications_read_all, name="notifications-read-all"),
     path("avisos/<int:pk>/leer/", essential_views.notification_read, name="notification-read"),
     path("evaluaciones/<int:pk>/", assessment_views.quiz_detail, name="quiz-detail"),
     path("evaluaciones/<int:pk>/empezar/", assessment_views.quiz_start, name="quiz-start"),

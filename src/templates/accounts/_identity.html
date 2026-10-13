@@ -1,0 +1,3 @@
+{% include 'accounts/_avatar.html' %}
+{% if person.has_public_profile %}<a href="{% url 'member-profile' person.pk %}">{{ person.public_name }}</a>{% else %}<span>{{ person.public_name }}</span>{% endif %}
+{% if person.account_type == 'creator' and person.has_public_profile %}<span class="member-role">Creador</span>{% endif %}

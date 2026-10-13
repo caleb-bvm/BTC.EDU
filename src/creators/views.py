@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
-from django.db.models import F
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -50,6 +49,9 @@ def creator_required(view):
     def wrapped(request, *args, **kwargs):
         if request.user.account_type != "creator":
             return redirect_to_login(request.get_full_path(), reverse("creator-login"))
+        profile = getattr(request.user, "creator_profile", None)
+        if (not profile or profile.status != "approved") and request.method in ("GET", "HEAD"):
+            return redirect("creator-application")
         require_creator(request.user)
         return view(request, *args, **kwargs)
     return wrapped
@@ -75,31 +77,33 @@ def application(request):
     if request.user.account_type != "creator":
         return redirect_to_login(request.get_full_path(), reverse("creator-login"))
     profile = CreatorProfile.objects.filter(user=request.user).first()
+    from accounts.account_views import account_context
+
+    from .application_service import save_application
+    context = account_context(request, True, "profile", profile=profile, history=profile.history.all()[:20] if profile else [])
     if profile and profile.status == CreatorProfile.Status.SUSPENDED:
-        return render(request, "creators/application.html", {"profile": profile, "active": "studio"}, status=403)
+        return render(request, "creators/application.html", context, status=403 if request.method == "POST" else 200)
     form = ProfileForm(request.POST if request.method == "POST" else None, instance=profile)
     if request.method == "POST" and form.is_valid():
-        with transaction.atomic():
-            # Preserve the administrative decision, including concurrent suspension.
-            CreatorProfile.objects.filter(user=request.user).update(updated_at=F("updated_at"))
-            current = CreatorProfile.objects.filter(user=request.user).first()
-            if current and current.status == CreatorProfile.Status.SUSPENDED:
-                raise PermissionDenied
-            profile = form.save(commit=False)
-            profile.user = request.user
-            profile.status = current.status if current and current.status != CreatorProfile.Status.CHANGES else CreatorProfile.Status.PENDING
-            profile.save(update_fields=("display_name", "bio", "specialty", "website", "status", "updated_at") if current else None)
-        messages.success(request, "Perfil guardado." if profile.status == CreatorProfile.Status.APPROVED else "Solicitud enviada. Recibirás la decisión en esta página.")
-        return saved_redirect(request, "creator-application")
-    return render(request, "creators/application.html", {"profile": profile, "form": form, "active": "studio"})
+        try:
+            profile = save_application(request.user, form.cleaned_data, form.cleaned_data.get("application_revision"))
+        except ValidationError as exc:
+            form.add_error(None, exc)
+        else:
+            messages.success(request, "Perfil guardado." if profile.status == CreatorProfile.Status.APPROVED else "Solicitud enviada. Te avisaremos cuando tenga una decisión.")
+            return saved_redirect(request, "creator-application")
+    return render(request, "creators/application.html", {**context, "form": form})
 
 
 @creator_required
 @require_GET
 def dashboard(request):
+    from learning.models import CommunityReport, LessonQuestion
     courses = Course.objects.filter(creator=request.user).select_related("current_version")
     submissions = Submission.objects.filter(creator=request.user).select_related("course_version", "resource_version")
-    return render(request, "creators/dashboard.html", {"courses": courses, "videos": Video.objects.filter(creator=request.user).select_related("revision"), "materials": Material.objects.filter(creator=request.user).select_related("revision"), "submissions": submissions[:12], "pending_count": submissions.filter(status="pending").count(), "changes_count": submissions.filter(status="changes").count(), "active": "studio"})
+    questions = LessonQuestion.objects.filter(enrollment__version__course__creator=request.user).exclude(replies__author=request.user).distinct()
+    reports = CommunityReport.objects.filter(post__version__course__creator=request.user, resolved=False)
+    return render(request, "creators/dashboard.html", {"courses": courses, "videos": Video.objects.filter(creator=request.user).select_related("revision"), "materials": Material.objects.filter(creator=request.user).select_related("revision"), "submissions": submissions[:12], "pending_count": submissions.filter(status="pending").count(), "changes_count": submissions.filter(status="changes").count(), "unanswered_count": questions.count(), "report_count": reports.count(), "first_draft": courses.filter(current_version__isnull=True).first(), "has_publication": courses.filter(current_version__isnull=False).exists(), "active": "studio"})
 
 
 def save_form(request, form, title, back, extra=None):
@@ -269,13 +273,16 @@ def review_file(request, pk, asset_pk):
     return file_response(request, get_object_or_404(Asset, pk=asset_pk, creator=submission.creator))
 
 
+@never_cache
 @require_GET
 def public_profile(request, pk):
-    profile = get_object_or_404(CreatorProfile.objects.select_related("user"), user_id=pk, status=CreatorProfile.Status.APPROVED, user__is_active=True)
+    profile = get_object_or_404(CreatorProfile.objects.select_related("user"), user_id=pk, status=CreatorProfile.Status.APPROVED, user__is_active=True, user__account_type="creator")
+    if not profile.user.has_public_profile:
+        raise Http404
     courses = Course.objects.filter(creator=profile.user, status=PublicationStatus.PUBLISHED, current_version__isnull=False).select_related("current_version")
     videos = Video.objects.filter(creator=profile.user, status=PublicationStatus.PUBLISHED, revision__isnull=False).select_related("revision")
     materials = Material.objects.filter(creator=profile.user, status=PublicationStatus.PUBLISHED, revision__isnull=False).select_related("revision")
-    return render(request, "creators/public_profile.html", {"profile": profile, "courses": courses, "videos": videos, "materials": materials, "active": "courses"})
+    return render(request, "creators/public_profile.html", {"profile": profile, "courses": courses, "videos": videos, "materials": materials, "active": "courses", "base_template": "creators/base.html" if request.user.is_authenticated and request.user.account_type == "creator" else "academy.html"})
 
 
 def protect_legacy(course):

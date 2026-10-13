@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.urls import include, path
 
+from accounts import account_views
 from accounts.views import (
     StudentLoginView,
     StudentLogoutView,
+    member_profile,
+    members,
     register,
     student_profile,
 )
@@ -25,6 +28,12 @@ from core.analytics_views import admin_analytics
 from creators.views import public_profile
 
 urlpatterns = [
+    path("personas/<int:pk>/foto/<str:token>/", account_views.avatar, name="account-avatar"),
+    path("cuenta/confirmar/<str:token>/", account_views.email_confirm, name="account-email-confirm"),
+    path("cuenta/reactivar/", account_views.restore, name="account-restore"),
+    path("cuenta/contexto/", account_views.session_context, name="account-session-context"),
+    path("personas/", members, name="members"),
+    path("personas/<int:pk>/", member_profile, name="member-profile"),
     path("administracion/estadisticas/", admin_analytics, name="admin-analytics"),
     path("", include("commerce.urls")),
     path("aprendizaje/", include("learning.urls")),

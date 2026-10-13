@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 
+from content.immutability import FrozenRecord
+
 
 class CreatorProfile(models.Model):
     class Status(models.TextChoices):
@@ -20,9 +22,23 @@ class CreatorProfile(models.Model):
     reviewed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True, related_name="creator_approvals")
     reviewed_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
+    review_revision = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.display_name
+
+
+class CreatorApplicationEvent(FrozenRecord):
+    profile = models.ForeignKey(CreatorProfile, on_delete=models.PROTECT, related_name="history")
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    previous_status = models.CharField(max_length=12, blank=True)
+    status = models.CharField(max_length=12, choices=CreatorProfile.Status)
+    kind = models.CharField(max_length=20, choices=(("submitted", "Solicitud enviada"), ("profile_updated", "Perfil actualizado"), ("decision", "Decisión de revisión")))
+    reason = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-created_at", "-pk")
 
 
 class Submission(models.Model):

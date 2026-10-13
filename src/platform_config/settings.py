@@ -22,6 +22,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware", "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware", "django.contrib.messages.middleware.MessageMiddleware",
+    "accounts.middleware.AccountSessionMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 ROOT_URLCONF = "platform_config.urls"
@@ -32,6 +33,7 @@ TEMPLATES = [{
         "django.template.context_processors.request", "django.contrib.auth.context_processors.auth",
         "django.contrib.messages.context_processors.messages",
         "core.context_processors.academy_preview",
+        "core.navigation.contextual_navigation",
         "learning.context_processors.notification_count",
     ]},
 }]
@@ -65,7 +67,24 @@ LOGIN_URL = "/cuenta/entrar/"
 LOGIN_REDIRECT_URL = "/mi-espacio/"
 LOGOUT_REDIRECT_URL = "/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" if DEBUG else "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = os.getenv("DJANGO_EMAIL_BACKEND", EMAIL_BACKEND)
+EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "false").lower() == "true"
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "false" if EMAIL_USE_SSL else "true").lower() == "true"
+EMAIL_TIMEOUT = 10
+EMAIL_FILE_PATH = os.getenv("EMAIL_FILE_PATH", str(BASE_DIR / ".local/account-mail"))
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "webmaster@localhost")
+PASSWORD_RESET_TIMEOUT = 1800
+ACCOUNT_EMAIL_TOKEN_TIMEOUT = 1800
+ACCOUNT_SEND_EMAIL = os.getenv("ACCOUNT_SEND_EMAIL", "true").lower() == "true"
+ACCOUNT_THROTTLE_ENABLED = True
+ACCOUNT_REQUIRE_VERIFIED_EMAIL = not DEBUG
 SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_NAME = os.getenv("DJANGO_SESSION_COOKIE_NAME", "sessionid")
+CSRF_COOKIE_NAME = os.getenv("DJANGO_CSRF_COOKIE_NAME", "csrftoken")
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = not DEBUG

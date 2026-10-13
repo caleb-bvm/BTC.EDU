@@ -12,6 +12,7 @@ from media.delivery import file_response
 
 from .access import content_access
 from .catalog import course_summary, course_tree
+from .identity import public_creator_name
 from .models import (
     Course,
     CourseKind,
@@ -83,8 +84,7 @@ def course_detail(request, pk):
             "preview": preview,
             "first_lesson": first,
             "return_to": return_path(request, "tutorials" if course.kind == CourseKind.TUTORIAL else "courses"),
-            "creator_name": course.creator.get_full_name().strip()
-            or "Creador de BTC.EDU",
+            "creator_name": public_creator_name(course.creator),
         },
     )
 
@@ -131,11 +131,12 @@ def lesson_detail(request, pk):
 @require_GET
 @never_cache
 def resource_detail(request, kind, pk):
+    from learning.bookmarks import bookmark_context
     model = {"videos": Video, "materiales": Material}.get(kind)
     if model is None:
         raise Http404
     resource = get_object_or_404(
-        model.objects.select_related("creator"),
+        model.objects.select_related("creator__creator_profile"),
         pk=pk,
         status=PublicationStatus.PUBLISHED,
     )
@@ -165,19 +166,20 @@ def resource_detail(request, kind, pk):
             "transcript": revision.body if revision and decision.allowed else "",
             "media": {"standalone": True, "title": resource.title, "kind": "video" if kind == "videos" else "material", "allowed": decision.allowed, "file_url": file_url if revision and revision.asset.file.storage.exists(revision.asset.file.name) else "", "subtitle_url": subtitles_url, "body": revision.body if revision and decision.allowed else "", "size": revision.asset.size if revision else 0, "mime": revision.asset.mime_type if revision else ""},
             "return_to": return_path(request, "resources"),
-            "creator_name": resource.creator.get_full_name().strip()
-            or "Creador de BTC.EDU",
+            "creator_name": public_creator_name(resource.creator),
+            **bookmark_context(request.user, resource=revision),
         },
     )
 
 
 @require_GET
 def reference_detail(request, pk):
+    from learning.bookmarks import bookmark_context
     reference = get_object_or_404(ExternalReference.objects.select_related("topic"), pk=pk, status=PublicationStatus.PUBLISHED)
     parsed_url = urlsplit(reference.source_url)
     if parsed_url.scheme not in ("http", "https") or not parsed_url.netloc:
         raise Http404
-    return render(request, "content/reference.html", {"active": "resources", "reference": reference, "return_to": return_path(request, "resources")})
+    return render(request, "content/reference.html", {"active": "resources", "reference": reference, "return_to": return_path(request, "resources"), **bookmark_context(request.user, reference=reference)})
 
 
 @require_GET

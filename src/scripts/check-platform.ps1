@@ -21,4 +21,6 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Falló la comprobación de concurrencia de certificados y preguntas.' }
     & $pythonPath scripts/verify-community-concurrency.py
     if ($LASTEXITCODE -ne 0) { throw 'Falló la comprobación de concurrencia de comunidad.' }
+    & $pythonPath scripts/verify-accounts-concurrency.py
+    if ($LASTEXITCODE -ne 0) { throw 'Falló la comprobación de concurrencia de cuentas.' }
 } finally { Pop-Location }

@@ -35,6 +35,23 @@ class LessonProgress(models.Model):
         constraints = [models.UniqueConstraint(fields=("enrollment", "lesson"), name="unique_completed_enrollment_lesson")]
 
 
+class SavedItem(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    resource = models.ForeignKey("content.ResourceVersion", on_delete=models.PROTECT, null=True, blank=True)
+    reference = models.ForeignKey("content.ExternalReference", on_delete=models.PROTECT, null=True, blank=True)
+    title = models.CharField(max_length=200)
+    source_url = models.URLField(max_length=500, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-created_at", "-pk")
+        constraints = [
+            models.CheckConstraint(condition=models.Q(resource__isnull=False, reference__isnull=True) | models.Q(resource__isnull=True, reference__isnull=False), name="saved_item_one_target"),
+            models.UniqueConstraint(fields=("student", "resource"), name="unique_saved_resource"),
+            models.UniqueConstraint(fields=("student", "reference"), name="unique_saved_reference"),
+        ]
+
+
 class QuizRules(models.Model):
     title = models.CharField("título", max_length=200)
     pass_mark = models.PositiveSmallIntegerField("nota mínima", default=70, validators=[MaxValueValidator(100)])
@@ -178,6 +195,7 @@ class Notification(models.Model):
     url = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
     read_at = models.DateTimeField(null=True, blank=True)
+    category = models.CharField(max_length=12, default="service", choices=(("service", "Cuenta y revisiones"), ("questions", "Preguntas"), ("community", "Comunidad")))
 
     class Meta:
         ordering = ("-created_at", "-pk")

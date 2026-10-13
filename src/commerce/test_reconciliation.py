@@ -106,6 +106,9 @@ class ReconciliationTests(TestCase):
     def test_invalid_confirmation_does_not_block_other_invoices(self, gateway):
         invalid = self.invoice()
         valid = self.invoice(logical_key="another")
+        # Equal creation timestamps fall back to random UUID order. Ensure the
+        # invalid confirmation is processed before the valid one in this test.
+        Invoice.objects.filter(pk=invalid.pk).update(created_at=valid.created_at - timedelta(seconds=1))
         gateway.return_value.status.side_effect = [ProviderStatus(True, 10000, "wrong-hash"), self.paid(valid)]
         output, errors = self.run_command()
         invalid.refresh_from_db()

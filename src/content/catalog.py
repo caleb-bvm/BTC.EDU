@@ -3,6 +3,7 @@ from django.db.models import Case, Count, F, Prefetch, Q, When
 from django.db.models.functions import Coalesce
 from django.urls import reverse
 
+from .identity import public_creator_name
 from .models import (
     AccessType,
     Chapter,
@@ -44,7 +45,7 @@ def course_summary(course):
 
 def published_courses():
     visible = Q(chapters__status=PublicationStatus.PUBLISHED, chapters__lessons__status=PublicationStatus.PUBLISHED)
-    return Course.objects.filter(status=PublicationStatus.PUBLISHED).select_related('creator', 'topic', 'current_version__topic').defer('objective', 'requirements', 'current_version__objective', 'current_version__requirements').annotate(
+    return Course.objects.filter(status=PublicationStatus.PUBLISHED).select_related('creator__creator_profile', 'topic', 'current_version__topic').defer('objective', 'requirements', 'current_version__objective', 'current_version__requirements').annotate(
         public_title=Coalesce('current_version__title', 'title'), public_description=Coalesce('current_version__description', 'description'),
         public_kind=Coalesce('current_version__kind', 'kind'), public_level=Coalesce('current_version__level', 'level'),
         public_topic_id=Case(When(current_version__isnull=False, then=F('current_version__topic_id')), default=F('topic_id')),
@@ -80,7 +81,7 @@ def catalog_context(params, section=None):
         if model == Course:
             items = items.filter(public_kind=CourseKind.TUTORIAL if kind == 'tutoriales' else CourseKind.COURSE)
         elif model != ExternalReference:
-            items = items.select_related('creator', 'revision').defer('revision__body').annotate(public_title=Coalesce('revision__title', 'title'), public_description=Coalesce('revision__description', 'description'), public_access=Coalesce('revision__access_type', 'access_type'))
+            items = items.select_related('creator__creator_profile', 'revision').defer('revision__body').annotate(public_title=Coalesce('revision__title', 'title'), public_description=Coalesce('revision__description', 'description'), public_access=Coalesce('revision__access_type', 'access_type'))
         topic_field = 'public_topic_id' if model == Course else 'topic_id'
         topic_ids.update(items.exclude(**{topic_field: None}).values_list(topic_field, flat=True))
         if category != 'todos' and category != kind:
@@ -121,7 +122,7 @@ def catalog_context(params, section=None):
                 if item.revision_id:
                     item.title, item.description, item.access_type = item.revision.title, item.revision.description, item.revision.access_type
                 url = reverse('resource-detail', args=[kind, item.pk])
-            creator = item.source_name if model == ExternalReference else item.creator.get_full_name().strip() or 'Creador de BTC.EDU'
+            creator = item.source_name if model == ExternalReference else public_creator_name(item.creator)
             cards.append({'item': item, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})
     cards.sort(key=lambda card: (card['item'].title.casefold(), card['category'], card['item'].pk))
     from commerce.models import Offer

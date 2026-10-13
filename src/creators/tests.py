@@ -54,12 +54,14 @@ class CreatorJourneyTests(TestCase):
         self.assertEqual(response.status_code, 302)
         profile = CreatorProfile.objects.get(user=student)
         self.assertEqual(profile.status, "pending")
-        self.assertEqual(self.client.get(reverse("creator-dashboard")).status_code, 403)
+        self.assertRedirects(self.client.get(reverse("creator-dashboard")), reverse("creator-application"))
+        self.assertEqual(self.client.post(reverse("creator-course-new"), {}).status_code, 403)
         self.assertEqual(self.client.get(reverse("creator-public-profile", args=[student.pk])).status_code, 404)
 
     def test_suspension_disables_tools_and_cannot_be_reset_from_form(self):
         CreatorProfile.objects.filter(user=self.owner).update(status="suspended")
-        self.assertEqual(self.client.get(reverse("creator-dashboard")).status_code, 403)
+        self.assertRedirects(self.client.get(reverse("creator-dashboard")), reverse("creator-application"))
+        self.assertEqual(self.client.post(reverse("creator-course-new"), {}).status_code, 403)
         self.assertEqual(self.client.post(reverse("creator-application"), {"display_name": "Reset"}).status_code, 403)
         self.assertEqual(CreatorProfile.objects.get(user=self.owner).status, "suspended")
         with self.assertRaises(PermissionDenied):

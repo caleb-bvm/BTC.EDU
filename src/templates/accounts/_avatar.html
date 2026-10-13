@@ -1,0 +1,1 @@
+<span class="member-avatar {{ avatar_class }}" aria-hidden="true">{% if person.avatar %}<img src="{{ person.avatar_url }}" alt="" width="384" height="384" loading="lazy" decoding="async">{% else %}<span>{{ person.profile_initials|default:'＋' }}</span>{% endif %}</span>

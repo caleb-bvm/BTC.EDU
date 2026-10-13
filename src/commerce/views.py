@@ -118,6 +118,10 @@ def offer_detail(request, pk):
 @require_POST
 def checkout(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
+    if settings.ACCOUNT_REQUIRE_VERIFIED_EMAIL and not request.user.email_verified_at:
+        request.session["account_verify_destination"] = reverse("offer-detail", args=[pk])
+        messages.info(request, "Confirma tu correo antes de comprar para conservar una vía de recuperación.")
+        return redirect("student-account-security")
     try:
         from core.telemetry import session_id
         invoice = reserve_invoice(request.user, offer.pk, activity_session=session_id(request))

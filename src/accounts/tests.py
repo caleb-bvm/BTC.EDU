@@ -54,11 +54,13 @@ class IndependentAccountTests(TestCase):
         CreatorProfile.objects.filter(user=self.creator).update(status="pending")
         response = self.client.post(reverse("creator-login") + "?next=/crear/cursos/nuevo/", self.credentials(self.creator_password))
         self.assertRedirects(response, reverse("creator-application"))
-        self.assertEqual(self.client.get(reverse("creator-dashboard")).status_code, 403)
+        self.assertRedirects(self.client.get(reverse("creator-dashboard")), reverse("creator-application"))
+        self.assertEqual(self.client.post(reverse("creator-course-new"), {}).status_code, 403)
 
-    def test_suspended_and_inactive_cannot_login(self):
+    def test_suspended_can_consult_status_but_inactive_cannot_login(self):
         CreatorProfile.objects.filter(user=self.creator).update(status="suspended")
-        self.assertContains(self.client.post(reverse("creator-login"), self.credentials(self.creator_password)), "No pudimos iniciar sesión")
+        self.assertRedirects(self.client.post(reverse("creator-login"), self.credentials(self.creator_password)), reverse("creator-application"))
+        self.assertEqual(self.client.post(reverse("creator-course-new"), {}).status_code, 403)
         get_user_model().objects.filter(pk=self.student.pk).update(is_active=False)
         self.assertContains(self.client.post(reverse("login"), self.credentials(self.student_password)), "No pudimos iniciar sesión")
 
@@ -131,17 +133,20 @@ class IndependentAccountTests(TestCase):
         self.assertFalse(get_user_model().objects.filter(email="fresh@example.invalid").exists())
 
     def test_recovery_sends_only_for_selected_account(self):
-        self.client.post(reverse("creator-password-reset"), {"email": self.email})
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(reverse("creator-password-reset"), {"email": self.email})
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("cuenta de creador", mail.outbox[0].body)
         self.assertIn("/crear/recuperar/", mail.outbox[0].body)
-        self.client.post(reverse("student-password-reset"), {"email": self.email})
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(reverse("student-password-reset"), {"email": self.email})
         self.assertEqual(len(mail.outbox), 2)
         self.assertIn("cuenta de estudiante", mail.outbox[1].body)
         self.assertIn("/cuenta/recuperar/", mail.outbox[1].body)
 
     def test_reset_changes_only_creator_and_token_cannot_be_reused(self):
-        self.client.post(reverse("creator-password-reset"), {"email": self.email})
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(reverse("creator-password-reset"), {"email": self.email})
         path = re.search(r"http://testserver(/crear/recuperar/\S+)", mail.outbox[0].body).group(1)
         response = self.client.get(path)
         self.assertEqual(response.status_code, 302)

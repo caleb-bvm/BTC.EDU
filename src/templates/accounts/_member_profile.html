@@ -1,0 +1,7 @@
+<a class="text-link" href="{% url 'members' %}">← Personas</a>
+<header class="member-heading">{% include 'accounts/_avatar.html' with person=member avatar_class='member-avatar-large' %}<div><p class="eyebrow">Estudiante</p><h1>{{ member.public_name }}</h1></div></header>
+{% if not member.has_public_profile %}<p>Tu perfil es privado. Solo tú puedes ver esta presentación.</p>{% if member.profile_public %}<p>Confirma tu correo desde Mi cuenta para compartir la ficha.</p>{% endif %}{% endif %}
+{% if member.bio %}<section class="info-block member-section"><h2>Sobre mí</h2><p>{{ member.bio|linebreaksbr }}</p></section>{% endif %}
+{% if member.interests %}<section class="info-block member-section"><h2>Quiero aprender</h2><p>{{ member.interests }}</p></section>{% endif %}
+{% if member.website %}<p><a href="{{ member.website }}" rel="noopener noreferrer nofollow">Sitio web ↗</a></p>{% endif %}
+{% if user == member %}<a class="btn btn-outline-dark" href="{% url 'student-profile' %}">Editar mi perfil</a>{% endif %}

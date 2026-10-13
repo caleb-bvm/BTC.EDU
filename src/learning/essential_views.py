@@ -260,7 +260,23 @@ def question_detail(request, pk, creator_space=False):
 @require_GET
 def notifications(request):
     notices = Notification.objects.filter(recipient=request.user)
-    return render(request, "learning/notifications.html", {"base_template": "creators/base.html" if request.user.account_type == "creator" else "academy.html", "notices": Paginator(notices, 20).get_page(request.GET.get("pagina")), "unread_count": notices.filter(read_at__isnull=True).count()})
+    unread_count = notices.filter(read_at__isnull=True).count()
+    category = request.GET.get("tipo", "")
+    if category in ("service", "questions", "community"):
+        notices = notices.filter(category=category)
+    else:
+        category = ""
+    unread_only = request.GET.get("estado") == "sin-leer"
+    if unread_only:
+        notices = notices.filter(read_at__isnull=True)
+    return render(request, "learning/notifications.html", {"base_template": "creators/base.html" if request.user.account_type == "creator" else "academy.html", "notices": Paginator(notices, 20).get_page(request.GET.get("pagina")), "unread_count": unread_count, "notice_category": category, "unread_only": unread_only})
+
+
+@account_required
+@require_POST
+def notifications_read_all(request):
+    Notification.objects.filter(recipient=request.user, read_at__isnull=True).update(read_at=timezone.now())
+    return redirect("notifications")
 
 
 @account_required

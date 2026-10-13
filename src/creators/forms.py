@@ -8,11 +8,18 @@ from .models import CreatorProfile
 
 
 class ProfileForm(forms.ModelForm):
+    application_revision = forms.IntegerField(required=False, min_value=0, widget=forms.HiddenInput)
     accept_rights = forms.BooleanField(label="Me comprometo a publicar materiales propios o con autorización y atender las observaciones de revisión.")
 
     class Meta:
         model = CreatorProfile
         fields = ("display_name", "bio", "specialty", "website")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["application_revision"].initial = self.instance.review_revision
+        self.fields["bio"].widget = forms.Textarea(attrs={"rows": 5, "maxlength": 2000})
+        self.fields["bio"].max_length = 2000
 
 
 class CourseForm(forms.ModelForm):

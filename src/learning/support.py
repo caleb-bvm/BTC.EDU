@@ -15,7 +15,11 @@ from .models import Enrollment, LessonQuestion, Notification, QuestionReply
 
 
 def notify(recipient, event_key, title, url):
-    return Notification.objects.get_or_create(event_key=event_key, defaults={"recipient": recipient, "title": title, "url": url})[0]
+    from accounts.models import User
+    category = "questions" if event_key.startswith(("question:", "reply:")) else "community" if event_key.startswith(("community-reply:", "community-lesson:")) else "service"
+    if category == "questions" and not User.objects.filter(pk=recipient.pk, notify_questions=True).exists() or category == "community" and not User.objects.filter(pk=recipient.pk, notify_community=True).exists():
+        return None
+    return Notification.objects.get_or_create(event_key=event_key, defaults={"recipient": recipient, "title": title[:200], "url": url, "category": category})[0]
 
 
 def valid_message(body, request_key):
@@ -67,7 +71,7 @@ def post_question(actor, lesson_id, body, request_key):
         return existing
     rate_limit(actor)
     question = LessonQuestion.objects.create(enrollment=enrollment, lesson=lesson, body=body, request_key=key)
-    notify(enrollment.version.course.creator, f"question:{question.pk}", "Una pregunta espera tu respuesta", reverse("creator-question", args=[question.pk]))
+    notify(enrollment.version.course.creator, f"question:{question.pk}", f"Una pregunta espera tu respuesta · {enrollment.version.title}", reverse("creator-question", args=[question.pk]))
     return question
 
 
@@ -90,5 +94,5 @@ def reply_question(actor, question_id, body, request_key):
     is_student = actor.pk == question.enrollment.student_id
     recipient = question.enrollment.version.course.creator if is_student else question.enrollment.student
     target = "creator-question" if is_student else "student-question"
-    notify(recipient, f"reply:{reply.pk}", "Tienes una respuesta en tu pregunta", reverse(target, args=[question.pk]))
+    notify(recipient, f"reply:{reply.pk}", f"Tienes una respuesta en tu pregunta · {question.enrollment.version.title}", reverse(target, args=[question.pk]))
     return reply

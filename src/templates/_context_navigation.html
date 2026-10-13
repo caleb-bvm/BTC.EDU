@@ -1,0 +1,11 @@
+<p class="nav-caption mono">{{ sidebar_title }}</p>
+<nav class="academy-navigation" aria-label="{{ sidebar_title }}">
+  {% if sidebar_context == 'course' and course %}
+    <a href="{{ course.detail_url }}?volver={{ return_to|urlencode }}" {% if not lesson %}aria-current="page"{% endif %}><span>{{ course.title }}<small>Ver curso y temario</small></span></a>
+    {% if lesson %}<a href="#lesson-syllabus">Temario de la lección</a>{% endif %}
+    {% if enrolled and version %}<a href="{% url 'community-space' version.pk %}">Comunidad del curso</a>{% endif %}
+  {% endif %}
+  {% if sidebar_context == 'creator-account' and user.creator_profile.status == 'approved' %}<a href="{% url 'creator-public-profile' user.pk %}">Ver perfil público ↗</a>{% endif %}
+  {% for link in sidebar_links %}<a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.label }}{% if link.notifications and notification_unread_count %} ({{ notification_unread_count }}){% endif %}</a>{% endfor %}
+</nav>
+{% if sidebar_switches %}<p class="nav-caption mono">Cambiar de espacio</p><nav class="academy-navigation" aria-label="Cambiar de espacio">{% for link in sidebar_switches %}<a href="{{ link.url }}">{{ link.label }}</a>{% endfor %}</nav>{% endif %}

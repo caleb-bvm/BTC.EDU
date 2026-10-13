@@ -8,6 +8,7 @@ from django.views.decorators.http import require_GET, require_safe
 from media.delivery import file_response
 
 from .access import content_access
+from .identity import public_creator_name
 from .models import (
     Chapter,
     Course,
@@ -20,7 +21,7 @@ from .models import (
 
 
 def load_version(user, course_pk, number):
-    version = get_object_or_404(CourseVersion.objects.select_related("course__creator", "topic"), course_id=course_pk, number=number, sealed=True)
+    version = get_object_or_404(CourseVersion.objects.select_related("course__creator__creator_profile", "topic"), course_id=course_pk, number=number, sealed=True)
     owner = user.is_authenticated and user.is_active and user.pk == version.course.creator_id
     from learning.services import can_visit_version
     if not owner and (version.course.status not in (PublicationStatus.PUBLISHED, PublicationStatus.ARCHIVED) or not can_visit_version(user, version)):
@@ -67,7 +68,7 @@ def course_version_detail(request, course_pk, number):
     from learning.models import VersionCertificatePolicy
     policy = VersionCertificatePolicy.objects.filter(version=version).first()
     required_lessons = VersionLesson.objects.filter(pk__in=policy.required_lesson_ids).select_related("content") if policy else []
-    return render(request, "content/course.html", {"course": course, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": version.creator_name, "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": offers, "version": version, "enrolled": enrolled(request.user, version), "has_purchase": version_owned(request.user, version), "certificate_policy": policy, "certificate_lessons": required_lessons})
+    return render(request, "content/course.html", {"course": course, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": public_creator_name(version.course.creator), "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": offers, "version": version, "enrolled": enrolled(request.user, version), "has_purchase": version_owned(request.user, version), "certificate_policy": policy, "certificate_lessons": required_lessons})
 
 
 def attachment_cards(request, attachments):

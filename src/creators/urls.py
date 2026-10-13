@@ -1,6 +1,7 @@
 from django.urls import path
 
 from accounts.recovery import recovery_patterns
+from accounts.settings_urls import settings_patterns
 from accounts.views import CreatorLoginView, CreatorLogoutView, register
 from commerce.views import creator_offer, creator_offers
 from core.analytics_views import creator_analytics
@@ -9,6 +10,7 @@ from learning import assessment_views, essential_views
 from . import views
 
 urlpatterns = [
+    *settings_patterns(creator=True),
     path("estadisticas/", creator_analytics, name="creator-analytics"),
     path("preguntas/", essential_views.creator_questions, name="creator-questions"),
     path("preguntas/<int:pk>/", essential_views.question_detail, {"creator_space": True}, name="creator-question"),
