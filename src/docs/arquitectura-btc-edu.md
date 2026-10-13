@@ -1,6 +1,8 @@
 # Arquitectura técnica prevista de BTC.EDU
 
-**Estado vigente al 4 de octubre:** [comercio y aprendizaje](comercio-y-aprendizaje-2026-10-04.md) implementa ofertas, LNbits FakeWallet integrado, compras, derechos históricos, biblioteca, inscripción y progreso. Cuentas independientes y estudio/revisión también están implementados. El resto conserva el diseño por fases, incluido trabajo futuro como supervisión periódica, evaluaciones y comunidad.
+**Actualización del 7 de octubre:** [evaluaciones por versión](evaluaciones-2026-10-07.md): QuizDraft → VersionQuiz sellada → QuizAttempt por inscripción, con ExtraQuizAttempt para autorizaciones. La corrección y los límites se aplican en servicios transaccionales; la finalización obligatoria depende de aprobación. Certificados y preguntas siguen pendientes.
+
+**Estado registrado al 4 de octubre:** [comercio y aprendizaje](comercio-y-aprendizaje-2026-10-04.md) implementa ofertas, LNbits FakeWallet integrado, compras, derechos históricos, biblioteca, inscripción y progreso. Cuentas independientes y estudio/revisión también están implementados. El resto conserva el diseño por fases, incluido trabajo futuro como supervisión periódica, certificados y comunidad.
 
 **Registro histórico del 2 de octubre:** [contenido, versiones y archivos privados](contenido-versiones-y-archivos-2026-10-02.md) implementa composición sellada, revisiones reutilizables y entrega autorizada. En esa entrega todavía estaban pendientes compras, derechos adquiridos, inscripciones y progreso; se completaron en el bloque del 4 de octubre.
 

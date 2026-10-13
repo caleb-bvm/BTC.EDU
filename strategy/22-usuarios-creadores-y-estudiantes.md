@@ -45,3 +45,8 @@ Verificar proveedor/remitente y entrega real de correo; supervisar reintentos y 
 ## Versión registrada
 
 Commit de cuentas `71a19a4eee6a165ddc2ce89c7a2d2b63307cd916` en main, registrado el 12 de octubre de 2026. Se verificó por separado una copia exacta: 271 pruebas, Ruff, migraciones y cinco controles de concurrencia. Los 112 archivos del commit coinciden con los probados. La evidencia previa de 310 pruebas y las capturas corresponden al conjunto de cambios locales; las entregas independientes permanecen en el espacio de trabajo. [Registro y alcance](evidencias/2026-10-12-commit-cuentas.json).
+
+
+## Consolidación del trabajo pendiente
+
+A petición del usuario se registraron posteriormente los 110 archivos pendientes del espacio principal en el commit `3045e7abd95a86d87c34396500dbc610161ed9b0` de main. Incluye las mejoras de catálogo, lectura, continuidad, comunidad en lecciones, evaluaciones, apariencia y documentación que habían quedado fuera de 71a19a4. Los registros anteriores conservan el alcance de sus verificaciones; el registro conjunto pasó revisión estática, comprobación de migraciones y formato sin repetir las pruebas ya ejecutadas. El espacio principal quedó sin cambios pendientes. La documentación restante se consolida en business/teorica; no hubo push ni despliegue.

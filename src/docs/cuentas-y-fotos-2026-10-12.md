@@ -86,3 +86,8 @@ Las nuevas migraciones de avisos y guardados del commit dependen del esquema ya 
 Una copia exacta del índice pasó 271 pruebas en 205,271 segundos, Ruff, consistencia de migraciones y los cinco controles de concurrencia. Después del commit se compararon sus 112 archivos con la copia probada y coincidieron sus objetos Git. La verificación anterior de 310 pruebas corresponde al conjunto de cambios locales, que incluye entregas independientes; las capturas corresponden a ese conjunto. No se presenta esa apariencia conjunta como una captura exclusiva del commit.
 
 [Pruebas de la versión registrada](evidence/cuentas-commit-pruebas-2026-10-12.txt), [commit, árbol y alcance](../../strategy/evidencias/2026-10-12-commit-cuentas.json).
+
+
+## Consolidación del trabajo pendiente
+
+A petición del usuario se registraron posteriormente los 110 archivos pendientes del espacio principal en el commit `3045e7abd95a86d87c34396500dbc610161ed9b0` de main. Incluye las mejoras de catálogo, lectura, continuidad, comunidad en lecciones, evaluaciones, apariencia y documentación que habían quedado fuera de 71a19a4. Los registros anteriores conservan el alcance de sus verificaciones; el registro conjunto pasó revisión estática, comprobación de migraciones y formato sin repetir las pruebas ya ejecutadas. El espacio principal quedó sin cambios pendientes. La documentación restante se consolida en business/teorica; no hubo push ni despliegue.

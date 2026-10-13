@@ -1,0 +1,85 @@
+REEMPLAZAR: Introducción
+
+Introducción
+
+BTC.EDU es una plataforma integral de educación que busca conectar descubrimiento, estudio, práctica, acompañamiento y comunidad. Cursos, tutoriales y recursos permiten abordar tanto un recorrido amplio como una necesidad concreta. El espacio personal debe ayudar a conservar lo estudiado y continuar con un propósito claro.
+
+El proyecto nació de una pregunta sobre acceso: ¿cómo permitir que una persona compre el contenido educativo que necesita sin obligarla a adquirir un curso completo o mantener una suscripción? Los micropagos complementan el contenido gratuito y permiten adquirir unidades específicas, conservando acceso a la versión comprada.
+
+La propuesta comprende al alumno que aprende, al creador que prepara y acompaña y a la administración que revisa y sostiene la operación. Necesitamos conectar esos recorridos, comprobar la utilidad educativa de los contenidos y mantener sus derechos, resultados y conversaciones cuando cambian las publicaciones.
+
+Este documento explica el origen de la idea, las decisiones que la consolidaron, la investigación y el desarrollo alcanzado. Se actualizará con nuevas entregas y evidencias. Las hipótesis comerciales se distinguen de los resultados técnicos.
+
+
+REEMPLAZAR: Objetivos
+
+Objetivos
+
+Objetivo general
+
+Desarrollar y evaluar una plataforma integral de educación que permita descubrir contenidos pertinentes, estudiar y practicar, recibir acompañamiento, participar en comunidad y continuar el aprendizaje, combinando contenido gratuito con adquisiciones específicas mediante pagos simulados y acceso persistente.
+
+Objetivos específicos
+
+Investigar las necesidades de alumnos y creadores al aprender, resolver tareas, compartir conocimiento y mantener contenidos, y comparar modelos de monetización para justificar precios y muestras.
+
+Diseñar recorridos que conecten cursos, tutoriales y recursos con objetivos, práctica, ayuda y continuidad, protegiendo el contenido de pago y conservando compras, progreso y resultados de la versión correspondiente.
+
+Facilitar la preparación y revisión de contenido educativo, la atención de preguntas y la moderación, con criterios de calidad, responsabilidades y condiciones de acceso comprensibles.
+
+Evaluar usabilidad y resultados educativos con tareas y evidencias definidas, medir compra y uso sin confundirlos con aprendizaje y estudiar los recursos y costos necesarios para sostener la plataforma.
+
+
+REEMPLAZAR: A dónde queremos llegar
+
+A dónde queremos llegar
+
+Queremos que una persona pueda reconocer un objetivo, combinar cursos, tutoriales y recursos, practicar, recibir ayuda y continuar con claridad. La compra debe integrarse cuando necesita contenido de pago. El creador debe preparar, publicar, acompañar y mantener materiales sin perjudicar el acceso existente.
+
+Las evaluaciones y certificados conservan requisitos y resultados por versión. Las preguntas y notificaciones ya permiten acompañar al alumno; los paneles ofrecen indicadores con fuentes y denominadores explícitos. La comunidad por versión incorpora conversación y moderación; las membresías renovadas manualmente quedan como ampliación por desarrollar y verificar.
+
+Necesitamos analítica que explique consulta, pago, uso y regreso sin confundir actividad con aprendizaje. También un presupuesto que considere consumo gratuito, acceso permanente, archivos históricos, correo, respaldos, supervisión y soporte.
+
+La operación pública y una integración con fondos reales requerirán decisiones y evidencias propias. La investigación externa ayuda a identificar condiciones; no acredita que ya estén resueltas.
+
+
+REEMPLAZAR: Conclusiones
+
+Conclusiones
+
+BTC.EDU propone una plataforma integral que conecta contenido, aprendizaje, acompañamiento y comunidad, con micropagos para acceder a unidades específicas. El desarrollo registrado permite verificar publicación, pago simulado, acceso persistente y módulos educativos asociados a versiones.
+
+La revisión encuentra una base técnica sólida y recorridos todavía centrados en cursos. La siguiente etapa debe conectar formatos, biblioteca, práctica y ayuda, contrastar su utilidad con alumnos y creadores y evaluar calidad educativa, operación y sostenibilidad.
+
+Mantendremos las conclusiones comerciales como provisionales hasta reunir esa evidencia.
+
+
+REEMPLAZAR: Enfoque / Producto
+
+Producto
+
+La estructura comprende cursos, tutoriales, recursos, aprendizaje personal, acompañamiento y comunidad. La colección inicial aborda Bitcoin, Lightning y micropagos; su contenido y evaluación requieren revisión educativa y contraste con alumnos. El contenido gratuito, las muestras y las unidades de compra deben responder a necesidades reconocibles. La investigación orientará qué formatos y conexiones aportan utilidad.
+
+
+REEMPLAZAR: Enfoque / Experiencia
+
+Experiencia
+
+Trabajamos el recorrido desde orientarse y explorar hasta estudiar, practicar, pedir ayuda, participar y retomar. Cuando hay una adquisición, el alumno debe comprender precio, inclusiones y estados del pago y recuperar su acceso. La biblioteca debe evolucionar para reunir también recursos gratuitos guardados; esa ampliación aún está pendiente.
+
+
+AÑADIR: Investigación / Revisión integral, después de Qué revisamos
+
+Revisión integral
+
+Revisamos cómo se relacionan los apartados existentes: inicio y búsqueda, cursos, tutoriales, recursos, biblioteca, lecciones, evaluaciones, certificados, preguntas, comunidad, personas, cuentas, avisos, compras, creación, revisión y estadísticas. La base técnica permite conservar versiones, permisos e historial, pero la experiencia sigue organizada principalmente alrededor del curso.
+
+La colección local consultada tiene seis cursos introductorios sobre Bitcoin, wallets, Lightning, facturas, LNbits y acceso mediante micropagos. Cada curso incluye cuatro lecciones con explicación, ejemplo, práctica y solución, una pregunta final y requisitos de certificado. Tutoriales y Recursos tienen estructura funcional, pero todavía no contienen publicaciones propias en esa colección. La publicación técnica y una sola pregunta final no demuestran dominio completo de los objetivos.
+
+La revisión identifica la necesidad de orientar el inicio, guardar también recursos gratuitos, conectar formatos mediante objetivos, dar continuidad a la práctica y facilitar ayuda y participación desde el contenido estudiado. También reproduce inconsistencias en el retorno después del registro, el nombre público del creador y la clasificación de recursos editados en borrador. Los cursos institucionales requieren un responsable humano para atender las preguntas dirigidas a su cuenta técnica.
+
+La guía del Institute of Education Sciences ofrece fundamento para probar práctica y repaso distribuidos. CAST orienta la retroalimentación hacia acciones concretas de mejora. WCAG 2.2 proporciona criterios para una auditoría de accesibilidad. Estas referencias sustentan propuestas de diseño; no acreditan resultados educativos de BTC.EDU. IES (https://ies.ed.gov/ncee/wwc/PracticeGuide/1), CAST (https://udlguidelines.cast.org/engagement/effort-persistence/feedback/), W3C (https://www.w3.org/TR/WCAG22/).
+
+Se ejecutaron 227 pruebas sobre una instantánea del código y comprobaciones adicionales con datos temporales. El recorrido visual incluyó pantallas públicas, biblioteca, lección y comunidades, con una revisión parcial de móvil. No se hicieron sesiones externas, una auditoría completa de accesibilidad ni una nueva prueba de pago contra LNbits. El análisis detallado conserva fuentes, evidencia y prioridades en Revisión integral de BTC.EDU (20-analisis-integral-plataforma-educativa.md).
+
+Las siguientes entregas deben conectar orientación, biblioteca de distintos formatos, práctica, ayuda y comunidad, conservando el recorrido de micropago y acceso. Las rutas editoriales, entregas prácticas, guardados gratuitos y comunidades por tema siguen siendo propuestas por desarrollar y verificar.

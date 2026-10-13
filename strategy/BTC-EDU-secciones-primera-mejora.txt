@@ -1,0 +1,9 @@
+AÑADIR: Desarrollo / Registro, identidad y clasificación, después de Estado actual
+
+Registro, identidad y clasificación
+
+El estudiante conserva el destino desde el que llegó al entrar o crear su cuenta, incluidos los filtros. Los enlaces entre acceso y registro mantienen ese recorrido también cuando debe corregir un error del formulario. Solo se aceptan destinos internos del espacio de estudiante; el registro de creador conserva la solicitud y aprobación requeridas.
+
+El catálogo, el selector y las fichas muestran el nombre público vigente del creador aprobado. Las versiones y los certificados emitidos conservan su atribución histórica. Cambiar la presentación pública no modifica los datos de las credenciales anteriores.
+
+El tema de un video o material pertenece a la revisión enviada y aprobada. Editar su borrador no altera la clasificación pública; el nuevo tema se muestra al aprobar otra revisión. La migración conserva la clasificación disponible de los recursos actuales, sin inventar la de revisiones anteriores que carecen de esa información.
