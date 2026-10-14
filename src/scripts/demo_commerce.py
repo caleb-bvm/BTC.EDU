@@ -11,6 +11,12 @@ from creators.services import decide, submit
 from media.models import Asset
 
 
+def profile(outcome, preview):
+    return dict(learning_outcome=outcome, public_preview=preview,
+                requirements="Conocer la navegación básica de una aplicación web.",
+                activity_kind="understand", support_scope="Puedes consultar las explicaciones, preguntar al creador y participar en las conversaciones de la lección.")
+
+
 def seed():
     users = get_user_model().objects
     creator = users.create_user("ana@demo.invalid", first_name="Ana", last_name="López", account_type="creator")
@@ -20,11 +26,11 @@ def seed():
     CreatorProfile.objects.create(user=creator, display_name="Ana López", bio="Aprende a preparar y comprobar un flujo de micropagos.", specialty="Tecnología", status="approved")
     course = Course.objects.create(creator=creator, title="Construye tu primer flujo de micropagos", description="Una guía práctica para crear una factura, comprobar el pago y organizar los accesos de tu proyecto.", objective="Comprender la factura, el estado del pago y el acceso concedido.", requirements="Conocer la navegación básica de una aplicación web.", level="beginner", estimated_minutes=45)
     chapter = Chapter.objects.create(course=course, title="De la factura al aprendizaje", status="published")
-    free = Lesson.objects.create(chapter=chapter, title="Antes de empezar", description="Conoce el recorrido de compra y acceso.", body="Una factura pendiente no concede acceso: la aplicación debe confirmar el estado desde el servidor.", status="published", position=1)
-    lesson = Lesson.objects.create(chapter=chapter, title="Preparar una factura", description="Define el precio y conserva lo incluido.", body="La factura reúne un precio, una lista concreta de contenidos y un plazo. Estos datos permanecen iguales aunque el creador publique otra oferta. Consulta el estado antes de repetir una operación que no respondió.", status="published", access_type="paid", position=2)
-    Lesson.objects.create(chapter=chapter, title="Confirmar y conservar el acceso", description="Abre el contenido después del pago confirmado.", body="La confirmación del proveedor permite registrar la compra. Cada derecho apunta a la revisión adquirida: estudiar una versión nueva requiere una decisión explícita. Una confirmación repetida conserva la compra original.", status="published", access_type="paid", position=3)
+    free = Lesson.objects.create(chapter=chapter, title="Antes de empezar", **profile("Distinguir una factura pendiente de una compra confirmada.", "Una factura pendiente todavía no concede acceso al contenido."), description="Conoce el recorrido de compra y acceso.", body="Una factura pendiente no concede acceso: la aplicación debe confirmar el estado desde el servidor.", status="published", position=1)
+    lesson = Lesson.objects.create(chapter=chapter, title="Preparar una factura", **profile("Identificar precio, contenidos y plazo de una solicitud de pago.", "Una oferta puede cambiar; la factura conserva lo solicitado al crearla."), description="Define el precio y conserva lo incluido.", body="La factura reúne un precio, una lista concreta de contenidos y un plazo. Estos datos permanecen iguales aunque el creador publique otra oferta. Consulta el estado antes de repetir una operación que no respondió.", status="published", access_type="paid", position=2)
+    Lesson.objects.create(chapter=chapter, title="Confirmar y conservar el acceso", **profile("Relacionar una confirmación válida con el acceso a una revisión concreta.", "Consultar dos veces un pago confirmado debe conservar una sola compra."), description="Abre el contenido después del pago confirmado.", body="La confirmación del proveedor permite registrar la compra. Cada derecho apunta a la revisión adquirida: estudiar una versión nueva requiere una decisión explícita. Una confirmación repetida conserva la compra original.", status="published", access_type="paid", position=3)
     asset = Asset.objects.create(creator=creator, file=SimpleUploadedFile("guia-del-recorrido.txt", "Guía del recorrido de compra\n1. Preparar factura\n2. Comprobar pago\n3. Abrir contenido adquirido\n".encode(), content_type="text/plain"))
-    material = Material.objects.create(creator=creator, title="Guía del recorrido de compra", description="Una lista de pasos para comprobar tu implementación.", access_type="paid", pending_asset=asset)
+    material = Material.objects.create(creator=creator, title="Guía del recorrido de compra", **profile("Identificar los pasos de comprobación de una compra.", "La guía comienza por preparar una factura y comprobar su resultado."), description="Una lista de pasos para comprobar tu implementación.", access_type="paid", pending_asset=asset)
     material_submission = submit(material, creator)
     decide(material_submission, reviewer, True)
     material.refresh_from_db()

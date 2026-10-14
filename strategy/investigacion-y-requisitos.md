@@ -4,12 +4,165 @@ El [informe principal](19-recomendacion-y-entrega-final.md) describe el producto
 
 ## Cómo mantener esta documentación
 
-La documentación principal queda en cuatro archivos: el informe de BTC.EDU, su exportación de texto para Google Docs, este archivo y la [operación y bitácora técnica](../src/docs/operacion-y-bitacora.md). Las capturas y registros originales permanecen en `src/docs/evidence`; los dos documentos de CUBO+ permanecen en `docs`. Son evidencias y fuentes, no nuevos informes.
+La documentación principal queda en tres Markdown: el informe de BTC.EDU, este archivo y la [operación y bitácora técnica](../src/docs/operacion-y-bitacora.md). La exportación de texto existente se conserva como antecedente y no requiere actualización. Las capturas y registros originales permanecen en `src/docs/evidence`; los dos documentos de CUBO+ permanecen en `docs`. Son evidencias y fuentes, no nuevos informes.
 
-Actualizar las secciones correspondientes dentro de estos archivos en cada entrega. El informe mantiene el estado actual; los registros fechados conservan el historial y sus límites. No crear documentos nuevos por cada función. Regenerar la exportación de texto cuando cambie el informe. No registrar preparación de instrumentos como sesiones ejecutadas.
+Actualizar las secciones correspondientes dentro de estos archivos en cada entrega. El informe mantiene el estado actual; los registros fechados conservan el historial y sus límites. No crear documentos nuevos por cada función. No registrar preparación de instrumentos como sesiones ejecutadas.
+
+<a id="posicionamiento-y-validacion"></a>
+
+## Posicionamiento y validación
+
+Revisión del 13 de octubre de 2026, en `main` sobre `2d318f6`, con cambios locales preexistentes. Se revisaron el informe, los requisitos, la bitácora, los dos originales de CUBO+ y las reglas de contenido y comercio. La investigación externa usa documentación oficial; no incluye pruebas de cuentas externas, entrevistas ni compras. Esta sección mantiene la orientación actual y las recomendaciones; los antecedentes posteriores conservan sus fechas.
+
+### Orientación confirmada
+
+El usuario prioriza educación de distintas áreas desde el inicio. El catálogo actual de seis cursos de Bitcoin y Lightning sirve como primera colección demostrable; todavía no demuestra cobertura educativa en otras áreas. La estructura de temas y contenidos admite distintas disciplinas, pero eso no sustituye producción, revisión experta y validación.
+
+Definimos el público por necesidad: estudiantes, personas que trabajan y autodidactas que quieren aplicar un conocimiento a una tarea delimitada. Priorizamos investigación en El Salvador, sin asumir disponibilidad de wallet, familiaridad con sats o preferencia por pagar. El creador inicial por investigar es alguien con material propio y una audiencia o contexto de enseñanza identificable, dispuesto a preparar unidades útiles y mantenerlas.
+
+La promesa propuesta es aprender algo aplicable, elegir la unidad que sirve y conservar acceso a lo adquirido. Bitcoin aporta al mecanismo de micropagos y al caso CUBO+; la disciplina del contenido puede ser otra. Debemos comprobar que el nombre BTC.EDU comunica esa amplitud y que el pago no impide el acceso del público elegido.
+
+### Comparación documental
+
+Separamos plataformas de cursos, tiendas de contenido, herramientas para creadores y alternativas gratuitas. Las siguientes diferencias son oportunidades por demostrar, no carencias atribuidas a competidores. Esta consulta no permite afirmar exclusividad de una función ni que ninguna plataforma acepte Bitcoin.
+
+| Alternativa | Hecho documentado y fuente | Implicación para BTC.EDU |
+|---|---|---|
+| Udemy | Compra individual de cursos y acceso duradero condicionado a cuenta y licencia. [Acceso](https://support.udemy.com/hc/en-us/articles/229603708-Lifetime-access) | La compra sin suscripción y el acceso duradero no bastan como diferencia. Probar utilidad de unidades menores |
+| Domestika | Cursos comprados con proyectos, recursos y comunidad; Plus añade acceso a catálogo y créditos. [Cursos](https://support.domestika.org/hc/en-us/articles/360003052778-About-Domestika-s-courses), [Plus](https://support.domestika.org/hc/en-us/articles/4417296958353-Benefits-of-Domestika-Plus) | La práctica y la comunidad también son ofertas existentes. Evaluar calidad y conveniencia de nuestra unidad |
+| Coursera Plus | Suscripción para un conjunto de cursos y programas, con exclusiones. [Oferta](https://www.coursera.org/courseraplus/) | Comparar una necesidad puntual con el valor de estudiar varios programas; no atribuir el mismo modelo a toda Coursera |
+| Gumroad | Venta de cursos, descargas y membresías. [Productos](https://gumroad.com/features) | Vender un archivo o tutorial individual ya tiene alternativas. Probar valor de aprendizaje y acompañamiento integrados |
+| Patreon | Compra de productos, publicaciones y colecciones sin membresía recurrente. [Compras](https://support.patreon.com/hc/en-us/articles/204606215-Can-I-make-a-one-time-payment) | No presentar la compra individual como innovación exclusiva |
+| Teachable | Descargas vendidas solas o junto con cursos y otros productos. [Descargas](https://www.teachable.com/digital-downloads) | El creador debe obtener una razón concreta para elegir BTC.EDU frente a su propia tienda educativa |
+| Thinkific | Cursos, comunidades, descargas, coaching y membresías. [Productos educativos](https://support.thinkific.com/hc/en-us/articles/9942695724695-An-Introduction-to-Selling-Thinkific-Learning-Products) | Progreso, comunidad y formatos múltiples son capacidades de referencia, no una ventaja exclusiva |
+| PlebDevs y Mi Primer Bitcoin | PlebDevs presenta su contenido como gratuito; Mi Primer Bitcoin publica currículo y recursos abiertos. [PlebDevs](https://www.plebdevs.com/), [Currículo](https://github.com/MyFirstBitcoin) | En Bitcoin, contrastar utilidad frente a recursos gratuitos. Pueden ser referencias o posibles colaboradores, sin acuerdo existente |
+
+En otras áreas debemos incorporar las alternativas concretas que aparezcan en entrevistas: tutoriales gratuitos, documentación, clases y asistentes de IA. Preguntaremos cuándo ayudan, cuándo fallan y qué tiempo o esfuerzo requiere llegar al resultado. No presumimos que su calidad sea inferior.
+
+Como evidencia del peso de los límites comerciales, Patreon publica un mínimo de USD 3 para los productos y colecciones descritos en su guía; Gumroad publica cargos de plataforma con un componente fijo para ventas directas. Estas condiciones ilustran por qué conviene estudiar importes pequeños, sin probar que Lightning sea gratuito o que nuestro modelo resulte sostenible. [Patreon: venta](https://support.patreon.com/hc/en-us/articles/16303719836813-Selling-one-time-purchases-on-Patreon), [Gumroad: tarifas](https://gumroad.com/pricing).
+
+El cálculo histórico de Patreon sobre USD 1, conservado en la investigación del 5 de octubre, es una ilustración aritmética del cargo fijo. No debe usarse como una compra actualmente disponible bajo el mínimo publicado en la guía consultada en esta revisión. Esta ampliación no actualiza todas las tarifas históricas ni verifica disponibilidad de cobro o liquidación para El Salvador.
+
+### Diferencias y brechas
+
+| Elemento de la propuesta | Base actual | Qué falta demostrar o desarrollar |
+|---|---|---|
+| Unidad con resultado propio | Texto, ejemplos, prácticas y soluciones en el catálogo | Revisión experta; utilidad sin exigir compras adicionales; material de otras áreas |
+| Compra granular | Ofertas por curso, capítulo, lección y recurso | Comprensión del alcance y preferencia frente a gratuito, conjunto o ninguna compra |
+| Continuidad por versión | Derechos, publicaciones y progreso históricos | Recuperación observada por usuarios, condiciones de acceso y costo de conservar versiones |
+| Pago en sats | Facturas LNbits y evidencias de entornos controlados | Recorrido integrado estable y comodidad para personas con distinta experiencia; no hay cobros reales acreditados |
+| Acompañamiento | Preguntas privadas y comunidad junto al contenido | Capacidad de respuesta, utilidad de aclaraciones y costo de atención |
+| Evidencia de aprendizaje | Evaluaciones y certificados por versión | Prácticas y criterios suficientes; la pregunta actual por curso no demuestra dominio |
+| Crecimiento hacia un conjunto | Se bloquea una oferta con componentes ya adquiridos | Diseñar y probar reconocimiento de compras previas; no hay descuento ni ampliación automática implementados |
+
+La regla de compra parcial se comprobó por lectura de `src/commerce/services.py` y `src/commerce/catalog.py`; no se ejecutó una nueva compra. Con el catálogo descrito, tres lecciones de 50 sats suman 150, frente a 120 por el curso. Tras adquirir una lección, hoy quedan dos compras de 50 y el paquete no puede comprarse. Esto puede penalizar empezar por una unidad; su efecto debe observarse con personas.
+
+Propuesta de diseño: permitir completar un conjunto reconociendo el importe elegible ya pagado por componentes incluidos. A modo de ejemplo, 120 menos 50 daría 70 sats pendientes, si las reglas futuras reconocieran ese pago. Antes de implementarlo hay que definir versión, composición, descuentos, tope y concurrencia, conservando el acceso existente. No anunciar esta transición como disponible.
+
+La ventaja sostenible que buscamos construir es un catálogo útil y mantenido por creadores con criterio educativo, respaldado por evidencia de resultados. No contamos todavía con red de creadores, demanda o resultados educativos que constituyan esa ventaja. Comunidad, certificados y estética ayudan a entregar el producto; ninguna acredita superioridad por sí sola.
+
+### Catálogo y captación
+
+Proponemos varias áreas con colecciones pequeñas y una misma exigencia de publicación. Bitcoin y Lightning se conserva; programación y herramientas de estudio o trabajo son candidatas para las siguientes colecciones iniciales. Son recomendaciones por validar, sin creación de contenido ni compromisos con instructores en esta revisión.
+
+Cada unidad debe explicar qué tarea resuelve, para quién sirve, qué requiere, qué incluye, qué práctica propone y cómo se revisará la respuesta. Una unidad puede necesitar contexto gratuito previo; debe explicarlo sin vender un fragmento que obligue a adquirir otros para cumplir su promesa. Los cursos mantienen recorridos amplios y los recursos independientes conservan su lugar.
+
+Los textos ligeros, ejemplos y prácticas permiten empezar sin asumir producción audiovisual extensa. El formato se elegirá según la tarea; no fijamos duración universal. Recomendamos organizar descubrimiento por necesidad y nivel, además de tema. La búsqueda por resultados, las rutas entre recursos y la entrega evaluada de proyectos requieren diseño; no se presentan como implementaciones.
+
+La captación inicial puede probarse con uno o pocos creadores por colección, materiales propios y una audiencia identificable. Esto ayuda a investigar oferta y distribución a la vez. Registrar origen de las visitas, esfuerzo de captación y compras efectivas cuando exista operación autorizada. No hay alianzas, contactos enviados ni costo de adquisición estimado.
+
+### Sostenibilidad
+
+Mantener gratuito y muestras junto con compra por unidades y conjuntos como modelo inicial. Evaluar una comisión sobre ventas para remunerar la plataforma y un reparto explícito al creador; porcentaje, liquidación y disponibilidad de servicios están pendientes. El MVP no calcula esa comisión ni distribuye ingresos. Una membresía puede evaluarse después si aparece uso recurrente y suficiente valor continuo.
+
+Para cada oferta, estimar en la misma moneda: ingreso por venta menos remuneración del creador, costos de pago, entrega esperada durante el acceso, revisión y soporte atribuibles. Para el conjunto de la plataforma, descontar también consumo gratuito, captación, infraestructura fija, mantenimiento y producción editorial propia. Evitar contabilizar dos veces remuneración y producción. El resultado debe soportar escenarios de ventas menores, uso repetido y más incidencias; un margen por venta no demuestra cubrir costos fijos.
+
+Los 50 y 120 sats son precios de prueba. Estimar primero el costo y el beneficio educativo de una unidad; luego investigar precio y modo de compra. No asumir que micropago significa el importe mínimo posible, ni que una comisión porcentual muy pequeña financiará revisión y soporte. Los sats deben seguir presentándose con claridad, y la comprensión de su valor se investigará antes de cambiar la interfaz.
+
+Conservar acceso por versión describe una regla del producto actual. Antes de operación pública hay que definir condiciones y recursos para sostenerlo; no convertirlo en una promesa ilimitada de servicio sin presupuesto. Revisar cómo atender dudas sobre materiales históricos y cómo separar actualización, corrección y nueva oferta.
+
+### Pruebas y decisiones
+
+Adaptar la ronda exploratoria ya propuesta de seis a diez alumnos y tres a cinco creadores a dos o tres áreas, documentando participantes por área y experiencia de pago. Esta distribución pequeña no permite comparar mercados ni estimar demanda. Reclutar por tareas recientes y alternativas utilizadas; no solo por afinidad con Bitcoin.
+
+| Pregunta | Prueba propuesta | Evidencia para decidir |
+|---|---|---|
+| ¿La unidad resuelve una necesidad real? | Relato reciente, elección entre alternativas y práctica delimitada | Resultado obtenido, errores y contenido adicional necesario; registrar casos donde no aporta |
+| ¿Se entiende qué se compra? | Explicar muestra, inclusiones, requisitos y precio antes del pago | Interpretación correcta y ayudas requeridas |
+| ¿El pago facilita o dificulta? | Recorrido con factura simulada, separando participantes por experiencia con wallets | Obstáculos, tiempo y ayudas; no confundir pago ficticio con disposición real a pagar |
+| ¿Se puede ampliar sin confusión? | Comparar regla actual con un prototipo de reconocimiento de compra previa | Comprensión del precio restante y del acceso, identificando el prototipo |
+| ¿El creador puede sostenerlo? | Preparar una unidad propia y estimar mantenimiento y atención | Tiempo real, derechos, costos y condiciones de remuneración esperadas |
+| ¿El nombre comunica amplitud? | Mostrar nombre y descripción sin explicar previamente el enfoque | Qué contenidos espera y si entiende que puede estudiar otras áreas |
+
+Registrar tareas de aplicación antes y después cuando corresponda, con criterios de corrección definidos por un especialista. No atribuir una mejora a la plataforma sin considerar contenido, dificultad y efecto de practicar. Si el material gratuito resuelve igual la tarea, investigar qué valor adicional justificaría la compra; permitir elegir ninguna oferta.
+
+Indicador educativo propuesto: tareas resueltas sin ayuda entre intentos válidos de la práctica definida, con cantidades, versión y nivel inicial. Complementarlo con explicación de la solución y necesidad de apoyo. No está instrumentado como indicador general y no equivale a acreditación. Para continuidad, proponer un seguimiento a 14 días sobre recuperación y reutilización; no es un resultado existente. Mantener los indicadores actuales de compra y biblioteca, sin convertir aperturas o certificados en prueba de aprendizaje.
+
+### Orden recomendado
+
+1. Estabilizar y ensayar el recorrido integrado de publicación, compra y acceso; las pruebas históricas no aprueban automáticamente el estado actual.
+2. Preparar colecciones pequeñas en varias áreas con revisión experta y prácticas suficientes.
+3. Ejecutar entrevistas y tareas observadas; contrastar alternativas, valor de la unidad y fricción del pago.
+4. Diseñar y probar la transición de unidad a conjunto y un presupuesto con remuneración y soporte.
+5. Ampliar catálogo y funciones según hallazgos. Dejar membresías, eventos y nuevas capas de certificación para necesidades demostradas.
+
+<a id="primer-ciclo-de-enfoque"></a>
+
+### Primer ciclo de mejora
+
+Proponemos empezar con tres unidades piloto en áreas distintas, usando el mismo criterio educativo y comercial. El público inicial por investigar es una persona que ya tiene una tarea de estudio o trabajo identificable y busca aplicarla. Esto concreta el uso inicial dentro de una plataforma abierta a distintas disciplinas; no limita el catálogo a un solo tema.
+
+Una unidad estará lista para probar cuando explique: necesidad y público; resultado esperado; requisitos y contexto disponible; muestra e inclusiones; práctica y criterio de corrección; precio y alcance de atención. Si depende de otros contenidos para cumplir su promesa, debe identificarlos y aclarar su acceso. Evaluar utilidad independiente no exige eliminar todos los requisitos previos.
+
+La lectura del catálogo editorial permite identificar estas candidatas actuales, sin afirmar que ya funcionen con alumnos:
+
+| Unidad actual | Resultado que propone | Revisión necesaria antes del piloto |
+|---|---|---|
+| Facturas Lightning: Proyecto de estados del recorrido | Diagrama textual con acciones ante pendiente, confirmación, vencimiento, indisponibilidad y pago tardío | Explicar los conceptos previos y revisar el razonamiento ante casos distintos del ejemplo |
+| Contenido con micropagos: Protección desde el servidor | Matriz de acceso por usuario y recurso | Definir criterios completos de corrección; distinguir diseñar permisos de implementarlos |
+| LNbits: Una prueba reproducible | Guion de prueba y caso sin proveedor | Presentar el resultado como diseño; para prometer ejecución hace falta una guía de entorno y evidencia observada |
+
+La primera candidata permite comenzar la revisión editorial del piloto existente. Para las otras áreas proponemos una unidad de programación, como resolver un conflicto sencillo de Git, y una de herramientas de trabajo, como resumir gastos por categoría en una hoja de cálculo. Son ejemplos por seleccionar con participantes y especialistas; no se ha producido ese material ni confirmado su demanda.
+
+Separar en los objetivos comprender, diseñar y ejecutar. Un esquema correcto puede demostrar comprensión o diseño; un laboratorio ejecutado requiere procedimiento, resultado y evidencia. El catálogo actual incluye ejercicios y soluciones, pero sus proyectos permiten entregas de diseño y no acreditan ejecución técnica del alumno. La única pregunta final por curso debe conservar su alcance introductorio, sin presentarse como evaluación de todo el resultado práctico.
+
+| Paso | Entrega concreta | Condición para avanzar |
+|---|---|---|
+| 1. Delimitar | Tres fichas de unidad con los criterios anteriores | Resultado y requisitos entendibles; cada área tiene revisión asignada |
+| 2. Revisar | Muestras, prácticas y criterios comprobados por especialistas | La promesa coincide con la actividad; las dependencias y derechos están claros |
+| 3. Ensayar | Recorrido estable de muestra, compra simulada, práctica y recuperación | Errores técnicos resueltos y versión identificada antes de observar usuarios |
+| 4. Observar | Sesiones de la ronda exploratoria propuesta, con alternativas y elección de ninguna compra | Registrar comprensión, resultados, ayudas y objeciones; corregir y volver a observar lo necesario |
+| 5. Decidir | Mantener, reformular o retirar cada unidad; priorizar cambios y estimar costos | Decisiones ligadas a evidencia; no usar intención o pago ficticio como ventas |
+
+Para alumnos, revisar tarea resuelta y recuperación del recurso; para creadores, tiempo de preparación, esfuerzo de atención y condiciones para mantenerlo. La fricción del pago se registra por separado del valor del contenido. Si alguien entiende la unidad pero no puede completar el pago, investigar el acceso a la wallet; si paga y no resuelve la tarea, revisar contenido, requisitos y práctica.
+
+El primer cambio comercial candidato sigue siendo reconocer compras previas al completar un conjunto. Probar su comprensión con un prototipo antes de implementar reglas de precio y concurrencia. La búsqueda por tarea puede ensayarse con títulos y fichas claros; un sistema nuevo de recomendaciones necesita evidencia de que el descubrimiento actual dificulta encontrar contenido pertinente.
+
+Antes de ampliar una función, identificar la dificultad observada, a quién afecta, el cambio mínimo y cómo se comprobará. Para decidir sobre una nueva colección, añadir responsable editorial, necesidad y costo de mantenimiento. Membresías, eventos y más capas de certificación permanecen detrás de este primer ciclo. Este orden es una recomendación de trabajo, sin fechas comprometidas ni actividades externas ejecutadas.
+
+<a id="desarrollo-del-enfoque"></a>
+
+### Desarrollo técnico del enfoque
+
+La primera entrega incorpora fichas educativas en lecciones, videos y materiales: resultado, requisitos, actividad, muestra pública y acompañamiento. Los formularios permiten guardar borradores incompletos; el envío y la publicación exigen completar la ficha, incluidos los recursos adjuntos. La revisión y las páginas de alumno utilizan los datos conservados en `ResourceVersion`, separados del texto y las soluciones protegidas.
+
+| Entrega | Estado y alcance |
+|---|---|
+| Fichas por unidad | Implementadas en editor, vista previa, revisión, lector, recursos y contenido incluido en ofertas |
+| Prácticas y descubrimiento | Pendientes: respuestas privadas, criterios versionados y búsqueda por resultado |
+| Completar conjuntos | Pendiente: cotización con compras elegibles, contenido faltante y tratamiento de pagos concurrentes |
+
+La migración `content.0006_educational_units` es aditiva. Se aplicó con respaldo y comparación de los valores de 616 filas anteriores en 64 tablas. Los nuevos campos históricos quedaron vacíos; los futuros envíos deben completarlos. El cargador editorial prepara las fichas para cursos nuevos y conserva los existentes. No se cambiaron catálogo publicado, precios, derechos o reglas de compra.
+
+Pasaron 319 pruebas, revisión estática, consistencia de migraciones y cinco controles de concurrencia. Después de los últimos ajustes se repitieron 32 pruebas de fichas y creadores. Se comprobaron congelación, cambios posteriores al envío, muestras escapadas, protección de cuerpos y transcripciones, borradores incompletos y conservación de datos. La advertencia `auth.W004` mantiene el motivo documentado. [Revisión](../src/docs/evidence/fichas-unidad-check-2026-10-13.txt), [migración](../src/docs/evidence/fichas-unidad-migracion-2026-10-13.txt).
+
+En navegador y con datos temporales se comprobó guardar, bloquear un envío incompleto, completar la ficha y enviar a revisión; la oferta publicada conservó sus requisitos. Se revisó la muestra en [escritorio](../src/docs/evidence/ficha-unidad-escritorio-2026-10-13.png) y [móvil](../src/docs/evidence/ficha-unidad-movil-2026-10-13.png), sin desbordamiento horizontal. No se repitió el pago desde ZEUS ni se realizaron sesiones educativas. Sigue pendiente revisar y publicar las fichas del catálogo existente y preparar unidades de otras áreas.
+
+Los originales de CUBO+ exigen el recorrido completo de micropagos y comparación de modelos; permiten pagos simulados y contenido educativo sin restringirlo a Bitcoin. La evaluación pide utilidad para el ecosistema de El Salvador. Comprar educación de otras áreas mediante Bitcoin es una aplicación propuesta de ese valor, cuya utilidad local debe comprobarse. Esta revisión no resuelve los pendientes de equipo, fechas oficiales, operación pública o validación externa.
 
 ## Consulta por tema
 
+- [Posicionamiento y validación](#posicionamiento-y-validacion)
 - [13-monetizacion-precios-y-muestras](#13-monetizacion-precios-y-muestras)
 - [16-validacion-con-usuarios](#16-validacion-con-usuarios)
 - [14-trazabilidad-y-backlog](#14-trazabilidad-y-backlog)
@@ -1361,7 +1514,7 @@ Cada oferta debe indicar exactamente qué entrega. Pertenecer a un curso no sign
 
 ### Público y validación
 
-El catálogo inicial se centra en Bitcoin y Lightning para personas que quieren aprender fundamentos y recorridos técnicos sin una suscripción. La primera colección se publica bajo el perfil editorial BTC.EDU, sin atribuirla a instructores ficticios. Los creadores preparan contenido y la administración revisa su publicación. La demanda, los precios y la preferencia entre comprar un curso o contenidos separados todavía deben validarse.
+El enfoque vigente es educación de distintas áreas desde el inicio, orientada a necesidades prácticas. El catálogo publicado se centra todavía en Bitcoin y Lightning y es la primera colección bajo el perfil editorial BTC.EDU, sin atribuirla a instructores ficticios. Los creadores preparan contenido y la administración revisa su publicación. La ampliación temática, la demanda, los precios y la preferencia entre comprar un curso o contenidos separados todavía deben validarse. [Orientación, comparación y pruebas propuestas](#posicionamiento-y-validacion).
 
 La [comparación de modelos](investigacion-y-requisitos.md#13-monetizacion-precios-y-muestras) está documentada con precios externos, procesamiento y video. La hipótesis principal conserva contenido gratuito/muestras + compras individuales; evaluar membresías para uso frecuente. Los modelos pueden combinarse. No hay demanda ni precios validados.
 

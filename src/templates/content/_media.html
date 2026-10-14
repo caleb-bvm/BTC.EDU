@@ -1,5 +1,5 @@
 <section class="media-panel learning-section">
-  {% if not media.standalone %}<h2>{{ media.title }}</h2>{% endif %}
+  {% if not media.standalone %}<h2>{{ media.title }}</h2>{% include 'content/_education.html' with unit=media.unit %}{% endif %}
   {% if media.allowed %}
     {% if media.file_url %}
       {% if media.kind == 'video' %}

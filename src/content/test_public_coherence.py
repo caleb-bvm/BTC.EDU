@@ -9,6 +9,7 @@ from django.db.models.deletion import ProtectedError
 from django.test import TestCase, TransactionTestCase, override_settings
 from django.urls import reverse
 
+from content.testing import EDUCATION_FIXTURE
 from creators.models import CreatorProfile
 from creators.services import decide, submit
 from learning.certificates import issue_certificate
@@ -36,12 +37,12 @@ class PublicContentCoherenceTests(TestCase):
         self.asset = Asset.objects.create(creator=self.creator, file=SimpleUploadedFile("guia.txt", b"Material educativo", content_type="text/plain"))
 
     def resource(self, topic=None):
-        return Material.objects.create(creator=self.creator, title="Guía pública", description="Material revisado", topic=topic, pending_asset=self.asset)
+        return Material.objects.create(**EDUCATION_FIXTURE, creator=self.creator, title="Guía pública", description="Material revisado", topic=topic, pending_asset=self.asset)
 
     def test_public_creator_identity_is_consistent_while_certificate_keeps_historical_credit(self):
         course = Course.objects.create(creator=self.creator, title="Curso revisado", description="Aprende Bitcoin")
         chapter = Chapter.objects.create(course=course, title="Inicio", status="published")
-        lesson = Lesson.objects.create(chapter=chapter, title="Primera lección", body="Contenido educativo", status="published")
+        lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Primera lección", body="Contenido educativo", status="published")
         policy = CertificateDraft.objects.create(course=course, enabled=True)
         policy.required_lessons.set([lesson])
         version = publish_course(course, self.admin)

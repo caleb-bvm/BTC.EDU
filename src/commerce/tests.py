@@ -12,6 +12,7 @@ from django.urls import reverse
 from content.access import content_access
 from content.models import Chapter, Course, Lesson, LessonResource, Material
 from content.publication import publish_course, publish_resource
+from content.testing import EDUCATION_FIXTURE
 from creators.models import CreatorProfile
 from creators.services import submit
 from learning.models import Enrollment
@@ -109,11 +110,11 @@ class CommerceJourneyTests(TestCase):
         self.other = users.create_user("other@example.invalid")
         self.course = Course.objects.create(creator=self.creator, title="Curso de pruebas", description="Descripción")
         chapter = Chapter.objects.create(course=self.course, title="Capítulo", status="published")
-        self.free = Lesson.objects.create(chapter=chapter, title="Introducción", body="Texto gratuito", status="published", position=1)
-        self.lesson = Lesson.objects.create(chapter=chapter, title="Primera práctica", body="Texto comprado original", access_type="paid", status="published", position=2)
-        self.second = Lesson.objects.create(chapter=chapter, title="Segunda práctica", body="Otro texto privado", access_type="paid", status="published", position=3)
+        self.free = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Introducción", body="Texto gratuito", status="published", position=1)
+        self.lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Primera práctica", body="Texto comprado original", access_type="paid", status="published", position=2)
+        self.second = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Segunda práctica", body="Otro texto privado", access_type="paid", status="published", position=3)
         asset = Asset.objects.create(creator=self.creator, file=SimpleUploadedFile("ejercicio.txt", b"Material comprado", content_type="text/plain"))
-        self.material = Material.objects.create(creator=self.creator, title="Ejercicio", description="Material", access_type="paid", pending_asset=asset)
+        self.material = Material.objects.create(**EDUCATION_FIXTURE, creator=self.creator, title="Ejercicio", description="Material", access_type="paid", pending_asset=asset)
         self.resource = publish_resource(self.material, self.admin)
         LessonResource.objects.create(lesson=self.lesson, resource=self.resource)
         self.version = publish_course(self.course, self.admin)

@@ -10,6 +10,7 @@ from django.urls import reverse
 from commerce.models import Entitlement
 from content.models import Chapter, Course, Lesson, VersionLesson
 from content.publication import publish_course
+from content.testing import EDUCATION_FIXTURE
 from creators.models import CreatorProfile
 
 from .community import follow_thread, moderate, post_message, report_message
@@ -31,7 +32,7 @@ class LessonDiscussionTests(TestCase):
         self.course = Course.objects.create(creator=self.creator, title="Curso de conversaciones")
         chapter = Chapter.objects.create(course=self.course, title="Inicio", status="published")
         for position, access_type in enumerate(("free", "free", "paid"), 1):
-            Lesson.objects.create(chapter=chapter, position=position, title=f"Lección {position}", body=f"Contenido {position}", access_type=access_type, status="published")
+            Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, position=position, title=f"Lección {position}", body=f"Contenido {position}", access_type=access_type, status="published")
         self.version = publish_course(self.course, self.admin)
         self.lessons = list(VersionLesson.objects.filter(chapter__version=self.version).select_related("content", "chapter__version__course"))
         self.lesson, self.other, self.paid = self.lessons

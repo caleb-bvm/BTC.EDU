@@ -25,6 +25,7 @@ def run():
 
         from content.models import Chapter, Course, Lesson
         from content.publication import publish_course
+        from content.testing import EDUCATION_FIXTURE
         from creators.models import CreatorProfile
         from learning.community import post_message, report_message
         from learning.services import enroll
@@ -37,7 +38,7 @@ def run():
         admin = users.create_superuser("admin@community.invalid", password="CommunityQA_42!")
         course = Course.objects.create(creator=creator, title="Fundamentos de micropagos", description="Aprende y comparte")
         chapter = Chapter.objects.create(course=course, title="Inicio", status="published")
-        Lesson.objects.create(chapter=chapter, title="Introducción", body="Texto educativo", status="published")
+        Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Introducción", body="Texto educativo", status="published")
         version = publish_course(course, admin)
         enroll(student, version)
         root = post_message(student, version, "¿Cómo explicarías la diferencia entre comprar una lección y comprar el curso completo?", uuid4())

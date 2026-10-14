@@ -90,7 +90,18 @@ class Chapter(Publication):
         constraints = [models.UniqueConstraint(fields=("course", "position"), name="unique_chapter_position")]
 
 
-class Lesson(Publication):
+class EducationalUnit(models.Model):
+    learning_outcome = models.TextField("qué aprenderá el alumno", blank=True, help_text="Describe un resultado concreto que esta unidad permite conseguir.")
+    requirements = models.TextField("antes de empezar", blank=True, help_text="Indica conocimientos, herramientas y contenidos previos; si no se necesitan, dilo.")
+    activity_kind = models.CharField("qué hará el alumno", max_length=12, blank=True, choices=(("understand", "Comprender"), ("design", "Diseñar"), ("execute", "Realizar una práctica")))
+    public_preview = models.TextField("muestra pública", blank=True, help_text="Este texto se muestra antes de comprar. Escribe una muestra que pueda compartirse públicamente.")
+    support_scope = models.TextField("acompañamiento", blank=True, help_text="Explica cómo se pueden resolver dudas y qué atención incluye la unidad.")
+
+    class Meta:
+        abstract = True
+
+
+class Lesson(Publication, EducationalUnit):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name="lessons", verbose_name="capítulo")
     position = models.PositiveIntegerField("orden", default=1)
     access_type = models.CharField("acceso", max_length=8, choices=AccessType, default=AccessType.FREE)
@@ -104,7 +115,7 @@ class Lesson(Publication):
         constraints = [models.UniqueConstraint(fields=("chapter", "position"), name="unique_lesson_position")]
 
 
-class StandaloneResource(Publication):
+class StandaloneResource(Publication, EducationalUnit):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name="creador")
     access_type = models.CharField("acceso", max_length=8, choices=AccessType, default=AccessType.FREE)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="tema")
@@ -148,7 +159,7 @@ class ExternalReference(Publication):
         verbose_name_plural = "referencias externas"
 
 
-class ResourceVersion(FrozenRecord):
+class ResourceVersion(FrozenRecord, EducationalUnit):
     resource_key = models.UUIDField(default=uuid.uuid4)
     number = models.PositiveIntegerField(default=1)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)

@@ -14,6 +14,7 @@ from django.urls import reverse
 
 from content.models import Chapter, Course, Lesson
 from content.publication import publish_course
+from content.testing import EDUCATION_FIXTURE
 from creators.models import CreatorProfile
 from creators.services import decide, submit
 
@@ -51,8 +52,8 @@ class EssentialTests(TestCase):
         CreatorProfile.objects.create(user=self.other_creator, display_name="Otro docente", status="approved")
         self.course = Course.objects.create(creator=self.creator, title="Curso esencial", description="Descripción")
         chapter = Chapter.objects.create(course=self.course, title="Inicio", status="published")
-        self.lesson = Lesson.objects.create(chapter=chapter, title="Lección obligatoria", body="Texto", status="published")
-        self.optional = Lesson.objects.create(chapter=chapter, title="Lección opcional", body="Texto", status="published", position=2)
+        self.lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Lección obligatoria", body="Texto", status="published")
+        self.optional = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Lección opcional", body="Texto", status="published", position=2)
         self.policy = CertificateDraft.objects.create(course=self.course, enabled=True)
         self.policy.required_lessons.add(self.lesson)
         self.draft = QuizDraft.objects.create(lesson=self.lesson, title="Evaluación", questions=[{"prompt": "Elige A", "multiple": False, "options": ["A", "B"], "correct": [0], "explanation": "A"}])

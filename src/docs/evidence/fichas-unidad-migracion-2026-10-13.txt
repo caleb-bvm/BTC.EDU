@@ -1,0 +1,7 @@
+Operations to perform:
+  Apply all migrations: accounts, admin, auth, commerce, content, contenttypes, core, creators, learning, media, sessions
+Running migrations:
+  Applying content.0006_educational_units... OK
+Backup: C:\Users\caleb\Documents\Estudios\CUBO +\Micropayments\src\.local\platform-before-educational-units-20261013-190305-993775.sqlite3
+Preserved: 64 existing tables and 616 original rows and values.
+Historical educational fields remain empty.

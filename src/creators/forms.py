@@ -1,10 +1,17 @@
 from django import forms
 from django.db.models import Q
 
+from content.education import EDUCATION_FIELDS
 from content.models import Chapter, Course, Lesson, Material, ResourceVersion, Video
 from media.models import Asset
 
 from .models import CreatorProfile
+
+
+def education_widgets(form):
+    for field in EDUCATION_FIELDS:
+        if field != "activity_kind":
+            form.fields[field].widget = forms.Textarea(attrs={"rows": 3})
 
 
 class ProfileForm(forms.ModelForm):
@@ -48,7 +55,7 @@ class LessonForm(forms.ModelForm):
 
     class Meta:
         model = Lesson
-        fields = ("title", "description", "body", "access_type", "position", "status")
+        fields = ("title", "description", *EDUCATION_FIELDS, "body", "access_type", "position", "status")
 
     def clean_position(self):
         position = self.cleaned_data["position"]
@@ -58,6 +65,7 @@ class LessonForm(forms.ModelForm):
 
     def __init__(self, *args, actor, **kwargs):
         super().__init__(*args, **kwargs)
+        education_widgets(self)
         # Only approved current revisions can be attached to an educational draft.
         video_ids = Video.objects.filter(creator=actor, revision__isnull=False).values_list("revision_id", flat=True)
         material_ids = Material.objects.filter(creator=actor, revision__isnull=False).values_list("revision_id", flat=True)
@@ -71,10 +79,11 @@ class LessonForm(forms.ModelForm):
 class ResourceForm(forms.ModelForm):
     class Meta:
         model = Video
-        fields = ("title", "description", "topic", "access_type", "pending_asset", "pending_subtitles", "transcript")
+        fields = ("title", "description", *EDUCATION_FIELDS, "topic", "access_type", "pending_asset", "pending_subtitles", "transcript")
 
     def __init__(self, *args, actor, **kwargs):
         super().__init__(*args, **kwargs)
+        education_widgets(self)
         kind = "video" if isinstance(self.instance, Video) else "material"
         self.fields["pending_asset"].queryset = Asset.objects.filter(creator=actor, kind=kind)
         self.fields["pending_asset"].required = True

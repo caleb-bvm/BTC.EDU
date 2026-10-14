@@ -4,6 +4,8 @@ from django.db import IntegrityError, transaction
 from django.test import TestCase
 from django.urls import reverse
 
+from content.testing import EDUCATION_FIXTURE
+
 from .access import content_access
 from .models import (
     AccessType,
@@ -23,7 +25,7 @@ class ContentTests(TestCase):
         cls.other = get_user_model().objects.create_user("other@example.com", is_staff=True)
         cls.course = Course.objects.create(title="Curso de prueba", creator=cls.creator, status=PublicationStatus.PUBLISHED)
         cls.chapter = Chapter.objects.create(title="Capítulo", course=cls.course, status=PublicationStatus.PUBLISHED)
-        cls.lesson = Lesson.objects.create(title="Lección", chapter=cls.chapter, body="Texto protegido", status=PublicationStatus.PUBLISHED)
+        cls.lesson = Lesson.objects.create(**EDUCATION_FIXTURE, title="Lección", chapter=cls.chapter, body="Texto protegido", status=PublicationStatus.PUBLISHED)
 
     def test_published_free_lesson_is_delivered_without_login(self):
         response = self.client.get(reverse("lesson-content", args=[self.lesson.pk]))
@@ -72,7 +74,7 @@ class ContentTests(TestCase):
         self.assertFalse(content_access(self.creator, self.lesson).allowed)
 
     def test_free_lesson_does_not_inherit_paid_sibling(self):
-        Lesson.objects.create(title="Extra", chapter=self.chapter, position=2, access_type=AccessType.PAID, status=PublicationStatus.PUBLISHED)
+        Lesson.objects.create(**EDUCATION_FIXTURE, title="Extra", chapter=self.chapter, position=2, access_type=AccessType.PAID, status=PublicationStatus.PUBLISHED)
         self.assertTrue(content_access(AnonymousUser(), self.lesson).allowed)
 
     def test_standalone_resources_follow_publication_and_access(self):
@@ -89,7 +91,7 @@ class ContentTests(TestCase):
         with self.assertRaises(IntegrityError), transaction.atomic():
             Chapter.objects.create(title="Duplicado", course=self.course, position=1)
         with self.assertRaises(IntegrityError), transaction.atomic():
-            Lesson.objects.create(title="Duplicada", chapter=self.chapter, position=1)
+            Lesson.objects.create(**EDUCATION_FIXTURE, title="Duplicada", chapter=self.chapter, position=1)
 
     def test_content_endpoint_only_accepts_get_and_handles_missing_lesson(self):
         self.assertEqual(self.client.post(reverse("lesson-content", args=[self.lesson.pk])).status_code, 405)

@@ -77,7 +77,10 @@ class Command(BaseCommand):
                                                       description="Lee la explicación, resuelve la práctica y compara tu respuesta.",
                                                       body=data["body"] + f"\n\nPara profundizar\n{item['source']}",
                                                       position=offset + 1, status="published",
-                                                      access_type="paid" if item["price"] and position else "free")
+                                                      access_type="paid" if item["price"] and position else "free",
+                                                      learning_outcome=data["learning_outcome"], requirements=item["requirements"],
+                                                      activity_kind=data["activity_kind"], public_preview=data["public_preview"],
+                                                      support_scope="Practica con el ejemplo y compara tu respuesta con la solución. Las preguntas y conversaciones se mantienen dentro de la plataforma, sin un plazo de respuesta garantizado.")
                         lessons.append(entry)
                 prompt, answers, explanation = item["question"]
                 quiz = QuizDraft(lesson=lessons[-1], title="Comprueba lo aprendido", enabled=True, pass_mark=100,

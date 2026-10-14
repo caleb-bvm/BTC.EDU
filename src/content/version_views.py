@@ -9,6 +9,7 @@ from django.views.decorators.http import require_GET, require_http_methods, requ
 from media.delivery import file_response
 
 from .access import content_access
+from .education import education_values
 from .identity import public_creator_name
 from .models import (
     Chapter,
@@ -43,7 +44,7 @@ def version_course(version):
         chapter = Chapter(title=stored.title, description=stored.description, course=course, position=stored.position, status=PublicationStatus.PUBLISHED)
         chapter.visible_lessons = []
         for record in stored.lessons.all():
-            lesson = Lesson(pk=record.source_lesson_id, chapter=chapter, position=record.position, title=record.content.title, description=record.content.description, body="", access_type=record.content.access_type, status=PublicationStatus.PUBLISHED)
+            lesson = Lesson(pk=record.source_lesson_id, chapter=chapter, position=record.position, title=record.content.title, description=record.content.description, body="", access_type=record.content.access_type, status=PublicationStatus.PUBLISHED, **education_values(record.content))
             lesson.detail_url = reverse("version-lesson", args=[course.pk, version.number, record.pk])
             lesson.version_record = record
             chapter.visible_lessons.append(lesson)
@@ -78,7 +79,7 @@ def attachment_cards(request, attachments):
     for attachment in attachments:
         resource = attachment.resource
         allowed = content_access(request.user, attachment).allowed
-        cards.append({"title": resource.title, "kind": resource.kind, "allowed": allowed,
+        cards.append({"title": resource.title, "kind": resource.kind, "allowed": allowed, "unit": resource,
                       "size": resource.asset.size, "mime": resource.asset.mime_type,
                       "body": resource.body if allowed else "",
                       "file_url": reverse("attachment-file", args=[attachment.pk, "archivo"]) if allowed and resource.asset.file.storage.exists(resource.asset.file.name) else "",

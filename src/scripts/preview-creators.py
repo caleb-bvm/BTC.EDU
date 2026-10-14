@@ -39,6 +39,7 @@ from content.models import (  # noqa: E402
     Video,
 )
 from content.publication import publish_course, publish_resource  # noqa: E402
+from content.testing import EDUCATION_FIXTURE  # noqa: E402
 from creators.models import CreatorProfile  # noqa: E402
 from creators.services import decide, submit  # noqa: E402
 from media.models import Asset  # noqa: E402
@@ -68,13 +69,13 @@ def populate():
     clip = Asset.objects.create(creator=creator, file=SimpleUploadedFile("video-de-prueba.mp4", (SRC_ROOT / "media/fixtures/white.mp4").read_bytes(), content_type="video/mp4"))
     captions = Asset.objects.create(creator=creator, file=SimpleUploadedFile("subtitulos.vtt", b"WEBVTT\n\n00:00.000 --> 00:05.000\nContenido temporal de prueba.\n", content_type="text/vtt"))
     guide = Asset.objects.create(creator=creator, file=SimpleUploadedFile("guia-de-practica.txt", b"Guia temporal: escribe tu objetivo y prepara una practica.", content_type="text/plain"))
-    video = Video.objects.create(creator=creator, title="Una idea, paso a paso", description="Video temporal para comprobar carga, revisión y reproducción.", pending_asset=clip, pending_subtitles=captions, transcript="Esta es una transcripción de prueba.")
-    material = Material.objects.create(creator=creator, title="Guía de práctica", description="Ejercicio temporal para acompañar la primera lección.", pending_asset=guide)
+    video = Video.objects.create(**EDUCATION_FIXTURE, creator=creator, title="Una idea, paso a paso", description="Video temporal para comprobar carga, revisión y reproducción.", pending_asset=clip, pending_subtitles=captions, transcript="Esta es una transcripción de prueba.")
+    material = Material.objects.create(**EDUCATION_FIXTURE, creator=creator, title="Guía de práctica", description="Ejercicio temporal para acompañar la primera lección.", pending_asset=guide)
     for resource in (video, material):
         publish_resource(resource, reviewer)
     course = Course.objects.create(creator=creator, title="Bitcoin desde sus fundamentos", description="Comprende las piezas principales de Bitcoin y practica a tu ritmo.", objective="Explicar los conceptos básicos y relacionarlos con un ejemplo.", requirements="Curiosidad y un navegador.", topic=topic, level="beginner", estimated_minutes=90)
     chapter = Chapter.objects.create(course=course, title="Una base para empezar", status="published")
-    lesson = Lesson.objects.create(chapter=chapter, title="El punto de partida", body="Antes de empezar, escribe lo que quieres aprender.\n\nObserva cada pieza y explica con tus palabras cómo se relaciona con las demás.", status="published")
+    lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="El punto de partida", body="Antes de empezar, escribe lo que quieres aprender.\n\nObserva cada pieza y explica con tus palabras cómo se relaciona con las demás.", status="published")
     for position, resource in enumerate((video, material), 1):
         LessonResource.objects.create(lesson=lesson, resource=resource.revision, position=position)
     publish_course(course, reviewer)
@@ -83,7 +84,7 @@ def populate():
     submit(course, creator)
     draft = Course.objects.create(creator=creator, kind="tutorial", title="Prepara tu entorno de desarrollo", description="Completa una tarea concreta, paso a paso.")
     draft_chapter = Chapter.objects.create(course=draft, title="Primeros pasos", status="published")
-    Lesson.objects.create(chapter=draft_chapter, title="Revisa tus herramientas", body="Comprueba tu navegador y organiza tus archivos de práctica.", status="published")
+    Lesson.objects.create(**EDUCATION_FIXTURE, chapter=draft_chapter, title="Revisa tus herramientas", body="Comprueba tu navegador y organiza tus archivos de práctica.", status="published")
     returned = submit(draft, creator)
     decide(returned, reviewer, False, "Explica qué herramientas necesita el alumno antes de comenzar.")
     submit(video, creator)

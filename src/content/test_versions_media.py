@@ -10,6 +10,7 @@ from django.db.models.deletion import ProtectedError
 from django.test import TestCase, TransactionTestCase, override_settings
 from django.urls import reverse
 
+from content.testing import EDUCATION_FIXTURE
 from media.models import Asset
 
 from .models import (
@@ -43,13 +44,13 @@ class VersionMediaTests(TestCase):
         self.staff = get_user_model().objects.create_superuser("reviewer@example.invalid", "local-test-password")
         self.course = Course.objects.create(title="Título publicado", creator=self.creator, status=PublicationStatus.PUBLISHED)
         self.chapter = Chapter.objects.create(course=self.course, title="Capítulo", status=PublicationStatus.PUBLISHED)
-        self.lesson = Lesson.objects.create(chapter=self.chapter, title="Lección", body="Texto inicial", status=PublicationStatus.PUBLISHED)
+        self.lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=self.chapter, title="Lección", body="Texto inicial", status=PublicationStatus.PUBLISHED)
 
     def asset(self, name="guide.txt", data=b"Material original", creator=None, mime="text/plain"):
         return Asset.objects.create(creator=creator or self.creator, file=SimpleUploadedFile(name, data, content_type=mime))
 
     def material(self, access=AccessType.FREE):
-        resource = Material.objects.create(creator=self.creator, title="Material publicado", pending_asset=self.asset(), access_type=access)
+        resource = Material.objects.create(**EDUCATION_FIXTURE, creator=self.creator, title="Material publicado", pending_asset=self.asset(), access_type=access)
         revision = publish_resource(resource, self.staff)
         resource.refresh_from_db()
         return resource, revision
@@ -58,7 +59,7 @@ class VersionMediaTests(TestCase):
         data = (Path(__file__).resolve().parent.parent / "media/fixtures/white.mp4").read_bytes()
         asset = self.asset("clip.mp4", data, mime="video/mp4")
         captions = self.asset("captions.vtt", b"WEBVTT\n\n00:00.000 --> 00:01.000\nEjemplo\n", mime="text/vtt")
-        resource = Video.objects.create(creator=self.creator, title="Video", pending_asset=asset, pending_subtitles=captions, transcript="Transcripción de prueba")
+        resource = Video.objects.create(**EDUCATION_FIXTURE, creator=self.creator, title="Video", pending_asset=asset, pending_subtitles=captions, transcript="Transcripción de prueba")
         revision = publish_resource(resource, self.staff)
         resource.refresh_from_db()
         return resource, revision
@@ -121,7 +122,7 @@ class VersionMediaTests(TestCase):
         resource, revision = self.material()
         LessonResource.objects.create(lesson=self.lesson, resource=revision)
         # A second lesson lacks content. No partially published version survives.
-        Lesson.objects.create(chapter=self.chapter, title="Vacía", position=2, status=PublicationStatus.PUBLISHED)
+        Lesson.objects.create(**EDUCATION_FIXTURE, chapter=self.chapter, title="Vacía", position=2, status=PublicationStatus.PUBLISHED)
         with self.assertRaises(ValidationError):
             publish_course(self.course, self.staff)
         self.assertEqual(CourseVersion.objects.count(), 0)
@@ -150,7 +151,7 @@ class VersionMediaTests(TestCase):
 
     def test_missing_unpublished_lesson_does_not_fall_back_to_mutable_text(self):
         publish_course(self.course, self.staff)
-        extra = Lesson.objects.create(chapter=self.chapter, title="Nueva", body="Texto no publicado", position=2, status=PublicationStatus.PUBLISHED)
+        extra = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=self.chapter, title="Nueva", body="Texto no publicado", position=2, status=PublicationStatus.PUBLISHED)
         self.assertEqual(self.client.get(reverse("lesson-detail", args=[extra.pk])).status_code, 404)
         self.assertEqual(self.client.get(reverse("lesson-content", args=[extra.pk])).status_code, 404)
 
@@ -290,7 +291,7 @@ class VersionMediaTests(TestCase):
         response = self.client.post(reverse("admin:media_asset_add"), {"creator": self.creator.pk, "file": SimpleUploadedFile("guide.txt", b"admin upload", content_type="text/plain"), "_save": "Guardar"})
         self.assertEqual(response.status_code, 302)
         asset = Asset.objects.get()
-        resource = Material.objects.create(title="Adjunto", creator=self.creator, pending_asset=asset)
+        resource = Material.objects.create(**EDUCATION_FIXTURE, title="Adjunto", creator=self.creator, pending_asset=asset)
         response = self.client.post(reverse("admin:content_material_changelist"), {"action": "publish_revision", "_selected_action": resource.pk, "index": 0})
         self.assertEqual(response.status_code, 302)
         resource.refresh_from_db()

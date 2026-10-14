@@ -6,12 +6,11 @@ Estas instrucciones conservan las preferencias expresadas por el usuario para el
 
 - El usuario es de El Salvador. Usar El Salvador como contexto del proyecto y evitar atribuirle otro país por la zona horaria del entorno.
 - La zona horaria de la aplicación es `America/El_Salvador`.
-- El trabajo de documentación se realiza en `business/teorica`. Revisar la rama y el estado del repositorio antes de realizar cambios; no asumir el nombre de la rama de desarrollo ni cambiar de rama sin considerar la tarea vigente.
+- Documentar solo lo esencial en los archivos `.md` existentes de `strategy` y `src/docs`. Revisar la rama y el estado del repositorio antes de realizar cambios; no asumir el nombre de la rama de desarrollo ni cambiar de rama sin considerar la tarea vigente.
 
 ## Documento del proyecto
 
-- El usuario lleva el documento principal de BTC.EDU en Google Docs y añade el contenido manualmente. Entregar texto listo para copiar; no editar Google Docs directamente salvo una nueva petición explícita.
-- El usuario reportó que copiar la vista del archivo produce viñetas en Google Docs. Entregar el contenido principal también directamente en un bloque de escritura, con títulos sencillos y párrafos, sin listas ni tablas. Mantener una exportación de texto plano en `strategy/BTC-EDU-para-Google-Docs.txt`; no depender únicamente de un enlace al Markdown para entregarle texto copiable.
+- Actualizar los documentos Markdown existentes; no generar exportaciones TXT ni entregas para Google Docs salvo una nueva petición explícita. No editar Google Docs directamente salvo petición explícita.
 - Tratarlo como un documento investigativo completo y vivo, que acompañará el proyecto a largo plazo.
 - Usar títulos y subtítulos naturales y breves. Por ejemplo, «Resumen» en lugar de «Resumen ejecutivo».
 - No incluir por defecto campos de país, caso de estudio, fecha de actualización, estado, equipo o repositorio en el documento principal. El usuario los añadirá si los necesita. Esta preferencia no elimina fechas y referencias necesarias para las evidencias técnicas o la bitácora.
@@ -24,7 +23,7 @@ Estas instrucciones conservan las preferencias expresadas por el usuario para el
 - En la interfaz del producto, evitar banners y textos técnicos sobre desarrollo, demostración, saldo de prueba, regtest o wallets específicas. Explicar el entorno en documentación o durante la presentación, sin distraer al usuario o evaluador dentro de la aplicación. Mostrar los precios únicamente como cantidad y sats; no añadir «Pago único». La comprobación automática del pago debe ser silenciosa; mostrar mensajes cuando exista un error que requiera una acción.
 
 - Cada entrega de desarrollo debe incluir una revisión de la documentación afectada: comportamiento, decisiones, recorridos, pruebas, límites y próximos pasos.
-- Para el documento de Google Docs, indicar qué sección reemplazar o añadir y entregar el texto completo correspondiente. Revisar las otras secciones cuando un cambio las afecte.
+- Actualizar únicamente las secciones afectadas y revisar otras secciones cuando sea necesario para mantener la coherencia.
 - Mantener el estado actual separado del historial de cambios. La bitácora debe conservar fechas, versión o commit y evidencias reales; no crear actividad retroactiva.
 - Antes de la entrega final, consolidar un documento que corresponda a la versión efectivamente demostrada.
 
@@ -36,5 +35,6 @@ Estas instrucciones conservan las preferencias expresadas por el usuario para el
 
 ## Consolidación documental
 
-- Mantener un máximo de cuatro archivos principales entre `strategy` y `src/docs`: informe, exportación TXT, investigación y requisitos, operación y bitácora. Actualizar sus secciones en lugar de crear informes por entrega.
+- Escribir `src/docs/operacion-y-bitacora.md` en primera persona, con un tono natural, como si lo escribiera el usuario. Sintetizar todo el contenido y usar una estructura sencilla que separe operación, decisiones, pendientes e historial por día. En los registros incluir solo la fecha del día, sin país, hora ni zona horaria; conservar las referencias técnicas necesarias y las evidencias reales. Aplicar estas preferencias a futuras actualizaciones de la bitácora.
+- Mantener los tres documentos `.md` principales existentes entre `strategy` y `src/docs`: informe, investigación y requisitos, operación y bitácora. Actualizar sus secciones con lo esencial en lugar de crear informes por entrega. La exportación TXT existente se conserva como antecedente y no requiere actualización.
 - Las fuentes CUBO+ y las evidencias originales se conservan aparte. Los documentos de origen integrados son antecedentes; consultar el estado actual y las entregas fechadas antes de interpretar sus pendientes.

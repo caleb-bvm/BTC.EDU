@@ -31,6 +31,7 @@ def run():
 
         from content.models import Chapter, Course, Lesson, VersionLesson
         from content.publication import publish_course
+        from content.testing import EDUCATION_FIXTURE
         from creators.models import CreatorProfile
         from learning.community import post_message
         from learning.lesson_discussion import lesson_url
@@ -45,8 +46,8 @@ def run():
         admin = users.create_superuser("admin@lesson.invalid", password="LessonQA_42!")
         course = Course.objects.create(creator=creator, title="Bitcoin a tu ritmo", description="Comprende cómo funcionan los pagos y comparte lo que aprendes.")
         chapter = Chapter.objects.create(course=course, title="Primeros pasos", status="published")
-        Lesson.objects.create(chapter=chapter, title="¿Qué hace diferente a Bitcoin?", body="Bitcoin permite transferir valor entre personas.\n\nCada pago puede verificarse sin depender de una sola institución.\n\nAntes de avanzar, piensa en una situación en la que te gustaría pagar por un contenido específico.", status="published")
-        Lesson.objects.create(chapter=chapter, position=2, title="Entender Lightning", body="Contenido protegido de la segunda lección.", access_type="paid", status="published")
+        Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="¿Qué hace diferente a Bitcoin?", body="Bitcoin permite transferir valor entre personas.\n\nCada pago puede verificarse sin depender de una sola institución.\n\nAntes de avanzar, piensa en una situación en la que te gustaría pagar por un contenido específico.", status="published")
+        Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, position=2, title="Entender Lightning", body="Contenido protegido de la segunda lección.", access_type="paid", status="published")
         version = publish_course(course, admin)
         for user in (student, peer):
             enroll(user, version)

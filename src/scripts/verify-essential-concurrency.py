@@ -23,6 +23,7 @@ def run():
 
         from content.models import Chapter, Course, Lesson
         from content.publication import publish_course
+        from content.testing import EDUCATION_FIXTURE
         from creators.models import CreatorProfile
         from learning.certificates import issue_certificate
         from learning.models import (
@@ -43,7 +44,7 @@ def run():
         CreatorProfile.objects.create(user=creator, status="approved", display_name="Docente")
         course = Course.objects.create(creator=creator, title="Certificados", description="Concurrencia")
         chapter = Chapter.objects.create(course=course, title="Inicio", status="published")
-        lesson = Lesson.objects.create(chapter=chapter, title="Lección", body="Texto", status="published")
+        lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Lección", body="Texto", status="published")
         policy = CertificateDraft.objects.create(course=course, enabled=True)
         policy.required_lessons.add(lesson)
         version = publish_course(course, admin)

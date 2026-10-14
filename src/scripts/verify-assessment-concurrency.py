@@ -23,6 +23,7 @@ def run():
 
         from content.models import Chapter, Course, Lesson
         from content.publication import publish_course
+        from content.testing import EDUCATION_FIXTURE
         from creators.models import CreatorProfile
         from learning.assessment_services import (
             grant_attempt,
@@ -40,7 +41,7 @@ def run():
         CreatorProfile.objects.create(user=creator, display_name="Docente", status="approved")
         course = Course.objects.create(creator=creator, title="Concurrencia", description="Prueba")
         chapter = Chapter.objects.create(course=course, title="Inicio", status="published")
-        lesson = Lesson.objects.create(chapter=chapter, title="Lección", body="Texto", status="published")
+        lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Lección", body="Texto", status="published")
         QuizDraft.objects.create(lesson=lesson, title="Evaluación", max_attempts=1, questions=[{"prompt": "Elige A", "multiple": False, "options": ["A", "B"], "correct": [0], "explanation": "A"}])
         version = publish_course(course, reviewer)
         quiz = version.chapters.first().lessons.first().quiz

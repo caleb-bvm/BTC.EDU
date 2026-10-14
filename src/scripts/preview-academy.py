@@ -43,6 +43,7 @@ from content.models import (  # noqa: E402
     Video,
 )
 from content.publication import publish_course, publish_resource  # noqa: E402
+from content.testing import EDUCATION_FIXTURE  # noqa: E402
 from media.models import Asset  # noqa: E402
 
 preview_media = tempfile.TemporaryDirectory(prefix="academy-media-", dir=SRC_ROOT / ".local")
@@ -64,19 +65,19 @@ def populate():
         course = Course.objects.create(creator=creator, title=title, description=description, topic=topics[topic], level=level, estimated_minutes=minutes, objective="Comprender los conceptos principales y aplicarlos en una actividad práctica.", requirements="Curiosidad, un navegador y tiempo para practicar.", status=PublicationStatus.PUBLISHED)
         chapter = Chapter.objects.create(course=course, title="Una base para empezar", status=PublicationStatus.PUBLISHED)
         for position, lesson_title in enumerate(("El punto de partida", "Conecta las piezas", "Llévalo a la práctica"), 1):
-            Lesson.objects.create(chapter=chapter, position=position, title=lesson_title, description="Construye sobre lo que ya sabes y explora una idea a la vez.", body="Esta es una lección de demostración para revisar la lectura de BTC.EDU.\n\nAprender empieza con observar las piezas: qué hace cada una, cómo se relacionan y qué decisiones puedes tomar con ellas.\n\nTómate un momento para escribir lo que esperas aprender. Vuelve a esa pregunta cuando termines este recorrido.\n\nEstos registros son temporales y no forman parte del catálogo real.", access_type=AccessType.PAID if mixed and position == 3 else AccessType.FREE, status=PublicationStatus.PUBLISHED)
+            Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, position=position, title=lesson_title, description="Construye sobre lo que ya sabes y explora una idea a la vez.", body="Esta es una lección de demostración para revisar la lectura de BTC.EDU.\n\nAprender empieza con observar las piezas: qué hace cada una, cómo se relacionan y qué decisiones puedes tomar con ellas.\n\nTómate un momento para escribir lo que esperas aprender. Vuelve a esa pregunta cuando termines este recorrido.\n\nEstos registros son temporales y no forman parte del catálogo real.", access_type=AccessType.PAID if mixed and position == 3 else AccessType.FREE, status=PublicationStatus.PUBLISHED)
     for title, topic, level in (("Prepara tu espacio de trabajo", "Desarrollo", CourseLevel.BEGINNER), ("Organiza una copia de seguridad", "Seguridad", CourseLevel.BEGINNER), ("Lee la información de tu nodo", "Bitcoin", CourseLevel.INTERMEDIATE)):
         tutorial = Course.objects.create(creator=creator, title=title, description="Una guía práctica para completar una tarea y entender cada decisión del recorrido.", kind=CourseKind.TUTORIAL, topic=topics[topic], level=level, estimated_minutes=20, objective="Completar una tarea práctica siguiendo los pasos.", status=PublicationStatus.PUBLISHED)
         chapter = Chapter.objects.create(course=tutorial, title="Paso a paso", status=PublicationStatus.PUBLISHED)
-        Lesson.objects.create(chapter=chapter, title="Antes de empezar", body="Contenido temporal para revisar cómo se lee un tutorial.", status=PublicationStatus.PUBLISHED)
+        Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Antes de empezar", body="Contenido temporal para revisar cómo se lee un tutorial.", status=PublicationStatus.PUBLISHED)
     reviewer = get_user_model().objects.create_user("reviewer@example.invalid", is_staff=True, is_superuser=True)
     clip = Asset.objects.create(creator=creator, file=SimpleUploadedFile("prueba-reproduccion.mp4", (SRC_ROOT / "media/fixtures/white.mp4").read_bytes(), content_type="video/mp4"))
     captions = Asset.objects.create(creator=creator, file=SimpleUploadedFile("ejemplo.vtt", "WEBVTT\n\n00:00.000 --> 00:05.000\nPrueba temporal de reproducción de BTC.EDU.\n".encode(), content_type="text/vtt"))
     guide = Asset.objects.create(creator=creator, file=SimpleUploadedFile("guia-de-practica.txt", "BTC.EDU — material temporal\n\n1. Escribe tu objetivo.\n2. Resume lo aprendido.\n3. Elige una próxima práctica.\n".encode(), content_type="text/plain"))
     extra = Asset.objects.create(creator=creator, file=SimpleUploadedFile("ejercicio-extra.txt", b"Ejercicio privado de prueba. No debe entregarse sin permiso.", content_type="text/plain"))
-    video = Video.objects.create(creator=creator, title="Prueba de reproducción", description="Clip técnico de pantalla blanca de Web Platform Tests para comprobar reproducción y subtítulos. No es una clase.", topic=topics["Bitcoin"], pending_asset=clip, pending_subtitles=captions, transcript="La pantalla blanca es intencional: este clip sirve para verificar el reproductor y los subtítulos.")
-    material = Material.objects.create(creator=creator, title="Guía de práctica", description="Material temporal descargable para revisar el recorrido de aprendizaje.", topic=topics["Desarrollo"], pending_asset=guide)
-    paid = Material.objects.create(creator=creator, title="Ejercicio adicional", description="Material de pago temporal para verificar el bloqueo.", topic=topics["Bitcoin"], pending_asset=extra, access_type=AccessType.PAID)
+    video = Video.objects.create(**EDUCATION_FIXTURE, creator=creator, title="Prueba de reproducción", description="Clip técnico de pantalla blanca de Web Platform Tests para comprobar reproducción y subtítulos. No es una clase.", topic=topics["Bitcoin"], pending_asset=clip, pending_subtitles=captions, transcript="La pantalla blanca es intencional: este clip sirve para verificar el reproductor y los subtítulos.")
+    material = Material.objects.create(**EDUCATION_FIXTURE, creator=creator, title="Guía de práctica", description="Material temporal descargable para revisar el recorrido de aprendizaje.", topic=topics["Desarrollo"], pending_asset=guide)
+    paid = Material.objects.create(**EDUCATION_FIXTURE, creator=creator, title="Ejercicio adicional", description="Material de pago temporal para verificar el bloqueo.", topic=topics["Bitcoin"], pending_asset=extra, access_type=AccessType.PAID)
     lesson = Lesson.objects.order_by("pk").first()
     for position, resource in enumerate((video, material, paid), 1):
         revision = publish_resource(resource, reviewer)

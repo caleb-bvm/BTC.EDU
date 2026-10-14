@@ -12,6 +12,7 @@ from media.delivery import file_response
 
 from .access import content_access
 from .catalog import course_summary, course_tree
+from .education import education_values
 from .identity import public_creator_name
 from .models import (
     Course,
@@ -154,6 +155,8 @@ def resource_detail(request, kind, pk):
     if revision:
         resource.title, resource.description, resource.access_type = revision.title, revision.description, revision.access_type
         resource.topic = revision.topic
+    for field, value in education_values(revision or model()).items():
+        setattr(resource, field, value)
     file_url = reverse("resource-file", args=[kind, pk, revision.number, "archivo"]) if revision and decision.allowed else ""
     subtitles_url = reverse("resource-file", args=[kind, pk, revision.number, "subtitulos"]) if revision and revision.subtitles_id and decision.allowed else ""
     from commerce.catalog import available

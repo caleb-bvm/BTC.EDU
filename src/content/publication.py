@@ -3,6 +3,7 @@ from django.db import transaction
 from django.db.models import F, Max
 from django.utils import timezone
 
+from .education import education_values, validate_education
 from .identity import public_creator_name
 from .models import (
     Course,
@@ -40,11 +41,13 @@ def prepare_resource(resource, actor):
     resource = model.objects.select_related("pending_asset", "pending_subtitles", "topic").get(pk=resource.pk)
     if actor.pk != resource.creator_id and not (actor.is_staff and actor.has_perm(f"content.change_{resource._meta.model_name}")):
         raise PermissionDenied
+    validate_education(resource)
     revision = ResourceVersion.objects.create(
         resource_key=resource.resource_key, number=next_revision(resource.resource_key),
         creator=resource.creator, kind="video" if model == Video else "material",
         title=resource.title, description=resource.description, topic=resource.topic, access_type=resource.access_type,
         body=resource.transcript, asset=resource.pending_asset, subtitles=resource.pending_subtitles,
+        **education_values(resource),
     )
     return revision
 
@@ -79,6 +82,11 @@ def prepare_course(course, actor):
         raise ValidationError("Publica al menos un capítulo con lecciones; no se admiten capítulos vacíos.")
     if any(not lesson.body.strip() for _, lessons in visible for lesson in lessons):
         raise ValidationError("Cada lección publicada necesita texto, aunque incluya video o materiales.")
+    for _, lessons in visible:
+        for lesson in lessons:
+            validate_education(lesson)
+            for attachment in lesson.attachments.all():
+                validate_education(attachment.resource)
     number = (course.versions.aggregate(value=Max("number"))["value"] or 0) + 1
     creator_name = public_creator_name(course.creator)
     version = CourseVersion.objects.create(
@@ -90,7 +98,7 @@ def prepare_course(course, actor):
     for chapter, lessons in visible:
         frozen_chapter = VersionChapter.objects.create(version=version, title=chapter.title, description=chapter.description, position=chapter.position)
         for lesson in lessons:
-            values = {"title": lesson.title, "description": lesson.description, "access_type": lesson.access_type, "body": lesson.body}
+            values = {"title": lesson.title, "description": lesson.description, "access_type": lesson.access_type, "body": lesson.body, **education_values(lesson)}
             text = ResourceVersion.objects.filter(resource_key=lesson.resource_key).order_by("-number").first()
             if text is None or any(getattr(text, key) != value for key, value in values.items()):
                 text = ResourceVersion.objects.create(resource_key=lesson.resource_key, number=next_revision(lesson.resource_key), creator=course.creator, kind="text", **values)

@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from content.models import Chapter, Course, Lesson
 from content.publication import publish_course
+from content.testing import EDUCATION_FIXTURE
 from creators.models import CreatorProfile
 
 from .community import access, moderate, post_message, report_message
@@ -33,7 +34,7 @@ class CommunityTests(TestCase):
         self.outsider = users.create_user("other@community.invalid")
         self.course = Course.objects.create(creator=self.creator, title="Comunidad", description="Aprendemos juntos")
         chapter = Chapter.objects.create(course=self.course, title="Inicio", status="published")
-        Lesson.objects.create(chapter=chapter, title="Lección", body="Texto", status="published")
+        Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Lección", body="Texto", status="published")
         self.version = publish_course(self.course, self.admin)
         enroll(self.student, self.version)
         enroll(self.peer, self.version)

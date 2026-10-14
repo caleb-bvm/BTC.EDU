@@ -4,7 +4,7 @@
 
 BTC.EDU nace de una pregunta: ¿cómo podemos permitir que una persona compre el contenido educativo que necesita sin obligarla a adquirir un curso completo o mantener una suscripción?
 
-Nuestra propuesta combina contenido gratuito con cursos, capítulos, videos y materiales de pago. El alumno puede explorar, revisar una muestra y conocer qué incluye una oferta antes de comprar. Después del pago, conserva el acceso a la versión adquirida.
+BTC.EDU es una plataforma de aprendizaje práctico en distintas áreas, donde una persona puede adquirir una unidad útil para su necesidad y continuar hacia un recorrido más amplio. Combina contenido gratuito con cursos, capítulos, videos y materiales de pago. El alumno puede explorar, revisar una muestra y conocer qué incluye una oferta antes de comprar. Después del pago, conserva el acceso a la versión adquirida.
 
 El proyecto aborda la experiencia del alumno y el trabajo del creador. Necesitamos resolver cómo se prepara y publica el contenido, cómo se presenta su precio y cómo se mantienen los derechos de acceso cuando cambia.
 
@@ -29,6 +29,60 @@ También puede tener dudas sobre lo que recibirá. Una muestra insuficiente, una
 Desde el lado del creador, vender recursos individuales implica decidir qué tiene valor por separado, cómo presentarlo y cuánto cuesta publicarlo y actualizarlo. Debe conservarse la relación con quien ya compró.
 
 Estas dificultades son hipótesis de trabajo. Falta comprobar con usuarios su frecuencia, importancia y relación con las alternativas que utilizan actualmente.
+
+## Propuesta y diferencias
+
+### A quién queremos servir
+
+El enfoque confirmado es educación de distintas áreas desde el inicio. El catálogo actual de Bitcoin y Lightning es la primera colección demostrable; la propuesta admite otras disciplinas. El público inicial por investigar son estudiantes, personas que trabajan y autodidactas que necesitan aplicar un conocimiento concreto: resolver un ejercicio, preparar un archivo, utilizar una herramienta o completar una tarea. El Salvador es el contexto inicial de investigación, sin atribuir a su población una preferencia por Bitcoin o una disposición a pagar que no hemos medido.
+
+Para el creador, buscamos facilitar la publicación de conocimientos que tengan utilidad por separado, conservando su relación con cursos, prácticas y alumnos. Su beneficio dependerá del esfuerzo editorial, la remuneración y la atención requerida. Todavía no hemos documentado actividad de creadores externos ni condiciones de liquidación comprobadas.
+
+### Qué ofrecemos
+
+La propuesta es aprender algo aplicable, elegir qué adquirir y recuperar lo comprado cuando se necesite. Cada unidad de pago debería declarar resultado esperado, requisitos, muestra, inclusiones y una práctica que permita comprobar su utilidad. La extensión la determina la tarea educativa: dividir un curso en fragmentos breves no garantiza que cada fragmento tenga valor independiente.
+
+El alumno puede empezar por una necesidad puntual y encontrar después un curso relacionado. Recomendamos revisar la transición de compras individuales a conjuntos para reconocer componentes ya adquiridos. Es una mejora propuesta: hoy se bloquea la compra de un conjunto parcialmente adquirido y se ofrecen los componentes faltantes por separado.
+
+### Qué debemos demostrar frente a otras opciones
+
+La comparación documental del 13 de octubre de 2026 permite delimitar nuestra oportunidad; no demuestra superioridad ni constituye una revisión exhaustiva del mercado.
+
+| Alternativa | Oferta documentada | Diferencia que BTC.EDU debe demostrar |
+|---|---|---|
+| Udemy | Compra de cursos y acceso duradero sujeto a sus condiciones | Utilidad de unidades menores que un curso y una transición comprensible hacia el conjunto |
+| Domestika | Cursos con proyectos, recursos y comunidad; compra individual y Plus | Resultados útiles por unidad en distintas áreas, con calidad suficiente para justificar la elección |
+| Coursera Plus | Suscripción a un conjunto de cursos y programas | Conveniencia para una necesidad puntual, sin exigir consumo frecuente ni prometer acreditación equivalente |
+| Gumroad y Patreon | Venta de productos y contenidos individuales, además de membresías | Integración entre compra, práctica, progreso y acompañamiento educativo |
+| Teachable y Thinkific | Herramientas para vender cursos, recursos y otros productos educativos | Valor de un catálogo compartido entre creadores y de una política consistente de unidades, revisión y acceso |
+
+Fuentes: [Udemy](https://support.udemy.com/hc/en-us/articles/229603708-Lifetime-access), [Domestika](https://support.domestika.org/hc/en-us/articles/360003052778-About-Domestika-s-courses), [Coursera Plus](https://www.coursera.org/courseraplus/), [Gumroad](https://gumroad.com/features), [Patreon](https://support.patreon.com/hc/en-us/articles/204606215-Can-I-make-a-one-time-payment), [Teachable](https://www.teachable.com/digital-downloads), [Thinkific](https://support.thinkific.com/hc/en-us/articles/9942695724695-An-Introduction-to-Selling-Thinkific-Learning-Products).
+
+También debemos comparar cada recurso con alternativas gratuitas que el participante ya utiliza. En nuestra primera colección, PlebDevs ofrece contenido gratuito sobre desarrollo y Mi Primer Bitcoin publica recursos educativos abiertos. Son alternativas y posibles referencias de contenido, sin alianzas establecidas. [PlebDevs](https://www.plebdevs.com/), [Mi Primer Bitcoin](https://github.com/MyFirstBitcoin).
+
+Las compras individuales, las muestras, el acceso duradero, la comunidad y los certificados ya existen en otras plataformas. Nuestra combinación propuesta es unidades con resultado propio, práctica, adquisición flexible en sats y continuidad del acceso por versión. Las reglas de acceso están implementadas; la calidad educativa, la comodidad del pago y la preferencia por esa combinación todavía deben comprobarse.
+
+La ventaja a construir dependerá de materiales útiles, revisión por especialistas, creadores que puedan mantenerlos y evidencia de resultados. El diseño visual y la integración técnica ayudan a entregar esa experiencia, pero no acreditan por sí solos una ventaja competitiva sostenible.
+
+### Cómo desarrollar el potencial
+
+Proponemos comenzar con colecciones pequeñas en varias áreas y un mismo criterio de calidad. Además de Bitcoin y Lightning, programación y herramientas de estudio o trabajo son candidatas por evaluar; no son colecciones publicadas ni demanda confirmada. Cada área necesita un responsable de contenido, derechos comprobados y prácticas revisadas antes de ampliarse.
+
+El descubrimiento debería ayudar a encontrar una tarea y su nivel, además de un tema. Por ejemplo, «organizar datos en una hoja de cálculo» expresa una necesidad concreta. La búsqueda orientada a resultados y las rutas entre unidades requieren diseño propio; no se presentan como funciones actuales.
+
+La primera captación puede probarse con creadores que ya tengan materiales y una audiencia, junto con comunidades educativas. Esto permitiría evaluar una colección concreta sin depender de un catálogo masivo. No hemos contactado aliados ni estimado el costo de adquisición.
+
+La sostenibilidad debe relacionar ingreso, remuneración del creador, pagos, revisión, entrega futura y soporte. Evaluar una comisión sobre ventas es una hipótesis de modelo; el MVP no calcula comisiones ni liquidaciones. Los precios de prueba no justifican anunciar que la plataforma será más barata o rentable.
+
+El nombre BTC.EDU puede sugerir una academia dedicada únicamente a Bitcoin. Recomendamos acompañarlo con una descripción clara del aprendizaje en distintas áreas y probar su comprensión. Bitcoin mantiene su lugar en el mecanismo de compra y en el valor del proyecto para el ecosistema de El Salvador; usarlo para adquirir otro conocimiento podría ampliar su aplicación, algo todavía por validar.
+
+### Por dónde empezar
+
+Proponemos un primer ciclo con tres unidades piloto en áreas distintas: una del catálogo actual y dos nuevas candidatas por seleccionar con participantes y especialistas. Cada ficha debe explicar necesidad, público, resultado, requisitos, muestra, inclusiones, práctica, precio y alcance de atención. Revisaremos primero la promesa y el contenido; después ensayaremos compra y recuperación y observaremos el resultado de la práctica. [Entregas y condiciones para avanzar](investigacion-y-requisitos.md#primer-ciclo-de-enfoque).
+
+La revisión del catálogo identifica diagramas, matrices de acceso y guiones de prueba como resultados posibles. Debemos distinguir comprensión, diseño y ejecución: preparar un plan de laboratorio no demuestra haberlo ejecutado. La ampliación del producto se priorizará por dificultades observadas, mientras la ampliación temática exigirá contenido revisado y responsables de mantenimiento.
+
+Las fichas educativas por unidad ya están implementadas y conservan resultado, requisitos, muestra y acompañamiento por revisión. Las prácticas con resultados registrados, el descubrimiento por tarea y el reconocimiento de compras previas al completar un conjunto siguen pendientes. [Alcance y comprobaciones](investigacion-y-requisitos.md#desarrollo-del-enfoque).
 
 ## Cómo consolidamos la idea
 
@@ -140,7 +194,7 @@ Facilitar la preparación y revisión del contenido, medir la compra y el uso me
 
 ### Producto
 
-El catálogo inicial se centra en Bitcoin y Lightning: fundamentos, wallets y autocustodia, canales y liquidez, facturas, laboratorio con LNbits y acceso a contenido mediante micropagos. El contenido gratuito, las muestras y las unidades de compra deben responder a necesidades educativas reconocibles. La investigación orientará qué combinación conservar y qué cambiar.
+La plataforma se orienta a educación de distintas áreas desde el inicio, unidas por aprendizaje práctico y compras por unidades útiles. El catálogo publicado sigue centrado en Bitcoin y Lightning: fundamentos, wallets y autocustodia, canales y liquidez, facturas, laboratorio con LNbits y acceso a contenido mediante micropagos. La ampliación temática requiere contenidos y revisión propios; el contenido gratuito, las muestras y las unidades de compra deben responder a necesidades educativas reconocibles.
 
 ### Experiencia
 
@@ -173,6 +227,12 @@ Cada indicador necesita fuente, intervalo y denominador; si este es cero se most
 El creador mantiene materiales propios; la administración revisa publicaciones y atiende incidencias. Business investiga necesidades y condiciones comerciales; Dev construye y verifica el sistema. La estimación deberá asignar responsables y recursos para revisión editorial, almacenamiento, respaldo/restauración, correo, conciliación y soporte. Las tarifas externas orientan escenarios, sin constituir un presupuesto completo ni ingresos previstos.
 
 ## Desarrollo
+
+### Fichas educativas
+
+El creador prepara resultado, requisitos, tipo de actividad, muestra pública y acompañamiento para cada lección, video o material. Puede guardar un borrador incompleto; para enviarlo a revisión debe completar la ficha. La publicación conserva esos datos junto con el contenido adquirido. El alumno puede consultarlos en el lector, la ficha del recurso y lo incluido en la oferta, sin recibir el texto protegido. Las versiones anteriores siguen disponibles; sus fichas se completarán en nuevas revisiones.
+
+Se comprobó el recorrido de edición y envío y la muestra en escritorio y móvil con datos temporales. La revisión educativa y la incorporación de otras áreas siguen pendientes.
 
 ### Catálogo inicial
 
@@ -260,6 +320,8 @@ La conciliación puede mantenerse en un proceso periódico supervisado, sin que 
 
 ### Base técnica y pruebas
 
+La entrega de fichas del 13 de octubre de 2026, en `main` sobre `2d318f6` con cambios locales, pasó 319 pruebas, configuración sin errores, consistencia de migraciones, revisión estática y cinco controles de concurrencia. Después de los últimos ajustes pasaron 32 pruebas enfocadas. La migración tuvo respaldo y conservó 616 filas anteriores en 64 tablas. Se ensayó edición, envío y consulta de muestras en navegador con datos temporales; no se repitió la compra desde ZEUS. Permanece la advertencia conocida por correos reutilizables entre tipos de cuenta. [Evidencias](investigacion-y-requisitos.md#desarrollo-del-enfoque).
+
 La aplicación utiliza Django, HTML y HTMX, con SQLite para la etapa local. La entrega esencial con huellas SHA-256 pasó 184 pruebas y comprobaciones de concurrencia comercial, de evaluaciones y de certificados y mensajes. Se recorrieron las nuevas pantallas por HTTP en escritorio y móvil y se verificaron formularios, privacidad y PDF. La migración tuvo respaldo y conservó los 211 registros originales, sin cargar ejemplos en la base principal.
 
 La ampliación de conciliación pasó 192 pruebas Django, revisión estática y comprobación de migraciones, junto con los tres controles de concurrencia. No necesitó una migración nueva ni modificó la base principal. La verificación usó datos de prueba y un proveedor controlado; el ensayo adicional con ZEUS sigue pendiente.
@@ -268,7 +330,7 @@ La incorporación de comunidad y moderación pasó 210 pruebas Django, revisión
 
 La ampliación de perfiles y comunidad pasó 227 pruebas Django, revisión estática, comprobación de migraciones y cuatro controles de concurrencia, incluido el seguimiento simultáneo. Tras los últimos ajustes se repitieron las 35 pruebas de perfiles y comunidad. Se revisaron el directorio, la ficha pública y la edición de alias en navegador con cuentas sintéticas, incluida la ficha en móvil. Las migraciones locales tuvieron respaldo y se comprobó la conservación de las filas anteriores; las adiciones de catálogo observadas durante la revisión corresponden a actividad concurrente y se conservaron. Esta evidencia no acredita uso público ni validación educativa.
 
-La integración de conversaciones en lecciones pasó 57 pruebas de lecciones, comunidad, acceso e historial, además de la comprobación de concurrencia para envíos y avisos únicos. Se revisaron comentarios, respuestas y seguimiento del estudiante, la respuesta del creador y la presentación móvil con cuentas ficticias. La migración conservó los 227 registros previos, con respaldo y sin añadir ejemplos. La revisión general del conjunto debe repetirse al cerrar las otras entregas concurrentes; estas comprobaciones no constituyen validación educativa.
+La integración de conversaciones en lecciones pasó 57 pruebas de lecciones, comunidad, acceso e historial, además de la comprobación de concurrencia para envíos y avisos únicos. Se revisaron comentarios, respuestas y seguimiento del estudiante, la respuesta del creador y la presentación móvil con cuentas ficticias. La migración conservó los 227 registros previos, con respaldo y sin añadir ejemplos. En aquella entrega, la revisión general quedó pendiente del cierre de otros cambios concurrentes; estas comprobaciones no constituyen validación educativa.
 
 ### Organización y próximos pasos
 
@@ -304,6 +366,8 @@ Los resultados de mercado y aprendizaje se incorporarán cuando exista evidencia
 
 ## Próximos pasos
 
+Consolidar una selección pequeña de unidades en varias áreas, con resultados y requisitos explícitos. Revisar sus prácticas con especialistas y comparar su utilidad con las alternativas gratuitas y pagadas que ya usa el público. Definir y probar cómo pasar de una compra individual a un conjunto reconociendo lo adquirido, antes de cambiar las reglas comerciales.
+
 Preparar reclutamiento y consentimiento; ejecutar entrevistas y tareas con la versión identificada; analizar dificultades y objeciones; comprobar los cambios relevantes.
 
 Contrastar rangos de precio con costos y preparar escenarios de sostenibilidad. Preparar la demostración y los manuales de la entrega esencial; completar operación y especificaciones de las ampliaciones pendientes. Extender analítica solo cuando los nuevos eventos tengan reglas y utilidad definidas.
@@ -320,7 +384,7 @@ Mantendremos las conclusiones comerciales como provisionales hasta reunir esa ev
 
 ## Referencias
 
-Las fuentes externas se enlazan junto a las afirmaciones que sustentan. Los precios y condiciones comerciales se consultaron el 5 de octubre de 2026; deben revisarse antes de contratar o publicar una recomendación final.
+Las fuentes externas se enlazan junto a las afirmaciones que sustentan. Los precios y condiciones de la investigación de costos conservan la consulta del 5 de octubre de 2026; deben revisarse antes de contratar. La comparación de posicionamiento se amplió el 13 de octubre de 2026 con documentación oficial de las plataformas, sin compras ni pruebas de sus recorridos. El detalle y las hipótesis están en [posicionamiento y validación](investigacion-y-requisitos.md#posicionamiento-y-validacion).
 
 Los documentos originales de CUBO+ definen el reto y la evaluación. La investigación funcional, las decisiones y los registros técnicos del proyecto conservan el detalle y los límites de cada entrega.
 

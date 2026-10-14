@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from commerce.models import Entitlement
 from content.models import ExternalReference, Material, ResourceVersion
+from content.testing import EDUCATION_FIXTURE
 from media.models import Asset
 
 from .bookmarks import save_item
@@ -28,8 +29,8 @@ class BookmarkTests(TestCase):
         self.other = users.create_user("other@bookmarks.invalid", "Learning-bookmarks-34718!")
         self.creator = users.create_user("creator@bookmarks.invalid", account_type="creator")
         self.asset = Asset.objects.create(creator=self.creator, file=SimpleUploadedFile("exercise.txt", b"Protected practice"))
-        self.resource = ResourceVersion.objects.create(creator=self.creator, kind="material", title="Guía", access_type="free", asset=self.asset)
-        self.item = Material.objects.create(creator=self.creator, resource_key=self.resource.resource_key, title="Guía", description="Un ejercicio", status="published", revision=self.resource)
+        self.resource = ResourceVersion.objects.create(**EDUCATION_FIXTURE, creator=self.creator, kind="material", title="Guía", access_type="free", asset=self.asset)
+        self.item = Material.objects.create(**EDUCATION_FIXTURE, creator=self.creator, resource_key=self.resource.resource_key, title="Guía", description="Un ejercicio", status="published", revision=self.resource)
         self.reference = ExternalReference.objects.create(title="Fuente", description="Referencia", source_name="Documentación", source_url="https://example.org/docs", status="published")
         self.client.force_login(self.student)
 
@@ -49,8 +50,8 @@ class BookmarkTests(TestCase):
         self.assertContains(self.client.get(url), "Guardado")
 
     def test_paid_preview_can_be_bookmarked_but_file_stays_protected(self):
-        paid = ResourceVersion.objects.create(creator=self.creator, kind="material", title="De pago", access_type="paid", asset=self.asset)
-        item = Material.objects.create(creator=self.creator, resource_key=paid.resource_key, title="De pago", status="published", revision=paid)
+        paid = ResourceVersion.objects.create(**EDUCATION_FIXTURE, creator=self.creator, kind="material", title="De pago", access_type="paid", asset=self.asset)
+        item = Material.objects.create(**EDUCATION_FIXTURE, creator=self.creator, resource_key=paid.resource_key, title="De pago", status="published", revision=paid)
         save_item(self.student, "recurso", paid.pk, "save")
         response = self.client.get(reverse("resource-file", args=["materiales", item.pk, 1, "archivo"]))
         self.assertEqual(response.status_code, 403)
@@ -67,7 +68,7 @@ class BookmarkTests(TestCase):
         saved = save_item(self.student, "recurso", self.resource.pk, "save")
         self.client.force_login(self.other)
         self.assertEqual(self.client.get(reverse("bookmark-open", args=[saved.pk])).status_code, 404)
-        new = ResourceVersion.objects.create(creator=self.creator, resource_key=self.resource.resource_key, number=2, kind="material", title="Guía nueva", access_type="free", asset=self.asset)
+        new = ResourceVersion.objects.create(**EDUCATION_FIXTURE, creator=self.creator, resource_key=self.resource.resource_key, number=2, kind="material", title="Guía nueva", access_type="free", asset=self.asset)
         # Editorial approval advances the pointer; normal draft saves deliberately
         # preserve it so the student's bookmark must retain its original revision.
         Material.objects.filter(pk=self.item.pk).update(revision=new)

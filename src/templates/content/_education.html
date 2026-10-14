@@ -1,0 +1,10 @@
+{% if unit.learning_outcome %}
+<section class="learning-section unit-overview" aria-label="Sobre esta unidad">
+  <h2>Qué aprenderás</h2>
+  <div class="reading-copy">{{ unit.learning_outcome|linebreaks }}</div>
+  {% if unit.requirements %}<h3>Antes de empezar</h3><div class="reading-copy">{{ unit.requirements|linebreaks }}</div>{% endif %}
+  {% if unit.activity_kind %}<p class="mono">Qué harás: {{ unit.get_activity_kind_display }}</p>{% endif %}
+  {% if unit.support_scope %}<h3>Acompañamiento</h3><div class="reading-copy">{{ unit.support_scope|linebreaks }}</div>{% endif %}
+  {% if unit.public_preview %}<details class="media-transcript"><summary>Ver una muestra</summary><div class="reading-copy">{{ unit.public_preview|linebreaks }}</div></details>{% endif %}
+</section>
+{% endif %}

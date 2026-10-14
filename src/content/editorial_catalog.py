@@ -7,7 +7,10 @@ LNBITS = "https://docs.lnbits.org/"
 
 
 def lesson(title, explanation, example, practice, solution):
-    return {"title": title, "body": f"{explanation}\n\nEjemplo\n{example}\n\nPráctica\n{practice}\n\nSolución y comprobación\n{solution}"}
+    return {"title": title, "learning_outcome": practice,
+            "activity_kind": "design" if title.startswith("Proyecto:") or title in ("Una prueba reproducible", "Protección desde el servidor", "Separar permisos y secretos") else "understand",
+            "public_preview": example,
+            "body": f"{explanation}\n\nEjemplo\n{example}\n\nPráctica\n{practice}\n\nSolución y comprobación\n{solution}"}
 
 
 def course(title, topic, slug, description, objective, requirements, minutes, price, source, chapters, lessons, question):

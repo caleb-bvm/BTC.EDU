@@ -24,6 +24,7 @@ def run():
 
         from content.models import Chapter, Course, Lesson, VersionLesson
         from content.publication import publish_course
+        from content.testing import EDUCATION_FIXTURE
         from creators.models import CreatorProfile
         from learning.community import (
             follow_thread,
@@ -48,7 +49,7 @@ def run():
         admin = users.create_superuser("admin@community-race.invalid")
         course = Course.objects.create(creator=creator, title="Comunidad", description="Concurrencia")
         chapter = Chapter.objects.create(course=course, title="Inicio", status="published")
-        Lesson.objects.create(chapter=chapter, title="Lección", body="Texto", status="published")
+        Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Lección", body="Texto", status="published")
         version = publish_course(course, admin)
         enroll(student, version)
 

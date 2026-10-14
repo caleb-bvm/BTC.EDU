@@ -18,6 +18,7 @@
     </details>
     <article class="lesson-reader" aria-labelledby="lesson-title">
       <header class="lesson-heading"><p class="eyebrow">{{ lesson.chapter.title }}</p><h1 id="lesson-title">{{ lesson.title }}</h1><div class="lesson-reading-meta"><span>Lectura</span><span{% if completed %} class="state-complete"{% endif %} data-current-lesson-state>{% if completed %}Completada{% elif not allowed %}Requiere acceso{% else %}Lección {{ lesson_number }} de {{ lesson_count }}{% endif %}</span></div>{% if lesson.description %}<div class="lesson-description">{{ lesson.description|linebreaks }}</div>{% endif %}</header>
+      {% include 'content/_education.html' with unit=lesson %}
       {% if allowed %}
         {% for attachment in attachments %}{% include 'content/_media.html' with media=attachment %}{% endfor %}
         {% include 'content/_reading.html' %}

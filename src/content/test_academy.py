@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 
+from content.testing import EDUCATION_FIXTURE
+
 from .models import (
     AccessType,
     Chapter,
@@ -25,7 +27,7 @@ class AcademyDiscoveryTests(TestCase):
         cls.tutorial = Course.objects.create(creator=cls.creator, title="Configura una wallet", kind=CourseKind.TUTORIAL, topic=cls.topic, level=CourseLevel.INTERMEDIATE, status=PublicationStatus.PUBLISHED)
         for course in (cls.course, cls.tutorial):
             chapter = Chapter.objects.create(course=course, title="Pasos", status=PublicationStatus.PUBLISHED)
-            Lesson.objects.create(chapter=chapter, title="Inicio", body="CUERPO QUE NO ES METADATO", status=PublicationStatus.PUBLISHED)
+            Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Inicio", body="CUERPO QUE NO ES METADATO", status=PublicationStatus.PUBLISHED)
         cls.reference = ExternalReference.objects.create(title="Documentación de prueba", source_name="Fuente de prueba", source_url="https://example.org/docs", topic=cls.topic, status=PublicationStatus.PUBLISHED)
 
     def test_sections_keep_courses_tutorials_and_external_references_separate(self):
@@ -58,7 +60,7 @@ class AcademyDiscoveryTests(TestCase):
 
     def test_selector_and_catalog_use_the_same_mixed_access_summary(self):
         chapter = self.course.chapters.first()
-        Lesson.objects.create(chapter=chapter, position=2, title="Contenido extra", body="PAGO PRIVADO", access_type=AccessType.PAID, status=PublicationStatus.PUBLISHED)
+        Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, position=2, title="Contenido extra", body="PAGO PRIVADO", access_type=AccessType.PAID, status=PublicationStatus.PUBLISHED)
         for name in ("courses", "course-selector"):
             response = self.client.get(reverse(name))
             self.assertContains(response, "Gratis + lecciones de pago")

@@ -3,6 +3,7 @@ from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
 
+from content.education import validate_snapshot
 from content.models import Course, CourseVersion, Material, PublicationStatus, Video
 from content.publication import prepare_course, prepare_resource
 
@@ -59,6 +60,7 @@ def decide(submission, actor, approve, feedback=""):
         snapshot_owner = submission.course_version.course.creator_id if submission.course_id else submission.resource_version.creator_id
         if item.creator_id != submission.creator_id or snapshot_owner != submission.creator_id:
             raise ValidationError("El propietario del contenido cambió; revisa el envío.")
+        validate_snapshot(submission.snapshot)
         pointer = "current_version" if submission.course_id else "revision"
         current = getattr(item, pointer)
         if current and current.number >= submission.snapshot.number:

@@ -16,6 +16,7 @@ from content.models import (
     PublicationStatus,
 )
 from content.publication import publish_course, publish_resource
+from content.testing import EDUCATION_FIXTURE
 from media.models import Asset
 
 from .models import CreatorProfile, Submission
@@ -37,13 +38,13 @@ class CreatorJourneyTests(TestCase):
             CreatorProfile.objects.create(user=user, display_name="Docente", bio="Aprendo y enseño.", specialty="Tecnología", status="approved")
         self.course = Course.objects.create(creator=self.owner, title="Curso original", description="Descripción para alumnos")
         self.chapter = Chapter.objects.create(course=self.course, title="Capítulo", status="published")
-        self.lesson = Lesson.objects.create(chapter=self.chapter, title="Lección", body="Texto original secreto", status="published")
+        self.lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=self.chapter, title="Lección", body="Texto original secreto", status="published")
         self.client.force_login(self.owner)
 
     def material(self, owner=None):
         owner = owner or self.owner
         asset = Asset.objects.create(creator=owner, file=SimpleUploadedFile("guia.txt", b"Guia privada", content_type="text/plain"))
-        return Material.objects.create(creator=owner, title="Guía", description="Práctica", pending_asset=asset)
+        return Material.objects.create(**EDUCATION_FIXTURE, creator=owner, title="Guía", description="Práctica", pending_asset=asset)
 
     def test_application_requires_login_and_cannot_self_approve(self):
         student = get_user_model().objects.create_user("student@example.invalid", account_type="creator")
@@ -155,7 +156,7 @@ class CreatorJourneyTests(TestCase):
 
     def test_new_draft_and_submission_keep_previous_publication(self):
         old = publish_course(self.course, self.reviewer)
-        response = self.client.post(reverse("creator-lesson", args=[self.chapter.pk, self.lesson.pk]), {"title": "Nueva lección", "position": 1, "body": "Contenido nuevo", "access_type": "free", "status": "published"})
+        response = self.client.post(reverse("creator-lesson", args=[self.chapter.pk, self.lesson.pk]), {**EDUCATION_FIXTURE, "title": "Nueva lección", "position": 1, "body": "Contenido nuevo", "access_type": "free", "status": "published"})
         self.assertEqual(response.status_code, 302)
         submission = submit(self.course, self.owner)
         self.course.refresh_from_db()
@@ -225,14 +226,14 @@ class CreatorJourneyTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Material.objects.filter(title="Robo").exists())
         revision = publish_resource(foreign, self.reviewer)
-        response = self.client.post(reverse("creator-lesson", args=[self.chapter.pk, self.lesson.pk]), {"title": "Lección", "position": 1, "body": "Texto", "access_type": "free", "status": "published", "resources": [revision.pk]})
+        response = self.client.post(reverse("creator-lesson", args=[self.chapter.pk, self.lesson.pk]), {**EDUCATION_FIXTURE, "title": "Lección", "position": 1, "body": "Texto", "access_type": "free", "status": "published", "resources": [revision.pk]})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(LessonResource.objects.count(), 0)
 
     def test_attach_approved_resource_and_course_review_file(self):
         material = self.material()
         revision = publish_resource(material, self.reviewer)
-        response = self.client.post(reverse("creator-lesson", args=[self.chapter.pk, self.lesson.pk]), {"title": "Lección", "position": 1, "body": "Texto", "access_type": "free", "status": "published", "resources": [revision.pk]})
+        response = self.client.post(reverse("creator-lesson", args=[self.chapter.pk, self.lesson.pk]), {**EDUCATION_FIXTURE, "title": "Lección", "position": 1, "body": "Texto", "access_type": "free", "status": "published", "resources": [revision.pk]})
         self.assertEqual(response.status_code, 302)
         submission = submit(self.course, self.owner)
         self.client.force_login(self.reviewer)
@@ -242,7 +243,7 @@ class CreatorJourneyTests(TestCase):
         response.close()
 
     def test_position_conflict_shows_error_without_losing_text(self):
-        response = self.client.post(reverse("creator-lesson-new", args=[self.chapter.pk]), {"title": "Conservar este título", "position": 1, "body": "Conservar este texto", "access_type": "free", "status": "published"})
+        response = self.client.post(reverse("creator-lesson-new", args=[self.chapter.pk]), {**EDUCATION_FIXTURE, "title": "Conservar este título", "position": 1, "body": "Conservar este texto", "access_type": "free", "status": "published"})
         self.assertContains(response, "Este orden ya lo ocupa")
         self.assertContains(response, "Conservar este texto")
         self.assertEqual(self.chapter.lessons.count(), 1)

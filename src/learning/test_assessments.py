@@ -9,6 +9,7 @@ from django.utils import timezone
 
 from content.models import Chapter, Course, Lesson
 from content.publication import publish_course
+from content.testing import EDUCATION_FIXTURE
 from creators.models import CreatorProfile
 from creators.services import decide, submit
 
@@ -40,7 +41,7 @@ class AssessmentTests(TestCase):
         CreatorProfile.objects.create(user=self.creator, display_name="Docente", status="approved")
         self.course = Course.objects.create(creator=self.creator, title="Evaluaciones", description="Curso de prueba")
         self.chapter = Chapter.objects.create(course=self.course, title="Inicio", status="published")
-        self.lesson = Lesson.objects.create(chapter=self.chapter, title="Verificar", body="Contenido gratuito", status="published")
+        self.lesson = Lesson.objects.create(**EDUCATION_FIXTURE, chapter=self.chapter, title="Verificar", body="Contenido gratuito", status="published")
         self.draft = QuizDraft.objects.create(lesson=self.lesson, title="Prueba", questions=deepcopy(QUESTIONS), max_attempts=2)
         self.version = publish_course(self.course, self.reviewer)
         self.record = self.version.chapters.first().lessons.first()

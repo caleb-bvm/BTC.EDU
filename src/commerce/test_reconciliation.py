@@ -10,6 +10,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 from content.models import ResourceVersion
+from content.testing import EDUCATION_FIXTURE
 
 from .gateway import ProviderStatus, ProviderUnavailable
 from .models import Entitlement, Invoice, Offer, PaymentEvidence, Purchase
@@ -20,7 +21,7 @@ class ReconciliationTests(TestCase):
         users = get_user_model().objects
         self.creator = users.create_user("reconciliation-creator@example.invalid", account_type="creator")
         self.buyer = users.create_user("reconciliation-buyer@example.invalid")
-        self.resource = ResourceVersion.objects.create(resource_key=uuid.uuid4(), number=1, creator=self.creator,
+        self.resource = ResourceVersion.objects.create(**EDUCATION_FIXTURE, resource_key=uuid.uuid4(), number=1, creator=self.creator,
                                                         title="Material", body="Contenido", kind="text", access_type="paid")
         self.offer = Offer.objects.create(creator=self.creator, title="Material", amount_sats=10,
                                           kind="resource", resource=self.resource, logical_key="reconciliation")

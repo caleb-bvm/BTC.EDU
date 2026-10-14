@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from content.testing import EDUCATION_FIXTURE
+
 from .models import (
     AccessType,
     Chapter,
@@ -32,13 +34,13 @@ class LearningJourneyTests(TestCase):
             title="Primeros pasos",
             status=PublicationStatus.PUBLISHED,
         )
-        cls.free = Lesson.objects.create(
+        cls.free = Lesson.objects.create(**EDUCATION_FIXTURE,
             chapter=cls.chapter,
             title="Introducción",
             body="Texto libre <script>alert(1)</script>",
             status=PublicationStatus.PUBLISHED,
         )
-        cls.paid = Lesson.objects.create(
+        cls.paid = Lesson.objects.create(**EDUCATION_FIXTURE,
             chapter=cls.chapter,
             position=2,
             title="Profundiza",
@@ -46,7 +48,7 @@ class LearningJourneyTests(TestCase):
             access_type=AccessType.PAID,
             status=PublicationStatus.PUBLISHED,
         )
-        cls.draft = Lesson.objects.create(
+        cls.draft = Lesson.objects.create(**EDUCATION_FIXTURE,
             chapter=cls.chapter,
             position=3,
             title="LECCIÓN OCULTA",
