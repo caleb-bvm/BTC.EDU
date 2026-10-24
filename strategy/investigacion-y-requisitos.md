@@ -433,6 +433,29 @@ Estas fuentes apoyan decisiones de organización, interacción y verificación. 
 
 Las [capturas del diagnóstico](../src/docs/operacion-y-bitacora.md#revision-ui-ux-2026-10-14) conservan la interfaz anterior y la [entrega del overhaul](../src/docs/operacion-y-bitacora.md#overhaul-ui-ux-2026-10-14) reúne la implementación, comprobaciones y capturas posteriores. Los datos de las vistas temporales son sintéticos. No representan sesiones educativas, ventas con fondos reales ni resultados de participantes.
 
+<a id="evaluaciones-del-estudiante"></a>
+
+### Evaluaciones del estudiante
+
+El 24 de octubre de 2026 rediseñamos el resumen, el intento y el resultado de las evaluaciones. Comparamos con la documentación de [Moodle Quiz](https://docs.moodle.org/en/Using_quiz), que describe navegación por preguntas, marcas para revisar, autoguardado cada dos minutos por defecto, resumen con preguntas sin responder antes de entregar y revisión con retroalimentación por pregunta. Las guías de accesibilidad de [Canvas](https://kb.wisc.edu/accessibility/page.php?id=138873) señalan que arrastrar, relacionar y menús desplegables cuestan con lectores de pantalla y teclado; por eso mantenemos selección única y múltiple con controles nativos. Otras plataformas eligen qué intento cuenta (el mejor, el último o un promedio), según [D2L Brightspace](https://community.d2l.com/brightspace/discussion/comment/13762).
+
+| Función | Estado | Decisión |
+|---|---|---|
+| Resumen con preguntas, nota mínima, intentos y mejor nota | Implementada | Cifras en Doto; la acción para empezar usa el acento naranja |
+| Navegación por preguntas y progreso | Implementada | Mapa numerado y barra con un segmento por pregunta |
+| Marcar para revisar | Implementada | Se guarda en el navegador; no cambia la nota ni llega al servidor |
+| Autoguardado | Implementado | Guarda cada respuesta al elegirla y avisa solo si falla; sin JavaScript, guardar y entregar siguen disponibles |
+| Atajos de teclado | Implementados | 1–6 para opciones, flechas para navegar y M para marcar; las flechas no interfieren con los controles nativos |
+| Resumen antes de entregar | Implementado | Respondidas, sin responder y marcadas, con acceso a cada pregunta |
+| Resultado comparado | Implementado | Nota, barra con la marca de la nota mínima, cambio respecto al intento anterior y mejor nota |
+| Revisión por pregunta | Implementada | Todas las opciones, tu respuesta, la correcta y la explicación cuando las reglas lo permiten, con filtro de preguntas por repasar |
+| Tiempo límite | Pendiente | Necesita un campo en las reglas, cierre en el servidor y ajustes de accesibilidad para quien necesita más tiempo |
+| Orden aleatorio de preguntas u opciones | Pendiente | Requiere guardar el orden por intento para que la corrección y la revisión coincidan |
+| Otros tipos de pregunta y crédito parcial | Pendiente | Verdadero/falso cabe en selección única; respuesta corta, numérica o de orden requieren nuevo modelo y nueva corrección |
+| Banco de preguntas y pistas | Pendiente | Cambian la autoría y la comparación de intentos entre versiones |
+
+La nota de cada intento se conserva y la aprobación cuenta si cualquier intento aprueba. No cambiamos esa regla: elegir qué intento cuenta es una decisión del educador que necesitaría una opción nueva.
+
 <a id="experiencia-comercial"></a>
 
 ## Compra y experiencia comercial
@@ -810,7 +833,7 @@ Pedir al creador que encuentre un comentario nuevo mediante su aviso, responda y
 
 ### Tareas de evaluaciones
 
-Instrumentos actualizados el 12 de octubre de 2026; ejecución externa pendiente. Pedir al alumno que explique las condiciones antes de empezar, responda parcialmente, guarde, salga y retome. Observar si distingue preguntas respondidas de respuestas correctas y si entiende que navegar no guarda. Pedir que revise una respuesta, encuentre una pendiente, entregue y explique la nota y el siguiente paso. Con creadores, observar configuración de reglas, edición de una pregunta plegada, incorporación de otra y autorización adicional con motivo. Registrar ayudas, errores, dudas y versión, incluyendo móvil y teclado. Las comprobaciones técnicas registradas en la entrega de UI no cuentan como sesiones con participantes.
+Instrumentos actualizados el 12 de octubre de 2026; ejecución externa pendiente. Pedir al alumno que explique las condiciones antes de empezar, responda parcialmente, salga y retome. Observar si distingue preguntas respondidas de respuestas correctas, si confía en el guardado automático y si usa la marca para revisar. Pedir que revise una respuesta, encuentre una pendiente, entregue y explique la nota y el siguiente paso. Con creadores, observar configuración de reglas, edición de una pregunta plegada, incorporación de otra y autorización adicional con motivo. Registrar ayudas, errores, dudas y versión, incluyendo móvil y teclado. Las comprobaciones técnicas registradas en la entrega de UI no cuentan como sesiones con participantes.
 
 <a id="14-trazabilidad-y-backlog"></a>
 
