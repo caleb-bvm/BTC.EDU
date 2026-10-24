@@ -212,10 +212,6 @@
 .first-course{padding:50px 28px}
 .first-course .empty-symbol{margin:0 auto 26px}
 .academy .first-course h2{font-size:31px;letter-spacing:-.7px}
-.card-learning{border-top:1px solid var(--line);padding-top:13px;margin-top:2px;position:relative;z-index:1;pointer-events:none}
-.card-learning .meter-label{font-size:10px}
-.card-learning .progress-track{height:4px;margin:8px 0 0}
-.card-lesson-count{font-size:10px;color:var(--muted);margin:0}
 .workspace-account-actions{display:flex;align-items:center;gap:24px;margin-top:28px}
 .workspace-account-actions .btn{font-size:12px;padding:9px 16px}
 /* Responsive order matches reading order; the outline is available before the text. */

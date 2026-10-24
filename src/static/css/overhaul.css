@@ -33,10 +33,43 @@ label{font-size:14px;line-height:1.5}input[type=checkbox],input[type=radio]{acce
 .academy-tabs a,.section-tab{font-size:14px;min-height:48px;padding:14px 0}.academy-footer{font-size:12px;color:var(--muted);margin:0 36px;min-height:0;padding:20px 0;border-color:var(--line)}
 .academy-filters{padding:18px;background:var(--ui-surface);border-radius:var(--card-radius);gap:14px;margin-bottom:18px}.academy-filters label{font-size:13px}.academy-filters:before{display:none}
 .catalog-results-bar{font-size:14px}.catalog-results-bar a{display:inline-flex;align-items:center;min-height:44px}.academy-card-grid{gap:22px;grid-template-columns:repeat(3,minmax(0,1fr))}
-.academy-card{border:1px solid var(--line);border-radius:var(--card-radius);background:var(--ui-surface);box-shadow:none;overflow:hidden}.academy-card:hover,.academy-card:focus-within{border-color:var(--ink);box-shadow:none}
-.academy-card-body{padding:22px;gap:12px}.academy-card h3{font-size:21px;line-height:1.2;letter-spacing:-.015em}.academy-card .card-meta .mono{font-size:11px;color:var(--muted);letter-spacing:.12em}.academy-card .card-arrow{font-size:16px;color:var(--ink)}
-.academy-card .card-description,.creator-name,.card-lesson-count,.card-bottom,.card-duration{font-size:14px;line-height:1.55}.card-art{background:var(--ui-muted-surface)}.card-art-label,.art-registration{display:none}
-.academy-card .creator-name .educator-author-link{margin-left:.3em}.academy-card .card-duration,.academy-card .card-lesson-count{font:11px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.creator-name{font-size:14px;line-height:1.55}
+/* Catalog card: the title link covers the card and the author link stays above it; orange marks only progress in a course being taken. */
+.academy-card{position:relative;display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--card-radius);background:var(--ui-surface);overflow:hidden;transition:border-color .15s}
+.academy-card:hover,.academy-card:focus-within{border-color:var(--ink)}
+.academy-card-cover{position:relative;display:block;border-bottom:1px solid var(--line);pointer-events:none}
+.academy-card-kind{position:absolute;top:12px;left:12px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--ui-surface);font:10px/1.5 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.academy-card-body{display:flex;flex:1;flex-direction:column;gap:12px;min-width:0;padding:22px}
+.academy-card-meta{display:flex;flex-wrap:wrap;margin:0;font:10px/1.6 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.academy-card-meta span{white-space:nowrap}
+.academy-card-meta span:not(:last-child):after{content:'·';margin:0 6px}
+.academy .academy-card h3{margin:0;font-size:21px;line-height:1.2;letter-spacing:-.015em;overflow-wrap:anywhere}
+.academy-card h3 a{color:var(--ink);text-decoration:none}
+.academy-card h3 a:after{content:'';position:absolute;inset:0}
+.academy-card-summary{margin:0;font-size:14px;line-height:1.55;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.academy-card-author{display:flex;align-items:center;gap:8px;min-width:0;margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+.academy-card-author .account-card-avatar{margin:0}
+.academy-card-author .educator-author-link{position:relative;z-index:1;color:var(--ink)}
+.academy-card-note{margin:0;font:11px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.academy-card-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.academy-card-offer,.academy-card-progress{flex:1;min-width:0}
+.academy-card-label{margin:0 0 8px;font:11px/1.4 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.academy-card-figure{display:flex;align-items:baseline;gap:4px;margin:0}
+.academy-card-figure strong{font:900 28px/.9 var(--font-display);letter-spacing:0;color:var(--ink);white-space:nowrap}
+.academy-card-figure small{font:400 12px/1 var(--font-mono);color:var(--muted)}
+.academy-card-access{margin:8px 0 0;font-size:13px;line-height:1.4;color:var(--muted)}
+.academy-card-access strong{font-weight:600;color:var(--ink);white-space:nowrap}
+.academy-card-label+.academy-card-access{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.academy-card-progress progress{display:block;width:100%;height:6px;margin-top:12px;border:0;border-radius:999px;overflow:hidden;background:var(--line);-webkit-appearance:none;appearance:none}
+.academy-card-progress progress::-webkit-progress-bar{background:var(--line);border-radius:999px}
+.academy-card-progress progress::-webkit-progress-value{background:var(--orange);border-radius:999px}
+.academy-card-progress progress::-moz-progress-bar{background:var(--orange);border-radius:999px}
+.academy-card.is-complete progress::-webkit-progress-value{background:var(--ink)}
+.academy-card.is-complete progress::-moz-progress-bar{background:var(--ink)}
+.academy-card-go{display:inline-grid;place-items:center;flex-shrink:0;width:40px;height:40px;border:1px solid var(--line-strong);border-radius:50%;font-size:16px;color:var(--ink);transition:background .15s,border-color .15s,color .15s}
+.academy-card:hover .academy-card-go,.academy-card:focus-within .academy-card-go{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+@media(max-width:640px){.academy-card-body{padding:18px}.academy .academy-card h3{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.academy-card,.academy-card-go{transition:none}}
 .access-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);color:var(--ink);font:11px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 11px;border-radius:999px;background:transparent}
 .card-price{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0;padding-top:14px;border-top:1px solid var(--line)}.card-price span{font:11px/1.4 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .card-price strong,.sats-amount{font-family:var(--font-display);font-weight:900;letter-spacing:0;line-height:.9;color:var(--ink);white-space:nowrap}.card-price strong{font-size:28px}
@@ -55,6 +88,6 @@ label{font-size:14px;line-height:1.5}input[type=checkbox],input[type=radio]{acce
 :focus-visible{outline:2px solid var(--ink)!important;outline-offset:3px}
 @media(max-width:1200px){:root{--sidebar-width:190px}.academy-page{padding:28px}.academy-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.app-header{padding-inline:24px}}
 @media(max-width:900px){.academy-layout{grid-template-columns:1fr}.academy-sidebar{min-height:0}.js-ready .nav-open .academy-sidebar{top:var(--academy-nav-offset,78px);max-height:calc(100dvh - var(--academy-nav-offset,78px));width:min(320px,88vw);padding:20px 14px}.nav-backdrop:not([hidden]){inset:var(--academy-nav-offset,78px) 0 0}.nav-open .primary-navigation,.nav-open .task-navigation{flex-direction:column}.app-header .nav-toggle{min-height:44px;font-size:13px;padding:10px 14px}.task-navigation{margin-bottom:18px}.academy-tabs{padding-inline:28px}.sidebar-utilities{display:flex}.app-header .brand-wordmark{font-size:30px}}
-@media(max-width:640px){.app-header{min-height:72px;padding:12px 16px;gap:8px}.app-header .brand-wordmark{font-size:27px}.app-header .academy-header-actions{gap:4px}.app-header .theme-toggle{padding:8px;font-size:0;min-width:44px}.app-header .theme-toggle::first-letter{font-size:17px}.app-header .account-header-photo{display:none}.app-header .public-navigation{gap:12px}.public-navigation a{font-size:13px}.public-navigation a:nth-child(2){display:none}.header-workspace{display:none}.app-header .nav-toggle{padding-inline:9px}.academy-page{padding:24px 18px 36px}.academy h1,.page-heading h1,.studio-heading h1{font-size:32px}.academy-card-grid{grid-template-columns:1fr}.academy-tabs{padding-inline:18px;gap:22px}.academy-tabs a{font-size:14px}.academy-card-body{padding:18px}.academy-card h3{font-size:24px}.academy-filters>div{min-width:0}.academy-filters label{font-size:13px}.academy-filters .filter-search{flex-basis:100%}.academy-footer{margin-inline:18px}.academy-empty{padding:22px}.breadcrumbs{margin-bottom:18px;font-size:13px}.course-context{padding:14px 12px}.metrics-filter{display:flex;flex-wrap:wrap}.metrics-filter p{flex:1;min-width:130px}.metrics-filter input{max-width:100%}.account-heading{gap:14px}.account-heading h1{font-size:32px}.reader-focused .app-header .nav-toggle{display:inline-flex!important}.academy-page .mono{font-size:11px}}
+@media(max-width:640px){.app-header{min-height:72px;padding:12px 16px;gap:8px}.app-header .brand-wordmark{font-size:27px}.app-header .academy-header-actions{gap:4px}.app-header .theme-toggle{padding:8px;font-size:0;min-width:44px}.app-header .theme-toggle::first-letter{font-size:17px}.app-header .account-header-photo{display:none}.app-header .public-navigation{gap:12px}.public-navigation a{font-size:13px}.public-navigation a:nth-child(2){display:none}.header-workspace{display:none}.app-header .nav-toggle{padding-inline:9px}.academy-page{padding:24px 18px 36px}.academy h1,.page-heading h1,.studio-heading h1{font-size:32px}.academy-card-grid{grid-template-columns:1fr}.academy-tabs{padding-inline:18px;gap:22px}.academy-tabs a{font-size:14px}.academy-filters>div{min-width:0}.academy-filters label{font-size:13px}.academy-filters .filter-search{flex-basis:100%}.academy-footer{margin-inline:18px}.academy-empty{padding:22px}.breadcrumbs{margin-bottom:18px;font-size:13px}.course-context{padding:14px 12px}.metrics-filter{display:flex;flex-wrap:wrap}.metrics-filter p{flex:1;min-width:130px}.metrics-filter input{max-width:100%}.account-heading{gap:14px}.account-heading h1{font-size:32px}.reader-focused .app-header .nav-toggle{display:inline-flex!important}.academy-page .mono{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 @media print{.app-header,.academy-sidebar,.academy-footer{display:none}.academy-layout{display:block}.academy-page{padding:0}}
