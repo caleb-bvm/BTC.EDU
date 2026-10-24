@@ -57,10 +57,13 @@ class PreviewRoles:
 try:
     call_command("migrate", verbosity=0)
     data = seed()
-    QuizDraft.objects.create(lesson=data.free, title="Comprueba el recorrido", max_attempts=2, questions=[
+    QuizDraft.objects.create(lesson=data.free, title="Comprueba el recorrido", questions=[
         {"prompt": "¿Cuándo se concede el acceso al contenido de pago?", "multiple": False, "options": ["Al crear una factura", "Cuando el servidor confirma el pago", "Al cerrar el navegador"], "correct": [1], "explanation": "La factura pendiente reserva las condiciones. El servidor comprueba el pago antes de conceder acceso."},
         {"prompt": "¿Qué debe conservar una factura? Selecciona todas las respuestas correctas.", "multiple": True, "options": ["El precio acordado", "Las revisiones incluidas", "La contraseña del alumno"], "correct": [0, 1], "explanation": "Precio y revisiones identifican lo comprado. La contraseña no forma parte de la factura."},
-    ])
+        {"prompt": "Una factura vence antes de pagarse. ¿Qué ocurre con el acceso?", "multiple": False, "options": ["Se concede igualmente", "No se concede y puede crearse otra factura", "Se concede la mitad del contenido"], "correct": [1], "explanation": "Una factura vencida no confirma un pago; el alumno puede solicitar otra."},
+        {"prompt": "¿Qué evita que una confirmación repetida duplique una compra?", "multiple": False, "options": ["El identificador único del pago", "Recargar la página", "Cambiar de navegador", "Borrar el carrito"], "correct": [0], "explanation": "El servidor registra cada pago por su identificador y conserva una sola compra."},
+        {"prompt": "¿Cuáles datos ayudan a recuperar una respuesta perdida del proveedor? Selecciona todas.", "multiple": True, "options": ["El hash del pago", "El importe", "El color del QR", "La factura original"], "correct": [0, 1, 3], "explanation": "Hash, importe y factura permiten comprobar el pago sin crear otro."},
+    ], max_attempts=3)
     submission = submit(data.course, data.creator)
     decide(submission, data.reviewer, True)
     version = submission.course_version

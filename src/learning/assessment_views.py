@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import F
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
@@ -62,6 +63,18 @@ def quiz_edit(request, lesson_pk):
     return render(request, "learning/quiz_editor.html", {"form": form, "questions": questions, "lesson": lesson, "course_sections": course_sections(lesson.chapter.course, "evaluaciones"), "active": "creator-content"})
 
 
+def score_cells(score, pass_mark, count):
+    """Dot-matrix score bar: filled cells for the score and one marker for the pass mark."""
+    filled = round(float(score or 0) * count / 100)
+    threshold = min(count, max(1, -(-pass_mark * count // 100))) if pass_mark else 0
+    return [{"filled": index < filled, "threshold": index + 1 == threshold} for index in range(count)]
+
+
+def score_label(score):
+    """100.00 → 100 and 66.70 → 66.7, with the decimal point used across the platform."""
+    return f"{score:.2f}".rstrip("0").rstrip(".")
+
+
 def student_quiz(request, pk):
     quiz = get_object_or_404(VersionQuiz.objects.select_related("lesson__content", "lesson__chapter__version__course"), pk=pk)
     enrollment = get_object_or_404(Enrollment, student=request.user, version=quiz.lesson.chapter.version)
@@ -73,7 +86,13 @@ def student_quiz(request, pk):
 @require_GET
 def quiz_detail(request, pk):
     quiz, enrollment = student_quiz(request, pk)
-    return render(request, "learning/quiz.html", {"quiz": quiz, "enrollment": enrollment, "lesson_completed": enrollment.completed_lessons.filter(lesson=quiz.lesson).exists(), **quiz_status(enrollment, quiz), "active": "workspace"})
+    status = quiz_status(enrollment, quiz)
+    attempts = list(status["attempts"])
+    for attempt in attempts:
+        if attempt.submitted_at:
+            attempt.cells, attempt.score_label = score_cells(attempt.score, quiz.pass_mark, 10), score_label(attempt.score)
+    best = max((attempt for attempt in attempts if attempt.submitted_at), key=lambda attempt: (attempt.score, -attempt.number), default=None)
+    return render(request, "learning/quiz.html", {"quiz": quiz, "enrollment": enrollment, "lesson_completed": enrollment.completed_lessons.filter(lesson=quiz.lesson).exists(), **status, "attempts": attempts, "best_attempt": best, "active": "workspace"})
 
 
 @student_required
@@ -96,30 +115,54 @@ def attempt_detail(request, pk):
     authorized_enrollment(request.user, attempt.enrollment_id, quiz)
     form = AttemptForm(request.POST if request.method == "POST" else None, quiz=quiz, answers=attempt.answers, revision=attempt.revision)
     response_status = 200
+    # Background saves from the attempt page receive JSON; the form still works without JavaScript.
+    background = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "POST":
         if request.POST.get("action") not in ("save", "submit"):
             form.add_error(None, "Elige guardar respuestas o entregar el intento.")
             response_status = 400
         elif form.is_valid():
             try:
-                save_attempt(request.user, attempt.pk, form.answers(), form.cleaned_data["revision"], submit=request.POST["action"] == "submit")
+                saved = save_attempt(request.user, attempt.pk, form.answers(), form.cleaned_data["revision"], submit=request.POST["action"] == "submit")
             except ValidationError as exc:
                 form.add_error(None, " ".join(exc.messages))
                 response_status = 409
             else:
+                if background:
+                    return JsonResponse({"revision": saved.revision, "submitted": bool(saved.submitted_at)})
                 messages.success(request, "Intento entregado." if request.POST["action"] == "submit" else "Respuestas guardadas. Puedes continuar después.")
                 return redirect("quiz-attempt", pk=pk)
+        else:
+            response_status = 400
+        if background:
+            return JsonResponse({"errors": [message for errors in form.errors.values() for message in errors]}, status=response_status)
     solutions_visible = bool(attempt.submitted_at and (quiz.feedback == "submitted" or attempt.passed))
     review = []
     if attempt.submitted_at:
         for index, question in enumerate(quiz.questions):
             selected = attempt.answers.get(str(index), [])
-            row = {"prompt": question["prompt"], "selected": [question["options"][option] for option in selected]}
+            # Options carry the key only when the quiz allows solutions for this attempt.
+            options = [{"label": label, "selected": option in selected, "correct": solutions_visible and option in question["correct"]} for option, label in enumerate(question["options"])]
+            row = {"prompt": question["prompt"], "multiple": question["multiple"], "options": options, "selected": [question["options"][option] for option in selected]}
             if solutions_visible:
-                row.update(correct=set(selected) == set(question["correct"]), solutions=[question["options"][option] for option in question["correct"]], explanation=question["explanation"])
+                row.update(correct=set(selected) == set(question["correct"]), explanation=question["explanation"])
             review.append(row)
+    status = quiz_status(attempt.enrollment, quiz)
+    context = {"form": form, "attempt": attempt, "review": review, "solutions_visible": solutions_visible, "lesson_completed": attempt.enrollment.completed_lessons.filter(lesson=quiz.lesson).exists(), **status, "active": "workspace"}
+    if attempt.submitted_at:
+        submitted = [item for item in status["attempts"] if item.submitted_at]
+        previous = next((item for item in submitted if item.number < attempt.number), None)
+        change = attempt.score - previous.score if previous else None
+        attempt.score_label = score_label(attempt.score)
+        context.update(
+            score_cells=score_cells(attempt.score, quiz.pass_mark, 20),
+            previous_attempt=previous,
+            score_change=None if change is None else "Misma nota" if not change else ("+" if change > 0 else "−") + score_label(abs(change)),
+            best_score=score_label(max(item.score for item in submitted)),
+            review_pending=sum(not row["correct"] for row in review) if solutions_visible else 0,
+        )
     # Only sanitized form fields/review rows reach the student template; no answer key.
-    return render(request, "learning/attempt.html", {"form": form, "attempt": attempt, "review": review, "solutions_visible": solutions_visible, "lesson_completed": attempt.enrollment.completed_lessons.filter(lesson=quiz.lesson).exists(), **quiz_status(attempt.enrollment, quiz), "active": "workspace"}, status=response_status)
+    return render(request, "learning/attempt.html", context, status=response_status)
 
 
 @creator_required
@@ -171,8 +214,6 @@ def quiz_results(request, course_pk=None):
 @creator_required
 @require_POST
 def quiz_grant(request, pk):
-    from django.http import JsonResponse
-
     attempt = get_object_or_404(QuizAttempt.objects.select_related("quiz__lesson__chapter__version__course"), pk=pk, quiz__lesson__chapter__version__course__creator=request.user)
     ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     destination = reverse("creator-quiz-results", args=[attempt.quiz.lesson.chapter.version.course_id])

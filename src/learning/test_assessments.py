@@ -348,3 +348,33 @@ class AssessmentTests(TestCase):
         self.assertEqual(response.context["form"]["question_0"].value(), "0")
         attempt.refresh_from_db()
         self.assertIsNone(attempt.submitted_at)
+
+    def test_background_save_returns_revision_and_reports_stale_answers(self):
+        attempt = self.start()
+        url = reverse("quiz-attempt", args=[attempt.pk])
+        background = {"HTTP_X_REQUESTED_WITH": "XMLHttpRequest"}
+        saved = self.client.post(url, {"revision": 0, "action": "save", "question_0": "1"}, **background)
+        self.assertEqual(saved.json(), {"revision": 1, "submitted": False})
+        stale = self.client.post(url, {"revision": 0, "action": "save", "question_0": "0"}, **background)
+        self.assertEqual(stale.status_code, 409)
+        self.assertIn("otra sesión", " ".join(stale.json()["errors"]))
+        attempt.refresh_from_db()
+        self.assertEqual(attempt.answers["0"], [1])
+
+    def test_result_compares_attempts_and_marks_options_only_when_solutions_are_visible(self):
+        self.finish({"0": [1], "1": [0]})
+        second = self.finish()
+        response = self.client.get(reverse("quiz-attempt", args=[second.pk]))
+        self.assertEqual(response.context["score_change"], "+100")
+        self.assertEqual(response.context["best_score"], "100")
+        self.assertContains(response, "Correcta</em>")
+        self.draft.feedback = "passed"
+        self.draft.save()
+        version = publish_course(self.course, self.reviewer)
+        enrollment = enroll(self.student, version)
+        hidden = start_attempt(self.student, enrollment.pk, version.chapters.first().lessons.first().quiz.pk)
+        save_attempt(self.student, hidden.pk, {"0": [1], "1": [2]}, 0, submit=True)
+        response = self.client.get(reverse("quiz-attempt", args=[hidden.pk]))
+        self.assertContains(response, "Tu respuesta")
+        self.assertNotContains(response, "Correcta</em>")
+        self.assertTrue(all(not option["correct"] for row in response.context["review"] for option in row["options"]))
