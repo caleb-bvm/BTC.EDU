@@ -1,24 +1,27 @@
-/* Commerce follows the shared BTC.EDU colors and typography in both themes. */
+/* Commerce follows the shared BTC.EDU colors and typography in both themes; amounts use the dot-matrix display face. */
 .commerce-page {max-width: 1180px; margin-inline: auto; min-width: 0;}
 .commerce-page .commerce-grid {grid-template-columns: minmax(0, 1.45fr) minmax(280px, 1fr); gap: 24px;}
-.commerce-page .commerce-panel {margin: 0; border-radius: 12px; background: var(--paper); padding: 28px;}
+.commerce-page .commerce-panel {margin: 0; border-radius: var(--card-radius); background: var(--ui-surface); padding: 32px;}
 .commerce-page .page-heading {margin-bottom: 28px;}
 .commerce-page .page-heading p {max-width: 65ch;}
 .commerce-page .breadcrumbs {display: flex; margin-bottom: 24px; font-size: 13px;}
 .commerce-page .breadcrumbs [aria-current] {color: var(--muted);}
 .purchase-steps {display: flex; list-style: none; padding: 0; margin: 0 0 32px; gap: 24px; border-bottom: 1px solid var(--line);}
-.purchase-steps li {display: flex; align-items: center; gap: 10px; color: var(--muted); padding: 0 0 14px; font-size: 13px; border-bottom: 2px solid transparent;}
-.purchase-steps li span {font: 11px "Space Mono", monospace; border: 1px solid var(--line); border-radius: 50%; width: 30px; height: 30px; display: inline-grid; place-items: center; flex-shrink: 0;}
-.purchase-steps [aria-current] {border-bottom-color: var(--orange); color: var(--ink);}
-.purchase-steps [aria-current] span {background: var(--orange); color: #1c201f; border-color: var(--orange);}
-.purchase-steps .step-done {color: var(--ink);}
-.purchase-intent {display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; border: 1px solid var(--line); border-left: 3px solid var(--orange); border-radius: 8px; padding: 18px 22px; background: var(--soft); margin: 0 0 24px;}
+.purchase-steps li {display: flex; align-items: center; gap: 12px; color: var(--muted); padding: 0 0 14px; font: 12px/1.4 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; border-bottom: 2px solid transparent;}
+.purchase-steps li span {font: 900 24px/1 var(--font-display); letter-spacing: 0; flex-shrink: 0;}
+.purchase-steps [aria-current] {border-bottom-color: var(--ink); color: var(--ink);}
+.purchase-steps [aria-current]::after {content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0;}
+.purchase-steps .step-done {color: var(--muted);}
+.purchase-steps .step-done::after {content: "\2713"; font-size: 12px;}
+.purchase-intent {display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; border: 1px solid var(--ink); border-radius: var(--card-radius); padding: 18px 22px; background: var(--soft); margin: 0 0 24px;}
 .purchase-intent p {margin: 0; font-size: 13px; color: var(--muted);}
 .commerce-section-title {display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;}
 .commerce-page .commerce-context {color: var(--muted); font-size: 13px; margin: 14px 0;}
-.commerce-page .purchase-summary {position: sticky; top: 24px;}
-.purchase-summary .offer-price {font-size: 42px; margin: 20px 0;}
-.commerce-page .offer-price small {display: inline; font: 14px "Space Mono", monospace; color: var(--muted);}
+.commerce-page .purchase-summary {position: sticky; top: 24px; border-color: var(--ink);}
+.purchase-summary h2 {font: 11px/1.4 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0;}
+.commerce-page .offer-price {font-family: var(--font-display); font-weight: 900; letter-spacing: -.01em; word-spacing: -.5em; line-height: .85; white-space: nowrap;}
+.purchase-summary .offer-price {font-size: clamp(56px, 6vw, 88px); margin: 20px 0 24px;}
+.commerce-page .offer-price small {display: inline; font: 400 14px var(--font-mono); letter-spacing: .04em; word-spacing: normal; color: var(--muted); margin-left: 10px;}
 .purchase-summary .btn {width: 100%; min-height: 48px; gap: 12px;}
 .purchase-summary p {line-height: 1.6;}
 .purchase-summary .small-note {font-size: 12px; margin-top: 12px;}
@@ -28,10 +31,13 @@
 .commerce-subheading {margin-top: 26px;}
 .purchase-state {border-top: 1px solid var(--line); margin-top: 24px; padding-top: 22px;}
 .purchase-state h3 {font-size: 22px; margin-bottom: 12px;}
-.purchase-status {display: inline-block; font-size: 12px; line-height: 1.6; border: 1px solid var(--line); padding: 4px 10px; border-radius: 20px; background: var(--paper);}
-.purchase-status--pending {background: var(--soft); color: var(--text-67411e, #67411e);}
-.purchase-status--paid {background: var(--learning-green-soft, #eaf3ed); color: var(--learning-green, #246347);}
-.purchase-status--expired, .purchase-status--failed {color: var(--muted);}
+.purchase-status {display: inline-flex; align-items: center; gap: 8px; font: 11px/1.6 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--ink); padding: 5px 12px; border-radius: 999px; background: transparent; color: var(--ink);}
+.purchase-status::before {content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0;}
+.purchase-status--pending {background: var(--ink); color: var(--paper);}
+.purchase-status--pending::before {animation: purchase-signal 1.6s steps(1) infinite;}
+.purchase-status--paid::before {content: "\2713"; width: auto; height: auto; background: none; font-size: 12px; line-height: 1;}
+@keyframes purchase-signal {0%, 60% {opacity: 1;} 61%, 100% {opacity: .2;}}
+.purchase-status--expired, .purchase-status--failed {color: var(--muted); border-color: var(--line-strong);}
 .purchase-terms {border-top: 1px solid var(--line); padding-top: 16px; margin-top: 22px; font-size: 13px; color: var(--muted);}
 .purchase-terms summary, .inventory-detail summary {cursor: pointer; min-height: 44px; padding-block: 8px; color: var(--ink);}
 .purchase-terms p {line-height: 1.7; margin-top: 8px;}
@@ -39,16 +45,17 @@
 .inventory-detail .unit-overview {margin: 12px 0 0;}
 .inventory-detail .reading-copy {font-size: 14px;}
 .invoice-payment {display: grid; gap: 12px;}
-.invoice-payment img {max-width: 100%; height: auto; justify-self: center; border: 1px solid var(--line); background: white; border-radius: 8px;}
+.invoice-payment img {max-width: 100%; height: auto; justify-self: center; box-sizing: content-box; padding: 16px; border: 1px solid var(--line); background: white; border-radius: var(--card-radius);}
 .invoice-payment .purchase-terms {margin-top: 4px;}
-.invoice-payment textarea {width: 100%; overflow-wrap: anywhere; font: 12px/1.6 "Space Mono", monospace; border: 1px solid var(--line); padding: 12px; border-radius: 6px; background: var(--paper); color: var(--ink);}
+.invoice-payment textarea {width: 100%; overflow-wrap: anywhere; font: 12px/1.6 var(--font-mono); border: 1px solid var(--muted); padding: 12px; border-radius: var(--ui-radius); background: var(--paper); color: var(--ink);}
+.invoice-deadline strong {font-family: var(--font-mono); font-weight: 400;}
 .purchase-filters {display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;}
-.purchase-filters a {display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); padding: 11px 15px; border-radius: 7px; text-decoration: none; font-size: 13px; min-height: 44px;}
+.purchase-filters a {display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); padding: 11px 16px; border-radius: 999px; text-decoration: none; font: 12px/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; min-height: 44px;}
 .purchase-filters a:hover {background: var(--soft);}
 .purchase-filters [aria-current] {background: var(--ink); color: var(--paper); border-color: var(--ink);}
 .purchase-filters a span {font: 11px "Space Mono", monospace; opacity: .8;}
 .purchase-list {display: grid; gap: 16px;}
-.purchase-card {display: flex; gap: 24px; justify-content: space-between; align-items: center; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); padding: 24px 28px; min-width: 0;}
+.purchase-card {display: flex; gap: 24px; justify-content: space-between; align-items: center; border: 1px solid var(--line); border-radius: var(--card-radius); background: var(--ui-surface); padding: 24px 28px; min-width: 0;}
 .purchase-card-main {min-width: 0; flex: 1;}
 .purchase-card-meta {display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 12px; color: var(--muted);}
 .purchase-card h2 {font-size: 25px; margin: 16px 0 10px; overflow-wrap: anywhere;}
@@ -57,22 +64,22 @@
 .purchase-card-main>p {font-size: 13px; color: var(--muted); margin: 0; line-height: 1.7;}
 .purchase-card-main .small-note {margin-top: 10px;}
 .purchase-card-actions {text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; max-width: 260px;}
-.purchase-card-price {font-size: 26px; margin: 0; white-space: nowrap;}
-.purchase-card-price small {font: 12px "Space Mono", monospace; color: var(--muted);}
+.purchase-card-price {font: 900 30px/1 var(--font-display); margin: 0; white-space: nowrap;}
+.purchase-card-price small {font: 400 12px var(--font-mono); color: var(--muted);}
 .purchase-card-actions .btn {font-size: 13px; gap: 12px; min-height: 44px; white-space: normal;}
 .purchase-card-actions .text-link {font-size: 12px;}
-.commerce-empty {display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 40px; border: 1px dashed var(--line); border-radius: 12px; background: var(--paper);}
+.commerce-empty {display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 40px; border: 1px dashed var(--line-strong); border-radius: var(--card-radius); background-color: var(--paper); background-image: radial-gradient(circle, var(--dot-grid) 1px, transparent 1.3px); background-size: 16px 16px;}
 .commerce-empty h2 {font-size: 30px; max-width: 600px;}
 .commerce-empty p {color: var(--muted); max-width: 60ch; margin: 0; line-height: 1.7;}
 .contextual-offer-list {display: grid; gap: 12px; margin-top: 24px;}
-.contextual-offer {display: flex; justify-content: space-between; align-items: center; gap: 18px; border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; background: var(--paper); text-decoration: none;}
-.contextual-offer:hover {border-color: var(--orange); background: var(--soft);}
+.contextual-offer {display: flex; justify-content: space-between; align-items: center; gap: 18px; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; background: var(--ui-surface); text-decoration: none;}
+.contextual-offer:hover {border-color: var(--ink); background: var(--soft);}
 .contextual-offer>span:first-child {min-width: 0; flex: 1;}
 .contextual-offer .mono {display: block; margin-bottom: 8px; color: var(--muted); font-size: 10px;}
 .contextual-offer strong {display: block; font-size: 17px;}
 .contextual-offer small {display: block; color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 7px;}
-.contextual-offer-price {flex-shrink: 0; text-align: right; font-size: 22px;}
-.contextual-offer-price small {display: inline; font: 11px "Space Mono", monospace;}
+.contextual-offer-price {flex-shrink: 0; text-align: right; font: 900 26px/1 var(--font-display);}
+.contextual-offer-price small {display: inline; font: 400 11px var(--font-mono);}
 .contextual-offer-cta {display: block; font-size: 12px; margin-top: 10px;}
 .offer-dependency-list {padding: 0; list-style: none;}
 .offer-dependency-list li {display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line);}
@@ -82,7 +89,7 @@
 .commerce-page .offer-workflow strong {display: block; color: var(--ink); margin-bottom: 5px;}
 .commerce-page .commerce-panel label {display: block; font-size: 14px; margin-bottom: 7px;}
 .commerce-page .commerce-panel .helptext {line-height: 1.6; color: var(--muted);}
-.commerce-page .form-errors {border: 1px solid var(--text-ad3d18, #ad3d18); padding: 16px; margin-bottom: 20px; border-radius: 8px;}
+.commerce-page .form-errors {border: 1px solid var(--text-ad3d18, #ad3d18); padding: 16px; margin-bottom: 20px; border-radius: var(--ui-radius);}
 @media (max-width: 850px) {
   .commerce-page .commerce-grid {grid-template-columns: minmax(0, 1fr); gap: 20px;}
   .commerce-page .purchase-summary {position: static;}
@@ -105,5 +112,5 @@
   .commerce-page .offer-workflow {flex-direction: column; gap: 12px;}
 }
 /* Grouped receipts keep each educator's content and price readable. */
-.order-content-list{display:flex;flex-direction:column;gap:18px}.order-content-item{border:1px solid var(--line);border-radius:5px;padding:18px;min-width:0}.order-content-heading{display:flex;justify-content:space-between;align-items:start;gap:20px}.order-content-heading>div{min-width:0}.order-content-heading>strong{white-space:nowrap}.order-content-heading h3{font-size:22px;margin-bottom:8px}.purchase-actions{display:flex;flex-direction:column;gap:12px}.purchase-actions form{margin:0}.purchase-actions .btn{width:100%}.purchase-actions [data-cart-feedback]{margin:12px 0 0}.header-cart{flex-shrink:0}
+.order-content-list{display:flex;flex-direction:column;gap:18px}.order-content-item{border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}.order-content-heading{display:flex;justify-content:space-between;align-items:start;gap:20px}.order-content-heading>div{min-width:0}.order-content-heading>strong{white-space:nowrap}.order-content-heading h3{font-size:22px;margin-bottom:8px}.purchase-actions{display:flex;flex-direction:column;gap:12px}.purchase-actions form{margin:0}.purchase-actions .btn{width:100%}.purchase-actions [data-cart-feedback]{margin:12px 0 0}.header-cart{flex-shrink:0}
 @media(max-width:640px){.order-content-item{padding:14px}.order-content-heading{flex-direction:column;gap:8px}.order-content-heading h3{font-size:21px}.app-header .public-navigation{gap:8px}.app-header .public-navigation .btn{padding-inline:10px}}

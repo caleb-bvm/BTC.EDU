@@ -1,6 +1,6 @@
 {% extends 'academy.html' %}{% load static %}
 {% block title %}Intento {{ attempt.number }} · BTC.EDU{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}?v=20261012-1"><script src="{% static 'js/quizzes.js' %}?v=overhaul-20261014" defer></script>{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}?v=design-20261024"><script src="{% static 'js/quizzes.js' %}?v=overhaul-20261014" defer></script>{% endblock %}
 {% block academy_content %}<section class="assessment-page assessment-attempt">
 <a class="assessment-back" href="{% url 'quiz-detail' attempt.quiz_id %}">← Evaluación e intentos</a>
 <header class="assessment-heading"><p class="eyebrow">Intento {{ attempt.number }} · Versión {{ attempt.enrollment.version.number }}</p><h1>{{ attempt.quiz.title }}</h1><p>{% if attempt.submitted_at %}Un espacio para revisar y seguir aprendiendo.{% else %}Responde a tu ritmo. Puedes volver a cualquier pregunta.{% endif %}</p></header>

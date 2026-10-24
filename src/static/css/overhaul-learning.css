@@ -13,12 +13,12 @@
 .learning-workspace .resume-progress{display:block;margin:0;max-width:430px}
 .learning-workspace .resume-progress .progress-track{width:100%;margin-top:7px}
 .learning-workspace .resume-action{align-self:end;min-width:190px;padding:14px 18px;min-height:48px;white-space:nowrap}
-.learning-workspace .progress-track{accent-color:var(--orange)}
-.learning-workspace .progress-track::-webkit-progress-value{background:var(--orange)}
-.learning-workspace .progress-track::-moz-progress-bar{background:var(--orange)}
+.learning-workspace .progress-track{accent-color:var(--ink)}
+.learning-workspace .progress-track::-webkit-progress-value{background:var(--ink)}
+.learning-workspace .progress-track::-moz-progress-bar{background:var(--ink)}
 .learning-library-tabs{display:flex;align-items:stretch;gap:28px;margin-top:28px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin;min-height:54px}
 .learning-library-tabs a{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent;padding:12px 0 14px;min-height:48px}
-.learning-library-tabs a[aria-current]{color:var(--ink);border-bottom-color:var(--orange);font-weight:600}
+.learning-library-tabs a[aria-current]{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
 .learning-library-tabs a span{font-size:10px;color:var(--muted)}
 .learning-library-tabs a:hover{color:var(--ink)}
 .learning-workspace .learning-section{margin-top:24px}
@@ -51,7 +51,7 @@
 .learning-disclosure[open]>summary{border-bottom:1px solid var(--line)}
 .learning-disclosure>div{padding:20px;font-size:14px;line-height:1.75;overflow-wrap:anywhere}
 .learning-disclosure>div>:last-child{margin-bottom:0}
-.learning-disclosure summary:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.learning-disclosure summary:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .lesson-about{margin:22px 0}
 .lesson-about .unit-overview{margin:0}
 .lesson-about .unit-overview h2{font-size:22px}
@@ -74,7 +74,7 @@
 .lesson-help .lesson-discussion-body{padding:20px}
 .lesson-help .discussion-heading{gap:16px}
 .student-question-compose{max-width:820px;margin:auto}
-.question-lesson-context{padding:20px;border:1px solid var(--line);border-left:3px solid var(--orange);background:var(--paper);margin-bottom:20px;overflow-wrap:anywhere}
+.question-lesson-context{padding:20px;border:1px solid var(--line);border-left:3px solid var(--ink);background:var(--paper);margin-bottom:20px;overflow-wrap:anywhere}
 .question-lesson-context .eyebrow{font-size:9px}
 .academy .question-lesson-context h2{font-size:24px}
 .question-lesson-context .text-link{font-size:13px}
@@ -88,7 +88,7 @@
 .requirement-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:3px}
 .requirement-list li{display:flex;align-items:center;gap:16px;padding:20px;background:var(--ui-surface,var(--paper));overflow-wrap:anywhere}
 .requirement-list li+li{border-top:1px solid var(--line)}
-.requirement-marker{font-size:20px;color:var(--orange)}
+.requirement-marker{font-size:20px;color:var(--ink)}
 .requirement-complete .requirement-marker{color:var(--learning-green)}
 .requirement-list li>div{flex:1;min-width:0}
 .requirement-list strong{font-size:14px;display:block}

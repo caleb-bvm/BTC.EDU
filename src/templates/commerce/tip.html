@@ -16,9 +16,9 @@
         <p class="invoice-deadline">Vence a las <strong>{{ tip.expires_at|date:'H:i' }}</strong> del {{ tip.expires_at|date:'d/m/Y' }}.</p>
         {% if can_pay %}
           {% if external_payment %}
-            <div class="invoice-payment"><img src="{% url 'tip-qr' tip.pk %}" width="280" height="280" alt="QR de la factura Lightning para pagar {{ tip.amount_sats }} sats"><a class="btn btn-dark" href="lightning:{{ tip.payment_request }}">Abrir pago →</a><details class="purchase-terms"><summary>Copiar factura Lightning</summary><label class="visually-hidden" for="payment-request">Factura Lightning</label><textarea id="payment-request" readonly rows="4">{{ tip.payment_request }}</textarea><button type="button" class="btn btn-outline-dark" data-copy-payment="payment-request">Copiar factura</button><p class="small-note" role="status" data-copy-status hidden></p></details></div>
+            <div class="invoice-payment"><img src="{% url 'tip-qr' tip.pk %}" width="280" height="280" alt="QR de la factura Lightning para pagar {{ tip.amount_sats }} sats"><a class="btn btn-accent" href="lightning:{{ tip.payment_request }}">Abrir pago →</a><details class="purchase-terms"><summary>Copiar factura Lightning</summary><label class="visually-hidden" for="payment-request">Factura Lightning</label><textarea id="payment-request" readonly rows="4">{{ tip.payment_request }}</textarea><button type="button" class="btn btn-outline-dark" data-copy-payment="payment-request">Copiar factura</button><p class="small-note" role="status" data-copy-status hidden></p></details></div>
           {% else %}
-            <form method="post" action="{% url 'tip-action' tip.pk %}" data-payment-form data-pending-label="Procesando tu pago…">{% csrf_token %}<input type="hidden" name="action" value="pay"><button class="btn btn-dark" type="submit">Pagar {{ tip.amount_sats }} sats →</button></form>
+            <form method="post" action="{% url 'tip-action' tip.pk %}" data-payment-form data-pending-label="Procesando tu pago…">{% csrf_token %}<input type="hidden" name="action" value="pay"><button class="btn btn-accent" type="submit">Pagar {{ tip.amount_sats }} sats →</button></form>
           {% endif %}
           <p hidden class="small-note" role="status" data-invoice-status="{% url 'tip-status' tip.pk %}"></p>
         {% endif %}

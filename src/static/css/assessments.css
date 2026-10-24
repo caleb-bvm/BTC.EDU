@@ -1,5 +1,5 @@
 /* Assessment surfaces: paper, ink and orange, with readable functional copy. */
-.assessment-page{max-width:1120px;margin-inline:auto;min-width:0;font-family:Arial,sans-serif;--assessment-wash:var(--learning-tone-f8f8f4,#f8f8f4);--assessment-success:var(--learning-green,#246347)}
+.assessment-page{max-width:1120px;margin-inline:auto;min-width:0;font-family:var(--font-sans);--assessment-wash:var(--learning-tone-f8f8f4,#f8f8f4);--assessment-success:var(--learning-green,#246347)}
 .assessment-page [hidden]{display:none!important}
 .assessment-page :is(h1,h2,h3,p){overflow-wrap:anywhere}
 .assessment-page p{line-height:1.75;margin:0 0 16px}
@@ -21,11 +21,11 @@
 .assessment-rule>span,.assessment-number{font:11px 'Space Mono',monospace;color:var(--accent-ink);flex-shrink:0}
 .assessment-rule>span{padding-top:4px}
 .assessment-rule p,.assessment-start p{font-size:13px;color:var(--muted);margin-bottom:0}
-.assessment-start{background:var(--assessment-wash);border-top:3px solid var(--orange)}
+.assessment-start{background:var(--assessment-wash);border-top:3px solid var(--ink)}
 .assessment-start .assessment-available{margin:24px 0;color:var(--ink)}
 .assessment-available strong{font-size:26px}
 .assessment-start .btn{width:100%;margin-top:24px}
-.assessment-page .btn{font-family:inherit;font-size:13px;min-height:46px;padding:12px 18px;white-space:normal;border-radius:4px;line-height:1.5}
+.assessment-page .btn{font-family:inherit;font-size:14px;min-height:48px;padding:12px 22px;white-space:normal;border-radius:999px;line-height:1.5}
 .assessment-page .assessment-small{font-size:11px;line-height:1.7;color:var(--muted);margin-top:16px}
 .assessment-history{margin-top:40px}
 .assessment-section-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:32px 0 16px}

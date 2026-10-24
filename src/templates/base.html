@@ -11,24 +11,25 @@
   <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
   <link rel="manifest" href="{% url 'pwa-manifest' %}">
   <link rel="apple-touch-icon" href="{% static 'images/icons/apple-touch-icon.png' %}">
-  <meta name="theme-color" content="#141414">
+  <meta name="theme-color" content="#000000">
+  <link rel="preload" href="{% static 'fonts/InterTight-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/site.css' %}?v=marker-20261012-1">
-  <link rel="stylesheet" href="{% static 'css/academy.css' %}?v=images-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}?v=design-20261024">
+  <link rel="stylesheet" href="{% static 'css/academy.css' %}?v=design-20261024">
   <link rel="stylesheet" href="{% static 'css/commerce.css' %}?v=units-20261013-1">
   {% block extra_head %}{% endblock %}
   <link rel="stylesheet" href="{% static 'css/essential.css' %}?v=dark-20261012-2">
-  <link rel="stylesheet" href="{% static 'css/learning-experience.css' %}?v=courses-20261015-1">
+  <link rel="stylesheet" href="{% static 'css/learning-experience.css' %}?v=design-20261024">
   <link rel="stylesheet" href="{% static 'css/lesson-community.css' %}?v=lessons-20261012-1">
-  <link rel="stylesheet" href="{% static 'css/theme.css' %}?v=dark-20261012-2">
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}?v=design-20261024">
   <link rel="stylesheet" href="{% static 'css/accounts.css' %}?v=accounts-20261014-1">
-  <link rel="stylesheet" href="{% static 'css/overhaul.css' %}?v=images-20261014-1">
-  <link rel="stylesheet" href="{% static 'css/overhaul-learning.css' %}?v=images-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/overhaul.css' %}?v=design-20261024">
+  <link rel="stylesheet" href="{% static 'css/overhaul-learning.css' %}?v=design-20261024">
   <link rel="stylesheet" href="{% static 'css/overhaul-creators.css' %}?v=images-20261014-1">
-  <link rel="stylesheet" href="{% static 'css/overhaul-commerce.css' %}?v=commercial-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/overhaul-commerce.css' %}?v=design-20261024">
   <link rel="stylesheet" href="{% static 'css/cart.css' %}?v=images-20261014-1">
-  <link rel="stylesheet" href="{% static 'css/navigation.css' %}?v=navigation-20261014-2">
-  <link rel="stylesheet" href="{% static 'css/categories.css' %}?v=panel-20261015-2">
+  <link rel="stylesheet" href="{% static 'css/navigation.css' %}?v=design-20261024">
+  <link rel="stylesheet" href="{% static 'css/categories.css' %}?v=design-20261024">
   <link rel="stylesheet" href="{% static 'css/content-images.css' %}?v=courses-20261015-1">
   <link rel="stylesheet" href="{% static 'css/features.css' %}?v=features-20261023">
   <script src="{% static 'js/forms.js' %}?v=20261014-1" defer></script>

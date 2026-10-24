@@ -1,5 +1,5 @@
 {% extends 'creators/base.html' %}{% load static %}
-{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/assessments.css' %}?v=20261012-1"><script src="{% static 'js/quizzes.js' %}?v=overhaul-20261014" defer></script>{% endblock %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/assessments.css' %}?v=design-20261024"><script src="{% static 'js/quizzes.js' %}?v=overhaul-20261014" defer></script>{% endblock %}
 {% block title %}Evaluación de {{ lesson.title }} · BTC.EDU{% endblock %}
 {% block studio_content %}<section class="assessment-page assessment-editor">
 <a class="assessment-back" href="{% url 'creator-course' lesson.chapter.course_id %}?seccion=evaluaciones">← Volver al curso</a>

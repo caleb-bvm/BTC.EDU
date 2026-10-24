@@ -1,5 +1,5 @@
 {% extends 'base.html' %}{% load static %}
 {% block body_class %}academy auth-layout{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/creators.css' %}?v=overhaul-20261014">{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/creators.css' %}?v=design-20261024">{% endblock %}
 {% block header %}{% include '_app_header.html' with public_header=True %}{% endblock %}
 {% block content %}<div class="auth-page">{% for message in messages %}<div class="notice" role="status" data-message-level="{{ message.tags }}">{{ message }}</div>{% endfor %}{% block auth_content %}{% endblock %}</div>{% endblock %}

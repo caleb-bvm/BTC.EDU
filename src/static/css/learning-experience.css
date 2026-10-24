@@ -10,9 +10,9 @@
 .course-facts span{font-size:12px!important;padding:7px 10px!important;background:var(--paper)}
 .version-note{color:var(--muted);font-size:11px}
 .course-section-links{display:flex;gap:24px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px;margin-top:28px}
-.course-section-links a{font-size:13px;text-decoration:none;padding:5px 0;border-bottom:1px solid var(--orange)}
+.course-section-links a{font-size:13px;text-decoration:none;padding:5px 0;border-bottom:1px solid var(--ink)}
 .course-preparation{margin-top:34px;display:grid;grid-template-columns:1fr;gap:20px}
-.course-preparation section{padding:22px 24px;border-left:2px solid var(--orange);background:var(--paper);position:relative;scroll-margin-top:24px}
+.course-preparation section{padding:22px 24px;border-left:2px solid var(--ink);background:var(--paper);position:relative;scroll-margin-top:24px}
 .academy .course-preparation h2{font-size:23px;letter-spacing:-.5px;margin-bottom:12px;padding-right:24px}
 .course-preparation p{font-size:14px;line-height:1.75;margin:0 0 8px;max-width:60ch}
 .course-preparation p:last-child{margin:0}
@@ -123,7 +123,7 @@
 .academy .reading-block h2{font-size:19px;letter-spacing:-.2px;margin-bottom:16px}
 .reading-block p:last-child{margin:0}
 .reading-example{border-left:3px solid var(--learning-tone-c4c4b8,#c4c4b8)}
-.reading-practice{background:var(--learning-tone-fff8f1,#fff8f1);border-left:3px solid var(--orange)}
+.reading-practice{background:var(--learning-tone-fff8f1,#fff8f1);border-left:3px solid var(--ink)}
 .reading-reference{background:transparent;padding:18px 0;border-width:1px 0 0;color:var(--muted);font-size:13px;margin-top:30px}
 .reading-reference a{overflow-wrap:anywhere}
 .reading-solution{margin:22px 0;border:1px solid var(--learning-tone-cce0d2,#cce0d2);background:var(--learning-green-soft)}

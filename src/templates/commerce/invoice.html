@@ -24,9 +24,9 @@
       {% if invoice.status == 'paid' %}
         <p>Confirmada el {{ invoice.purchase.created_at|date:'d/m/Y H:i' }}.</p>
         {% if refund.status == 'refunded' %}<div class="purchase-state"><h3>Compra reembolsada</h3><p>Enviamos {{ refund.amount_sats }} sats a tu wallet el {{ refund.refunded_at|date:'d/m/Y' }}. El acceso de esta compra terminó; tu avance se conserva.</p></div>
-        {% elif gift %}<p>Comparte el enlace para que otra persona canjee el contenido.</p><a class="btn btn-dark" href="{{ destination }}">{{ destination_label }} →</a>
+        {% elif gift %}<p>Comparte el enlace para que otra persona canjee el contenido.</p><a class="btn btn-accent" href="{{ destination }}">{{ destination_label }} →</a>
         {% else %}<p>Tu contenido ya está en Mi aprendizaje.</p>
-        <a class="btn btn-dark" href="{{ destination }}">{{ destination_label }} →</a>{% url 'workspace' as workspace_url %}{% if destination != workspace_url %}<a class="text-link" href="{{ workspace_url }}">Ver mi aprendizaje →</a>{% endif %}{% endif %}
+        <a class="btn btn-accent" href="{{ destination }}">{{ destination_label }} →</a>{% url 'workspace' as workspace_url %}{% if destination != workspace_url %}<a class="text-link" href="{{ workspace_url }}">Ver mi aprendizaje →</a>{% endif %}{% endif %}
         {% if refund and refund.status != 'refunded' %}<div class="purchase-state"><h3>Reembolso: {{ refund.get_status_display|lower }}</h3>{% if refund.status == 'rejected' %}<p>{{ refund.decision_note }}</p>{% else %}<p>Revisaremos tu solicitud y te avisaremos.</p>{% endif %}</div>
         {% elif can_refund %}<a class="text-link" href="{% url 'refund-request' invoice.pk %}">Solicitar reembolso</a>{% endif %}
       {% elif needs_review or invoice.incident and invoice.incident != 'emission_unknown' and invoice.incident != 'provider_failed' %}
@@ -42,9 +42,9 @@
           <div class="purchase-state"><h3>Ya adquiriste parte del contenido</h3><p>Esta factura no debe volver a pagarse. Abre tu biblioteca o compra únicamente lo que falta.</p></div><a class="btn btn-dark" href="{% url 'workspace' %}">Ir a mi aprendizaje →</a>{% if retry_url %}<a class="text-link" href="{{ retry_url }}">Ver opciones que faltan →</a>{% endif %}
         {% elif can_pay %}
           {% if external_payment %}
-            <div class="invoice-payment"><img src="{% url 'invoice-qr' invoice.pk %}" width="280" height="280" alt="QR de la factura Lightning para pagar {{ invoice.amount_sats }} sats"><a class="btn btn-dark" href="lightning:{{ invoice.payment_request }}">Abrir pago →</a><details class="purchase-terms"><summary>Copiar factura Lightning</summary><label class="visually-hidden" for="payment-request">Factura Lightning</label><textarea id="payment-request" readonly rows="4">{{ invoice.payment_request }}</textarea><button type="button" class="btn btn-outline-dark" data-copy-payment="payment-request">Copiar factura</button><p class="small-note" role="status" data-copy-status hidden></p></details></div>
+            <div class="invoice-payment"><img src="{% url 'invoice-qr' invoice.pk %}" width="280" height="280" alt="QR de la factura Lightning para pagar {{ invoice.amount_sats }} sats"><a class="btn btn-accent" href="lightning:{{ invoice.payment_request }}">Abrir pago →</a><details class="purchase-terms"><summary>Copiar factura Lightning</summary><label class="visually-hidden" for="payment-request">Factura Lightning</label><textarea id="payment-request" readonly rows="4">{{ invoice.payment_request }}</textarea><button type="button" class="btn btn-outline-dark" data-copy-payment="payment-request">Copiar factura</button><p class="small-note" role="status" data-copy-status hidden></p></details></div>
           {% else %}
-            <form method="post" action="{% url 'invoice-action' invoice.pk %}" data-payment-form data-pending-label="Procesando tu pago…">{% csrf_token %}<input type="hidden" name="action" value="pay"><button class="btn btn-dark" type="submit">Pagar {{ invoice.amount_sats }} sats →</button></form>
+            <form method="post" action="{% url 'invoice-action' invoice.pk %}" data-payment-form data-pending-label="Procesando tu pago…">{% csrf_token %}<input type="hidden" name="action" value="pay"><button class="btn btn-accent" type="submit">Pagar {{ invoice.amount_sats }} sats →</button></form>
           {% endif %}
           <p hidden class="small-note" role="status" data-invoice-status="{% url 'invoice-status' invoice.pk %}"></p>
         {% else %}

@@ -1,6 +1,6 @@
 {% extends 'academy.html' %}{% load static %}
 {% block title %}{{ quiz.title }} · BTC.EDU{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}?v=20261012-1">{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/assessments.css' %}?v=design-20261024">{% endblock %}
 {% block academy_content %}
 <section class="assessment-page">
   <a class="assessment-back" href="{% url 'version-lesson' enrollment.version.course_id enrollment.version.number quiz.lesson_id %}">← Volver a la lección</a>

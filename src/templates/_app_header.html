@@ -1,7 +1,7 @@
 <header class="academy-header app-header">
   <div class="app-header-brand">
     {% if not public_header %}<button class="nav-toggle js-only icon-button" type="button" aria-label="Abrir menú principal" aria-expanded="false" aria-controls="academy-navigation"><svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="nav-toggle-label">Menú</span></button>{% endif %}
-    <a class="brand" href="{% if reviewer %}{% url 'admin:index' %}{% else %}{{ navigation_home_url|default:'/' }}{% endif %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU</span></a>
+    <a class="brand" href="{% if reviewer %}{% url 'admin:index' %}{% else %}{{ navigation_home_url|default:'/' }}{% endif %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU<span class="brand-signal">.</span></span></a>
   </div>
   <div class="academy-header-actions">
     {% include '_theme_toggle.html' %}

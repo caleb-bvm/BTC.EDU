@@ -15,7 +15,7 @@ def manifest(request):
         "name": "BTC.EDU", "short_name": "BTC.EDU", "lang": "es",
         "description": "Cursos, videos y materiales. Elige lo que quieres aprender.",
         "start_url": "/mi-espacio/", "scope": "/", "display": "standalone",
-        "background_color": "#141414", "theme_color": "#141414", "icons": icons,
+        "background_color": "#000000", "theme_color": "#000000", "icons": icons,
     }, content_type="application/manifest+json", json_dumps_params={"ensure_ascii": False})
     response["Cache-Control"] = "public, max-age=3600"
     return response
