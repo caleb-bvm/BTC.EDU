@@ -33,7 +33,8 @@ def setup():
             call("PUT", "/users/api/v1/balance", json={"id": payer["id"], "amount": 1_000_000})
         env = "\n".join(("COMMERCE_SIMULATION=true", "LNBITS_URL=http://127.0.0.1:5000",
                          "LNBITS_INVOICE_KEY=" + wallets["receiver"]["inkey"],
-                         "LNBITS_PAYER_KEY=" + payer["adminkey"], "LNBITS_ADMIN_TOKEN=" + auth["access_token"], ""))
+                         "LNBITS_PAYER_KEY=" + payer["adminkey"], "LNBITS_REFUND_KEY=" + wallets["receiver"]["adminkey"],
+                         "LNBITS_ADMIN_TOKEN=" + auth["access_token"], ""))
         (local / "commerce.env").write_text(env, encoding="utf-8")
     print("OK: FakeWallet verificada; comercio simulado preparado. Reinicia Django para cargar la configuración local.")
 

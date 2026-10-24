@@ -75,4 +75,4 @@ def owns_revision(user, resource_id):
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return False
     from commerce.models import Entitlement
-    return Entitlement.objects.filter(buyer=user, resource_id=resource_id).exists()
+    return Entitlement.objects.active().filter(buyer=user, resource_id=resource_id).exists()

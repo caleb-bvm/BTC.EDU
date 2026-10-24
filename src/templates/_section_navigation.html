@@ -1,0 +1,5 @@
+{% if section_navigation_links %}
+<nav class="section-navigation" aria-label="{{ section_navigation_label }}">
+  {% for link in section_navigation_links %}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.label }}</a>{% endfor %}
+</nav>
+{% endif %}

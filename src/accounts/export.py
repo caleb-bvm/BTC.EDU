@@ -4,7 +4,15 @@ from django.utils import timezone
 def account_data(user):
     from commerce.models import Invoice
     from creators.models import Submission
-    from learning.models import Certificate, Enrollment, QuizAttempt, SavedItem
+    from learning.models import (
+        Certificate,
+        Enrollment,
+        PracticeDelivery,
+        PracticeReview,
+        QuizAttempt,
+        SavedCollection,
+        SavedItem,
+    )
 
     fields = ("id", "email", "account_type", "first_name", "last_name", "display_name", "bio", "interests", "learning_goal", "website", "profile_public", "email_verified_at", "date_joined")
     data = {"exported_at": timezone.now(), "account": {key: getattr(user, key) for key in fields},
@@ -18,9 +26,13 @@ def account_data(user):
         data["invoices"] = list(Invoice.objects.filter(buyer=user).values("id", "title", "amount_sats", "status", "created_at"))
         data["assessments"] = list(QuizAttempt.objects.filter(enrollment__student=user).values("id", "quiz_id", "passed", "score", "submitted_at"))
         data["certificates"] = list(Certificate.objects.filter(enrollment__student=user).values("id", "student_name", "issued_at"))
-        data["saved_items"] = list(SavedItem.objects.filter(student=user).values("id", "title", "resource_id", "reference_id", "source_url", "created_at"))
+        data["saved_items"] = list(SavedItem.objects.filter(student=user).values("id", "title", "resource_id", "reference_id", "course_version_id", "source_url", "created_at"))
+        data["saved_collections"] = list(SavedCollection.objects.filter(student=user).values("id", "name", "items__id"))
+        data["practice_deliveries"] = list(PracticeDelivery.objects.filter(enrollment__student=user).values("id", "practice_id", "number", "body", "project_url", "attachment_name", "attachment_size", "submitted_at", "due_at"))
+        data["practice_reviews"] = list(PracticeReview.objects.filter(delivery__enrollment__student=user).values("delivery_id", "outcome", "feedback", "met_criteria", "created_at"))
     else:
         profile = getattr(user, "creator_profile", None)
         data["creator_profile"] = {key: getattr(profile, key) for key in ("display_name", "bio", "specialty", "website", "status", "feedback", "reviewed_at")} if profile else None
+        data["practice_reviews"] = list(PracticeReview.objects.filter(educator=user).values("delivery_id", "outcome", "feedback", "met_criteria", "created_at"))
         data["submissions"] = list(Submission.objects.filter(creator=user).values("id", "status", "feedback", "created_at", "reviewed_at"))
     return data

@@ -85,7 +85,7 @@ class ScopedResetConfirmView(PasswordResetConfirmView):
 def recovery_patterns(creator=False):
     name = "creator" if creator else "student"
     context = {
-        "auth_base": "creators/auth_base.html" if creator else "academy.html",
+        "auth_base": "creators/auth_base.html" if creator else "_auth_base.html",
         "space_label": "creador" if creator else "estudiante",
         "login_name": "creator-login" if creator else "login",
     }

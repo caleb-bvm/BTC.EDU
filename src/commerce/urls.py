@@ -1,8 +1,16 @@
 from django.urls import path
 
-from . import views
+from . import cart_views, feature_views, views
 
 urlpatterns = [
+    path("carrito/", cart_views.cart_detail, name="cart"),
+    path("carrito/anadir/<int:pk>/", cart_views.cart_add, name="cart-add"),
+    path("carrito/quitar/<uuid:pk>/", cart_views.cart_remove, name="cart-remove"),
+    path("carrito/deshacer/", cart_views.cart_undo, name="cart-undo"),
+    path("carrito/guardar/<uuid:pk>/", cart_views.cart_save, name="cart-save"),
+    path("carrito/incorporar/", cart_views.cart_merge, name="cart-merge"),
+    path("comprar/", cart_views.cart_checkout, name="cart-checkout"),
+    path("comprar/oferta/<int:pk>/", cart_views.direct_checkout, name="direct-checkout"),
     path("crear/ofertas/<int:pk>/revision/", views.offer_review, name="offer-review"),
     path("ofertas/<int:pk>/", views.offer_detail, name="offer-detail"),
     path("ofertas/<int:pk>/comprar/", views.checkout, name="checkout"),
@@ -11,4 +19,13 @@ urlpatterns = [
     path("facturas/<uuid:pk>/qr/", views.invoice_qr, name="invoice-qr"),
     path("facturas/<uuid:pk>/estado/", views.invoice_status, name="invoice-status"),
     path("facturas/<uuid:pk>/comprobar/", views.invoice_action, name="invoice-action"),
+    path("facturas/<uuid:pk>/reembolso/", feature_views.refund_request, name="refund-request"),
+    path("administracion/reembolsos/<uuid:pk>/", feature_views.refund_review, name="refund-review"),
+    path("regalos/<str:token>/", feature_views.gift_detail, name="gift-detail"),
+    path("propinas/", feature_views.student_tips, name="student-tips"),
+    path("propinas/nueva/", feature_views.tip_create, name="tip-create"),
+    path("propinas/<uuid:pk>/", feature_views.tip_detail, name="tip-detail"),
+    path("propinas/<uuid:pk>/qr/", feature_views.tip_qr, name="tip-qr"),
+    path("propinas/<uuid:pk>/estado/", feature_views.tip_status, name="tip-status"),
+    path("propinas/<uuid:pk>/comprobar/", feature_views.tip_action, name="tip-action"),
 ]

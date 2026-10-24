@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Sin conexión · BTC.EDU{% endblock %}
+{% block body_class %}offline-page{% endblock %}
+{% block header %}<header class="shell offline-header"><a class="brand" href="/">BTC.EDU</a></header>{% endblock %}
+{% block content %}
+<section class="shell offline-content">
+  <p class="eyebrow">SIN CONEXIÓN</p>
+  <h1>No hay conexión en este momento.</h1>
+  <p>Puedes leer las lecciones que guardaste en este dispositivo. El avance, las compras y la comunidad se actualizan cuando vuelvas a conectarte.</p>
+  <h2>Guardadas en este dispositivo</h2>
+  <ul class="offline-list" data-offline-list hidden></ul>
+  <p class="muted" data-offline-empty hidden>Todavía no guardaste lecciones. Abre una lección con conexión y elige «Guardar sin conexión».</p>
+  <a class="btn btn-outline-dark" href="/">Intentar de nuevo</a>
+</section>
+{% endblock %}

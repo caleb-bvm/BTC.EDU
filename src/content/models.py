@@ -30,14 +30,56 @@ class CourseLevel(models.TextChoices):
     ADVANCED = "advanced", "Avanzado"
 
 
-class Topic(models.Model):
+TOPIC_ARTWORK_CHOICES = (
+    ("bitcoin", "Bitcoin"), ("lightning", "Lightning"),
+    ("seguridad", "Seguridad"), ("desarrollo", "Desarrollo"), ("general", "Aprendizaje"),
+)
+
+
+class Category(models.Model):
     name = models.CharField("nombre", max_length=100, unique=True)
     slug = models.SlugField("identificador", unique=True)
+    description = models.CharField("descripción de la categoría", max_length=200, blank=True)
+    artwork = models.CharField("imagen de la categoría", max_length=20, blank=True, choices=(
+        *TOPIC_ARTWORK_CHOICES, ("tecnologia", "Tecnología"), ("creacion", "Creación"),
+    ), help_text="En blanco, se elige según la categoría; las categorías nuevas usan la imagen de aprendizaje.")
+
+    @property
+    def category_image(self):
+        artwork = self.artwork or {
+            "bitcoin": "bitcoin", "tecnologia": "tecnologia", "creacion": "creacion",
+        }.get(self.slug, "general")
+        return f"images/categories/{artwork}.svg"
 
     class Meta:
         ordering = ("name", "pk")
-        verbose_name = "tema"
-        verbose_name_plural = "temas"
+        verbose_name = "categoría"
+        verbose_name_plural = "categorías"
+
+    def __str__(self):
+        return self.name
+
+
+class Topic(models.Model):
+    name = models.CharField("nombre", max_length=100, unique=True)
+    slug = models.SlugField("identificador", unique=True)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, blank=True, related_name="topics", verbose_name="categoría")
+    description = models.CharField("descripción de la subcategoría", max_length=200, blank=True)
+    artwork = models.CharField("imagen de la subcategoría", max_length=20, blank=True, choices=TOPIC_ARTWORK_CHOICES,
+                               help_text="En blanco, se elige según el tema; los temas nuevos usan la imagen de aprendizaje.")
+
+    @property
+    def category_image(self):
+        artwork = self.artwork or {
+            "bitcoin": "bitcoin", "lightning": "lightning", "seguridad": "seguridad",
+            "desarrollo-lightning": "desarrollo",
+        }.get(self.slug, "general")
+        return f"images/categories/{artwork}.svg"
+
+    class Meta:
+        ordering = ("name", "pk")
+        verbose_name = "subcategoría"
+        verbose_name_plural = "subcategorías"
 
     def __str__(self):
         return self.name

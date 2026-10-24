@@ -250,13 +250,16 @@ def sessions(request, creator=False):
 @account_required
 @require_http_methods(["GET", "POST"])
 def support(request, creator=False):
-    form = SupportForm(request.POST if request.method == "POST" else None, user=request.user)
+    from .support_context import verified_support_context
+    context = verified_support_context(request.user, request.POST if request.method == "POST" else request.GET)
+    form = SupportForm(request.POST if request.method == "POST" else None, user=request.user, context=context)
     if request.method == "POST" and form.is_valid():
         try:
             allow(request, request.user.account_type, "support", request.user.email)
             with transaction.atomic():
-                item, created = AccountSupportRequest.objects.get_or_create(user=request.user, request_key=form.cleaned_data["request_key"], defaults={"kind": form.cleaned_data["kind"], "body": form.cleaned_data["body"]})
-                if item.kind != form.cleaned_data["kind"] or item.body != form.cleaned_data["body"]:
+                body = (context["body_prefix"] if context else "") + form.cleaned_data["body"]
+                item, created = AccountSupportRequest.objects.get_or_create(user=request.user, request_key=form.cleaned_data["request_key"], defaults={"kind": form.cleaned_data["kind"], "body": body})
+                if item.kind != form.cleaned_data["kind"] or item.body != body:
                     raise ValidationError("Este envío ya fue utilizado. Recarga antes de enviar otro mensaje.")
                 if created:
                     SupportEvent.objects.create(request=item, status="open", actor=request.user)
@@ -265,7 +268,7 @@ def support(request, creator=False):
         else:
             messages.success(request, "Solicitud recibida. Puedes consultar su estado y las respuestas aquí.")
             return redirect(f"{'creator' if creator else 'student'}-account-support")
-    return account_render(request, creator, "support", form=form, requests=Paginator(AccountSupportRequest.objects.filter(user=request.user).prefetch_related("history"), 10).get_page(request.GET.get("pagina")))
+    return account_render(request, creator, "support", form=form, support_context=context, requests=Paginator(AccountSupportRequest.objects.filter(user=request.user).prefetch_related("history"), 10).get_page(request.GET.get("pagina")))
 
 
 @account_required

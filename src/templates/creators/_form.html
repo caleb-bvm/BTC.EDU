@@ -1,5 +1,5 @@
-{% csrf_token %}
-<input type="hidden" name="account_id" value="{{ user.pk }}">
-{% if form.errors %}<div class="studio-notice studio-error" role="alert">Revisa los campos indicados. Tus cambios siguen en este formulario.{{ form.non_field_errors }}</div>{% endif %}
-{% for field in form %}{% if field.is_hidden %}{{ field }}{% else %}<div class="studio-field">{{ field.label_tag }}{{ field }}{% if field.help_text %}<small id="{{ field.auto_id }}_helptext">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endif %}{% endfor %}
-<div class="studio-actions"><button class="btn btn-dark" type="submit">{{ save_label|default:'Guardar borrador' }}</button><span class="studio-save" role="status">Sin cambios pendientes</span></div>
+{% csrf_token %}<input type="hidden" name="account_id" value="{{ user.pk }}">
+{% if form.errors %}<div class="studio-notice studio-error" data-field-error-summary role="alert" tabindex="-1"><strong>Revisa los campos indicados.</strong> Tus cambios siguen en este formulario.{{ form.non_field_errors }}<ul>{% for field in form %}{% if field.errors and not field.is_hidden %}<li><a href="#{{ field.id_for_label }}">{{ field.label }}: {{ field.errors|striptags }}</a></li>{% endif %}{% endfor %}</ul></div>{% endif %}
+{% for field in form %}{% if field.is_hidden %}{{ field }}{{ field.errors }}{% endif %}{% endfor %}
+{% if form_groups %}{% for group in form_groups %}<fieldset class="studio-field-group"><legend>{{ group.title }}</legend>{% for field in group.fields %}{% include 'creators/_field.html' %}{% endfor %}</fieldset>{% endfor %}{% else %}{% for field in form %}{% if not field.is_hidden %}{% include 'creators/_field.html' %}{% endif %}{% endfor %}{% endif %}
+<div class="studio-actions studio-save-bar"><button class="btn btn-dark" type="submit">{{ save_label|default:'Guardar borrador' }} →</button><span class="studio-save" role="status">Sin cambios pendientes</span></div>

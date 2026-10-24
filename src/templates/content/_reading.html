@@ -1,7 +1,7 @@
 <div class="reading-copy lesson-body">
 {% for section in reading_sections %}
-  {% if section.kind == 'solution' %}<details class="reading-solution"><summary>{{ section.title }} <span aria-hidden="true">＋</span></summary><div>{{ section.text|linebreaks|urlize }}</div></details>
-  {% elif section.kind == 'text' %}{{ section.text|linebreaks|urlize }}
-  {% else %}<section class="reading-block reading-{{ section.kind }}"><h2>{{ section.title }}</h2>{{ section.text|linebreaks|urlize }}</section>{% endif %}
+  {% if section.kind == 'solution' %}<details class="reading-solution"><summary>{{ section.title }} <span aria-hidden="true">＋</span></summary><div>{% include 'content/_reading_blocks.html' %}</div></details>
+  {% elif section.kind == 'text' %}{% include 'content/_reading_blocks.html' %}
+  {% else %}<section class="reading-block reading-{{ section.kind }}"><h2>{{ section.title }}</h2>{% include 'content/_reading_blocks.html' %}{% if section.embed_url %}<details class="lesson-video"><summary>Reproducir video de apoyo</summary><iframe src="{{ section.embed_url }}" title="Video complementario de la lección" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe></details>{% endif %}</section>{% endif %}
 {% empty %}<p class="muted">Esta lección todavía no tiene texto.</p>{% endfor %}
 </div>

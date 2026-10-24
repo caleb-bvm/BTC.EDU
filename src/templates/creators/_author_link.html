@@ -1,0 +1,1 @@
+{% if person.has_public_profile and person.account_type == 'creator' and person.creator_profile.status == 'approved' %}<a class="educator-author-link" href="{% url 'creator-public-profile' person.pk %}">{{ author_name }}</a>{% else %}{{ author_name }}{% endif %}

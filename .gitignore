@@ -20,6 +20,13 @@ __pycache__/
 htmlcov/
 coverage.xml
 
+# Registros de pruebas: conservar solo resúmenes y capturas seleccionadas
+/src/docs/evidence/*-check*.txt
+/src/docs/evidence/*-integracion*.txt
+/src/docs/evidence/*-verificacion*.txt
+/src/docs/evidence/navegacion-*.json
+!/src/docs/evidence/navegacion-integracion-*.json
+
 # Bases de datos y registros locales
 *.sqlite
 *.sqlite3

@@ -1,0 +1,9 @@
+{% extends 'academy.html' %}
+{% block title %}Propinas · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="learning-page commerce-page">
+  <header class="page-heading"><div><p class="eyebrow">COMPRAS</p><h1>Propinas enviadas.</h1><p>Los agradecimientos que enviaste a educadores.</p></div></header>
+  <div class="purchase-list">{% for tip in tips %}<article class="purchase-card"><div class="purchase-card-main"><span class="access-badge">{{ tip.get_status_display }}</span><h3><a href="{% url 'tip-detail' tip.pk %}">{{ tip.amount_sats }} sats para {{ tip.creator.public_name }}</a></h3><p>{% if tip.lesson_id %}{{ tip.lesson.content.title }} · {% endif %}{{ tip.created_at|date:'d/m/Y H:i' }}</p></div></article>{% empty %}<div class="commerce-empty"><h3>Todavía no enviaste propinas.</h3><p>Al terminar una lección puedes agradecer al educador con sats.</p></div>{% endfor %}</div>
+  {% include 'commerce/_pagination.html' with page=tips %}
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'academy.html' %}
+{% block title %}Solicitar reembolso · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="learning-page commerce-page">
+  <nav class="breadcrumbs" aria-label="Tu recorrido"><a href="{% url 'invoice-detail' invoice.pk %}">← Volver a la compra</a><span aria-current="page">Reembolso</span></nav>
+  <header class="page-heading"><div><p class="eyebrow">REEMBOLSO</p><h1>Solicita un reembolso.</h1><p>{{ invoice.title }} · {{ invoice.amount_sats }} sats</p></div></header>
+  <div class="commerce-grid">
+    <section class="commerce-panel">
+      {% if form.non_field_errors %}<div class="form-errors" role="alert">{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>{% endif %}
+      <form method="post" data-payment-form data-pending-label="Enviando…">{% csrf_token %}{{ form.as_p }}<button class="btn btn-dark" type="submit">Enviar solicitud →</button></form>
+    </section>
+    <aside class="commerce-panel purchase-summary"><h2>Antes de enviar</h2><p>Puedes solicitarlo durante {{ refund_days }} días desde la compra, si todavía no obtuviste un certificado con este contenido.</p><p>Revisamos cada solicitud. Si la aprobamos, enviamos los sats a tu factura y el acceso de esta compra termina. Tu avance se conserva.</p></aside>
+  </div>
+</section>
+{% endblock %}

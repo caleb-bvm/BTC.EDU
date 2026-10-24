@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0v40" stroke="#d4d7cb" stroke-width=".6"/></pattern><linearGradient id="screen" x2="1" y2="1"><stop stop-color="#e5e9dc"/><stop offset="1" stop-color="#cbd2c0"/></linearGradient></defs>
+  <path fill="#efefe6" d="M0 0h640v360H0z"/><path fill="url(#grid)" d="M0 0h640v360H0z"/>
+  <ellipse cx="320" cy="295" rx="147" ry="12" fill="#74806c" opacity=".12"/><rect x="177" y="83" width="286" height="198" rx="12" fill="url(#screen)" stroke="#8a9383" stroke-width="2"/><path d="M177 119h286" stroke="#8a9383" stroke-width="2"/>
+  <g fill="#9ca78e"><circle cx="196" cy="102" r="4"/><circle cx="211" cy="102" r="4"/><circle cx="226" cy="102" r="4"/></g>
+  <g stroke="#69775f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="m260 162-30 30 30 30m120-60 30 30-30 30m-46-71-28 82"/></g>
+  <rect x="407" y="212" width="76" height="76" rx="14" fill="#f2b56c" stroke="#ad6b2c" stroke-width="2"/><path d="m450 226-23 30h18l-4 20 23-31h-18Z" fill="#805022"/>
+  <path d="M55 55h16m-8-8v16m506 242h16m-8-8v16" stroke="#adb4a4" stroke-width="1.5"/>
+</svg>

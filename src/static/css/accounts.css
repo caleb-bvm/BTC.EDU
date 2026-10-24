@@ -3,3 +3,5 @@
 @media(max-width:480px){.account-tabs a{padding:12px 13px}.account-heading-avatar{width:52px;height:52px}.account-panel{padding:20px}.account-panel-title{flex-direction:column;gap:8px}.account-security-grid{grid-template-columns:1fr}.account-form-actions{align-items:flex-start;flex-direction:column}.account-form-actions .btn{width:100%}.account-session{align-items:flex-start;flex-direction:column}.account-welcome{gap:16px}.account-completion strong{font-size:40px}.account-confirm{padding:40px 22px}.creator-application-status{grid-template-columns:1fr}.account-photo-editor{gap:20px}}
 
 .account-card-avatar{width:26px;height:26px;font-size:10px;margin-right:8px;vertical-align:middle}.creator-name:has(.member-avatar){display:flex;align-items:center;gap:0}
+
+.account-support-context,.account-request>p{overflow-wrap:anywhere;min-width:0}

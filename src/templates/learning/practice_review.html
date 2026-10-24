@@ -1,0 +1,7 @@
+{% extends 'creators/base.html' %}{% load static %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/practices.css' %}">{% endblock %}
+{% block title %}Revisar entrega · BTC.EDU{% endblock %}
+{% block studio_content %}<div class="practice-page"><a class="text-link" href="{% url 'creator-practices' %}">← Entregas</a><header class="page-heading"><p class="eyebrow">{{ practice.lesson.chapter.version.title }} · v{{ practice.lesson.chapter.version.number }}</p><h1>Revisar entrega {{ delivery.number }}</h1><p>{{ delivery.enrollment.student }} · {{ delivery.state_label }}</p></header>
+{% include 'learning/_practice_brief.html' %}
+{% include 'learning/_practice_history.html' %}
+{% if not review %}<section class="practice-brief"><h2>Tu revisión de la entrega {{ delivery.number }}</h2><p>Marca los criterios cumplidos y explica el resultado. Para solicitar cambios, indica qué debe corregir el estudiante y cómo comprobarlo. La decisión se conserva en el historial.</p><form method="post" class="practice-form" data-dirty-form>{% include 'learning/_practice_form.html' with submit_label='Enviar revisión' %}</form></section>{% else %}<a class="btn btn-outline-dark" href="{% url 'creator-practices' %}">Revisar siguiente entrega →</a>{% endif %}</div>{% endblock %}

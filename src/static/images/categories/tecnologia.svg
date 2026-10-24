@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0v40" stroke="#d4d7cb" stroke-width=".6"/></pattern></defs>
+  <path fill="#efefe6" d="M0 0h640v360H0z"/><path fill="url(#grid)" d="M0 0h640v360H0z"/>
+  <ellipse cx="320" cy="294" rx="150" ry="12" fill="#74806c" opacity=".12"/>
+  <rect x="155" y="80" width="272" height="177" rx="12" fill="#d9dfcc" stroke="#8a9383" stroke-width="2"/>
+  <rect x="169" y="94" width="244" height="147" rx="5" fill="#e8ecdf" stroke="#a1ab97"/>
+  <path d="M277 257v26m28-26v26m-57 0h86" stroke="#8a9383" stroke-width="4" stroke-linecap="round"/>
+  <rect x="251" y="129" width="81" height="76" rx="8" fill="#bdc9b0" stroke="#69775f" stroke-width="2"/>
+  <rect x="271" y="149" width="41" height="36" rx="3" fill="#e8ecdf" stroke="#69775f" stroke-width="2"/>
+  <path d="M266 120v9m17-9v9m17-9v9m17-9v9m-51 76v9m17-9v9m17-9v9m17-9v9m-75-70h9m-9 17h9m-9 17h9m81-34h9m-9 17h9m-9 17h9" stroke="#69775f" stroke-width="3" stroke-linecap="round"/>
+  <rect x="402" y="165" width="77" height="123" rx="12" fill="#f2b56c" stroke="#ad6b2c" stroke-width="2"/>
+  <rect x="412" y="181" width="57" height="83" rx="3" fill="#f9dfbb"/><path d="M435 274h12" stroke="#ad6b2c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M55 55h16m-8-8v16m506 242h16m-8-8v16" stroke="#adb4a4" stroke-width="1.5"/>
+</svg>

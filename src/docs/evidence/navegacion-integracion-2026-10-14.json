@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-14",
+  "branch": "main",
+  "baseCommit": "687a773",
+  "preexistingLocalChanges": true,
+  "passed": true,
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe manage.py test --noinput",
+      "scope": "Batería completa tras unificar el marco y las pantallas de acceso; anterior al ajuste final del retorno de educador",
+      "tests": 441,
+      "seconds": 199.386,
+      "exitCode": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe manage.py test accounts --noinput",
+      "scope": "Cuentas y retorno seguro después del ajuste final de acceso del educador",
+      "tests": 75,
+      "seconds": 93.092,
+      "exitCode": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe manage.py test core.test_navigation --noinput",
+      "scope": "Navegación y composición de acceso en la versión final",
+      "tests": 24,
+      "seconds": 0.261,
+      "exitCode": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check core/navigation.py core/test_navigation.py accounts/recovery.py accounts/views.py accounts/test_login_navigation.py",
+      "exitCode": 0
+    },
+    {
+      "command": "node --check static/js/academy.js",
+      "exitCode": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe manage.py makemigrations --check --dry-run",
+      "result": "No changes detected",
+      "exitCode": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe manage.py test core.test_navigation content.test_academy content.test_journey --noinput",
+      "scope": "Separación posterior de Cursos, Tutoriales y Recursos",
+      "tests": 41,
+      "exitCode": 0
+    }
+  ],
+  "warnings": [
+    "auth.W004: aviso preexistente sobre correo no único entre tipos de cuenta"
+  ],
+  "limits": [
+    "Las ejecuciones focalizadas se solapan con la batería completa y sus cantidades no se suman como pruebas distintas.",
+    "La revisión de navegador usa cuentas y datos temporales, sin sesiones con participantes ni auditoría completa de accesibilidad.",
+    "No se repitió un pago desde ZEUS ni se usaron fondos reales."
+  ],
+  "browserRuns": [
+    {
+      "scope": "acceso-y-altura",
+      "passed": true,
+      "checks": 181,
+      "failures": 0,
+      "pageLoads": 33,
+      "temporaryDataCleaned": true
+    },
+    {
+      "scope": "altura-corta",
+      "passed": true,
+      "checks": 13,
+      "failures": 0,
+      "pageLoads": 1,
+      "temporaryDataCleaned": true
+    },
+    {
+      "scope": "catalogos",
+      "passed": true,
+      "checks": 445,
+      "failures": 0,
+      "pageLoads": 48,
+      "temporaryDataCleaned": true
+    },
+    {
+      "scope": "lector-enfocado",
+      "passed": true,
+      "checks": 9,
+      "failures": 0,
+      "pageLoads": 0,
+      "temporaryDataCleaned": true
+    },
+    {
+      "scope": "navegador",
+      "passed": true,
+      "checks": 1882,
+      "failures": 0,
+      "pageLoads": 184,
+      "temporaryDataCleaned": true
+    }
+  ],
+  "storage": "Resumen conservado; volcados detallados eliminados por petición del usuario. Nuevos verificadores: consola por defecto y reporte breve opcional en src/.local/."
+}

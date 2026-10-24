@@ -1,0 +1,21 @@
+/* Content artwork: 1600 × 900 covers and 320 × 320 compact thumbnails.
+   Keep the complete source visible, including older or differently shaped art. */
+:root {
+  --content-cover-ratio: 16 / 9;
+  --content-thumbnail-ratio: 1;
+}
+
+.content-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--content-cover-ratio);
+  object-fit: contain;
+  object-position: center;
+  background: var(--ui-muted-surface, var(--paper));
+}
+
+.content-image--thumbnail {
+  aspect-ratio: var(--content-thumbnail-ratio);
+}
+.course-photo-credit{display:block;font-size:10px;line-height:1.5;margin-bottom:16px;color:var(--muted)}

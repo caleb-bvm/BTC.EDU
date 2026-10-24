@@ -11,10 +11,23 @@ from django.db import transaction
 
 from commerce.offers import create_offer, review_offer, submit_offer
 from content.editorial_catalog import CATALOG
-from content.models import Chapter, Course, Lesson, Topic
+from content.models import Category, Chapter, Course, Lesson, Topic
 from creators.models import CreatorProfile
 from creators.services import decide, submit
 from learning.models import CertificateDraft, QuizDraft
+
+
+def editorial_topic(item, category):
+    topic_name = {"bitcoin": "Fundamentos de Bitcoin", "seguridad": "Seguridad y autocustodia"}.get(item["slug"], item["topic"])
+    topic = Topic.objects.filter(slug=item["slug"]).first()
+    if topic is None:
+        topic = Topic.objects.filter(name__in=(topic_name, item["topic"])).order_by("pk").first()
+    if topic is None:
+        topic, _ = Topic.objects.get_or_create(slug=item["slug"], defaults={"name": topic_name, "category": category})
+    if topic.category_id is None:
+        topic.category = category
+        topic.save(update_fields=["category"])
+    return topic
 
 
 class Command(BaseCommand):
@@ -61,10 +74,11 @@ class Command(BaseCommand):
                 content_type__app_label__in=["content", "creators", "commerce"],
                 codename__in=["change_course", "change_submission", "change_offer"]))
             added = 0
+            bitcoin, _ = Category.objects.get_or_create(slug="bitcoin", defaults={"name": "Bitcoin"})
             for item in CATALOG:
                 if Course.objects.filter(creator=creator, title=item["title"]).exists():
                     continue
-                topic, _ = Topic.objects.get_or_create(slug=item["slug"], defaults={"name": item["topic"]})
+                topic = editorial_topic(item, bitcoin)
                 course = Course.objects.create(creator=creator, title=item["title"], description=item["description"],
                                                objective=item["objective"], requirements=item["requirements"],
                                                topic=topic, level="beginner", estimated_minutes=item["minutes"])

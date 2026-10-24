@@ -2,6 +2,7 @@ from django.contrib import admin, messages
 from django.core.exceptions import ValidationError
 
 from .models import (
+    Category,
     Chapter,
     Course,
     CourseVersion,
@@ -33,7 +34,7 @@ class LessonInline(admin.TabularInline):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ("title", "creator", "status", "updated_at")
-    list_filter = ("status", "kind", "topic", "level")
+    list_filter = ("status", "kind", "topic__category", "topic", "level")
     search_fields = ("title", "creator__email")
     autocomplete_fields = ("creator",)
     readonly_fields = ("created_at", "updated_at", "current_version")
@@ -79,7 +80,7 @@ class LessonAdmin(admin.ModelAdmin):
 
 class ResourceAdmin(admin.ModelAdmin):
     list_display = ("title", "creator", "status", "access_type")
-    list_filter = ("status", "access_type")
+    list_filter = ("status", "access_type", "topic__category", "topic")
     search_fields = ("title", "creator__email")
     autocomplete_fields = ("creator",)
     readonly_fields = ("created_at", "updated_at", "revision")
@@ -114,7 +115,23 @@ class RevisionAdmin(admin.ModelAdmin):
 
 admin.site.register(Video, ResourceAdmin)
 admin.site.register(Material, ResourceAdmin)
-admin.site.register(Topic)
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("name", "slug", "artwork")
+    search_fields = ("name", "description")
+    prepopulated_fields = {"slug": ("name",)}
+
+
+@admin.register(Topic)
+class TopicAdmin(admin.ModelAdmin):
+    list_display = ("name", "category", "slug", "artwork")
+    list_filter = ("category",)
+    search_fields = ("name", "description", "category__name")
+    prepopulated_fields = {"slug": ("name",)}
+
+
 admin.site.register(ExternalReference)
 admin.site.register(ResourceVersion, RevisionAdmin)
 admin.site.register(CourseVersion, RevisionAdmin)

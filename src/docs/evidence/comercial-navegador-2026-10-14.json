@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-14",
+  "branch": "main",
+  "base_commit": "687a773",
+  "source": "local working tree",
+  "environment": "isolated temporary SQLite/media, synthetic accounts, OfflineGateway",
+  "funds_moved": false,
+  "checks": [
+    "Guest adds a course, tutorial and material without leaving the offer page; accessible counter and feedback update.",
+    "Three offers from two educators total 250 sats; normal student sign-in preserves selection and returns to checkout.",
+    "Remove and undo restore the material and total; saving the tutorial moves its version to existing Saved without buying or enrolling.",
+    "Checkout identifies the recipient account, per-line inclusions, authors, scope, versions and total before reserving payment.",
+    "One invoice for 250 sats confirms all three articles; receipt links to the purchased course, tutorial and material; cart clears bought lines.",
+    "Purchased resource opens with its protected download; tutorial shows both lessons available; course lesson opens preserving prior completion.",
+    "Purchase history shows one transaction, three articles and seven included contents.",
+    "Enter key opens Purchases, its receipt and contextual help; help shows verified invoice and order identifiers.",
+    "Public educator link opens only that educator's two publications with search and type filters.",
+    "First educator's sales show only 150 sats and their own course title from the 250-sat multi-educator order.",
+    "Cart, checkout, receipt references, help and educator sales were checked at 320px; document scrollWidth 305, window innerWidth 320 with scrollbar; no horizontal overflow.",
+    "Light desktop and dark mobile checkout inspected; temporary viewport reset; browser console contained no captured error or warning messages."
+  ],
+  "limits": [
+    "Technical and visual QA, not participant usability or educational validation.",
+    "No real LNbits/ZEUS payment, public deployment, payout or refund verified in this delivery.",
+    "Keyboard checks cover the named links; a full assistive-technology accessibility audit remains pending.",
+    "The isolated preview was restarted before capturing final checkout/receipt screens; the earlier remove/undo/save exercise used the same delivery before copy adjustments."
+  ]
+}

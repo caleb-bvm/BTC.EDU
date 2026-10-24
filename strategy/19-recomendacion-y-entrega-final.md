@@ -34,7 +34,7 @@ Estas dificultades son hipótesis de trabajo. Falta comprobar con usuarios su fr
 
 ### A quién queremos servir
 
-El enfoque confirmado es educación de distintas áreas desde el inicio. El catálogo actual de Bitcoin y Lightning es la primera colección demostrable; la propuesta admite otras disciplinas. El público inicial por investigar son estudiantes, personas que trabajan y autodidactas que necesitan aplicar un conocimiento concreto: resolver un ejercicio, preparar un archivo, utilizar una herramienta o completar una tarea. El Salvador es el contexto inicial de investigación, sin atribuir a su población una preferencia por Bitcoin o una disposición a pagar que no hemos medido.
+El enfoque confirmado es educación de distintas áreas desde el inicio. El catálogo local reúne Bitcoin, Tecnología y Creación: a la primera colección de Bitcoin y Lightning añadimos recorridos de fotografía, video, desarrollo web y Python. El público inicial por investigar son estudiantes, personas que trabajan y autodidactas que necesitan aplicar un conocimiento concreto: resolver un ejercicio, preparar un archivo, utilizar una herramienta o completar una tarea. El Salvador es el contexto inicial de investigación, sin atribuir a su población una preferencia por Bitcoin o una disposición a pagar que no hemos medido.
 
 Para el creador, buscamos facilitar la publicación de conocimientos que tengan utilidad por separado, conservando su relación con cursos, prácticas y alumnos. Su beneficio dependerá del esfuerzo editorial, la remuneración y la atención requerida. Todavía no hemos documentado actividad de creadores externos ni condiciones de liquidación comprobadas.
 
@@ -42,7 +42,7 @@ Para el creador, buscamos facilitar la publicación de conocimientos que tengan 
 
 La propuesta es aprender algo aplicable, elegir qué adquirir y recuperar lo comprado cuando se necesite. Cada unidad de pago debería declarar resultado esperado, requisitos, muestra, inclusiones y una práctica que permita comprobar su utilidad. La extensión la determina la tarea educativa: dividir un curso en fragmentos breves no garantiza que cada fragmento tenga valor independiente.
 
-El alumno puede empezar por una necesidad puntual y encontrar después un curso relacionado. Recomendamos revisar la transición de compras individuales a conjuntos para reconocer componentes ya adquiridos. Es una mejora propuesta: hoy se bloquea la compra de un conjunto parcialmente adquirido y se ofrecen los componentes faltantes por separado.
+El alumno puede empezar por una necesidad puntual y encontrar después un curso relacionado. Al completar un capítulo o curso del que ya compró partes, paga solo la diferencia: lo pagado por esas partes se reconoce como crédito y el paquete incluye únicamente lo que falta. La política de crédito está implementada como propuesta provisional; su comprensión y conveniencia deben probarse con participantes.
 
 ### Qué debemos demostrar frente a otras opciones
 
@@ -66,9 +66,9 @@ La ventaja a construir dependerá de materiales útiles, revisión por especiali
 
 ### Cómo desarrollar el potencial
 
-Proponemos comenzar con colecciones pequeñas en varias áreas y un mismo criterio de calidad. Además de Bitcoin y Lightning, programación y herramientas de estudio o trabajo son candidatas por evaluar; no son colecciones publicadas ni demanda confirmada. Cada área necesita un responsable de contenido, derechos comprobados y prácticas revisadas antes de ampliarse.
+Comenzamos con colecciones pequeñas en varias áreas y un mismo criterio de calidad. Creación y Tecnología ya tienen cursos originales publicados localmente; su demanda y sus resultados educativos siguen por evaluar. Cada área necesita revisión independiente, mantenimiento y prácticas comprobadas con participantes antes de ampliar su oferta.
 
-El descubrimiento debería ayudar a encontrar una tarea y su nivel, además de un tema. Por ejemplo, «organizar datos en una hoja de cálculo» expresa una necesidad concreta. La búsqueda orientada a resultados y las rutas entre unidades requieren diseño propio; no se presentan como funciones actuales.
+El descubrimiento debería ayudar a encontrar una tarea y su nivel, además de un tema. Por ejemplo, «organizar datos en una hoja de cálculo» expresa una necesidad concreta. Las rutas de varios cursos ya ordenan recorridos hacia un objetivo, como «De cero a Lightning», con progreso conjunto y una credencial propia. La búsqueda orientada a resultados sigue requiriendo diseño propio.
 
 La primera captación puede probarse con creadores que ya tengan materiales y una audiencia, junto con comunidades educativas. Esto permitiría evaluar una colección concreta sin depender de un catálogo masivo. No hemos contactado aliados ni estimado el costo de adquisición.
 
@@ -82,7 +82,7 @@ Proponemos un primer ciclo con tres unidades piloto en áreas distintas: una del
 
 La revisión del catálogo identifica diagramas, matrices de acceso y guiones de prueba como resultados posibles. Debemos distinguir comprensión, diseño y ejecución: preparar un plan de laboratorio no demuestra haberlo ejecutado. La ampliación del producto se priorizará por dificultades observadas, mientras la ampliación temática exigirá contenido revisado y responsables de mantenimiento.
 
-Las fichas educativas por unidad ya están implementadas y conservan resultado, requisitos, muestra y acompañamiento por revisión. Las prácticas con resultados registrados, el descubrimiento por tarea y el reconocimiento de compras previas al completar un conjunto siguen pendientes. [Alcance y comprobaciones](investigacion-y-requisitos.md#desarrollo-del-enfoque).
+Las fichas educativas conservan resultado, requisitos, muestra y acompañamiento por revisión. Las prácticas ya permiten registrar soluciones privadas y recibir retroalimentación por criterios; su uso con participantes sigue pendiente. El reconocimiento de compras previas al completar un conjunto ya funciona; el descubrimiento por tarea sigue pendiente. [Alcance y comprobaciones](investigacion-y-requisitos.md#desarrollo-del-enfoque).
 
 ## Cómo consolidamos la idea
 
@@ -194,11 +194,17 @@ Facilitar la preparación y revisión del contenido, medir la compra y el uso me
 
 ### Producto
 
-La plataforma se orienta a educación de distintas áreas desde el inicio, unidas por aprendizaje práctico y compras por unidades útiles. El catálogo publicado sigue centrado en Bitcoin y Lightning: fundamentos, wallets y autocustodia, canales y liquidez, facturas, laboratorio con LNbits y acceso a contenido mediante micropagos. La ampliación temática requiere contenidos y revisión propios; el contenido gratuito, las muestras y las unidades de compra deben responder a necesidades educativas reconocibles.
+La plataforma se orienta a educación de distintas áreas desde el inicio, unidas por aprendizaje práctico y compras por unidades útiles. El catálogo local reúne diez cursos y 72 lecciones en Bitcoin, Tecnología y Creación. Bitcoin y Lightning cubre fundamentos, wallets y autocustodia, facturas, laboratorio con LNbits y acceso a contenido mediante micropagos; Creación y Tecnología añaden cuatro cursos de pago (fotografía, edición de video, desarrollo web y Python). Ampliar a otras áreas requiere contenidos y revisión propios; el contenido gratuito, las muestras y las unidades de compra deben responder a necesidades educativas reconocibles.
 
 ### Experiencia
 
 Trabajamos el recorrido completo: explorar, revisar, elegir, entrar en la cuenta, pagar y recuperar contenido. Los estados fallidos y vencidos, las inclusiones y el acceso histórico forman parte de la comprensión que evaluaremos.
+
+La revisión de interfaz identificó menús cambiantes, acciones dispersas y dependencias poco visibles. La actualización implementa menús estables para estudiantes y educadores, acciones principales claras y continuidad entre elección, acceso, aprendizaje y publicación. Conserva la identidad industrial, la marca, los colores y los modos claro y oscuro, con una tipografía funcional más legible. El [diagnóstico y cobertura](investigacion-y-requisitos.md#revision-ui-ux) separa los 16 hallazgos iniciales, las correcciones implementadas y la comprensión que todavía debemos comprobar con personas.
+
+La etapa comercial permite reunir cursos, tutoriales y recursos en un carrito, revisar el total y completar un pedido con un pago, conservando Comprar ahora para una unidad. Detecta contenido duplicado, conserva la selección al entrar y recupera la misma factura cuando el resultado del pago es desconocido. El [recorrido comercial](investigacion-y-requisitos.md#experiencia-comercial) integra Guardados, autor enlazado, escaparates, ayuda desde el pedido/recurso y continuidad hacia Mi aprendizaje. Las facturas anteriores mantienen su oferta y las nuevas corresponden a un pedido con líneas conservadas.
+
+Las imágenes de contenido comparten proporciones: 16:9 para portadas de catálogo, ficha, comparación y biblioteca; 1:1 para miniaturas de continuación, estudio y carrito. Se conserva la imagen completa sin deformarla ni recortarla, dejando espacio alrededor cuando su formato es distinto. Las ilustraciones actuales están integradas en la aplicación; la carga de portadas personalizadas sigue pendiente. El [criterio de imágenes](investigacion-y-requisitos.md#imagenes-de-contenido) establece las dimensiones de referencia.
 
 ### Desarrollo
 
@@ -232,7 +238,7 @@ El creador mantiene materiales propios; la administración revisa publicaciones 
 
 El creador prepara resultado, requisitos, tipo de actividad, muestra pública y acompañamiento para cada lección, video o material. Puede guardar un borrador incompleto; para enviarlo a revisión debe completar la ficha. La publicación conserva esos datos junto con el contenido adquirido. El alumno puede consultarlos en el lector, la ficha del recurso y lo incluido en la oferta, sin recibir el texto protegido. Las versiones anteriores siguen disponibles; sus fichas se completarán en nuevas revisiones.
 
-Se comprobó el recorrido de edición y envío y la muestra en escritorio y móvil con datos temporales. La revisión educativa y la incorporación de otras áreas siguen pendientes.
+Se comprobó el recorrido de edición y envío y la muestra en escritorio y móvil con datos temporales. La revisión educativa independiente sigue pendiente; la ampliación de áreas se concreta en los cursos descritos a continuación.
 
 ### Catálogo inicial
 
@@ -244,13 +250,34 @@ Cada curso incluye una pregunta final y un certificado condicionado a completar 
 
 La carga conserva versiones publicadas, registra decisiones de publicación y ofertas, crea un respaldo local y evita duplicar cursos al repetirse. Comprobamos el catálogo, sus fichas y las 24 lecciones por HTTP en una copia de la base, incluida la protección del texto de pago. La revisión educativa externa y la comprobación del nuevo catálogo con personas siguen pendientes.
 
+### Creación y Tecnología
+
+El 15 de octubre de 2026 incorporamos cuatro cursos originales completos de autoestudio. Cada uno tiene cuatro capítulos, doce lecciones desarrolladas, ejercicios con solución, cuatro evaluaciones de cuatro preguntas y un proyecto final con criterios. Las duraciones incluyen práctica y son estimadas.
+
+| Categoría | Curso | Duración estimada | Curso completo |
+|---|---|---|---|
+| Creación | Fotografía con celular: de la captura a una serie visual | 6 horas | 1800 sats |
+| Creación | Edición de video con Shotcut: del guion a la publicación | 8 horas | 2400 sats |
+| Tecnología | Desarrollo web: crea y publica un sitio accesible | 10 horas | 3000 sats |
+| Tecnología | Python práctico: automatiza reportes con CSV | 10 horas | 3000 sats |
+
+Todas sus lecciones requieren compra. Antes de pagar se muestran objetivos, requisitos, temario y una muestra breve; el desarrollo, las soluciones y los complementos de la lección permanecen protegidos. Ofrecemos lecciones, capítulos y curso completo con su inventario preciso. Los importes son decisiones editoriales iniciales, sin validación comercial.
+
+Los textos y proyectos son originales de BTC.EDU, apoyados en documentación primaria de Apple, Google, Shotcut, MDN, W3C, GitHub, Python y Microsoft Learn. Incorporamos portadas fotográficas con licencia Unsplash y créditos, y videos externos atribuidos como complemento. La compra corresponde al recorrido original; los videos conservan su acceso y condiciones en la plataforma de origen. No revendemos cursos de terceros ni dependemos de sus videos para completar las explicaciones. [Fuentes y derechos](investigacion-y-requisitos.md#cursos-completos-creacion-tecnologia).
+
+El certificado de finalización exige completar doce lecciones y aprobar las cuatro evaluaciones con al menos 75 %. El proyecto incluye instrucciones y rúbrica para autoevaluación; no incluye tutoría ni corrección personal y su recepción está cerrada hasta asignar atención. Su revisión no condiciona el certificado. El catálogo local suma diez cursos y 72 lecciones. El entorno de pagos conserva su configuración local; publicar contenido completo no acredita cobros reales, acreditación institucional ni validación con alumnos. [Operación y comprobaciones de esta entrega](../src/docs/operacion-y-bitacora.md#cursos-completos-2026-10-15).
+
 ### Estado actual
 
-BTC.EDU dispone de cuentas independientes, aprobación de creadores, edición y revisión editorial, contenido y archivos protegidos por versión, ofertas, facturas, compras, biblioteca, inscripción, progreso y evaluaciones. La entrega esencial añade certificados, preguntas por lección, notificaciones internas y paneles de creador y administración.
+BTC.EDU dispone de cuentas independientes, aprobación de creadores, edición y revisión editorial, contenido y archivos protegidos por versión, ofertas, carrito, pedidos, facturas, compras, biblioteca, guardados, inscripción, progreso y evaluaciones. La entrega esencial añade certificados, preguntas por lección, notificaciones internas y paneles de creador y administración. La compra agrupada conecta selección, pago y acceso; la remuneración del educador permanece por definir.
+
+La revisión comparativa con otras plataformas del 23 de octubre de 2026 añadió crédito por compras anteriores, cupones, regalos, propinas al educador, reembolsos por Lightning, sello de certificados con OpenTimestamps, reseñas verificadas, galería de proyectos, rutas de varios cursos y lectura sin conexión como aplicación instalable. Son funciones implementadas y probadas técnicamente; ninguna está validada con participantes.
 
 ### Apariencia
 
 La interfaz ofrece modo claro y oscuro desde la cabecera. En la primera visita utiliza la preferencia del sistema; al elegir un modo, conserva esa elección en el navegador para las siguientes visitas. La apariencia se aplica a la academia, la lectura, las compras, los perfiles y el espacio de creadores. Esta preferencia es local al navegador y no se sincroniza con la cuenta.
+
+La actualización toma como referencia la [propuesta visual aprobada de estudiante, educador y móvil](../src/design/btc-edu-ui-ux-propuesta-2026-10-14-v2.png). La aplicación incorpora fondo cálido, paneles más despejados, bordes finos, imágenes geométricas y naranja para selección y progreso. La marca conserva Ndot y los detalles Space Mono; los controles y la lectura usan Arial/Helvetica para aproximarse al concepto y facilitar su lectura. Los archivos NType82 se conservan como fuente del diseño anterior. Las [capturas de la aplicación](../src/docs/operacion-y-bitacora.md#overhaul-ui-ux-2026-10-14) muestran el resultado funcional con datos temporales, separado de la imagen conceptual.
 
 ### Cursos, lectura y progreso
 
@@ -258,7 +285,17 @@ La experiencia de aprendizaje conecta la ficha del curso, el temario, la lecció
 
 El lector organiza la explicación, los ejemplos, la práctica y la solución. Esta última se despliega cuando el alumno decide consultarla. El modo de lectura enfocada reduce las distracciones y mantiene la navegación del curso. En móvil, el temario está disponible antes del texto. Completar una lección sigue siendo una acción explícita: abrirla guarda el punto de continuación, y las evaluaciones obligatorias deben aprobarse antes de marcarla.
 
-Mi aprendizaje destaca un curso accesible ya iniciado entre los resultados visibles y permite buscar y filtrar por estado. El progreso se actualiza después de la confirmación del servidor y puede corregirse desmarcando una lección. Los errores de guardado ofrecen recuperación sin sobrescribir un avance más reciente. Las comprobaciones técnicas y la revisión de pantallas se registran por separado; todavía debemos evaluar comprensión, facilidad de uso y resultados educativos con participantes.
+Mi aprendizaje coloca primero la continuación accesible, independiente de los filtros del inventario, y separa cursos, recursos, guardados y certificados. El progreso se actualiza después de la confirmación del servidor y puede corregirse desmarcando una lección. Los errores de guardado ofrecen recuperación sin sobrescribir un avance más reciente. Los certificados enumeran las lecciones y evaluaciones pendientes con enlaces a la versión exacta. Las comprobaciones técnicas y la revisión de pantallas se registran por separado; todavía debemos evaluar comprensión, facilidad de uso y resultados educativos con participantes.
+
+### Colecciones y prácticas
+
+Guardados permite crear, renombrar y eliminar colecciones personales como «Para estudiar», «Mi proyecto» o «Repasar». Un contenido puede pertenecer a varias colecciones. La búsqueda y los filtros por tipo se combinan con la colección elegida y con «Sin colección». Eliminar una colección conserva sus guardados; organizar una referencia no compra contenido ni cambia la inscripción.
+
+El educador puede añadir una práctica por lección, con instrucciones, criterios de aprobación y un plazo previsto de revisión de entre 1 y 30 días naturales. La revisión editorial conserva estos datos en la versión publicada. El estudiante inscrito y con acceso envía texto, un enlace o un archivo privado de hasta 10 MB (PDF, ZIP, TXT, PNG o JPG). Cada entrega se conserva y solo el estudiante y el educador pueden descargar su adjunto.
+
+La bandeja de Alumnos → Entregas ordena las entregas antiguas primero, permite filtrar por curso y estado y señala plazos superados. El educador registra los criterios cumplidos y una explicación; puede aprobar o solicitar cambios. Aprobar exige cumplir todos los criterios. Una solicitud de cambios habilita otra entrega completa, conservando el historial. Los avisos son internos y el educador puede pausar la recepción para atender su cola. El plazo es una previsión visible, no una garantía automatizada de respuesta.
+
+Estas prácticas complementan las evaluaciones automáticas: su aprobación no añade requisitos al progreso ni a los certificados existentes. Las versiones publicadas y sus entregas permanecen intactas al editar el borrador. La implementación no incorpora análisis antivirus, revisión automática del proyecto ni envío de correo; antes de operación pública deben definirse capacidad de atención, retención y protección adicional de adjuntos. La utilidad educativa y la carga real del educador requieren validación con participantes.
 
 ### Evaluaciones
 
@@ -278,7 +315,33 @@ El creador elige las lecciones requeridas y la publicación conserva esos requis
 
 Al confirmar su nombre, el alumno obtiene una credencial única por inscripción, con evidencia histórica y descarga PDF privada. La verificación pública requiere que habilite compartir y puede ocultarse nuevamente. La administración puede revocar con motivo, sin borrar el historial. La corrección o sustitución después de emitir queda pendiente. El certificado acredita finalización según esas reglas, sin constituir una titulación oficial ni demostrar aprendizaje por sí mismo.
 
-Cada credencial conserva una huella SHA-256 de sus datos y evidencia histórica. El PDF y la página de verificación muestran esa huella; quien recibe el certificado puede compararla con el registro y descargar los datos para recalcularla. La comprobación detecta diferencias y mantiene visible cualquier revocación. La huella verifica integridad frente a la referencia de BTC.EDU; la autenticidad del emisor depende de consultar su página legítima. No constituye una firma digital ni un registro en Bitcoin.
+Cada credencial conserva una huella SHA-256 de sus datos y evidencia histórica. El PDF y la página de verificación muestran esa huella; quien recibe el certificado puede compararla con el registro y descargar los datos para recalcularla. La comprobación detecta diferencias y mantiene visible cualquier revocación. La huella verifica integridad frente a la referencia de BTC.EDU; la autenticidad del emisor depende de consultar su página legítima. No constituye una firma digital.
+
+Cuando se activa en el entorno, la huella se envía a calendarios públicos de OpenTimestamps. La prueba `.ots` se descarga junto a los datos del certificado y, cuando los calendarios la anclan en un bloque de Bitcoin, permite comprobar la fecha con un cliente de OpenTimestamps sin depender de BTC.EDU. El sello prueba que esos datos existían en esa fecha; no prueba quién los emitió ni sustituye la consulta de revocación. Está desactivado por defecto y no se ha ensayado contra los calendarios reales.
+
+### Pagos y complementos con Lightning
+
+Quien compró lecciones o recursos de un capítulo o curso puede completarlo pagando la diferencia. El crédito suma lo pagado por compras propias cuyo contenido de pago pertenece por completo a ese paquete; excluye regalos y compras reembolsadas y nunca deja un artículo por debajo de 1 sat. La línea del pedido conserva el precio de lista, el crédito y solo los componentes que faltan.
+
+El educador crea cupones en sats o porcentaje, con inicio, vencimiento, límite de usos y alcance por curso. El descuento se aplica después del crédito, solo a sus ofertas, y cada estudiante puede usar un cupón en una compra pagada. Un código inválido explica el motivo sin impedir la compra.
+
+Comprar ahora permite regalar: la compra no concede acceso a quien paga y genera un enlace de canje de un solo uso, con mensaje opcional. Quien lo canjea recibe el acceso permanente y la inscripción; el comprador recibe un aviso.
+
+Las propinas agradecen una lección o al educador con una factura Lightning de 10 a 100 000 sats y un mensaje opcional. No compran contenido ni cambian el acceso; el educador recibe un aviso y las consulta en Ventas. Se registran por educador, sin liquidación.
+
+El estudiante puede pedir un reembolso durante siete días si no obtuvo un certificado con ese contenido ni lo usó como crédito en otra compra. Entrega una factura Lightning por el importe exacto y la administración aprueba o rechaza con nota. Al confirmarse el pago, termina el acceso que concedía esa compra; la compra, la evidencia y el avance se conservan. Si el resultado del pago es incierto, el acceso se mantiene hasta conciliarlo. Requiere la clave de pago de la wallet receptora, que la preparación local con FakeWallet ya guarda; en regtest no se asigna.
+
+### Reseñas, proyectos y rutas
+
+Solo opinan quienes compraron contenido de pago del curso o lo completaron. Cada reseña indica esa base, la versión y el alias público; el educador puede responder y la administración puede ocultarla. La ficha muestra el promedio y el número de reseñas reales.
+
+Con permiso explícito del estudiante, una práctica aprobada aparece en la galería del curso con su solución escrita y su enlace; los adjuntos siguen privados y puede retirarla cuando quiera.
+
+La administración publica rutas con cursos ordenados. Cada paso muestra si está sin empezar, en curso, completado o certificado. Al completar todos, el estudiante obtiene una credencial con huella SHA-256 que incluye los certificados de cada curso o, si un curso no ofrece certificado, su finalización. La verificación pública es opcional.
+
+### Uso sin conexión
+
+BTC.EDU puede instalarse como aplicación web. El estudiante guarda en su dispositivo las lecciones a las que tiene acceso y puede leerlas sin conexión; las demás páginas muestran qué guardó. Las lecciones guardadas pertenecen a una cuenta: al cerrar sesión o entrar con otra se eliminan. El avance, las compras y la comunidad necesitan conexión. Los videos y archivos no se guardan.
 
 ### Preguntas y notificaciones
 
@@ -298,7 +361,7 @@ Cada versión publicada tiene una comunidad para sus alumnos inscritos y el crea
 
 Leer o escribir en la conversación requiere inscripción en la misma versión y acceso a la lección. Inscribirse no compra contenido de pago. La búsqueda, los recuentos y los avisos respetan estos permisos y la ocultación de mensajes. Una nueva versión conserva un espacio separado; las conversaciones anteriores mantienen su contexto histórico.
 
-Los perfiles permiten reconocer a quienes participan y las respuestas del autor del curso se identifican como «Creador». El creador recibe avisos internos por nuevos comentarios de lección. El autor de una conversación y sus seguidores reciben avisos de respuestas de otras personas, según sus preferencias y sin duplicarlos por un reintento. Participar es opcional y no condiciona completar la lección.
+Los perfiles permiten reconocer a quienes participan y las respuestas del autor del curso se identifican como «Educador». El creador recibe avisos internos por nuevos comentarios de lección. El autor de una conversación y sus seguidores reciben avisos de respuestas de otras personas, según sus preferencias y sin duplicarlos por un reintento. Participar es opcional y no condiciona completar la lección.
 
 Los participantes pueden reportar mensajes. El creador modera sus cursos y la administración interviene con permiso específico. Ocultar mensajes, cerrar conversaciones, suspender escritura y restablecerla requiere un motivo y conserva quién tomó la decisión y cuándo. La suspensión mantiene lectura, seguimiento, compras y progreso. La utilidad educativa y la capacidad de atención todavía requieren evaluación con personas.
 
@@ -320,6 +383,18 @@ La conciliación puede mantenerse en un proceso periódico supervisado, sin que 
 
 ### Base técnica y pruebas
 
+La incorporación de funciones comparadas con otras plataformas, del 23 de octubre de 2026 sobre la carpeta local sin commit propio, pasó 559 pruebas Django con `--parallel 4`, con y sin `DJANGO_DEBUG=true`, además de `manage.py check`, `makemigrations --check` y Ruff. En una base temporal con proveedor controlado se recorrieron en navegador el pago de una lección, la compra del curso con crédito y cupón, una propina, un regalo en vista móvil, los paneles del educador y la lectura de una lección guardada con el servidor detenido. No se repitieron los controles de concurrencia ni se contactaron calendarios de OpenTimestamps o wallets reales. [Detalle](../src/docs/operacion-y-bitacora.md#23-de-octubre-de-2026).
+
+La revisión completa anterior, del mismo día, pasó las 524 pruebas Django con `--parallel 4`, con y sin `DJANGO_DEBUG=true`, además de `manage.py check` sin avisos, `makemigrations --check` y Ruff. No repitió los controles de concurrencia ni los verificadores de navegador, y no cambió el comportamiento de la plataforma. Las cifras de los párrafos siguientes corresponden a cada entrega en su fecha y no se suman a esta. [Detalle](../src/docs/operacion-y-bitacora.md#23-de-octubre-de-2026).
+
+La estandarización de navegación del 14 de octubre de 2026, sobre la misma base con cambios locales, pasó una batería de 441 pruebas Django y completó 1.882 comprobaciones de navegador sin fallos sobre 184 cargas de páginas de cinco perfiles, cuatro tamaños y ambos temas. La barra conservó su geometría entre páginas; se comprobaron enlaces uniformes, ausencia de duplicados, avatar móvil, cierre, control del foco y adaptación del panel al cambiar de tamaño. Las revisiones adicionales comprobaron lectura enfocada, acceso, altura reducida, anclas y desplazamiento. Después del ajuste final del retorno del educador pasaron 75 pruebas de cuentas y 24 de navegación, sin sumar las ejecuciones solapadas a la batería anterior. La [bitácora de navegación](../src/docs/operacion-y-bitacora.md#barra-lateral-2026-10-14) conserva sus resultados y alcance. Estos resultados técnicos no equivalen a sesiones con participantes ni a una auditoría completa de accesibilidad.
+
+La etapa comercial del 14 de octubre de 2026, en `main` sobre `687a773` con cambios locales, pasó 429 pruebas Django, configuración, consistencia de migraciones, revisión estática y cinco controles de concurrencia. También pasaron cinco escenarios del cliente de carrito, nueve de guardado y el verificador de progreso. En navegador se comprobó un pedido de tres artículos de dos educadores con una factura simulada de 250 sats, continuidad al entrar, guardados, recuperación al retirar, acceso posterior, historial, ayuda y atribución privada de ventas. Las migraciones conservaron las filas y columnas anteriores de 65 tablas, con respaldo; las cuatro tablas nuevas quedaron vacías, sin ejemplos en la base principal. El control posterior confirmó 69 tablas e integridad correcta. [Registro y evidencias comerciales](../src/docs/operacion-y-bitacora.md#etapa-comercial-2026-10-14). No se ejecutaron sesiones con participantes ni un nuevo pago desde ZEUS o con fondos reales.
+
+La actualización de interfaz del 14 de octubre de 2026, en `main` sobre `687a773` con cambios locales, pasó 359 pruebas, comprobación de configuración y migraciones, revisión estática y cinco controles de concurrencia. Se verificaron por separado nueve escenarios de guardado del cliente y la recuperación del progreso. En navegador se ensayaron compra simulada con retorno a la lección, continuación, requisitos del certificado, pendientes del estudio, edición y corrección de errores, búsqueda, menú móvil y ambos temas. Las vistas temporales conservaron un ancho sin desbordamiento en las pantallas comprobadas a 320 px. No se ejecutaron sesiones externas, una auditoría completa de accesibilidad ni pagos desde ZEUS en esta entrega. [Registro y evidencias](../src/docs/operacion-y-bitacora.md#overhaul-ui-ux-2026-10-14).
+
+Después de los últimos ajustes pasaron 29 pruebas de descubrimiento, navegación y autoría y la revisión estática. La migración que conserva la lección elegida en la factura se aplicó con respaldo y comparación de todas las columnas y filas anteriores de 65 tablas; la integridad y las relaciones se conservaron, sin cargar ejemplos en la base principal. El detalle está en el mismo registro.
+
 La entrega de fichas del 13 de octubre de 2026, en `main` sobre `2d318f6` con cambios locales, pasó 319 pruebas, configuración sin errores, consistencia de migraciones, revisión estática y cinco controles de concurrencia. Después de los últimos ajustes pasaron 32 pruebas enfocadas. La migración tuvo respaldo y conservó 616 filas anteriores en 64 tablas. Se ensayó edición, envío y consulta de muestras en navegador con datos temporales; no se repitió la compra desde ZEUS. Permanece la advertencia conocida por correos reutilizables entre tipos de cuenta. [Evidencias](investigacion-y-requisitos.md#desarrollo-del-enfoque).
 
 La aplicación utiliza Django, HTML y HTMX, con SQLite para la etapa local. La entrega esencial con huellas SHA-256 pasó 184 pruebas y comprobaciones de concurrencia comercial, de evaluaciones y de certificados y mensajes. Se recorrieron las nuevas pantallas por HTTP en escritorio y móvil y se verificaron formularios, privacidad y PDF. La migración tuvo respaldo y conservó los 211 registros originales, sin cargar ejemplos en la base principal.
@@ -336,7 +411,7 @@ La integración de conversaciones en lecciones pasó 57 pruebas de lecciones, co
 
 Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, instalación de la conciliación como servicio y procedimientos para operación pública. Las membresías permanecen como ampliación pendiente; la comunidad por versión ya permite conversar y moderar con historial. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
 
-La siguiente ampliación de perfiles y comunidad debería incorporar verificación de correo, preferencias de avisos, respuestas marcadas como solución y apelaciones de moderación. Estas propuestas requieren diseño y pruebas propios; no se presentan como funciones disponibles.
+La verificación de correo, las preferencias de avisos y la solicitud de revisar una suspensión de cuenta ya tienen recorridos implementados. La entrega real de correo y sus procedimientos deben comprobarse antes de operar públicamente. Marcar respuestas como solución y las apelaciones sobre moderación de conversaciones permanecen como ampliaciones por diseñar y verificar.
 
 ## A dónde queremos llegar
 
@@ -350,7 +425,7 @@ La operación pública y una integración con fondos reales requerirán decision
 
 ## Qué demostramos
 
-La evidencia técnica registrada muestra una oferta que genera una factura simulada y una confirmación válida que concede acceso específico. Documenta persistencia, protección y conservación de referencias históricas.
+La evidencia técnica registrada muestra ofertas individuales y pedidos con varias líneas que generan una factura por el total. Una confirmación válida concede el acceso específico de forma única. Documenta persistencia, protección y conservación de referencias históricas; la compra agrupada se ensayó con un proveedor local de prueba, sin fondos reales.
 
 La revisión permite publicar una composición aprobada mientras se preparan cambios posteriores. Las evaluaciones y certificados conservan reglas, intentos y evidencia de finalización por versión. También comprobamos preguntas privadas, avisos persistentes y paneles con datos de prueba; estos resultados técnicos no prueban dominio educativo.
 
@@ -358,7 +433,7 @@ La investigación documenta alternativas de monetización y condiciones externas
 
 ## Logros
 
-Definimos unidades de compra, muestras, permisos y responsabilidades de publicación. Conectamos creación, revisión, oferta, compra simulada y aprendizaje, conservando versiones históricas. Incorporamos evaluaciones con resultados persistentes, certificados históricos, acompañamiento por preguntas y avisos, y paneles con consultas verificadas, conservando las compras existentes.
+Definimos unidades de compra, muestras, permisos y responsabilidades de publicación. Conectamos creación, revisión, oferta, carrito, pedido, compra simulada y aprendizaje, conservando versiones históricas. Incorporamos evaluaciones con resultados persistentes, certificados históricos, acompañamiento por preguntas y avisos, y paneles con consultas verificadas. La compra agrupada conserva sus precios e inclusiones y atribuye las líneas al educador correspondiente. Añadimos funciones que solo Lightning facilita, como propinas, reembolsos y completar un curso pagando la diferencia, junto con reseñas, cupones, regalos, rutas, galería de proyectos, sello de certificados y lectura sin conexión.
 
 Ampliamos la comparación de modelos y costos, y preparamos instrumentos para entrevistas, usabilidad y precios. Es un avance de investigación documental y preparación, no una validación externa terminada.
 
@@ -366,7 +441,13 @@ Los resultados de mercado y aprendizaje se incorporarán cuando exista evidencia
 
 ## Próximos pasos
 
-Consolidar una selección pequeña de unidades en varias áreas, con resultados y requisitos explícitos. Revisar sus prácticas con especialistas y comparar su utilidad con las alternativas gratuitas y pagadas que ya usa el público. Definir y probar cómo pasar de una compra individual a un conjunto reconociendo lo adquirido, antes de cambiar las reglas comerciales.
+Validar con participantes el recorrido comercial implementado: selección de una o varias unidades, comprensión del total y las inclusiones, crédito al completar un conjunto, recuperación del pago y apertura de lo adquirido. Definir remuneración y liquidación a educadores, y revisar con criterio legal el plazo y las condiciones de reembolso. Resolver automáticamente pagos observados tarde necesita una hora de cobro fiable; ahora conservamos la evidencia y ofrecemos revisión sin inducir otro pago. El [alcance comercial](investigacion-y-requisitos.md#experiencia-comercial) distingue la entrega y las ampliaciones pendientes.
+
+Observar la interfaz implementada con estudiantes y educadores nuevos mediante tareas neutrales: encontrar y abrir/comprar contenido, retomar aprendizaje y preparar una publicación. Registrar dudas, finalización, ayuda y errores, y contrastar los hallazgos con el diagnóstico anterior antes de afirmar una mejora medida de usabilidad. Completar la revisión de accesibilidad con tecnologías de asistencia. La cobertura y los criterios están en [el plan de interfaz](investigacion-y-requisitos.md#revision-ui-ux).
+
+Consolidar una selección pequeña de unidades en varias áreas, con resultados y requisitos explícitos. Revisar sus prácticas con especialistas y comparar su utilidad con las alternativas gratuitas y pagadas que ya usa el público. Probar si el crédito por compras anteriores se entiende y si cambia la decisión de completar un conjunto.
+
+Quedan fuera de esta etapa la entrada con Lightning (LNURL-auth), que exige un dominio público con HTTPS para que la wallet responda; el pago por minuto de video y audio; la liquidación automática a educadores; el asistente de IA; otros idiomas y un pase con créditos, que contradice la tesis de micropagos y queda como hipótesis.
 
 Preparar reclutamiento y consentimiento; ejecutar entrevistas y tareas con la versión identificada; analizar dificultades y objeciones; comprobar los cambios relevantes.
 
@@ -392,8 +473,30 @@ La bitácora y los anexos reunirán las evidencias de desarrollo, instrumentos y
 
 
 
-## Navegación por contexto
+## Navegación y tareas
 
-La barra lateral cambia según la página visitada. El catálogo reúne cursos, tutoriales y recursos; el espacio de aprendizaje reúne el avance, los certificados y las preguntas; las compras agrupan las facturas; y la comunidad reúne conversaciones, personas y notificaciones. La cuenta concentra los datos del perfil. Los accesos para cambiar de espacio permiten continuar el recorrido sin mostrar todas las opciones en cada página.
+Al entrar a Cursos, Tutoriales o Recursos se elige entre Bitcoin, Tecnología y Creación; Inicio también presenta las categorías de cursos. Cada categoría reúne subcategorías: los temas anteriores, como Lightning y Desarrollo Lightning, quedan dentro de Bitcoin. Tecnología incorpora áreas como hardware, redes, desarrollo web y móvil; Creación reúne herramientas Adobe, fotografía y creación de contenido, entre otras. Las tarjetas muestran imagen, nombre y cantidad de publicaciones del catálogo elegido. Dentro de una categoría se ofrecen las subcategorías con publicaciones; al elegir una, «Cambiar subcategoría» permite volver a las opciones. Una categoría vacía mantiene accesibles sus áreas mediante «Ver subcategorías». Su incorporación no implica cursos nuevos publicados ni demanda comprobada.
 
-Dentro de un curso o tutorial, la barra prioriza el regreso al curso y, durante una lección, el acceso a su temario. Cuando existe una inscripción a una versión publicada, también ofrece la comunidad del curso. El estudio de creador distingue la gestión del contenido, el acompañamiento de alumnos y el perfil. Las opciones respetan el tipo de cuenta y el estado de aprobación del creador; estos cambios de navegación no sustituyen las comprobaciones de acceso de cada página.
+La búsqueda directa, «Ver todos», los filtros y el regreso desde una ficha conservan la selección. Los conteos respetan el tema de la versión o revisión publicada, sin adelantar cambios del borrador ni mezclar Cursos, Tutoriales y Recursos. El contenido sin tema permanece en «Por descubrir». Las ilustraciones están integradas; la carga de imágenes personalizadas sigue pendiente. La ampliación pasó 73 pruebas focalizadas, una prueba adicional de compatibilidad del importador y una revisión de escritorio en modo oscuro; la migración local mantuvo los conteos de contenido y los identificadores anteriores. La [organización y sus límites](investigacion-y-requisitos.md#categorias-del-catalogo) distinguen este cambio técnico de la validación pendiente con participantes.
+
+La barra de búsqueda indica el catálogo y la categoría o subcategoría elegidos. «Filtros» reúne únicamente opciones que pueden acotar esas publicaciones y se despliega cuando hace falta; las selecciones activas se pueden retirar sin perder la categoría. La misma barra se usa en Cursos, Tutoriales, Recursos, Explorar y Comparar cursos. El ajuste pasó 69 pruebas focalizadas, dos pruebas adicionales ejecutadas por separado y una revisión de escritorio y móvil; sus [comprobaciones y límites](../src/docs/operacion-y-bitacora.md#filtros-catalogo-2026-10-15) quedan separados de la entrega de categorías.
+
+Sus cuatro iconos de búsqueda, filtros, cierre y flecha proceden de Font Awesome Free y se incluyen localmente; la flecha conserva su tamaño, alineación y espacio al abrir los desplegables. La [corrección de iconos](../src/docs/operacion-y-bitacora.md#iconos-filtros-2026-10-15) se registra por separado de las pruebas anteriores de la barra.
+
+El panel de filtros distribuye los campos y la acción de aplicar según el espacio disponible, con una presentación plana y un separador fino. El foco de teclado se reconoce mediante fondo suave y subrayado. La [corrección de distribución](../src/docs/operacion-y-bitacora.md#panel-filtros-2026-10-15) conserva su registro propio.
+
+La navegación principal conserva los mismos destinos durante cada recorrido. El estudiante encuentra Cursos, Tutoriales, Recursos, Rutas, Mi aprendizaje, Compras y Comunidad. El visitante accede directamente a los catálogos, a Rutas y a Enseñar. Compras incluye Propinas y Ventas incluye Cupones y Propinas. El educador aprobado mantiene Mi estudio, Contenido, Alumnos, Comunidad y Ventas, con los tres catálogos separados de sus herramientas. El pendiente muestra Estado de mi cuenta y conserva el catálogo público; el suspendido ve únicamente destinos permitidos de estado, cuenta, ayuda y avisos. Academia y estudio comparten el marco y la geometría de la barra; cuenta y ayuda se consultan desde el avatar también en móvil, sin duplicarlas en el lateral.
+
+Cada catálogo tiene página, título, filtros y selección propios. Cursos reúne recorridos completos; Tutoriales, guías para una tarea; Recursos, videos, materiales y fuentes externas. Comparar cursos permanece dentro de Cursos. Los enlaces anteriores de Explorar siguen funcionando, pero ya no hay una segunda fila de pestañas que repita los catálogos. Mi aprendizaje separa continuación, cursos, recursos adquiridos, guardados, certificados y Mis preguntas. Curso, temario y comunidad conservan su lugar junto al lector. Compras reúne carrito, pendientes e historial. Las ofertas de una lección bloqueada incluyen únicamente opciones aplicables a esa lección; el pedido conserva ese destino durante el acceso a la cuenta y lo recupera después de comprobar el pago.
+
+La separación posterior de los catálogos pasó 41 pruebas focalizadas y 445 comprobaciones de navegador, sin fallos. El [registro de este ajuste](../src/docs/operacion-y-bitacora.md#catalogos-separados-2026-10-14) conserva capturas, alcance y límites. La documentación conserva resultados resumidos; los volcados extensos de pruebas se eliminaron y los verificadores ya no los exportan automáticamente.
+
+La selección activa identifica la tarea y el panel móvil controla el foco, se cierra con Escape y abre también en lectura enfocada. Entrada, registro y recuperación comparten una cabecera simplificada sin barra lateral. El [detalle de navegación](investigacion-y-requisitos.md#barra-lateral-estandarizada) conserva el alcance y la [bitácora](../src/docs/operacion-y-bitacora.md#barra-lateral-2026-10-14), las comprobaciones reales. Las sesiones de usabilidad con participantes siguen pendientes.
+
+El estudio reúne contenido y acciones pendientes. El editor de curso separa información, temario, evaluaciones, certificado, publicación y precio. Permite ordenar capítulos y lecciones con botones, cargar un archivo desde su recurso y volver a la tarea. La publicación muestra requisitos enlazados y distingue versión publicada, borrador y envío en revisión. La vista del estudiante y la prueba de evaluación permiten revisar el contenido sin registrar aprendizaje. Alumnos reúne preguntas pendientes y resultados; Ventas reúne actividad y ofertas contextualizadas.
+
+Los formularios de autoría advierten antes de abandonar cambios locales. El guardado con JavaScript conserva los valores ante errores y enlaza los campos que necesitan corrección; sin JavaScript se mantiene el envío normal. Las reglas de aprobación, propiedad, acceso y conservación por versión siguen comprobándose en el servidor. Estos recorridos están implementados; su facilidad de uso para distintos públicos sigue pendiente de validación con participantes.
+
+El visitante puede reunir cursos, tutoriales y recursos, seguir explorando y conservar su selección al entrar. El estudiante revisa líneas, educador, versión, inclusiones y total; puede quitar, deshacer o guardar para después. Comprar ahora conserva una ruta directa. La confirmación activa el contenido del pedido y elimina únicamente los artículos comprados, preservando cambios posteriores del carrito. Un paquete parcialmente adquirido se completa con crédito. Los conflictos por contenido ya adquirido sin crédito aplicable, paquetes solapados, cambios de oferta o pagos pendientes exigen resolver la selección antes de otro cobro. El resumen muestra el crédito y el cupón aplicados.
+
+Guardados admite cursos y tutoriales por versión sin conceder acceso. Los autores enlazan a sus perfiles públicos permitidos, con publicaciones filtrables. La ayuda de plataforma conserva una referencia comprobada de pedido o recurso; cada educador ve sus propios productos e importes en Ventas. Estos registros no representan liquidación disponible. El carrito admite 20 artículos; un excedente al incorporar la selección de visitante permanece solo en esa sesión hasta resolverlo. El [detalle y las evidencias de la entrega comercial](../src/docs/operacion-y-bitacora.md#etapa-comercial-2026-10-14) conservan sus límites.

@@ -39,6 +39,7 @@ class SavedItem(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     resource = models.ForeignKey("content.ResourceVersion", on_delete=models.PROTECT, null=True, blank=True)
     reference = models.ForeignKey("content.ExternalReference", on_delete=models.PROTECT, null=True, blank=True)
+    course_version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT, null=True, blank=True)
     title = models.CharField(max_length=200)
     source_url = models.URLField(max_length=500, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -46,10 +47,130 @@ class SavedItem(models.Model):
     class Meta:
         ordering = ("-created_at", "-pk")
         constraints = [
-            models.CheckConstraint(condition=models.Q(resource__isnull=False, reference__isnull=True) | models.Q(resource__isnull=True, reference__isnull=False), name="saved_item_one_target"),
+            models.CheckConstraint(condition=(models.Q(resource__isnull=False, reference__isnull=True, course_version__isnull=True)
+                                               | models.Q(resource__isnull=True, reference__isnull=False, course_version__isnull=True)
+                                               | models.Q(resource__isnull=True, reference__isnull=True, course_version__isnull=False)), name="saved_item_one_target"),
             models.UniqueConstraint(fields=("student", "resource"), name="unique_saved_resource"),
             models.UniqueConstraint(fields=("student", "reference"), name="unique_saved_reference"),
+            models.UniqueConstraint(fields=("student", "course_version"), name="unique_saved_course_version"),
         ]
+
+
+class SavedCollection(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=60)
+    normalized_name = models.CharField(max_length=180)
+    items = models.ManyToManyField(SavedItem, related_name="collections", blank=True)
+
+    class Meta:
+        ordering = ("name", "pk")
+        constraints = [models.UniqueConstraint(fields=("student", "normalized_name"), name="unique_student_collection_name")]
+
+
+class PracticeRules(models.Model):
+    title = models.CharField("Título", max_length=200)
+    instructions = models.TextField("Qué debe entregar el estudiante", max_length=10000)
+    criteria = models.JSONField(default=list)
+    review_days = models.PositiveSmallIntegerField("Plazo previsto de revisión (días naturales)", default=7, validators=[MinValueValidator(1), MaxValueValidator(30)])
+
+    class Meta:
+        abstract = True
+
+    def clean(self):
+        super().clean()
+        if not self.title.strip() or not self.instructions.strip():
+            raise ValidationError("Completa el título y las instrucciones de la práctica.")
+        if not isinstance(self.criteria, list) or not 1 <= len(self.criteria) <= 12 or any(not isinstance(c, str) or not c.strip() or len(c) > 300 for c in self.criteria):
+            raise ValidationError("Define entre 1 y 12 criterios claros, de hasta 300 caracteres cada uno.")
+
+
+class PracticeDraft(PracticeRules):
+    lesson = models.OneToOneField("content.Lesson", on_delete=models.CASCADE, related_name="practice_draft")
+    enabled = models.BooleanField("Incluir práctica en la próxima versión", default=True)
+    revision = models.PositiveIntegerField(default=0)
+
+
+class VersionPractice(FrozenRecord, PracticeRules):
+    lesson = models.OneToOneField("content.VersionLesson", on_delete=models.PROTECT, related_name="practice")
+
+    def clean(self):
+        super().clean()
+        if self.lesson.chapter.version.sealed:
+            raise ValidationError("No se pueden añadir prácticas a una versión sellada.")
+
+
+class PracticeIntake(models.Model):
+    practice = models.OneToOneField(VersionPractice, on_delete=models.PROTECT, related_name="intake")
+    accepting = models.BooleanField(default=True)
+    revision = models.PositiveIntegerField(default=0)
+
+
+def practice_upload_path(instance, filename):
+    from pathlib import PurePath
+    return f"practice-deliveries/{uuid.uuid4().hex}{PurePath(filename).suffix.lower()}"
+
+
+class PracticeDelivery(FrozenRecord):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT, related_name="practice_deliveries")
+    practice = models.ForeignKey(VersionPractice, on_delete=models.PROTECT, related_name="deliveries")
+    number = models.PositiveIntegerField()
+    request_key = models.UUIDField()
+    body = models.TextField(blank=True, max_length=10000)
+    project_url = models.URLField(blank=True, max_length=500)
+    attachment = models.FileField(upload_to=practice_upload_path, blank=True)
+    attachment_name = models.CharField(max_length=200, blank=True)
+    attachment_size = models.PositiveIntegerField(default=0)
+    attachment_sha256 = models.CharField(max_length=64, blank=True)
+    submitted_at = models.DateTimeField(default=timezone.now)
+    due_at = models.DateTimeField()
+
+    class Meta:
+        ordering = ("submitted_at", "pk")
+        constraints = [
+            models.UniqueConstraint(fields=("enrollment", "practice", "number"), name="unique_practice_delivery_number"),
+            models.UniqueConstraint(fields=("enrollment", "request_key"), name="unique_practice_delivery_request"),
+        ]
+
+    def clean(self):
+        super().clean()
+        if self.enrollment.version_id != self.practice.lesson.chapter.version_id:
+            raise ValidationError("La entrega no corresponde a esta inscripción.")
+        if not (self.body.strip() or self.project_url or self.attachment):
+            raise ValidationError("Añade una solución, un enlace o un archivo.")
+
+    @property
+    def state(self):
+        review = getattr(self, "review", None)
+        return review.outcome if review else "pending"
+
+    @property
+    def state_label(self):
+        return {"pending": "En revisión", "changes": "Cambios solicitados", "accepted": "Aprobada"}[self.state]
+
+    @property
+    def overdue(self):
+        return self.state == "pending" and self.due_at < timezone.now()
+
+
+class PracticeReview(FrozenRecord):
+    delivery = models.OneToOneField(PracticeDelivery, on_delete=models.PROTECT, related_name="review")
+    educator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    outcome = models.CharField(max_length=10, choices=(("accepted", "Aprobar entrega"), ("changes", "Solicitar cambios")))
+    feedback = models.TextField(max_length=5000)
+    met_criteria = models.JSONField(default=list, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def clean(self):
+        super().clean()
+        if self.educator_id != self.delivery.practice.lesson.chapter.version.course.creator_id:
+            raise ValidationError("Solo el educador de esta práctica puede revisarla.")
+        criteria = self.delivery.practice.criteria
+        if not isinstance(self.met_criteria, list) or any(type(i) is not int or i < 0 or i >= len(criteria) for i in self.met_criteria) or len(set(self.met_criteria)) != len(self.met_criteria):
+            raise ValidationError("Revisa los criterios seleccionados.")
+        if not self.feedback.strip():
+            raise ValidationError("Explica el resultado y el siguiente paso para el estudiante.")
+        if self.outcome == "accepted" and set(self.met_criteria) != set(range(len(criteria))):
+            raise ValidationError("Para aprobar, la entrega debe cumplir todos los criterios.")
 
 
 class QuizRules(models.Model):
@@ -260,3 +381,113 @@ class CommunityDecision(FrozenRecord):
     action = models.CharField(max_length=12, choices=(("hide", "Ocultar"), ("show", "Mostrar"), ("close", "Cerrar"), ("open", "Reabrir"), ("dismiss", "Descartar reportes"), ("suspend", "Suspender escritura"), ("restore", "Restablecer escritura")))
     reason = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class CertificateTimestamp(models.Model):
+    """OpenTimestamps proof of a certificate fingerprint; it grows as calendars confirm it."""
+    certificate = models.OneToOneField(Certificate, on_delete=models.PROTECT, related_name="timestamp")
+    proof = models.BinaryField()
+    calendars = models.JSONField(default=list)
+    submitted_at = models.DateTimeField()
+    checked_at = models.DateTimeField(null=True, blank=True)
+    bitcoin_height = models.PositiveIntegerField(null=True, blank=True)
+
+
+class CourseReview(models.Model):
+    class Basis(models.TextChoices):
+        PURCHASE = "purchase", "Compra verificada"
+        COMPLETED = "completed", "Curso completado"
+
+    course = models.ForeignKey("content.Course", on_delete=models.PROTECT, related_name="reviews")
+    version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT, related_name="reviews")
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="course_reviews")
+    rating = models.PositiveSmallIntegerField("valoración", validators=[MinValueValidator(1), MaxValueValidator(5)])
+    body = models.TextField("reseña", max_length=2000, blank=True)
+    basis = models.CharField(max_length=12, choices=Basis)
+    hidden = models.BooleanField("oculta por moderación", default=False)
+    reply = models.TextField("respuesta del educador", max_length=1000, blank=True)
+    replied_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ("-updated_at", "-pk")
+        constraints = [models.UniqueConstraint(fields=("course", "student"), name="unique_course_review"),
+                       models.CheckConstraint(condition=models.Q(rating__gte=1, rating__lte=5), name="review_rating_bounds")]
+
+    def clean(self):
+        if self.version_id and self.course_id and self.version.course_id != self.course_id:
+            raise ValidationError("La reseña debe corresponder a una versión del curso.")
+
+
+class PracticeShowcase(models.Model):
+    """A student's explicit permission to show an approved practice in the course gallery."""
+    delivery = models.OneToOneField(PracticeDelivery, on_delete=models.PROTECT, related_name="showcase")
+    public = models.BooleanField(default=True)
+    hidden = models.BooleanField("oculta por moderación", default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        if self.delivery_id and self.delivery.state != "accepted":
+            raise ValidationError("Solo se pueden mostrar prácticas aprobadas.")
+
+
+class LearningPath(models.Model):
+    title = models.CharField("título", max_length=200)
+    slug = models.SlugField("identificador", unique=True)
+    summary = models.CharField("resumen", max_length=240)
+    description = models.TextField("descripción", blank=True)
+    published = models.BooleanField("publicada", default=False)
+    position = models.PositiveIntegerField("orden", default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("position", "pk")
+        verbose_name = "ruta de aprendizaje"
+        verbose_name_plural = "rutas de aprendizaje"
+
+    def __str__(self):
+        return self.title
+
+
+class PathCourse(models.Model):
+    path = models.ForeignKey(LearningPath, on_delete=models.CASCADE, related_name="steps")
+    course = models.ForeignKey("content.Course", on_delete=models.PROTECT, related_name="path_steps", verbose_name="curso o tutorial")
+    position = models.PositiveIntegerField("orden", default=1)
+    note = models.CharField("por qué en este paso", max_length=240, blank=True)
+
+    class Meta:
+        ordering = ("position", "pk")
+        verbose_name = "paso de la ruta"
+        verbose_name_plural = "pasos de la ruta"
+        constraints = [models.UniqueConstraint(fields=("path", "course"), name="unique_path_course"),
+                       models.UniqueConstraint(fields=("path", "position"), name="unique_path_position")]
+
+
+class PathCompletion(models.Model):
+    """Credential for a finished path, built from the course certificates it requires."""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    path = models.ForeignKey(LearningPath, on_delete=models.PROTECT, related_name="completions")
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="path_completions")
+    student_name = models.CharField(max_length=150)
+    path_title = models.CharField(max_length=200)
+    evidence = models.JSONField(default=list)
+    issued_at = models.DateTimeField(default=timezone.now, editable=False)
+    fingerprint = models.CharField(max_length=64, editable=False)
+    public = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=("path", "student"), name="unique_path_completion")]
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            from .paths import path_digest
+            self.fingerprint = path_digest(self)
+        else:
+            original = type(self).objects.get(pk=self.pk)
+            if any(getattr(self, name) != getattr(original, name) for name in ("path_id", "student_id", "student_name", "path_title", "evidence", "issued_at", "fingerprint")):
+                raise ValidationError("La credencial conserva sus datos de emisión.")
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        raise ValidationError("Las credenciales no se eliminan.")

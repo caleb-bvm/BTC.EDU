@@ -5,36 +5,44 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="{% static 'js/theme.js' %}"></script>
   <meta name="description" content="BTC.EDU. Cursos, videos y materiales. Elige lo que quieres aprender.">
+  {% if user.is_authenticated %}<meta name="btc-account-id" content="{{ user.pk }}">{% endif %}
   <meta name="htmx-config" content='{"historyRestoreAsHxRequest":false}'>
   <title>{% block title %}BTC.EDU · Aprende a tu ritmo{% endblock %}</title>
   <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
+  <link rel="manifest" href="{% url 'pwa-manifest' %}">
+  <link rel="apple-touch-icon" href="{% static 'images/icons/apple-touch-icon.png' %}">
+  <meta name="theme-color" content="#141414">
   <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/site.css' %}?v=marker-20261012-1">
-  <link rel="stylesheet" href="{% static 'css/academy.css' %}?v=dark-20261012-2">
+  <link rel="stylesheet" href="{% static 'css/academy.css' %}?v=images-20261014-1">
   <link rel="stylesheet" href="{% static 'css/commerce.css' %}?v=units-20261013-1">
   {% block extra_head %}{% endblock %}
   <link rel="stylesheet" href="{% static 'css/essential.css' %}?v=dark-20261012-2">
-  <link rel="stylesheet" href="{% static 'css/learning-experience.css' %}?v=marker-20261012-1">
+  <link rel="stylesheet" href="{% static 'css/learning-experience.css' %}?v=courses-20261015-1">
   <link rel="stylesheet" href="{% static 'css/lesson-community.css' %}?v=lessons-20261012-1">
   <link rel="stylesheet" href="{% static 'css/theme.css' %}?v=dark-20261012-2">
-  <link rel="stylesheet" href="{% static 'css/accounts.css' %}?v=accounts-20261012-1">
+  <link rel="stylesheet" href="{% static 'css/accounts.css' %}?v=accounts-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/overhaul.css' %}?v=images-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/overhaul-learning.css' %}?v=images-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/overhaul-creators.css' %}?v=images-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/overhaul-commerce.css' %}?v=commercial-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/cart.css' %}?v=images-20261014-1">
+  <link rel="stylesheet" href="{% static 'css/navigation.css' %}?v=navigation-20261014-2">
+  <link rel="stylesheet" href="{% static 'css/categories.css' %}?v=panel-20261015-2">
+  <link rel="stylesheet" href="{% static 'css/content-images.css' %}?v=courses-20261015-1">
+  <link rel="stylesheet" href="{% static 'css/features.css' %}?v=features-20261023">
+  <script src="{% static 'js/forms.js' %}?v=20261014-1" defer></script>
   <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
-  <script src="{% static 'js/learning.js' %}?v=20261012-2" defer></script>
-  <script src="{% static 'js/commerce.js' %}" defer></script>
-  <script src="{% static 'js/academy.js' %}" defer></script>
+  <script src="{% static 'js/learning.js' %}?v=overhaul-20261014" defer></script>
+  <script src="{% static 'js/commerce.js' %}?v=features-20261023" defer></script>
+  <script src="{% static 'js/cart.js' %}?v=commercial-20261014-1" defer></script>
+  <script src="{% static 'js/academy.js' %}?v=filters-20261015-3" defer></script>
   <script src="{% static 'js/accounts.js' %}?v=accounts-20261012-1" defer></script>
+  <script src="{% static 'js/offline.js' %}?v=features-20261023" defer></script>
 </head>
 <body class="{% block body_class %}{% endblock %}">
 <a class="skip-link" href="#main">Saltar al contenido</a>
-{% block header %}<header class="site-header"><div class="shell header-inner">
-  <a class="brand" href="{% url 'home' %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU</span></a>
-  <nav aria-label="Navegación principal">
-    {% include '_theme_toggle.html' %}
-    <a href="{% url 'explore' %}" {% if active == 'explore' %}aria-current="page"{% endif %}>Explorar</a>
-    <a href="{% url 'creators' %}" {% if active == 'creators' %}aria-current="page"{% endif %}>Para creadores</a>
-    {% if user.is_authenticated and user.account_type == 'student' %}<a class="btn btn-dark" href="{% url 'workspace' %}">Mi aprendizaje</a>{% elif user.is_authenticated and user.account_type == 'creator' %}<a class="btn btn-dark" href="{% if user.creator_profile.status == 'approved' %}{% url 'creator-dashboard' %}{% else %}{% url 'creator-application' %}{% endif %}">Mi estudio</a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}">Entrar</a>{% endif %}
-  </nav>
-</div></header>{% endblock %}
+{% block header %}{% include '_app_header.html' with public_header=True %}{% endblock %}
 <main id="main">{% block content %}{% endblock %}</main>
 {% block footer %}<footer class="site-footer shell"><span>BTC.EDU <span class="footer-dot">●</span> Conocimiento en libertad.</span><span>Aprende a tu ritmo.</span></footer>{% endblock %}
 </body></html>

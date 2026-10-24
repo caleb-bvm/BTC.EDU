@@ -20,6 +20,9 @@ Estas instrucciones conservan las preferencias expresadas por el usuario para el
 
 ## Actualizaciones
 
+- No guardar ni versionar volcados extensos de pruebas, matrices completas por página, snapshots repetidos o registros verbosos de consola. Los verificadores deben mostrar un resumen en consola por defecto. Conservar solo resultados esenciales, comandos y límites en la documentación existente; cualquier reporte opcional debe ser breve y guardarse dentro de `src/.local/`, ignorado por Git. No crear otro archivo por cada ejecución ni trasladar los volcados eliminados a archivos comprimidos o copias versionadas.
+- Limitar las salidas de herramientas y las comprobaciones al cambio solicitado. No leer registros completos ni repetir baterías extensas sin una razón concreta; preferir búsquedas precisas, resúmenes y pruebas focalizadas.
+
 - En la interfaz del producto, evitar banners y textos técnicos sobre desarrollo, demostración, saldo de prueba, regtest o wallets específicas. Explicar el entorno en documentación o durante la presentación, sin distraer al usuario o evaluador dentro de la aplicación. Mostrar los precios únicamente como cantidad y sats; no añadir «Pago único». La comprobación automática del pago debe ser silenciosa; mostrar mensajes cuando exista un error que requiera una acción.
 
 - Cada entrega de desarrollo debe incluir una revisión de la documentación afectada: comportamiento, decisiones, recorridos, pruebas, límites y próximos pasos.
@@ -37,4 +40,4 @@ Estas instrucciones conservan las preferencias expresadas por el usuario para el
 
 - Escribir `src/docs/operacion-y-bitacora.md` en primera persona, con un tono natural, como si lo escribiera el usuario. Sintetizar todo el contenido y usar una estructura sencilla que separe operación, decisiones, pendientes e historial por día. En los registros incluir solo la fecha del día, sin país, hora ni zona horaria; conservar las referencias técnicas necesarias y las evidencias reales. Aplicar estas preferencias a futuras actualizaciones de la bitácora.
 - Mantener los tres documentos `.md` principales existentes entre `strategy` y `src/docs`: informe, investigación y requisitos, operación y bitácora. Actualizar sus secciones con lo esencial en lugar de crear informes por entrega. La exportación TXT existente se conserva como antecedente y no requiere actualización.
-- Las fuentes CUBO+ y las evidencias originales se conservan aparte. Los documentos de origen integrados son antecedentes; consultar el estado actual y las entregas fechadas antes de interpretar sus pendientes.
+- Las fuentes CUBO+ y las evidencias seleccionadas se conservan aparte. Los volcados extensos de pruebas no se conservan ni versionan. Los documentos de origen integrados son antecedentes; consultar el estado actual y las entregas fechadas antes de interpretar sus pendientes.

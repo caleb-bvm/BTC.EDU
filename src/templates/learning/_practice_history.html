@@ -1,0 +1,7 @@
+<section class="practice-history"><h2>Historial de entregas</h2>
+{% for attempt in history %}<article class="practice-attempt"><header><h3>Entrega {{ attempt.number }}</h3><span class="account-status">{{ attempt.state_label }}</span></header><p class="account-help">Enviada el {{ attempt.submitted_at|date:'d/m/Y H:i' }} · Revisión prevista hasta el {{ attempt.due_at|date:'d/m/Y' }}{% if attempt.overdue %} · Plazo superado{% endif %}</p>
+{% if attempt.body %}<div class="practice-text">{{ attempt.body|linebreaks }}</div>{% endif %}
+{% if attempt.project_url %}<p><a class="text-link" href="{{ attempt.project_url }}" target="_blank" rel="noopener noreferrer nofollow">Abrir enlace al proyecto ↗</a></p>{% endif %}
+{% if attempt.attachment %}<p><a class="text-link" href="{% url 'practice-attachment' attempt.pk %}">Descargar {{ attempt.attachment_name }} ({{ attempt.attachment_size|filesizeformat }}) ↓</a></p>{% endif %}
+{% if attempt.review %}<div class="practice-feedback"><h4>Retroalimentación del educador</h4>{{ attempt.review.feedback|linebreaks }}<ul>{% for criterion in practice.criteria %}<li>{% if forloop.counter0 in attempt.review.met_criteria %}Cumplido{% else %}Por mejorar{% endif %}: {{ criterion }}</li>{% endfor %}</ul><p class="account-help">Revisada el {{ attempt.review.created_at|date:'d/m/Y H:i' }}</p></div>{% endif %}</article>
+{% empty %}<p>Todavía no hay entregas. Revisa los criterios y prepara tu solución.</p>{% endfor %}</section>

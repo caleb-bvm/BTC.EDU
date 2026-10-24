@@ -1,8 +1,22 @@
 from django.urls import path
 
-from . import assessment_views, bookmark_views, community_views, essential_views, views
+from . import (
+    assessment_views,
+    bookmark_views,
+    community_views,
+    essential_views,
+    feature_views,
+    practice_views,
+    views,
+)
 
 urlpatterns = [
+    path("guardados/colecciones/crear/", bookmark_views.collection_change, name="collection-create"),
+    path("guardados/colecciones/<int:pk>/", bookmark_views.collection_change, name="collection-change"),
+    path("guardados/<int:pk>/organizar/", bookmark_views.organize, name="bookmark-organize"),
+    path("practicas/", practice_views.student_list, name="student-practices"),
+    path("practicas/<int:pk>/", practice_views.detail, name="student-practice"),
+    path("entregas/<int:pk>/archivo/", practice_views.attachment, name="practice-attachment"),
     path("guardados/<int:pk>/", bookmark_views.open_saved, name="bookmark-open"),
     path("guardar/<str:kind>/<int:pk>/", bookmark_views.toggle, name="bookmark-toggle"),
     path("comunidad/conversaciones/<int:pk>/seguir/", community_views.subscription, name="community-subscription"),
@@ -21,6 +35,14 @@ urlpatterns = [
     path("verificar/<uuid:pk>/", essential_views.certificate_verify, name="certificate-verify"),
     path("verificar/<uuid:pk>/datos/", essential_views.certificate_public_data, name="certificate-public-data"),
     path("certificados/<uuid:pk>/revocar/", essential_views.certificate_revoke, name="certificate-revoke"),
+    path("certificados/<uuid:pk>/sello.ots", feature_views.certificate_proof, name="certificate-proof"),
+    path("certificados/<uuid:pk>/sellar/", feature_views.certificate_stamp, name="certificate-stamp"),
+    path("verificar/<uuid:pk>/sello.ots", feature_views.certificate_public_proof, name="certificate-public-proof"),
+    path("cursos/<int:course_pk>/resena/", feature_views.review_save, name="review-save"),
+    path("entregas/<int:pk>/galeria/", feature_views.showcase_toggle, name="showcase-toggle"),
+    path("rutas/credenciales/<uuid:pk>/", feature_views.path_credential, name="path-credential"),
+    path("verificar/rutas/<uuid:pk>/", feature_views.path_verify, name="path-verify"),
+    path("verificar/rutas/<uuid:pk>/datos/", feature_views.path_verify_data, name="path-verify-data"),
     path("preguntas/", essential_views.student_questions, name="student-questions"),
     path("lecciones/<int:lesson_pk>/preguntar/", essential_views.question_create, name="question-create"),
     path("preguntas/<int:pk>/", essential_views.question_detail, name="student-question"),

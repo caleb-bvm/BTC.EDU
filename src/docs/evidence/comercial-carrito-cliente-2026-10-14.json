@@ -1,0 +1,11 @@
+{
+  "passed": 5,
+  "failed": 0,
+  "verified": [
+    "first add reveals badge and status, preserves origin, prevents duplicate submission and stays on discovery",
+    "server validation exposes the reason and preserves selection for retry",
+    "connection failure preserves input and a successful retry restores the counter and status",
+    "account mismatch prevents mutation and preserves selection",
+    "login redirect is reported as a session change rather than a successful cart mutation"
+  ]
+}

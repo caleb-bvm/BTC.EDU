@@ -1,0 +1,667 @@
+[
+  {
+    "slug": "python-reportes-csv",
+    "title": "Python práctico: automatiza reportes con CSV",
+    "category": {
+      "name": "Tecnología",
+      "slug": "tecnologia"
+    },
+    "topic": {
+      "name": "Programación",
+      "slug": "programacion"
+    },
+    "description": "Construye desde cero una herramienta local que valida ventas CSV, calcula importes con Decimal y entrega un reporte por categoría. Incluye código acumulativo, ejercicios comprobables, cuatro evaluaciones y un proyecto final; los videos externos son un apoyo opcional.",
+    "objective": "Crear, verificar y utilizar un programa Python reproducible que transforme ventas CSV en reportes precisos y rechace entradas incompatibles con mensajes accionables.",
+    "requirements": "Computadora con Windows 10 u 11, permiso para instalar Python estable 3.14, editor de texto y conocimientos básicos de carpetas. No requiere experiencia previa de programación, paquetes externos ni cuentas de servicios.",
+    "minutes": 600,
+    "price": 3000,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "Python: uso en Windows",
+        "url": "https://docs.python.org/3.14/using/windows.html"
+      },
+      {
+        "title": "Python: números, texto y listas",
+        "url": "https://docs.python.org/3.14/tutorial/introduction.html"
+      },
+      {
+        "title": "Python: funciones y control de flujo",
+        "url": "https://docs.python.org/3.14/tutorial/controlflow.html"
+      },
+      {
+        "title": "Python: estructuras de datos",
+        "url": "https://docs.python.org/3.14/tutorial/datastructures.html"
+      },
+      {
+        "title": "Python: entrada y salida",
+        "url": "https://docs.python.org/3.14/tutorial/inputoutput.html"
+      },
+      {
+        "title": "Python: lectura y escritura CSV",
+        "url": "https://docs.python.org/3.14/library/csv.html"
+      },
+      {
+        "title": "Python: rutas con pathlib",
+        "url": "https://docs.python.org/3.14/library/pathlib.html"
+      },
+      {
+        "title": "Python: aritmética decimal",
+        "url": "https://docs.python.org/3.14/library/decimal.html"
+      },
+      {
+        "title": "Python: errores y excepciones",
+        "url": "https://docs.python.org/3.14/tutorial/errors.html"
+      },
+      {
+        "title": "Python: argumentos con argparse",
+        "url": "https://docs.python.org/3.14/library/argparse.html"
+      },
+      {
+        "title": "Python: pruebas con unittest",
+        "url": "https://docs.python.org/3.14/library/unittest.html"
+      },
+      {
+        "title": "Python: módulos",
+        "url": "https://docs.python.org/3.14/tutorial/modules.html"
+      },
+      {
+        "title": "Python: tipos incorporados",
+        "url": "https://docs.python.org/3.14/library/stdtypes.html"
+      },
+      {
+        "title": "Python: excepciones incorporadas",
+        "url": "https://docs.python.org/3.14/library/exceptions.html"
+      },
+      {
+        "title": "Microsoft Learn: Programming with Python (inglés, apoyo opcional)",
+        "url": "https://learn.microsoft.com/en-us/shows/intro-to-python-development/python-for-beginners-1-of-44-programming-with-python"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Preparar un proyecto reproducible",
+        "description": "Instala Python, interpreta datos sencillos y crea el archivo de ventas que acompañará todo el curso.",
+        "lessons": [
+          {
+            "title": "Preparar Python y entender el encargo",
+            "description": "Configura un espacio de trabajo y define el resultado del programa.",
+            "outcome": "Ejecutar un archivo Python y explicar la entrada, las reglas y la salida del proyecto.",
+            "activity": "understand",
+            "preview": "Construirás una herramienta que convierte ventas CSV en un resumen comprobable.",
+            "body": "El trabajo que vamos a automatizar\n\nUna tienda ficticia recibe ventas en una tabla. Cada semana alguien agrupa cantidades e importes por categoría. Nuestro programa realizará ese proceso con reglas explícitas: leer un archivo, rechazar datos incompatibles, sumar con precisión decimal y generar otro CSV. Los nombres, precios y ventas del curso son inventados; sirven para aprender programación y no representan operaciones comerciales reales.\n\nEl resultado será una herramienta local. No necesitarás cuentas, claves, servicios de pago ni paquetes externos. Reservaremos unas diez horas para leer, escribir código, corregir errores y completar el proyecto. Poder copiar una instrucción no demuestra que la entiendes: en cada lección cambiarás un dato y comprobarás una predicción.\n\nPreparar Windows\n\nAbre la página oficial de descargas de Python indicada en las fuentes. Instala una versión estable de Python 3.14 siguiendo las instrucciones oficiales para Windows; evita versiones preliminares. Si utilizas el administrador de instalación, permite que instale el intérprete estable. Cierra y vuelve a abrir PowerShell después de instalarlo. Comprueba el intérprete:\n\n```powershell\npy --version\n```\n\nSi el equipo reconoce python en lugar de py, ejecuta python --version y usa python en todos los comandos posteriores. Si ambos fallan, revisa la instalación y los alias de ejecución descritos en la guía oficial antes de continuar. No instales paquetes para resolver un problema de localización del intérprete.\n\nCrea una carpeta llamada reporte-csv desde el Explorador. Abre PowerShell dentro de esa carpeta; puedes escribir powershell en su barra de dirección. Crea hola.py en tu editor de texto, guárdalo como UTF-8 y comprueba que la extensión real sea .py, sin un .txt adicional. Escribe:\n\n```python\nprint(\"Proyecto: reporte de ventas\")\nprint(\"Entrada: ventas.csv\")\nprint(\"Salida: reporte por categoría\")\n```\n\nEjecuta py hola.py. Deben aparecer exactamente tres líneas. Las comillas delimitan texto; print lo muestra. El archivo conserva instrucciones que el intérprete ejecuta de arriba hacia abajo. PowerShell recibe el comando para iniciar Python, mientras Python interpreta el contenido del archivo: son dos entornos diferentes.\n\nDefinir un contrato\n\nNuestra entrada tendrá las columnas id,categoria,cantidad,precio, en ese orden. Cantidad será un entero positivo; precio tendrá dos decimales separados por punto. Solo aceptaremos Cuadernos, Teclados y Accesorios. La salida tendrá categoria,unidades,total. Un identificador repetido será un error, aunque ambas filas sean iguales.\n\nPráctica\n\nCambia la primera línea por el nombre de tu proyecto y vuelve a ejecutar. Después elimina una comilla para observar un error de sintaxis y restáurala. La solución correcta recupera las tres líneas y permite explicar por qué el error impide comenzar el trabajo. Conserva la carpeta: todas las lecciones usarán este mismo espacio.",
+            "sources": [
+              {
+                "title": "Python: uso en Windows",
+                "url": "https://docs.python.org/3.14/using/windows.html"
+              },
+              {
+                "title": "Python: números, texto y listas",
+                "url": "https://docs.python.org/3.14/tutorial/introduction.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Microsoft Learn: Programming with Python (inglés, apoyo opcional)",
+                "url": "https://learn.microsoft.com/en-us/shows/intro-to-python-development/python-for-beginners-1-of-44-programming-with-python"
+              }
+            ],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Representar ventas con listas y diccionarios",
+            "description": "Aprende variables, conversiones, condiciones y recorridos antes de abrir el CSV.",
+            "outcome": "Recorrer registros y distinguir texto, cantidades y acumuladores.",
+            "activity": "execute",
+            "preview": "Aprenderás a inspeccionar los registros antes de convertirlos en un reporte.",
+            "body": "Una fila tiene significado\n\nUna variable asocia un nombre con un valor. Una venta contiene varios valores relacionados, por eso la representaremos mediante un diccionario: cada clave describe una columna. Una lista conserva varias ventas en orden. Trabajaremos primero en memoria para distinguir un error de programación de un problema al leer archivos.\n\nCrea explorar.py junto a hola.py. Copia este ejemplo completo y ejecútalo con py explorar.py:\n\n```python\nventas = [\n    {\"id\": \"V001\", \"categoria\": \"Cuadernos\", \"cantidad\": \"2\"},\n    {\"id\": \"V002\", \"categoria\": \"Teclados\", \"cantidad\": \"1\"},\n    {\"id\": \"V003\", \"categoria\": \"Cuadernos\", \"cantidad\": \"3\"},\n    {\"id\": \"V004\", \"categoria\": \"Accesorios\", \"cantidad\": \"2\"},\n]\nunidades = 0\nfor venta in ventas:\n    cantidad = int(venta[\"cantidad\"])\n    unidades = unidades + cantidad\n    print(venta[\"id\"], venta[\"categoria\"], cantidad)\nprint(\"Registros:\", len(ventas))\nprint(\"Unidades:\", unidades)\n```\n\nEl resultado termina con Registros: 4 y Unidades: 8. Observa que los valores de cantidad empiezan entre comillas: son texto, como lo serán al llegar desde un CSV. int convierte una representación de entero en un número. Sumar textos uniría caracteres; sumar enteros acumula cantidades. El operador = asigna un valor, mientras == compara valores.\n\nLa sangría es parte del programa\n\nLas tres instrucciones indentadas pertenecen al recorrido for. Se ejecutan una vez por venta. Los dos print finales están fuera del recorrido y se ejecutan cuando termina. Usa cuatro espacios para cada nivel y configura el editor para evitar mezclar espacios con tabulaciones. Si colocas el último print dentro del bloque, aparecerán cuatro resultados parciales en lugar de un resumen final.\n\nAñade al final una selección independiente:\n\n```python\nfor venta in ventas:\n    if venta[\"categoria\"] == \"Cuadernos\":\n        print(\"Revisar cuadernos:\", venta[\"id\"])\n```\n\nDeben aparecer V001 y V003. El filtro examina un campo; todavía no calcula dinero. Mantener esta diferencia evita un error frecuente: creer que contar filas equivale a contar productos. Dos filas de cuadernos representan cinco unidades, porque una fila puede registrar varias unidades.\n\nPredecir antes de ejecutar\n\nSin modificar las otras ventas, cambia la cantidad de V003 a \"4\". Escribe primero el resultado esperado: siguen existiendo cuatro registros, pero ahora suman nueve unidades. Ejecuta y compara. Luego cambia esa cantidad a \"tres\". La conversión falla porque el texto no describe un entero; más adelante transformaremos ese fallo en un mensaje que permita corregir el archivo.\n\nSolución y comprobación\n\nRestaura \"3\" y verifica cuatro registros, ocho unidades y dos identificadores seleccionados. Explica con tus palabras qué guarda la lista, qué representa un diccionario y por qué int aparece dentro del recorrido. No añadas float para calcular precios: dedicaremos una lección a representar importes sin introducir errores binarios evitables.",
+            "sources": [
+              {
+                "title": "Python: estructuras de datos",
+                "url": "https://docs.python.org/3.14/tutorial/datastructures.html"
+              },
+              {
+                "title": "Python: funciones y control de flujo",
+                "url": "https://docs.python.org/3.14/tutorial/controlflow.html"
+              },
+              {
+                "title": "Python: tipos incorporados",
+                "url": "https://docs.python.org/3.14/library/stdtypes.html"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Crear el CSV y fijar sus reglas",
+            "description": "Prepara datos reproducibles, rutas relativas y un contrato de intercambio.",
+            "outcome": "Generar el archivo inicial sin depender de una hoja de cálculo.",
+            "activity": "design",
+            "preview": "Definirás un formato que otra persona pueda reproducir sin adivinar columnas.",
+            "body": "Un archivo que podamos reconstruir\n\nUn ejemplo útil debe permitir volver al punto de partida. Crearemos nuestros propios datos ficticios y mantendremos separado el archivo original de los reportes. No utilices nombres de clientes ni ventas reales para esta práctica: aquí importa comprobar reglas, y conocemos de antemano los resultados correctos.\n\nCSV organiza campos mediante un separador. Nosotros usaremos coma entre columnas y punto dentro de los precios. Esta decisión elimina la ambigüedad entre un separador decimal y uno de campo. No todos los archivos llamados CSV comparten esas reglas; una exportación con punto y coma necesitará otra configuración o una conversión explícita.\n\nCrea crear_datos.py con el siguiente contenido:\n\n```python\nfrom pathlib import Path\n\ncarpeta = Path(\"datos\")\ncarpeta.mkdir(exist_ok=True)\ncontenido = (\n    \"id,categoria,cantidad,precio\\n\"\n    \"V001,Cuadernos,2,3.50\\n\"\n    \"V002,Teclados,1,25.00\\n\"\n    \"V003,Cuadernos,3,3.50\\n\"\n    \"V004,Accesorios,2,4.25\\n\"\n)\nruta = carpeta / \"ventas.csv\"\nwith ruta.open(\"x\", encoding=\"utf-8\", newline=\"\") as archivo:\n    archivo.write(contenido)\nprint(\"Creado:\", ruta.resolve())\n```\n\nEjecuta py crear_datos.py desde reporte-csv. Aparecerá datos/ventas.csv. Path representa una ruta y / combina sus componentes; no divide números en ese contexto. mkdir crea la carpeta si falta. El modo x exige un archivo nuevo: si vuelves a ejecutar, Python informa que ya existe y conserva su contenido. Para reconstruir el ejemplo, cambia antes el nombre del archivo existente desde el Explorador o elige otro nombre en el programa.\n\nLa ruta relativa depende de la carpeta actual de PowerShell, no de dónde imaginas que está el proyecto. La ruta completa impresa por resolve te ayuda a verificar el destino. Si PowerShell está en otro directorio, vuelve a reporte-csv antes de ejecutar.\n\nAcordar límites razonables\n\nAdmitiremos identificadores de hasta cuarenta caracteres con letras y números ASCII o guion; deberán ser únicos. Cantidad estará entre 1 y 10000. Precio estará entre 0.00 y 1000000.00, con exactamente dos cifras decimales. No calcularemos impuestos, descuentos ni devoluciones: requerirían nuevas columnas y reglas, no excepciones improvisadas.\n\nComprobación manual\n\nAbre el CSV en un editor de texto. Debe contener un encabezado y cuatro ventas. Calcula cada importe: 7.00, 25.00, 10.50 y 8.50. La suma es 51.00; las unidades suman ocho. Guarda estas cifras como referencia independiente del código que escribirás.\n\nPráctica\n\nEscribe una quinta venta hipotética en papel y explica qué condiciones tendría que cumplir para aceptarse. No alteres todavía el archivo base. La solución debe mencionar identificador nuevo, categoría permitida, cantidad entera dentro del límite y precio con punto y dos decimales. Completa la evaluación del módulo para comprobar que entiendes las decisiones antes de automatizarlas.",
+            "sources": [
+              {
+                "title": "Python: rutas con pathlib",
+                "url": "https://docs.python.org/3.14/library/pathlib.html"
+              },
+              {
+                "title": "Python: entrada y salida",
+                "url": "https://docs.python.org/3.14/tutorial/inputoutput.html"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: preparar datos reproducibles",
+              "questions": [
+                {
+                  "prompt": "Una tabla tiene cuatro filas y cantidades 2, 1, 3 y 2. ¿Qué diferencia es correcta?",
+                  "multiple": false,
+                  "options": [
+                    "Son cuatro registros y ocho unidades.",
+                    "Son ocho registros y cuatro unidades.",
+                    "Ambas cifras siempre deben ser iguales.",
+                    "Las cantidades deben tratarse como texto al sumarlas."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Cada fila es un registro; sumar su cantidad produce ocho unidades."
+                },
+                {
+                  "prompt": "¿Qué consigue abrir ventas.csv con el modo x?",
+                  "multiple": false,
+                  "options": [
+                    "Añadir ventas al final.",
+                    "Borrar el archivo anterior.",
+                    "Crear solo si la ruta todavía no existe.",
+                    "Convertir comas en puntos."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "El modo de creación exclusiva evita reemplazar un archivo que ya existe."
+                },
+                {
+                  "prompt": "¿Qué entrada cumple el contrato acordado?",
+                  "multiple": false,
+                  "options": [
+                    "V005,Cuadernos,0,3.50",
+                    "V005,Accesorios,2,4.25",
+                    "V005,Otros,2,4.25",
+                    "V005,Teclados,1,25,00"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La categoría está admitida, la cantidad es positiva y el precio usa punto y dos decimales."
+                },
+                {
+                  "prompt": "¿Por qué calculamos 51.00 manualmente antes de escribir el resumen?",
+                  "multiple": false,
+                  "options": [
+                    "Para evitar todas las pruebas posteriores.",
+                    "Para sustituir la validación del encabezado.",
+                    "Porque Python no puede sumar precios.",
+                    "Para comparar el programa con una referencia independiente."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "Una cifra calculada por otro procedimiento ayuda a detectar errores del algoritmo."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "2. Leer y validar las ventas",
+        "description": "Interpreta CSV correctamente y rechaza datos que cambiarían el significado del reporte.",
+        "lessons": [
+          {
+            "title": "Leer columnas sin romper el formato",
+            "description": "Usa csv.DictReader, contextos de archivo y codificación explícita.",
+            "outcome": "Inspeccionar campos y detectar que un CSV no debe separarse manualmente por comas.",
+            "activity": "execute",
+            "preview": "Leerás columnas por su nombre y revisarás la estructura antes de calcular.",
+            "body": "Leer no significa validar\n\nEl archivo base ya existe y sus resultados son conocidos. El siguiente paso es convertir cada registro en un diccionario. Leer correctamente su estructura no demuestra todavía que una cantidad sea positiva o que un identificador sea único. Separaremos ambas responsabilidades para que un error tenga una causa concreta.\n\nCrea leer.py junto a los otros programas. Escribe:\n\n```python\nimport csv\nfrom pathlib import Path\n\nruta = Path(\"datos\") / \"ventas.csv\"\nwith ruta.open(encoding=\"utf-8-sig\", newline=\"\") as archivo:\n    lector = csv.DictReader(archivo, strict=True)\n    print(\"Columnas:\", lector.fieldnames)\n    for numero, fila in enumerate(lector, start=1):\n        print(numero, fila)\n```\n\nEjecuta py leer.py. Verás primero los nombres de las cuatro columnas y después cuatro diccionarios. Cada valor continúa siendo texto. utf-8-sig admite UTF-8 tanto con marca inicial BOM como sin ella, una diferencia que puede aparecer al guardar desde distintas aplicaciones. No interpreta cualquier codificación: un archivo incompatible deberá exportarse correctamente.\n\nwith cierra el archivo al salir del bloque, incluso si aparece una excepción. newline vacío permite que el módulo CSV gestione los finales de línea. DictReader utiliza la primera fila como nombres de campo. strict activa comprobaciones del formato de comillas, pero no impone nuestras reglas de negocio; ese trabajo sigue siendo nuestro.\n\nPor qué no usar split\n\nImagina una columna descriptiva que contiene el texto \"Cable, adaptador\" entre comillas. La coma forma parte del valor. Separar cada línea con split(\",\") produciría columnas extra. csv entiende comillas y separadores como elementos de un formato. Aunque nuestro contrato actual use categorías cerradas, aprender el lector correcto evita depender accidentalmente de datos demasiado sencillos.\n\nEl lector también permite observar problemas: si una fila tiene valores adicionales, DictReader los coloca bajo una clave especial None; si faltan valores, completa con None. No eliminaremos esas señales. La próxima lección las rechazará para evitar que una columna desplazada produzca un total aparentemente válido.\n\nPráctica\n\nDesde el Explorador duplica ventas.csv como estructura.csv. Añade una coma y la palabra EXTRA a la última fila de esa copia. Cambia solo la ruta de leer.py para abrir estructura.csv. Predice qué registro tendrá la clave None, ejecuta y comprueba. Después devuelve la ruta a ventas.csv.\n\nSolución y comprobación\n\nLa solución correcta muestra cuatro campos esperados para el original y una señal de campo adicional en la copia. No corrijas el lector para ignorar el valor sobrante: ocultaría un defecto del archivo. Conserva leer.py como herramienta de inspección. Nuestro programa final reemplazará esta impresión detallada por mensajes breves y una salida útil; no será necesario mostrar cada venta durante una ejecución normal.",
+            "sources": [
+              {
+                "title": "Python: lectura y escritura CSV",
+                "url": "https://docs.python.org/3.14/library/csv.html"
+              },
+              {
+                "title": "Python: entrada y salida",
+                "url": "https://docs.python.org/3.14/tutorial/inputoutput.html"
+              },
+              {
+                "title": "Python: rutas con pathlib",
+                "url": "https://docs.python.org/3.14/library/pathlib.html"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Convertir y validar una venta",
+            "description": "Construye una función con entradas explícitas y dinero decimal.",
+            "outcome": "Rechazar filas mal formadas y producir registros tipados sin duplicados.",
+            "activity": "execute",
+            "preview": "Definirás una única puerta de entrada para las ventas aceptadas.",
+            "body": "Una función establece la frontera\n\nCrearemos reporte.py y construiremos el programa final mediante funciones. Conserva este archivo hasta terminar el curso. Una función recibe datos, aplica una tarea y devuelve un resultado; no se ejecuta solo por escribir su definición. Aquí convertir convierte una fila de texto en una venta válida. Si falla una regla, lanza ValueError y no devuelve una venta incompleta.\n\nEscribe en reporte.py:\n\n```python\nimport csv\nfrom pathlib import Path\nfrom decimal import Decimal\n\nCAMPOS = [\"id\", \"categoria\", \"cantidad\", \"precio\"]\nCATEGORIAS = {\"Cuadernos\", \"Teclados\", \"Accesorios\"}\n\ndef convertir(fila, vistos):\n    if None in fila or any(fila.get(k) is None for k in CAMPOS):\n        raise ValueError(\"número de columnas incorrecto\")\n    datos = {k: fila[k].strip() for k in CAMPOS}\n    identificador = datos[\"id\"]\n    limpio = identificador.replace(\"-\", \"\")\n    if not (1 <= len(identificador) <= 40 and limpio.isascii() and limpio.isalnum()):\n        raise ValueError(\"identificador inválido\")\n    if identificador in vistos:\n        raise ValueError(\"identificador repetido\")\n    if datos[\"categoria\"] not in CATEGORIAS:\n        raise ValueError(\"categoría desconocida\")\n    texto = datos[\"cantidad\"]\n    if not (texto.isascii() and texto.isdigit() and len(texto) <= 5):\n        raise ValueError(\"cantidad debe ser un entero\")\n    cantidad = int(texto)\n    if not 1 <= cantidad <= 10000:\n        raise ValueError(\"cantidad fuera de rango\")\n    texto = datos[\"precio\"]\n    partes = texto.split(\".\")\n    if not (len(texto) <= 10 and len(partes) == 2 and len(partes[1]) == 2\n            and all(p.isascii() and p.isdigit() for p in partes)):\n        raise ValueError(\"precio requiere punto y dos decimales\")\n    precio = Decimal(texto)\n    if precio > Decimal(\"1000000.00\"):\n        raise ValueError(\"precio fuera de rango\")\n    vistos.add(identificador)\n    return {\"id\": identificador, \"categoria\": datos[\"categoria\"],\n            \"cantidad\": cantidad, \"precio\": precio}\n```\n\nLa colección vistos es un conjunto: permite preguntar si un identificador ya apareció. Solo lo añadimos después de validar todo, de modo que una fila rechazada no modifica ese registro de identificadores aceptados. strip retira espacios exteriores; no cambia nombres de categorías ni inventa valores que faltan.\n\nDinero desde texto\n\nDecimal recibe directamente la cadena del CSV. Convertir primero a float introduciría una representación binaria innecesaria. Nuestra comprobación textual exige dos cifras decimales y rechaza NaN, infinitos, exponentes y signos. El límite de longitud también evita aceptar entradas enormes. Estas reglas son una decisión del proyecto; otros sistemas pueden usar contratos distintos.\n\nPráctica\n\nAbre el intérprete con py desde la carpeta. Ejecuta from reporte import convertir y después:\n\n```python\nventa = convertir({\"id\":\"V001\", \"categoria\":\"Cuadernos\", \"cantidad\":\"2\", \"precio\":\"3.50\"}, set())\nprint(venta[\"cantidad\"], venta[\"precio\"])\n```\n\nObtendrás 2 y 3.50. Para salir usa quit(). En otro intento cambia cantidad por \"0\": debe aparecer ValueError. La solución conserva el archivo sin instrucciones de prueba añadidas al final. Poder importar sus funciones sin abrir archivos será esencial para verificarlas automáticamente más adelante.",
+            "sources": [
+              {
+                "title": "Python: aritmética decimal",
+                "url": "https://docs.python.org/3.14/library/decimal.html"
+              },
+              {
+                "title": "Python: funciones y control de flujo",
+                "url": "https://docs.python.org/3.14/tutorial/controlflow.html"
+              },
+              {
+                "title": "Python: tipos incorporados",
+                "url": "https://docs.python.org/3.14/library/stdtypes.html"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Validar un archivo completo y explicar sus errores",
+            "description": "Comprueba encabezados, registra errores y evita resultados parciales.",
+            "outcome": "Cargar únicamente archivos cuyas ventas cumplen el contrato completo.",
+            "activity": "execute",
+            "preview": "El programa indicará qué registros necesitan corrección antes de producir un reporte.",
+            "body": "Una política para todo el archivo\n\nUna venta correcta no compensa otra inválida. Para este proyecto elegimos rechazar el archivo completo si contiene errores. Publicar un total parcial sin decirlo podría presentar menos ventas de las reales. También rechazaremos un archivo con solo encabezado: no confundiremos ausencia de datos con un total económico igual a cero.\n\nAñade debajo de convertir, en reporte.py:\n\n```python\ndef cargar(ruta):\n    ventas = []\n    errores = []\n    vistos = set()\n    with ruta.open(encoding=\"utf-8-sig\", newline=\"\") as archivo:\n        lector = csv.DictReader(archivo, strict=True)\n        if lector.fieldnames != CAMPOS:\n            raise ValueError(\"encabezado esperado: \" + \",\".join(CAMPOS))\n        for numero, fila in enumerate(lector, start=1):\n            try:\n                ventas.append(convertir(fila, vistos))\n            except ValueError as error:\n                errores.append(f\"Registro {numero}: {error}\")\n    if errores:\n        raise ValueError(\"\\n\".join(errores))\n    if not ventas:\n        raise ValueError(\"el archivo no contiene ventas\")\n    return ventas\n```\n\nLa comparación del encabezado exige nombres y orden exactos. Esto detecta columnas repetidas, faltantes, adicionales o escritas de otra forma antes de trabajar con valores. No corregimos silenciosamente \"Precio\" a \"precio\" porque queremos un intercambio documentado y reproducible.\n\nEl bloque try intenta convertir una fila. except captura únicamente ValueError, la excepción que acordamos para datos incorrectos. Añadimos un mensaje y continuamos inspeccionando los registros restantes. Cuando termina la lectura, una lista de errores impide devolver ventas. No usamos un except general que esconda fallos de programación como si fueran problemas del archivo.\n\nRegistro no es línea física\n\nEl número se refiere al registro de datos, después del encabezado. Un CSV puede contener saltos dentro de un campo entre comillas; por eso no lo presentamos como número de línea del editor. Nuestro contrato limitará los valores aceptados, pero el lector sigue interpretando el formato completo.\n\nEjecuta una comprobación desde PowerShell:\n\n```powershell\npy -c \"from pathlib import Path; from reporte import cargar; print(len(cargar(Path('datos/ventas.csv'))))\"\n```\n\nDebe imprimir 4. Este comando contiene instrucciones Python dentro de comillas; no las copies como contenido de reporte.py. El programa todavía no escribe reportes: solo devuelve ventas cuando todas cumplen las reglas.\n\nPráctica\n\nDuplica ventas.csv como errores.csv. Cambia la cantidad de V003 a 0 y el precio de V004 a 4,25, manteniendo la coma sin comillas. Ejecuta el mismo comando sustituyendo la ruta. Debe rechazar el archivo: el tercer registro viola el rango y el cuarto incorpora una columna adicional. Corrige ambos en la copia y vuelve a ejecutar.\n\nSolución y comprobación\n\nLa copia corregida devuelve cuatro ventas. Conserva el original intacto como referencia. Un error de codificación o del formato CSV puede detener la lectura antes de revisar todos los registros; eso también debe impedir la salida. En la interfaz de comandos del tercer módulo convertiremos esos errores técnicos en mensajes comprensibles y códigos de salida útiles.",
+            "sources": [
+              {
+                "title": "Python: errores y excepciones",
+                "url": "https://docs.python.org/3.14/tutorial/errors.html"
+              },
+              {
+                "title": "Python: lectura y escritura CSV",
+                "url": "https://docs.python.org/3.14/library/csv.html"
+              },
+              {
+                "title": "Python: excepciones incorporadas",
+                "url": "https://docs.python.org/3.14/library/exceptions.html"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: lectura y validación",
+              "questions": [
+                {
+                  "prompt": "¿Qué condición rechaza una fila con una coma adicional y un campo sobrante?",
+                  "multiple": false,
+                  "options": [
+                    "El número final de unidades.",
+                    "La presencia de la clave None en el diccionario.",
+                    "El orden alfabético del reporte.",
+                    "El nombre del archivo de salida."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "DictReader reúne los campos sobrantes bajo None; convertir lo trata como error estructural."
+                },
+                {
+                  "prompt": "¿Cuál es la forma elegida para representar el precio leído del CSV?",
+                  "multiple": false,
+                  "options": [
+                    "float(texto), después Decimal.",
+                    "int(texto), aunque contenga punto.",
+                    "Mantener el texto al multiplicar cantidades.",
+                    "Decimal(texto), después de comprobar el formato."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "El precio nace como texto decimal y se valida antes de construir Decimal."
+                },
+                {
+                  "prompt": "Un archivo tiene tres ventas válidas y una cantidad inválida. ¿Qué debe ocurrir?",
+                  "multiple": false,
+                  "options": [
+                    "Rechazar el archivo e indicar el registro problemático.",
+                    "Escribir el total de las tres ventas sin aviso.",
+                    "Cambiar automáticamente la cantidad a uno.",
+                    "Eliminar el identificador repetido aunque no exista."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "La política exige corregir todos los errores antes de generar un reporte."
+                },
+                {
+                  "prompt": "¿Cuándo se incorpora un identificador al conjunto vistos?",
+                  "multiple": false,
+                  "options": [
+                    "Antes de abrir el archivo.",
+                    "Al leer el encabezado.",
+                    "Cuando la fila ha superado todas las comprobaciones.",
+                    "Cada vez que una fila falla."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Así una fila rechazada no modifica el conjunto de ventas aceptadas."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "3. Calcular y entregar el reporte",
+        "description": "Agrupa importes, escribe un resultado verificable y construye una interfaz de comandos con errores claros.",
+        "lessons": [
+          {
+            "title": "Agrupar cantidades e importes con precisión",
+            "description": "Implementa un resumen independiente de los archivos.",
+            "outcome": "Producir totales por categoría y comprobarlos contra una suma manual.",
+            "activity": "execute",
+            "preview": "Transformarás ventas válidas en cantidades e importes agrupados.",
+            "body": "Separar cálculo y transporte\n\ncargar devuelve ventas con cantidad entera y precio Decimal. A partir de aquí, el cálculo no debería preocuparse por comillas, rutas o codificaciones. Esta separación permite verificar el algoritmo con pequeñas listas y reutilizarlo si más adelante la entrada viene de otro formato, siempre que conserve el mismo significado.\n\nEjemplo\n\nAñade esta función debajo de cargar en reporte.py:\n\n```python\ndef resumir(ventas):\n    resumen = {}\n    for venta in ventas:\n        categoria = venta[\"categoria\"]\n        if categoria not in resumen:\n            resumen[categoria] = {\"unidades\": 0, \"total\": Decimal(\"0.00\")}\n        grupo = resumen[categoria]\n        grupo[\"unidades\"] += venta[\"cantidad\"]\n        grupo[\"total\"] += venta[\"precio\"] * venta[\"cantidad\"]\n    return resumen\n```\n\nEl diccionario exterior guarda una entrada por categoría. Cada entrada contiene dos acumuladores diferentes: unidades e importe. La primera venta de una categoría crea su grupo; las posteriores actualizan el mismo grupo. += suma al valor existente. En la multiplicación, cada precio representa una unidad y cantidad indica cuántas se vendieron.\n\nUsamos Decimal también para el cero inicial. Así todos los importes conservan el mismo tipo durante el cálculo. No redondeamos cada resultado intermedio sin una regla que lo requiera: nuestros precios ya tienen centavos y las cantidades son enteras. Si añades descuentos porcentuales, tendrás que definir cuándo y cómo redondear; ese comportamiento no está incluido por accidente.\n\nEjecuta desde PowerShell:\n\n```powershell\npy -c \"from pathlib import Path; from reporte import cargar,resumir; print(resumir(cargar(Path('datos/ventas.csv'))))\"\n```\n\nObtendrás Cuadernos con cinco unidades y 17.50, Teclados con una unidad y 25.00, y Accesorios con dos unidades y 8.50. El diccionario impreso muestra representaciones de Decimal; es una inspección para aprender, todavía no el reporte que entregaremos.\n\nPráctica\n\nAntes de ejecutar cambios, duplica el archivo como agrupacion.csv y añade V005,Cuadernos,1,4.00. Predice cuántas categorías, filas y unidades habrá. Luego cambia la ruta del comando a esta copia. Habrá cinco ventas y tres categorías; Cuadernos tendrá seis unidades y 21.50. La suma general será 55.00 con nueve unidades.\n\nSolución y comprobación\n\nSi aparecen cuatro categorías, probablemente usaste el identificador para agrupar o cambiaste un nombre. Si Cuadernos muestra 4.00, probablemente reemplazaste el total en vez de acumularlo. Si muestra 10.50, revisa si inicializas el grupo dentro de cada iteración. La condición categoria not in resumen debe envolver únicamente la creación del grupo.\n\nRestaura el uso del archivo original para las próximas lecciones. Escribe una explicación de por qué dos ventas de la misma categoría se combinan pero dos identificadores iguales se rechazan: agrupar responde a una pregunta de análisis, mientras la unicidad protege la integridad de los registros.",
+            "sources": [
+              {
+                "title": "Python: estructuras de datos",
+                "url": "https://docs.python.org/3.14/tutorial/datastructures.html"
+              },
+              {
+                "title": "Python: aritmética decimal",
+                "url": "https://docs.python.org/3.14/library/decimal.html"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Escribir un CSV que pueda revisarse",
+            "description": "Genera un reporte ordenado y protege los archivos que ya existen.",
+            "outcome": "Crear una salida con encabezado, grupos y total general sin sobrescribir datos.",
+            "activity": "execute",
+            "preview": "Entregarás un CSV pequeño que se pueda contrastar con las ventas originales.",
+            "body": "Una salida también tiene contrato\n\nNuestro reporte contendrá tres columnas: categoria,unidades,total. Ordenaremos las categorías alfabéticamente para que ejecuciones equivalentes produzcan un orden estable. Añadiremos una fila TOTAL que permita comprobar la suma global. Esa fila es un resumen, no una categoría de entrada permitida.\n\nEjemplo\n\nAñade esta función a reporte.py debajo de resumir:\n\n```python\ndef guardar(resumen, ruta):\n    ruta.parent.mkdir(parents=True, exist_ok=True)\n    with ruta.open(\"x\", encoding=\"utf-8\", newline=\"\") as archivo:\n        escritor = csv.writer(archivo)\n        escritor.writerow([\"categoria\", \"unidades\", \"total\"])\n        unidades = 0\n        total = Decimal(\"0.00\")\n        for categoria in sorted(resumen):\n            grupo = resumen[categoria]\n            escritor.writerow([categoria, grupo[\"unidades\"], f\"{grupo['total']:.2f}\"])\n            unidades += grupo[\"unidades\"]\n            total += grupo[\"total\"]\n        escritor.writerow([\"TOTAL\", unidades, f\"{total:.2f}\"])\n```\n\nwriter se encarga de separadores y saltos; no concatenamos campos manualmente. El formato :.2f expresa el importe con dos decimales. El cálculo sigue usando Decimal hasta que se convierte en una representación para el archivo. mkdir puede crear carpetas intermedias, pero el modo x conserva un reporte que ya exista. Si necesitas otra ejecución, elige otro nombre de salida.\n\nEjecuta una primera entrega desde PowerShell:\n\n```powershell\npy -c \"from pathlib import Path; from reporte import cargar,resumir,guardar; guardar(resumir(cargar(Path('datos/ventas.csv'))),Path('salida/primero.csv'))\"\n```\n\nAbre salida/primero.csv en el editor. Su contenido lógico debe ser:\n\n```csv\ncategoria,unidades,total\nAccesorios,2,8.50\nCuadernos,5,17.50\nTeclados,1,25.00\nTOTAL,8,51.00\n```\n\nEl salto de línea físico puede representarse de forma distinta según la herramienta que lo muestre; compara campos y registros, no la apariencia de un carácter invisible. Una hoja de cálculo también puede mostrar 8.5 donde el texto del archivo contiene 8.50. El editor te permite revisar la representación realmente entregada.\n\nPráctica\n\nEjecuta exactamente el mismo comando una segunda vez. Debe aparecer un error indicando que el archivo existe; su contenido debe permanecer igual. Después genera salida/segundo.csv y compara ambos archivos. Esta política evita borrar trabajo por una ruta equivocada. En la próxima lección el error aparecerá como un mensaje breve desde la interfaz final.\n\nSolución y comprobación\n\nDeben existir dos reportes equivalentes, cada uno con cinco registros contando el encabezado. La suma de las tres categorías debe coincidir con TOTAL. Si el archivo presenta líneas vacías adicionales en una aplicación de Windows, comprueba newline vacío. Si falla por permisos, elige una carpeta donde puedas escribir.\n\nLa protección de creación exclusiva no garantiza recuperación frente a un fallo del disco durante la escritura: podría quedar un archivo incompleto que necesitarás revisar. Por eso validamos toda la entrada antes de crear la salida y comprobamos el resultado después; una entrega económica real exigiría además medidas operativas acordes a su contexto.",
+            "sources": [
+              {
+                "title": "Python: lectura y escritura CSV",
+                "url": "https://docs.python.org/3.14/library/csv.html"
+              },
+              {
+                "title": "Python: entrada y salida",
+                "url": "https://docs.python.org/3.14/tutorial/inputoutput.html"
+              },
+              {
+                "title": "Python: rutas con pathlib",
+                "url": "https://docs.python.org/3.14/library/pathlib.html"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Crear una interfaz de comandos con errores útiles",
+            "description": "Integra argparse, protege rutas y devuelve códigos de salida.",
+            "outcome": "Ejecutar el programa final con entrada y salida elegidas por el usuario.",
+            "activity": "execute",
+            "preview": "Usarás una instrucción breve con ayuda integrada y mensajes accionables.",
+            "body": "Convertir funciones en una herramienta\n\nYa tenemos cuatro responsabilidades separadas: convertir una venta, cargar todas, resumir y guardar. La interfaz decidirá qué rutas usar y explicará un fallo sin mostrar una larga traza durante el uso normal. argparse interpreta argumentos y genera ayuda a partir de sus definiciones; así la documentación del comando permanece cerca del comportamiento.\n\nEjemplo\n\nAñade import argparse entre los imports iniciales de reporte.py. Al final del archivo, después de todas las funciones existentes, escribe:\n\n```python\ndef main():\n    parser = argparse.ArgumentParser(description=\"Resume ventas CSV validadas por categoría.\")\n    parser.add_argument(\"entrada\", type=Path, help=\"CSV de ventas con encabezado acordado\")\n    parser.add_argument(\"--salida\", type=Path, default=Path(\"salida/reporte.csv\"),\n                        help=\"CSV nuevo para el reporte\")\n    args = parser.parse_args()\n    if args.entrada.resolve() == args.salida.resolve():\n        parser.error(\"entrada y salida deben ser archivos diferentes\")\n    try:\n        ventas = cargar(args.entrada)\n        resumen = resumir(ventas)\n        guardar(resumen, args.salida)\n    except (OSError, UnicodeError, csv.Error, ValueError) as error:\n        parser.exit(1, f\"Error: {error}\\n\")\n    print(f\"Reporte creado: {args.salida}; registros: {len(ventas)}\")\n\nif __name__ == \"__main__\":\n    main()\n```\n\nEjecuta py reporte.py --help. Debes ver el argumento obligatorio entrada y la opción --salida. Después genera un archivo nuevo:\n\n```powershell\npy reporte.py datos/ventas.csv --salida salida/tercero.csv\necho $LASTEXITCODE\n```\n\nEl código debe ser 0. PowerShell guarda el resultado del último programa en LASTEXITCODE; consulta esa variable inmediatamente después de ejecutar Python. Si olvidas entrada, argparse muestra el uso y termina con 2. Si la entrada contiene datos inválidos o el destino ya existe, nuestro programa termina con 1. Un proceso posterior puede distinguir éxito y fallo sin interpretar cada palabra del mensaje.\n\nProteger el origen\n\nComparar las rutas resueltas evita usar el mismo archivo como entrada y salida, incluso cuando lo expresas mediante componentes relativos distintos. El modo x añade otra protección frente a cualquier destino existente. El programa no modifica ventas.csv: lo abre para lectura y solo crea un archivo nuevo después de validar todas las ventas.\n\nPráctica\n\nEjecuta una ruta de entrada inexistente y luego repite la salida tercero.csv. Ambas ejecuciones deben terminar con 1 y explicar la causa. Prueba también usar datos/ventas.csv como salida; argparse debe terminar con 2. Finalmente genera cuarto.csv para confirmar que corregir el argumento permite continuar.\n\nSolución y comprobación\n\nreporte.py debe importar únicamente módulos estándar y contener las funciones anteriores una vez cada una. La condición __name__ permite importar funciones desde pruebas sin ejecutar el comando. Si aparece ayuda al importar, revisa la sangría de main. Si un error ajeno a las excepciones previstas produce una traza, investígalo como posible fallo del código: ocultar todas las excepciones dificultaría encontrarlo.",
+            "sources": [
+              {
+                "title": "Python: argumentos con argparse",
+                "url": "https://docs.python.org/3.14/library/argparse.html"
+              },
+              {
+                "title": "Python: módulos",
+                "url": "https://docs.python.org/3.14/tutorial/modules.html"
+              },
+              {
+                "title": "Python: excepciones incorporadas",
+                "url": "https://docs.python.org/3.14/library/exceptions.html"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: cálculo y entrega",
+              "questions": [
+                {
+                  "prompt": "¿Qué instrucción evita reiniciar un grupo al encontrar otra venta de la misma categoría?",
+                  "multiple": false,
+                  "options": [
+                    "Crear resumen dentro del recorrido.",
+                    "Asignar siempre un diccionario vacío a categoria.",
+                    "Crear el grupo únicamente si la categoría todavía no existe.",
+                    "Convertir todas las cantidades a texto."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "La inicialización condicional conserva lo acumulado por las ventas anteriores."
+                },
+                {
+                  "prompt": "¿Qué resultado corresponde al archivo original?",
+                  "multiple": false,
+                  "options": [
+                    "TOTAL,8,51.00",
+                    "TOTAL,4,51.00",
+                    "TOTAL,8,43.50",
+                    "TOTAL,3,51.00"
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Son cuatro ventas, ocho unidades y un importe total de 51.00."
+                },
+                {
+                  "prompt": "¿Qué ocurre al reutilizar un archivo de salida existente?",
+                  "multiple": false,
+                  "options": [
+                    "Se borra automáticamente.",
+                    "Se agregan filas duplicadas.",
+                    "El programa modifica la entrada.",
+                    "La creación exclusiva falla y conserva el archivo existente."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "El modo x impide sobrescribir un destino que ya existe."
+                },
+                {
+                  "prompt": "¿Por qué main se ejecuta dentro de if __name__ == \"__main__\"?",
+                  "multiple": false,
+                  "options": [
+                    "Para convertir Decimal a float.",
+                    "Para importar funciones en las pruebas sin ejecutar la interfaz.",
+                    "Para ignorar errores de datos.",
+                    "Para ordenar categorías al azar."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El guardia diferencia la ejecución del archivo de su importación como módulo."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "4. Verificar y completar una entrega",
+        "description": "Comprueba reglas con unittest, revisa escenarios de error y entrega un proyecto con datos nuevos.",
+        "lessons": [
+          {
+            "title": "Probar las reglas con unittest",
+            "description": "Escribe pruebas de resultados y de rechazos importantes.",
+            "outcome": "Verificar integridad, precisión decimal y comportamiento de las funciones.",
+            "activity": "execute",
+            "preview": "Crearás comprobaciones que detecten errores aunque el programa parezca funcionar.",
+            "body": "Qué merece una prueba\n\nUna ejecución correcta con el archivo original no cubre los errores que más pueden cambiar un resultado: cantidades inválidas, precios incompatibles, identificadores duplicados y acumulación incorrecta. Escribiremos pruebas sobre comportamientos observables. No comprobaremos que el código tiene determinada cantidad de líneas ni copiaremos sus instrucciones en otra función que pudiera repetir el mismo fallo.\n\nEjemplo\n\nCrea test_reporte.py en la misma carpeta que reporte.py. Escribe:\n\n```python\nimport unittest\nfrom decimal import Decimal\nfrom reporte import convertir, resumir\n\nclass ReporteTests(unittest.TestCase):\n    def fila(self, **cambios):\n        datos = {\"id\":\"T001\", \"categoria\":\"Cuadernos\", \"cantidad\":\"2\", \"precio\":\"3.50\"}\n        datos.update(cambios)\n        return datos\n\n    def test_conversion(self):\n        venta = convertir(self.fila(), set())\n        self.assertEqual(venta[\"cantidad\"], 2)\n        self.assertEqual(venta[\"precio\"], Decimal(\"3.50\"))\n\n    def test_cantidades_invalidas(self):\n        for cantidad in (\"0\", \"-1\", \"1.5\", \"10001\"):\n            with self.subTest(cantidad=cantidad):\n                with self.assertRaises(ValueError):\n                    convertir(self.fila(cantidad=cantidad), set())\n\n    def test_precios_invalidos(self):\n        for precio in (\"NaN\", \"Infinity\", \"3,50\", \"3.500\", \"1000000.01\"):\n            with self.subTest(precio=precio):\n                with self.assertRaises(ValueError):\n                    convertir(self.fila(precio=precio), set())\n\n    def test_duplicado(self):\n        vistos = set()\n        convertir(self.fila(), vistos)\n        with self.assertRaises(ValueError):\n            convertir(self.fila(), vistos)\n\n    def test_resumen_decimal(self):\n        ventas = [convertir(self.fila(id=\"A\", cantidad=\"3\", precio=\"0.10\"), set()),\n                  convertir(self.fila(id=\"B\", cantidad=\"1\", precio=\"0.20\"), set())]\n        grupo = resumir(ventas)[\"Cuadernos\"]\n        self.assertEqual(grupo[\"unidades\"], 4)\n        self.assertEqual(grupo[\"total\"], Decimal(\"0.50\"))\n\nif __name__ == \"__main__\":\n    unittest.main()\n```\n\nEjecuta py -m unittest -v desde reporte-csv. Deben pasar cinco métodos de prueba. subTest distingue los valores de una misma regla; assertRaises comprueba que se rechazan, y assertEqual compara resultados. La prueba decimal usa una expectativa escrita directamente: tres veces 0.10 más 0.20 debe sumar exactamente 0.50.\n\nPráctica\n\nAñade un sexto método que cambie la categoría a Otros y espere ValueError. No necesitas archivos ni conexión para probar esa regla. Después modifica temporalmente resumir para asignar el importe en vez de acumularlo; ejecuta las pruebas y observa el fallo de la suma. Restaura += antes de continuar.\n\nSolución y comprobación\n\nLa prueba nueva debe usar convertir(self.fila(categoria=\"Otros\"), set()) dentro de assertRaises(ValueError). La versión restaurada pasa seis métodos. Guarda las pruebas junto al programa para volver a ejecutarlas cuando cambies reglas.\n\nEstas comprobaciones verifican funciones, no permisos de archivos ni argumentos del comando. Un resultado OK significa que pasaron los casos incluidos; no demuestra que el programa sea correcto ante cualquier entrada imaginable. La siguiente lección completa la revisión mediante el recorrido real de lectura y escritura.\n\nPara profundizar\n\nCuando una prueba falla, lee primero la comparación esperada y la observada. Cambia una causa cada vez y vuelve a ejecutar; modificar simultáneamente datos, expectativas y cálculo impide saber qué resolvió el problema.",
+            "sources": [
+              {
+                "title": "Python: pruebas con unittest",
+                "url": "https://docs.python.org/3.14/library/unittest.html"
+              },
+              {
+                "title": "Python: aritmética decimal",
+                "url": "https://docs.python.org/3.14/library/decimal.html"
+              },
+              {
+                "title": "Python: módulos",
+                "url": "https://docs.python.org/3.14/tutorial/modules.html"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Comprobar el recorrido completo y corregir fallos",
+            "description": "Revisa archivos, códigos de salida y conservación de resultados.",
+            "outcome": "Documentar una ejecución válida y varios rechazos sin alterar el original.",
+            "activity": "execute",
+            "preview": "Comprobarás que un error impide producir resultados engañosos.",
+            "body": "De las funciones al recorrido real\n\nLas pruebas unitarias no detectan por sí solas una ruta mal escrita o un archivo guardado con otra codificación. Ahora revisaremos el flujo completo: argumentos, lectura, validación, suma y escritura. Trabaja con copias en datos y destinos nuevos en salida. Mantén datos/ventas.csv como punto de comparación.\n\nEjemplo\n\nEjecuta el programa con un nombre de salida que no exista:\n\n```powershell\npy reporte.py datos/ventas.csv --salida salida/revision.csv\necho $LASTEXITCODE\n```\n\nDebe terminar con 0 y crear el total de ocho unidades y 51.00. Abre el resultado en el editor y comprueba encabezado, tres categorías ordenadas y fila TOTAL. Después repite la ejecución. Ahora debe terminar con 1 porque el destino existe, conservando exactamente el reporte anterior.\n\nPráctica\n\nCrea cuatro copias separadas desde el Explorador y modifica cada una con el editor. En encabezado.csv cambia precio por importe. En duplicado.csv copia V001 como identificador de V004. En cantidad.csv cambia la cantidad de V002 por cero. En vacio.csv conserva solo el encabezado. Guarda todos como UTF-8.\n\nEjecuta cada copia con un destino distinto que todavía no exista; por ejemplo:\n\n```powershell\npy reporte.py datos/cantidad.csv --salida salida/rechazado-cantidad.csv\necho $LASTEXITCODE\n```\n\nEn los cuatro casos el código esperado es 1, un mensaje debe permitir localizar la causa y el destino elegido no debe existir. Para el duplicado, el error debe mencionar identificador repetido. Para el archivo sin ventas, debe explicar que no hay datos. Para cantidad, el mensaje identifica el segundo registro. El encabezado incorrecto debe mostrar las columnas esperadas.\n\nProbar argumentos y recuperación\n\nEjecuta py reporte.py sin entrada: el código esperado es 2 y aparece la ayuda de uso. Luego ejecuta el archivo correcto hacia salida/recuperado.csv; debe volver a terminar con 0. Esta última comprobación demuestra que un fallo previo no deja un estado interno que contamine la próxima ejecución.\n\nSolución y comprobación\n\nAnota en una hoja breve nombre de caso, cambio aplicado, resultado esperado y resultado observado. Si aparece un reporte para una entrada inválida, revisa que cargar termine antes de llamar guardar y que no hayas añadido un except que ignore errores. Si falla una entrada válida, compara su contrato con el original antes de cambiar el algoritmo.\n\nSi ocurre un error de escritura, revisa cualquier archivo incompleto antes de reintentar; el modo exclusivo impedirá reutilizarlo silenciosamente. Para un archivo incompatible con UTF-8, exporta una copia en esa codificación en lugar de adivinar caracteres. El programa está diseñado para archivos pequeños que caben en memoria y no sustituye controles contables, recuperación de almacenamiento ni auditorías de datos reales.",
+            "sources": [
+              {
+                "title": "Python: errores y excepciones",
+                "url": "https://docs.python.org/3.14/tutorial/errors.html"
+              },
+              {
+                "title": "Python: argumentos con argparse",
+                "url": "https://docs.python.org/3.14/library/argparse.html"
+              },
+              {
+                "title": "Python: rutas con pathlib",
+                "url": "https://docs.python.org/3.14/library/pathlib.html"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Completar un proyecto con datos nuevos",
+            "description": "Completa el proyecto final con criterios verificables y una explicación propia.",
+            "outcome": "Preparar código, pruebas, entradas y reportes que puedas reproducir y comprobar.",
+            "activity": "execute",
+            "preview": "Demostrarás lo aprendido con un conjunto nuevo y una revisión de errores.",
+            "body": "Un proyecto que puedas explicar\n\nEl proyecto final debe funcionar con datos distintos de los utilizados mientras escribías el programa. Esto permite comprobar que resolviste una transformación general dentro del contrato y no escribiste los totales conocidos directamente en el código. La herramienta seguirá siendo pequeña y local; su valor está en reglas claras, resultados reproducibles y fallos comprensibles.\n\nEjemplo\n\nCrea datos/entrega.csv en UTF-8 con estas ventas ficticias:\n\n```csv\nid,categoria,cantidad,precio\nP001,Cuadernos,4,3.50\nP002,Teclados,2,25.00\nP003,Accesorios,3,4.25\nP004,Cuadernos,1,4.00\nP005,Accesorios,1,5.00\nP006,Teclados,1,30.00\n```\n\nAntes de ejecutar, calcula en papel unidades e importes por categoría. Observa que una categoría puede tener precios unitarios distintos: por eso multiplicamos y acumulamos cada venta en lugar de elegir un único precio para todo el grupo.\n\nEjecuta las pruebas y después el reporte:\n\n```powershell\npy -m unittest -v\npy reporte.py datos/entrega.csv --salida salida/entrega.csv\necho $LASTEXITCODE\n```\n\nSolución y comprobación\n\nEl resultado debe contener Accesorios con cuatro unidades y 17.75; Cuadernos con cinco y 18.00; Teclados con tres y 80.00. La fila TOTAL debe indicar doce unidades y 115.75. El comando debe informar seis registros y terminar con 0. Si la suma coincide pero las categorías no, revisa igualmente el algoritmo: un total general correcto no demuestra que la distribución sea correcta.\n\nPráctica\n\nPrepara y conserva reporte.py, test_reporte.py, el CSV nuevo, su reporte y una explicación breve del comando para ejecutarlo. Incluye una copia inválida con un identificador repetido y registra qué mensaje y código produce, usando un destino nuevo. No incluyas instalaciones de Python, cachés ni archivos personales. El expediente debe permitir reproducir las pruebas y generar un reporte nuevo siguiendo tus instrucciones.\n\nExplica también tres decisiones: por qué usaste Decimal, por qué rechazas todo el archivo ante un error y cómo impides sobrescribir una salida existente. Una explicación útil relaciona cada decisión con una consecuencia concreta: precisión del importe, integridad del conjunto y conservación del trabajo.\n\nRevisión final\n\nComprueba que ninguna ruta dependa del nombre de usuario de tu computadora. Las instrucciones deben indicar desde qué carpeta se ejecutan. Conserva el encabezado y límites acordados; añadir categorías o devoluciones es una ampliación posterior que requiere actualizar validación, pruebas y documentación conjuntamente.\n\nCompleta la evaluación del módulo y revisa tu expediente con los cinco criterios indicados. El proyecto es una autoevaluación personal: conserva los archivos en tu equipo; no se envían en la plataforma ni reciben revisión humana. No condiciona el certificado, que requiere completar las doce lecciones y aprobar las cuatro evaluaciones del curso. Los resultados verifican habilidades del proyecto, no una acreditación profesional ni la corrección de futuros datos reales. Si decides reutilizar la herramienta, incorpora primero las reglas y controles que requiera ese contexto y vuelve a comprobar sus efectos con datos conocidos.",
+            "sources": [
+              {
+                "title": "Python: pruebas con unittest",
+                "url": "https://docs.python.org/3.14/library/unittest.html"
+              },
+              {
+                "title": "Python: lectura y escritura CSV",
+                "url": "https://docs.python.org/3.14/library/csv.html"
+              },
+              {
+                "title": "Python: aritmética decimal",
+                "url": "https://docs.python.org/3.14/library/decimal.html"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación final: verificar y entregar",
+              "questions": [
+                {
+                  "prompt": "¿Qué debe comprobar una prueba sobre un precio NaN?",
+                  "multiple": false,
+                  "options": [
+                    "Que se sustituye por cero.",
+                    "Que se acepta si hay otras ventas.",
+                    "Que se imprime sin calcularlo.",
+                    "Que convertir lanza ValueError."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "NaN no cumple el formato de precio acordado y debe rechazarse antes del cálculo."
+                },
+                {
+                  "prompt": "¿Qué entrega demuestra mejor que el cálculo no depende del ejemplo original?",
+                  "multiple": false,
+                  "options": [
+                    "Una captura de hola.py.",
+                    "Un reporte correcto con los seis registros nuevos y totales comprobados.",
+                    "Una lista de paquetes instalados.",
+                    "Un CSV que conserva los totales anteriores escritos a mano."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los nuevos precios y cantidades exigen aplicar el algoritmo a otros valores."
+                },
+                {
+                  "prompt": "¿Cuál es el total del conjunto de entrega?",
+                  "multiple": false,
+                  "options": [
+                    "8 unidades y 51.00.",
+                    "12 unidades y 109.50.",
+                    "12 unidades y 115.75.",
+                    "6 unidades y 115.75."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Accesorios suma 17.75, Cuadernos 18.00 y Teclados 80.00: total 115.75 con doce unidades."
+                },
+                {
+                  "prompt": "Si pasan todas las pruebas incluidas, ¿qué podemos afirmar?",
+                  "multiple": false,
+                  "options": [
+                    "Los casos definidos cumplieron sus expectativas; otros escenarios necesitan revisión.",
+                    "No existe ningún error posible.",
+                    "El programa ya realiza una auditoría contable.",
+                    "Cualquier CSV de cualquier sistema es compatible."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Las pruebas aportan evidencia delimitada por los casos que ejecutan, no una garantía universal."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: ventas CSV con validación y reporte",
+              "instructions": "Prepara y conserva un archivo comprimido con reporte.py, test_reporte.py, datos/entrega.csv, salida/entrega.csv y una explicación breve de ejecución. Usa las seis ventas de la lección, incluye evidencia del resultado de las pruebas y un caso inválido con su mensaje y código de salida. Toda entrada y salida debe usar datos ficticios. Explica tus decisiones sobre Decimal, rechazo del archivo y creación exclusiva. Este expediente es una autoevaluación personal, sin envío en la plataforma ni revisión humana. No condiciona el certificado: completa las doce lecciones y aprueba las cuatro evaluaciones del curso.",
+              "criteria": [
+                {
+                  "label": "Entrada y reglas",
+                  "description": "Lee el encabezado exacto, acepta seis ventas válidas y rechaza identificadores repetidos, columnas incompatibles, categorías desconocidas y cantidades o precios fuera del contrato."
+                },
+                {
+                  "label": "Cálculo independiente",
+                  "description": "Produce Accesorios 4 y 17.75, Cuadernos 5 y 18.00, Teclados 3 y 80.00, y TOTAL 12 y 115.75; mantiene Decimal durante el cálculo."
+                },
+                {
+                  "label": "Salida protegida",
+                  "description": "Escribe CSV con categoria,unidades,total y categorías ordenadas; no modifica la entrada ni reemplaza destinos existentes; una entrada inválida no genera reporte."
+                },
+                {
+                  "label": "Pruebas y errores",
+                  "description": "Incluye al menos seis métodos unittest que pasan, comprueba una ejecución válida con código 0 y un rechazo con código 1, y explica cómo consultar la ayuda del comando."
+                },
+                {
+                  "label": "Reproducibilidad y explicación",
+                  "description": "Otra persona puede ejecutar el proyecto desde sus instrucciones con Python y módulos estándar, sin rutas personales ni dependencias externas; explica las tres decisiones solicitadas."
+                }
+              ],
+              "required": false
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

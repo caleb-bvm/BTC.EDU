@@ -1,0 +1,7 @@
+Base SQLite: C:\Users\caleb\Documents\Estudios\CUBO +\Micropayments\src\.local\platform.sqlite3
+Tablas verificadas: 65. FK e integridad: correctos.
+Metadatos oficiales pendientes: 4 tipos de contenido y 16 permisos.
+Respaldo verificado: C:\Users\caleb\Documents\Estudios\CUBO +\Micropayments\src\.local\backups\commercial-20261015T032732Z-5cf8e18ec6\before.sqlite3
+Cambios verificados: filas y valores históricos intactos; adiciones exclusivamente autorizadas; FK e integridad correctos.
+Administración verificada: cuatro tipos de contenido y 16 permisos oficiales completos; metadatos anteriores intactos.
+Huellas por tabla: C:\Users\caleb\Documents\Estudios\CUBO +\Micropayments\src\.local\backups\commercial-20261015T032732Z-5cf8e18ec6\verification.json

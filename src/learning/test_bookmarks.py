@@ -40,7 +40,7 @@ class BookmarkTests(TestCase):
         self.assertEqual(one.pk, two.pk)
         self.assertEqual(SavedItem.objects.count(), 1)
         self.assertEqual(Entitlement.objects.count(), 0)
-        self.assertContains(self.client.get(reverse("workspace")), "Guía")
+        self.assertContains(self.client.get(reverse("workspace"), {"seccion": "guardados"}), "Guía")
 
     def test_resource_page_can_save_and_return_to_exact_page(self):
         url = reverse("resource-detail", args=["materiales", self.item.pk])

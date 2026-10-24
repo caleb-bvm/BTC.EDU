@@ -1,5 +1,7 @@
-<section class="lesson-discussion" id="lesson-community" aria-labelledby="lesson-community-title">
-  <header class="discussion-heading"><div><p class="eyebrow">Aprende con otros</p><h2 id="lesson-community-title">Conversación de esta lección</h2><p>Comparte una duda o un aporte. Los participantes con acceso a esta lección podrán leerlo y responder.</p></div>{% if discussion_available %}<a class="text-link" href="{% url 'community-space' version.pk %}">Comunidad del curso ↗</a>{% endif %}</header>
+<details class="lesson-discussion learning-disclosure" id="lesson-community"{% if request.method == 'POST' or discussion_form.is_bound or discussion_submitted_parent or request.GET.conversaciones %} open{% endif %}>
+  <summary><span>Conversación de esta lección</span><span aria-hidden="true">＋</span></summary>
+  <div class="lesson-discussion-body">
+  <header class="discussion-heading"><div><p class="eyebrow">Aprende con otros</p><p>Comparte una duda o un aporte. Los participantes con acceso a esta lección podrán leerlo y responder.</p></div>{% if discussion_available %}<a class="text-link" href="{% url 'community-space' version.pk %}">Comunidad del curso ↗</a>{% endif %}</header>
   {% if discussion_available %}
     {% if discussion_can_write %}<form class="studio-form discussion-compose" method="post" action="{{ discussion_url }}#lesson-community">{% csrf_token %}<label for="{{ discussion_form.body.id_for_label }}">Comparte una duda o un aporte sobre esta lección</label>{{ discussion_form.non_field_errors }}{{ discussion_form.body.errors }}{{ discussion_form.body }}{{ discussion_form.request_key }}{{ discussion_form.request_key.errors }}{% if discussion_submitted_parent %}<input type="hidden" name="parent" value="{{ discussion_submitted_parent }}">{% endif %}<div class="discussion-compose-footer"><span>Hasta 2000 caracteres · Conversación compartida</span><button class="btn btn-dark" type="submit">Publicar comentario</button></div></form>{% elif discussion_suspended %}<p role="status">Tu escritura está suspendida. Puedes seguir leyendo y seguir conversaciones.</p>{% endif %}
     <div class="discussion-list">
@@ -16,5 +18,6 @@
     {% if discussion_posts.has_other_pages %}<nav class="discussion-pagination" aria-label="Páginas de comentarios">{% if discussion_posts.has_previous %}<a href="{{ discussion_url }}?conversaciones={{ discussion_posts.previous_page_number }}#lesson-community">← Anteriores</a>{% endif %}<span>Página {{ discussion_posts.number }} de {{ discussion_posts.paginator.num_pages }}</span>{% if discussion_posts.has_next %}<a href="{{ discussion_url }}?conversaciones={{ discussion_posts.next_page_number }}#lesson-community">Más comentarios →</a>{% endif %}</nav>{% endif %}
   {% elif not user.is_authenticated %}<p>Entra e inscríbete en el curso para participar en la conversación.</p><a class="btn btn-outline-dark" href="{% url 'login' %}?next={{ discussion_url|urlencode }}">Entrar para participar</a>
   {% elif user.account_type == 'student' %}<p>Inscríbete en esta versión del curso para leer y compartir comentarios.</p><form method="post" action="{% url 'enrollment-create' version.pk %}">{% csrf_token %}<input type="hidden" name="start" value="1"><input type="hidden" name="lesson" value="{{ discussion_lesson_id }}"><button class="btn btn-outline-dark" type="submit">Inscribirme y participar</button></form>
-  {% else %}<p>La conversación está disponible para los estudiantes inscritos y el creador del curso.</p>{% endif %}
-</section>
+  {% else %}<p>La conversación está disponible para los estudiantes inscritos y el educador del curso.</p>{% endif %}
+  </div>
+</details>

@@ -14,7 +14,7 @@ from content.models import CourseVersion, VersionLesson
 from media.delivery import file_response
 
 from .models import Enrollment, QuizAttempt, SavedItem, VersionQuiz
-from .presentation import continuation
+from .presentation import continuation, library_journey
 from .services import StaleProgress, enroll, save_progress
 
 
@@ -46,8 +46,12 @@ def library(request):
     from core.telemetry import record_activity
     record_activity(request, "library_viewed")
     enrollments = Enrollment.objects.filter(student=request.user).select_related("version__course", "version__topic", "last_lesson__content", "last_lesson__chapter__version__course").prefetch_related("version__chapters__lessons__content", "completed_lessons").annotate(learning_total=Count("version__chapters__lessons", distinct=True), learning_done=Count("completed_lessons", distinct=True))
+    all_enrollments = enrollments
     stats = {"courses": enrollments.count(), "completed": enrollments.filter(learning_total__gt=0, learning_done=F("learning_total")).count(),
              "lessons": enrollments.aggregate(total=Sum("learning_done"))["total"] or 0}
+    section = request.GET.get("seccion", "cursos" if request.GET.get("q") or request.GET.get("estado") else "continuar")
+    if section not in ("continuar", "cursos", "recursos", "guardados", "certificados"):
+        section = "continuar"
     state = request.GET.get("estado", "todos")
     if state == "en-curso":
         enrollments = enrollments.filter(Q(learning_done__gt=0) | Q(last_lesson__isnull=False)).filter(learning_done__lt=F("learning_total"))
@@ -61,43 +65,78 @@ def library(request):
     if query:
         enrollments = enrollments.filter(version__title__icontains=query)
     page = Paginator(enrollments.order_by("-updated_at", "-pk"), 12).get_page(request.GET.get("pagina"))
-    resume = None
+    from .certificates import completion_status
     for enrollment in page:
-        version = enrollment.version
-        lessons = [lesson for chapter in version.chapters.all() for lesson in chapter.lessons.all()]
-        completed = {item.lesson_id for item in enrollment.completed_lessons.all()}
-        first = continuation(lessons, completed, enrollment.last_lesson_id, {lesson.pk for lesson in lessons if content_access(request.user, lesson).allowed})
-        enrollment.is_complete = bool(lessons and len(completed) == len(lessons))
-        enrollment.open_label = "Ver acceso" if not first else "Repasar" if enrollment.is_complete else "Continuar" if enrollment.last_lesson_id or completed else "Empezar"
-        enrollment.open_url = reverse("version-lesson", args=[version.course_id, version.number, first.pk]) if first else reverse("course-version", args=[version.course_id, version.number])
-        enrollment.lesson_count = len(lessons)
-        enrollment.completed_count = len(completed)
-        enrollment.percentage = round(len(completed) * 100 / len(lessons)) if lessons else 0
-        enrollment.retired = version.course.status == "archived" or version.course.current_version_id != version.pk
-        enrollment.next_title = first.content.title if first else "Revisa las opciones de acceso"
-        enrollment.state_label = "Completado" if enrollment.is_complete else "En curso" if enrollment.last_lesson_id or completed else "Por empezar"
-        started = bool(enrollment.last_lesson_id or completed)
-        resume_started = bool(resume and (resume.last_lesson_id or resume.completed_count))
-        if first and not enrollment.is_complete and (not resume or (started and not resume_started)):
-            resume = enrollment
-        from .certificates import completion_status
+        library_journey(request.user, enrollment)
         enrollment.certificate_status = completion_status(enrollment)
-    resources = Entitlement.objects.filter(buyer=request.user, resource__kind__in=("video", "material")).select_related("resource__asset").order_by("-created_at")
-    saved = SavedItem.objects.filter(student=request.user).select_related("resource", "reference")
-    return render(request, "core/workspace.html", {"enrollments": page, "resources": Paginator(resources, 12).get_page(request.GET.get("recursos_pagina")), "saved_items": Paginator(saved, 12).get_page(request.GET.get("guardados_pagina")), "active": "workspace", "learning_stats": stats, "learning_state": state, "learning_query": query, "resume": resume})
+    # Continuation belongs to the whole library, independently of filters or page.
+    resume = None
+    unfinished = all_enrollments.filter(learning_done__lt=F("learning_total")).order_by("-updated_at", "-pk")
+    started = Q(learning_done__gt=0) | Q(last_lesson__isnull=False)
+    for candidates in (unfinished.filter(started), unfinished.exclude(started)):
+        for candidate in candidates.iterator(chunk_size=30):
+            library_journey(request.user, candidate)
+            if candidate.can_continue:
+                resume = candidate
+                break
+        if resume:
+            break
+    resources = Entitlement.objects.active().filter(buyer=request.user, resource__kind__in=("video", "material")).select_related("resource__asset").order_by("-created_at")
+    from .models import SavedCollection
+    collections = list(SavedCollection.objects.filter(student=request.user).annotate(item_count=Count("items")))
+    selected_collection = None
+    collection_filter = request.GET.get("coleccion", "")
+    saved = SavedItem.objects.filter(student=request.user).select_related("resource", "reference", "course_version__course").prefetch_related("collections")
+    if collection_filter == "sin-coleccion":
+        saved = saved.filter(collections__isnull=True)
+    elif collection_filter:
+        if not collection_filter.isdecimal():
+            from django.http import Http404
+            raise Http404
+        selected_collection = get_object_or_404(SavedCollection, student=request.user, pk=collection_filter)
+        saved = saved.filter(collections=selected_collection)
+    saved_type = request.GET.get("guardados_tipo", "")
+    if saved_type == "cursos":
+        saved = saved.filter(course_version__kind="course")
+    elif saved_type == "tutoriales":
+        saved = saved.filter(course_version__kind="tutorial")
+    elif saved_type == "recursos":
+        saved = saved.filter(resource__isnull=False)
+    elif saved_type == "referencias":
+        saved = saved.filter(reference__isnull=False)
+    else:
+        saved_type = ""
+    saved_query = request.GET.get("guardados_q", "").strip()[:200]
+    if saved_query:
+        saved = saved.filter(title__icontains=saved_query)
+    saved_page = Paginator(saved, 12).get_page(request.GET.get("guardados_pagina"))
+    from .bookmarks import saved_item_presentation
+    for item in saved_page:
+        saved_item_presentation(request.user, item)
+        item.collection_ids = {collection.pk for collection in item.collections.all()}
+    certificate_enrollments = Paginator(all_enrollments.filter(version__certificate_policy__isnull=False).order_by("-updated_at", "-pk"), 12).get_page(request.GET.get("certificados_pagina"))
+    if section == "certificados":
+        for enrollment in certificate_enrollments:
+            enrollment.certificate_status = completion_status(enrollment)
+    return render(request, "core/workspace.html", {"collections": collections, "selected_collection": selected_collection, "collection_filter": collection_filter, "enrollments": page, "resources": Paginator(resources, 12).get_page(request.GET.get("recursos_pagina")), "saved_items": saved_page, "saved_type": saved_type, "saved_query": saved_query, "active": "workspace", "learning_stats": stats, "learning_state": state, "learning_query": query, "learning_section": section, "resume": resume, "certificate_enrollments": certificate_enrollments})
 
 
 def lesson_learning_context(user, version, record):
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return {}
     enrollment = Enrollment.objects.filter(student=user, version=version).first()
+    from .models import VersionPractice
+    practice = VersionPractice.objects.filter(lesson=record).first()
+    if practice:
+        from .practices import practice_is_open
+        practice.accepting = practice_is_open(practice)
     quiz = VersionQuiz.objects.filter(lesson=record).first()
     if not enrollment:
-        return {"version": version, "lesson_quiz": quiz}
+        return {"version": version, "lesson_quiz": quiz, "lesson_practice": practice}
     completed = enrollment.completed_lessons.count()
     total = VersionLesson.objects.filter(chapter__version=version).count()
     passed = bool(quiz and QuizAttempt.objects.filter(enrollment=enrollment, quiz=quiz, passed=True, submitted_at__isnull=False).exists())
-    return {"enrollment": enrollment, "lesson_quiz": quiz, "quiz_passed": passed, "quiz_blocks_completion": bool(quiz and quiz.required and not passed), "record_id": record.pk, "question_lesson_id": record.pk, "completed": enrollment.completed_lessons.filter(lesson=record).exists(), "completed_count": completed, "lesson_total": total, "percentage": round(completed * 100 / total) if total else 0}
+    return {"enrollment": enrollment, "lesson_practice": practice, "lesson_quiz": quiz, "quiz_passed": passed, "quiz_blocks_completion": bool(quiz and quiz.required and not passed), "record_id": record.pk, "question_lesson_id": record.pk, "completed": enrollment.completed_lessons.filter(lesson=record).exists(), "completed_count": completed, "lesson_total": total, "percentage": round(completed * 100 / total) if total else 0}
 
 
 @student_required
@@ -128,7 +167,7 @@ def progress_update(request, pk):
 @require_GET
 def purchased_resource(request, pk):
     from .bookmarks import bookmark_context
-    right = get_object_or_404(Entitlement.objects.select_related("resource__asset", "resource__subtitles", "resource__creator"), buyer=request.user, resource_id=pk)
+    right = get_object_or_404(Entitlement.objects.active().select_related("resource__asset", "resource__subtitles", "resource__creator"), buyer=request.user, resource_id=pk)
     resource = right.resource
     from core.telemetry import content_opened
     if resource.kind == "text":
@@ -143,7 +182,7 @@ def purchased_resource(request, pk):
 @student_required
 @require_safe
 def purchased_resource_file(request, pk, part):
-    right = get_object_or_404(Entitlement.objects.select_related("resource__asset", "resource__subtitles"), buyer=request.user, resource_id=pk)
+    right = get_object_or_404(Entitlement.objects.active().select_related("resource__asset", "resource__subtitles"), buyer=request.user, resource_id=pk)
     asset = right.resource.asset if part == "archivo" else right.resource.subtitles if part == "subtitulos" else None
     if asset is None:
         from django.http import Http404

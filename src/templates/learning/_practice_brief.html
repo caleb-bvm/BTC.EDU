@@ -1,0 +1,7 @@
+<section class="practice-brief" aria-label="Instrucciones de la práctica">
+  <h2>{{ practice.title }}</h2>
+  <div>{{ practice.instructions|linebreaks }}</div>
+  <h3>Criterios de aprobación</h3>
+  <ul>{% for criterion in practice.criteria %}<li>{{ criterion }}</li>{% endfor %}</ul>
+  {% if accepting != False %}<p class="account-help">Revisión prevista en {{ practice.review_days }} días naturales desde cada entrega. El educador comprobará estos criterios y te indicará si necesitas corregir.</p>{% else %}<p class="account-help">Puedes realizar el proyecto y contrastarlo con los criterios. La recepción de entregas está cerrada y no incluye revisión personal.</p>{% endif %}
+</section>

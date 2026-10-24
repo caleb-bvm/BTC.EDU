@@ -8,6 +8,8 @@ from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import (
     require_GET,
@@ -39,6 +41,13 @@ from .forms import (
     UploadForm,
 )
 from .models import CreatorProfile, Submission
+from .presentation import (
+    content_cards,
+    course_requirements,
+    course_sections,
+    form_groups,
+    resource_requirements,
+)
 from .services import decide, require_creator, require_reviewer, submit
 
 
@@ -70,6 +79,13 @@ def saved_redirect(request, destination, **kwargs):
     return redirect(destination, **kwargs)
 
 
+def editor_return(request):
+    back = request.POST.get("volver") or request.GET.get("volver", "")
+    if back.startswith(reverse("creator-dashboard")) and not back.startswith("//") and url_has_allowed_host_and_scheme(back, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        return back
+    return ""
+
+
 @login_required(login_url="creator-login")
 @never_cache
 @require_http_methods(["GET", "POST"])
@@ -98,19 +114,45 @@ def application(request):
 @creator_required
 @require_GET
 def dashboard(request):
-    from learning.models import CommunityReport, LessonQuestion
-    courses = Course.objects.filter(creator=request.user).select_related("current_version")
+    from learning.models import CommunityReport, LessonQuestion, PracticeDelivery
+    from learning.support import awaiting_creator_questions
     submissions = Submission.objects.filter(creator=request.user).select_related("course_version", "resource_version")
-    questions = LessonQuestion.objects.filter(enrollment__version__course__creator=request.user).exclude(replies__author=request.user).distinct()
+    questions = awaiting_creator_questions(LessonQuestion.objects.filter(enrollment__version__course__creator=request.user))
     reports = CommunityReport.objects.filter(post__version__course__creator=request.user, resolved=False)
-    return render(request, "creators/dashboard.html", {"courses": courses, "videos": Video.objects.filter(creator=request.user).select_related("revision"), "materials": Material.objects.filter(creator=request.user).select_related("revision"), "submissions": submissions[:12], "pending_count": submissions.filter(status="pending").count(), "changes_count": submissions.filter(status="changes").count(), "unanswered_count": questions.count(), "report_count": reports.count(), "first_draft": courses.filter(current_version__isnull=True).first(), "has_publication": courses.filter(current_version__isnull=False).exists(), "active": "studio"})
+    cards = content_cards(request.user)
+    changes_count = sum(card["state"] == "changes" for card in cards)
+    next_draft = next((card for card in cards if card["state"] in ("draft", "changes")), None)
+    return render(request, "creators/dashboard.html", {"cards": cards[:5], "next_draft": next_draft, "submissions": submissions.order_by("-created_at", "-pk")[:8], "pending_count": submissions.filter(status="pending").count(), "changes_count": changes_count, "practice_pending_count": PracticeDelivery.objects.filter(practice__lesson__chapter__version__course__creator=request.user, review__isnull=True).count(), "unanswered_count": questions.count(), "report_count": reports.count(), "has_publication": any(card["snapshot"] for card in cards), "active": "studio"})
+
+
+@creator_required
+@require_GET
+def content_list(request):
+    cards = content_cards(request.user)
+    kind = request.GET.get("tipo", "")
+    state = request.GET.get("estado", "")
+    query = request.GET.get("q", "").strip()[:200]
+    if kind not in ("course", "tutorial", "video", "material"):
+        kind = ""
+    if state not in ("draft", "published", "review", "changes"):
+        state = ""
+    if kind:
+        cards = [card for card in cards if card["kind"] == kind]
+    if state:
+        cards = [card for card in cards if card["state"] == state]
+    if query:
+        cards = [card for card in cards if query.casefold() in card["item"].title.casefold()]
+    from django.core.paginator import Paginator
+    return render(request, "creators/content.html", {"cards": Paginator(cards, 12).get_page(request.GET.get("pagina")), "content_type": kind, "content_state": state, "query": query, "active": "creator-content"})
 
 
 def save_form(request, form, title, back, extra=None):
     if request.method == "POST" and form.is_valid():
         try:
             with transaction.atomic():
-                form.save()
+                item = form.save()
+                if isinstance(item, Chapter):
+                    Course.objects.filter(pk=item.course_id).update(updated_at=timezone.now())
         except ValidationError as exc:
             form.add_error(None, exc)
         except IntegrityError:
@@ -118,7 +160,7 @@ def save_form(request, form, title, back, extra=None):
         else:
             messages.success(request, "Cambios guardados en el borrador. La publicación vigente se conserva.")
             return saved_redirect(request, back)
-    return render(request, "creators/form.html", {"form": form, "page_title": title, "back": back, "active": "studio", **(extra or {})})
+    return render(request, "creators/form.html", {"form": form, "form_groups": form_groups(form), "page_title": title, "back": back, "active": "creator-content", **(extra or {})})
 
 
 @creator_required
@@ -126,12 +168,26 @@ def save_form(request, form, title, back, extra=None):
 def course_edit(request, pk=None):
     course = get_object_or_404(Course, pk=pk, creator=request.user) if pk else Course(creator=request.user)
     protect_legacy(course)
-    form = CourseForm(request.POST if request.method == "POST" else None, instance=course)
+    initial = {"kind": "tutorial"} if not pk and request.GET.get("tipo") == "tutorial" else {}
+    form = CourseForm(request.POST if request.method == "POST" else None, instance=course, initial=initial)
     if request.method == "POST" and form.is_valid():
         form.save()
         messages.success(request, "Información guardada. Continúa con el temario.")
-        return saved_redirect(request, "creator-course", pk=course.pk)
-    return render(request, "creators/course.html", {"form": form, "course": course, "chapters": course.chapters.prefetch_related("lessons") if pk else [], "submissions": Submission.objects.filter(course=course).select_related("course_version") if pk else [], "active": "studio"})
+        return saved_redirect(request, reverse("creator-course", args=[course.pk]) + "?seccion=temario")
+    section = request.GET.get("seccion", "informacion")
+    if section not in ("informacion", "temario", "evaluaciones", "publicacion", "precio"):
+        section = "informacion"
+    if request.method == "POST":
+        section = "informacion"
+    if pk:
+        chapters = list(course.chapters.prefetch_related("lessons__quiz_draft", "lessons__practice_draft", "lessons__attachments__resource"))
+        course._prefetched_objects_cache = {"chapters": chapters}
+        requirements = course_requirements(course)
+    else:
+        chapters, requirements = [], []
+    submissions = Submission.objects.filter(course=course).select_related("course_version").order_by("-created_at", "-pk") if pk else Submission.objects.none()
+    latest = submissions.first()
+    return render(request, "creators/course.html", {"form": form, "form_groups": form_groups(form), "course": course, "chapters": chapters, "section": section, "course_sections": course_sections(course, section), "requirements": requirements, "ready_to_send": bool(requirements) and all(check["ready"] for check in requirements), "pending_submission": next((submission for submission in submissions if submission.status == "pending"), None), "latest_submission": latest, "submissions": submissions, "active": "creator-content"})
 
 
 @creator_required
@@ -140,7 +196,7 @@ def chapter_edit(request, course_pk, pk=None):
     course = get_object_or_404(Course, pk=course_pk, creator=request.user)
     protect_legacy(course)
     chapter = get_object_or_404(Chapter, pk=pk, course=course) if pk else Chapter(course=course, status=PublicationStatus.PUBLISHED, position=(course.chapters.order_by("-position").values_list("position", flat=True).first() or 0) + 1)
-    return save_form(request, ChapterForm(request.POST if request.method == "POST" else None, instance=chapter), "Editar capítulo" if pk else "Nuevo capítulo", reverse("creator-course", args=[course.pk]))
+    return save_form(request, ChapterForm(request.POST if request.method == "POST" else None, instance=chapter), "Editar capítulo" if pk else "Nuevo capítulo", reverse("creator-course", args=[course.pk]) + "?seccion=temario", {"course": course, "course_sections": course_sections(course, "temario")})
 
 
 @creator_required
@@ -157,12 +213,13 @@ def lesson_edit(request, chapter_pk, pk=None):
                 lesson.attachments.all().delete()
                 for position, revision in enumerate(form.cleaned_data["resources"], 1):
                     LessonResource.objects.create(lesson=lesson, resource=revision, position=position)
+                Course.objects.filter(pk=chapter.course_id).update(updated_at=timezone.now())
         except IntegrityError:
             form.add_error(None, "El orden cambió mientras editabas. Elige un número libre y reintenta.")
         else:
             messages.success(request, "Lección guardada en el borrador.")
-            return saved_redirect(request, "creator-course", pk=chapter.course_id)
-    return render(request, "creators/form.html", {"form": form, "page_title": "Editar lección" if pk else "Nueva lección", "back": reverse("creator-course", args=[chapter.course_id]), "active": "studio"})
+            return saved_redirect(request, reverse("creator-course", args=[chapter.course_id]) + "?seccion=temario")
+    return render(request, "creators/form.html", {"form": form, "form_groups": form_groups(form), "lesson": lesson, "course": chapter.course, "course_sections": course_sections(chapter.course, "temario"), "page_title": "Editar lección" if pk else "Nueva lección", "back": reverse("creator-course", args=[chapter.course_id]) + "?seccion=temario", "active": "creator-content"})
 
 
 @creator_required
@@ -173,17 +230,24 @@ def resource_edit(request, kind, pk=None):
     if item.status == PublicationStatus.PUBLISHED and not item.revision_id:
         raise PermissionDenied("El administrador debe publicar una revisión del recurso anterior antes de habilitar su edición.")
     form_type = ResourceForm if model is Video else MaterialForm
-    form = form_type(request.POST if request.method == "POST" else None, instance=item, actor=request.user)
+    form = form_type(request.POST if request.method == "POST" else None, request.FILES if request.method == "POST" else None, instance=item, actor=request.user)
+    back = editor_return(request)
     if request.method == "POST" and form.is_valid():
-        form.save()
+        with transaction.atomic():
+            form.save()
         messages.success(request, "Recurso guardado. Puedes enviarlo a revisión.")
-        return saved_redirect(request, "creator-resource", kind=kind, pk=item.pk)
-    return render(request, "creators/resource.html", {"form": form, "item": item, "kind": kind, "submissions": Submission.objects.filter(**{model._meta.model_name: item}).select_related("resource_version") if pk else [], "active": "studio"})
+        from urllib.parse import urlencode
+        destination = reverse("creator-resource", args=[kind, item.pk]) + ("?" + urlencode({"volver": back}) if back else "")
+        return saved_redirect(request, destination)
+    submissions = Submission.objects.filter(**{model._meta.model_name: item}).select_related("resource_version").order_by("-created_at", "-pk") if pk else Submission.objects.none()
+    requirements = resource_requirements(model.objects.get(pk=item.pk)) if item.pk else []
+    return render(request, "creators/resource.html", {"form": form, "form_groups": form_groups(form), "back": back, "item": item, "kind": kind, "submissions": submissions, "requirements": requirements, "ready_to_send": bool(requirements) and all(check["ready"] for check in requirements), "pending_submission": next((submission for submission in submissions if submission.status == "pending"), None), "active": "creator-content"})
 
 
 @creator_required
 @require_http_methods(["GET", "POST"])
 def files(request):
+    back = editor_return(request)
     form = UploadForm(request.POST if request.method == "POST" else None, request.FILES if request.method == "POST" else None, instance=Asset(creator=request.user))
     if request.method == "POST" and form.is_valid():
         try:
@@ -192,8 +256,8 @@ def files(request):
             form.add_error(None, exc)
         else:
             messages.success(request, "Archivo validado y guardado en tu biblioteca privada.")
-            return saved_redirect(request, "creator-files")
-    return render(request, "creators/files.html", {"form": form, "assets": Asset.objects.filter(creator=request.user).order_by("-pk"), "active": "studio"})
+            return saved_redirect(request, back or "creator-files")
+    return render(request, "creators/files.html", {"form": form, "back": back, "assets": Asset.objects.filter(creator=request.user).order_by("-pk"), "active": "creator-content"})
 
 
 @creator_required
@@ -279,10 +343,13 @@ def public_profile(request, pk):
     profile = get_object_or_404(CreatorProfile.objects.select_related("user"), user_id=pk, status=CreatorProfile.Status.APPROVED, user__is_active=True, user__account_type="creator")
     if not profile.user.has_public_profile:
         raise Http404
-    courses = Course.objects.filter(creator=profile.user, status=PublicationStatus.PUBLISHED, current_version__isnull=False).select_related("current_version")
-    videos = Video.objects.filter(creator=profile.user, status=PublicationStatus.PUBLISHED, revision__isnull=False).select_related("revision")
-    materials = Material.objects.filter(creator=profile.user, status=PublicationStatus.PUBLISHED, revision__isnull=False).select_related("revision")
-    return render(request, "creators/public_profile.html", {"profile": profile, "courses": courses, "videos": videos, "materials": materials, "active": "courses", "base_template": "creators/base.html" if request.user.is_authenticated and request.user.account_type == "creator" else "academy.html"})
+    from urllib.parse import urlencode
+
+    from content.catalog import catalog_context
+    context = catalog_context(request.GET, creator=profile.user)
+    for card in context["all_cards"]:
+        card["url"] += "?" + urlencode({"volver": request.get_full_path()})
+    return render(request, "creators/public_profile.html", {**context, "profile": profile, "active": "courses", "base_template": "creators/base.html" if request.user.is_authenticated and request.user.account_type == "creator" else "academy.html"})
 
 
 def protect_legacy(course):
@@ -294,12 +361,82 @@ def protect_legacy(course):
 @require_GET
 def course_preview(request, pk):
     course = get_object_or_404(Course, pk=pk, creator=request.user)
-    chapters = course.chapters.prefetch_related("lessons__attachments__resource__asset", "lessons__attachments__resource__subtitles")
-    return render(request, "creators/preview.html", {"item": course, "chapters": chapters, "back": reverse("creator-course", args=[pk]), "active": "studio"})
+    from content.reading import reading_sections
+    chapters = list(course.chapters.filter(status="published").prefetch_related("lessons__attachments__resource__asset", "lessons__attachments__resource__subtitles", "lessons__quiz_draft", "lessons__practice_draft"))
+    view_mode = request.GET.get("acceso", "incluido")
+    if view_mode not in ("incluido", "sin-compra"):
+        view_mode = "incluido"
+    for chapter in chapters:
+        chapter.preview_lessons = [lesson for lesson in chapter.lessons.all() if lesson.status == "published"]
+        for lesson in chapter.preview_lessons:
+            lesson.reading_sections = reading_sections(lesson.body)
+            lesson.preview_allowed = view_mode == "incluido" or lesson.access_type == "free"
+    return render(request, "creators/preview.html", {"item": course, "chapters": chapters, "view_mode": view_mode, "course_sections": course_sections(course), "back": reverse("creator-course", args=[pk]) + "?seccion=publicacion", "active": "creator-content"})
 
 
 @creator_required
 @require_GET
 def resource_preview(request, kind, pk):
     item = get_object_or_404(resource_model(kind), pk=pk, creator=request.user)
-    return render(request, "creators/preview.html", {"item": item, "kind": kind, "back": reverse("creator-resource", args=[kind, pk]), "active": "studio"})
+    return render(request, "creators/preview.html", {"item": item, "kind": kind, "back": reverse("creator-resource", args=[kind, pk]), "active": "creator-content"})
+
+
+@creator_required
+@require_http_methods(["GET", "POST"])
+def quiz_preview(request, lesson_pk):
+    from learning.assessment_forms import AttemptForm
+    from learning.models import QuizDraft
+    lesson = get_object_or_404(Lesson.objects.select_related("chapter__course"), pk=lesson_pk, chapter__course__creator=request.user)
+    quiz = get_object_or_404(QuizDraft, lesson=lesson, enabled=True)
+    form = AttemptForm(request.POST if request.method == "POST" else None, quiz=quiz, answers={}, revision=0)
+    review, score = [], None
+    if request.method == "POST" and form.is_valid():
+        answers = form.answers()
+        correct_count = 0
+        for index, question in enumerate(quiz.questions):
+            selected = answers.get(str(index), [])
+            correct = set(selected) == set(question["correct"])
+            correct_count += correct
+            review.append({"prompt": question["prompt"], "correct": correct, "selected": [question["options"][option] for option in selected], "solutions": [question["options"][option] for option in question["correct"]], "explanation": question["explanation"]})
+        score = round(correct_count * 100 / len(quiz.questions), 2) if quiz.questions else 0
+    passed = score is not None and score >= quiz.pass_mark
+    solutions_visible = score is not None and (quiz.feedback == "submitted" or passed)
+    if not solutions_visible:
+        for row in review:
+            for name in ("solutions", "explanation", "correct"):
+                row.pop(name, None)
+    return render(request, "creators/quiz_preview.html", {"lesson": lesson, "quiz": quiz, "form": form, "review": review, "score": score, "passed": passed, "solutions_visible": solutions_visible, "active": "creator-content"})
+
+
+@creator_required
+@require_POST
+def reorder(request, kind, pk):
+    model = {"capitulos": Chapter, "lecciones": Lesson}.get(kind)
+    if model is None:
+        raise Http404
+    relation = "course" if model is Chapter else "chapter__course"
+    item = get_object_or_404(model.objects.select_related(relation), pk=pk, **{relation + "__creator": request.user})
+    course = item.course if model is Chapter else item.chapter.course
+    protect_legacy(course)
+    if request.POST.get("direction") not in ("up", "down"):
+        return JsonResponse({"error": "Elige subir o bajar."}, status=400)
+    with transaction.atomic():
+        from django.db.models import Max
+        Course.objects.filter(pk=course.pk).update(updated_at=timezone.now())
+        request.user.refresh_from_db()
+        require_creator(request.user)
+        item = get_object_or_404(model.objects.select_related(relation), pk=pk, **{relation + "__creator": request.user})
+        group = {"course_id": item.course_id} if model is Chapter else {"chapter_id": item.chapter_id}
+        siblings = model.objects.filter(**group)
+        if request.POST["direction"] == "up":
+            adjacent = siblings.filter(position__lt=item.position).order_by("-position").first()
+        else:
+            adjacent = siblings.filter(position__gt=item.position).order_by("position").first()
+        if adjacent:
+            temporary = (siblings.aggregate(value=Max("position"))["value"] or 0) + 1
+            original = item.position
+            model.objects.filter(pk=item.pk).update(position=temporary)
+            model.objects.filter(pk=adjacent.pk).update(position=original)
+            model.objects.filter(pk=item.pk).update(position=adjacent.position)
+            messages.success(request, "Orden del temario actualizado.")
+    return redirect(reverse("creator-course", args=[course.pk]) + "?seccion=temario")

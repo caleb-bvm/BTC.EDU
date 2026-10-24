@@ -71,6 +71,33 @@ class EssentialTests(TestCase):
         self.complete()
         return issue_certificate(self.student, self.enrollment.pk, "Lucía López")
 
+    def test_certificate_pending_steps_link_to_frozen_lessons_and_assessments(self):
+        response = self.client.get(reverse("certificate-request", args=[self.enrollment.pk]))
+        lesson_url = reverse("version-lesson", args=[self.course.pk, self.version.number, self.record.pk])
+        self.assertContains(response, lesson_url + "#lesson-finish")
+        self.assertContains(response, reverse("quiz-detail", args=[self.record.quiz.pk]))
+        self.assertContains(response, "Pendiente de completar")
+        self.assertContains(response, "Pendiente de aprobar")
+        self.assertFalse(response.context["eligible"])
+        self.assertFalse(self.enrollment.completed_lessons.exists())
+        self.complete()
+        ready = self.client.get(reverse("certificate-request", args=[self.enrollment.pk]))
+        self.assertTrue(ready.context["eligible"])
+        self.assertContains(ready, "Emitir certificado")
+        self.assertNotContains(ready, "Pendiente de completar")
+        self.assertNotContains(ready, "Pendiente de aprobar")
+        self.client.force_login(self.other)
+        self.assertEqual(self.client.get(reverse("certificate-request", args=[self.enrollment.pk])).status_code, 404)
+
+    def test_workspace_certificate_section_has_pending_course_without_exposing_other_students(self):
+        response = self.client.get(reverse("workspace"), {"seccion": "certificados"})
+        self.assertContains(response, self.version.title)
+        self.assertContains(response, reverse("certificate-request", args=[self.enrollment.pk]))
+        self.assertContains(response, "Ver pendientes")
+        self.client.force_login(self.other)
+        other = self.client.get(reverse("workspace"), {"seccion": "certificados"})
+        self.assertNotContains(other, reverse("certificate-request", args=[self.enrollment.pk]))
+
     def question(self):
         return post_question(self.student, self.record.pk, "¿Cómo se conserva la versión?", uuid4())
 
@@ -276,7 +303,7 @@ class EssentialTests(TestCase):
         question = self.question()
         self.assertEqual(question.enrollment_id, self.enrollment.pk)
         self.assertEqual(Notification.objects.get(event_key=f"question:{question.pk}").recipient_id, self.creator.pk)
-        self.assertContains(self.client.get(reverse("version-lesson", args=[self.course.pk, self.version.number, self.record.pk])), "Preguntar al creador")
+        self.assertContains(self.client.get(reverse("version-lesson", args=[self.course.pk, self.version.number, self.record.pk])), "Preguntar al educador")
 
     def test_question_retry_reply_retry_and_conflicting_nonce(self):
         key = uuid4()
@@ -318,10 +345,10 @@ class EssentialTests(TestCase):
         self.assertContains(page, "&lt;script&gt;")
         self.assertNotContains(page, "<script>alert")
         self.client.force_login(self.creator)
-        self.assertContains(self.client.get(reverse("creator-questions")), "Esperando al creador")
+        self.assertContains(self.client.get(reverse("creator-questions")), "Pendiente de responder")
         response = self.client.post(reverse("creator-question", args=[question.pk]), {"body": "Respuesta", "request_key": uuid4()})
         self.assertEqual(response.status_code, 302)
-        self.assertContains(self.client.get(reverse("creator-questions")), "Con respuesta del creador")
+        self.assertContains(self.client.get(reverse("creator-questions")), "Con respuesta del educador")
         with self.assertRaises(ValidationError):
             question.delete()
 

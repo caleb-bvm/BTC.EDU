@@ -1,0 +1,1 @@
+{% load course_media %}<img class="content-image{% if thumbnail %} content-image--thumbnail{% endif %}{% if image_class %} {{ image_class }}{% endif %}" src="{% content_cover topic_slug kind resource %}" alt="" width="{% if thumbnail %}320{% else %}1600{% endif %}" height="{% if thumbnail %}320{% else %}900{% endif %}"{% if not eager %} loading="lazy"{% endif %} decoding="async">

@@ -1,11 +1,15 @@
+from collections import Counter
+
 from django.core.paginator import Paginator
 from django.db.models import Case, Count, F, Prefetch, Q, When
 from django.db.models.functions import Coalesce
 from django.urls import reverse
 
+from .catalog_filters import build_catalog_filters
 from .identity import public_creator_name
 from .models import (
     AccessType,
+    Category,
     Chapter,
     Course,
     CourseKind,
@@ -54,9 +58,14 @@ def published_courses():
     )
 
 
-def catalog_context(params, section=None):
+UNCATEGORIZED_TOPIC = "~sin-categoria"
+
+
+def catalog_context(params, section=None, creator=None, browse_categories=False):
     categories = {'todos': 'Todo', 'cursos': 'Cursos', 'tutoriales': 'Tutoriales', 'videos': 'Videos', 'materiales': 'Materiales', 'referencias': 'Enlaces externos'}
     allowed = {'cursos': ('cursos',), 'tutoriales': ('tutoriales',), 'recursos': ('videos', 'materiales', 'referencias')}.get(section, tuple(categories)[1:])
+    if creator is not None:
+        allowed = tuple(kind for kind in allowed if kind != 'referencias')
     category = params.get('tipo', 'todos')
     if category not in ('todos', *allowed):
         category = 'todos'
@@ -67,9 +76,31 @@ def catalog_context(params, section=None):
     if level not in CourseLevel.values:
         level = ''
     topic_slug = params.get('tema', '')[:100]
+    category_slug = params.get('categoria', '')[:100]
+    parent_categories = list(Category.objects.all())
+    all_topics = list(Topic.objects.select_related('category'))
+    topic_by_slug = {topic.slug: topic for topic in all_topics}
+    selected_topic = topic_by_slug.get(topic_slug)
+    # Los enlaces anteriores con solo «tema» conservan su destino.
+    if not category_slug and selected_topic:
+        category_slug = selected_topic.category.slug if selected_topic.category_id else UNCATEGORIZED_TOPIC
+    if topic_slug == UNCATEGORIZED_TOPIC and not category_slug:
+        category_slug = UNCATEGORIZED_TOPIC
+    parent = next((item for item in parent_categories if item.slug == category_slug), None)
+    category_missing = bool(category_slug and not parent and category_slug != UNCATEGORIZED_TOPIC)
+    if topic_slug == UNCATEGORIZED_TOPIC and category_slug != UNCATEGORIZED_TOPIC:
+        category_missing = True
+    if selected_topic and category_slug:
+        expected_parent = selected_topic.category.slug if selected_topic.category_id else UNCATEGORIZED_TOPIC
+        category_missing = category_missing or expected_parent != category_slug
+    parent_topic_ids = [topic.pk for topic in all_topics if
+                        (topic.category_id == parent.pk if parent else topic.category_id is None)]
     query = params.get('q', '').strip()[:200]
+    filtered = bool(query or access != 'todos' or topic_slug or category_slug or level or category != 'todos')
+    show_categories = browse_categories and not (filtered or params.get('vista') == 'todos' or params.get('pagina'))
     catalog_items = []
-    topic_ids = set()
+    topic_counts = Counter()
+    facets = {'topics': set(), 'levels': set(), 'access': set(), 'formats': set(), 'scope_count': 0}
     for kind, model, label in (
         ('cursos', Course, 'Curso'), ('tutoriales', Course, 'Tutorial'),
         ('videos', Video, 'Video'), ('materiales', Material, 'Material'),
@@ -78,18 +109,49 @@ def catalog_context(params, section=None):
         if kind not in allowed:
             continue
         items = published_courses() if model == Course else model.objects.filter(status=PublicationStatus.PUBLISHED).select_related('topic')
+        if creator is not None:
+            items = items.filter(creator=creator)
         if model == Course:
             items = items.filter(public_kind=CourseKind.TUTORIAL if kind == 'tutoriales' else CourseKind.COURSE)
         elif model != ExternalReference:
             items = items.select_related('creator__creator_profile', 'revision__topic').defer('revision__body').annotate(public_title=Coalesce('revision__title', 'title'), public_description=Coalesce('revision__description', 'description'), public_access=Coalesce('revision__access_type', 'access_type'), public_topic_id=Case(When(revision__isnull=False, then=F('revision__topic_id')), default=F('topic_id')))
         topic_field = 'topic_id' if model == ExternalReference else 'public_topic_id'
-        topic_ids.update(items.exclude(**{topic_field: None}).values_list(topic_field, flat=True))
-        if category != 'todos' and category != kind:
+        counts = items.order_by().values(topic_field).annotate(topic_count=Count('pk', distinct=True))
+        for row in counts:
+            topic_counts[row[topic_field]] += row['topic_count']
+        if show_categories:
             continue
         if query:
             items = items.filter(Q(title__icontains=query) | Q(description__icontains=query)) if model == ExternalReference else items.filter(Q(public_title__icontains=query) | Q(public_description__icontains=query))
-        if topic_slug:
-            items = items.filter(**{topic_field + '__in': Topic.objects.filter(slug=topic_slug).values('pk')})
+        if category_missing:
+            items = items.none()
+        elif category_slug == UNCATEGORIZED_TOPIC:
+            items = items.filter(Q(**{topic_field + '__in': parent_topic_ids}) | Q(**{topic_field + '__isnull': True}))
+        elif parent:
+            items = items.filter(**{topic_field + '__in': parent_topic_ids})
+        if topic_slug == UNCATEGORIZED_TOPIC:
+            items = items.filter(**{topic_field + '__isnull': True})
+        elif topic_slug:
+            items = items.filter(**{topic_field: selected_topic.pk}) if selected_topic else items.none()
+        # Las opciones siguen disponibles al aplicar nivel, acceso o formato.
+        # Solo se leen metadatos públicos; los cuerpos de las revisiones quedan fuera.
+        facet_fields = (topic_field, 'public_level', 'free_count', 'paid_count') if model == Course else (
+            (topic_field,) if model == ExternalReference else (topic_field, 'public_access'))
+        for row in items.values(*facet_fields):
+            facets['scope_count'] += 1
+            facets['topics'].add(row[topic_field])
+            facets['formats'].add(kind)
+            if model == Course:
+                if row['public_level']:
+                    facets['levels'].add(row['public_level'])
+                if row['free_count']:
+                    facets['access'].add('gratis')
+                if row['paid_count']:
+                    facets['access'].add('pago')
+            elif model != ExternalReference:
+                facets['access'].add('gratis' if row['public_access'] == AccessType.FREE else 'pago')
+        if category != 'todos' and category != kind:
+            continue
         if level:
             if model != Course:
                 continue
@@ -105,7 +167,33 @@ def catalog_context(params, section=None):
         elif access != 'todos':
             items = items.filter(public_access=AccessType.FREE if access == 'gratis' else AccessType.PAID)
         catalog_items.append((kind, model, label, items))
-    topics = list(Topic.objects.filter(pk__in=topic_ids))
+    topics = [topic for topic in all_topics if topic.category_id or topic_counts[topic.pk]]
+    topic_missing = bool(topic_slug and topic_slug != UNCATEGORIZED_TOPIC and all(topic.slug != topic_slug for topic in topics))
+    category_counts = Counter()
+    for topic in all_topics:
+        category_counts[topic.category_id] += topic_counts[topic.pk]
+    uncategorized_count = category_counts[None] + topic_counts[None]
+    category_cards = [{'name': item.name, 'slug': item.slug, 'description': item.description,
+                       'image': item.category_image, 'count': category_counts[item.pk],
+                       'topics': [topic for topic in topics if topic.category_id == item.pk]}
+                      for item in parent_categories]
+    if uncategorized_count:
+        category_cards.append({'name': 'Por descubrir', 'slug': UNCATEGORIZED_TOPIC,
+                               'description': 'Contenido que todavía no tiene una categoría asignada.',
+                               'image': 'images/categories/general.svg', 'count': uncategorized_count,
+                               'topics': [topic for topic in topics if topic.category_id is None]})
+    selected_category = next((card for card in category_cards if card['slug'] == category_slug), None)
+    topic_groups = [{'name': card['name'], 'topics': card['topics']} for card in category_cards if card['topics']]
+    subcategory_cards = [{'name': topic.name, 'slug': topic.slug, 'count': topic_counts[topic.pk]}
+                         for topic in selected_category['topics']] if selected_category and not category_missing else []
+    catalog_filters = build_catalog_filters(
+        facets, category_cards=category_cards, all_topics=all_topics,
+        category_slug=category_slug, topic_slug=topic_slug, selected_category=selected_category,
+        selected_topic=selected_topic, category_missing=category_missing,
+        section=section, browse_categories=browse_categories, query=query,
+        level=level, access=access, kind=category, format_labels=categories,
+        uncategorized=UNCATEGORIZED_TOPIC,
+    )
     cards = []
     for kind, model, label, items in catalog_items:
         for item in items:
@@ -162,12 +250,21 @@ def catalog_context(params, section=None):
     return {
         'category': category, 'categories': {key: value for key, value in categories.items() if key == 'todos' or key in allowed},
         'access_filter': access, 'query': query, 'topics': topics, 'topic_filter': topic_slug,
+        'category_filter': category_slug, 'category_missing': category_missing,
+        'catalog_filters': catalog_filters,
+        'selected_topic': selected_topic, 'topic_groups': topic_groups, 'subcategory_cards': subcategory_cards,
         'levels': CourseLevel.choices, 'level_filter': level, 'cards': page.object_list,
         'all_cards': cards, 'groups': list(groups.items()), 'page_obj': page, 'result_count': len(cards),
         'filter_query': link_params.urlencode() if hasattr(link_params, 'urlencode') else '',
-        'filtered': bool(query or access != 'todos' or topic_slug or level or category != 'todos'),
-        'has_search_filters': bool(query or access != 'todos' or topic_slug or level),
+        'filtered': filtered,
+        'show_clear_filters': filtered and (category_missing or topic_missing or not browse_categories or not selected_category or bool(query or access != 'todos' or level or category != 'todos')),
+        'has_search_filters': bool(query or access != 'todos' or topic_slug or category_slug or level),
         'type_links': type_links,
-        'topic_missing': bool(topic_slug and all(topic.slug != topic_slug for topic in topics)),
+        'topic_missing': topic_missing,
         'show_level': section in (None, 'cursos', 'tutoriales'),
+        'category_browsing': browse_categories, 'show_categories': show_categories,
+        'category_cards': category_cards, 'catalog_total': sum(topic_counts.values()),
+        'selected_category': selected_category,
+        'uncategorized_topic': UNCATEGORIZED_TOPIC, 'uncategorized_count': uncategorized_count,
+        'unassigned_count': topic_counts[None],
     }

@@ -1,4 +1,6 @@
 """Read-only learning navigation shared by the course and personal library."""
+from django.urls import reverse
+
 from content.access import content_access
 
 from .models import Enrollment, VersionQuiz
@@ -19,6 +21,26 @@ def continuation(lessons, completed, last_id, accessible):
     if lessons and all(identifier(item) in completed for item in lessons):
         return next((item for item in lessons if identifier(item) in accessible), None)
     return None
+
+
+def library_journey(user, enrollment):
+    """Attach version-specific progress and the next accessible step to a card."""
+    version = enrollment.version
+    lessons = [lesson for chapter in version.chapters.all() for lesson in chapter.lessons.all()]
+    completed = {item.lesson_id for item in enrollment.completed_lessons.all()}
+    first = continuation(lessons, completed, enrollment.last_lesson_id,
+                         {lesson.pk for lesson in lessons if content_access(user, lesson).allowed})
+    enrollment.is_complete = bool(lessons and len(completed) == len(lessons))
+    enrollment.open_label = "Ver acceso" if not first else "Repasar" if enrollment.is_complete else "Continuar" if enrollment.last_lesson_id or completed else "Empezar"
+    enrollment.open_url = reverse("version-lesson", args=[version.course_id, version.number, first.pk]) if first else reverse("course-version", args=[version.course_id, version.number])
+    enrollment.lesson_count = len(lessons)
+    enrollment.completed_count = len(completed)
+    enrollment.percentage = round(len(completed) * 100 / len(lessons)) if lessons else 0
+    enrollment.retired = version.course.status == "archived" or version.course.current_version_id != version.pk
+    enrollment.next_title = first.content.title if first else "Revisa las opciones de acceso"
+    enrollment.state_label = "Completado" if enrollment.is_complete else "En curso" if enrollment.last_lesson_id or completed else "Por empezar"
+    enrollment.can_continue = bool(first and not enrollment.is_complete)
+    return enrollment
 
 
 def course_learning_context(user, course, version=None, current_id=None):
@@ -47,7 +69,9 @@ def course_learning_context(user, course, version=None, current_id=None):
     total = len(lessons)
     done = sum(item.learning_completed for item in lessons)
     all_done = bool(total and done == total)
-    label = "Repasar curso" if all_done else "Continuar curso" if enrollment and (done or enrollment.last_lesson_id) else "Empezar curso"
+    content_kind = "tutorial" if (version.kind if version else course.kind) == "tutorial" else "curso"
+    action = "Repasar" if all_done else "Continuar" if enrollment and (done or enrollment.last_lesson_id) else "Empezar"
+    label = f"{action} {content_kind}"
     if not target:
         label = "Ver opciones de acceso"
     return {"journey": {"enrollment": enrollment, "target": target, "label": label,

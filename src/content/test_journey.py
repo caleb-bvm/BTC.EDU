@@ -56,7 +56,7 @@ class LearningJourneyTests(TestCase):
         )
 
     def test_catalog_and_course_show_mixed_access_without_bodies_or_email(self):
-        for url in ("/", "/explorar/", reverse("course-detail", args=[self.course.pk])):
+        for url in ("/explorar/?vista=todos", reverse("course-detail", args=[self.course.pk])):
             response = self.client.get(url)
             self.assertContains(response, self.course.title)
             self.assertContains(response, "Gratis + lecciones de pago")
@@ -88,7 +88,7 @@ class LearningJourneyTests(TestCase):
         self.assertContains(response, self.course.title)
         self.assertNotContains(response, "<html")
         self.assertContains(
-            self.client.get("/explorar/?tipo=incorrecto&acceso=incorrecto"),
+            self.client.get("/explorar/?vista=todos&tipo=incorrecto&acceso=incorrecto"),
             self.course.title,
         )
 
@@ -139,7 +139,7 @@ class LearningJourneyTests(TestCase):
         self.client.force_login(self.creator)
         response = self.client.get(reverse("lesson-detail", args=[self.draft.pk]))
         self.assertContains(response, self.draft.body)
-        self.assertContains(response, "Vista previa del creador")
+        self.assertContains(response, "Vista previa del educador")
         self.assertContains(
             self.client.get(reverse("course-detail", args=[self.course.pk])),
             self.draft.title,

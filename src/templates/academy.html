@@ -1,22 +1,18 @@
 {% extends 'base.html' %}
 {% block body_class %}academy{% endblock %}
-{% block header %}
-<header class="academy-header">
-  <div class="academy-brand"><a class="brand" href="{% url 'home' %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU</span></a><span class="system-label mono">ACADEMIA ABIERTA<span>APRENDE / CONSTRUYE / COMPARTE</span></span></div>
-  <div class="academy-header-actions">{% include '_theme_toggle.html' %}<a class="header-home" href="{% url 'home' %}">Inicio ↗</a>{% if user.is_authenticated and user.account_type == 'student' %}<a class="account-header-photo" href="{% url 'student-account' %}" aria-label="Mi cuenta de estudiante">{% include 'accounts/_avatar.html' with person=user avatar_class='account-header-avatar' %}</a><a class="btn btn-dark" href="{% url 'workspace' %}"><span class="account-long">Mi aprendizaje</span><span class="account-short">Mi espacio</span> <span aria-hidden="true">↗</span></a>{% elif user.is_authenticated and user.account_type == 'creator' %}<a class="btn btn-dark" href="{% if user.creator_profile.status == 'approved' %}{% url 'creator-dashboard' %}{% else %}{% url 'creator-application' %}{% endif %}">Mi estudio ↗</a>{% else %}<a class="btn btn-dark" href="{% url 'login' %}?next={{ next|default:request.get_full_path|urlencode }}">Entrar <span aria-hidden="true">↗</span></a>{% endif %}<button class="nav-toggle js-only" type="button" aria-expanded="false" aria-controls="academy-navigation">Menú <span aria-hidden="true">☰</span></button></div>
-</header>
-{% endblock %}
+{% block header %}{% include '_app_header.html' %}{% endblock %}
 {% block content %}
 <div class="academy-layout">
-  <aside class="academy-sidebar" id="academy-navigation">
+  <aside class="academy-sidebar" id="academy-navigation" aria-label="Menú de navegación" tabindex="-1">
+    <div class="sidebar-mobile-heading js-only"><span>Menú</span><button class="nav-close icon-button" type="button" aria-label="Cerrar menú"><span aria-hidden="true">×</span></button></div>
     {% include '_context_navigation.html' %}
-    <div class="sidebar-footer"><span class="sidebar-mark" aria-hidden="true">＋ ─── ＋</span><p class="mono">CONOCIMIENTO<br>EN LIBERTAD.</p><span class="sidebar-status">Aprende a tu ritmo</span></div>
   </aside>
-  <button class="nav-backdrop" type="button" aria-label="Cerrar menú" hidden></button>
+  <button class="nav-backdrop" type="button" aria-label="Cerrar menú" tabindex="-1" hidden></button>
   <div class="academy-workbench">
+    {% if not reviewer %}{% include '_section_navigation.html' %}{% endif %}
     {% block academy_tabs %}{% endblock %}
-    <div class="academy-page">{% block academy_content %}{% endblock %}</div>
-    <footer class="academy-footer"><span class="mono">BTC.EDU / APRENDE A TU RITMO</span><span>El siguiente paso lo eliges tú. <span aria-hidden="true">＋</span></span></footer>
+    <div class="academy-page">{% for message in messages %}<div class="notice" role="status" data-message-level="{{ message.tags }}">{{ message }}</div>{% endfor %}{% block academy_content %}{% endblock %}</div>
+    <footer class="academy-footer">{% block academy_footer %}<span class="mono">BTC.EDU</span><span>Aprende a tu ritmo.</span>{% endblock %}</footer>
   </div>
 </div>
 {% endblock %}

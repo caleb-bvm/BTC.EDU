@@ -1,0 +1,10 @@
+{% extends 'creators/base.html' %}
+{% block title %}Propinas · BTC.EDU{% endblock %}
+{% block studio_content %}
+<section class="commerce-page">
+  <header class="page-heading"><div><p class="eyebrow">TU ESTUDIO / VENTAS</p><h1>Propinas.</h1><p>Agradecimientos confirmados de tus estudiantes. Se registran por educador; la liquidación todavía no está disponible.</p></div></header>
+  <div class="tip-totals"><p><strong>{{ summary.count }}</strong> propina{{ summary.count|pluralize:'s' }}</p><p><strong>{{ summary.sats }}</strong> sats</p></div>
+  <div class="purchase-list">{% for tip in tips %}<article class="purchase-card"><div class="purchase-card-main"><span class="access-badge">{{ tip.amount_sats }} sats</span><h3>{{ tip.sender.public_name }}</h3><p>{% if tip.lesson_id %}{{ tip.lesson.content.title }} · {% endif %}{{ tip.paid_at|date:'d/m/Y H:i' }}</p>{% if tip.message %}<blockquote class="gift-message">{{ tip.message }}</blockquote>{% endif %}</div></article>{% empty %}<div class="commerce-empty"><h3>Todavía no recibiste propinas.</h3><p>Tus estudiantes pueden enviarlas desde las lecciones y tu perfil público.</p></div>{% endfor %}</div>
+  {% include 'commerce/_pagination.html' with page=tips %}
+</section>
+{% endblock %}

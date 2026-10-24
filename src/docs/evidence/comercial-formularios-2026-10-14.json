@@ -1,0 +1,15 @@
+{
+  "passed": 9,
+  "failed": 0,
+  "verified": [
+    "confirmed save, snapshot, duplicate prevention and disabled-control restoration",
+    "JSON validation error preserves values, exposes error and allows retry",
+    "input after snapshot remains in the form and protects navigation",
+    "connection failure preserves input and restores controls",
+    "account mismatch prevents POST and preserves pending work",
+    "renewed CSRF token replaces the token in the submitted snapshot",
+    "HTML redirect with error preserves the form instead of confirming success",
+    "HTML validation links the error, opens its section and focuses the preserved input",
+    "external redirect is rejected without losing input"
+  ]
+}

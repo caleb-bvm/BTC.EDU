@@ -128,7 +128,7 @@ def accessible_posts(actor, version):
     if version.course.status not in ("published", "archived"):
         lessons = lessons.none()
     else:
-        lessons = lessons.filter(Q(content__access_type="free") | Q(content_id__in=Entitlement.objects.filter(buyer=actor).values("resource_id")))
+        lessons = lessons.filter(Q(content__access_type="free") | Q(content_id__in=Entitlement.objects.active().filter(buyer=actor).values("resource_id")))
     return posts.filter(Q(lesson__isnull=True) | Q(lesson_id__in=lessons.values("pk")))
 
 

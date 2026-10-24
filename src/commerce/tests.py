@@ -134,6 +134,17 @@ class CommerceJourneyTests(TestCase):
     def invoice(self, offer=None):
         return ensure_emitted(reserve_invoice(self.student, (offer or self.bundle).pk), self.gateway)
 
+    def historical_invoice(self, offer):
+        # Existing overlapping invoices from before reservation prevention still
+        # need settlement protection and preserved evidence after this upgrade.
+        from django.utils import timezone
+
+        from .orders import inventory_for
+        invoice = Invoice.objects.create(buyer=self.student, offer=offer, logical_key=offer.logical_key, title=offer.title,
+                                         amount_sats=offer.amount_sats, inventory=inventory_for(offer),
+                                         expires_at=timezone.now() + timedelta(minutes=15))
+        return ensure_emitted(invoice, self.gateway)
+
     def pay(self, offer=None):
         invoice = self.invoice(offer)
         return settle(invoice.pk, ProviderStatus(True, invoice.amount_sats * 1000, invoice.payment_hash))
@@ -248,7 +259,8 @@ class CommerceJourneyTests(TestCase):
 
     def test_reserved_package_cannot_be_simulated_after_partial_purchase(self):
         invoice = self.invoice()
-        self.pay(self.individual)
+        individual = self.historical_invoice(self.individual)
+        settle(individual.pk, ProviderStatus(True, individual.amount_sats * 1000, individual.payment_hash))
         with self.assertRaises(ValidationError):
             simulate_payment(self.student, invoice, self.gateway)
         self.assertEqual(self.gateway.simulated, 0)
@@ -258,7 +270,7 @@ class CommerceJourneyTests(TestCase):
         self.assertContains(response, "Ya adquiriste parte")
 
     def test_overlapping_paid_invoices_keep_evidence_without_duplicate_rights(self):
-        package, individual = self.invoice(), self.invoice(self.individual)
+        package, individual = self.invoice(), self.historical_invoice(self.individual)
         settle(individual.pk, ProviderStatus(True, individual.amount_sats * 1000, individual.payment_hash))
         settle(package.pk, ProviderStatus(True, package.amount_sats * 1000, package.payment_hash))
         package.refresh_from_db()
@@ -292,7 +304,9 @@ class CommerceJourneyTests(TestCase):
             settle(invoice.pk, ProviderStatus(True, 150000, "a" * 64))
         settle(invoice.pk, ProviderStatus(True, 1000, invoice.payment_hash))
         self.assertEqual(PaymentEvidence.objects.get().resolution, "amount_mismatch")
-        second = self.invoice(self.individual)
+        with self.assertRaises(ValidationError):
+            self.invoice(self.individual)
+        second = self.historical_invoice(self.individual)
         get_user_model().objects.filter(pk=self.student.pk).update(is_active=False)
         settle(second.pk, ProviderStatus(True, 70000, second.payment_hash))
         self.assertFalse(Entitlement.objects.exists())
@@ -323,7 +337,7 @@ class CommerceJourneyTests(TestCase):
         archive_offer(self.creator, self.bundle)
         self.assertContains(self.client.get(self.lesson_url()), "Texto comprado original")
         self.assertContains(self.client.get(reverse("workspace")), "Versión conservada")
-        self.assertNotContains(self.client.get(reverse("courses")), "Curso de pruebas")
+        self.assertNotContains(self.client.get(reverse("courses"), {"vista": "todos"}), "Curso de pruebas")
         self.client.force_login(self.other)
         self.assertEqual(self.client.get(self.lesson_url()).status_code, 404)
 
@@ -363,7 +377,7 @@ class CommerceJourneyTests(TestCase):
         self.assertContains(response, 'name="action" value="pay"')
         self.assertNotContains(response, invoice.payment_request)
         self.assertNotContains(response, invoice.payment_hash)
-        catalog = self.client.get(reverse("courses"))
+        catalog = self.client.get(reverse("courses"), {"vista": "todos"})
         self.assertContains(catalog, f"{self.bundle.amount_sats} sats")
         self.assertEqual(catalog.context["cards"][0]["price"], self.bundle.amount_sats)
         self.client.force_login(self.creator)
@@ -372,7 +386,7 @@ class CommerceJourneyTests(TestCase):
         self.client.force_login(self.student)
         self.pay()
         self.assertContains(self.client.get(reverse("workspace")), "Curso de pruebas")
-        self.assertContains(self.client.get(reverse("workspace")), "Ejercicio")
+        self.assertContains(self.client.get(reverse("workspace"), {"seccion": "recursos"}), "Ejercicio")
 
 
 @override_settings(COMMERCE_PAYMENT_MODE="fake", COMMERCE_SIMULATION=True, LNBITS_URL="http://127.0.0.1:5000", LNBITS_INVOICE_KEY="invoice-secret", LNBITS_PAYER_KEY="payer-secret", LNBITS_ADMIN_TOKEN="admin-secret")

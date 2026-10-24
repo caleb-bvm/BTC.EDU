@@ -66,7 +66,7 @@ class LessonDiscussionTests(TestCase):
         self.client.force_login(self.creator)
         response = self.client.post(self.url, {"body": "Explicación del creador", "request_key": uuid4(), "parent": root.pk})
         self.assertContains(self.client.get(response.url), "Explicación del creador")
-        self.assertContains(self.client.get(self.url), "Creador")
+        self.assertContains(self.client.get(self.url), "Educador")
         reply = root.replies.get()
         self.assertEqual(reply.lesson_id, root.lesson_id)
         self.assertEqual(Notification.objects.filter(recipient=self.creator, event_key=f"community-lesson:{root.pk}").count(), 1)

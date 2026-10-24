@@ -56,6 +56,32 @@ class AssessmentTests(TestCase):
         attempt = attempt or self.start()
         return save_attempt(self.student, attempt.pk, answers or {"0": [0], "1": [0, 1]}, attempt.revision, submit=True)
 
+    def test_passed_result_connects_to_explicit_lesson_completion(self):
+        attempt = self.finish()
+        result = self.client.get(reverse("quiz-attempt", args=[attempt.pk]))
+        lesson_url = reverse("version-lesson", args=[self.course.pk, self.version.number, self.record.pk])
+        self.assertContains(result, lesson_url + "#lesson-finish")
+        self.assertContains(result, "Volver y completar lección")
+        self.assertFalse(LessonProgress.objects.filter(enrollment=self.enrollment, lesson=self.record).exists())
+        self.client.get(reverse("quiz-detail", args=[self.quiz.pk]))
+        self.assertFalse(LessonProgress.objects.filter(enrollment=self.enrollment, lesson=self.record).exists())
+        save_progress(self.student, self.enrollment.pk, self.record.pk, self.enrollment.revision, "complete")
+        completed_result = self.client.get(reverse("quiz-attempt", args=[attempt.pk]))
+        self.assertNotContains(completed_result, "Volver y completar lección")
+
+    def test_exhausted_attempts_link_to_help_for_the_same_frozen_lesson(self):
+        for _ in range(self.quiz.max_attempts):
+            self.finish({"0": [1], "1": [2]})
+        response = self.client.get(reverse("quiz-detail", args=[self.quiz.pk]))
+        self.assertContains(response, reverse("question-create", args=[self.record.pk]))
+        self.assertContains(response, "Solicitar ayuda al educador")
+        help_page = self.client.get(reverse("question-create", args=[self.record.pk]))
+        self.assertContains(help_page, self.record.content.title)
+        self.assertContains(help_page, self.version.title)
+        self.assertContains(help_page, "Solo tú y el educador")
+        self.client.force_login(self.other)
+        self.assertEqual(self.client.get(reverse("question-create", args=[self.record.pk])).status_code, 403)
+
     def editor_payload(self, **changes):
         data = {"enabled": "on", "title": "Nueva evaluación", "pass_mark": "70", "max_attempts": "2", "wait_minutes": "0", "required": "on", "feedback": "passed", "revision": "0", "questions-TOTAL_FORMS": "2", "questions-INITIAL_FORMS": "2"}
         for index, question in enumerate(QUESTIONS):

@@ -1,0 +1,25 @@
+{% if version %}
+<section id="course-reviews" class="learning-section course-reviews" aria-labelledby="course-reviews-heading">
+  <div class="curriculum-heading"><div><p class="eyebrow">Opiniones verificadas</p><h2 id="course-reviews-heading">Reseñas</h2></div>{% if rating.count %}<p class="review-average"><span class="review-stars" aria-hidden="true">{% for i in '12345' %}{% if forloop.counter <= rating.stars %}★{% else %}☆{% endif %}{% endfor %}</span> <strong>{{ rating.average }}</strong> de 5 · {{ rating.count }} reseña{{ rating.count|pluralize:'s' }}</p>{% endif %}</div>
+  <p class="small-note">Solo pueden opinar quienes compraron contenido de este {{ course.get_kind_display|lower }} o lo completaron.</p>
+  {% if can_review %}
+    <details class="learning-disclosure review-form"{% if not my_review %} open{% endif %}><summary>{% if my_review %}Editar tu reseña{% else %}Escribe tu reseña{% endif %} <span aria-hidden="true">＋</span></summary><div>
+      <form method="post" action="{% url 'review-save' course.pk %}">{% csrf_token %}
+        <fieldset class="review-rating"><legend>Tu valoración</legend>{% for value in '54321' %}<label><input type="radio" name="rating" value="{{ value }}" required{% if my_review and my_review.rating|stringformat:'s' == value %} checked{% endif %}> {{ value }} ★</label>{% endfor %}</fieldset>
+        <label for="review-body">Qué te sirvió y qué mejorarías <small>(opcional)</small></label>
+        <textarea id="review-body" class="form-control" name="body" rows="4" maxlength="2000">{% if my_review %}{{ my_review.body }}{% endif %}</textarea>
+        <p class="small-note">Tu reseña aparecerá con tu alias público.</p>
+        <button class="btn btn-dark" type="submit">Publicar reseña</button>
+      </form></div></details>
+  {% endif %}
+  <div class="review-list">
+  {% for review in reviews %}
+    <article class="review-item"><header><strong>{{ review.student.public_name }}</strong><span class="review-stars" aria-label="{{ review.rating }} de 5">{% for i in '12345' %}{% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}{% endfor %}</span><span class="access-badge">{{ review.get_basis_display }}</span><small>{{ review.updated_at|date:'d/m/Y' }} · Versión {{ review.version.number }}</small></header>
+      {% if review.body %}<p>{{ review.body|linebreaksbr }}</p>{% endif %}
+      {% if review.reply %}<div class="review-reply"><strong>Respuesta del educador</strong><p>{{ review.reply|linebreaksbr }}</p></div>
+      {% elif user.is_authenticated and user.pk == course.creator_id %}<form method="post" action="{% url 'creator-review-reply' review.pk %}" class="review-reply-form">{% csrf_token %}<label for="reply-{{ review.pk }}">Responder</label><textarea id="reply-{{ review.pk }}" class="form-control" name="reply" rows="2" maxlength="1000" required></textarea><button class="btn btn-outline-dark" type="submit">Publicar respuesta</button></form>{% endif %}
+    </article>
+  {% empty %}<p class="muted">Todavía no hay reseñas.</p>{% endfor %}
+  </div>
+</section>
+{% endif %}

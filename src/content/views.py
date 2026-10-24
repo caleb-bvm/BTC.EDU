@@ -166,6 +166,9 @@ def resource_detail(request, kind, pk):
     offer_views(request, offers)
     if revision and decision.allowed:
         content_opened(request, revision)
+    from commerce.models import Entitlement
+    student = request.user.is_authenticated and request.user.is_active and request.user.account_type == "student"
+    support_url = reverse("student-account-support") + f"?recurso={revision.pk}" if student and revision and Entitlement.objects.active().filter(buyer=request.user, resource=revision).exists() else ""
     return render(
         request,
         "content/resource.html",
@@ -180,6 +183,7 @@ def resource_detail(request, kind, pk):
             "media": {"standalone": True, "title": resource.title, "kind": "video" if kind == "videos" else "material", "allowed": decision.allowed, "file_url": file_url if revision and revision.asset.file.storage.exists(revision.asset.file.name) else "", "subtitle_url": subtitles_url, "body": revision.body if revision and decision.allowed else "", "size": revision.asset.size if revision else 0, "mime": revision.asset.mime_type if revision else ""},
             "return_to": return_path(request, "resources"),
             "creator_name": public_creator_name(resource.creator),
+            "resource_support_url": support_url,
             **bookmark_context(request.user, resource=revision),
         },
     )

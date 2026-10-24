@@ -14,6 +14,22 @@ from creators.services import require_creator
 from .models import Enrollment, LessonQuestion, Notification, QuestionReply
 
 
+def questions_with_activity(queryset):
+    """The final message defines who should reply, consistently across the UI."""
+    from django.db.models import DateTimeField, OuterRef, Subquery
+    from django.db.models.functions import Coalesce
+    latest = QuestionReply.objects.filter(question_id=OuterRef("pk")).order_by("-created_at", "-pk")
+    return queryset.annotate(
+        last_author_id=Subquery(latest.values("author_id")[:1]),
+        last_activity=Coalesce(Subquery(latest.values("created_at")[:1]), "created_at", output_field=DateTimeField()),
+    )
+
+
+def awaiting_creator_questions(queryset):
+    from django.db.models import F, Q
+    return questions_with_activity(queryset).filter(Q(last_author_id__isnull=True) | Q(last_author_id=F("enrollment__student_id")))
+
+
 def notify(recipient, event_key, title, url):
     from accounts.models import User
     category = "questions" if event_key.startswith(("question:", "reply:")) else "community" if event_key.startswith(("community-reply:", "community-lesson:")) else "service"

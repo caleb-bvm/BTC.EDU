@@ -149,7 +149,11 @@ class EducationMigrationTests(TransactionTestCase):
     def test_additive_migration_preserves_rows_and_leaves_historical_profiles_empty(self):
         executor = MigrationExecutor(connection)
         latest = executor.loader.graph.leaf_nodes()
-        previous = [node for node in latest if node[0] != "content"] + [("content", "0005_resourceversion_topic")]
+        # Descendants also require the educational fields.
+        descendants = set(executor.loader.graph.backwards_plan(("content", "0006_educational_units")))
+        previous = [node for node in latest if node[0] != "content" and node not in descendants] + [
+            ("content", "0005_resourceversion_topic"),
+        ]
         try:
             executor.migrate(previous)
             apps = executor.loader.project_state(previous).apps

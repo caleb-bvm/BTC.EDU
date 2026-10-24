@@ -5,8 +5,8 @@
 <section class="assessment-page">
   <a class="assessment-back" href="{% url 'version-lesson' enrollment.version.course_id enrollment.version.number quiz.lesson_id %}">← Volver a la lección</a>
   <header class="assessment-heading"><p class="eyebrow">Comprueba lo aprendido</p><h1>{{ quiz.title }}</h1><p>{{ quiz.lesson.content.title }} <span class="assessment-version">· Versión {{ enrollment.version.number }}</span></p></header>
-  {% for message in messages %}<p class="assessment-notice" role="status">{{ message }}</p>{% endfor %}
-  {% if passed_quiz %}<p class="assessment-notice assessment-success" role="status">✓ Ya aprobaste esta evaluación. Tu aprobación se conserva aunque repitas el intento.</p>{% endif %}
+
+  {% if passed_quiz %}<section class="assessment-notice assessment-success" aria-labelledby="quiz-passed-heading"><h2 id="quiz-passed-heading">✓ Evaluación aprobada</h2><p>{% if lesson_completed %}Esta lección también está completada. Puedes volver para repasar o seguir con el curso.{% else %}Tu aprobación está guardada. Vuelve a la lección y márcala como completada para registrar tu avance.{% endif %}</p><a class="btn btn-dark" href="{% url 'version-lesson' enrollment.version.course_id enrollment.version.number quiz.lesson_id %}#lesson-finish">{% if lesson_completed %}Volver a la lección{% else %}Volver y completar lección{% endif %} →</a></section>{% endif %}
   <div class="assessment-overview">
     <section class="assessment-panel assessment-preparation" aria-labelledby="preparation-title">
       <p class="eyebrow">Antes de empezar</p><h2 id="preparation-title">Un momento para ponerlo en práctica.</h2>
@@ -20,7 +20,7 @@
       {% if active_attempt %}<p>Tienes el intento {{ active_attempt.number }} en curso. Retomarlo no consume otro intento.</p><a class="btn btn-dark" href="{% url 'quiz-attempt' active_attempt.pk %}">Continuar intento →</a>
       {% elif remaining and not waiting %}<form method="post" action="{% url 'quiz-start' quiz.pk %}">{% csrf_token %}<button class="btn btn-dark" type="submit">Empezar un intento →</button></form>
       {% elif waiting and remaining %}<p class="assessment-notice">Podrás empezar otro intento el {{ ready_at|date:'d/m/Y' }} a las {{ ready_at|date:'H:i' }} (El Salvador).</p>
-      {% else %}<p class="assessment-notice">Agotaste tus intentos. Solicita otro al creador para continuar.</p>{% endif %}
+      {% else %}<p class="assessment-notice">{% if passed_quiz %}Completaste los intentos disponibles. Tu aprobación se conserva.{% else %}Agotaste tus intentos. El educador puede autorizar otro para que continúes.{% endif %}</p>{% if not passed_quiz %}<a class="btn btn-outline-dark" href="{% url 'question-create' quiz.lesson_id %}">Solicitar ayuda al educador ↗</a>{% endif %}{% endif %}
       <p class="assessment-small">{% if quiz.wait_minutes %}Espera entre intentos: {{ quiz.wait_minutes }} minutos desde la última entrega.{% else %}Sin espera entre intentos.{% endif %}</p>
     </aside>
   </div>

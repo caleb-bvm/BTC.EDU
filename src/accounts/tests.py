@@ -78,7 +78,8 @@ class IndependentAccountTests(TestCase):
     def test_creator_studio_has_own_navigation(self):
         self.client.force_login(self.creator)
         response = self.client.get(reverse("creator-dashboard"))
-        self.assertContains(response, "CUENTA DE CREADOR")
+        self.assertContains(response, "Mi cuenta de educador")
+        self.assertContains(response, reverse("creator-content"))
         self.assertNotContains(response, "Mi aprendizaje")
         self.assertNotContains(response, "Selector")
         self.client.force_login(self.student)

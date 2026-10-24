@@ -1,0 +1,11 @@
+{% extends 'creators/base.html' %}{% load static %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/practices.css' %}">{% endblock %}
+{% block title %}Práctica de {{ lesson.title }} · BTC.EDU{% endblock %}
+{% block studio_content %}<div class="practice-page">
+<a class="text-link" href="{% url 'creator-course' lesson.chapter.course_id %}?seccion=evaluaciones">← Evaluaciones y prácticas</a>
+<header class="page-heading"><h1>Práctica con entrega</h1><p>{{ lesson.title }}</p></header>
+{% include 'creators/_course_navigation.html' %}
+<p>Define una solución o un proyecto pequeño y criterios que puedas comprobar. Al publicar, los estudiantes podrán enviarte texto, un enlace o un archivo de forma privada.</p>
+<details class="practice-brief"><summary>Cómo atenderé las entregas</summary><p>Las encontrarás en Alumnos → Entregas, ordenadas de la más antigua a la más reciente. Revisa cada criterio y explica qué está logrado o qué necesita corrección. Puedes aprobar o solicitar cambios; las correcciones conservan el historial.</p><p>El plazo se muestra al estudiante. Si necesitas ponerte al día, pausa la recepción desde la bandeja y continúa revisando las entregas recibidas. Los avisos llegan dentro de la plataforma.</p><p>La práctica es complementaria: su revisión no bloquea completar la lección ni cambia los requisitos del certificado.</p></details>
+<form method="post" class="practice-form" data-dirty-form>{% include 'learning/_practice_form.html' with submit_label='Guardar práctica' %}</form>
+</div>{% endblock %}

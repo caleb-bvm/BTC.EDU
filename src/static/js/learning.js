@@ -1,5 +1,23 @@
 (() => {
   'use strict';
+  // A shared conversation or material remains reachable from its direct link.
+  const revealAnchor = hash => {
+    let id;
+    try { id = decodeURIComponent(hash.slice(1)); } catch { return; }
+    const target = document.getElementById(id);
+    if (!target) return;
+    let disclosure = target.closest('details');
+    while (disclosure) {
+      disclosure.open = true;
+      disclosure = disclosure.parentElement?.closest('details');
+    }
+  };
+  revealAnchor(window.location.hash);
+  window.addEventListener('hashchange', () => revealAnchor(window.location.hash));
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#"]');
+    if (link) revealAnchor(link.hash);
+  });
   const focusButton = document.querySelector('[data-reader-focus]');
   if (focusButton) {
     const focusReading = enabled => {

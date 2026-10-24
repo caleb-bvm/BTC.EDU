@@ -1,0 +1,54 @@
+/* BTC.EDU shared interface: paper, ink, orange and a stable frame. */
+:root{--paper:#faf9f5;--ink:#181b19;--muted:#60655f;--line:#d7dad2;--soft:#f5ebe1;--orange:#eb8f48;--sidebar-width:212px;--academy-header-height:78px;--ui-surface:#fff;--ui-muted-surface:#f3f3ed;--ui-radius:5px}
+html[data-theme=dark]{--paper:#1c201f;--ink:#eceee5;--muted:#b4bbb4;--line:#46514a;--soft:#382b22;--ui-surface:#232925;--ui-muted-surface:#282f2a}
+body{font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;background:var(--paper);color:var(--ink)}
+h1,h2,h3,h4{font-family:Arial,Helvetica,sans-serif;font-weight:600;line-height:1.2;overflow-wrap:anywhere}
+a{color:inherit;text-underline-offset:4px}button,input,textarea,select{font:inherit}button,a,input,select,textarea{touch-action:manipulation}
+[hidden]{display:none!important}summary{cursor:pointer;min-height:44px;align-content:center}details>summary{padding-block:9px}
+.btn{min-height:44px;align-content:center;border-radius:var(--ui-radius);font-size:14px;font-weight:400;line-height:1.4;padding:12px 18px;white-space:normal}
+.btn-dark{background:var(--ink);border-color:var(--ink);color:var(--paper)}.btn-dark:hover{filter:brightness(.9)}
+.btn-outline-dark{border-color:var(--line);color:var(--ink);background:transparent}.btn-outline-dark:hover{background:var(--ui-muted-surface);color:var(--ink);border-color:var(--ink)}
+.form-control,.form-select,select,input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=range]):not([type=file]),textarea{min-height:44px;border-radius:4px;border-color:var(--line);color:var(--ink);background:var(--ui-surface)}
+label{font-size:14px;line-height:1.5}input[type=checkbox],input[type=radio]{accent-color:var(--ink);width:19px;height:19px}
+.mono,.eyebrow,.nav-caption{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.08em}
+.eyebrow{color:var(--muted);margin-bottom:12px}.small-note,.account-help,.assessment-small,.muted{font-size:14px;line-height:1.6;color:var(--muted)}
+.ui-icon{flex-shrink:0}.icon-button{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;border-radius:4px;text-decoration:none}
+.icon-button:hover{background:var(--ui-muted-surface)}.notification-badge{position:absolute;right:0;top:0;min-width:19px;height:19px;padding:0 4px;border-radius:50%;background:#aa4714;color:#fff;font:11px/19px Arial,sans-serif;text-align:center}
+.app-header{min-height:78px;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 28px;background:var(--paper);border-bottom:1px solid var(--line)}
+.app-header .brand-wordmark{font-size:34px}.app-header .academy-header-actions{gap:10px;flex-wrap:nowrap}.public-navigation{display:flex;gap:22px;align-items:center}.public-navigation a{font-size:14px;text-decoration:none}
+.app-header .theme-toggle{font-size:12px;min-height:44px;max-width:105px}.app-header .account-header-avatar{width:36px;height:36px}
+.academy-layout{grid-template-columns:var(--sidebar-width) minmax(0,1fr)}.academy-sidebar{padding:22px 14px;border-color:var(--line);background:var(--paper);min-height:calc(100dvh - 78px)}
+.primary-navigation{gap:6px;margin-bottom:26px}.academy-navigation a{font-size:14px;min-height:48px;padding:12px;gap:14px;overflow-wrap:anywhere;border-radius:4px}
+.academy-navigation a[aria-current=page]{box-shadow:inset 3px 0 var(--orange);background:var(--ui-muted-surface);border-color:transparent;font-weight:500}
+.task-navigation{border-top:1px solid var(--line);padding-top:14px;gap:3px}.task-navigation a{min-height:44px;font-size:13px;color:var(--muted)}.task-navigation a[aria-current=page]{box-shadow:none;color:var(--ink)}
+.sidebar-utilities{display:flex;flex-direction:column;gap:6px;margin-top:20px}.sidebar-utilities a{display:flex;align-items:center;gap:12px;padding:10px 12px;min-height:44px;text-decoration:none;font-size:13px;color:var(--muted)}
+.sidebar-footer{padding:32px 12px 8px}.sidebar-footer .mono{font-size:9px;color:var(--muted);line-height:1.8}
+.course-context{border-top:1px solid var(--line);padding:16px 10px;display:flex;flex-direction:column;gap:10px}.course-context a{font-size:13px;min-height:44px;align-content:center}.course-context .nav-caption{margin:0}
+.academy-workbench{background:var(--paper)}.academy-page{padding:32px 36px 48px;max-width:1480px}
+.academy h1,.page-heading h1,.studio-heading h1,.learning-page h1{font-size:clamp(30px,3.2vw,44px);line-height:1.15;margin-bottom:12px}
+.page-heading{padding-bottom:24px}.page-heading p:not(.eyebrow){font-size:15px;line-height:1.6}.page-registration,.tabs-code,.results-caption{display:none}
+.academy-tabs,.account-tabs,.course-page-nav,.studio-course-nav{gap:22px;min-height:48px;padding:0 36px;border-bottom:1px solid var(--line);background:var(--paper)}
+.academy-tabs a,.section-tab{font-size:14px;min-height:48px;padding:14px 0}.academy-footer{font-size:12px;color:var(--muted);margin:0 36px;min-height:0;padding:20px 0;border-color:var(--line)}
+.academy-filters{padding:18px;background:var(--ui-surface);border-radius:5px;gap:14px;margin-bottom:18px}.academy-filters label{font-size:13px}.academy-filters:before{display:none}
+.catalog-results-bar{font-size:14px}.catalog-results-bar a{display:inline-flex;align-items:center;min-height:44px}.academy-card-grid{gap:22px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.academy-card{border:1px solid var(--line);border-radius:5px;background:var(--ui-surface);box-shadow:none}.academy-card-body{padding:20px;gap:10px}.academy-card h3{font-size:23px;line-height:1.25}
+.academy-card .card-description,.creator-name,.card-lesson-count,.card-bottom,.card-duration{font-size:14px;line-height:1.55}.card-art{background:var(--ui-muted-surface)}.card-art-label,.art-registration{display:none}
+.access-badge{border:1px solid var(--line);color:var(--ink);font-size:12px;padding:5px 9px;line-height:1.5;border-radius:4px;background:var(--soft)}
+.card-price,.card-price span,.card-price strong{font-family:Arial,Helvetica,sans-serif;font-size:14px}
+.card-open{display:inline-flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;min-height:44px;text-decoration:none;border-top:1px solid var(--line);padding-top:14px;font-size:14px}
+.topic-heading{margin-bottom:18px}.topic-heading h2{font-size:25px}.topic-heading .mono{font-size:11px}
+.commerce-panel,.account-panel,.studio-panel,.assessment-panel,.community-panel,.question-card,.member-card,.metric-card{background:var(--ui-surface);border-color:var(--line);border-radius:5px}
+.notice,.studio-notice{padding:14px 18px;border:1px solid var(--line);border-left:3px solid var(--orange);background:var(--ui-muted-surface);margin-bottom:20px;font-size:14px}
+.form-save-status{font-size:14px;color:var(--muted);margin:12px 0 0}.form-save-error{padding:14px;background:var(--soft);border:1px solid var(--line);margin-bottom:18px;color:var(--ink);font-size:14px}
+.form-save-error:focus{outline:3px solid var(--accent-ink)}.errorlist{padding-left:20px;font-size:14px}.errorlist li{padding-block:4px}
+.reading-copy{max-width:70ch}.credential-id{overflow-wrap:anywhere}.metrics-table-wrap{overflow:auto}.metrics-table-wrap th,.metrics-table-wrap td{padding:12px;font-size:14px}
+.metrics-notes{margin-block:24px;border:1px solid var(--line);border-radius:5px;padding:12px 18px;background:var(--ui-surface)}
+.community-filters,.metrics-filter{gap:14px}.community-meta,.community-help,.community-text{font-size:14px;line-height:1.6}
+.academy-empty{background:var(--ui-surface);border-color:var(--line);border-radius:5px;min-height:240px}.academy-empty p:not(.mono){font-size:15px}.academy-empty h2{font-size:28px}
+.account-tabs{padding-inline:0}.account-heading h1{font-size:38px}.account-tabs a{min-height:44px;font-size:14px}.account-heading .eyebrow{font-size:11px}
+:focus-visible{outline:3px solid #984711!important;outline-offset:3px}html[data-theme=dark] :focus-visible{outline-color:#efac78!important}
+@media(max-width:1200px){:root{--sidebar-width:190px}.academy-page{padding:28px}.academy-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.app-header{padding-inline:24px}}
+@media(max-width:900px){.academy-layout{grid-template-columns:1fr}.academy-sidebar{min-height:0}.js-ready .nav-open .academy-sidebar{top:var(--academy-nav-offset,78px);max-height:calc(100dvh - var(--academy-nav-offset,78px));width:min(320px,88vw);padding:20px 14px}.nav-backdrop:not([hidden]){inset:var(--academy-nav-offset,78px) 0 0}.nav-open .primary-navigation,.nav-open .task-navigation{flex-direction:column}.app-header .nav-toggle{min-height:44px;font-size:13px;padding:10px 14px}.task-navigation{margin-bottom:18px}.academy-tabs{padding-inline:28px}.sidebar-utilities{display:flex}.app-header .brand-wordmark{font-size:30px}}
+@media(max-width:640px){.app-header{min-height:72px;padding:12px 16px;gap:8px}.app-header .brand-wordmark{font-size:27px}.app-header .academy-header-actions{gap:4px}.app-header .theme-toggle{padding:8px;font-size:0;min-width:44px}.app-header .theme-toggle::first-letter{font-size:17px}.app-header .account-header-photo{display:none}.app-header .public-navigation{gap:12px}.public-navigation a{font-size:13px}.public-navigation a:nth-child(2){display:none}.header-workspace{display:none}.app-header .nav-toggle{padding-inline:9px}.academy-page{padding:24px 18px 36px}.academy h1,.page-heading h1,.studio-heading h1{font-size:32px}.academy-card-grid{grid-template-columns:1fr}.academy-tabs{padding-inline:18px;gap:22px}.academy-tabs a{font-size:14px}.academy-card-body{padding:18px}.academy-card h3{font-size:24px}.academy-filters>div{min-width:0}.academy-filters label{font-size:13px}.academy-filters .filter-search{flex-basis:100%}.academy-footer{margin-inline:18px}.academy-empty{padding:22px}.breadcrumbs{margin-bottom:18px;font-size:13px}.course-context{padding:14px 12px}.metrics-filter{display:flex;flex-wrap:wrap}.metrics-filter p{flex:1;min-width:130px}.metrics-filter input{max-width:100%}.account-heading{gap:14px}.account-heading h1{font-size:32px}.reader-focused .app-header .nav-toggle{display:inline-flex!important}.academy-page .mono{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media print{.app-header,.academy-sidebar,.academy-footer{display:none}.academy-layout{display:block}.academy-page{padding:0}}

@@ -1,5 +1,6 @@
 """Configuración local y de despliegue, sin secretos en el repositorio."""
 import os
+import sys
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
@@ -9,6 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 load_dotenv(BASE_DIR / ".local/commerce.env", override=True)
 DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
+# Las pruebas usan HTTP y activan la verificación de correo solo donde la comprueban.
+TESTING = sys.argv[1:2] == ["test"]
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 if not SECRET_KEY:
     raise ImproperlyConfigured("Configura DJANGO_SECRET_KEY en src/.env.")
@@ -35,11 +38,14 @@ TEMPLATES = [{
         "core.context_processors.academy_preview",
         "core.navigation.contextual_navigation",
         "learning.context_processors.notification_count",
+        "commerce.context_processors.cart_context",
     ]},
 }]
 WSGI_APPLICATION = "platform_config.wsgi.application"
 AUTH_USER_MODEL = "accounts.User"
 AUTHENTICATION_BACKENDS = ["accounts.backends.AccountBackend"]
+# Un mismo correo puede tener una cuenta por tipo; AccountBackend filtra siempre por tipo de cuenta.
+SILENCED_SYSTEM_CHECKS = ["auth.W004"]
 # SQLite es el motor elegido para esta etapa local.
 DATABASES = {"default": {
     "ENGINE": "django.db.backends.sqlite3",
@@ -81,13 +87,13 @@ PASSWORD_RESET_TIMEOUT = 1800
 ACCOUNT_EMAIL_TOKEN_TIMEOUT = 1800
 ACCOUNT_SEND_EMAIL = os.getenv("ACCOUNT_SEND_EMAIL", "true").lower() == "true"
 ACCOUNT_THROTTLE_ENABLED = True
-ACCOUNT_REQUIRE_VERIFIED_EMAIL = not DEBUG
+ACCOUNT_REQUIRE_VERIFIED_EMAIL = not DEBUG and not TESTING
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_NAME = os.getenv("DJANGO_SESSION_COOKIE_NAME", "sessionid")
 CSRF_COOKIE_NAME = os.getenv("DJANGO_CSRF_COOKIE_NAME", "csrftoken")
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
-SECURE_SSL_REDIRECT = not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG and not TESTING
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
 # Only local, fictitious payments are supported by this integration.
@@ -98,3 +104,15 @@ _commerce_private = dotenv_values(BASE_DIR / ".local/commerce.env")
 LNBITS_INVOICE_KEY = os.getenv("LNBITS_INVOICE_KEY") or _commerce_private.get("LNBITS_INVOICE_KEY", "")
 LNBITS_PAYER_KEY = os.getenv("LNBITS_PAYER_KEY") or _commerce_private.get("LNBITS_PAYER_KEY", "")
 LNBITS_ADMIN_TOKEN = os.getenv("LNBITS_ADMIN_TOKEN") or _commerce_private.get("LNBITS_ADMIN_TOKEN", "")
+# Admin key of the receiving wallet; without it refunds stay pending for manual review.
+LNBITS_REFUND_KEY = os.getenv("LNBITS_REFUND_KEY") or _commerce_private.get("LNBITS_REFUND_KEY", "")
+COMMERCE_REFUND_DAYS = 7
+# Certificate fingerprints can be stamped in Bitcoin through public OpenTimestamps calendars.
+CERTIFICATE_TIMESTAMPS = os.getenv("CERTIFICATE_TIMESTAMPS", "false").lower() == "true" and not TESTING
+CERTIFICATE_OTS_CALENDARS = [url for url in os.getenv("CERTIFICATE_OTS_CALENDARS", "https://a.pool.opentimestamps.org,https://b.pool.opentimestamps.org").split(",") if url]
+CERTIFICATE_OTS_TRUSTED_HOSTS = {
+    "a.pool.opentimestamps.org", "b.pool.opentimestamps.org", "a.pool.eternitywall.com",
+    "alice.btc.calendar.opentimestamps.org", "bob.btc.calendar.opentimestamps.org",
+    "finney.calendar.eternitywall.com", "btc.calendar.catallaxy.com",
+}
+CERTIFICATE_OTS_TIMEOUT = 6

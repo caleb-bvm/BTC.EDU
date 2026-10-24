@@ -105,6 +105,8 @@ def prepare_course(course, actor):
             frozen_lesson = VersionLesson.objects.create(chapter=frozen_chapter, source_lesson_id=lesson.pk, position=lesson.position, content=text)
             from learning.assessment_services import freeze_quiz
             freeze_quiz(lesson, frozen_lesson)
+            from learning.practices import freeze_practice
+            freeze_practice(lesson, frozen_lesson)
             for attachment in lesson.attachments.all():
                 attachment.full_clean()
                 VersionAttachment.objects.create(lesson=frozen_lesson, resource=attachment.resource, position=attachment.position)

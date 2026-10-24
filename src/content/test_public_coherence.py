@@ -32,8 +32,8 @@ class PublicContentCoherenceTests(TestCase):
         self.creator = get_user_model().objects.create_user("creator@coherence.invalid", account_type="creator", first_name="Nombre privado", last_name="Apellido privado")
         self.profile = CreatorProfile.objects.create(user=self.creator, display_name="Docente público", status="approved")
         self.admin = get_user_model().objects.create_superuser("admin@coherence.invalid")
-        self.original_topic = Topic.objects.create(name="Bitcoin", slug="bitcoin")
-        self.draft_topic = Topic.objects.create(name="Lightning", slug="lightning")
+        self.original_topic, _ = Topic.objects.get_or_create(slug="bitcoin", defaults={"name": "Bitcoin"})
+        self.draft_topic, _ = Topic.objects.get_or_create(slug="lightning", defaults={"name": "Lightning"})
         self.asset = Asset.objects.create(creator=self.creator, file=SimpleUploadedFile("guia.txt", b"Material educativo", content_type="text/plain"))
 
     def resource(self, topic=None):
@@ -56,7 +56,7 @@ class PublicContentCoherenceTests(TestCase):
         self.profile.save(update_fields=["display_name"])
         for url in (reverse("courses"), reverse("resources"), reverse("course-detail", args=[course.pk]), reverse("resource-detail", args=["materiales", resource.pk]), reverse("creator-public-profile", args=[self.creator.pk])):
             with self.subTest(url=url):
-                response = self.client.get(url)
+                response = self.client.get(url, {"vista": "todos"} if url in (reverse("courses"), reverse("resources")) else {})
                 self.assertContains(response, "Alias docente actualizado")
                 self.assertNotContains(response, "Nombre privado")
                 self.assertNotContains(response, self.creator.email)
@@ -71,7 +71,7 @@ class PublicContentCoherenceTests(TestCase):
         self.profile.status = "suspended"
         self.profile.save(update_fields=["status"])
         for url in (reverse("resources"), reverse("resource-detail", args=["materiales", resource.pk])):
-            response = self.client.get(url)
+            response = self.client.get(url, {"vista": "todos"} if url == reverse("resources") else {})
             self.assertContains(response, "Creador de BTC.EDU")
             self.assertNotContains(response, "Nombre privado")
 
@@ -86,7 +86,10 @@ class PublicContentCoherenceTests(TestCase):
         self.assertContains(response, "Guía pública")
         self.assertEqual(response.context["cards"][0]["item"].topic, self.original_topic)
         self.assertEqual(self.client.get(reverse("resources"), {"tema": "lightning"}).context["result_count"], 0)
-        self.assertNotContains(self.client.get(reverse("resources")), "Lightning")
+        category = self.client.get(reverse("resources"), {"categoria": "bitcoin"})
+        counts = {card["slug"]: card["count"] for card in category.context["subcategory_cards"]}
+        self.assertEqual(counts["bitcoin"], 1)
+        self.assertEqual(counts["lightning"], 0)
         response = self.client.get(reverse("resource-detail", args=["materiales", resource.pk]))
         self.assertEqual(response.context["resource"].topic, self.original_topic)
         second_submission = submit(resource, self.creator)
@@ -103,9 +106,9 @@ class PublicContentCoherenceTests(TestCase):
         revision = publish_resource(resource, self.admin)
         resource.topic = self.draft_topic
         resource.save(update_fields=["topic"])
-        response = self.client.get(reverse("resources"))
+        response = self.client.get(reverse("resources"), {"vista": "todos"})
         self.assertEqual(response.context["cards"][0]["item"].topic, None)
-        self.assertNotContains(response, "Lightning")
+        self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}["bitcoin"], 0)
         self.assertEqual(self.client.get(reverse("resources"), {"tema": "lightning"}).context["result_count"], 0)
         revision.refresh_from_db()
         self.assertIsNone(revision.topic_id)

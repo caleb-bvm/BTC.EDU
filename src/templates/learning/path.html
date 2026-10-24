@@ -1,0 +1,21 @@
+{% extends 'academy.html' %}
+{% block title %}{{ path.title }} · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="learning-page path-page">
+  <nav class="breadcrumbs" aria-label="Ruta de navegación"><a href="{% url 'learning-paths' %}">Rutas</a><span aria-hidden="true">/</span><span aria-current="page">{{ path.title }}</span></nav>
+  <header class="page-heading"><div><p class="eyebrow">RUTA · {{ progress.total }} PASO{{ progress.total|pluralize:'S' }}</p><h1>{{ path.title }}</h1><p>{{ path.summary }}</p></div></header>
+  {% if path.description %}<div class="path-description">{{ path.description|linebreaks }}</div>{% endif %}
+  {% if user.is_authenticated %}<div class="path-progress"><div class="meter-label"><span>{{ progress.finished }} de {{ progress.total }} completados</span><strong>{{ progress.percentage }}%</strong></div><progress class="progress-track" value="{{ progress.finished }}" max="{{ progress.total|default:1 }}" aria-label="Progreso en la ruta"></progress></div>{% endif %}
+  <ol class="path-steps">
+  {% for item in progress.steps %}
+    <li class="path-step path-step--{{ item.state }}"><span class="chapter-number" aria-hidden="true">{{ forloop.counter|stringformat:'02d' }}</span><div><p class="eyebrow">{{ item.course.get_kind_display }}{% if item.course.level %} · {{ item.course.get_level_display }}{% endif %}</p><h2><a href="{{ item.url }}">{{ item.course.title }}</a></h2>{% if item.step.note %}<p>{{ item.step.note }}</p>{% endif %}
+      <p class="small-note">{% if item.state == 'certified' %}Certificado obtenido{% elif item.state == 'completed' %}Completado{% elif item.state == 'in_progress' %}En curso · {{ item.done }} de {{ item.total }} lecciones{% else %}Sin empezar{% endif %}</p></div></li>
+  {% endfor %}
+  </ol>
+  <section class="commerce-panel path-credential-panel"><h2>Credencial de la ruta</h2>
+    {% if progress.completion %}<p>Ya obtuviste la credencial de esta ruta.</p><a class="btn btn-dark" href="{% url 'path-credential' progress.completion.pk %}">Ver credencial →</a>
+    {% elif progress.eligible and user.account_type == 'student' %}<p>Completaste todos los pasos. Indica el nombre que aparecerá en la credencial.</p><form method="post" class="studio-form">{% csrf_token %}<label for="path-name">Nombre</label><input id="path-name" class="form-control" name="student_name" maxlength="150" required value="{{ user.display_name }}"><button class="btn btn-dark" type="submit">Obtener credencial</button></form>
+    {% else %}<p>Completa cada curso de la ruta. Cuando un curso ofrece certificado, la credencial lo incluye con su huella SHA-256.</p>{% if progress.next %}<a class="btn btn-outline-dark" href="{{ progress.next.url }}">Continuar con {{ progress.next.course.title }} →</a>{% endif %}{% endif %}
+  </section>
+</section>
+{% endblock %}

@@ -70,7 +70,7 @@ class LNbitsGateway:
     def create(self, invoice):
         self.ensure_backend()
         data = self.request("POST", "/api/v1/payments", json={"out": False, "amount": invoice.amount_sats,
-            "memo": f"BTC.EDU factura {invoice.pk}", "expiry": 900, "external_id": str(invoice.pk)})
+            "memo": getattr(invoice, "memo", f"BTC.EDU factura {invoice.pk}"), "expiry": 900, "external_id": str(invoice.pk)})
         return self.parse_invoice(data)
 
     def recover(self, invoice):
@@ -95,6 +95,17 @@ class LNbitsGateway:
             raise ProviderUnavailable("Paga esta factura desde tu wallet de prueba.")
         self.ensure_backend()
         self.request("POST", "/api/v1/payments", key=settings.LNBITS_PAYER_KEY, json={"out": True, "bolt11": invoice.payment_request})
+
+    def pay(self, payment_request):
+        """Send a refund from the receiving wallet; an unknown outcome is never retried here."""
+        if not settings.LNBITS_REFUND_KEY:
+            raise ProviderUnavailable("Los reembolsos no están configurados en este entorno.")
+        self.ensure_backend()
+        data = self.request("POST", "/api/v1/payments", key=settings.LNBITS_REFUND_KEY, json={"out": True, "bolt11": payment_request})
+        payment_hash = data.get("payment_hash", "")
+        if not isinstance(payment_hash, str) or not re.fullmatch(r"[a-fA-F0-9]{64}", payment_hash):
+            raise ProviderUnavailable("No pudimos confirmar el pago del reembolso.")
+        return payment_hash.lower()
 
     def close(self):
         self.client.close()

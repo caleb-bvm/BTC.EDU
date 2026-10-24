@@ -1,0 +1,34 @@
+{% extends 'academy.html' %}
+{% block title %}Propina · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="learning-page commerce-page">
+  <nav class="breadcrumbs" aria-label="Tu recorrido"><a href="{% url 'student-tips' %}">← Propinas</a><span aria-current="page">{{ tip.amount_sats }} sats</span></nav>
+  <header class="page-heading"><div><p class="eyebrow">PROPINA / {{ tip.get_status_display|upper }}</p><h1>{% if tip.status == 'paid' %}Gracias por tu apoyo.{% elif tip.status == 'pending' %}Completa tu propina.{% else %}Esta propina no se completó.{% endif %}</h1><p>Para {{ tip.creator.public_name }}{% if tip.lesson_id %} · {{ tip.lesson.content.title }}{% endif %}</p></div></header>
+  <div class="commerce-grid">
+    <section class="commerce-panel">
+      <h2>Tu mensaje</h2>{% if tip.message %}<blockquote class="gift-message">{{ tip.message }}</blockquote>{% else %}<p class="muted">Sin mensaje.</p>{% endif %}
+      {% if lesson_link %}<a class="text-link" href="{{ lesson_link }}">← Volver a la lección</a>{% endif %}
+    </section>
+    <aside class="commerce-panel purchase-summary" aria-label="Estado de pago">
+      <h2>Total</h2><p class="offer-price">{{ tip.amount_sats }} <small>sats</small></p>
+      <p class="purchase-status purchase-status--{{ tip.status }}" role="status">{{ tip.get_status_display }}</p>
+      {% if tip.status == 'pending' %}
+        <p class="invoice-deadline">Vence a las <strong>{{ tip.expires_at|date:'H:i' }}</strong> del {{ tip.expires_at|date:'d/m/Y' }}.</p>
+        {% if can_pay %}
+          {% if external_payment %}
+            <div class="invoice-payment"><img src="{% url 'tip-qr' tip.pk %}" width="280" height="280" alt="QR de la factura Lightning para pagar {{ tip.amount_sats }} sats"><a class="btn btn-dark" href="lightning:{{ tip.payment_request }}">Abrir pago →</a><details class="purchase-terms"><summary>Copiar factura Lightning</summary><label class="visually-hidden" for="payment-request">Factura Lightning</label><textarea id="payment-request" readonly rows="4">{{ tip.payment_request }}</textarea><button type="button" class="btn btn-outline-dark" data-copy-payment="payment-request">Copiar factura</button><p class="small-note" role="status" data-copy-status hidden></p></details></div>
+          {% else %}
+            <form method="post" action="{% url 'tip-action' tip.pk %}" data-payment-form data-pending-label="Procesando tu pago…">{% csrf_token %}<input type="hidden" name="action" value="pay"><button class="btn btn-dark" type="submit">Pagar {{ tip.amount_sats }} sats →</button></form>
+          {% endif %}
+          <p hidden class="small-note" role="status" data-invoice-status="{% url 'tip-status' tip.pk %}"></p>
+        {% endif %}
+        <form method="post" action="{% url 'tip-action' tip.pk %}" data-payment-form data-pending-label="Comprobando el pago…">{% csrf_token %}<input type="hidden" name="action" value="check"><button class="btn btn-outline-dark" type="submit">Actualizar estado del pago</button></form>
+      {% elif tip.status == 'paid' %}
+        <p>Confirmada el {{ tip.paid_at|date:'d/m/Y H:i' }}. El educador ya recibió el aviso.</p>
+      {% else %}
+        <p>No se movieron fondos con esta factura. Puedes preparar otra propina cuando quieras.</p>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}

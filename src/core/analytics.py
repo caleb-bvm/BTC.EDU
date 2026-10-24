@@ -1,10 +1,10 @@
 from datetime import datetime, time, timedelta
 
 from django import forms
-from django.db.models import Avg, Count, DurationField, ExpressionWrapper, F, Sum
+from django.db.models import Avg, Count, DurationField, ExpressionWrapper, F, Q, Sum
 from django.utils import timezone
 
-from commerce.models import Entitlement, Invoice, Purchase
+from commerce.models import Entitlement, Invoice, OrderLine, Purchase
 from content.models import CourseVersion, VersionLesson
 from creators.models import Submission
 from learning.models import (
@@ -44,8 +44,8 @@ def dashboard_data(start, end, creator=None):
     versions = CourseVersion.objects.filter(sealed=True, published_at__isnull=False)
     submissions = Submission.objects.filter(**window)
     if creator:
-        invoices = invoices.filter(offer__creator=creator)
-        purchases = purchases.filter(invoice__offer__creator=creator)
+        invoices = invoices.filter(Q(offer__creator=creator) | Q(order__lines__creator=creator)).distinct()
+        purchases = purchases.filter(Q(invoice__offer__creator=creator) | Q(invoice__order__lines__creator=creator)).distinct()
         enrollments = enrollments.filter(version__course__creator=creator)
         events = events.filter(creator=creator)
         versions = versions.filter(course__creator=creator)
@@ -54,7 +54,14 @@ def dashboard_data(start, end, creator=None):
     paid_ids = set(paid.values_list("pk", flat=True))
     invoice_count = invoices.count()
     buyers = set(paid.values_list("buyer_id", flat=True))
-    repeat_buyers = purchases.filter(invoice__buyer_id__in=buyers).values("invoice__buyer_id").annotate(total=Count("pk")).filter(total__gte=2).count()
+    repeat_buyers = purchases.filter(invoice__buyer_id__in=buyers).values("invoice__buyer_id").annotate(total=Count("pk", distinct=True)).filter(total__gte=2).count()
+    sold_lines = OrderLine.objects.filter(order__invoice__pk__in=paid_ids)
+    if creator:
+        sold_lines = sold_lines.filter(creator=creator)
+        volume = (paid.filter(offer__isnull=False).aggregate(total=Sum("amount_sats"))["total"] or 0) + (sold_lines.aggregate(total=Sum("amount_sats"))["total"] or 0)
+    else:
+        volume = paid.aggregate(total=Sum("amount_sats"))["total"] or 0
+    sold_count = paid.filter(offer__isnull=False).count() + sold_lines.count()
     rights = Entitlement.objects.filter(created_at__gte=lower, created_at__lt=upper, buyer__account_type="student", buyer__is_staff=False)
     if creator:
         rights = rights.filter(resource__creator=creator)
@@ -95,9 +102,14 @@ def dashboard_data(start, end, creator=None):
                          "certificates": Certificate.objects.filter(enrollment__in=cohort).count()})
     latency = paid.aggregate(value=Avg(ExpressionWrapper(F("purchase__created_at") - F("created_at"), output_field=DurationField())))["value"]
     first_event = ActivityEvent.objects.filter(creator=creator).order_by("created_at").first() if creator else ActivityEvent.objects.order_by("created_at").first()
+    recent = list(invoices.select_related("offer", "offer__course_version", "order").prefetch_related("order__lines").order_by("-created_at")[:20])
+    for invoice in recent:
+        own_lines = [line for line in invoice.order.lines.all() if not creator or line.creator_id == creator.pk] if invoice.order_id else []
+        invoice.metric_title = ", ".join(line.title for line in own_lines) if own_lines else invoice.title
+        invoice.metric_amount_sats = sum(line.amount_sats for line in own_lines) if invoice.order_id and creator else invoice.amount_sats
     return {"invoice_count": invoice_count, "paid_count": len(paid_ids), "pending_count": invoices.filter(status="pending").count(),
             "failed_count": invoices.filter(status="failed").count(), "expired_count": invoices.filter(status="expired").count(),
-            "payment_completion": ratio(len(paid_ids), invoice_count), "volume": paid.aggregate(total=Sum("amount_sats"))["total"] or 0,
+            "payment_completion": ratio(len(paid_ids), invoice_count), "volume": volume, "sold_count": sold_count,
             "buyer_count": len(buyers), "repeat_purchase": ratio(repeat_buyers, len(buyers)),
             "request_conversion": ratio(len(viewed_pairs & created_pairs), len(viewed_pairs)),
             "opening": ratio(len(opened_pairs), len(rights_data)), "library_return": ratio(len(returning), len(tracked_buyers)),
@@ -109,5 +121,7 @@ def dashboard_data(start, end, creator=None):
             "submissions": submissions.count(), "published_submissions": submissions.filter(status="approved").count(),
             "latency_seconds": round(latency.total_seconds(), 1) if latency else None,
             "first_event_at": first_event.created_at if first_event else None, "rows": rows,
-            "recent_invoices": invoices.select_related("offer", "offer__course_version").order_by("-created_at")[:20],
+            "recent_invoices": recent,
+            "cart_additions": events.filter(kind="cart_added").count(),
+            "checkout_reviews": events.filter(kind="checkout_started").count(),
             "offer_views": events.filter(kind="offer_viewed").count(), "content_opens": events.filter(kind__in=("free_content_opened", "purchased_content_opened")).count()}

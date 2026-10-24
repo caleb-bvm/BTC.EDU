@@ -55,6 +55,8 @@ def version_course(version):
 @require_GET
 @never_cache
 def course_version_detail(request, course_pk, number):
+    from learning.bookmarks import bookmark_context
+
     from .catalog import course_summary
     from .views import return_path
     version, preview = load_version(request.user, course_pk, number)
@@ -65,13 +67,23 @@ def course_version_detail(request, course_pk, number):
     from core.telemetry import offer_views
     from learning.presentation import course_learning_context
     journey = course_learning_context(request.user, course, version)
-    offers = version_offers(version)
+    from commerce.pricing import annotate_upgrades
+    offers = annotate_upgrades(request.user, version_offers(version))
     if not preview:
         offer_views(request, offers)
     from learning.models import VersionCertificatePolicy
     policy = VersionCertificatePolicy.objects.filter(version=version).first()
     required_lessons = VersionLesson.objects.filter(pk__in=policy.required_lesson_ids).select_related("content") if policy else []
-    return render(request, "content/course.html", {"course": course, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": public_creator_name(version.course.creator), "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": offers, "version": version, "has_purchase": version_owned(request.user, version), "certificate_policy": policy, "certificate_lessons": required_lessons, **journey})
+    from learning.models import CourseReview, PathCourse
+    from learning.reviews import rating_summary, review_basis, visible_reviews
+    from learning.showcase import gallery_items
+    basis, _ = review_basis(request.user, version.course) if not preview else (None, None)
+    community = {"rating": rating_summary(version.course), "reviews": visible_reviews(version.course)[:10],
+                 "can_review": basis is not None, "review_basis": basis,
+                 "my_review": CourseReview.objects.filter(course=version.course, student=request.user).first() if request.user.is_authenticated else None,
+                 "gallery_count": gallery_items(version.course).count(),
+                 "course_paths": [step.path for step in PathCourse.objects.filter(course=version.course, path__published=True).select_related("path")]}
+    return render(request, "content/course.html", {"course": course, **community, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": public_creator_name(version.course.creator), "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": offers, "version": version, "has_purchase": version_owned(request.user, version), "certificate_policy": policy, "certificate_lessons": required_lessons, **journey, **bookmark_context(request.user, course_version=version)})
 
 
 def attachment_cards(request, attachments):
@@ -113,7 +125,7 @@ def version_lesson_detail(request, course_pk, number, lesson_pk):
     body = record.content.body if decision.allowed else None
     lesson.body = ""
     attachments = attachment_cards(request, record.attachments.select_related("resource__asset", "resource__subtitles", "lesson__chapter__version__course")) if decision.allowed else []
-    from commerce.catalog import version_offers
+    from commerce.catalog import lesson_offers
     from learning.presentation import course_learning_context
     from learning.views import lesson_learning_context
 
@@ -123,7 +135,11 @@ def version_lesson_detail(request, course_pk, number, lesson_pk):
     if decision.allowed and not preview:
         from core.telemetry import content_opened
         content_opened(request, record.content, version)
-    return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "reading_sections": reading_sections(body), "allowed": decision.allowed, "preview": preview, "version": version, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments, "offers": version_offers(version), **learning, **journey, **discussion}, status=200 if decision.allowed else 403)
+    offers = lesson_offers(request.user, record) if not decision.allowed else []
+    if offers and not preview:
+        from core.telemetry import offer_views
+        offer_views(request, offers)
+    return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "reading_sections": reading_sections(body), "allowed": decision.allowed, "preview": preview, "version": version, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments, "offers": offers, "purchase_return": record.pk, "lesson_context": True, **learning, **journey, **discussion}, status=200 if decision.allowed else 403)
 
 
 @require_safe

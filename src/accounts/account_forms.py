@@ -74,11 +74,19 @@ class SupportForm(forms.ModelForm):
         labels = {"kind": "Sobre qué necesitas ayuda", "body": "Cuéntanos qué ocurrió"}
         widgets = {"body": forms.Textarea(attrs={"rows": 5, "maxlength": 2000})}
 
-    def __init__(self, *args, user, **kwargs):
+    def __init__(self, *args, user, context=None, **kwargs):
         super().__init__(*args, **kwargs)
         profile = getattr(user, "creator_profile", None)
         if not profile or profile.status != "suspended":
             self.fields["kind"].choices = [(key, label) for key, label in self.fields["kind"].choices if key != "appeal"]
+        if context:
+            self.fields["kind"].choices = [("other", "Ayuda con una compra o acceso")]
+            self.initial["kind"] = "other"
+            limit = max(0, 2000 - len(context["body_prefix"]))
+            self.fields["body"].max_length = limit
+            self.fields["body"].widget.attrs["maxlength"] = limit
+            from django.core.validators import MaxLengthValidator
+            self.fields["body"].validators = [validator for validator in self.fields["body"].validators if not isinstance(validator, MaxLengthValidator)] + [MaxLengthValidator(limit)]
 
 
 class RestoreAccountForm(forms.Form):

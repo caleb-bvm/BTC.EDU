@@ -1,0 +1,1376 @@
+[
+  {
+    "slug": "fotografia-con-celular-serie-visual",
+    "title": "Fotografía con celular: de la captura a una serie visual",
+    "category": {
+      "name": "Creación",
+      "slug": "creacion"
+    },
+    "topic": {
+      "name": "Fotografía",
+      "slug": "fotografia"
+    },
+    "description": "Aprende a controlar luz, enfoque y composición con tu celular. Construye una serie original de seis fotografías, edítala con herramientas gratuitas y prepara una entrega con pies de foto y descripciones accesibles.",
+    "objective": "Crear y justificar una serie fotográfica de seis imágenes propias con intención narrativa, enfoque y exposición adecuados, edición coherente y una entrega accesible.",
+    "requirements": "Un celular con cámara y espacio libre; editor gratuito incluido en la galería o Google Fotos para ajustes básicos; acceso a una ventana y objetos cotidianos. No se necesita cámara profesional, accesorios de pago ni salir de casa. Reserva tiempo para las prácticas.",
+    "minutes": 360,
+    "price": 1800,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "Apple: controles de enfoque, exposición y encuadre",
+        "url": "https://support.apple.com/en-asia/guide/iphone/-iph3dc593597/ios"
+      },
+      {
+        "title": "Apple: cámara del iPhone",
+        "url": "https://support.apple.com/en-lamr/guide/iphone/-iph263472f78/ios"
+      },
+      {
+        "title": "Google: abrir y usar la cámara Pixel",
+        "url": "https://support.google.com/pixelcamera/answer/6164997?hl=en-GB"
+      },
+      {
+        "title": "Nikon: diez consejos para fotografiar",
+        "url": "https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/top-10-photo-tips-for-better-images"
+      },
+      {
+        "title": "Nikon: visión y proyecto fotográfico",
+        "url": "https://www.nikonusa.com/learn-and-explore/c/ideas-and-inspiration/the-composition-triangle"
+      },
+      {
+        "title": "Nikon School: notas de composición, luz y narración",
+        "url": "https://static.nikonusa.com/pdf/nikonschool/sat.pdf"
+      },
+      {
+        "title": "Google Fotos: editar fotografías",
+        "url": "https://support.google.com/photos/answer/6128850?hl=es"
+      },
+      {
+        "title": "Apple: editar luz y color en Fotos",
+        "url": "https://support.apple.com/en-lamr/guide/iphone/iphb08064d57/ios"
+      },
+      {
+        "title": "W3C WAI: decidir el texto alternativo",
+        "url": "https://www.w3.org/WAI/tutorials/images/decision-tree/"
+      },
+      {
+        "title": "Creative Commons: buenas prácticas de atribución",
+        "url": "https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution"
+      },
+      {
+        "title": "Canon: fotografía de calle y demostración audiovisual",
+        "url": "https://en.canon-cna.com/get-inspired/tips-and-techniques/street-photography-tips/"
+      },
+      {
+        "title": "Google Snapseed: perspectiva",
+        "url": "https://support.google.com/snapseed/answer/6157686?hl=en"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "Mirar y controlar la cámara",
+        "description": "Define una intención, reconoce los controles de tu celular y aprende a evaluar la luz.",
+        "lessons": [
+          {
+            "title": "Una idea que pueda fotografiarse",
+            "description": "Define el propósito y el alcance de una serie de seis imágenes de tu entorno.",
+            "outcome": "Redactar un encargo concreto y un plan de seis imágenes realizable con los recursos disponibles.",
+            "activity": "design",
+            "preview": "Define el propósito y el alcance de una serie de seis imágenes de tu entorno.",
+            "body": "El encargo\nUna serie necesita una pregunta que las fotografías puedan responder. «Mi barrio» es demasiado amplio para comenzar; «¿cómo cambia una mesa al preparar una comida?» permite mostrar lugar, objetos y transformación. En este curso crearás seis fotos propias. Trabajaremos con el ejemplo «Una taza de café, desde la preparación hasta la mesa», que puedes sustituir por ordenar herramientas, cuidar una planta o preparar materiales de estudio.\n\nPrimero escribe quién verá la serie y qué debería entender al terminarla. Después limita la escena: una habitación, una actividad y una sesión de treinta minutos. Por último enumera las seis funciones de imagen: presentar el lugar, mostrar un objeto importante, explicar una acción, revelar un detalle, mostrar el resultado y cerrar con una imagen que lo conecte con la intención inicial. Son funciones narrativas; todavía no son seis posiciones rígidas de cámara.\n\nEjemplo resuelto\nEl encargo dice: «Mostrar a alguien que no conoce mi cocina cómo preparo una pausa para estudiar». El primer plano muestra mesa y ventana; el segundo, taza e ingredientes; el tercero, una mano sirviendo; el cuarto, vapor o textura; el quinto, la taza junto al cuaderno; el sexto, la mesa después de la pausa. La última imagen aporta un cambio y evita repetir otra foto de la taza.\n\nPrepara también una alternativa. Si no se ve vapor, fotografía la superficie o el borde húmedo; no dependas de una situación difícil. Antes de empezar retira documentos, pantallas con mensajes, direcciones y objetos que alguien no desee mostrar. Si aparece otra persona, acuerda qué se fotografiará y dónde se usará. Puedes completar todo el proyecto con objetos y tus propias manos.\n\nPráctica\nEscribe un encargo de cuatro frases: destinatario, pregunta, escena y resultado previsto. Añade una lista de seis fotos con su función. Dedica diez minutos a comprobar si cada una es realizable y elimina las que necesiten compras, desplazamientos o personas no disponibles.\n\nCómo comprobarlo\nEl plan funciona si otra persona puede identificar un cambio entre el inicio y el final, cada foto aporta información diferente y puedes explicar por qué pertenece al conjunto. «Seis imágenes bonitas» no define todavía un criterio de selección.\n\nAccesibilidad\nPuedes planificar mediante notas de voz o una lista con letra grande. Describe verbalmente cada escena antes de tomarla: ubicación, objeto principal y acción. Esa descripción inicial también te ayudará más adelante a escribir alternativas textuales sin depender de la memoria visual.",
+            "sources": [
+              {
+                "title": "Nikon: visión y proyecto fotográfico",
+                "url": "https://www.nikonusa.com/learn-and-explore/c/ideas-and-inspiration/the-composition-triangle"
+              },
+              {
+                "title": "W3C WAI: decidir el texto alternativo",
+                "url": "https://www.w3.org/WAI/tutorials/images/decision-tree/"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Enfoque, estabilidad y controles esenciales",
+            "description": "Aprende a localizar los controles necesarios sin depender de una marca de celular.",
+            "outcome": "Obtener tres fotografías enfocadas y reconocer cuándo conviene repetir una toma.",
+            "activity": "execute",
+            "preview": "Aprende a localizar los controles necesarios sin depender de una marca de celular.",
+            "body": "Preparar el equipo\nLa nitidez depende de enfocar el lugar correcto y evitar movimiento durante la captura. Limpia suavemente la cubierta de la cámara con un paño adecuado y revisa que la funda no invada el encuadre. Comprueba batería y espacio disponible. Abre la cámara normal y utiliza el modo Foto y la cámara principal, normalmente identificada como 1×. Los nombres exactos cambian entre fabricantes; utiliza la ayuda de tu dispositivo para localizar un control que no aparezca.\n\nSostén el teléfono con ambas manos y apoya los codos si te resulta cómodo. No tapes la lente ni la luz. Toca sobre el objeto importante para indicar dónde enfocar y espera a que se estabilice la vista. Dispara con un movimiento suave. Si el botón de volumen actúa como disparador en tu teléfono y te permite un agarre mejor, úsalo; si produce vibración, vuelve al botón de pantalla. Un apoyo estable y el temporizador pueden facilitar una toma fija.\n\nEnfoque y movimiento\nAmplía la foto después de capturarla. Si el fondo está definido y la taza borrosa, probablemente se eligió otra distancia de enfoque. Si toda la imagen presenta pequeños arrastres, pudo moverse el teléfono. Si solo la mano está movida, el sujeto se desplazó durante la toma. Estas observaciones orientan la siguiente acción: tocar el objeto correcto, mejorar el apoyo o buscar más luz y repetir la acción.\n\nEjemplo resuelto\nFotografías una etiqueta a diez centímetros y no logra enfocarse. Alejas lentamente el teléfono hasta que las letras se definen; haces una foto con espacio alrededor y después recortas moderadamente. Acercar más la lente no garantiza más detalle: existe una distancia mínima de enfoque que cambia según el equipo.\n\nPráctica\nColoca una taza y un cuaderno a distintas distancias. Captura una imagen enfocando la taza y otra enfocando el cuaderno. Haz una tercera con el teléfono apoyado y temporizador. Conserva los originales y anota qué elemento elegiste como protagonista en cada una. El ejercicio puede hacerse sin bloqueo manual ni modo profesional.\n\nCómo comprobarlo\nEn una vista ampliada el detalle importante debe ser legible y no mostrar arrastre accidental. La selección de enfoque debe corresponder al propósito que anotaste. No evalúes únicamente la miniatura: una imagen pequeña puede ocultar el fallo.\n\nAccesibilidad\nUtiliza el lector de pantalla, las etiquetas de los botones y los controles físicos compatibles si te ayudan. Trabaja sentado y con apoyo estable cuando sostener el teléfono resulte difícil. Puedes repetir el ejercicio con objetos de bordes contrastados para reconocer con mayor facilidad qué zona está definida.",
+            "sources": [
+              {
+                "title": "Apple: controles de enfoque, exposición y encuadre",
+                "url": "https://support.apple.com/en-asia/guide/iphone/-iph3dc593597/ios"
+              },
+              {
+                "title": "Apple: cámara del iPhone",
+                "url": "https://support.apple.com/en-lamr/guide/iphone/-iph263472f78/ios"
+              },
+              {
+                "title": "Google: abrir y usar la cámara Pixel",
+                "url": "https://support.google.com/pixelcamera/answer/6164997?hl=en-GB"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Luz natural y exposición con intención",
+            "description": "Compara posiciones respecto a una ventana y ajusta el brillo de la captura.",
+            "outcome": "Elegir una iluminación que conserve la información importante del sujeto.",
+            "activity": "execute",
+            "preview": "Compara posiciones respecto a una ventana y ajusta el brillo de la captura.",
+            "body": "Leer la luz\nObserva una ventana antes de mover controles. Una luz frontal llega desde detrás de la cámara y suele mostrar superficies con pocas sombras. Una luz lateral revela textura y volumen. Una luz situada detrás del sujeto puede dibujar un borde luminoso, pero también dejar el frente oscuro. Ninguna posición es obligatoria: elige según lo que quieras explicar. Para mostrar el relieve de una taza, comienza con la ventana a un lado.\n\nLa exposición es la decisión de cuán clara u oscura se registra la escena. El teléfono intenta resolverla automáticamente, aunque puede priorizar una ventana brillante y oscurecer el objeto. Primero cambia la escena: acerca el objeto a la ventana, gira la mesa o modifica tu posición. Si el dispositivo permite compensar exposición, toca el sujeto y ajusta el control de brillo hasta conservar detalle en las zonas importantes. No confundas este ajuste con subir el brillo de la pantalla.\n\nUna prueba ordenada\nHaz tres capturas sin cambiar el encuadre: la propuesta automática, una ligeramente más oscura y una ligeramente más clara. Compara la superficie clara del objeto, la sombra y el fondo. Una región blanca completamente uniforme puede haber perdido detalle; una sombra cerrada puede ocultar la acción. Si la diferencia entre ventana y sujeto es excesiva, cambia el encuadre para excluir la ventana en vez de exigir que el editor reconstruya información inexistente.\n\nEjemplo resuelto\nLa taza blanca pierde su borde contra una ventana. Giramos la mesa para colocar la ventana a la izquierda, dejamos una pared al fondo y reducimos un poco la exposición. Ahora se reconoce la curva clara y una sombra lateral. Una cartulina blanca situada enfrente de la ventana devuelve algo de luz a la sombra sin necesitar una lámpara adicional.\n\nPráctica\nFotografía el mismo objeto con luz frontal, lateral y posterior. Mantén una distancia semejante. Escoge una imagen y explica qué revela su iluminación. Después haz la comparación de tres exposiciones en esa posición. Reserva veinte minutos para observar los cambios con calma.\n\nCómo comprobarlo\nLa foto elegida debe permitir distinguir textura y forma donde importa. Explica una pérdida aceptada: por ejemplo, dejar el fondo más oscuro para que se entienda la taza. No hay un número de exposición universal para todos los celulares.\n\nAccesibilidad\nEscribe «más clara», «intermedia» y «más oscura» junto a las versiones para compararlas sin depender de códigos de color. Evita mirar directamente al sol y utiliza luz de ventana con una posición de trabajo cómoda. Si cuesta percibir cambios pequeños, compara primero ajustes más amplios y luego afina.",
+            "sources": [
+              {
+                "title": "Apple: controles de enfoque, exposición y encuadre",
+                "url": "https://support.apple.com/en-asia/guide/iphone/-iph3dc593597/ios"
+              },
+              {
+                "title": "Nikon School: notas de composición, luz y narración",
+                "url": "https://static.nikonusa.com/pdf/nikonschool/sat.pdf"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Revisión: Mirar y controlar la cámara",
+              "questions": [
+                {
+                  "prompt": "La cámara deja nítido el fondo, pero la taza que protagoniza la imagen aparece borrosa. ¿Cuál es el primer cambio más útil?",
+                  "multiple": false,
+                  "options": [
+                    "Subir la saturación del color.",
+                    "Indicar el enfoque sobre la taza y revisar de nuevo la toma.",
+                    "Recortar todo el fondo después de capturar.",
+                    "Aumentar únicamente el brillo de la pantalla."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El enfoque debe corresponder a la distancia del sujeto importante. La saturación y el recorte no recuperan el detalle que no se capturó."
+                },
+                {
+                  "prompt": "En una foto de una mano que se mueve, la mesa está definida y solo la mano presenta arrastre. ¿Qué observación explica mejor el resultado?",
+                  "multiple": false,
+                  "options": [
+                    "Todo el teléfono se movió exactamente igual.",
+                    "El archivo JPEG cambió la perspectiva.",
+                    "La mano se desplazó durante la captura.",
+                    "El fondo tiene demasiados colores."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Un fondo definido junto a un sujeto con arrastre apunta al movimiento del sujeto. Conviene mejorar la luz o repetir la acción con mayor pausa."
+                },
+                {
+                  "prompt": "La ventana ocupa gran parte del fondo y el objeto queda demasiado oscuro. ¿Qué prueba debes hacer antes de intentar arreglarlo por completo al editar?",
+                  "multiple": false,
+                  "options": [
+                    "Cambiar la posición para iluminar el objeto y reducir la ventana en el encuadre.",
+                    "Ampliar el archivo a más píxeles.",
+                    "Usar siempre el máximo zoom digital.",
+                    "Borrar todas las sombras con un filtro fuerte."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Cambiar la relación entre luz, sujeto y fondo puede reducir una diferencia de luminosidad que la cámara no resuelve bien. La edición no garantiza reconstruir información perdida."
+                },
+                {
+                  "prompt": "¿Qué encargo permite seleccionar una serie con criterios concretos?",
+                  "multiple": false,
+                  "options": [
+                    "Hacer muchas fotografías buenas.",
+                    "Usar todos los efectos de la cámara.",
+                    "Fotografiar cualquier cosa que se vea interesante.",
+                    "Mostrar a un lector cómo una mesa pasa de estar vacía a quedar lista para estudiar."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "El destinatario y la transformación observable permiten decidir qué imágenes aportan contexto, acción y resultado."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "Componer y construir imágenes",
+        "description": "Organiza el encuadre, cambia el punto de vista y resuelve una sesión sencilla.",
+        "lessons": [
+          {
+            "title": "Un encuadre que guíe la mirada",
+            "description": "Organiza sujeto, fondo y espacio para que la idea se entienda de inmediato.",
+            "outcome": "Crear dos composiciones distintas y justificar cuál comunica mejor el propósito.",
+            "activity": "execute",
+            "preview": "Organiza sujeto, fondo y espacio para que la idea se entienda de inmediato.",
+            "body": "Elegir qué entra\nComponer consiste en decidir relaciones dentro del rectángulo de la fotografía. Empieza con una pregunta: ¿qué debería verse primero? El objeto principal necesita una posición y un entorno que ayuden a reconocerlo. Antes de disparar revisa cuatro bordes, esquinas y fondo. Un cable brillante en una esquina o una línea que parece atravesar una cabeza puede competir con la idea aunque no lo hayas observado durante la captura.\n\nUtiliza la cuadrícula si tu cámara la ofrece. Dividir el encuadre en tres partes horizontales y verticales sirve como referencia para comparar posiciones, no como norma de calidad. Un sujeto centrado puede comunicar simetría o quietud. Situarlo a un lado puede dejar espacio para una acción o una mirada. Prueba ambas opciones con el mismo objeto; evalúa qué información aporta el espacio que queda libre.\n\nLas líneas de una mesa, una sombra o el borde de un cuaderno pueden conducir hacia el punto importante. Comprueba dónde terminan: una diagonal que sale del encuadre también puede alejar la atención. El espacio vacío tiene función cuando permite comprender la forma o anticipar movimiento. Si solo muestra objetos irrelevantes, cambia tu posición o el tamaño del plano.\n\nEjemplo resuelto\nEn una foto de preparación de café la taza queda al centro, pero detrás aparece una bolsa con letras grandes. Primero desplazamos la bolsa fuera de la escena. Después colocamos la taza a la derecha y el cuaderno abierto a la izquierda. La nueva distribución explica la relación entre bebida y estudio. No se eligió la posición por cumplir una cuadrícula; se eligió porque dos elementos cuentan mejor la acción.\n\nPráctica\nCon dos objetos crea tres imágenes: una centrada, otra con el sujeto a un lado y otra donde una línea lo conecte con el segundo objeto. Mantén la luz parecida. Escribe debajo de cada foto qué elemento debe verse primero y qué papel tiene el fondo. Dedica quince minutos a capturar y diez a comparar.\n\nCómo comprobarlo\nMira cada imagen durante unos segundos y después descríbela sin verla. Si recuerdas primero un elemento secundario, revisa su tamaño, brillo o posición. La mejor composición para este ejercicio es la que hace comprensible la relación prevista sin necesitar una explicación larga.\n\nAccesibilidad\nNo uses únicamente colores para distinguir las versiones: nómbralas «centrada», «lateral» y «diagonal». Puedes colocar marcas táctiles fuera del encuadre para repetir posiciones o trabajar con una superficie despejada y objetos grandes. La precisión del ejercicio se mide por la decisión explicada, no por la rapidez de movimiento.",
+            "sources": [
+              {
+                "title": "Nikon: diez consejos para fotografiar",
+                "url": "https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/top-10-photo-tips-for-better-images"
+              },
+              {
+                "title": "Nikon School: notas de composición, luz y narración",
+                "url": "https://static.nikonusa.com/pdf/nikonschool/sat.pdf"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Distancia, altura y perspectiva",
+            "description": "Comprueba cómo cambia una escena cuando mueves la cámara en lugar de ampliar digitalmente.",
+            "outcome": "Elegir una distancia y una altura coherentes con la información que debe mostrar la fotografía.",
+            "activity": "execute",
+            "preview": "Comprueba cómo cambia una escena cuando mueves la cámara en lugar de ampliar digitalmente.",
+            "body": "Moverse cambia la relación\nLa perspectiva depende del lugar desde el que fotografías. Cerca de un objeto, la parte próxima puede verse mucho mayor que la lejana. Al alejarte, las diferencias relativas se reducen. El zoom cambia cuánto ocupa la escena en el encuadre, pero el cambio de punto de vista lo produce moverte. Por eso una cara tomada muy cerca puede mostrar proporciones distintas aunque la aplicación permita recortarla después.\n\nEmpieza con la cámara principal a 1× y haz una toma desde una distancia cómoda. Después acerca el teléfono sin tocar el zoom y observa cómo cambian los bordes. Finalmente aléjate y compara. Para el proyecto, no necesitas decidir qué lente es «profesional»; necesitas reconocer qué versión explica la forma sin introducir una distorsión que distraiga. Las cámaras adicionales del teléfono pueden ayudar, pero su disponibilidad y calidad varían.\n\nAltura y significado\nA la altura del objeto se percibe mejor su volumen lateral. Desde arriba se comparan superficies y distribución. Desde abajo un objeto puede ganar presencia, aunque también aparecerán fondos antes ocultos. Elige la posición antes de buscar un efecto en el editor. Si fotografías una hoja de ejercicios para mostrar su contenido, una vista paralela reduce la convergencia de los bordes. Si quieres mostrar el uso de esa hoja, una vista oblicua puede incluir mano y mesa.\n\nEjemplo resuelto\nUna taza fotografiada a pocos centímetros presenta un asa enorme y el cuerpo comprimido. Alejamos el teléfono, mantenemos 1× y dejamos aire alrededor. La taza ocupa menos píxeles, pero su forma se interpreta mejor; un recorte moderado prepara el resultado. Para una segunda imagen, una vista superior muestra taza y cuaderno y comunica la pausa completa.\n\nPráctica\nHaz cuatro versiones de una misma escena: a la altura del objeto, desde arriba, desde más cerca y desde más lejos. No te subas a sillas ni adoptes posiciones inseguras: coloca los objetos en una mesa baja o mueve la superficie de trabajo. Anota qué detalle se revela y cuál se oculta en cada toma.\n\nCómo comprobarlo\nEscoge una versión para mostrar forma y otra para explicar contexto. Deben tener motivos distintos. Si ambas responden a lo mismo, vuelve a cambiar altura o distancia. Revisa los bordes del objeto para identificar deformaciones o cortes involuntarios.\n\nAccesibilidad\nAdapta la escena a tu alcance: puedes mover el objeto, girar una bandeja o elevarlo sobre un soporte estable. Una persona con movilidad limitada puede completar la comparación desde una posición fija usando objetos a diferentes alturas y distancias, y documentar esas variaciones.",
+            "sources": [
+              {
+                "title": "Nikon: diez consejos para fotografiar",
+                "url": "https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/top-10-photo-tips-for-better-images"
+              },
+              {
+                "title": "Google Snapseed: perspectiva",
+                "url": "https://support.google.com/snapseed/answer/6157686?hl=en"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Retrato y producto con una ventana",
+            "description": "Resuelve dos escenas comunes con iluminación sencilla y dirección respetuosa.",
+            "outcome": "Producir una fotografía descriptiva de producto o un retrato acordado con el participante.",
+            "activity": "execute",
+            "preview": "Resuelve dos escenas comunes con iluminación sencilla y dirección respetuosa.",
+            "body": "Elegir una sesión pequeña\nPara aplicar lo aprendido realiza una fotografía de un objeto hecho o utilizado por ti, o un retrato de una persona que acepte participar. Ambos requieren separar el sujeto del fondo y controlar la luz, pero tienen propósitos distintos. Un producto necesita mostrar forma y detalles relevantes; un retrato puede explicar una actitud o una actividad. Evita prometer que una configuración funciona igual con todos los tonos, materiales y rostros.\n\nColoca el sujeto cerca de una ventana con luz indirecta y observa dónde aparecen las sombras. Empieza con la ventana a unos cuarenta y cinco grados respecto al frente del sujeto. Cambia la posición en pasos pequeños. Si el lado contrario queda muy oscuro, acerca una cartulina clara fuera del encuadre. Una superficie brillante refleja su entorno: mueve cámara o cartulina para ordenar el reflejo antes de intentar borrarlo al editar.\n\nRetratar con una acción\nExplica a la persona qué quieres mostrar y acuerda el uso de la imagen. En lugar de pedir «actúa natural», ofrece una acción sencilla: acomodar un cuaderno, sostener un objeto o mirar hacia una zona cómoda. Haz pausas y muestra algunas capturas si la persona lo desea. El modo Retrato con desenfoque es opcional; revisa cabello, lentes y contornos porque la separación automática puede equivocarse.\n\nEjemplo resuelto\nQueremos mostrar una libreta artesanal. La primera toma frontal tiene reflejo que oculta la textura. Giramos la libreta ligeramente, mantenemos una luz lateral y colocamos el teléfono algo más alto. La portada queda legible y la sombra revela el espesor. Añadimos una segunda foto cercana de la costura, sin alterar el color para aparentar un material diferente.\n\nPráctica\nElige producto o retrato y escribe dos detalles que deben entenderse. Captura una vista general y dos acercamientos con variaciones pequeñas de posición. Conserva una versión que puedas repetir explicando ubicación de ventana, cámara y sujeto. Si trabajas con una persona, confirma cuál imagen acepta compartir.\n\nCómo comprobarlo\nEl detalle importante debe verse sin reflejos que lo oculten, el fondo debe aportar contexto o mantenerse discreto y las proporciones deben corresponder al propósito. En un retrato, comodidad y consentimiento forman parte de una sesión lograda; una expresión forzada no se corrige con filtros.\n\nAccesibilidad\nOfrece instrucciones verbales claras y una acción por vez. La persona puede permanecer sentada o elegir una postura accesible. Si prefieres trabajar sin participantes, el producto permite practicar exactamente las decisiones de luz, enfoque y encuadre requeridas por este módulo.",
+            "sources": [
+              {
+                "title": "Apple: controles de enfoque, exposición y encuadre",
+                "url": "https://support.apple.com/en-asia/guide/iphone/-iph3dc593597/ios"
+              },
+              {
+                "title": "Nikon School: notas de composición, luz y narración",
+                "url": "https://static.nikonusa.com/pdf/nikonschool/sat.pdf"
+              },
+              {
+                "title": "Nikon: diez consejos para fotografiar",
+                "url": "https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/top-10-photo-tips-for-better-images"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Revisión: Componer y construir imágenes",
+              "questions": [
+                {
+                  "prompt": "Una taza está a un lado del encuadre y el cuaderno ocupa el otro. ¿Cuál es la mejor justificación de esa composición?",
+                  "multiple": false,
+                  "options": [
+                    "Cumple una regla que garantiza una foto exitosa.",
+                    "Todo objeto debe estar alejado del centro.",
+                    "La distribución explica la relación entre bebida y estudio.",
+                    "La cuadrícula elimina los fallos de enfoque."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Una regla sirve para explorar posibilidades. La decisión debe apoyarse en cómo las posiciones y el espacio comunican la intención."
+                },
+                {
+                  "prompt": "Una cara tomada desde muy cerca muestra proporciones que distraen. ¿Qué cambio modifica la perspectiva?",
+                  "multiple": false,
+                  "options": [
+                    "Alejar la cámara y rehacer el encuadre.",
+                    "Mantener exactamente la posición y subir saturación.",
+                    "Cambiar el nombre del archivo.",
+                    "Aplicar más compresión JPEG."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "La posición de la cámara determina la perspectiva. Alejarse cambia la relación aparente entre partes cercanas y lejanas."
+                },
+                {
+                  "prompt": "Un reflejo oculta la costura de una libreta que debes mostrar. ¿Qué prueba es más adecuada?",
+                  "multiple": false,
+                  "options": [
+                    "Mantener la toma porque el editor siempre puede reconstruir la costura.",
+                    "Pedir al espectador que imagine el detalle.",
+                    "Usar una marca de agua más grande.",
+                    "Mover ligeramente cámara, libreta o superficie reflectora y volver a observar."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "La posición relativa del objeto y las superficies modifica el reflejo. Es preferible capturar el detalle visible y comprobarlo."
+                },
+                {
+                  "prompt": "Una persona acepta participar en un retrato. ¿Qué ayuda a una sesión clara y respetuosa?",
+                  "multiple": false,
+                  "options": [
+                    "Pedirle que soporte cualquier postura hasta terminar.",
+                    "Acordar el uso de las imágenes y proponer una acción cómoda con pausas.",
+                    "Publicar todas las tomas para que elija después.",
+                    "Usar el modo Retrato como sustituto del acuerdo."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Explicar la sesión, acordar el uso y ofrecer acciones concretas favorece una participación informada. El equipo no sustituye esas decisiones."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "De las tomas a una serie",
+        "description": "Captura con continuidad, selecciona por función y edita con un criterio coherente.",
+        "lessons": [
+          {
+            "title": "Una secuencia con principio y final",
+            "description": "Convierte el plan inicial en una lista de tomas que muestre una transformación.",
+            "outcome": "Capturar una secuencia suficiente para seleccionar seis fotografías diferentes y conectadas.",
+            "activity": "design",
+            "preview": "Convierte el plan inicial en una lista de tomas que muestre una transformación.",
+            "body": "Pensar en relaciones\nUna secuencia requiere que cada imagen añada algo. Si todas muestran la taza desde casi el mismo ángulo, habrá variedad de encuadres pero poca progresión. Recupera las seis funciones de tu encargo: contexto, objeto, acción, detalle, resultado y cierre. Puedes alterar ese orden cuando ayude a contar la idea, siempre que el espectador encuentre una relación reconocible entre las imágenes.\n\nDibuja seis rectángulos o escribe seis descripciones. Para cada uno registra sujeto, distancia aproximada y acción. Añade un elemento que conecte las fotos: la misma mesa, una forma, un color recurrente o el cambio del objeto. La continuidad ayuda a orientarse; también puedes introducir una diferencia intencional para marcar el final. No es necesario mantener idénticos todos los encuadres ni forzar una narración dramática.\n\nCapturar con margen\nPrepara primero los planos que no dependen del tiempo: lugar y objetos. Captura después la acción y conserva alternativas. Haz dos o tres versiones útiles de cada función, revisando enfoque y bordes entre tomas. Si vas a mover un objeto importante, registra antes la escena que ya no podrás repetir. Mantén los objetos sensibles al calor fuera de situaciones peligrosas; puedes usar agua a temperatura ambiente para practicar una acción de vertido.\n\nEjemplo resuelto\nEn «La pausa de estudio» fotografiamos primero la mesa vacía, después taza y cuaderno, luego la mano colocando la taza. Una imagen cercana muestra marcas de lápiz; otra reúne los elementos listos; al final, el cuaderno cerrado y la taza apartada muestran que la pausa terminó. El detalle del lápiz conecta con la actividad y evita una foto de textura que resulte ajena al conjunto.\n\nPráctica\nCaptura entre doce y dieciocho fotos para tu serie final de seis. Usa tu lista como guía y marca qué función cubre cada archivo. Después comprueba si falta una transición: por ejemplo, cómo se pasa de materiales separados al resultado. Si falta, realiza una toma adicional que explique ese cambio.\n\nCómo comprobarlo\nOrdena provisionalmente seis imágenes sin títulos. Cuenta la historia en dos frases y comprueba que se sostenga con lo visible. Una foto que solo puede entenderse gracias a un relato largo necesita otra posición, otra función o una sustitución.\n\nAccesibilidad\nUna lista narrada o una hoja con casillas puede sustituir el dibujo. Separa las tomas en sesiones cortas cuando sea necesario y conserva una foto de referencia de la posición de los objetos. No se exige fotografiar personas, exteriores ni acciones rápidas para lograr una serie completa.",
+            "sources": [
+              {
+                "title": "Nikon: visión y proyecto fotográfico",
+                "url": "https://www.nikonusa.com/learn-and-explore/c/ideas-and-inspiration/the-composition-triangle"
+              },
+              {
+                "title": "Nikon School: notas de composición, luz y narración",
+                "url": "https://static.nikonusa.com/pdf/nikonschool/sat.pdf"
+              },
+              {
+                "title": "Canon: fotografía de calle y demostración audiovisual",
+                "url": "https://en.canon-cna.com/get-inspired/tips-and-techniques/street-photography-tips/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Canon: demostración complementaria de fotografía de calle y secuencias (en inglés)",
+                "url": "https://en.canon-cna.com/get-inspired/tips-and-techniques/street-photography-tips/"
+              }
+            ],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Seleccionar por información y no por cantidad",
+            "description": "Evalúa nitidez, intención y relación entre imágenes antes de editar.",
+            "outcome": "Reducir una sesión a seis imágenes con funciones claras y registrar por qué descartaste alternativas.",
+            "activity": "execute",
+            "preview": "Evalúa nitidez, intención y relación entre imágenes antes de editar.",
+            "body": "Separar selección y edición\nAntes de mover deslizadores elige las imágenes que cuentan la serie. Editar todas las tomas consume tiempo y puede hacerte conservar una foto por el esfuerzo invertido en ella. Trabaja con copias o un álbum específico. Mantén los originales disponibles y no borres definitivamente una toma solo por verla pequeña: el primer paso es comparar, no liberar espacio.\n\nRealiza tres pasadas. En la primera aparta fallos que impidan comprender la imagen: enfoque en el lugar equivocado, movimiento accidental importante o una parte esencial fuera del encuadre. En la segunda asigna una función a cada candidata. En la tercera compara las que cumplen el mismo papel y conserva la que añada información con mayor claridad. Puedes permitir una imperfección técnica si la acción es irrepetible y se entiende; anota la razón.\n\nUna matriz sencilla\nEscribe para cada candidata tres observaciones: qué cuenta, qué funciona y qué necesita corregirse. No conviertas la selección en una suma automática de belleza. Una imagen muy atractiva de una pared puede no pertenecer a una serie sobre preparar una pausa. A la inversa, un plano general discreto puede ser necesario para situar la mesa y conectar los detalles.\n\nEjemplo resuelto\nTenemos tres fotos de la mano colocando una taza. La primera tiene mejor color, pero la mano tapa el objeto. La segunda presenta un ligero desorden al fondo y deja ver la acción completa. La tercera repite una posición casi inmóvil. Elegimos la segunda; un recorte pequeño reduce el fondo sin quitar información. La decisión se apoya en la función «explicar la acción», no en cuál recibió más edición.\n\nPráctica\nSelecciona ocho candidatas de tu sesión y ordénalas. Elimina dos con una justificación concreta: redundancia, fallo técnico relevante o relación débil. Guarda una lista numerada de las seis elegidas y conserva una alternativa para la imagen menos sólida. Dedica tiempo a mirar el conjunto, no solo cada foto por separado.\n\nCómo comprobarlo\nCada elegida debe completar una frase distinta: «Esta imagen permite entender…». Si dos frases dicen lo mismo, reconsidera una de ellas. Comprueba también que existe contexto y cierre; seis detalles pueden dejar al espectador sin referencias de escala o lugar.\n\nAccesibilidad\nPuedes escribir las observaciones como notas de voz. Usa nombres o números para comparar archivos, evitando expresiones como «la verde» o «la de la derecha». Amplía los detalles importantes y realiza pausas para reducir la fatiga visual. Una descripción de cada candidata ayuda a evaluar su función incluso fuera de la galería.",
+            "sources": [
+              {
+                "title": "Nikon: visión y proyecto fotográfico",
+                "url": "https://www.nikonusa.com/learn-and-explore/c/ideas-and-inspiration/the-composition-triangle"
+              },
+              {
+                "title": "Nikon: diez consejos para fotografiar",
+                "url": "https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/top-10-photo-tips-for-better-images"
+              },
+              {
+                "title": "Google Fotos: editar fotografías",
+                "url": "https://support.google.com/photos/answer/6128850?hl=es"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Editar luz y color sin perder coherencia",
+            "description": "Ajusta una imagen de referencia y utiliza ese criterio para revisar el conjunto.",
+            "outcome": "Editar las seis imágenes conservando detalle, color creíble y una intención visual consistente.",
+            "activity": "execute",
+            "preview": "Ajusta una imagen de referencia y utiliza ese criterio para revisar el conjunto.",
+            "body": "Empezar por una referencia\nElige una de tus seis fotografías que represente bien la luz de la sesión. Haz una copia o confirma que puedes revertir la edición. Utiliza los controles básicos del editor de tu galería o Google Fotos: recorte, luz y color. Los nombres y la ubicación cambian según versión y dispositivo; no necesitas funciones de inteligencia artificial ni una suscripción para este ejercicio. Si un control no existe, trabaja con los ajustes equivalentes disponibles.\n\nSigue un orden que puedas repetir. Primero corrige un encuadre claramente torcido. Luego ajusta el brillo general hasta que el sujeto tenga presencia. Después revisa zonas claras y oscuras por separado, si el editor lo permite. Finalmente observa temperatura y saturación. Una imagen amarillenta puede necesitar una temperatura más fría; quitar toda calidez también puede borrar la sensación de luz de tarde. Haz cambios pequeños y compara con el original después de cada decisión.\n\nNo hay una receta numérica universal\nLos valores de un deslizador no significan lo mismo en todos los editores. Define criterios visibles: la taza mantiene textura, el cuaderno sigue legible y los objetos conservan colores plausibles. Evita aumentar nitidez o contraste para compensar un enfoque fallido. Un filtro puede servir como punto de partida, pero debe revisarse en todas las imágenes porque responde de manera distinta a luces diferentes.\n\nEjemplo resuelto\nLa toma general es más fría que el acercamiento porque incluye menos superficie iluminada por la ventana. Ajustamos su temperatura ligeramente hacia cálido y reducimos la intensidad del acercamiento que quedó anaranjado. No hacemos ambas fotos idénticas: conservamos la diferencia de luz y evitamos un salto de color que distraiga al pasar de una a otra.\n\nPráctica\nEdita primero la referencia y anota tres decisiones con su propósito. Aplica el mismo criterio al resto, revisando cada imagen individualmente. Crea una vista conjunta o pasa por las seis en orden. Después de una pausa, compara otra vez con los originales y reduce cualquier cambio que haya destruido detalle importante.\n\nCómo comprobarlo\nLos objetos recurrentes deben reconocerse sin saltos inexplicables de color o brillo. La serie puede tener una estética marcada, pero las decisiones deben sostener el encargo. Comprueba bordes, texturas y sombras ampliando; una miniatura agradable no revela todos los defectos.\n\nAccesibilidad\nAcompaña las comparaciones con notas de luminosidad, textura y legibilidad, además de color. Si percibes los colores de otra manera, puedes construir una serie en blanco y negro, siempre que valores distintos separen sujeto y fondo y la decisión sea coherente en el conjunto.",
+            "sources": [
+              {
+                "title": "Google Fotos: editar fotografías",
+                "url": "https://support.google.com/photos/answer/6128850?hl=es"
+              },
+              {
+                "title": "Apple: editar luz y color en Fotos",
+                "url": "https://support.apple.com/en-lamr/guide/iphone/iphb08064d57/ios"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Revisión: De las tomas a una serie",
+              "questions": [
+                {
+                  "prompt": "Tienes tres acercamientos casi iguales de una taza y falta una imagen que sitúe la mesa. ¿Qué mejora más la serie?",
+                  "multiple": false,
+                  "options": [
+                    "Conservar los tres porque aumentan la cantidad.",
+                    "Aplicar un filtro distinto a cada uno.",
+                    "Elegir un acercamiento y añadir un plano que aporte contexto.",
+                    "Cambiar los tres a blanco y negro."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "La serie necesita información complementaria. La edición no sustituye una función narrativa que falta."
+                },
+                {
+                  "prompt": "Una imagen muy atractiva no se relaciona con la pregunta del proyecto. ¿Qué criterio debe guiar la selección?",
+                  "multiple": false,
+                  "options": [
+                    "Conservar siempre la imagen con colores más intensos.",
+                    "Elegirla si requirió más tiempo de edición.",
+                    "Añadirla aunque reemplace la única foto de cierre.",
+                    "Valorar si cumple una función que el conjunto necesita."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "El propósito del encargo permite justificar pertenencia y descarte. La belleza aislada o el esfuerzo invertido no garantizan relevancia."
+                },
+                {
+                  "prompt": "Dos fotografías del mismo objeto presentan un salto de color que distrae al verlas juntas. ¿Cómo debes corregirlo?",
+                  "multiple": false,
+                  "options": [
+                    "Compararlas con una referencia y ajustar cada una según el color y la luz que muestra.",
+                    "Copiar a ciegas el mismo valor numérico en todas las aplicaciones.",
+                    "Eliminar toda diferencia de luz del conjunto.",
+                    "Aumentar nitidez hasta que el color se iguale."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Los ajustes deben responder al resultado visible. Una referencia ayuda a mantener coherencia sin borrar diferencias reales de iluminación."
+                },
+                {
+                  "prompt": "¿Qué se debe revisar después de aumentar mucho sombras y contraste?",
+                  "multiple": false,
+                  "options": [
+                    "Únicamente el tamaño del nombre del archivo.",
+                    "Si se conservan texturas y bordes importantes al ampliar la foto.",
+                    "Solo que la miniatura sea llamativa.",
+                    "Si todas las imágenes pesan exactamente lo mismo."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las vistas pequeñas pueden ocultar ruido, halos y pérdida de detalle. Una comprobación ampliada permite detectar cambios que perjudican la imagen."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "Preparar y presentar la entrega",
+        "description": "Ajusta encuadres finales, redacta textos accesibles y entrega una serie que pueda revisarse.",
+        "lessons": [
+          {
+            "title": "Recorte, proporciones y archivos finales",
+            "description": "Prepara versiones de entrega sin confundir tamaño de imagen, recorte y calidad.",
+            "outcome": "Exportar una serie ordenada que conserve resolución suficiente y los originales.",
+            "activity": "execute",
+            "preview": "Prepara versiones de entrega sin confundir tamaño de imagen, recorte y calidad.",
+            "body": "Tres decisiones diferentes\nRecortar elimina parte del encuadre; cambiar dimensiones modifica cuántos píxeles tiene la imagen; comprimir reduce el peso del archivo, a veces perdiendo detalle. Son operaciones distintas. Antes de exportar define el uso: una galería digital necesita archivos fáciles de abrir y detalles legibles, mientras que una impresión puede requerir dimensiones diferentes. En este proyecto prepararemos seis JPEG para revisión en pantalla.\n\nPrimero decide si usarás una proporción común. Una serie con todas las imágenes horizontales puede facilitar un recorrido; también puedes mezclar orientaciones si el contenido lo necesita. La coherencia no exige cortar una mano o perder el contexto. Revisa el sujeto y los cuatro bordes después de cada recorte. Enderezar también puede eliminar esquinas; comprueba el resultado completo, no solo el horizonte.\n\nConservar una salida útil\nGuarda los originales en una carpeta o álbum identificado y crea versiones finales aparte. Si tu editor permite elegir dimensiones, conserva al menos 1600 píxeles en el lado largo para este ejercicio, siempre que el original los tenga. Si no ofrece ese ajuste, exporta con el tamaño normal y comprueba la legibilidad. No amplíes artificialmente una imagen pequeña solo para alcanzar una cifra.\n\nEjemplo resuelto\nUn original mide 4000 por 3000 píxeles. Recortamos a una composición horizontal de 3600 por 2400 para retirar un borde innecesario. Si necesitamos una copia más ligera de 1800 por 1200, reducimos después las dimensiones. El recorte cambió lo que aparece; la reducción cambió la cantidad de píxeles. Conservamos el original y nombramos la entrega «01_mesa.jpg».\n\nPráctica\nPrepara las seis versiones finales y nómbralas del 01 al 06 según el orden de lectura. Ábrelas con un visor distinto o vuelve a importarlas a la galería para verificar que son archivos reales y no solo referencias del editor. Amplía un detalle y comprueba que el recorte final respete la función prevista.\n\nCómo comprobarlo\nLa carpeta de entrega debe contener seis imágenes que abran correctamente y sigan el orden por nombre. No debe depender de una aplicación específica para ver los resultados. El peso total debe ser razonable para el medio elegido; si necesitas reducirlo, compara primero una copia comprimida con la anterior antes de reemplazar las seis.\n\nAccesibilidad\nUsa nombres breves y descriptivos además del número. No introduzcas toda la explicación en el nombre del archivo: los pies y las alternativas textuales tendrán un documento propio. Puedes verificar el orden con una lista textual cuando la galería reorganice las miniaturas automáticamente.",
+            "sources": [
+              {
+                "title": "Google Fotos: editar fotografías",
+                "url": "https://support.google.com/photos/answer/6128850?hl=es"
+              },
+              {
+                "title": "Apple: editar luz y color en Fotos",
+                "url": "https://support.apple.com/en-lamr/guide/iphone/iphb08064d57/ios"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Pies de foto, alternativas y créditos",
+            "description": "Escribe textos que acompañen la serie y documenta de dónde procede cada recurso.",
+            "outcome": "Distinguir un pie de foto de una descripción alternativa y preparar créditos verificables.",
+            "activity": "design",
+            "preview": "Escribe textos que acompañen la serie y documenta de dónde procede cada recurso.",
+            "body": "Dos textos con trabajos distintos\nUn pie de foto aporta contexto: identifica una acción, explica una relación o sitúa la imagen dentro del proyecto. Una alternativa textual transmite la información visual relevante para alguien que no ve la foto. No conviene llenar la alternativa con la biografía del autor o los créditos de una licencia; ese contenido pertenece a otro lugar. La extensión debe responder al propósito de la imagen, no a una fórmula de palabras.\n\nDescribe primero lo que se puede observar y luego decide qué información necesita el lector. «Foto bonita de café» aporta poco. «Una mano coloca una taza junto a un cuaderno abierto» permite entender la acción central. Si el texto vecino ya explica una parte, evita repetirla sin necesidad. Cuando una imagen contiene palabras necesarias para comprender el contenido, transcribe esas palabras en el texto cercano o en su alternativa.\n\nEjemplo resuelto\nLa imagen cuatro muestra marcas de lápiz sobre un cuaderno. Su pie dice: «Las anotaciones conectan la pausa con la sesión de estudio». Su alternativa dice: «Un lápiz descansa sobre un cuaderno con ejercicios y correcciones manuscritas». El pie interpreta la relación dentro de la serie; la alternativa permite reconocer el detalle que fundamenta esa interpretación. No atribuimos a la persona pensamientos que la foto no demuestra.\n\nCréditos claros\nEn este curso la entrega puede realizarse enteramente con fotografías propias. Registra tu autoría y los ajustes relevantes. Si incluyes un recurso ajeno, conserva título, autor, enlace de origen, condiciones aplicables y cambios realizados. Que una imagen se encuentre en un buscador no explica qué usos están permitidos. Para evitar dependencias en la práctica final, utiliza tus propias fotografías y cita las fuentes de aprendizaje aparte.\n\nPráctica\nEscribe un pie y una alternativa para cada una de las seis imágenes. Lee las alternativas en orden sin mirar las fotos. Después revisa si describen acciones y relaciones reales, eliminando adjetivos que no añadan información. Añade una nota de autoría y confirma que ninguna imagen exponga datos que no querías compartir.\n\nCómo comprobarlo\nOtra persona debería poder comprender la secuencia leyendo los textos. No deben existir afirmaciones sobre emociones, causas o identidades que desconozcas. La lista debe permitir relacionar sin ambigüedad cada texto con un archivo numerado.\n\nAccesibilidad\nSi publicas en una plataforma con campo de texto alternativo, coloca allí la descripción y conserva el pie como texto visible. Si solo puedes entregar archivos, acompáñalos con una lista accesible. No incrustes todo el texto dentro de las fotografías: dificulta ampliarlo, copiarlo o leerlo con herramientas de apoyo.",
+            "sources": [
+              {
+                "title": "W3C WAI: decidir el texto alternativo",
+                "url": "https://www.w3.org/WAI/tutorials/images/decision-tree/"
+              },
+              {
+                "title": "Creative Commons: buenas prácticas de atribución",
+                "url": "https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Proyecto final: una historia en seis fotografías",
+            "description": "Reúne las imágenes, explica tus decisiones y realiza una revisión final con criterios concretos.",
+            "outcome": "Entregar una serie original de seis imágenes, textos accesibles y una reflexión sobre su realización.",
+            "activity": "execute",
+            "preview": "Reúne las imágenes, explica tus decisiones y realiza una revisión final con criterios concretos.",
+            "body": "Tu expediente personal\nRecupera el encargo inicial y observa si tu serie responde a la pregunta que planteaste. El proyecto final incluye seis JPEG propios numerados, título de la serie, intención de entre ochenta y ciento veinte palabras, pies y alternativas textuales, y una reflexión de entre ciento cincuenta y doscientas palabras. Reúne los textos y las seis fotografías en tu expediente personal. El proyecto se realiza mediante autoevaluación y no requiere envío en la plataforma ni revisión de un tutor.\n\nLa intención debe identificar qué quisiste mostrar y para quién. La reflexión debe explicar tres decisiones concretas: una de luz o enfoque, una de composición y una de selección o edición. Incluye también una limitación real y qué cambiarías en otra sesión. No necesitas afirmar que la serie ya tiene aceptación comercial ni que demuestra un resultado profesional; describe lo que puedes observar en tu trabajo.\n\nEjemplo de revisión\nEn «La pausa de estudio», la cuarta foto de textura era atractiva pero no conectaba con las otras. La sustituimos por un detalle del cuaderno y conservamos la luz lateral para mantener el vínculo. La reflexión registra ese cambio: «Reemplacé una textura sin contexto por las anotaciones porque el conjunto debía mostrar una pausa relacionada con el estudio». Esa explicación identifica problema, decisión y resultado visible.\n\nRevisión de tu expediente\nAbre todos los archivos finales, confirma el orden y comprueba una zona importante ampliada. Lee los textos sin mirar las imágenes y después observa las fotos sin textos. Ambos recorridos deberían sostener una idea semejante. Revisa permisos si aparece alguien, elimina datos innecesarios y conserva una copia de originales y finales. Si utilizas un enlace, comprueba que permita ver exactamente los materiales que deseas compartir.\n\nPráctica final\nPrepara tu expediente personal y aplica los cinco criterios del proyecto: intención, control de captura, composición y secuencia, edición y archivos, accesibilidad y autoría. Para cada criterio escribe una evidencia concreta y una mejora posible. Si detectas un fallo que impide entender la acción, vuelve a capturar esa imagen; si solo deseas afinar una preferencia estética, explica tu decisión.\n\nCómo comprobarlo\nUn expediente completo permite reconstruir qué intentaste, qué fotografiaste y por qué elegiste esas seis imágenes. Los archivos funcionan, los textos se relacionan con ellos y las decisiones se apoyan en detalles visibles. El cuestionario comprueba conceptos; la autoevaluación del proyecto te ayuda a valorar su aplicación. El proyecto no condiciona el certificado: debes completar las 12 lecciones y aprobar los cuatro cuestionarios del curso.\n\nAccesibilidad\nPuedes redactar mediante dictado y corregir después los nombres de archivo. No se exige una presentación con animaciones ni un servicio de pago. Elige un formato que puedas revisar y que facilite leer los textos por separado de las imágenes.",
+            "sources": [
+              {
+                "title": "Nikon: visión y proyecto fotográfico",
+                "url": "https://www.nikonusa.com/learn-and-explore/c/ideas-and-inspiration/the-composition-triangle"
+              },
+              {
+                "title": "W3C WAI: decidir el texto alternativo",
+                "url": "https://www.w3.org/WAI/tutorials/images/decision-tree/"
+              },
+              {
+                "title": "Creative Commons: buenas prácticas de atribución",
+                "url": "https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Revisión: Preparar y presentar la entrega",
+              "questions": [
+                {
+                  "prompt": "Al pasar de 4000 × 3000 a un encuadre de 3600 × 2400 eliminando parte de los bordes, ¿qué operación realizaste?",
+                  "multiple": false,
+                  "options": [
+                    "Solo cambiar el brillo.",
+                    "Una atribución de autoría.",
+                    "Un recorte que cambia qué parte de la escena aparece.",
+                    "Una prueba de enfoque."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Recortar cambia el área visible de la fotografía. Reducir dimensiones y comprimir son operaciones diferentes."
+                },
+                {
+                  "prompt": "¿Qué alternativa comunica mejor la acción de una imagen sobre una pausa de estudio?",
+                  "multiple": false,
+                  "options": [
+                    "Una mano coloca una taza junto a un cuaderno abierto.",
+                    "Foto espectacular número tres.",
+                    "Todos los derechos reservados, autor y licencia.",
+                    "La mejor pausa de la historia."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "La alternativa transmite la información visual relevante. Los créditos y las valoraciones generales deben ir en otros campos."
+                },
+                {
+                  "prompt": "¿Qué demuestra una reflexión útil del proyecto?",
+                  "multiple": false,
+                  "options": [
+                    "Que el curso garantiza clientes.",
+                    "Que todas las decisiones fueron perfectas.",
+                    "Que se usaron más filtros que en otras series.",
+                    "Un problema observado, el cambio realizado y su efecto visible."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "Relacionar problema, decisión y resultado permite evaluar el proceso sin inventar reconocimiento ni resultados externos."
+                },
+                {
+                  "prompt": "Antes de entregar una carpeta mediante enlace, ¿qué debes comprobar?",
+                  "multiple": false,
+                  "options": [
+                    "Que el enlace muestre todos tus archivos personales.",
+                    "Que los seis archivos abran, tengan el orden previsto y el acceso muestre solo lo que quieres compartir.",
+                    "Que las imágenes contengan todo el texto incrustado.",
+                    "Que los originales hayan sido eliminados."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La revisión final incluye integridad de archivos, orden, textos y alcance de acceso. Conviene conservar originales aparte."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Serie original de seis fotografías",
+              "instructions": "Reúne en tu expediente personal seis fotografías propias en JPEG numeradas del 01 al 06, título e intención de 80–120 palabras, seis pies y alternativas textuales, y reflexión de 150–200 palabras con tres decisiones y una limitación. Conserva originales aparte y autoevalúa los cinco criterios. No requiere envío ni revisión de un tutor. El proyecto no condiciona el certificado, que requiere completar las 12 lecciones y aprobar los cuatro cuestionarios.",
+              "criteria": [
+                {
+                  "label": "Intención",
+                  "description": "La serie responde a una pregunta concreta y muestra una transformación o relación comprensible."
+                },
+                {
+                  "label": "Control de captura",
+                  "description": "El sujeto relevante tiene enfoque, estabilidad y exposición suficientes; se explican las decisiones de luz."
+                },
+                {
+                  "label": "Composición y secuencia",
+                  "description": "Las seis imágenes aportan información diferente, contexto y cierre, con encuadres justificados."
+                },
+                {
+                  "label": "Edición y archivos",
+                  "description": "Los ajustes son coherentes, conservan detalles y los seis JPEG abren en el orden indicado."
+                },
+                {
+                  "label": "Accesibilidad y autoría",
+                  "description": "Cada foto tiene pie y alternativa útil; se declara autoría y se acuerda el uso cuando aparecen personas."
+                }
+              ],
+              "required": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "edicion-video-shotcut-guion-publicacion",
+    "title": "Edición de video con Shotcut: del guion a la publicación",
+    "category": {
+      "name": "Creación",
+      "slug": "creacion"
+    },
+    "topic": {
+      "name": "Edición de video",
+      "slug": "edicion-video"
+    },
+    "description": "Produce un video original de 60 a 90 segundos con Shotcut. Aprende a planificar, organizar material, montar, tratar sonido, añadir títulos y subtítulos, exportar y revisar una entrega completa.",
+    "objective": "Planificar, editar y exportar un video original de 60 a 90 segundos con una historia clara, audio comprensible, subtítulos revisados, créditos y proyecto editable organizado.",
+    "requirements": "Computadora compatible con una versión reciente de Shotcut, descargada de su sitio oficial; celular o cámara para grabar seis a diez clips propios; auriculares o altavoces; espacio para originales y exportaciones. Consulta los requisitos de tu versión. Las herramientas y prácticas no requieren suscripción ni música de pago.",
+    "minutes": 480,
+    "price": 2400,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "Shotcut: descarga oficial",
+        "url": "https://www.shotcut.org/download/"
+      },
+      {
+        "title": "Shotcut: guía rápida",
+        "url": "https://forum.shotcut.org/t/quick-start-guide/12977"
+      },
+      {
+        "title": "Shotcut: organización de proyectos",
+        "url": "https://forum.shotcut.org/pub/project-management"
+      },
+      {
+        "title": "Shotcut: añadir archivos",
+        "url": "https://forum.shotcut.org/t/adding-media/12950/1"
+      },
+      {
+        "title": "Shotcut: recortar clips",
+        "url": "https://forum.shotcut.org/t/trimming-clips/49216/1"
+      },
+      {
+        "title": "Shotcut: línea de tiempo",
+        "url": "https://forum.shotcut.org/t/about-the-timeline/12952"
+      },
+      {
+        "title": "Shotcut: modo de vídeo",
+        "url": "https://forum.shotcut.org/t/settings-video-mode/12790/1"
+      },
+      {
+        "title": "Shotcut: edición mediante proxies",
+        "url": "https://forum.shotcut.org/t/settings-proxy-editing/18517"
+      },
+      {
+        "title": "Shotcut: crear y eliminar transiciones",
+        "url": "https://forum.shotcut.org/t/creating-and-removing-transitions/12958/1"
+      },
+      {
+        "title": "Shotcut: filtro de ganancia y volumen",
+        "url": "https://forum.shotcut.org/t/gain-volume-audio-filter/12906/1"
+      },
+      {
+        "title": "Shotcut: medidor de picos de audio",
+        "url": "https://forum.shotcut.org/t/audio-peak-meter-scope/12918/1"
+      },
+      {
+        "title": "Shotcut: texto sencillo",
+        "url": "https://forum.shotcut.org/t/text-simple-video-filter/12888/1"
+      },
+      {
+        "title": "Shotcut: panel de subtítulos",
+        "url": "https://forum.shotcut.org/t/view-subtitles/45312/1"
+      },
+      {
+        "title": "Shotcut: corrección de color",
+        "url": "https://forum.shotcut.org/t/color-grading-video-filter/12836/1"
+      },
+      {
+        "title": "Shotcut: balance de blancos",
+        "url": "https://forum.shotcut.org/t/white-balance-video-filter/12894/1"
+      },
+      {
+        "title": "Shotcut: tamaño, posición y rotación",
+        "url": "https://forum.shotcut.org/t/size-position-rotate-video-filter/12881/1"
+      },
+      {
+        "title": "Shotcut: fotogramas clave",
+        "url": "https://forum.shotcut.org/t/about-keyframes/12957/1"
+      },
+      {
+        "title": "Shotcut: exportación básica",
+        "url": "https://forum.shotcut.org/pub/export-basics"
+      },
+      {
+        "title": "Shotcut: referencia de atajos",
+        "url": "https://www.shotcut.org/howtos/keyboard-shortcuts/"
+      },
+      {
+        "title": "Shotcut: guía para personas ciegas",
+        "url": "https://forum.shotcut.org/t/a-guide-for-blind-users/13213/1"
+      },
+      {
+        "title": "Shotcut: selección oficial de vídeos tutoriales",
+        "url": "https://www.shotcut.org/tutorials/"
+      },
+      {
+        "title": "W3C WAI: subtítulos accesibles",
+        "url": "https://www.w3.org/WAI/media/av/captions/"
+      },
+      {
+        "title": "Creative Commons: atribuir recursos",
+        "url": "https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "Preparar una producción breve",
+        "description": "Define el mensaje, organiza los archivos y configura un proyecto recuperable.",
+        "lessons": [
+          {
+            "title": "Un guion que se pueda grabar",
+            "description": "Diseña una pieza de 60 a 90 segundos con una idea y una acción principal.",
+            "outcome": "Escribir un guion breve y una lista de tomas suficientes para una producción original.",
+            "activity": "design",
+            "preview": "Diseña una pieza de 60 a 90 segundos con una idea y una acción principal.",
+            "body": "El mensaje antes del montaje\nElige una actividad pequeña que puedas mostrar con tus recursos: organizar una mochila, preparar una mesa de estudio o cuidar una planta. Tu video final durará entre sesenta y noventa segundos. Escribe una frase que complete «Al terminar, quien lo vea entenderá…». Si contiene varias ideas sin relación, reduce el alcance. Un mensaje concreto facilita saber qué grabar y qué eliminar cuando empieces a editar.\n\nTrabaja con un guion de dos columnas: imagen y sonido. Puedes escribirlo como una lista si no utilizas tablas. Cada bloque debe indicar qué se ve y qué se escucha, con una duración aproximada. Separa tres momentos: presentar la situación, mostrar una acción que la modifica y enseñar el resultado. Calcula el total, dejando tiempo para un título corto y un cierre. No necesitas diálogo ni música para contar una transformación visible.\n\nEjemplo resuelto\nEl mensaje es «Mostrar cómo preparo un rincón ordenado para estudiar». El inicio dura diez segundos y presenta la mesa desordenada. El desarrollo reserva cuarenta segundos para retirar objetos, ordenar materiales y colocar una libreta. El resultado ocupa quince segundos y el cierre cinco. El total previsto es setenta segundos. La narración propuesta nombra las decisiones, en lugar de decir solamente «ahora hacemos esto».\n\nLista de tomas\nIncluye una vista general, dos planos medios de acciones y tres detalles que ayuden a comprenderlas. Graba unos segundos antes y después de cada acción para poder elegir dónde cortar. Mantén una orientación coherente y repite una acción cuando necesites cubrirla desde otra distancia. Utiliza objetos y espacios propios o acordados; evita pantallas con datos personales y personas que no hayan aceptado participar.\n\nPráctica\nRedacta el mensaje, el guion de tres momentos y una lista de seis a diez clips. Para cada clip anota la acción y el sonido necesario. Graba una prueba de diez segundos y comprueba si tu computadora puede abrirla antes de realizar toda la sesión. Así detectas pronto problemas de orientación, formato o sonido.\n\nCómo comprobarlo\nEl guion debe sumar entre sesenta y noventa segundos y poder realizarse sin recursos pendientes. Al leer solo la columna de imagen debe reconocerse una transformación; al leer el sonido debe entenderse qué información aporta.\n\nAccesibilidad\nPlanifica desde el inicio cómo nombrarás las acciones importantes y qué textos necesitarán subtítulos. Puedes dictar el guion. Una actividad hecha sobre una mesa permite grabar desde una posición estable y adaptar los objetos a tu alcance.",
+            "sources": [
+              {
+                "title": "Shotcut: guía rápida",
+                "url": "https://forum.shotcut.org/t/quick-start-guide/12977"
+              },
+              {
+                "title": "W3C WAI: subtítulos accesibles",
+                "url": "https://www.w3.org/WAI/media/av/captions/"
+              },
+              {
+                "title": "Creative Commons: atribuir recursos",
+                "url": "https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Instalar y organizar un proyecto recuperable",
+            "description": "Distingue originales, proyecto editable y video exportado para conservar tu trabajo.",
+            "outcome": "Crear una estructura de carpetas y guardar un proyecto que vuelva a abrir con sus medios.",
+            "activity": "execute",
+            "preview": "Distingue originales, proyecto editable y video exportado para conservar tu trabajo.",
+            "body": "Tres elementos diferentes\nShotcut permite editar sin convertir primero todo el material a un formato propio. El archivo de proyecto, normalmente con extensión .mlt, guarda decisiones y referencias a medios; no contiene por sí mismo todos tus videos, imágenes y sonidos. El archivo exportado es un resultado para reproducir. Necesitas conservar tanto el proyecto como los originales si deseas corregir el montaje después.\n\nDescarga el programa desde su página oficial y elige la opción compatible con tu sistema. Los requisitos cambian entre versiones, por eso conviene consultar los del instalador elegido. No necesitas comprar paquetes de efectos para este curso. Al abrir Shotcut puedes seleccionar un espacio de trabajo adecuado y recuperar los paneles desde Ver/View si alguno no aparece. Los nombres entre paréntesis te ayudan a localizar controles en una interfaz en inglés.\n\nCarpetas antes de importar\nCrea una carpeta del proyecto con subcarpetas para videos originales, audio, imágenes y entregas. Copia allí tus clips antes de añadirlos al editor. Nómbralos con números y acciones reconocibles: «01_mesa», «02_retirar_objetos», «03_libreta». Conserva sus extensiones reales. Si cambias después el nombre o ubicación de un archivo, el proyecto puede pedirte localizarlo otra vez.\n\nEjemplo resuelto\nLa carpeta «rincon_estudio» contiene «originales», «audio» y «entregas», junto con «rincon_v01.mlt». Cerramos el programa y volvemos a abrir ese proyecto. Si aparece un medio ausente, comprobamos que el original existe y lo volvemos a vincular mediante el diálogo correspondiente. No lo sustituimos por una exportación del montaje: perderíamos acceso a la toma completa.\n\nPráctica\nOrganiza los seis a diez clips previstos, crea un proyecto y guárdalo con un nombre claro. Añade un clip, guarda, cierra y vuelve a abrir. Crea una copia de seguridad en otra ubicación disponible que incluya proyecto y medios, sin mover los originales usados por el proyecto activo. Reserva veinte minutos para hacer esta comprobación antes del montaje.\n\nCómo comprobarlo\nAl reabrir debe verse y escucharse el clip sin buscarlo en la carpeta de descargas o en un teléfono conectado. La copia de seguridad debe contener más que un .mlt. Puedes comprobarlo leyendo la lista de archivos y sus tamaños.\n\nAccesibilidad\nUsa nombres breves con acciones concretas para facilitar navegación con lector de pantalla. Shotcut documenta atajos y un flujo para personas ciegas, aunque la compatibilidad depende del sistema y versión. Amplía la interfaz o reorganiza paneles si mejora tu comodidad; no necesitas reproducir una distribución exacta.",
+            "sources": [
+              {
+                "title": "Shotcut: descarga oficial",
+                "url": "https://www.shotcut.org/download/"
+              },
+              {
+                "title": "Shotcut: organización de proyectos",
+                "url": "https://forum.shotcut.org/pub/project-management"
+              },
+              {
+                "title": "Shotcut: referencia de atajos",
+                "url": "https://www.shotcut.org/howtos/keyboard-shortcuts/"
+              },
+              {
+                "title": "Shotcut: guía para personas ciegas",
+                "url": "https://forum.shotcut.org/t/a-guide-for-blind-users/13213/1"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Orientación, resolución y primer montaje",
+            "description": "Configura el lienzo del proyecto y coloca tres clips en la línea de tiempo.",
+            "outcome": "Elegir un modo de video y comprobar que las primeras tomas se reproducen con la orientación correcta.",
+            "activity": "execute",
+            "preview": "Configura el lienzo del proyecto y coloca tres clips en la línea de tiempo.",
+            "body": "Decidir el formato de trabajo\nAntes de construir el montaje define dónde se verá. Para este proyecto usaremos un video horizontal de 1920 por 1080 píxeles y una frecuencia de cuadros compatible con tus tomas, por ejemplo treinta por segundo si grabaste así. Si el objetivo exige formato vertical, puedes elegir 1080 por 1920 y mantenerlo durante todo el curso. La elección responde al destino del contenido, no a una obligación de grabar siempre de una manera.\n\nEn Ajustes/Settings busca Modo de video/Video Mode y comprueba tamaño y frecuencia antes de añadir muchos clips. El modo automático puede adoptar características del primer material; para evitar sorpresas verifica qué quedó seleccionado. No mezcles cifras al azar: un proyecto a treinta cuadros por segundo no transforma una toma a quince en movimiento capturado a treinta. Si no sabes con qué grabaste, revisa Propiedades/Properties del clip.\n\nAbrir y colocar medios\nAbre un clip mediante Abrir archivo/Open File. La pestaña Fuente/Source muestra el medio; Proyecto/Project permite revisar el montaje. Añade el archivo a la lista de reproducción/Playlist y luego a la línea de tiempo/Timeline. La lista organiza candidatos; la línea de tiempo define cuándo aparecen. Coloca tres clips consecutivos y reproduce desde el inicio para reconocer la diferencia entre ver el archivo fuente y ver la secuencia.\n\nEjemplo resuelto\nUn clip aparece de lado aunque el proyecto sea horizontal. Primero comprobamos si la orientación procede del archivo y revisamos la rotación en las propiedades o el filtro correspondiente. Si el clip es vertical correctamente orientado, no lo giramos para llenar un rectángulo horizontal: elegimos entre conservar bordes o recortar según la información. El video oficial de apoyo muestra una rotación; sus controles pueden corresponder a otra versión.\n\nPráctica\nConfigura tu formato, incorpora una vista general y dos acciones y guarda una nueva versión del proyecto. Reproduce cinco segundos de cada clip desde la línea de tiempo. Comprueba que ningún sujeto importante haya quedado fuera por una adaptación de tamaño y anota el modo seleccionado.\n\nCómo comprobarlo\nLas tres tomas deben aparecer en el orden elegido sin cambios inesperados de orientación. Debes poder explicar si estás viendo Fuente o Proyecto y localizar el tamaño del proyecto. Todavía no necesitas efectos ni cortes precisos.\n\nAccesibilidad\nUtiliza los nombres de los paneles, los menús y los atajos documentados para orientarte. Puedes trabajar con clips de alto contraste y acciones lentas. El video complementario es opcional: el procedimiento completo queda explicado en esta lección y no requiere escuchar contenido en inglés.",
+            "sources": [
+              {
+                "title": "Shotcut: modo de vídeo",
+                "url": "https://forum.shotcut.org/t/settings-video-mode/12790/1"
+              },
+              {
+                "title": "Shotcut: añadir archivos",
+                "url": "https://forum.shotcut.org/t/adding-media/12950/1"
+              },
+              {
+                "title": "Shotcut: línea de tiempo",
+                "url": "https://forum.shotcut.org/t/about-the-timeline/12952"
+              },
+              {
+                "title": "Shotcut: tamaño, posición y rotación",
+                "url": "https://forum.shotcut.org/t/size-position-rotate-video-filter/12881/1"
+              },
+              {
+                "title": "Shotcut: selección oficial de vídeos tutoriales",
+                "url": "https://www.shotcut.org/tutorials/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Shotcut: rotar un video — canal oficial (inglés; interfaz histórica)",
+                "url": "https://www.youtube.com/watch?v=AVOh_5-TdbA"
+              }
+            ],
+            "quiz": {
+              "title": "Revisión: Preparar una producción breve",
+              "questions": [
+                {
+                  "prompt": "El guion suma tres minutos, pero tu entrega debe durar entre 60 y 90 segundos. ¿Qué decisión ayuda más antes de grabar?",
+                  "multiple": false,
+                  "options": [
+                    "Grabar todo y acelerar después la voz.",
+                    "Añadir transiciones para compensar la duración.",
+                    "Reducir el mensaje a una transformación y seleccionar las acciones necesarias.",
+                    "Subir la resolución del proyecto."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Reducir alcance antes de producir permite grabar lo que comunica el mensaje. Acelerar o añadir efectos no resuelve un guion con demasiadas ideas."
+                },
+                {
+                  "prompt": "Guardaste únicamente el archivo .mlt en otra computadora. ¿Por qué pueden aparecer medios ausentes?",
+                  "multiple": false,
+                  "options": [
+                    "El proyecto guarda referencias y necesita también los archivos originales.",
+                    "Todos los proyectos deben convertirse en JPEG.",
+                    "El programa solo permite abrir el montaje una vez.",
+                    "Un archivo exportado contiene automáticamente todos los originales."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "El proyecto conserva decisiones y rutas, no todos los medios dentro de un único archivo. Deben conservarse y poder localizarse."
+                },
+                {
+                  "prompt": "¿Dónde defines el orden y momento de aparición de los clips del montaje?",
+                  "multiple": false,
+                  "options": [
+                    "En el nombre de cada carpeta.",
+                    "Únicamente en la lista de reproducción.",
+                    "En las etiquetas de créditos.",
+                    "En la línea de tiempo."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "La lista de reproducción organiza material candidato. La línea de tiempo establece la secuencia temporal de la pieza."
+                },
+                {
+                  "prompt": "Tu primer clip es vertical, pero el encargo requiere una pieza horizontal. ¿Qué debes comprobar al crear el proyecto?",
+                  "multiple": false,
+                  "options": [
+                    "Que todos los nombres tengan el mismo largo.",
+                    "El modo de video y cómo se adapta el encuadre sin perder información importante.",
+                    "Que se aplique cualquier filtro de rotación siempre.",
+                    "Que la extensión del proyecto sea .mp4."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El modo de video define el lienzo. Una toma vertical bien orientada no debe girarse automáticamente para llenar una salida horizontal."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "Construir la historia en la línea de tiempo",
+        "description": "Selecciona fragmentos, ordena acciones y mejora ritmo y continuidad.",
+        "lessons": [
+          {
+            "title": "Elegir entradas, salidas y cortes útiles",
+            "description": "Selecciona el fragmento que cuenta cada acción conservando margen para ajustar.",
+            "outcome": "Crear un primer montaje con entradas y salidas intencionales, sin alterar los archivos originales.",
+            "activity": "execute",
+            "preview": "Selecciona el fragmento que cuenta cada acción conservando margen para ajustar.",
+            "body": "Recortar una toma\nEl inicio y el final de un archivo grabado rara vez coinciden con lo que necesitas mostrar. Recortar un clip modifica el fragmento utilizado en el proyecto; no equivale a borrar el original. Abre una toma en Fuente y busca el instante anterior a la acción importante. Marca la entrada con el control correspondiente o con I. Busca después dónde termina la información útil y marca la salida con O, la letra. Añade esa selección a tu montaje.\n\nEn la línea de tiempo también puedes arrastrar los bordes del clip para ajustar su duración. Antes de hacerlo, identifica el clip seleccionado y acerca la vista para trabajar con precisión. Mover todo el rectángulo cambia su posición temporal; arrastrar su borde cambia la entrada o salida. Si algo queda distinto de lo previsto, usa Deshacer y revisa qué control estabas manipulando.\n\nEl corte debe responder a la acción\nUn buen punto de salida permite entender lo ocurrido y pasar a la siguiente información. Una toma demasiado corta puede ocultar la acción; una demasiado larga puede repetirla sin aportar nada. Observa el movimiento completo primero. Después busca un momento legible y escucha si el recorte corta una palabra o una frase necesaria. No decidas únicamente por la duración que anotaste en el guion.\n\nEjemplo resuelto\nLa toma «colocar_libreta» dura doce segundos: cuatro de preparación, dos de acción y seis de espera. Seleccionamos desde un segundo antes de que entre la mano hasta dos segundos después de dejar la libreta. El resultado dura aproximadamente cinco segundos y mantiene la acción reconocible. Guardamos el original de doce por si necesitamos ampliar el margen después.\n\nPráctica\nSelecciona fragmentos útiles de seis clips y construye una versión inicial de la historia. Anota una entrada y una salida que cambiaste, con el motivo. Reproduce los cortes a velocidad normal: examinar un cuadro sirve para precisión, pero la comprensión depende del movimiento que verá el público.\n\nCómo comprobarlo\nCada fragmento debe tener una función clara. Las acciones esenciales se entienden, no hay palabras truncadas y se conserva margen cuando la siguiente toma lo necesita. Si el conjunto supera noventa segundos, identifica primero repeticiones antes de acelerar todos los clips.\n\nAccesibilidad\nPuedes registrar los puntos de entrada y salida como tiempos escritos y utilizar los controles de búsqueda y atajos de tu versión. Trabaja por clips cortos y guarda con frecuencia. Una lista textual del orden ayuda a mantener el propósito cuando la línea de tiempo se hace visualmente densa.",
+            "sources": [
+              {
+                "title": "Shotcut: recortar clips",
+                "url": "https://forum.shotcut.org/t/trimming-clips/49216/1"
+              },
+              {
+                "title": "Shotcut: añadir archivos",
+                "url": "https://forum.shotcut.org/t/adding-media/12950/1"
+              },
+              {
+                "title": "Shotcut: referencia de atajos",
+                "url": "https://www.shotcut.org/howtos/keyboard-shortcuts/"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Orden, continuidad y uso de pistas",
+            "description": "Usa la línea de tiempo para conservar relaciones de espacio y tiempo entre acciones.",
+            "outcome": "Ordenar el montaje y añadir una imagen de apoyo sin perder la continuidad del sonido.",
+            "activity": "execute",
+            "preview": "Usa la línea de tiempo para conservar relaciones de espacio y tiempo entre acciones.",
+            "body": "Leer las pistas\nUna pista de video organiza clips a lo largo del tiempo. Una pista superior puede cubrir visualmente las inferiores, según transparencia y composición. Una pista de audio permite conservar sonido sin depender de la imagen visible. Antes de añadir capas define su propósito: imagen principal, detalle de apoyo o narración. Tener más pistas no mejora por sí mismo el relato y puede ocultar un clip que todavía necesitas revisar.\n\nElige una acción que dure varios segundos. Puedes mantener su sonido mientras muestras un detalle relacionado encima, como la mano ordenando lápices. Esto ayuda a explicar el proceso y evita depender siempre de la misma distancia de cámara. Comprueba que el detalle corresponda al momento o que se entienda como apoyo. No utilices un corte para hacer parecer que ocurrió algo diferente si tu pieza se presenta como registro descriptivo.\n\nHuecos y desplazamientos\nAl quitar una parte puedes dejar un hueco o desplazar lo que viene después. La edición con desplazamiento/Ripple cambia posiciones para cerrar espacio; si afecta otras pistas, puede modificar sincronías. Antes de usarla guarda una versión y observa qué pistas están bloqueadas o activas. Un cambio local debe revisarse alrededor del corte y también en el final del montaje.\n\nEjemplo resuelto\nLa narración dice «separo los materiales que usaré hoy» durante seis segundos. Sobre ese sonido mostramos tres segundos de plano medio y tres de detalle de los lápices. No duplicamos el audio del detalle, que contiene un golpe accidental. La frase continúa completa y las dos imágenes aportan escalas distintas de la misma acción.\n\nPráctica\nOrganiza las seis tomas elegidas y añade una pista superior para un detalle de apoyo de entre dos y cuatro segundos. Mantén la continuidad de la narración o del ambiente que sea necesario. Prueba retirar un clip en una copia del proyecto y observa qué ocurre con el espacio vacío; después deshaz la operación y conserva el montaje correcto.\n\nCómo comprobarlo\nNo deben aparecer negros o silencios accidentales entre acciones. El detalle debe aportar información y no tapar un título relevante. Revisa que ninguna narración se haya desfasado al mover clips y que el resultado siga entre sesenta y noventa segundos.\n\nAccesibilidad\nNombra las pistas por función cuando la versión lo permita y lleva una lista con sus contenidos. Bloquea las que no necesitas modificar. Esto reduce errores al trabajar con ampliación o navegación por teclado, y ayuda a reconocer qué capa debes revisar sin depender solo de su color.",
+            "sources": [
+              {
+                "title": "Shotcut: línea de tiempo",
+                "url": "https://forum.shotcut.org/t/about-the-timeline/12952"
+              },
+              {
+                "title": "Shotcut: recortar clips",
+                "url": "https://forum.shotcut.org/t/trimming-clips/49216/1"
+              },
+              {
+                "title": "Shotcut: organización de proyectos",
+                "url": "https://forum.shotcut.org/pub/project-management"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Ritmo y transiciones con propósito",
+            "description": "Reduce repeticiones y decide cuándo un cambio de plano necesita una transición.",
+            "outcome": "Revisar el ritmo del primer montaje y justificar un corte o una disolvencia.",
+            "activity": "execute",
+            "preview": "Reduce repeticiones y decide cuándo un cambio de plano necesita una transición.",
+            "body": "El ritmo transmite información\nLa duración de un plano debe permitir reconocer lo que contiene. Una vista general con varios objetos puede necesitar más tiempo que un detalle sencillo. La velocidad del montaje también depende del movimiento, la narración y la expectativa que construyes. No existe una duración universal de tres segundos para todo. Mira la pieza completa y marca los momentos donde esperas algo que ya entendiste o donde no alcanzas a comprender una acción.\n\nEmpieza con cortes directos. Un corte cambia de imagen sin un efecto intermedio y suele funcionar cuando la relación es clara. Una disolvencia superpone gradualmente dos imágenes; puede sugerir un paso de tiempo o suavizar una transición concreta. En Shotcut puedes crear una transición al solapar clips de una misma pista bajo las condiciones del editor. Guarda antes de probar y revisa la duración resultante, porque el solapamiento cambia el tiempo total.\n\nEvitar efectos que compiten\nSi cada corte utiliza un estilo distinto, la atención puede dirigirse al efecto. Reserva una transición para una necesidad visible. Comprueba que la superposición no vuelva ilegible un gesto importante o mezcle dos textos. Si necesitas eliminar una transición, utiliza la opción documentada y revisa los fragmentos adyacentes; no supongas que el programa conservará exactamente la duración que tenías antes de crearla.\n\nEjemplo resuelto\nDespués de ordenar la mesa hay una toma del mismo lugar con iluminación más tenue, grabada más tarde. Una disolvencia breve ayuda a marcar el cambio temporal. Entre retirar un libro y colocar la libreta usamos corte directo, porque son acciones consecutivas. El cierre se mantiene unos segundos para que el espectador registre el resultado antes de terminar.\n\nPráctica\nMira tu versión inicial y anota tres lugares donde sobra o falta tiempo. Modifica cada uno con un motivo concreto. Compara dos versiones de un mismo cambio: corte y disolvencia. Escoge la que comunique mejor la relación y escribe por qué. Guarda el proyecto como una segunda versión de montaje.\n\nCómo comprobarlo\nEl relato debe entenderse sin que las transiciones oculten información. Comprueba el inicio, todos los puntos modificados y el cierre a velocidad normal. Mantén la duración objetivo mediante selección; acelerar el video completo suele perjudicar acciones y voces.\n\nAccesibilidad\nEvita destellos y cambios visuales innecesariamente bruscos. Da tiempo para leer textos y reconocer las acciones. Si te cuesta evaluar el ritmo en una sola reproducción, revisa por bloques cortos y utiliza una lista de eventos con tiempos aproximados para detectar repeticiones o saltos.",
+            "sources": [
+              {
+                "title": "Shotcut: crear y eliminar transiciones",
+                "url": "https://forum.shotcut.org/t/creating-and-removing-transitions/12958/1"
+              },
+              {
+                "title": "Shotcut: línea de tiempo",
+                "url": "https://forum.shotcut.org/t/about-the-timeline/12952"
+              },
+              {
+                "title": "Shotcut: recortar clips",
+                "url": "https://forum.shotcut.org/t/trimming-clips/49216/1"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Revisión: Construir la historia en la línea de tiempo",
+              "questions": [
+                {
+                  "prompt": "Una toma dura 12 segundos, pero la acción útil ocupa cinco. ¿Qué operación debes realizar?",
+                  "multiple": false,
+                  "options": [
+                    "Cambiar su entrada y salida en el proyecto conservando el original.",
+                    "Borrar el archivo original y repetir todo el rodaje.",
+                    "Subir el volumen del clip.",
+                    "Cambiar el tamaño del título."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Recortar selecciona el fragmento utilizado. Mantener el original permite ampliar o cambiar después esa selección."
+                },
+                {
+                  "prompt": "Quitaste un clip y ahora la narración ya no coincide con la acción. ¿Qué debes revisar?",
+                  "multiple": false,
+                  "options": [
+                    "Solo el color de la pista.",
+                    "El nombre de la carpeta del proyecto.",
+                    "Si el desplazamiento de clips afectó otras pistas y su sincronía.",
+                    "La cantidad de letras del título."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Operaciones con desplazamiento pueden cambiar posiciones en varias pistas. Conviene revisar sincronía y puntos posteriores al corte."
+                },
+                {
+                  "prompt": "Quieres mostrar un detalle mientras una frase continúa completa. ¿Qué montaje es adecuado?",
+                  "multiple": false,
+                  "options": [
+                    "Cortar la frase en cada cambio de imagen.",
+                    "Duplicar todos los sonidos para que se note el detalle.",
+                    "Usar una transición larga encima de toda la frase.",
+                    "Mostrar el detalle en otra pista manteniendo el audio necesario continuo."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "Separar la imagen de apoyo del sonido permite cambiar de escala sin truncar información sonora. Debe evitarse duplicar ruidos innecesarios."
+                },
+                {
+                  "prompt": "¿Cuándo tiene una disolvencia una función clara en una pieza descriptiva?",
+                  "multiple": false,
+                  "options": [
+                    "Cuando se necesita ocultar cualquier fallo de enfoque.",
+                    "Cuando ayuda a comunicar un paso de tiempo entre dos momentos.",
+                    "Siempre que cambia un objeto de posición.",
+                    "En cada corte para que la pieza sea más larga."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Una transición debe ayudar a comprender una relación. Para acciones consecutivas claras un corte directo suele ser suficiente."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "Sonido, color y textos",
+        "description": "Haz comprensible la pieza con una mezcla sencilla, imagen consistente y subtítulos revisados.",
+        "lessons": [
+          {
+            "title": "Voz, ambiente y niveles de audio",
+            "description": "Ordena el sonido para que el mensaje pueda entenderse sin distorsión ni competencia innecesaria.",
+            "outcome": "Ajustar niveles de voz y ambiente y verificar el resultado con escucha y medidor.",
+            "activity": "execute",
+            "preview": "Ordena el sonido para que el mensaje pueda entenderse sin distorsión ni competencia innecesaria.",
+            "body": "Escuchar antes de procesar\nReproduce una toma con auriculares o altavoces a un volumen cómodo. Identifica voz, ambiente útil y ruido que distrae. Una grabación saturada puede tener distorsión que bajar después no repara. Si el contenido esencial resulta incomprensible, repítelo más cerca del micrófono y en un lugar más tranquilo. Para la práctica basta una narración grabada con el celular; importa más la claridad que añadir muchos efectos.\n\nEn Shotcut utiliza una pista para narración y conserva únicamente los ambientes que ayuden a la escena. El filtro Ganancia/Volumen/Gain/Volume ajusta el nivel del clip o pista donde se aplica. Comprueba siempre qué elemento está seleccionado: un ajuste en una pista completa afecta más material que el mismo filtro en un clip. Los valores negativos reducen nivel; los positivos lo aumentan.\n\nMedir y escuchar\nAbre el medidor de picos de audio. En audio digital cero dBFS marca el máximo representable; llegar al límite sin margen puede producir recorte al combinar sonidos. Para este ejercicio busca picos de voz aproximadamente entre −12 y −6 dBFS y conserva margen cuando añadas ambiente. Es una referencia práctica, no una garantía de cumplimiento para cualquier plataforma. La inteligibilidad debe comprobarse escuchando y con textos equivalentes.\n\nEjemplo resuelto\nLa voz tiene picos alrededor de −10 dBFS, pero un golpe sobre la mesa llega al límite. Reducimos o retiramos ese golpe en su fragmento en vez de bajar toda la narración hasta volverla inaudible. El ambiente de la habitación queda mucho más bajo que la voz. Añadimos una entrada y salida suaves cuando un sonido empieza o termina de forma molesta.\n\nPráctica\nMonta entre veinte y treinta segundos con voz y un ambiente propio. Ajusta ambos niveles y escucha otra vez a volumen moderado. Después escucha con un solo tipo de dispositivo adicional disponible, sin cambiar la mezcla para perseguir cada diferencia de altavoz. Si usas música, verifica sus condiciones; también puedes completar la pieza sin música.\n\nCómo comprobarlo\nLas palabras se entienden sin subir constantemente el volumen, los golpes no dominan y el medidor conserva margen en las sumas. Silencia temporalmente el ambiente para comprobar si estaba ayudando o tapando información. Guarda el proyecto al terminar.\n\nAccesibilidad\nLa mezcla clara favorece a muchas personas, pero no sustituye subtítulos. Conserva una transcripción de la narración y anota sonidos relevantes para incluirlos cuando sean necesarios para comprender la acción. Puedes evaluar cortes y duración con formas de onda y tiempos sin depender de escuchar todos los detalles.",
+            "sources": [
+              {
+                "title": "Shotcut: filtro de ganancia y volumen",
+                "url": "https://forum.shotcut.org/t/gain-volume-audio-filter/12906/1"
+              },
+              {
+                "title": "Shotcut: medidor de picos de audio",
+                "url": "https://forum.shotcut.org/t/audio-peak-meter-scope/12918/1"
+              },
+              {
+                "title": "W3C WAI: subtítulos accesibles",
+                "url": "https://www.w3.org/WAI/media/av/captions/"
+              },
+              {
+                "title": "Creative Commons: atribuir recursos",
+                "url": "https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Corrección de imagen y movimiento sencillo",
+            "description": "Ajusta diferencias entre tomas y crea un movimiento discreto cuando aporte información.",
+            "outcome": "Conseguir continuidad visual y utilizar dos fotogramas clave sin perder el sujeto.",
+            "activity": "execute",
+            "preview": "Ajusta diferencias entre tomas y crea un movimiento discreto cuando aporte información.",
+            "body": "Corregir antes de estilizar\nDos tomas consecutivas pueden tener brillo o temperatura diferentes por un cambio de luz o por el ajuste automático del celular. Primero busca continuidad: el mismo cuaderno no debería cambiar de blanco a naranja sin motivo. Elige una toma de referencia y compara la siguiente. En Filtros/Filters añade el ajuste de balance de blancos o corrección de color que necesites. Cambia un parámetro por vez y activa y desactiva el filtro para observar su efecto.\n\nNo intentes igualar todas las escenas hasta borrar una diferencia real de hora o ambiente. Tu objetivo es que los cambios apoyen el relato. Si una toma está muy oscura y al aclararla aparece ruido excesivo, considera sustituirla. Corregir no recupera automáticamente la información que no se grabó. Revisa con pausas y evita juzgar solo por una miniatura del reproductor.\n\nEncuadre y fotogramas clave\nEl filtro Tamaño, posición y rotación/Size, Position & Rotate permite adaptar una imagen al lienzo. Revisa siempre si estás recortando información importante al llenarlo. Un fotograma clave establece un valor en un momento; otro establece un valor diferente después y el editor calcula el cambio intermedio. Para empezar, usa dos y un desplazamiento pequeño en una imagen fija o una toma estable.\n\nEjemplo resuelto\nMostramos la mesa ordenada durante cinco segundos. En lugar de ampliar mucho, iniciamos con todo el conjunto y terminamos ligeramente más cerca del cuaderno. Los dos valores de tamaño y posición mantienen la taza dentro del encuadre. Revisamos el inicio, el centro y el final para comprobar que el movimiento no se sale de la escena ni reduce la nitidez de forma evidente.\n\nPráctica\nCorrige una diferencia de brillo o temperatura entre dos clips, anotando qué detalle usaste como referencia. Después crea un movimiento leve con dos fotogramas clave en un fragmento de cuatro a seis segundos. Si no aporta información, elimina el movimiento y explica por qué prefieres la toma fija.\n\nCómo comprobarlo\nLos objetos recurrentes conservan un aspecto reconocible, no aparecen bordes vacíos accidentales y el sujeto permanece visible durante todo el movimiento. Una corrección que llama más la atención que la acción necesita revisarse. Guarda una versión anterior para comparar sin depender únicamente de la memoria.\n\nAccesibilidad\nNo comuniques información solo por diferencias de color. Mantén movimientos lentos y prescindibles, sin temblores o acercamientos rápidos. Puedes realizar toda la práctica con tomas fijas y documentar el movimiento en una copia si te produce incomodidad al verlo.",
+            "sources": [
+              {
+                "title": "Shotcut: balance de blancos",
+                "url": "https://forum.shotcut.org/t/white-balance-video-filter/12894/1"
+              },
+              {
+                "title": "Shotcut: corrección de color",
+                "url": "https://forum.shotcut.org/t/color-grading-video-filter/12836/1"
+              },
+              {
+                "title": "Shotcut: tamaño, posición y rotación",
+                "url": "https://forum.shotcut.org/t/size-position-rotate-video-filter/12881/1"
+              },
+              {
+                "title": "Shotcut: fotogramas clave",
+                "url": "https://forum.shotcut.org/t/about-keyframes/12957/1"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Títulos y subtítulos que se puedan leer",
+            "description": "Añade información escrita con contraste, tiempo suficiente y sincronización revisada.",
+            "outcome": "Crear un título y subtítulos corregidos para toda la información sonora esencial.",
+            "activity": "execute",
+            "preview": "Añade información escrita con contraste, tiempo suficiente y sincronización revisada.",
+            "body": "Distinguir funciones\nUn título presenta la pieza o identifica una parte. Los subtítulos accesibles permiten comprender el habla y los sonidos necesarios para seguir lo que ocurre. No conviene convertir cada frase en un título decorativo. Mantén separados propósito, posición y duración. Un texto legible necesita contraste con el fondo, tamaño suficiente y tiempo para leerlo en el dispositivo donde se verá.\n\nPara un título sencillo selecciona el clip correspondiente, abre Filtros y añade Texto: sencillo/Text: Simple. Escribe pocas palabras y comprueba que no queden sobre un detalle esencial. Si el fondo cambia mucho, utiliza un recuadro o una zona con contraste consistente. Evita depender de un contorno fino que desaparece al ver el resultado en una pantalla pequeña.\n\nCrear subtítulos\nEn versiones recientes de Shotcut puedes abrir Ver/View > Subtítulos/Subtitles, crear una pista e introducir entradas con tiempos de inicio y fin. También puedes importar un archivo de subtítulos compatible. Escribe por fragmentos de sentido, revisa ortografía y sincroniza con el habla. Si utilizas reconocimiento automático, considera el resultado un borrador y comprueba cada frase, especialmente negaciones, cifras y nombres.\n\nEjemplo resuelto\nLa voz dice «Dejo a mano solo lo que utilizaré». Dividimos la frase en una entrada legible que comienza cuando empieza a hablar y termina tras completar la frase, sin invadir el siguiente mensaje. Si un golpe fuera de cuadro explica que cayó un objeto, añadimos una indicación breve, por ejemplo «[cae un libro]». No describimos todos los ruidos irrelevantes de la habitación.\n\nPráctica\nCrea un título inicial corto y subtitula toda la narración de tu montaje. Exporta además un archivo SRT desde el panel si esa opción está disponible en tu versión. Para que los subtítulos queden siempre visibles, utiliza el flujo de incrustación o quemado documentado y revisa la exportación: conservarlos en el proyecto no asegura que cualquier reproductor los muestre.\n\nCómo comprobarlo\nMira la pieza sin sonido. La información esencial debe seguirse y los textos deben coincidir con la acción. Comprueba que no tapen manos, etiquetas o un título. Lee también la transcripción completa para detectar errores que pasan inadvertidos al revisar entrada por entrada.\n\nAccesibilidad\nUsa lenguaje claro, identifica al hablante cuando no se deduzca y no utilices únicamente color para distinguir voces. Da tiempo suficiente para leer y observar la imagen. Conserva el texto por separado para facilitar correcciones, traducciones y lectura con herramientas de apoyo.",
+            "sources": [
+              {
+                "title": "Shotcut: texto sencillo",
+                "url": "https://forum.shotcut.org/t/text-simple-video-filter/12888/1"
+              },
+              {
+                "title": "Shotcut: panel de subtítulos",
+                "url": "https://forum.shotcut.org/t/view-subtitles/45312/1"
+              },
+              {
+                "title": "W3C WAI: subtítulos accesibles",
+                "url": "https://www.w3.org/WAI/media/av/captions/"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Revisión: Sonido, color y textos",
+              "questions": [
+                {
+                  "prompt": "La narración está bien grabada, pero el ambiente la tapa. ¿Qué primer ajuste conviene probar?",
+                  "multiple": false,
+                  "options": [
+                    "Aumentar al máximo todos los sonidos.",
+                    "Reducir el ambiente y comprobar la voz con escucha y medidor.",
+                    "Acelerar toda la narración.",
+                    "Añadir varios títulos encima de la imagen."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La mezcla debe priorizar la información esencial. Reducir el sonido competidor conserva claridad sin forzar niveles generales."
+                },
+                {
+                  "prompt": "Una toma ya tiene distorsión audible por saturación de la grabación. ¿Qué afirmación es correcta?",
+                  "multiple": false,
+                  "options": [
+                    "Bajar el volumen siempre reconstruye las partes distorsionadas.",
+                    "El formato SRT elimina la saturación.",
+                    "Aumentar color devuelve el detalle sonoro.",
+                    "Bajar el nivel puede evitar más sobrecarga, pero quizá sea necesario volver a grabar."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "La información perdida durante una grabación saturada no se recupera automáticamente al bajar su nivel."
+                },
+                {
+                  "prompt": "¿Para qué sirven dos fotogramas clave con distintos valores de posición?",
+                  "multiple": false,
+                  "options": [
+                    "Para definir dos estados entre los que el editor calcula el cambio.",
+                    "Para guardar los originales dentro del MP4.",
+                    "Para crear automáticamente créditos de autor.",
+                    "Para reemplazar los subtítulos."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Los fotogramas clave establecen valores en momentos determinados. Es necesario revisar todo el movimiento intermedio, no solo sus extremos."
+                },
+                {
+                  "prompt": "El reconocimiento automático transcribe «no mover» como «mover». ¿Qué debes hacer?",
+                  "multiple": false,
+                  "options": [
+                    "Publicarlo porque la herramienta ya lo revisó.",
+                    "Cambiar solo la fuente del título.",
+                    "Corregir el texto y revisar sincronización y significado de todos los subtítulos.",
+                    "Quitar el sonido para esconder la diferencia."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Una palabra puede invertir el sentido. La transcripción automática necesita comprobación completa antes de usarse como subtítulo accesible."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "Exportar y presentar una pieza terminada",
+        "description": "Genera el video, verifica el archivo completo y conserva una entrega que puedas corregir.",
+        "lessons": [
+          {
+            "title": "Exportar un archivo que se pueda reproducir",
+            "description": "Distingue guardar el proyecto de exportar y configura una salida sencilla.",
+            "outcome": "Exportar un MP4 del montaje completo y comprobar su reproducción y subtítulos.",
+            "activity": "execute",
+            "preview": "Distingue guardar el proyecto de exportar y configura una salida sencilla.",
+            "body": "Guardar no es exportar\nGuardar conserva las decisiones del proyecto; exportar produce un archivo para reproducir. Antes de exportar guarda una versión del .mlt y comprueba que la línea de tiempo contiene la pieza completa. En el panel Exportar/Export verifica qué se utilizará como origen: debe ser la línea de tiempo/Timeline para este proyecto. Si seleccionas Fuente o una lista, podrías exportar un contenido distinto aunque el nombre final parezca correcto.\n\nUtiliza una configuración sencilla y compatible, como MP4 con video H.264 y audio AAC, mediante un ajuste disponible en tu versión. Mantén el tamaño y la frecuencia del proyecto salvo que el destino requiera otra cosa. No actives opciones avanzadas sin una necesidad concreta. Una cifra de calidad máxima no garantiza mejor material original y puede crear archivos innecesariamente grandes.\n\nTrabajo y comprobación\nElige una ubicación dentro de «entregas» y un nombre diferente al proyecto, por ejemplo «rincon_v01.mp4». Inicia la exportación y revisa el panel Trabajos/Jobs hasta que termine correctamente. No cierres el programa durante el proceso. Un archivo que aparece en la carpeta puede estar incompleto si el trabajo todavía continúa o falló.\n\nEjemplo resuelto\nEl montaje dura setenta y dos segundos a 1920 por 1080. Al abrir el MP4 resultante vemos que dura doce segundos: se exportó el clip Fuente, no la línea de tiempo. Volvemos a Exportar, elegimos Timeline y generamos una nueva versión con otro nombre. La corrección se comprueba abriendo el resultado y comparando inicio, duración y final; no basta con ver que el trabajo finalizó.\n\nSubtítulos y salida\nDecide si entregarás subtítulos siempre visibles o un archivo separado que el destino pueda activar. No todos los reproductores muestran de la misma manera las pistas incorporadas. Si usaste un filtro para quemarlos, confirma que se ven en el MP4. Conserva además la versión textual para corregirla sin transcribir de nuevo.\n\nPráctica\nExporta tu pieza completa y ábrela en un reproductor distinto de la vista de edición. Reproduce inicio, una parte central y cierre, y después mira el archivo completo. Anota duración, dimensiones, presencia de audio y comportamiento de subtítulos. Reserva tiempo para una segunda exportación si descubres un problema.\n\nCómo comprobarlo\nEl archivo correcto se reproduce de principio a fin, contiene el montaje final y no muestra negros o silencios accidentales. El proyecto editable y los medios siguen guardados aparte.\n\nAccesibilidad\nComprueba la lectura de títulos en tamaño pequeño y prueba la pieza sin sonido. Incluye una transcripción accesible junto al video y explica claramente cómo abrir los subtítulos externos si forman parte de tu entrega.",
+            "sources": [
+              {
+                "title": "Shotcut: exportación básica",
+                "url": "https://forum.shotcut.org/pub/export-basics"
+              },
+              {
+                "title": "Shotcut: organización de proyectos",
+                "url": "https://forum.shotcut.org/pub/project-management"
+              },
+              {
+                "title": "Shotcut: panel de subtítulos",
+                "url": "https://forum.shotcut.org/t/view-subtitles/45312/1"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Revisión final, rendimiento y correcciones",
+            "description": "Distingue un fallo de reproducción en el editor de un problema presente en el archivo final.",
+            "outcome": "Aplicar una revisión breve y corregir los problemas que afectan la comprensión o la entrega.",
+            "activity": "execute",
+            "preview": "Distingue un fallo de reproducción en el editor de un problema presente en el archivo final.",
+            "body": "Revisar con criterios\nUna revisión útil busca problemas concretos. Mira la exportación completa y registra cada observación con tiempo, problema y acción propuesta. «No me convence» es difícil de corregir; «a los 00:24 el título tapa la mano» permite actuar. Haz una pasada de historia e imagen, otra de sonido y otra de textos y archivos. Mantén la lista breve y prioriza lo que impide comprender o utilizar el video.\n\nPrimero corrige errores de contenido, medios ausentes, palabras cortadas y subtítulos incorrectos. Después atiende ajustes de ritmo, niveles y encuadre. Por último decide si vale la pena afinar preferencias estéticas. Así evitas rehacer un efecto mientras sigue faltando un fragmento importante. Cada corrección debe verificarse cerca del punto cambiado y en el resultado completo cuando afecta duración o sincronía.\n\nCuando la vista previa se traba\nUna reproducción entrecortada en Shotcut no demuestra por sí sola que el archivo final vaya a tener saltos. El equipo puede tener dificultades para calcular efectos a tiempo real. La reducción de resolución de vista previa y los proxies permiten trabajar con copias más ligeras mientras se conservan originales para la salida habitual. Activa estas opciones siguiendo la documentación de tu versión y espera que terminen los trabajos necesarios.\n\nEjemplo resuelto\nLa vista previa de un movimiento se detiene, pero una exportación corta de esa zona se reproduce bien. Reducimos la resolución de previsualización para seguir editando y conservamos el tamaño final del proyecto. Si el MP4 también falla en varios reproductores, revisamos medios, filtros y configuración. No confundimos fluidez de edición con calidad de la entrega.\n\nPráctica\nEscribe tres observaciones de tu primer MP4 con tiempos exactos y clasifícalas por efecto en la comprensión. Aplica las correcciones necesarias y exporta una versión nueva. Si tu equipo tiene problemas de reproducción, prueba una opción de vista previa y documenta qué cambió. No es obligatorio generar proxies si el trabajo ya es fluido.\n\nCómo comprobarlo\nLa nueva versión debe resolver los problemas registrados y conservar sincronía, subtítulos y duración objetivo. Antes de exportar el resultado final, verifica que no hayas activado una salida reducida para borrador mediante opciones avanzadas de vista previa.\n\nAccesibilidad\nRevisa también con sonido silenciado y con el texto por separado. Usa una lista de tiempos que puedas navegar mediante teclado y toma pausas para evitar fatiga. Si pides opinión a alguien, solicita observaciones concretas sobre comprensión; no necesitas una evaluación externa para completar esta autoevaluación.",
+            "sources": [
+              {
+                "title": "Shotcut: edición mediante proxies",
+                "url": "https://forum.shotcut.org/t/settings-proxy-editing/18517"
+              },
+              {
+                "title": "Shotcut: exportación básica",
+                "url": "https://forum.shotcut.org/pub/export-basics"
+              },
+              {
+                "title": "Shotcut: referencia de atajos",
+                "url": "https://www.shotcut.org/howtos/keyboard-shortcuts/"
+              },
+              {
+                "title": "W3C WAI: subtítulos accesibles",
+                "url": "https://www.w3.org/WAI/media/av/captions/"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Proyecto final: una pieza original de 60 a 90 segundos",
+            "description": "Entrega video, subtítulos, créditos y proyecto organizado con una explicación de tus decisiones.",
+            "outcome": "Presentar una pieza completa, reproducible y documentada con criterios de autoevaluación.",
+            "activity": "execute",
+            "preview": "Entrega video, subtítulos, créditos y proyecto organizado con una explicación de tus decisiones.",
+            "body": "Tu expediente personal\nPrepara un MP4 original de sesenta a noventa segundos que presente una situación, muestre una acción y cierre con un resultado. Incluye título legible, sonido comprensible y subtítulos revisados de la información sonora esencial. Incluye también una transcripción y un resumen del guion. Puedes usar una pieza sin voz si la acción se entiende visualmente; en ese caso describe los sonidos que aportan significado y conserva una explicación textual de la secuencia.\n\nConserva una carpeta con el proyecto .mlt y sus medios para poder realizar correcciones. Reúne el MP4, los textos y la carpeta del proyecto en tu expediente personal para autoevaluarte. No requiere envío en la plataforma ni revisión de un tutor. Evita incluir materiales personales ajenos al encargo. Una exportación reproducible y una carpeta editable cumplen funciones distintas.\n\nExplicar decisiones\nEscribe entre doscientas y trescientas palabras sobre tres decisiones: una de montaje, una de sonido y una de accesibilidad o texto. Relaciona cada una con un problema y un resultado observable. Incluye una limitación y una mejora futura. Si usaste recursos ajenos, registra autor, título, origen, condiciones y cambios; una pieza construida con tus grabaciones y sonidos propios simplifica esa revisión.\n\nEjemplo resuelto\nEl informe de «Rincón de estudio» explica: «Corté seis segundos de búsqueda de materiales porque repetían una información ya mostrada. Dejé el ambiente más bajo para que se entendiera la narración. Reemplacé un título sobre la mano por otro en una zona vacía y corregí una negación en los subtítulos». Cada frase señala un cambio que puede comprobarse en la pieza.\n\nPráctica final\nReúne MP4, guion, transcripción y créditos. Abre el proyecto una vez más para confirmar que encuentra los medios. Mira el MP4 completo en otro reproductor y revisa los cinco criterios del proyecto. Escribe una evidencia y una mejora para cada uno. Si detectas un error que impide reproducir, escuchar o entender, corrígelo antes de marcar tu autoevaluación como terminada.\n\nCómo comprobarlo\nTu expediente permite ver la pieza, comprender su contenido sin depender de la audición y reconocer cómo se construyó. Los archivos tienen nombres y versiones claros. No se requiere publicar en redes sociales ni obtener reproducciones para demostrar la competencia trabajada.\n\nAccesibilidad\nLa transcripción debe poder leerse como texto, sin quedar solo en una imagen. Indica si los subtítulos están siempre visibles o se entregan por separado. Puedes redactar la reflexión por dictado y revisarla. Los cuestionarios comprueban conceptos y la práctica final reúne su aplicación en una pieza propia. El proyecto no condiciona el certificado: debes completar las 12 lecciones y aprobar los cuatro cuestionarios del curso.",
+            "sources": [
+              {
+                "title": "Shotcut: organización de proyectos",
+                "url": "https://forum.shotcut.org/pub/project-management"
+              },
+              {
+                "title": "Shotcut: exportación básica",
+                "url": "https://forum.shotcut.org/pub/export-basics"
+              },
+              {
+                "title": "W3C WAI: subtítulos accesibles",
+                "url": "https://www.w3.org/WAI/media/av/captions/"
+              },
+              {
+                "title": "Creative Commons: atribuir recursos",
+                "url": "https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Revisión: Exportar y presentar una pieza terminada",
+              "questions": [
+                {
+                  "prompt": "El MP4 exportado dura 12 segundos aunque el montaje dura 72. ¿Qué opción debes revisar primero?",
+                  "multiple": false,
+                  "options": [
+                    "El color de las carpetas.",
+                    "Si exportaste Fuente en lugar de la línea de tiempo.",
+                    "El tamaño del nombre del archivo.",
+                    "Si utilizaste suficientes transiciones."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El origen de exportación puede ser Fuente, lista u otros elementos. Debe elegirse la línea de tiempo para obtener la pieza completa."
+                },
+                {
+                  "prompt": "El editor reproduce con saltos, pero una exportación de la misma zona se reproduce correctamente. ¿Qué prueba tiene sentido?",
+                  "multiple": false,
+                  "options": [
+                    "Borrar todos los originales.",
+                    "Cambiar el contenido de los créditos.",
+                    "Aumentar al máximo la resolución de vista previa.",
+                    "Reducir la carga de previsualización o utilizar proxies conservando la salida final."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "La vista previa puede no calcular efectos a tiempo real. Es necesario distinguir ese rendimiento del resultado exportado."
+                },
+                {
+                  "prompt": "¿Cuál es una observación de revisión que permite corregir un problema concreto?",
+                  "multiple": false,
+                  "options": [
+                    "A los 00:24 el título tapa la mano que muestra la acción; moverlo a una zona libre.",
+                    "No se ve profesional.",
+                    "Necesita más cosas.",
+                    "Tiene que parecerse a otro video popular."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Tiempo, problema y acción propuesta permiten comprobar y resolver el fallo. Los juicios generales no indican una corrección verificable."
+                },
+                {
+                  "prompt": "¿Qué combinación constituye una entrega final recuperable y comprensible?",
+                  "multiple": false,
+                  "options": [
+                    "Solo una captura de pantalla de la línea de tiempo.",
+                    "Solo el proyecto .mlt sin medios.",
+                    "MP4 revisado, textos y créditos, más proyecto organizado con sus medios conservados.",
+                    "Un enlace privado que ninguna otra persona puede abrir."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "El MP4 permite reproducir; los textos ayudan a comprender; el proyecto y medios permiten corregir. Son componentes con propósitos distintos."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Video original de 60 a 90 segundos",
+              "instructions": "Reúne en tu expediente personal un MP4 original de 60–90 segundos con título y cierre, subtítulos revisados de la información sonora esencial, transcripción, guion y créditos. Conserva el proyecto .mlt con sus medios organizados. Añade una reflexión de 200–300 palabras sobre montaje, sonido y accesibilidad, con una limitación. Comprueba la reproducción completa y autoevalúa los cinco criterios. No requiere envío ni revisión de un tutor. El proyecto no condiciona el certificado, que requiere completar las 12 lecciones y aprobar los cuatro cuestionarios.",
+              "criteria": [
+                {
+                  "label": "Mensaje y guion",
+                  "description": "La pieza dura 60–90 segundos y muestra situación, acción y resultado con un mensaje reconocible."
+                },
+                {
+                  "label": "Montaje y continuidad",
+                  "description": "Los cortes y pistas conservan acciones legibles, ritmo justificado y ausencia de huecos accidentales."
+                },
+                {
+                  "label": "Sonido e imagen",
+                  "description": "La voz o el sonido esencial son comprensibles, sin sobrecarga evitable; el encuadre y el color conservan continuidad."
+                },
+                {
+                  "label": "Textos y accesibilidad",
+                  "description": "Títulos legibles, subtítulos corregidos y sincronizados y transcripción independiente permiten seguir la información."
+                },
+                {
+                  "label": "Entrega y autoría",
+                  "description": "El MP4 abre completo; proyecto y medios se conservan; los créditos, versiones y permisos de acceso son claros."
+                }
+              ],
+              "required": false
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

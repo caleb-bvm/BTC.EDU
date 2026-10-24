@@ -1,0 +1,14 @@
+{% extends 'academy.html' %}
+{% block title %}Rutas · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="learning-page paths-page">
+  <header class="page-heading"><div><p class="eyebrow">RUTAS</p><h1>Recorridos de varios cursos.</h1><p>Cada ruta ordena cursos y tutoriales hacia un objetivo. Al completarlos obtienes una credencial verificable.</p></div></header>
+  <div class="path-list">
+  {% for entry in paths %}
+    <article class="path-card"><p class="eyebrow">{{ entry.progress.total }} paso{{ entry.progress.total|pluralize:'s' }}</p><h2><a href="{% url 'learning-path' entry.path.slug %}">{{ entry.path.title }}</a></h2><p>{{ entry.path.summary }}</p>
+      {% if user.is_authenticated and entry.progress.finished %}<div class="meter-label"><span>{{ entry.progress.finished }} de {{ entry.progress.total }} completados</span><strong>{{ entry.progress.percentage }}%</strong></div><progress class="progress-track" value="{{ entry.progress.finished }}" max="{{ entry.progress.total|default:1 }}" aria-label="Progreso en {{ entry.path.title }}"></progress>{% endif %}
+      <a class="text-link" href="{% url 'learning-path' entry.path.slug %}">Ver la ruta →</a></article>
+  {% empty %}<div class="commerce-empty"><h2>Todavía no hay rutas publicadas.</h2><a class="btn btn-outline-dark" href="{% url 'courses' %}">Explorar cursos →</a></div>{% endfor %}
+  </div>
+</section>
+{% endblock %}

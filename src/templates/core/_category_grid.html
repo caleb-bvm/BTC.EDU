@@ -1,0 +1,11 @@
+{% load static %}
+{% include 'core/_filters.html' %}
+<section class="catalog-categories" aria-labelledby="categories-heading">
+  <div class="category-heading"><div><h2 id="categories-heading">Elige una categoría</h2><p>Explora {{ section_label|lower }} según lo que te interesa.</p></div>{% if catalog_total %}<a class="text-link" href="{{ all_catalog_url }}">Ver todos los {{ section_label|lower }} <span aria-hidden="true">→</span></a>{% endif %}</div>
+  {% if category_cards %}<ul class="category-grid">
+    {% for card in category_cards %}<li><a class="category-card" href="{{ card.url }}">
+      <img src="{% static card.image %}" alt="" width="640" height="360"{% if forloop.counter > 3 %} loading="lazy"{% endif %} decoding="async">
+      <div class="category-card-copy"><span class="category-count">{{ card.count }} {% if section == 'cursos' %}curso{{ card.count|pluralize:'s' }}{% elif section == 'tutoriales' %}tutorial{{ card.count|pluralize:'es' }}{% else %}recurso{{ card.count|pluralize:'s' }}{% endif %}</span><h3>{{ card.name }}</h3>{% if card.description %}<p>{{ card.description }}</p>{% endif %}{% if card.topics %}<span class="category-topics">{% for topic in card.topics|slice:':4' %}{{ topic.name }}{% if not forloop.last %} · {% endif %}{% endfor %}{% if card.topics|length > 4 %} y más{% endif %}</span>{% endif %}<span class="category-open">Explorar categoría <span aria-hidden="true">↗</span></span></div>
+    </a></li>{% endfor %}
+  </ul>{% else %}<div class="category-empty"><h3>{% if section == 'cursos' %}Los primeros cursos están en camino{% elif section == 'tutoriales' %}Los primeros tutoriales están en camino{% else %}Los primeros recursos están en camino{% endif %}</h3><p>Las categorías aparecerán aquí cuando tengan contenido publicado.</p></div>{% endif %}
+</section>

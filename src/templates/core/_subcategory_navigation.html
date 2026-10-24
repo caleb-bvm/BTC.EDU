@@ -1,0 +1,4 @@
+<nav class="subcategory-navigation" aria-label="Subcategorías de {{ selected_category.name }}">
+  <ul><li><a href="{{ all_subcategories_url }}"{% if not topic_filter %} aria-current="page"{% endif %}>Todas{% if selected_category.count %} <span>{{ selected_category.count }}</span>{% endif %}</a></li>
+  {% for card in subcategory_cards %}{% if card.count or not selected_category.count or topic_filter == card.slug %}<li><a href="{{ card.url }}"{% if topic_filter == card.slug %} aria-current="page"{% endif %}>{{ card.name }}{% if card.count %} <span>{{ card.count }}</span>{% endif %}</a></li>{% endif %}{% endfor %}</ul>
+</nav>

@@ -1,0 +1,724 @@
+[
+  {
+    "slug": "desarrollo-web-accesible",
+    "title": "Desarrollo web: crea y publica un sitio accesible",
+    "category": {
+      "name": "Tecnología",
+      "slug": "tecnologia"
+    },
+    "topic": {
+      "name": "Desarrollo web",
+      "slug": "desarrollo-web"
+    },
+    "description": "Construye un sitio personal completo con HTML, CSS y JavaScript. En doce lecciones desarrollarás un catálogo de proyectos con imágenes opcionales, diseño adaptable, navegación por teclado, filtros y un planificador; lo verificarás y publicarás en GitHub Pages. Incluye cuatro controles y un proyecto final de autoevaluación con cinco criterios. El proyecto no condiciona el certificado: se requieren las doce lecciones y los cuatro controles aprobados. Los videos oficiales son complementarios.",
+    "objective": "Crear, comprobar y publicar un sitio informativo adaptable, con estructura semántica, interacciones utilizables mediante teclado y evidencia de sus límites de accesibilidad.",
+    "requirements": "No necesitas saber programar. Requieres computadora, editor de texto plano y navegador actualizado; conexión y cuenta de GitHub para publicar. Una fotografía propia es opcional. Debes poder crear carpetas y guardar archivos. El sitio final es estático; no incluye servidor, cobros ni almacenamiento de datos.",
+    "minutes": 600,
+    "price": 3000,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "MDN: sintaxis básica de HTML",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax"
+      },
+      {
+        "title": "MDN: estructura de documentos",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Structuring_documents"
+      },
+      {
+        "title": "MDN: enlaces",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Creating_links"
+      },
+      {
+        "title": "MDN: imágenes HTML",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/HTML_images"
+      },
+      {
+        "title": "MDN: primeros pasos con CSS",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Getting_started"
+      },
+      {
+        "title": "MDN: modelo de caja",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Box_model"
+      },
+      {
+        "title": "MDN: diseño adaptable",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design"
+      },
+      {
+        "title": "web.dev: foco del teclado",
+        "url": "https://web.dev/learn/accessibility/focus"
+      },
+      {
+        "title": "web.dev: color y contraste",
+        "url": "https://web.dev/learn/accessibility/color-contrast"
+      },
+      {
+        "title": "MDN: detalles desplegables",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details"
+      },
+      {
+        "title": "MDN: qué es JavaScript",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/What_is_JavaScript"
+      },
+      {
+        "title": "MDN: introducción a eventos",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events"
+      },
+      {
+        "title": "MDN: querySelectorAll",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
+      },
+      {
+        "title": "MDN: propiedad hidden",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden"
+      },
+      {
+        "title": "MDN: normalización de cadenas",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize"
+      },
+      {
+        "title": "MDN: validación de formularios",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation"
+      },
+      {
+        "title": "MDN: campos numéricos",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/number"
+      },
+      {
+        "title": "W3C: Nu HTML Checker",
+        "url": "https://validator.w3.org/nu/"
+      },
+      {
+        "title": "web.dev: pruebas manuales de accesibilidad",
+        "url": "https://web.dev/learn/accessibility/test-manual"
+      },
+      {
+        "title": "web.dev: pruebas automáticas de accesibilidad",
+        "url": "https://web.dev/learn/accessibility/test-automated"
+      },
+      {
+        "title": "Chrome for Developers: puntuación de accesibilidad de Lighthouse",
+        "url": "https://developer.chrome.com/docs/lighthouse/accessibility/scoring"
+      },
+      {
+        "title": "GitHub Docs: crear un sitio de Pages",
+        "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
+      },
+      {
+        "title": "GitHub Docs: configurar la fuente de publicación",
+        "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+      },
+      {
+        "title": "GitHub Docs: HTTPS en Pages",
+        "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https"
+      },
+      {
+        "title": "GitHub Docs: límites de Pages",
+        "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits"
+      },
+      {
+        "title": "GitHub Docs: qué es Pages y datos de las visitas",
+        "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "Contenido y estructura",
+        "description": "Define el proyecto, organiza el contenido y prepara recursos publicables con HTML semántico.",
+        "lessons": [
+          {
+            "title": "Del propósito al primer archivo",
+            "description": "Define un sitio informativo y crea su primera página local.",
+            "outcome": "Abrir una página propia y explicar qué responsabilidad tienen HTML, CSS y JavaScript.",
+            "activity": "execute",
+            "preview": "Construirás la base de Aula Abierta, un sitio personal de proyectos creativos y tecnológicos.",
+            "body": "Un proyecto que puedes terminar\n\nDurante el curso construirás Aula Abierta: un sitio informativo de tres proyectos personales. Permitirá leer descripciones, filtrar proyectos y calcular un plan de estudio. No necesita servidor de aplicaciones ni recopila datos personales. Puedes cambiar el nombre y los textos; conserva los identificadores usados en los ejercicios hasta completar el recorrido. Reserva aproximadamente cincuenta minutos por lección, incluyendo práctica y revisión.\n\nEscribe primero tres decisiones: a quién ayudas, qué encontrará y qué podrá hacer. Nuestro ejemplo: una persona que empieza a crear con herramientas digitales; encontrará proyectos breves; podrá elegir uno y calcular sesiones de trabajo. Es un alcance verificable. «Crear una plataforma educativa» sería demasiado amplio para esta primera versión. La publicación final será un portafolio informativo, sin ventas ni cuentas.\n\nPrepara el espacio\n\nNecesitas un editor de texto plano, un navegador actualizado y una carpeta llamada aula-abierta. Un procesador de documentos puede agregar formato invisible y cambiar la extensión. En Windows activa la visualización de extensiones para comprobar que index.html no termina en .txt. Dentro crea index.html y una carpeta imagenes. CSS y JavaScript llegarán después; no hace falta instalar paquetes.\n\nEscribe en index.html:\n\n```html\n<!doctype html>\n<html lang=\"es\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Aula Abierta | Proyectos para aprender</title>\n  <meta name=\"description\" content=\"Proyectos personales de creación y tecnología, con un plan para aprender a tu ritmo.\">\n</head>\n<body>\n  <h1>Aula Abierta</h1>\n  <p>Aprende construyendo proyectos pequeños y útiles.</p>\n</body>\n</html>\n```\n\nGuarda en UTF-8 y abre el archivo con el navegador. HTML expresa la estructura; el navegador interpreta sus etiquetas. El título de la pestaña viene de title y el texto visible principal de h1. lang informa el idioma; charset permite representar tildes; viewport prepara el tamaño de presentación en móviles. Todavía no hay estilos propios ni interacciones programadas.\n\nAprender a corregir\n\nCambia «pequeños» por «personales», guarda y recarga. Si nada cambia, verifica que editas el archivo abierto, que guardaste y que no tienes dos copias con nombres similares. El navegador no guarda tus modificaciones del editor. Más adelante el inspector permitirá experimentar, pero sus cambios tampoco sustituyen los archivos originales.\n\nPráctica\n\nRedacta una descripción que nombre un público concreto y un resultado alcanzable. \n\nSolución y comprobación\n\nUna solución posible es «Proyectos para quienes empiezan: toma una fotografía, organiza archivos y publica tu primera web». Comprueba que la pestaña tiene título, las tildes se ven correctamente y el cambio sobrevive al cerrar y reabrir. Conserva una copia de seguridad fuera de la carpeta pública antes de continuar. El resultado es una página local real, aunque aún sencilla; la apariencia no determina si el archivo está bien estructurado.",
+            "sources": [
+              {
+                "title": "MDN: sintaxis básica de HTML",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax"
+              },
+              {
+                "title": "MDN: estructura de documentos",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Structuring_documents"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Estructura, navegación y proyectos",
+            "description": "Transforma la página inicial en una estructura semántica que funciona sin estilos.",
+            "outcome": "Organizar encabezados, navegación y tres proyectos con anclas internas válidas.",
+            "activity": "execute",
+            "preview": "Darás forma al contenido y a los recorridos principales de tu sitio.",
+            "body": "Decidir el orden de lectura\n\nLa persona debe comprender primero qué ofrece el sitio y después explorar sus proyectos. Ese orden debe existir en HTML antes de acomodar columnas. La estructura también ayuda a tecnologías de asistencia: un encabezado identifica el tema y main delimita el contenido principal. Un texto grande no se convierte en encabezado por su apariencia. Elegimos un h1 para el nombre del sitio, h2 para secciones y h3 para cada proyecto.\n\nReemplaza solamente lo que está entre body y /body de la lección anterior por este contenido. Conserva head y las etiquetas exteriores:\n\n```html\n<header>\n  <h1>Aula Abierta</h1>\n  <p>Proyectos personales para aprender creando.</p>\n  <nav aria-label=\"Principal\">\n    <a href=\"#proyectos\">Ver proyectos</a>\n    <a href=\"#contacto\">Sobre este sitio</a>\n  </nav>\n</header>\n<main id=\"contenido\" tabindex=\"-1\">\n  <section id=\"proyectos\" aria-labelledby=\"titulo-proyectos\">\n    <h2 id=\"titulo-proyectos\">Proyectos para empezar</h2>\n    <div class=\"rejilla\">\n      <article class=\"tarjeta\" data-tema=\"creacion\">\n        <h3>Fotografía de objetos</h3>\n        <p>Explora la luz de una ventana y documenta tres encuadres de un objeto propio.</p>\n        <p>Área: Creación.</p>\n      </article>\n      <article class=\"tarjeta\" data-tema=\"tecnologia\">\n        <h3>Archivo ordenado</h3>\n        <p>Crea carpetas y nombres consistentes para recuperar tus documentos.</p>\n        <p>Área: Tecnología.</p>\n      </article>\n      <article class=\"tarjeta\" data-tema=\"tecnologia\">\n        <h3>Mi primera web</h3>\n        <p>Publica una página personal con texto claro y navegación por teclado.</p>\n        <p>Área: Tecnología.</p>\n      </article>\n    </div>\n  </section>\n  <section id=\"contacto\">\n    <h2>Sobre este sitio</h2>\n    <p>Comparto proyectos de mi aprendizaje en El Salvador.</p>\n  </section>\n</main>\n<footer><p>Aula Abierta · Portafolio personal de aprendizaje.</p></footer>\n```\n\nPor qué esas piezas\n\nCada article tiene sentido como descripción independiente. section reúne proyectos relacionados; div agrupa tarjetas para el futuro diseño y no añade un significado inventado. data-tema es un dato propio que usará el filtro; sus valores sin tildes simplifican comparaciones. aria-labelledby conecta la sección con un título existente. tabindex=\"-1\" permite dirigir el foco a main sin añadir una parada a la navegación normal; se aprovechará en el enlace para saltar contenido.\n\nUn enlace se escribe con a y href cuando conduce a un destino. Un botón se reserva para ejecutar una acción. Aquí #proyectos señala un id del mismo documento: ambos deben coincidir exactamente. No repitas un id al duplicar tarjetas. Las clases sí pueden repetirse porque agrupan elementos similares.\n\nPráctica\n\nRecorre los enlaces usando Tab y actívalos con Enter. Debes llegar a cada sección. Después escribe una cuarta tarjeta como ensayo y comprueba que su encabezado sigue siendo h3; elimínala para mantener las tres tarjetas que usan las comprobaciones posteriores. \n\nSolución y comprobación\n\nSi el salto falla, compara carácter por carácter href e id, sin añadir # al id. Lee el documento sin mirar el diseño: nombre, propósito, proyectos y contexto deben formar un recorrido comprensible. Guarda ese orden; CSS no debe utilizarse para encubrir una secuencia confusa.",
+            "sources": [
+              {
+                "title": "MDN: estructura de documentos",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Structuring_documents"
+              },
+              {
+                "title": "MDN: enlaces",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Creating_links"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Fotografías, rutas y contenido publicable",
+            "description": "Añade una imagen propia y distingue recursos locales, anclas y direcciones externas.",
+            "outcome": "Integrar una fotografía con alternativa útil y mantener rutas portables.",
+            "activity": "execute",
+            "preview": "Prepararás textos e imágenes que puedan publicarse con permiso y sigan siendo comprensibles.",
+            "body": "La imagen debe aportar algo\n\nUna fotografía puede mostrar el resultado del primer proyecto: un objeto situado junto a una ventana, con luz lateral. Antes de añadirla define su función. Si comunica un resultado que el texto no describe, necesita una alternativa que explique ese resultado. Si es un adorno redundante, alt=\"\" evita repetir información. «Imagen de fotografía» no ayuda a reconstruir qué se está enseñando.\n\nHaz una fotografía propia de un objeto que puedas publicar, sin rostros, documentos ni datos ajenos. Recorta la imagen y exporta una copia JPEG o WebP de aproximadamente 1200 píxeles de ancho. Conserva el original aparte. La anchura no determina por sí sola el peso: revisa también el tamaño del archivo y comprime sin perder el detalle necesario. No subas una foto enorme para reducirla únicamente con CSS. Si no tienes una fotografía disponible, omite por ahora la figura: el proyecto textual sigue funcionando.\n\nEjemplo\n\nGuarda la copia como imagenes/luz-ventana.jpg. Mide sus dimensiones reales; el ejemplo supone 1200 por 800 píxeles. Dentro de la primera tarjeta, después del h3, añade:\n\n```html\n<figure>\n  <img src=\"./imagenes/luz-ventana.jpg\"\n       alt=\"Una taza blanca junto a una ventana; la sombra cae hacia la derecha.\"\n       width=\"1200\" height=\"800\" loading=\"lazy\">\n  <figcaption>Ensayo de luz lateral. Fotografía propia.</figcaption>\n</figure>\n```\n\nCambia alt para que describa tu imagen real. width y height deben respetar su proporción y permiten reservar espacio antes de cargar. loading=\"lazy\" es adecuado para una imagen que aparece más abajo; no se lo asignes automáticamente a la imagen principal visible al abrir un sitio. En la próxima unidad ajustaremos su tamaño de presentación.\n\nRutas que sobreviven a la publicación\n\n./imagenes/luz-ventana.jpg se resuelve desde la carpeta de index.html. Una ruta como C:\\Fotos\\taza.jpg depende de tu computadora y fallará para otras personas. Tampoco uses /imagenes como atajo: en un sitio publicado bajo el nombre de un repositorio apuntaría a la raíz del dominio. Escribe nombres en minúscula, sin espacios, y comprueba mayúsculas: un archivo llamado Luz.jpg puede fallar si el enlace dice luz.jpg.\n\nAñade al final de «Sobre este sitio» un recurso externo contextual:\n\n```html\n<p>Referencia: <a href=\"https://developer.mozilla.org/es/docs/Web/HTML\">documentación de HTML en MDN</a>.</p>\n```\n\nEl texto explica el destino; «haz clic aquí» lo oculta. Mantén la apertura en la misma pestaña para un recorrido predecible. Si añades material ajeno, conserva autor, procedencia, licencia y condiciones aplicables; encontrar una imagen públicamente no concede permiso para reutilizarla.\n\nPráctica\n\nRenombra temporalmente tu imagen, recarga y observa el efecto; restaura el nombre correcto. Debes poder identificar el contenido mediante su alternativa aunque falle la imagen. \n\nSolución y comprobación\n\nUna solución aceptable conserva rutas relativas, nombres coincidentes, proporción real y atribución honesta. Revisa los enlaces de las tres lecciones y responde el control antes de continuar. La fotografía es opcional; una imagen rota o un permiso supuesto no son un acabado aceptable.",
+            "sources": [
+              {
+                "title": "MDN: imágenes HTML",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/HTML_images"
+              },
+              {
+                "title": "MDN: enlaces",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Creating_links"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Estructura y contenido web",
+              "questions": [
+                {
+                  "prompt": "El enlace href=\"#proyectos\" no desplaza la página. ¿Qué revisas primero?",
+                  "multiple": false,
+                  "options": [
+                    "La velocidad de la conexión",
+                    "Que exista un id=\"proyectos\" único en el documento",
+                    "El color de fondo",
+                    "Que se use un botón en lugar de un enlace"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Una ancla interna necesita un destino cuyo id coincida exactamente; no depende del estilo."
+                },
+                {
+                  "prompt": "¿Qué alternativa corresponde a una fotografía que comunica la dirección de la luz?",
+                  "multiple": false,
+                  "options": [
+                    "alt=\"imagen\"",
+                    "Omitir alt siempre",
+                    "El nombre del archivo",
+                    "Describir el objeto y la dirección de su sombra de acuerdo con la foto real"
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "La alternativa debe transmitir el detalle relevante para el propósito de la imagen."
+                },
+                {
+                  "prompt": "¿Qué ruta mantiene la imagen dentro de la carpeta del proyecto al publicarlo bajo un repositorio?",
+                  "multiple": false,
+                  "options": [
+                    "./imagenes/luz-ventana.jpg",
+                    "C:\\Fotos\\luz-ventana.jpg",
+                    "/Users/fotos/luz-ventana.jpg",
+                    "file:///C:/Fotos/luz-ventana.jpg"
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "La ruta relativa viaja con index.html y la carpeta imagenes; las rutas personales no."
+                },
+                {
+                  "prompt": "¿Qué cambio conserva el significado al crear un nuevo proyecto dentro de la sección?",
+                  "multiple": false,
+                  "options": [
+                    "Usar otro h1 por su tamaño",
+                    "Convertir todos los textos en div",
+                    "Añadir un article con h3 y mantener la jerarquía de encabezados",
+                    "Repetir el id de la sección en cada tarjeta"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Un proyecto independiente puede ser article con h3 bajo el h2 de la sección; los id no se repiten."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "Diseño adaptable y accesibilidad",
+        "description": "Construye un sistema visual legible, ajusta columnas al espacio y comprueba teclado y contraste.",
+        "lessons": [
+          {
+            "title": "Un sistema visual pequeño y legible",
+            "description": "Aplica tipografía, color, espaciado y cajas desde una hoja de estilos propia.",
+            "outcome": "Conectar una hoja CSS y explicar una regla usando selector, propiedad y valor.",
+            "activity": "execute",
+            "preview": "Crearás una apariencia coherente que mantenga el contenido cómodo de leer.",
+            "body": "Separar decisiones para poder cambiarlas\n\nHTML ya organiza el contenido. Ahora CSS define su presentación. Una regla tiene un selector que elige elementos y declaraciones con propiedad y valor. Por ejemplo, p { line-height: 1.6; } modifica el interlineado de los párrafos. Si necesitas cambiar el espacio de todas las tarjetas, una clase compartida evita editar cada etiqueta. Comienza con pocas decisiones: una tipografía del sistema, dos fondos, un color de texto y espacios constantes.\n\nCrea estilos.css junto a index.html. Dentro de head, después de los metadatos, agrega esta línea:\n\n```html\n<link rel=\"stylesheet\" href=\"./estilos.css\">\n```\n\nEscribe en estilos.css:\n\n```css\n:root {\n  --tinta: #17324d;\n  --papel: #f5f7fb;\n  --borde: #68788a;\n}\n* { box-sizing: border-box; }\n[hidden] { display: none !important; }\nbody {\n  margin: 0;\n  color: var(--tinta);\n  background: var(--papel);\n  font-family: system-ui, sans-serif;\n  font-size: 1rem;\n  line-height: 1.6;\n  overflow-wrap: anywhere;\n}\nheader, main, footer {\n  width: min(100% - 2rem, 70rem);\n  margin-inline: auto;\n  padding-block: 1.5rem;\n}\nh1, h2, h3 { line-height: 1.2; }\np { max-width: 65ch; }\na { color: inherit; text-underline-offset: .2em; }\nsection + section { margin-top: 3rem; }\n.tarjeta {\n  padding: 1.25rem;\n  border: 1px solid var(--borde);\n  border-radius: .75rem;\n  background: white;\n  min-width: 0;\n}\nfigure { margin: 1rem 0; }\nimg { display: block; max-width: 100%; height: auto; }\nfigcaption { font-size: .9rem; margin-top: .5rem; }\n```\n\nLeer el resultado\n\nborder-box hace que el ancho incluya padding y borde. Una tarjeta de 300 píxeles con 20 de padding por lado y borde de 1 conserva 300 píxeles exteriores; su contenido dispone de 258. Sin esa regla, un ancho de contenido de 300 produciría 342 exteriores. Esta diferencia explica muchos desbordamientos que parecen misteriosos.\n\nLas variables con -- agrupan decisiones de color; var las utiliza. rem depende del tamaño raíz y permite crecer con preferencias de texto. ch aproxima una medida tipográfica: limitar los párrafos reduce líneas excesivamente largas. El contenedor conserva un margen lateral y un máximo de lectura. La fotografía se reduce dentro de su tarjeta, manteniendo la proporción declarada en HTML. La regla hidden impedirá que estilos posteriores muestren por accidente contenido oculto por el filtro.\n\nPráctica\n\nCambia temporalmente padding de .tarjeta a 2rem y observa qué aumenta. Después restaura 1.25rem. Cambia --papel a un tono claro propio y verifica que el texto siga siendo legible; en la siguiente unidad de revisión medirás contraste. No uses un gris casi blanco para textos secundarios.\n\nSolución y comprobación\n\nEl cambio de padding crea espacio interior; margin separa cajas por fuera. Si no ves estilos, comprueba que el enlace está en head y que el archivo se llama estilos.css, sin otra extensión. Desde el inspector puedes probar valores, pero debes copiarlos al archivo para conservarlos. Al recargar, los estilos deben permanecer y la imagen no debe superar la anchura de la tarjeta.",
+            "sources": [
+              {
+                "title": "MDN: primeros pasos con CSS",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Getting_started"
+              },
+              {
+                "title": "MDN: modelo de caja",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Box_model"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Diseñar para pantallas estrechas",
+            "description": "Organiza las tarjetas y los controles sin fijar un ancho que expulse el contenido.",
+            "outcome": "Obtener una y tres columnas según el espacio disponible y verificar el diseño con zoom.",
+            "activity": "execute",
+            "preview": "Adaptarás el sitio a móviles, pantallas amplias y lectores que amplían el texto.",
+            "body": "Empezar con poco espacio\n\nUna interfaz adaptable responde al espacio que realmente tiene. El teléfono no es un escritorio pequeño: los enlaces deben seguir siendo identificables y los textos deben reacomodarse. Diseñaremos primero una columna y añadiremos columnas solo cuando quepan. El orden de lectura seguirá siendo el del HTML; no lo cambiaremos con posiciones absolutas ni con una propiedad de orden.\n\nAñade al final de estilos.css:\n\n```css\nnav {\n  display: flex;\n  flex-wrap: wrap;\n  gap: .75rem 1.25rem;\n}\nnav a { padding-block: .5rem; }\n.rejilla {\n  display: grid;\n  grid-template-columns: 1fr;\n  gap: 1rem;\n  margin-block: 1rem;\n}\nlabel { display: block; font-weight: 600; }\ninput, select, button {\n  font: inherit;\n  max-width: 100%;\n  padding: .65rem;\n  border: 1px solid var(--borde);\n  border-radius: .35rem;\n}\ninput, select { width: 100%; }\nbutton {\n  color: white;\n  background: var(--tinta);\n  cursor: pointer;\n}\nform { max-width: 36rem; }\nform > * + * { margin-top: .75rem; }\n@media (min-width: 48rem) {\n  .rejilla { grid-template-columns: repeat(3, minmax(0, 1fr)); }\n}\n```\n\nGrid reparte el espacio entre columnas y gap reserva separación sin márgenes difíciles de compensar. minmax(0, 1fr) permite reducir cada columna sin imponer el ancho intrínseco de una palabra larga. min-width: 0 de las tarjetas y overflow-wrap del cuerpo completan la prevención de desbordamientos. Flex se ocupa de los enlaces: flex-wrap autoriza nuevas líneas cuando el ancho es insuficiente.\n\nLa consulta de medios se activa desde 48rem. Es una decisión para este contenido, no una identificación exacta de un modelo de teléfono. A esa anchura caben tres resúmenes cortos; si cambias mucho los textos, revisa la decisión. No fijamos alturas a las tarjetas: una descripción más larga debe ampliar la caja en vez de recortarse. Los controles ya quedan preparados para las siguientes lecciones.\n\nPráctica\n\nAbre las herramientas de desarrollo del navegador y utiliza su vista adaptable. Prueba 320, 768 y 1280 píxeles de anchura. En 320 debe haber una columna; por encima del umbral aparecerán tres. Los saltos exactos en píxeles dependen también del tamaño de fuente raíz. Repite con zoom de 200 % y, para comprobar reflujo, con una ventana amplia a 400 %. Desplázate hasta el pie y revisa que no exista desplazamiento horizontal del documento.\n\nEscribe temporalmente «proyectoconunnombreextraordinariamentelargo» en una tarjeta. El texto debe partirse dentro de la caja; después restaura el título. Prueba también una descripción de dos párrafos para comprobar que no se superpone a la siguiente sección.\n\nSolución y comprobación\n\nSi algo sobresale, inspecciona primero su ancho fijo o min-width, no ocultes el problema con overflow-x: hidden. Una solución correcta mantiene accesibles las tres tarjetas y todos los enlaces sin cortar información. Guarda dos capturas propias, estrecha y amplia, como evidencia del mismo contenido. Las capturas muestran presentación; las pruebas de teclado de la siguiente lección comprobarán otro aspecto del uso.",
+            "sources": [
+              {
+                "title": "MDN: diseño adaptable",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design"
+              },
+              {
+                "title": "MDN: modelo de caja",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Box_model"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Teclado, contraste y lectura",
+            "description": "Añade un salto al contenido, foco visible y una sección desplegable nativa.",
+            "outcome": "Completar el recorrido principal con teclado y detectar límites que requieren revisión manual.",
+            "activity": "execute",
+            "preview": "Harás visibles las acciones y comprobarás que el sitio se puede recorrer sin ratón.",
+            "body": "El foco cuenta dónde estás\n\nTab desplaza el foco entre controles; Shift más Tab retrocede. Enter activa enlaces y el comportamiento nativo de los controles determina las demás teclas. Un borde visible permite reconocer qué acción recibiría la pulsación. Quitar el contorno sin reemplazarlo elimina esa señal. El foco no equivale a pasar el puntero por encima: debes probar ambas situaciones.\n\nAñade inmediatamente después de la etiqueta de apertura body y antes de header:\n\n```html\n<a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n```\n\nSu destino ya existe en main y tiene tabindex=\"-1\". Al inicio de cada visita, este enlace permite evitar la navegación repetida. Añade al final de estilos.css:\n\n```css\n:focus-visible {\n  outline: 3px solid #a73c00;\n  outline-offset: 4px;\n}\n.salto {\n  position: absolute;\n  top: .5rem;\n  left: .5rem;\n  z-index: 10;\n  padding: .75rem;\n  color: var(--tinta);\n  background: white;\n  transform: translateY(-180%);\n}\n.salto:focus { transform: translateY(0); }\nsummary { cursor: pointer; padding: .75rem 0; }\n```\n\nUsar lo que el navegador ya sabe\n\nDentro de «Sobre este sitio», después de sus párrafos, añade una pregunta desplegable:\n\n```html\n<details>\n  <summary>¿Estos proyectos guardan mis datos?</summary>\n  <p>Este sitio informativo no tiene cuentas. El filtro y el plan de estudio funcionan en tu navegador y no envían tus respuestas.</p>\n</details>\n```\n\ndetails y summary proporcionan apertura, cierre y operación por teclado sin inventar un control con un div. No coloques botones o enlaces adicionales dentro de summary. La explicación es cierta para el código construido aquí; si incorporas servicios externos después, revisa la afirmación y la información de privacidad correspondiente.\n\nContraste y significado\n\nMide texto y fondo con el selector de color de las herramientas del navegador o una herramienta de contraste. Para texto normal busca una relación mínima de 4.5:1; para texto grande, 3:1. Para esta regla, grande significa al menos 24 píxeles regulares o aproximadamente 18.66 en negrita, con la equivalencia habitual de puntos CSS. Los controles y sus indicadores requieren sus propias comprobaciones. No uses el color como única forma de distinguir un estado: acompáñalo de texto, como el área escrita en cada tarjeta.\n\nPráctica\n\nRecarga y deja el ratón aparte. Pulsa Tab: el salto debe aparecer. Actívalo y comprueba el destino. Sigue a los enlaces y luego a la pregunta; ábrela y ciérrala. Revisa que el foco sea visible sobre cada fondo y que ninguna zona lo atrape. Comprueba también con zoom que el enlace de salto no tapa su destino permanentemente.\n\nSolución y comprobación\n\nSi un elemento no responde, verifica que emplea su etiqueta nativa y que ningún estilo oculta el foco. No añadas tabindex positivos para reparar el orden: corrige el HTML. Documenta cualquier limitación encontrada. Estos ejercicios mejoran aspectos concretos; no constituyen una auditoría completa ni certifican conformidad con una norma. El video oficial en inglés es un refuerzo opcional sobre foco; puedes completar toda la actividad con este texto.",
+            "sources": [
+              {
+                "title": "web.dev: foco del teclado",
+                "url": "https://web.dev/learn/accessibility/focus"
+              },
+              {
+                "title": "web.dev: color y contraste",
+                "url": "https://web.dev/learn/accessibility/color-contrast"
+              },
+              {
+                "title": "MDN: detalles desplegables",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Chrome for Developers: What is Focus? — A11ycasts #03 (inglés, complemento)",
+                "url": "https://www.youtube.com/watch?v=EFv9ubbZLKw"
+              }
+            ],
+            "quiz": {
+              "title": "Presentación y accesibilidad",
+              "questions": [
+                {
+                  "prompt": "Una tarjeta tiene width: 300px, padding: 20px por lado, border: 1px y box-sizing: border-box. ¿Cuánto mide su exterior?",
+                  "multiple": false,
+                  "options": [
+                    "342px",
+                    "258px",
+                    "300px",
+                    "320px"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "border-box incluye padding y borde en el ancho declarado; 258px quedan para el contenido."
+                },
+                {
+                  "prompt": "¿Qué comprobación necesita interacción manual aunque exista un informe automático?",
+                  "multiple": false,
+                  "options": [
+                    "Recorrer el sitio con teclado y reconocer el foco",
+                    "Contar caracteres en un archivo",
+                    "Ver la extensión CSS",
+                    "Leer el nombre del repositorio"
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Un recorrido real detecta orden confuso, foco invisible y bloqueos que una puntuación no resuelve por sí sola."
+                },
+                {
+                  "prompt": "Una descripción larga sobresale en móvil. ¿Cuál es la primera acción útil?",
+                  "multiple": false,
+                  "options": [
+                    "Ocultar el desbordamiento horizontal de toda la página",
+                    "Eliminar la descripción",
+                    "Fijar la altura de todas las tarjetas",
+                    "Inspeccionar anchos mínimos o fijos y permitir que el texto se reacomode"
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "Hay que corregir la causa del desbordamiento para mantener la información disponible."
+                },
+                {
+                  "prompt": "¿Qué decisión representa una pregunta que puede desplegarse sin programar un control nuevo?",
+                  "multiple": false,
+                  "options": [
+                    "Un div que cambia de color al pasar el ratón",
+                    "details con summary descriptivo",
+                    "Un enlace sin href",
+                    "Un h2 con tabindex=\"5\""
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "details y summary proporcionan el comportamiento nativo de una sección desplegable."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "Interacciones con JavaScript",
+        "description": "Construye un filtro comprensible y un planificador que valida datos, manteniendo el contenido disponible.",
+        "lessons": [
+          {
+            "title": "JavaScript y una primera interacción",
+            "description": "Conecta el script y responde a una acción con un mensaje textual.",
+            "outcome": "Seleccionar elementos del documento y registrar una acción sin introducir HTML dinámico.",
+            "activity": "execute",
+            "preview": "Añadirás una interacción pequeña antes de construir el filtro completo.",
+            "body": "Cambiar comportamiento con una intención\n\nJavaScript permite reaccionar a una acción y modificar la página. El documento que el navegador construye a partir del HTML se llama DOM. Podemos seleccionar un elemento y cambiar su texto o estado. No necesitamos recrear las tarjetas con JavaScript: ya existen y se pueden leer aunque el script falle. Esa base será útil cuando agreguemos interacciones de forma progresiva.\n\nCrea app.js junto a index.html. En head, después del enlace CSS, añade:\n\n```html\n<script src=\"./app.js\" defer></script>\n```\n\ndefer permite descargar el archivo mientras continúa el análisis del HTML y ejecutarlo cuando el documento ya está construido. Así, las selecciones encontrarán sus destinos. La ruta sigue siendo relativa, por la misma razón que las imágenes y la hoja CSS.\n\nEjemplo\n\nEn la sección proyectos, después del h2 y antes de div.rejilla, agrega temporalmente:\n\n```html\n<button id=\"resumen\" type=\"button\" hidden>Mostrar resumen</button>\n<p id=\"estado\" role=\"status\">Hay 3 proyectos disponibles.</p>\n```\n\nEscribe en app.js:\n\n```javascript\nconst tarjetas = document.querySelectorAll(\".tarjeta\");\nconst estado = document.querySelector(\"#estado\");\nconst boton = document.querySelector(\"#resumen\");\n\nboton.addEventListener(\"click\", () => {\n  estado.textContent = \"Puedes explorar \" + tarjetas.length + \" proyectos.\";\n});\nboton.hidden = false;\n```\n\nconst crea una referencia que no reasignaremos. tarjetas contiene una lista de los elementos seleccionados; length cuenta sus integrantes. querySelector busca un elemento y querySelectorAll devuelve una colección estática. Si después crearas otra tarjeta mediante JavaScript, esa colección no se actualizaría automáticamente. Nuestro proyecto mantiene las mismas tarjetas durante la visita.\n\naddEventListener registra una función que el navegador ejecutará al producirse click. Un botón nativo también recibe activación desde el teclado; no hace falta inventar un segundo manejo para Enter. textContent escribe texto, de modo que no interpreta etiquetas que pudieran venir de una entrada. role=\"status\" comunica la actualización a tecnologías de asistencia sin desplazar el foco al mensaje.\n\nEl botón comienza oculto y solo aparece cuando se registra la acción. Si app.js no carga, las tarjetas siguen disponibles y no aparece una acción que promete algo imposible. Esto es una pequeña aplicación de mejora progresiva: el contenido básico funciona por sí mismo.\n\nPráctica\n\nRecarga, llega al botón usando Tab y actívalo. El mensaje debe cambiar sin recargar el documento. Abre la consola de desarrollo para buscar errores. Si aparece que no se puede leer addEventListener de null, la selección no encontró su id: compara el HTML y el script. No pegues instrucciones desconocidas en la consola.\n\nSolución y comprobación\n\nLa frase esperada dice que puedes explorar 3 proyectos. Si cuentas cero, revisa la clase .tarjeta; si nada se ejecuta, revisa src y que guardaste app.js. Después deshabilita temporalmente JavaScript con las herramientas del navegador y recarga: el botón no aparece, pero los proyectos continúan legibles. Restaura JavaScript. En la siguiente lección sustituiremos este botón de ensayo por controles de búsqueda útiles, conservando el mensaje de estado.",
+            "sources": [
+              {
+                "title": "MDN: qué es JavaScript",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/What_is_JavaScript"
+              },
+              {
+                "title": "MDN: introducción a eventos",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events"
+              },
+              {
+                "title": "MDN: querySelectorAll",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Un filtro con estados comprensibles",
+            "description": "Combina una búsqueda tolerante a tildes con la selección de área.",
+            "outcome": "Filtrar las tres tarjetas, indicar resultados y recuperar el listado completo.",
+            "activity": "execute",
+            "preview": "Construirás una búsqueda que funciona con teclado y explica cuando no encuentra coincidencias.",
+            "body": "Definir antes de programar\n\nEl filtro combina dos condiciones: el texto de la tarjeta debe contener la búsqueda y el área debe coincidir con la selección. Una búsqueda vacía acepta cualquier texto; «Todas» acepta cualquier área. Las dos condiciones se unen con &&, que significa que ambas deben cumplirse. No quitaremos tarjetas del documento: cambiaremos hidden para ocultar las que no coinciden.\n\nSustituye el botón temporal de resumen por este bloque; conserva el párrafo #estado y las tres tarjetas:\n\n```html\n<div id=\"filtros\" hidden>\n  <label for=\"buscar\">Buscar proyecto</label>\n  <input id=\"buscar\" type=\"search\" autocomplete=\"off\">\n  <label for=\"tema\">Área</label>\n  <select id=\"tema\">\n    <option value=\"todas\">Todas las áreas</option>\n    <option value=\"creacion\">Creación</option>\n    <option value=\"tecnologia\">Tecnología</option>\n  </select>\n</div>\n```\n\nReemplaza todo app.js de la lección anterior por:\n\n```javascript\nconst tarjetas = document.querySelectorAll(\".tarjeta\");\nconst estado = document.querySelector(\"#estado\");\nconst controles = document.querySelector(\"#filtros\");\nconst buscar = document.querySelector(\"#buscar\");\nconst tema = document.querySelector(\"#tema\");\n\nfunction normalizar(texto) {\n  return texto.normalize(\"NFD\")\n    .replace(/[\\u0300-\\u036f]/g, \"\")\n    .toLowerCase().trim();\n}\nfunction actualizar() {\n  const consulta = normalizar(buscar.value);\n  let visibles = 0;\n  tarjetas.forEach((tarjeta) => {\n    const coincideTexto = normalizar(tarjeta.textContent).includes(consulta);\n    const coincideTema = tema.value === \"todas\" || tarjeta.dataset.tema === tema.value;\n    const mostrar = coincideTexto && coincideTema;\n    tarjeta.hidden = !mostrar;\n    if (mostrar) visibles += 1;\n  });\n  estado.textContent = visibles === 0\n    ? \"No hay proyectos que coincidan. Borra la búsqueda o cambia el área.\"\n    : \"Proyectos encontrados: \" + visibles + \".\";\n}\nbuscar.addEventListener(\"input\", actualizar);\ntema.addEventListener(\"change\", actualizar);\nactualizar();\ncontroles.hidden = false;\n```\n\nEntender la transformación\n\nnormalize con NFD separa letras y marcas combinadas; la expresión elimina las marcas comunes, toLowerCase convierte mayúsculas y trim quita espacios de los extremos. En este catálogo pequeño permite que «fotografia» encuentre «Fotografía». No es una solución universal para todas las lenguas: también equipara n y ñ. Es una decisión explícita de búsqueda, nunca una transformación para almacenar nombres personales.\n\nlet permite actualizar el contador. forEach visita cada tarjeta, dataset.tema lee data-tema y ! invierte un booleano. Se cambia hidden, no el texto de las tarjetas; el contenido original se conserva. En el CSS ya existe una regla para que hidden no sea anulado por estilos de presentación.\n\nPráctica\n\nBusca «FOTOGRAFIA»: debe quedar una tarjeta. Selecciona Tecnología: debe aparecer el mensaje vacío porque no hay fotografía en esa área. Limpia la búsqueda: aparecerán dos tarjetas tecnológicas. Selecciona Todas: volverán las tres. Esta secuencia detecta errores que una búsqueda aislada no revela.\n\nSolución y comprobación\n\nSi una tarjeta del área incorrecta aparece, revisa los valores data-tema y option. Si todo desaparece, compara los id y usa la consola para localizar la primera línea que falla. El resultado vacío debe ofrecer una salida concreta y el foco debe permanecer en el control usado. No muevas el foco a cada tarjeta ni cambies el orden del HTML al filtrar.",
+            "sources": [
+              {
+                "title": "MDN: introducción a eventos",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events"
+              },
+              {
+                "title": "MDN: querySelectorAll",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
+              },
+              {
+                "title": "MDN: propiedad hidden",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden"
+              },
+              {
+                "title": "MDN: normalización de cadenas",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Un planificador que valida sus entradas",
+            "description": "Calcula sesiones y semanas usando datos numéricos y un formulario local.",
+            "outcome": "Rechazar entradas fuera del rango y comunicar un cálculo reproducible sin enviar datos.",
+            "activity": "execute",
+            "preview": "Completarás la interacción principal y distinguirás validación local de un servicio con servidor.",
+            "body": "Un cálculo que la persona pueda revisar\n\nAñadiremos un plan para un recorrido de 600 minutos. La persona elegirá minutos por sesión y sesiones semanales. Dividimos el total por la duración y redondeamos hacia arriba; después dividimos las sesiones entre la frecuencia y volvemos a redondear. Para 60 minutos y 3 sesiones por semana: 600 / 60 = 10 sesiones; 10 / 3 requiere 4 semanas. La última semana puede quedar incompleta.\n\nAntes de la sección contacto, dentro de main, añade:\n\n```html\n<section id=\"planificador\">\n  <h2>Calcula tu plan de aprendizaje</h2>\n  <p>Para un recorrido de 600 minutos: divide 600 entre tus minutos por sesión y redondea hacia arriba.</p>\n  <form id=\"plan\" hidden>\n    <label for=\"minutos\">Minutos por sesión</label>\n    <input id=\"minutos\" type=\"number\" min=\"30\" max=\"300\" step=\"30\" value=\"60\" required>\n    <label for=\"frecuencia\">Sesiones por semana</label>\n    <input id=\"frecuencia\" type=\"number\" min=\"1\" max=\"7\" step=\"1\" value=\"3\" required>\n    <button type=\"submit\">Calcular mi plan</button>\n    <p id=\"resultado\" role=\"status\"></p>\n  </form>\n</section>\n```\n\nAgrega este código al final de app.js, después del filtro; no reemplaces lo anterior:\n\n```javascript\nconst formulario = document.querySelector(\"#plan\");\nconst campoMinutos = document.querySelector(\"#minutos\");\nconst campoFrecuencia = document.querySelector(\"#frecuencia\");\nconst resultado = document.querySelector(\"#resultado\");\n\nformulario.addEventListener(\"submit\", (evento) => {\n  evento.preventDefault();\n  if (!formulario.reportValidity()) return;\n  const minutos = campoMinutos.valueAsNumber;\n  const frecuencia = campoFrecuencia.valueAsNumber;\n  if (!Number.isFinite(minutos) || !Number.isFinite(frecuencia)) return;\n  const sesiones = Math.ceil(600 / minutos);\n  const semanas = Math.ceil(sesiones / frecuencia);\n  resultado.textContent = \"Sesiones necesarias: \" + sesiones\n    + \". Semanas aproximadas: \" + semanas + \".\";\n});\nformulario.hidden = false;\n```\n\nLa etiqueta es parte del control\n\nCada label se conecta a su campo por for e id. required impide dejarlo vacío; min, max y step expresan el rango aceptado. El navegador ofrece mensajes de validación según su idioma. valueAsNumber obtiene el número, en vez de una cadena que podría concatenarse accidentalmente. Number.isFinite evita operar con valores numéricos inválidos; Math.ceil implementa el redondeo hacia arriba.\n\nsubmit funciona al pulsar el botón o enviar mediante teclado. preventDefault evita la navegación de envío; todos los cálculos ocurren en el navegador y no se guarda el resultado. El formulario permanece oculto hasta que el manejador esté registrado, mientras la explicación matemática sigue visible sin JavaScript. Si en el futuro guardas información en un servidor, también necesitarás validarla allí: las restricciones de la página pueden modificarse.\n\nPráctica\n\nPrueba 60 y 3: debes obtener 10 sesiones y 4 semanas. Después prueba 90 y 2: necesitas 7 sesiones y 4 semanas. Intenta 0, 31 y un campo vacío; ninguno debe producir un cálculo nuevo, porque viola el rango, el paso o el requisito. El resultado previo puede seguir visible: identifica que corresponde al último envío válido.\n\nSolución y comprobación\n\nSi ves un decimal de semanas, falta Math.ceil. Si la página recarga, revisa preventDefault y la conexión del script. La estimación reserva tiempo; no promete dominar una habilidad en una cantidad exacta de semanas. Completa el control del módulo y conserva estos casos para la revisión final.",
+            "sources": [
+              {
+                "title": "MDN: validación de formularios",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation"
+              },
+              {
+                "title": "MDN: campos numéricos",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/number"
+              },
+              {
+                "title": "MDN: introducción a eventos",
+                "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Interacciones y validación",
+              "questions": [
+                {
+                  "prompt": "La búsqueda «FOTOGRAFIA» debe encontrar «Fotografía». ¿Qué operación aporta la coincidencia sin tildes?",
+                  "multiple": false,
+                  "options": [
+                    "Ocultar las etiquetas label",
+                    "Reordenar todas las tarjetas",
+                    "Usar innerHTML con el texto escrito",
+                    "Normalizar la cadena y retirar sus marcas combinadas comunes"
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "La función normalizar trata mayúsculas y marcas para la búsqueda; la tarjeta original conserva su texto."
+                },
+                {
+                  "prompt": "Con búsqueda «fotografia» y área Tecnología no hay resultados. ¿Qué comportamiento corresponde?",
+                  "multiple": false,
+                  "options": [
+                    "Mostrar todas las tarjetas sin explicar",
+                    "Indicar que no hay coincidencias y cómo cambiar los filtros",
+                    "Enviar automáticamente a otra página",
+                    "Cambiar de área sin avisar"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las dos condiciones son simultáneas; el estado vacío debe ser comprensible y recuperable."
+                },
+                {
+                  "prompt": "Para 600 minutos, sesiones de 90 minutos y dos por semana, ¿cuál es el resultado del código?",
+                  "multiple": false,
+                  "options": [
+                    "6 sesiones y 3 semanas",
+                    "7 sesiones y 3 semanas",
+                    "7 sesiones y 4 semanas",
+                    "6.67 sesiones y 3.33 semanas"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Se redondea hacia arriba en ambos pasos: ceil(600/90)=7 y ceil(7/2)=4."
+                },
+                {
+                  "prompt": "¿Qué afirmación sobre la validación de esta página es correcta?",
+                  "multiple": false,
+                  "options": [
+                    "Ayuda a usar el cálculo local; si hubiera servidor necesitaría su propia validación",
+                    "Impide modificar el HTML en cualquier navegador",
+                    "Convierte GitHub Pages en un servidor de formularios",
+                    "Garantiza que cualquier dato recibido sea auténtico"
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "La validación del cliente mejora la interacción, pero puede modificarse y no sustituye controles del servidor."
+                }
+              ]
+            },
+            "practice": null
+          }
+        ]
+      },
+      {
+        "title": "Verificación, publicación y autoevaluación",
+        "description": "Corrige fallos reproducibles, publica la versión estática y conserva evidencias y límites de tu trabajo.",
+        "lessons": [
+          {
+            "title": "Verificar y corregir con evidencia",
+            "description": "Comprueba estructura, interacciones y recorridos antes de publicar.",
+            "outcome": "Registrar casos reproducibles y corregir un defecto sin confundir una puntuación con accesibilidad completa.",
+            "activity": "execute",
+            "preview": "Revisarás el sitio con casos concretos, herramientas del navegador y una comprobación manual.",
+            "body": "Probar una tarea completa\n\nUn sitio puede verse bien y fallar al cambiar un filtro. Para comprobarlo define entrada, acción y resultado esperado. Evita «funciona»: otra persona debe poder repetir tu comprobación. Trabaja sobre los archivos guardados y recarga antes de empezar. Anota navegador y anchura aproximada para interpretar una diferencia de presentación, sin producir un registro inmanejable de cada clic.\n\nEjemplo\n\nEl caso «sin coincidencias» comienza en Todas, escribe «fotografia» y cambia a Tecnología. Esperado: ninguna tarjeta visible, mensaje que explica cómo recuperar resultados y foco conservado en el selector. Después borra la búsqueda y espera dos tarjetas; vuelve a Todas y espera tres. Así verificas tanto el error comprensible como su recuperación.\n\nHaz además estos casos: plan de 60 minutos y 3 sesiones semanales produce 10 sesiones y 4 semanas; plan de 90 y 2 produce 7 y 4; 31 minutos no admite cálculo; Tab permite saltar a main y llegar a todos los controles; 320 píxeles y zoom mantienen contenido sin recortes; sin JavaScript se leen las tres tarjetas y la fórmula, mientras controles dependientes permanecen ocultos. Si usaste foto, comprueba su carga y alternativa.\n\nInspeccionar antes de adivinar\n\nAbre las herramientas del navegador. En Console busca errores propios del sitio; empieza por el primero, porque un fallo temprano puede impedir el resto del script. En Network recarga y busca recursos que no carguen. Cuando abres archivos locales no habrá códigos HTTP como en el sitio publicado, pero podrás reconocer rutas fallidas. En Elements comprueba que un proyecto descartado recibe hidden y que su clase no lo muestra por accidente.\n\nPráctica\n\nIntroduce de forma temporal un error controlado: cambia en HTML el id buscar por busqueda. Recarga. La selección del script devolverá null y fallará al registrar o utilizar el control. Corrige el nombre, guarda y repite el caso completo. No borres una línea del filtro para silenciar el error: repara la relación que lo causó.\n\nDespués abre Nu HTML Checker y comprueba el archivo mediante la opción de carga o entrada de texto. Corrige, por ejemplo, etiquetas mal cerradas e id duplicados. No compartas contenido privado con servicios de comprobación; este proyecto solo contiene materiales destinados a ser públicos. En el sitio publicado podrás comprobar también por URL.\n\nSolución y comprobación\n\nSi ejecutas Lighthouse después de publicar, lee los problemas concretos y las revisiones manuales pendientes. Un 100 no prueba que las alternativas describan correctamente las fotos ni que el recorrido tenga sentido. Guarda un resumen con caso, resultado, corrección y repetición, más una limitación real. Una evidencia válida sería «el selector no respondía por un id distinto; lo igualé y la secuencia 1→0→2→3 pasó». Solo escribe ese resultado si ocurrió en tu revisión.",
+            "sources": [
+              {
+                "title": "W3C: Nu HTML Checker",
+                "url": "https://validator.w3.org/nu/"
+              },
+              {
+                "title": "web.dev: pruebas manuales de accesibilidad",
+                "url": "https://web.dev/learn/accessibility/test-manual"
+              },
+              {
+                "title": "web.dev: pruebas automáticas de accesibilidad",
+                "url": "https://web.dev/learn/accessibility/test-automated"
+              },
+              {
+                "title": "Chrome for Developers: puntuación de accesibilidad de Lighthouse",
+                "url": "https://developer.chrome.com/docs/lighthouse/accessibility/scoring"
+              }
+            ],
+            "videos": [],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Publicar el sitio en GitHub Pages",
+            "description": "Sube los archivos y configura una publicación estática bajo un repositorio propio.",
+            "outcome": "Abrir la URL pública por HTTPS y distinguir la versión publicada de la copia local.",
+            "activity": "execute",
+            "preview": "Llevarás tu sitio al navegador de otras personas y verificarás sus recursos en la dirección pública.",
+            "body": "Preparar una versión pública\n\nGitHub Pages publica archivos estáticos: sirve este HTML, CSS y JavaScript, pero no ejecuta un servidor Python o PHP. Este proyecto es un portafolio informativo. No lo conviertas aquí en una tienda o en un servicio que procese transacciones: Pages tiene condiciones de uso específicas para esos casos. Con GitHub Free, este recorrido utiliza un repositorio público; revisa la documentación enlazada si tu organización o plan exige otra configuración.\n\nComprueba tu carpeta: index.html, estilos.css, app.js y, si la usaste, imagenes/luz-ventana.jpg. Retira copias privadas, originales pesados y cualquier contraseña o clave. Todo lo subido al repositorio público será visible. La ausencia de formularios de envío en nuestro código no significa que el proveedor no procese datos: la documentación indica que GitHub registra las direcciones IP de visitantes por seguridad. Evita afirmar que el alojamiento no recopila ningún dato.\n\nPráctica\n\nEntra a tu cuenta de GitHub y selecciona New repository. Usa aula-abierta como nombre, elige visibilidad pública y crea un README inicial. Esta es una publicación de proyecto, por lo que no necesitas llamar al repositorio con el nombre especial usuario.github.io. En Add file elige Upload files y sube los archivos de tu carpeta, manteniendo imagenes como subcarpeta. Confirma la carga con un mensaje breve que describa el contenido. Revisa que index.html aparezca en la raíz del repositorio; subir la carpeta exterior completa crearía un nivel adicional incorrecto para esta configuración.\n\nVe a Settings y después Pages. En Build and deployment, selecciona Deploy from a branch. Elige la rama que contiene los archivos que acabas de subir; verifica su nombre en lugar de asumirlo. Selecciona /(root) como carpeta y guarda. En Actions puedes comprobar el resultado de la ejecución de publicación. Aunque elegiste publicar desde una rama, GitHub utiliza una ejecución para desplegar el sitio.\n\nSolución y comprobación\n\nEspera a que la publicación termine y abre Visit site desde Pages. La dirección de un proyecto normalmente tiene la forma https://tu-usuario.github.io/aula-abierta/. Utiliza la dirección que GitHub muestre realmente. Confirma HTTPS y, cuando aparezca disponible, activa Enforce HTTPS. No necesitas comprar un dominio para completar el curso.\n\nRepite la búsqueda y el cálculo en esa URL, no en el archivo local. En Network revisa que CSS, JavaScript e imagen carguen correctamente. Si hay un error 404, comprueba la carpeta de publicación, la presencia de index.html y la coincidencia exacta de mayúsculas. Las rutas ./estilos.css y ./imagenes mantienen el prefijo del repositorio. Publicar puede tardar varios minutos; consulta el estado antes de volver a cambiar ajustes.\n\nEl video oficial de GitHub en inglés acompaña estos pasos y explica alternativas. Para este curso basta la publicación desde rama descrita aquí. Conserva la URL y el identificador de la confirmación publicada para vincular tu expediente personal con una versión concreta.",
+            "sources": [
+              {
+                "title": "GitHub Docs: crear un sitio de Pages",
+                "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
+              },
+              {
+                "title": "GitHub Docs: configurar la fuente de publicación",
+                "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+              },
+              {
+                "title": "GitHub Docs: HTTPS en Pages",
+                "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https"
+              },
+              {
+                "title": "GitHub Docs: límites de Pages",
+                "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits"
+              },
+              {
+                "title": "GitHub Docs: qué es Pages y datos de las visitas",
+                "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages"
+              }
+            ],
+            "videos": [
+              {
+                "title": "GitHub: Getting started with GitHub Pages for beginners | Tutorial (inglés, complemento)",
+                "url": "https://www.youtube.com/watch?v=b2r9Cdvssi0"
+              }
+            ],
+            "quiz": null,
+            "practice": null
+          },
+          {
+            "title": "Autoevaluación y mantenimiento responsable",
+            "description": "Consolida el sitio publicado, sus archivos y un expediente personal de resultados.",
+            "outcome": "Conservar un proyecto reproducible con cinco criterios de autoevaluación y un plan de mantenimiento.",
+            "activity": "execute",
+            "preview": "Consolidarás una versión propia del sitio y explicarás qué funciona, cómo lo comprobaste y qué falta revisar.",
+            "body": "Cerrar una versión que puedas explicar\n\nEl resultado del curso es un sitio tuyo, publicado y comprobable. Personaliza el título, el propósito y las descripciones para reflejar proyectos reales o propuestas que identifiques como tales. No inventes resultados de usuarios. Mantén tres tarjetas durante la autoevaluación para que los casos de filtro tengan resultados comparables; puedes cambiar sus contenidos si actualizas los casos esperados. La fotografía sigue siendo opcional y, si la incluyes, debe ser propia o tener permiso documentado.\n\nConserva en un expediente personal una URL pública que cargue, el enlace al repositorio y el identificador de la confirmación que corresponde a esa versión. Desde la lista de cambios de GitHub puedes abrir esa confirmación y copiar su enlace. Así una modificación posterior no altera la evidencia de la versión que comprobaste. La prueba publicada tiene más valor que una captura aislada: permite comprobar teclado, filtros y cálculo.\n\nPráctica\n\nPrepara un resumen breve fuera del contenido visible del sitio y guárdalo en tu expediente personal. El proyecto se comprueba por cuenta propia, sin enviarlo a BTC.EDU ni esperar revisión personal. No condiciona el certificado: para obtenerlo debes completar las doce lecciones y aprobar los cuatro controles obligatorios. Incluye propósito y público, archivos principales, dos decisiones justificadas y una limitación concreta. Guarda o enlaza una captura estrecha y otra amplia, sin información privada. Describe la secuencia del filtro, los dos cálculos válidos y un rechazo de entrada. Añade resultados de teclado, zoom y carga de recursos. No copies páginas enteras de consola: basta el defecto encontrado, su corrección y el resultado de repetirlo.\n\nUna justificación suficiente es «conservé las tarjetas en HTML para poder leerlas sin JavaScript; el filtro solo modifica hidden». Otra es «usé labels visibles y detalles nativos para que el teclado tenga una interacción predecible». Explica decisiones observables, en vez de adjetivos como «totalmente intuitivo». Si nadie más ha revisado tu sitio, dilo; una revisión propia no constituye una sesión con usuarios.\n\nSolución y comprobación\n\nAntes de cerrar el expediente, abre la URL en una ventana nueva y verifica que coincide con la confirmación indicada. Repite los casos sin depender del estado que quedó en la pestaña anterior. Comprueba que no hay enlaces locales de tu computadora ni fotos rotas. Si un servicio de alojamiento aún no termina de publicar, la publicación sigue pendiente; conservar el archivo local no demuestra que ya esté disponible.\n\nPara profundizar\n\nAnota dos siguientes acciones concretas: revisar la experiencia con una persona que utilice lector de pantalla y repetir los controles cuando cambies textos, fotos o estilos. Si realizas una prueba con alguien, pide consentimiento y registra únicamente lo que realmente observaste. No presentes este recorrido inicial como una certificación integral de accesibilidad.\n\nMantén una copia local y el historial del repositorio. Cada cambio futuro debe conservar un recorrido básico: encontrar un proyecto, recuperarse de una búsqueda vacía y calcular un plan válido. Si más adelante añades envíos, cuentas, métricas o pagos, revisa el alojamiento, la seguridad y la información de privacidad antes de publicarlos. Por ahora tienes un sitio estático completo, con un alcance claro y criterios que otra persona puede comprobar.",
+            "sources": [
+              {
+                "title": "web.dev: pruebas manuales de accesibilidad",
+                "url": "https://web.dev/learn/accessibility/test-manual"
+              },
+              {
+                "title": "web.dev: pruebas automáticas de accesibilidad",
+                "url": "https://web.dev/learn/accessibility/test-automated"
+              },
+              {
+                "title": "GitHub Docs: qué es Pages y datos de las visitas",
+                "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Publicación y autoevaluación final",
+              "questions": [
+                {
+                  "prompt": "La web pública muestra texto sin estilos, pero la copia local se ve bien. ¿Qué debes revisar primero?",
+                  "multiple": false,
+                  "options": [
+                    "Reescribir todas las tarjetas con JavaScript",
+                    "Cambiar el nombre del usuario de GitHub",
+                    "La carga de estilos.css y su ruta relativa bajo el repositorio",
+                    "Eliminar el viewport"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Un recurso con ruta equivocada puede cargar localmente y fallar bajo el prefijo de un sitio de proyecto."
+                },
+                {
+                  "prompt": "¿Qué demuestra una puntuación automática alta de accesibilidad?",
+                  "multiple": false,
+                  "options": [
+                    "Que toda persona completará cualquier tarea",
+                    "Que ya existe certificación legal",
+                    "Que no hacen falta pruebas de teclado",
+                    "Que pasaron las comprobaciones automáticas incluidas; quedan aspectos manuales"
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "Las herramientas detectan parte de los problemas; el sentido de las alternativas y de los recorridos requiere revisión."
+                },
+                {
+                  "prompt": "¿Qué dato permite vincular tu expediente con una versión concreta aunque después cambies el sitio?",
+                  "multiple": false,
+                  "options": [
+                    "El enlace a la confirmación publicada del repositorio",
+                    "El color del título",
+                    "Solo el nombre del editor",
+                    "Una captura sin URL"
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "La confirmación identifica los archivos de esa versión; debe corresponder a la publicación que comprobaste."
+                },
+                {
+                  "prompt": "¿Cuál es el alcance adecuado de GitHub Pages en este proyecto?",
+                  "multiple": false,
+                  "options": [
+                    "Guardar contraseñas de estudiantes en archivos públicos",
+                    "Publicar el portafolio estático e informativo y sus recursos",
+                    "Ejecutar un servidor privado de Python",
+                    "Procesar pagos sensibles directamente con HTML"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Pages publica contenido estático; el proyecto informativo respeta ese alcance y debe considerar las condiciones del servicio."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Expediente personal de tu sitio accesible",
+              "instructions": "Conserva en tu expediente personal la URL pública por HTTPS, el repositorio y el enlace a la confirmación correspondiente. Añade un resumen breve del público, dos decisiones y una limitación; guarda capturas estrecha y amplia y el resultado real de los casos de teclado, filtros, planificador y carga de recursos. Personaliza los textos. La fotografía es opcional; si la usas, declara su autoría o permiso. Puedes guardar un ZIP de respaldo sin claves ni datos privados. Usa los cinco criterios para autoevaluarte: no hay envío ni revisión personal incluidos. El proyecto no condiciona el certificado; este requiere completar las doce lecciones y aprobar los cuatro controles obligatorios.",
+              "required": false,
+              "criteria": [
+                {
+                  "label": "Estructura y contenido",
+                  "description": "Título e idioma español, un main y jerarquía h1/h2/h3; tres proyectos propios y anclas válidas, sin rutas personales. Si incluye foto, carga, tiene una alternativa útil y documenta su autoría o permiso."
+                },
+                {
+                  "label": "Diseño y teclado",
+                  "description": "A 320px y con zoom de 200% conserva el contenido sin recortes; el recorrido por teclado llega a salto, enlaces, filtros, formulario y detalles, con foco visible y sin bloqueos. Registra la comprobación de contraste de texto y fondo."
+                },
+                {
+                  "label": "Filtro recuperable",
+                  "description": "Documenta una coincidencia, una combinación sin resultados y la recuperación al limpiar y volver a Todas. Los conteos corresponden a las tarjetas, el estado vacío explica cómo recuperarse y las tarjetas siguen legibles sin JavaScript."
+                },
+                {
+                  "label": "Planificador correcto",
+                  "description": "Obtiene 10 sesiones y 4 semanas para 60/3 y 7 sesiones y 4 semanas para 90/2; rechaza 31 minutos, cero y campo vacío sin producir un cálculo nuevo. Los campos tienen etiquetas visibles y el resultado se comunica sin recarga ni envío."
+                },
+                {
+                  "label": "Publicación y evidencia",
+                  "description": "La URL HTTPS abre el sitio y carga sus recursos. Tu expediente conserva repositorio y confirmación de esa versión, dos capturas, pruebas realmente ejecutadas, decisiones y una limitación, sin afirmar auditoría completa ni validación con usuarios inexistente."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

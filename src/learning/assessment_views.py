@@ -51,12 +51,15 @@ def quiz_edit(request, lesson_pk):
                     draft.revision = (current.revision if current else 0) + 1
                     draft.full_clean()
                     draft.save()
+                    from django.utils import timezone
+                    Course.objects.filter(pk=lesson.chapter.course_id).update(updated_at=timezone.now())
             except ValidationError as exc:
                 form.add_error(None, " ".join(exc.messages))
             else:
                 messages.success(request, "Evaluación guardada en el borrador. Envía el curso a revisión para publicarla.")
                 return redirect("creator-quiz", lesson_pk=lesson.pk)
-    return render(request, "learning/quiz_editor.html", {"form": form, "questions": questions, "lesson": lesson, "active": "studio"})
+    from creators.presentation import course_sections
+    return render(request, "learning/quiz_editor.html", {"form": form, "questions": questions, "lesson": lesson, "course_sections": course_sections(lesson.chapter.course, "evaluaciones"), "active": "creator-content"})
 
 
 def student_quiz(request, pk):
@@ -70,7 +73,7 @@ def student_quiz(request, pk):
 @require_GET
 def quiz_detail(request, pk):
     quiz, enrollment = student_quiz(request, pk)
-    return render(request, "learning/quiz.html", {"quiz": quiz, "enrollment": enrollment, **quiz_status(enrollment, quiz), "active": "workspace"})
+    return render(request, "learning/quiz.html", {"quiz": quiz, "enrollment": enrollment, "lesson_completed": enrollment.completed_lessons.filter(lesson=quiz.lesson).exists(), **quiz_status(enrollment, quiz), "active": "workspace"})
 
 
 @student_required
@@ -116,32 +119,73 @@ def attempt_detail(request, pk):
                 row.update(correct=set(selected) == set(question["correct"]), solutions=[question["options"][option] for option in question["correct"]], explanation=question["explanation"])
             review.append(row)
     # Only sanitized form fields/review rows reach the student template; no answer key.
-    return render(request, "learning/attempt.html", {"form": form, "attempt": attempt, "review": review, "solutions_visible": solutions_visible, "active": "workspace"}, status=response_status)
+    return render(request, "learning/attempt.html", {"form": form, "attempt": attempt, "review": review, "solutions_visible": solutions_visible, "lesson_completed": attempt.enrollment.completed_lessons.filter(lesson=quiz.lesson).exists(), **quiz_status(attempt.enrollment, quiz), "active": "workspace"}, status=response_status)
 
 
 @creator_required
 @require_GET
-def quiz_results(request, course_pk):
+def quiz_results(request, course_pk=None):
     from content.models import Course
-    course = get_object_or_404(Course, pk=course_pk, creator=request.user)
-    attempts = QuizAttempt.objects.filter(quiz__lesson__chapter__version__course=course).select_related("quiz__lesson__chapter__version", "enrollment__student").order_by("-started_at")
+    courses = Course.objects.filter(creator=request.user).order_by("title", "pk")
+    course = get_object_or_404(courses, pk=course_pk) if course_pk else None
+    selected_course = request.GET.get("curso", "")
+    if selected_course.isdigit() and courses.filter(pk=selected_course).exists() and (not course or int(selected_course) != course.pk):
+        from urllib.parse import urlencode
+        filters = {name: request.GET[name] for name in ("estado", "version") if request.GET.get(name)}
+        return redirect(reverse("creator-quiz-results", args=[selected_course]) + ("?" + urlencode(filters) if filters else ""))
+    attempts = QuizAttempt.objects.filter(quiz__lesson__chapter__version__course__creator=request.user).select_related("quiz__lesson__chapter__version", "enrollment__student", "enrollment__version")
+    if course:
+        attempts = attempts.filter(quiz__lesson__chapter__version__course=course)
+    state = request.GET.get("estado", "")
+    if state == "active":
+        attempts = attempts.filter(submitted_at__isnull=True)
+    elif state in ("passed", "failed"):
+        attempts = attempts.filter(submitted_at__isnull=False, passed=state == "passed")
+    else:
+        state = ""
+    versions = course.versions.filter(published_at__isnull=False).order_by("-number") if course else []
+    version = request.GET.get("version", "")
+    if course and version.isdigit() and versions.filter(number=version).exists():
+        attempts = attempts.filter(quiz__lesson__chapter__version__number=version)
+    else:
+        version = ""
+    from django.db.models import OuterRef, Subquery
+    from django.db.models.functions import Coalesce
+    last_activity = QuizAttempt.objects.filter(enrollment_id=OuterRef("enrollment_id")).annotate(activity=Coalesce("submitted_at", "started_at")).order_by("-activity", "-pk").values("activity")[:1]
+    attempts = attempts.annotate(student_activity=Subquery(last_activity)).order_by("-student_activity", "enrollment_id", "quiz_id", "-started_at", "-pk")
     from django.core.paginator import Paginator
     page = Paginator(attempts, 30).get_page(request.GET.get("pagina"))
+    statuses = {}
     for attempt in page:
-        attempt.quiz_status = quiz_status(attempt.enrollment, attempt.quiz)
-    grants = ExtraQuizAttempt.objects.filter(quiz__lesson__chapter__version__course=course).select_related("enrollment__student", "quiz", "granted_by").order_by("-created_at")[:30]
-    return render(request, "learning/quiz_results.html", {"course": course, "attempts": page, "grants": grants, "active": "studio"})
+        key = (attempt.enrollment_id, attempt.quiz_id)
+        if key not in statuses:
+            statuses[key] = quiz_status(attempt.enrollment, attempt.quiz)
+        attempt.quiz_status = statuses[key]
+    grants = ExtraQuizAttempt.objects.filter(quiz__lesson__chapter__version__course__creator=request.user)
+    if course:
+        grants = grants.filter(quiz__lesson__chapter__version__course=course)
+    grants = grants.select_related("enrollment__student", "quiz", "granted_by").order_by("-created_at")[:30]
+    return render(request, "learning/quiz_results.html", {"course": course, "courses": courses, "result_state": state, "result_version": version, "versions": versions, "attempts": page, "grants": grants, "active": "students"})
 
 
 @creator_required
 @require_POST
 def quiz_grant(request, pk):
+    from django.http import JsonResponse
+
     attempt = get_object_or_404(QuizAttempt.objects.select_related("quiz__lesson__chapter__version__course"), pk=pk, quiz__lesson__chapter__version__course__creator=request.user)
+    ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    destination = reverse("creator-quiz-results", args=[attempt.quiz.lesson.chapter.version.course_id])
     try:
         allowance = int(request.POST.get("allowance", ""))
         grant_attempt(request.user, attempt.enrollment_id, attempt.quiz_id, allowance, request.POST.get("reason", ""))
     except (ValueError, ValidationError) as exc:
-        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "La solicitud no es válida.")
+        errors = exc.messages if isinstance(exc, ValidationError) else ["La solicitud no es válida."]
+        if ajax:
+            return JsonResponse({"errors": errors}, status=400)
+        messages.error(request, " ".join(errors))
     else:
         messages.success(request, "Otro intento autorizado. Se conservan las notas y la espera entre intentos.")
-    return redirect(reverse("creator-quiz-results", args=[attempt.quiz.lesson.chapter.version.course_id]))
+        if ajax:
+            return JsonResponse({"redirect": destination})
+    return redirect(destination)

@@ -1,0 +1,1 @@
+OK: confirmaci�n simult�nea �nica, revisi�n concurrente sin sobrescritura, contrase�a obsoleta rechazada tras desactivaci�n y cuentas independientes.

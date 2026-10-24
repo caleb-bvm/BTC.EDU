@@ -1,0 +1,17 @@
+{% extends 'creators/base.html' %}
+{% block title %}Revisar reembolso · BTC.EDU{% endblock %}
+{% block studio_content %}
+<section class="commerce-page">
+  <header class="page-heading"><div><p class="eyebrow">ADMINISTRACIÓN / REEMBOLSOS</p><h1>{{ refund.amount_sats }} sats · {{ refund.get_status_display }}</h1><p>{{ refund.invoice.title }} · {{ refund.buyer.email }} · Solicitado el {{ refund.created_at|date:'d/m/Y H:i' }}</p></div></header>
+  <div class="commerce-grid">
+    <section class="commerce-panel"><h2>Motivo</h2><p>{{ refund.reason }}</p><h3>Factura para el reembolso</h3><textarea class="form-control" readonly rows="4">{{ refund.payment_request }}</textarea>{% if refund.decision_note %}<h3>Nota</h3><p>{{ refund.decision_note }}</p>{% endif %}{% if refund.payment_hash %}<p class="small-note mono">Pago: {{ refund.payment_hash }}</p>{% endif %}</section>
+    <aside class="commerce-panel purchase-summary">
+      {% if refund.status == 'requested' or refund.status == 'review' %}
+        {% if form.non_field_errors %}<div class="form-errors" role="alert">{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>{% endif %}
+        {% if refund.status == 'review' %}<p>El resultado del pago es incierto. Comprueba la wallet: si el pago consta, indica su hash; si no, rechaza la solicitud con una nota.</p>{% else %}<p>Aprobar envía el pago desde la wallet receptora. El acceso que solo concedía esta compra termina al confirmarse.</p>{% endif %}
+        <form method="post" class="studio-form">{% csrf_token %}{{ form.as_p }}<button class="btn btn-dark" type="submit">Registrar decisión</button></form>
+      {% else %}<p>Decidida el {{ refund.decided_at|date:'d/m/Y H:i' }}{% if refund.decided_by %} por {{ refund.decided_by.email }}{% endif %}.</p>{% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}

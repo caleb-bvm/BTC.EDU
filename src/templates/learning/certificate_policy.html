@@ -1,8 +1,3 @@
-{% extends 'creators/base.html' %}
-{% block studio_content %}
-<a href="{% url 'creator-course' course.pk %}">← Volver al curso</a>
-<p class="eyebrow">Requisitos de finalización</p><h1>Certificado de {{ course.title }}</h1>
-<p>Selecciona las lecciones que deben completarse. Todas las evaluaciones obligatorias del curso deben aprobarse, incluso cuando pertenecen a una lección opcional.</p>
-<p>Los requisitos se conservan con la versión enviada a revisión. Comprar contenido no completa estos requisitos.</p>
-<section class="studio-panel"><form method="post" class="studio-form">{% csrf_token %}{{ form.as_p }}<button class="btn btn-dark">Guardar requisitos</button></form></section>
-{% endblock %}
+{% extends 'creators/base.html' %}{% block title %}Certificado · {{ course.title }} · BTC.EDU{% endblock %}
+{% block studio_content %}<a class="studio-back" href="{% url 'creator-course' course.pk %}?seccion=publicacion">← {{ course.title }}</a><header class="studio-page-heading"><p class="eyebrow">Configuración del contenido</p><h1>Certificado</h1><p>Elige qué necesita completar el estudiante en este recorrido.</p></header>{% include 'creators/_course_navigation.html' with selected='certificado' %}
+<section class="studio-panel"><h2>Requisitos de finalización</h2><p>Selecciona las lecciones que deben completarse. Todas las evaluaciones obligatorias deben aprobarse, incluso si pertenecen a una lección opcional.</p><form method="post" class="studio-form" data-dirty-form>{% include 'creators/_form.html' with save_label='Guardar requisitos' %}</form><details class="studio-guide"><summary>Cómo se aplican estos requisitos</summary><p>Se conservan con la versión enviada a revisión. Comprar contenido no completa estos requisitos. Guarda el certificado y envía el curso a revisión para publicarlo.</p></details></section>{% endblock %}

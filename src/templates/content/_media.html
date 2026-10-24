@@ -1,5 +1,5 @@
 <section class="media-panel learning-section">
-  {% if not media.standalone %}<h2>{{ media.title }}</h2>{% include 'content/_education.html' with unit=media.unit %}{% endif %}
+  {% if not media.standalone %}{% if not compact %}<h2>{{ media.title }}</h2>{% endif %}{% include 'content/_education.html' with unit=media.unit %}{% endif %}
   {% if media.allowed %}
     {% if media.file_url %}
       {% if media.kind == 'video' %}
@@ -8,9 +8,9 @@
         {% if media.subtitle_url %}<track kind="captions" src="{{ media.subtitle_url }}" srclang="es" label="Español" default>{% endif %}
         Tu navegador no admite este reproductor. <a href="{{ media.file_url }}">Abrir video</a>.
       </video>
-      <p class="media-error status-strip" hidden>No se pudo reproducir el video. Intenta recargar; si continúa, avisa al creador.</p>
+      <p class="media-error status-strip" hidden>No se pudo reproducir el video. Intenta recargar; si continúa, avisa al educador.</p>
       {% if media.body %}<details class="media-transcript"><summary>Leer transcripción</summary><div class="reading-copy">{{ media.body|linebreaks }}</div></details>{% endif %}
-      {% else %}<p>{{ media.mime }} · {{ media.size|filesizeformat }}</p><a class="btn btn-dark" href="{{ media.file_url }}">Descargar material ↓</a>{% endif %}
-    {% else %}<div class="status-strip"><p>El archivo no está disponible. Vuelve a intentar más tarde o avisa al creador.</p></div>{% endif %}
+      {% else %}<p>Archivo · {{ media.size|filesizeformat }}</p><a class="btn btn-dark" href="{{ media.file_url }}">Descargar material ↓</a>{% endif %}
+    {% else %}<div class="status-strip"><p>El archivo no está disponible. Vuelve a intentar más tarde o avisa al educador.</p></div>{% endif %}
   {% else %}<div class="locked-panel"><span class="access-badge">Contenido de pago</span><p>Este recurso requiere una compra. Consulta las opciones de acceso disponibles.</p></div>{% endif %}
 </section>

@@ -1,3 +1,5 @@
+from urllib.parse import urlsplit
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
@@ -32,18 +34,38 @@ class StudentLoginView(LoginView):
     def get_redirect_url(self):
         return student_destination(self.request, super().get_redirect_url())
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        from commerce.cart import merge_guest_cart
+        for notice in merge_guest_cart(self.request):
+            messages.info(self.request, notice)
+        return response
+
 
 class CreatorLoginView(LoginView):
     authentication_form = CreatorLoginForm
     template_name = "creators/login.html"
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.request.session.pop("commerce_guest_cart", None)
+        return response
+
     def get_redirect_url(self):
         destination = super().get_redirect_url()
-        profile = getattr(self.request.user, "creator_profile", None)
-        # During form_valid request.user is already the newly authenticated user.
-        if not profile or profile.status != "approved":
+        # Keep a safe destination in the form before the educator signs in.
+        # Authorization is checked after login, when the target account is known.
+        if not destination.startswith("/crear/"):
             return ""
-        return destination if destination.startswith("/crear/") and destination not in (reverse("creator-login"), reverse("creator-signup")) else ""
+        if urlsplit(destination).path in (reverse("creator-login"), reverse("creator-signup")):
+            return ""
+        return destination
+
+    def get_success_url(self):
+        profile = getattr(self.request.user, "creator_profile", None)
+        if not profile or profile.status != "approved":
+            return reverse("creator-application")
+        return super().get_success_url()
 
     def get_default_redirect_url(self):
         profile = getattr(self.request.user, "creator_profile", None)
@@ -89,6 +111,12 @@ def register(request, creator=False):
             form.add_error("email", "Ya existe una cuenta con este correo en este espacio. Inicia sesión.")
         else:
             login(request, user, backend="accounts.backends.AccountBackend")
+            if creator:
+                request.session.pop("commerce_guest_cart", None)
+            else:
+                from commerce.cart import merge_guest_cart
+                for notice in merge_guest_cart(request):
+                    messages.info(request, notice)
             request_email_action(request, user, "verify", destination=reverse("creator-application") if creator else next_url)
             messages.success(request, "Cuenta de creador creada. Completa tu perfil para solicitar la aprobación." if creator else "Cuenta de estudiante creada.")
             return redirect("creator-application" if creator else next_url or "workspace")

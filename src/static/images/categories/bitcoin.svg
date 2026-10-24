@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0v40" stroke="#d4d7cb" stroke-width=".6"/></pattern><linearGradient id="coin" x2="1" y2="1"><stop stop-color="#ffd296"/><stop offset="1" stop-color="#e99a49"/></linearGradient></defs>
+  <path fill="#efefe6" d="M0 0h640v360H0z"/><path fill="url(#grid)" d="M0 0h640v360H0z"/>
+  <g stroke="#8a9383" stroke-width="2" stroke-linejoin="round"><path d="M128 150h98m188 60h98M170 150v85h72m156-110h72v85"/><rect x="100" y="126" width="48" height="48" rx="8" fill="#dce0d2"/><rect x="492" y="186" width="48" height="48" rx="8" fill="#dce0d2"/><rect x="154" y="219" width="32" height="32" rx="6" fill="#e3e6db"/><rect x="454" y="109" width="32" height="32" rx="6" fill="#e3e6db"/></g>
+  <ellipse cx="322" cy="291" rx="93" ry="12" fill="#74806c" opacity=".12"/><circle cx="320" cy="180" r="94" fill="url(#coin)" stroke="#ad6b2c" stroke-width="2"/><circle cx="320" cy="180" r="78" stroke="#fff1d4" stroke-width="2"/>
+  <g stroke="#805022" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M295 130v100m0-94h35c31 0 31 40 0 40h-35m0 0h39c35 0 35 42 0 42h-39M284 136h11m-11 82h11m11-96v14m20-14v14m-20 82v16m20-16v16"/></g>
+  <path d="M55 55h16m-8-8v16m506 242h16m-8-8v16" stroke="#adb4a4" stroke-width="1.5"/>
+</svg>

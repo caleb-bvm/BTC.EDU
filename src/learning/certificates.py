@@ -4,6 +4,7 @@ from django.db.models import F
 from django.urls import reverse
 
 from commerce.services import require_student
+from content.models import VersionLesson
 
 from .models import (
     Certificate,
@@ -33,16 +34,25 @@ def freeze_certificate_policy(course, version):
 
 def completion_status(enrollment):
     policy = VersionCertificatePolicy.objects.filter(version=enrollment.version).first()
-    certificate = Certificate.objects.filter(enrollment=enrollment).first()
+    certificate = Certificate.objects.filter(enrollment=enrollment).select_related("revocation").first()
     if not policy:
         return {"enabled": False, "certificate": certificate, "eligible": False}
     ids = policy.required_lesson_ids
     completed = set(LessonProgress.objects.filter(enrollment=enrollment, lesson_id__in=ids).values_list("lesson_id", flat=True))
     # Every mandatory quiz in the course is required, including optional lessons.
-    required_quizzes = list(VersionQuiz.objects.filter(lesson__chapter__version=enrollment.version, required=True))
+    required_quizzes = list(VersionQuiz.objects.filter(lesson__chapter__version=enrollment.version, required=True).select_related("lesson__content").order_by("lesson__chapter__position", "lesson__position", "pk"))
     passed = set(QuizAttempt.objects.filter(enrollment=enrollment, submitted_at__isnull=False, passed=True).values_list("quiz_id", flat=True))
+    required_lessons = VersionLesson.objects.filter(chapter__version=enrollment.version, pk__in=ids).select_related("content").order_by("chapter__position", "position", "pk")
+    lesson_requirements = [{"title": lesson.content.title, "completed": lesson.pk in completed,
+                            "url": reverse("version-lesson", args=[enrollment.version.course_id, enrollment.version.number, lesson.pk]) + "#lesson-finish"}
+                           for lesson in required_lessons]
+    quiz_requirements = [{"title": quiz.title, "lesson_title": quiz.lesson.content.title, "completed": quiz.pk in passed,
+                          "url": reverse("quiz-detail", args=[quiz.pk])} for quiz in required_quizzes]
+    lesson_requirements.sort(key=lambda item: item["completed"])
+    quiz_requirements.sort(key=lambda item: item["completed"])
     return {"enabled": True, "certificate": certificate, "required_count": len(ids), "completed_required": len(completed),
             "pending_quizzes": sum(quiz.pk not in passed for quiz in required_quizzes),
+            "lesson_requirements": lesson_requirements, "quiz_requirements": quiz_requirements,
             "eligible": set(ids).issubset(completed) and all(quiz.pk in passed for quiz in required_quizzes)}
 
 

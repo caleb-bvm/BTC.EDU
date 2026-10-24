@@ -23,9 +23,10 @@ from content.views import (
     resource_detail,
     resource_file,
 )
-from core import views
+from core import pwa, views
 from core.analytics_views import admin_analytics
 from creators.views import public_profile
+from learning import feature_views as learning_features
 
 urlpatterns = [
     path("personas/<int:pk>/foto/<str:token>/", account_views.avatar, name="account-avatar"),
@@ -54,8 +55,14 @@ urlpatterns = [
     path("cuenta/", include("accounts.urls")),
     path("cuenta/salir/", StudentLogoutView.as_view(), name="logout"),
     path("health/", views.health, name="health"),
+    path("manifest.webmanifest", pwa.manifest, name="pwa-manifest"),
+    path("sw.js", pwa.service_worker, name="pwa-service-worker"),
+    path("sin-conexion/", pwa.offline, name="offline"),
     path("lecciones/<int:pk>/contenido/", lesson_content, name="lesson-content"),
     path("cursos/<int:pk>/", course_detail, name="course-detail"),
+    path("cursos/<int:pk>/proyectos/", learning_features.course_gallery, name="course-gallery"),
+    path("rutas/", learning_features.paths_list, name="learning-paths"),
+    path("rutas/<slug:slug>/", learning_features.path_detail, name="learning-path"),
     path("cursos/<int:course_pk>/versiones/<int:number>/", course_version_detail, name="course-version"),
     path("cursos/<int:course_pk>/versiones/<int:number>/lecciones/<int:lesson_pk>/", version_lesson_detail, name="version-lesson"),
     path("adjuntos/<int:pk>/<str:part>/", attachment_file, name="attachment-file"),

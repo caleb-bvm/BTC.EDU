@@ -102,6 +102,9 @@ def certificate_request(request, enrollment_pk):
         except ValidationError as exc:
             form.add_error(None, exc)
         else:
+            # Best effort: without an answer from the calendars the student can request it later.
+            from .timestamps import stamp_certificate
+            stamp_certificate(certificate)
             return redirect("certificate-detail", pk=certificate.pk)
     return render(request, "learning/certificate_request.html", {"enrollment": enrollment, "form": form, **status})
 
@@ -117,7 +120,11 @@ def certificates_list(request):
 @require_GET
 def certificate_detail(request, pk):
     certificate = get_object_or_404(Certificate.objects.select_related("enrollment__version", "sharing", "revocation"), pk=pk, enrollment__student=request.user)
-    return render(request, "learning/certificate.html", {"certificate": certificate, "verification_url": request.build_absolute_uri(reverse("certificate-verify", args=[pk]))})
+    from django.conf import settings
+
+    from .feature_views import timestamp_context
+    return render(request, "learning/certificate.html", {"certificate": certificate, "verification_url": request.build_absolute_uri(reverse("certificate-verify", args=[pk])),
+                                                         "timestamp": timestamp_context(certificate), "timestamps_enabled": settings.CERTIFICATE_TIMESTAMPS})
 
 
 @student_required
@@ -137,7 +144,9 @@ def certificate_verify(request, pk):
     intact = certificate_intact(certificate)
     form = CertificateFingerprintForm(request.GET if "sha256" in request.GET else None)
     matches = compare_digest(form.cleaned_data["sha256"].lower(), certificate.fingerprint) if form.is_bound and form.is_valid() else None
-    response = render(request, "learning/certificate_verify.html", {"certificate": certificate, "integrity_ok": intact, "fingerprint_form": form, "fingerprint_matches": matches})
+    from .feature_views import timestamp_context
+    response = render(request, "learning/certificate_verify.html", {"certificate": certificate, "integrity_ok": intact, "fingerprint_form": form, "fingerprint_matches": matches,
+                                                                    "timestamp": timestamp_context(certificate)})
     response["X-Robots-Tag"] = "noindex, nofollow"
     response["Referrer-Policy"] = "no-referrer"
     return response
@@ -215,15 +224,32 @@ def question_create(request, lesson_pk):
             form.add_error(None, exc)
         else:
             return redirect("student-question", pk=question.pk)
-    return render(request, "learning/question_create.html", {"lesson": lesson, "form": form})
+    return render(request, "learning/question_create.html", {"lesson": lesson, "form": form, "active": "workspace"})
 
 
 def questions_context(queryset, request):
-    page = Paginator(queryset.select_related("lesson__content", "enrollment__version", "enrollment__student").prefetch_related("replies").order_by("-created_at", "-pk"), 20).get_page(request.GET.get("pagina"))
+    from django.db.models import Q
+
+    from .support import questions_with_activity
+    course_ids = queryset.values_list("enrollment__version__course_id", flat=True)
+    courses = Course.objects.filter(pk__in=course_ids).order_by("title", "pk")
+    course = request.GET.get("curso", "")
+    if not course.isdigit() or not courses.filter(pk=course).exists():
+        course = ""
+    state = request.GET.get("estado", "")
+    if state not in ("pending", "replied"):
+        state = ""
+    queryset = questions_with_activity(queryset)
+    pending = Q(last_author_id__isnull=True) | Q(last_author_id=F("enrollment__student_id"))
+    if course:
+        queryset = queryset.filter(enrollment__version__course_id=course)
+    if state:
+        queryset = queryset.filter(pending) if state == "pending" else queryset.exclude(pending)
+    page = Paginator(queryset.select_related("lesson__content", "enrollment__version", "enrollment__student").prefetch_related("replies").order_by("-last_activity", "-pk"), 20).get_page(request.GET.get("pagina"))
     for question in page:
         replies = list(question.replies.all())
         question.awaiting_creator = not replies or replies[-1].author_id == question.enrollment.student_id
-    return {"questions": page}
+    return {"questions": page, "question_courses": courses, "selected_course": course, "question_state": state, "question_filters": bool(course or state)}
 
 
 @student_required

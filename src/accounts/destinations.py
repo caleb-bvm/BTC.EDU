@@ -5,7 +5,7 @@ STUDENT_PATHS = (
     "/explorar/", "/mi-espacio/", "/cuenta/perfil/", "/cursos/",
     "/tutoriales/", "/recursos/", "/referencias/", "/lecciones/",
     "/ofertas/", "/facturas/", "/aprendizaje/", "/personas/", "/creadores/",
-    "/cuenta/ajustes/",
+    "/cuenta/ajustes/", "/carrito/", "/comprar/",
 )
 
 

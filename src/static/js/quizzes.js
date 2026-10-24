@@ -12,6 +12,7 @@ document.querySelectorAll('[data-quiz-editor]').forEach((editor) => {
     wrapper.innerHTML = editor.querySelector('[data-question-template]').innerHTML.replaceAll('__prefix__', String(index));
     editor.querySelector('[data-question-list]').append(...wrapper.children);
     total.value = String(index + 1);
+    editor.dispatchEvent(new Event('input', {bubbles: true}));
     const added = editor.querySelector(`[name="questions-${index}-prompt"]`).closest('details');
     if (added) {
       added.open = true;

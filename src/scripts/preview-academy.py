@@ -52,7 +52,7 @@ settings.MEDIA_ROOT = Path(preview_media.name)
 
 def populate():
     creator = get_user_model().objects.create_user("preview@example.invalid", first_name="Equipo", last_name="BTC.EDU")
-    topics = {name: Topic.objects.create(name=name, slug=slug) for name, slug in (("Bitcoin", "bitcoin"), ("Seguridad", "seguridad"), ("Desarrollo", "desarrollo"))}
+    topics = {name: Topic.objects.get_or_create(slug=slug, defaults={"name": name})[0] for name, slug in (("Bitcoin", "bitcoin"), ("Seguridad", "seguridad"), ("Desarrollo", "programacion"))}
     examples = (
         ("Bitcoin desde sus fundamentos", "Bitcoin", CourseLevel.BEGINNER, 90, "Comprende las ideas que hacen posible Bitcoin y construye una base para seguir aprendiendo.", False),
         ("Tu primera wallet", "Bitcoin", CourseLevel.BEGINNER, 60, "Conoce cómo se organiza una wallet y los conceptos que necesitas antes de dar tus primeros pasos.", False),

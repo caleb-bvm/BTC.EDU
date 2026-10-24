@@ -1,7 +1,8 @@
 import logging
+from hashlib import sha256
 from uuid import uuid4
 
-from django.db import DatabaseError
+from django.db import DatabaseError, transaction
 
 from .models import ActivityEvent
 
@@ -32,6 +33,23 @@ def record_activity(request, kind, **fields):
 def offer_views(request, offers):
     for offer in offers:
         record_activity(request, "offer_viewed", offer=offer, creator_id=offer.creator_id, version_id=offer.course_version_id)
+
+
+def record_commerce_action(request, kind, object_key, offer=None, invoice=None):
+    """Record accepted cart actions/review snapshots, deduplicating reloads and retries."""
+    if not audience(request) or kind not in {"cart_added", "checkout_started"}:
+        return
+    identifier = session_id(request)
+    key = kind + ":" + sha256(f"{identifier}:{object_key}".encode()).hexdigest()
+    try:
+        with transaction.atomic():
+            ActivityEvent.objects.get_or_create(event_key=key, defaults={
+                "kind": kind, "session_id": identifier, "actor": request.user if request.user.is_authenticated else None,
+                "offer": offer, "invoice": invoice, "creator_id": offer.creator_id if offer else None,
+                "version_id": offer.course_version_id if offer else None,
+            })
+    except DatabaseError:
+        logger.warning("No se pudo registrar actividad de compra.", exc_info=True)
 
 
 def content_opened(request, resource, version=None):

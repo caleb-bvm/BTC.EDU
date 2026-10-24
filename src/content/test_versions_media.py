@@ -81,7 +81,7 @@ class VersionMediaTests(TestCase):
         self.lesson.body = "NO PUBLICADO"
         self.lesson.access_type = AccessType.PAID
         self.lesson.save()
-        catalog = self.client.get(reverse("courses"))
+        catalog = self.client.get(reverse("courses"), {"vista": "todos"})
         self.assertContains(catalog, "Título publicado")
         self.assertNotContains(catalog, "Borrador distinto")
         self.assertEqual(self.client.get(reverse("courses") + "?tema=nuevo").context["result_count"], 0)

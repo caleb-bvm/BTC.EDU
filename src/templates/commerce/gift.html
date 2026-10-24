@@ -1,0 +1,29 @@
+{% extends 'academy.html' %}
+{% block title %}Un regalo · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="learning-page commerce-page gift-page">
+  <header class="page-heading"><div><p class="eyebrow">REGALO</p><h1>{% if is_buyer %}Tu regalo está listo.{% elif gift.recipient_id %}Este regalo ya fue canjeado.{% else %}Alguien te regaló contenido.{% endif %}</h1><p>{% if is_buyer %}Comparte este enlace con la persona que lo recibirá.{% else %}De {{ sender_name }}.{% endif %}</p></div></header>
+  <div class="commerce-grid">
+    <section class="commerce-panel purchase-inclusions">
+      <h2>Qué incluye</h2>
+      {% if gift.order.gift_message %}<blockquote class="gift-message">{{ gift.order.gift_message }}</blockquote>{% endif %}
+      <div class="order-content-list">{% for line in lines %}<article class="order-content-item"><div class="order-content-heading"><div><p class="small-note">{% if line.course_version_id %}Versión {{ line.course_version.number }}{% endif %}</p><h3>{{ line.title }}</h3><p class="creator-name">Por {{ line.creator.public_name }}</p></div></div><details class="purchase-terms"><summary>Contenido</summary><ul class="offer-inventory">{% for item in line.inventory %}<li><span>{{ item.title }}</span><span class="access-badge">{% if item.paid %}Incluido{% else %}Gratis{% endif %}</span></li>{% endfor %}</ul></details></article>{% endfor %}</div>
+    </section>
+    <aside class="commerce-panel purchase-summary" aria-label="Canjear regalo">
+      {% if is_buyer %}
+        <p class="purchase-status purchase-status--{% if gift.recipient_id %}paid{% else %}pending{% endif %}" role="status">{% if gift.recipient_id %}Canjeado el {{ gift.redeemed_at|date:'d/m/Y' }}{% else %}Sin canjear{% endif %}</p>
+        {% if not gift.recipient_id %}<label for="gift-link">Enlace de canje</label><textarea id="gift-link" class="form-control" readonly rows="3">{{ share_url }}</textarea><button type="button" class="btn btn-outline-dark" data-copy-payment="gift-link">Copiar enlace</button><p class="small-note" role="status" data-copy-status hidden></p><p class="small-note">Cualquier persona con este enlace puede canjearlo una vez. Compártelo solo con quien lo recibirá.</p>{% endif %}
+        <a class="text-link" href="{% url 'purchases' %}">← Mis compras</a>
+      {% elif gift.recipient_id %}
+        <p>El contenido ya está en la cuenta de quien lo canjeó.</p><a class="btn btn-outline-dark" href="{% url 'explore' %}">Explorar contenido →</a>
+      {% elif user.is_authenticated and user.account_type == 'student' %}
+        <form method="post" data-payment-form data-pending-label="Canjeando…">{% csrf_token %}<button class="btn btn-dark" type="submit">Canjear en mi cuenta →</button></form>
+        <p class="small-note">El acceso permanente se añadirá a {{ user.display_name|default:user.email }}.</p>
+      {% else %}
+        <a class="btn btn-dark" href="{{ signin_url }}">Entrar para canjear →</a>
+        <p class="small-note">Necesitas una cuenta de estudiante para conservar el acceso.</p>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}

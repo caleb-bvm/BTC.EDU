@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0v40" stroke="#d4d7cb" stroke-width=".6"/></pattern></defs>
+  <path fill="#efefe6" d="M0 0h640v360H0z"/><path fill="url(#grid)" d="M0 0h640v360H0z"/>
+  <ellipse cx="320" cy="291" rx="130" ry="12" fill="#74806c" opacity=".12"/>
+  <path d="M320 124c-41-30-90-37-132-23v158c49-15 88-6 132 23 44-29 83-38 132-23V101c-42-14-91-7-132 23Z" fill="#d9dfcc" stroke="#8a9383" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M320 124v158m-103-145c26-3 52 2 75 15m-75 11c26-3 52 2 75 15m-75 11c26-3 52 2 75 15m56-52c23-13 49-18 75-15m-75 41c23-13 49-18 75-15m-75 41c23-13 49-18 75-15" stroke="#8a9383" stroke-width="3" stroke-linecap="round"/>
+  <path d="M276 95V71m88 24V71m-44 13V56" stroke="#c88944" stroke-width="4" stroke-linecap="round"/><path d="m388 95 20-8v53l-20-10-20 23v-52Z" fill="#f2b56c" stroke="#ad6b2c" stroke-width="2"/>
+  <path d="M55 55h16m-8-8v16m506 242h16m-8-8v16" stroke="#adb4a4" stroke-width="1.5"/>
+</svg>

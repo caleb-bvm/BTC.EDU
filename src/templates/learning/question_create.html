@@ -1,1 +1,10 @@
-{% extends 'academy.html' %}{% block academy_content %}<a href="{% url 'version-lesson' lesson.chapter.version.course_id lesson.chapter.version.number lesson.pk %}">← Volver a la lección</a><p class="eyebrow">Acompañamiento</p><h1>Pregunta sobre {{ lesson.content.title }}</h1><p>Tu pregunta será privada entre vos y el creador. Los mensajes enviados se conservan; puedes añadir una aclaración después.</p><form method="post" class="studio-form commerce-panel">{% csrf_token %}{{ form.as_p }}<button class="btn btn-dark">Enviar pregunta</button></form>{% endblock %}
+{% extends 'academy.html' %}
+{% block title %}Pregunta privada · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="student-question-compose">
+  <nav class="breadcrumbs" aria-label="Ruta de navegación"><a href="{% url 'workspace' %}">Mi aprendizaje</a><span aria-hidden="true">/</span><a href="{% url 'course-version' lesson.chapter.version.course_id lesson.chapter.version.number %}">{{ lesson.chapter.version.title }}</a><span aria-hidden="true">/</span><span>Pregunta privada</span></nav>
+  <header class="page-heading"><div><p class="eyebrow">Solo tú y el educador</p><h1>Pregunta sobre esta lección</h1><p>Tu mensaje será privado. Los mensajes enviados se conservan; puedes añadir una aclaración después.</p></div></header>
+  <div class="question-lesson-context"><span class="eyebrow">{{ lesson.chapter.version.title }} · Versión {{ lesson.chapter.version.number }}</span><h2>{{ lesson.content.title }}</h2><a class="text-link" href="{% url 'version-lesson' lesson.chapter.version.course_id lesson.chapter.version.number lesson.pk %}#lesson-help">← Volver a la lección</a></div>
+  <form method="post" class="studio-form commerce-panel" data-dirty-form>{% csrf_token %}{{ form.as_p }}<div class="question-compose-actions"><button class="btn btn-dark" type="submit">Enviar pregunta →</button><a class="text-link" href="{% url 'student-questions' %}">Ver mis preguntas</a></div></form>
+</section>
+{% endblock %}

@@ -93,15 +93,37 @@ class LearningExperienceTests(TestCase):
         response = self.client.get(reverse("workspace"))
         self.assertEqual(response.context["resume"].version_id, self.data.version.pk)
 
+    def test_continuation_is_independent_of_filtered_courses(self):
+        save_progress(self.data.student, self.enrollment.pk, self.data.records[0].pk, 0, "position")
+        filtered = self.client.get(reverse("workspace"), {"seccion": "cursos", "q": "no coincide"})
+        self.assertEqual(filtered.context["enrollments"].paginator.count, 0)
+        self.assertEqual(filtered.context["resume"].version_id, self.data.version.pk)
+        continuation_page = self.client.get(reverse("workspace"), {"seccion": "continuar"})
+        self.assertContains(continuation_page, filtered.context["resume"].open_url)
+        self.assertContains(continuation_page, "Continuar lección")
+        self.assertFalse(self.enrollment.completed_lessons.exists())
+
+    def test_learning_sections_are_separate_and_unknown_section_has_safe_fallback(self):
+        resources = self.client.get(reverse("workspace"), {"seccion": "recursos"})
+        self.assertEqual(resources.context["learning_section"], "recursos")
+        self.assertContains(resources, "Tus recursos")
+        self.assertNotContains(resources, 'id="workspace-courses-heading"')
+        saved = self.client.get(reverse("workspace"), {"seccion": "guardados"})
+        self.assertContains(saved, 'id="mis-guardados"')
+        self.assertNotContains(saved, 'id="workspace-resources-heading"')
+        fallback = self.client.get(reverse("workspace"), {"seccion": "desconocida"})
+        self.assertEqual(fallback.context["learning_section"], "continuar")
+        self.assertContains(fallback, 'aria-labelledby="resume-heading"')
+
     def test_catalog_shows_only_the_current_students_progress(self):
         save_progress(self.data.student, self.enrollment.pk, self.data.records[0].pk, 0, "complete")
-        response = self.client.get(reverse("courses"))
+        response = self.client.get(reverse("courses"), {"vista": "todos"})
         self.assertContains(response, "1 de 3 completadas")
         self.client.force_login(self.data.other)
-        self.assertNotContains(self.client.get(reverse("courses")), "1 de 3 completadas")
+        self.assertNotContains(self.client.get(reverse("courses"), {"vista": "todos"}), "1 de 3 completadas")
 
     def test_catalog_price_identifies_full_course_instead_of_cheaper_lesson(self):
-        response = self.client.get(reverse("courses"))
+        response = self.client.get(reverse("courses"), {"vista": "todos"})
         card = response.context["cards"][0]
         self.assertEqual(card["price"], self.data.bundle.amount_sats)
         self.assertEqual(card["price_label"], "Curso completo")

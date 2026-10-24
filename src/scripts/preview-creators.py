@@ -65,7 +65,7 @@ def populate():
     creator = get_user_model().objects.create_user("creator@example.invalid", first_name="Ana", last_name="López", account_type="creator")
     reviewer = get_user_model().objects.create_superuser("reviewer@example.invalid")
     CreatorProfile.objects.create(user=creator, display_name="Ana López", bio="Enseño tecnología con ejercicios y explicaciones paso a paso.", specialty="Bitcoin y desarrollo", status="approved")
-    topic = Topic.objects.create(name="Bitcoin", slug="bitcoin")
+    topic, _ = Topic.objects.get_or_create(slug="bitcoin", defaults={"name": "Fundamentos de Bitcoin"})
     clip = Asset.objects.create(creator=creator, file=SimpleUploadedFile("video-de-prueba.mp4", (SRC_ROOT / "media/fixtures/white.mp4").read_bytes(), content_type="video/mp4"))
     captions = Asset.objects.create(creator=creator, file=SimpleUploadedFile("subtitulos.vtt", b"WEBVTT\n\n00:00.000 --> 00:05.000\nContenido temporal de prueba.\n", content_type="text/vtt"))
     guide = Asset.objects.create(creator=creator, file=SimpleUploadedFile("guia-de-practica.txt", b"Guia temporal: escribe tu objetivo y prepara una practica.", content_type="text/plain"))

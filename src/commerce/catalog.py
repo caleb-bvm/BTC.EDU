@@ -34,17 +34,34 @@ def available(offer):
     return public_version(offer.course_version) if offer.course_version_id else public_resource(offer.resource)
 
 
-def target_choices(actor):
+def target_choices(actor, course=None, resource=None):
+    if resource is not None:
+        revision = resource.revision
+        if resource.creator_id != actor.pk or not revision or revision.access_type != "paid" or not public_resource(revision):
+            return []
+        return [(f"resource:{revision.pk}", f"{revision.title} · revisión {revision.number} · {revision.get_kind_display()}")]
     versions = CourseVersion.objects.filter(course__creator=actor, sealed=True, course__status="published", pk=F("course__current_version_id"))
+    if course is not None:
+        versions = versions.filter(course=course)
     choices = []
     for version in versions:
-        choices.append((f"course:{version.pk}", f"{version.title} · v{version.number} · curso completo"))
-        for chapter in version.chapters.prefetch_related("lessons__content", "lessons__attachments__resource"):
-            choices.append((f"chapter:{chapter.pk}", f"{version.title} / {chapter.title} · capítulo"))
+        chapters = list(version.chapters.prefetch_related("lessons__content", "lessons__attachments__resource"))
+        paid_chapters = {chapter.pk for chapter in chapters if any(
+            lesson.content.access_type == "paid" or any(item.resource.access_type == "paid" for item in lesson.attachments.all())
+            for lesson in chapter.lessons.all()
+        )}
+        if paid_chapters:
+            label = "tutorial completo" if version.kind == "tutorial" else "curso completo"
+            choices.append((f"course:{version.pk}", f"{version.title} · v{version.number} · {label}"))
+        for chapter in chapters:
+            if chapter.pk in paid_chapters:
+                choices.append((f"chapter:{chapter.pk}", f"{version.title} / {chapter.title} · capítulo"))
             for lesson in chapter.lessons.all():
                 if lesson.content.access_type == "paid":
                     choices.append((f"lesson:{lesson.pk}", f"{version.title} / {lesson.content.title} · texto de lección"))
     resources = ResourceVersion.objects.filter(creator=actor, access_type="paid").exclude(kind="text")
+    if course is not None:
+        resources = resources.filter(pk__in=VersionAttachment.objects.filter(lesson__chapter__version__in=versions).values("resource_id"))
     for resource in resources:
         if public_resource(resource):
             choices.append((f"resource:{resource.pk}", f"{resource.title} · revisión {resource.number} · {resource.get_kind_display()}"))
@@ -85,7 +102,7 @@ def target_inventory(kind, pk, actor):
 def owned_ids(user, resource_ids):
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return set()
-    return set(Entitlement.objects.filter(buyer=user, resource_id__in=resource_ids).values_list("resource_id", flat=True))
+    return set(Entitlement.objects.active().filter(buyer=user, resource_id__in=resource_ids).values_list("resource_id", flat=True))
 
 
 def ownership(user, offer):
@@ -107,9 +124,29 @@ def missing_alternatives(user, offer):
 def version_owned(user, version):
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return False
-    return Entitlement.objects.filter(buyer=user).filter(Q(resource__in=ResourceVersion.objects.filter(pk__in=VersionLesson.objects.filter(chapter__version=version).values("content_id"))) | Q(resource__in=ResourceVersion.objects.filter(pk__in=VersionAttachment.objects.filter(lesson__chapter__version=version).values("resource_id")))).exists()
+    return Entitlement.objects.active().filter(buyer=user).filter(Q(resource__in=ResourceVersion.objects.filter(pk__in=VersionLesson.objects.filter(chapter__version=version).values("content_id"))) | Q(resource__in=ResourceVersion.objects.filter(pk__in=VersionAttachment.objects.filter(lesson__chapter__version=version).values("resource_id")))).exists()
 
 
 def version_offers(version):
     offers = Offer.objects.filter(course_version=version, status="active").select_related("creator", "course_version__course").prefetch_related("items__resource")
     return [offer for offer in offers if available(offer)]
+
+
+def lesson_offers(user, lesson):
+    """Only purchases that unlock this exact lesson, without charging owned units."""
+    offers = Offer.objects.filter(course_version=lesson.chapter.version, status="active",
+                                  items__resource_id=lesson.content_id).select_related(
+        "creator", "course_version__course", "chapter", "lesson__content"
+    ).prefetch_related("items__resource")
+    order = {"lesson": 0, "chapter": 1, "course": 2}
+    from .pricing import upgrade_quote
+    choices = []
+    for offer in offers:
+        if not available(offer):
+            continue
+        state = ownership(user, offer)
+        # A package partly owned is offered only for the difference, never at full price.
+        offer.upgrade = upgrade_quote(user, offer) if state == "partial" else None
+        if state == "none" or offer.upgrade:
+            choices.append(offer)
+    return sorted(choices, key=lambda offer: (order.get(offer.kind, 3), offer.upgrade["amount_sats"] if offer.upgrade else offer.amount_sats, offer.pk))

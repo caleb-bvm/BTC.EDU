@@ -48,11 +48,13 @@ function client() {
     querySelector: selector => ({'[data-progress-form]': form, '[data-completion-next]': next,
       '[data-current-lesson-state]': current, '[data-completion-heading]': heading, '[data-course-finished]': finished})[selector] || null,
     querySelectorAll: selector => ({'[data-progress-count]': counts, '[data-progress-percentage]': percentages, '[data-course-progress]': meters})[selector] || [],
+    getElementById: () => null,
+    addEventListener() {},
   };
   class FormData extends Map {
     constructor() { super([['lesson', lesson.value], ['revision', revision.value]]); }
   }
-  vm.runInNewContext(source, {document, FormData, TypeError, window: {}, fetch: (url, options) => new Promise((resolve, reject) => requests.push({url, options, resolve, reject}))});
+  vm.runInNewContext(source, {document, FormData, TypeError, window: {location: {hash: ''}, addEventListener() {}}, fetch: (url, options) => new Promise((resolve, reject) => requests.push({url, options, resolve, reject}))});
   return {form, status, revision, completion, reload, retry, next, requests, counts, percentages, meters, finished,
     submit: action => form.events.get('submit')({preventDefault() {}, submitter: {value: action}})};
 }
