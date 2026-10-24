@@ -31,7 +31,7 @@ def library_journey(user, enrollment):
     first = continuation(lessons, completed, enrollment.last_lesson_id,
                          {lesson.pk for lesson in lessons if content_access(user, lesson).allowed})
     enrollment.is_complete = bool(lessons and len(completed) == len(lessons))
-    enrollment.open_label = "Ver acceso" if not first else "Repasar" if enrollment.is_complete else "Continuar" if enrollment.last_lesson_id or completed else "Empezar"
+    enrollment.open_label = "Ver opciones de acceso" if not first else "Repasar" if enrollment.is_complete else "Continuar" if enrollment.last_lesson_id or completed else "Empezar"
     enrollment.open_url = reverse("version-lesson", args=[version.course_id, version.number, first.pk]) if first else reverse("course-version", args=[version.course_id, version.number])
     enrollment.lesson_count = len(lessons)
     enrollment.completed_count = len(completed)
@@ -40,6 +40,12 @@ def library_journey(user, enrollment):
     enrollment.next_title = first.content.title if first else "Revisa las opciones de acceso"
     enrollment.state_label = "Completado" if enrollment.is_complete else "En curso" if enrollment.last_lesson_id or completed else "Por empezar"
     enrollment.can_continue = bool(first and not enrollment.is_complete)
+    enrollment.needs_access = bool(lessons and not first and not enrollment.is_complete)
+    enrollment.remaining_count = len(lessons) - len(completed)
+    # One segment per lesson, scaled down to 24 so long courses keep a legible track.
+    segments = min(len(lessons), 24)
+    filled = round(len(completed) * segments / len(lessons)) if lessons else 0
+    enrollment.segments = [index < filled for index in range(segments)]
     return enrollment
 
 

@@ -24,16 +24,47 @@
 .learning-workspace .learning-section{margin-top:24px}
 .learning-workspace .curriculum-heading h2{font-size:24px;letter-spacing:-.5px}
 .learning-workspace .learning-library{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-.learning-workspace .learning-library-card{padding:0;overflow:hidden;border-radius:4px;background:var(--ui-surface,var(--paper))}
-.library-card-art{display:block;border-bottom:1px solid var(--line);overflow:hidden;background:var(--paper)}
-
-.library-card-content{display:flex;flex:1;flex-direction:column;padding:22px;min-width:0}
-.library-card-content h3{margin:12px 0!important}
-.library-card-content .library-card-description{font-size:13px;line-height:1.7;color:var(--muted);margin:0 0 14px}
-.library-card-content .library-meta{font-size:11px;margin:0 0 16px}
-.library-card-content .library-card-actions{margin-top:auto;display:flex;flex-direction:column;gap:12px;align-items:stretch}
-.library-card-content .library-card-actions .btn{width:100%;min-height:46px}
-.library-card-content .library-card-actions .text-link{font-size:12px;text-align:center}
+/* Library course card: one title link and one primary action; orange marks only the next lesson of a course in progress. */
+.library-course{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--card-radius);background:var(--ui-surface);overflow:hidden;transition:border-color .15s}
+.library-course:hover,.library-course:focus-within{border-color:var(--ink)}
+.library-course-cover{display:block;border-bottom:1px solid var(--line)}
+.library-course-body{display:flex;flex:1;flex-direction:column;gap:14px;padding:22px;min-width:0}
+.library-course-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.library-course-topic{margin:0;min-width:0;font:11px/1.5 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.library-course-topic span{color:var(--muted)}
+.library-course-state{display:inline-flex;align-items:center;gap:7px;flex-shrink:0;padding:4px 11px;border:1px solid var(--line-strong);border-radius:999px;font:10px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.library-course-state:before{content:'';width:7px;height:7px;border:1.5px solid currentColor;border-radius:50%}
+:is(.is-active,.is-locked) .library-course-state{color:var(--ink);border-color:var(--ink)}
+:is(.is-active,.is-locked) .library-course-state:before{background:var(--orange);border-color:var(--orange)}
+.is-complete .library-course-state{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.is-complete .library-course-state:before{background:currentColor}
+.academy .library-course h3{margin:0;font-size:22px;line-height:1.2;letter-spacing:-.02em}
+.library-course h3 a{color:var(--ink);text-decoration:none}
+.library-course h3 a:hover{text-decoration:underline;text-underline-offset:4px}
+.library-course-summary{margin:0;font-size:14px;line-height:1.6;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.library-course-progress{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.library-course-figure{display:flex;align-items:baseline;gap:5px;margin:0}
+.library-course-figure strong{font:900 40px/.8 var(--font-display);letter-spacing:0;color:var(--ink)}
+.library-course-figure small{font:400 12px/1 var(--font-mono);letter-spacing:.04em;color:var(--muted)}
+.library-course-count{margin:0;font:11px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.library-course-count span{color:var(--muted)}
+.library-course-track{grid-column:1/-1;display:flex;gap:3px;height:8px}
+.library-course-track span{flex:1;border-radius:2px;background:var(--line)}
+.library-course-track .is-done{background:var(--ink)}
+.is-active .library-course-track :is(.is-done+span:not(.is-done),span:first-child:not(.is-done)){background:var(--orange)}
+.is-locked .library-course-track span:not(.is-done){background:repeating-linear-gradient(135deg,var(--line-strong) 0 1.5px,transparent 1.5px 4px);box-shadow:inset 0 0 0 1px var(--line)}
+.library-course-next{min-width:0;padding:14px 16px;border:1px solid transparent;border-radius:var(--ui-radius);background:var(--ui-muted-surface)}
+.library-course-next p{display:flex;align-items:center;gap:6px;margin:0 0 4px;font:10px/1.5 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.library-course-next .ui-icon{width:13px;height:13px;stroke-width:2}
+.library-course-next strong{display:block;font-size:15px;font-weight:600;line-height:1.35;color:var(--ink);overflow-wrap:anywhere}
+.is-locked .library-course-next{background:transparent;border:1px dashed var(--line-strong)}
+.library-course-action{width:100%}
+.library-course-links{display:flex;justify-content:center;flex-wrap:wrap;gap:0 24px;margin-top:-6px}
+.library-course-links a{display:inline-flex;align-items:center;min-height:44px;font-size:13px;color:var(--muted);text-decoration:none}
+.library-course-links a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.library-course-links .is-ready{color:var(--ink);font-weight:600}
+@media(max-width:640px){.library-course-body{padding:18px}.academy .library-course h3{font-size:20px}.library-course-figure strong{font-size:34px}}
+@media(prefers-reduced-motion:reduce){.library-course{transition:none}}
 .learning-workspace .learning-summary{margin:24px 0 0;font-size:12px;color:var(--muted)}
 .learning-continuation-note{border:1px solid var(--line);background:var(--paper);padding:24px;border-radius:4px}
 .learning-continuation-note h2{font-size:24px}
@@ -106,7 +137,5 @@
 .assessment-success h2{font-size:22px}
 @media(max-width:1200px){.learning-workspace .resume-feature{grid-template-columns:115px minmax(0,1fr);gap:18px}.learning-workspace .resume-action{grid-column:2;justify-self:start;align-self:center;min-width:190px}.learning-workspace .resume-art{grid-row:1/3}.learning-workspace .resume-copy .resume-next{margin-bottom:14px}}
 @media(max-width:980px){.course-experience>.course-preparation{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.learning-workspace .workspace-heading{align-items:flex-start;gap:12px;padding-bottom:22px}.learning-workspace .workspace-heading h1{font-size:31px}.learning-workspace .resume-feature{grid-template-columns:82px minmax(0,1fr);gap:16px;padding:16px}.learning-workspace .resume-art{grid-row:1}.learning-workspace .resume-copy h2{font-size:21px;margin-bottom:10px}.learning-workspace .resume-copy .eyebrow{font-size:10px;line-height:1.6;margin-bottom:8px}.learning-workspace .resume-copy .resume-next{font-size:12px;margin-bottom:12px}.learning-workspace .resume-progress .meter-label{font-size:10px;gap:10px}.learning-workspace .resume-action{grid-column:1/-1;width:100%;margin:0;min-width:0}.learning-library-tabs{gap:23px;margin-top:22px}.learning-library-tabs a{font-size:12px}.learning-workspace .learning-library{grid-template-columns:1fr;gap:18px}.library-card-content{padding:20px}.library-card-content h3{font-size:23px!important}.learning-workspace .learning-summary{font-size:11px}.course-experience>.course-preparation{grid-template-columns:1fr}.academy .course-experience .course-overview .course-cover{display:none}.course-description-detail{margin-top:16px}.learning-disclosure>summary{padding:16px;font-size:13px}.learning-disclosure>div{padding:18px}.academy .lesson-experience .reader-toolbar a{display:inline-flex;font-size:11px;min-height:44px;align-items:center}.reader-toolbar>div{gap:16px;flex-wrap:wrap}.lesson-help-options{grid-template-columns:1fr}.lesson-help .lesson-discussion-body{padding:16px}.lesson-help .discussion-heading{flex-direction:column}.lesson-materials .curriculum-heading h2,.lesson-help .curriculum-heading h2{font-size:23px}.requirement-list li{flex-wrap:wrap;align-items:flex-start;padding:18px;gap:12px}.requirement-list li>div{flex-basis:calc(100% - 40px)}.requirement-list .text-link{margin-left:32px}.certificate-requirements .curriculum-heading{align-items:flex-start}.certificate-requirements .curriculum-heading h2{font-size:23px}.certificate-journey .page-heading h1,.student-question-compose .page-heading h1{font-size:31px}.question-compose-actions{align-items:stretch;flex-direction:column;gap:14px}}
+@media(max-width:640px){.learning-workspace .workspace-heading{align-items:flex-start;gap:12px;padding-bottom:22px}.learning-workspace .workspace-heading h1{font-size:31px}.learning-workspace .resume-feature{grid-template-columns:82px minmax(0,1fr);gap:16px;padding:16px}.learning-workspace .resume-art{grid-row:1}.learning-workspace .resume-copy h2{font-size:21px;margin-bottom:10px}.learning-workspace .resume-copy .eyebrow{font-size:10px;line-height:1.6;margin-bottom:8px}.learning-workspace .resume-copy .resume-next{font-size:12px;margin-bottom:12px}.learning-workspace .resume-progress .meter-label{font-size:10px;gap:10px}.learning-workspace .resume-action{grid-column:1/-1;width:100%;margin:0;min-width:0}.learning-library-tabs{gap:23px;margin-top:22px}.learning-library-tabs a{font-size:12px}.learning-workspace .learning-library{grid-template-columns:1fr;gap:18px}.learning-workspace .learning-summary{font-size:11px}.course-experience>.course-preparation{grid-template-columns:1fr}.academy .course-experience .course-overview .course-cover{display:none}.course-description-detail{margin-top:16px}.learning-disclosure>summary{padding:16px;font-size:13px}.learning-disclosure>div{padding:18px}.academy .lesson-experience .reader-toolbar a{display:inline-flex;font-size:11px;min-height:44px;align-items:center}.reader-toolbar>div{gap:16px;flex-wrap:wrap}.lesson-help-options{grid-template-columns:1fr}.lesson-help .lesson-discussion-body{padding:16px}.lesson-help .discussion-heading{flex-direction:column}.lesson-materials .curriculum-heading h2,.lesson-help .curriculum-heading h2{font-size:23px}.requirement-list li{flex-wrap:wrap;align-items:flex-start;padding:18px;gap:12px}.requirement-list li>div{flex-basis:calc(100% - 40px)}.requirement-list .text-link{margin-left:32px}.certificate-requirements .curriculum-heading{align-items:flex-start}.certificate-requirements .curriculum-heading h2{font-size:23px}.certificate-journey .page-heading h1,.student-question-compose .page-heading h1{font-size:31px}.question-compose-actions{align-items:stretch;flex-direction:column;gap:14px}}
 
-.learning-workspace .library-card-heading .eyebrow{font-size:10px;line-height:1.6}
-.learning-workspace .library-card-content .library-meta{font-size:12px}

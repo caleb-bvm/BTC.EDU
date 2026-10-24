@@ -57,7 +57,7 @@ class LearningJourneyTests(TestCase):
         self.assertIsNone(self.enrollment.last_lesson_id)
         self.assertFalse(LessonProgress.objects.exists())
         self.save(record=self.data.records[0])
-        self.assertContains(self.client.get(reverse("workspace")), "Ver acceso")
+        self.assertContains(self.client.get(reverse("workspace")), "Ver opciones de acceso")
 
     def test_stale_save_does_not_overwrite_last_lesson_or_completion(self):
         self.buy()
@@ -129,7 +129,7 @@ class LearningJourneyTests(TestCase):
         for revision, record in enumerate(self.data.records):
             self.assertEqual(self.save(record, revision).status_code, 200)
         self.assertEqual(LessonProgress.objects.count(), 3)
-        self.assertContains(self.client.get(reverse("workspace")), "100%")
+        self.assertContains(self.client.get(reverse("workspace")), "3 de 3 lecciones completadas")
         self.assertContains(self.client.get(reverse("workspace")), "Repasar")
 
     def test_direct_service_rejects_stale_revision(self):

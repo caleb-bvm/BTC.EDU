@@ -38,7 +38,7 @@ class LearningExperienceTests(TestCase):
         course = self.client.get(self.course_url)
         self.assertIsNone(course.context["journey"]["target"])
         self.assertContains(course, "Ver opciones de acceso")
-        self.assertContains(self.client.get(reverse("workspace")), "Ver acceso")
+        self.assertContains(self.client.get(reverse("workspace")), "Ver opciones de acceso")
         self.assertEqual(course.context["journey"]["locked"], 2)
 
     def test_start_enrolls_once_and_opens_free_lesson_without_marking_complete(self):
