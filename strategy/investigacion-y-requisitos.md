@@ -176,7 +176,7 @@ La [primera propuesta visual](../src/design/btc-edu-ui-ux-propuesta-2026-10-14-v
 
 ### Lo que conservamos
 
-- El nombre, logotipo de puntos con Ndot77, apoyos de Space Mono, fondos cálidos, tinta oscura, naranja, bordes finos, retícula e ilustraciones industriales. La tipografía funcional se ajustó a Arial/Helvetica sin serifas para mejorar legibilidad y acercar la composición al concepto visual. Los archivos NType82 y NType82 Headline se conservan como parte del material de origen. La [referencia aprobada](../src/design/btc-edu-concepto-aprobado.png) y los estilos actuales siguen siendo la base.
+- El nombre, el logotipo de puntos, los bordes finos, la retícula y las ilustraciones industriales. Desde el 24 de octubre la paleta es monocroma con un único acento naranja y las fuentes son Doto, Inter Tight y Space Mono ([lenguaje monocromo](#lenguaje-monocromo-2026-10-24)). La [referencia aprobada](../src/design/btc-edu-concepto-aprobado.png) se conserva como antecedente de composición.
 - Los modos claro y oscuro, el temario, la continuación compartida entre curso y biblioteca, la lectura enfocada y los estados de progreso.
 - La lectura gratuita sin cuenta, la conservación del destino al entrar y la inscripción que acompaña una compra de contenido de curso.
 - Las publicaciones, compras y avances por versión; la revisión editorial; la separación entre preguntas privadas y conversaciones del curso; la compartición voluntaria de perfiles y certificados.
@@ -377,7 +377,7 @@ La revisión conserva como objetivos las variantes de vacío, carga, éxito, err
 
 ### Estética, móvil y accesibilidad
 
-La implementación comparte variables para superficies, texto, botones y estados. Conserva naranja, fondos cálidos, marca de puntos e ilustraciones industriales, con menor peso decorativo en lectura y edición. Arial/Helvetica sin serifas se usa para texto operativo y títulos; Space Mono queda como apoyo y Ndot77 mantiene la marca. NType82 y NType82 Headline permanecen disponibles en los archivos de origen. Se redujeron microetiquetas decorativas y se priorizaron tamaños cómodos para acciones, errores y precios. Estos ajustes buscan legibilidad y fidelidad a la propuesta aprobada; no demuestran por sí solos una mejora observada de usabilidad.
+La implementación comparte variables para superficies, texto, botones y estados. Usa negro, blanco y grises neutros; el naranja marca la acción principal, el paso actual o un estado vivo, con menor peso decorativo en lectura y edición. Inter Tight se usa para texto operativo y títulos, Space Mono para etiquetas y Doto para la marca, cifras y precios. Se redujeron microetiquetas decorativas y se priorizaron tamaños cómodos para acciones, errores y precios. Estos ajustes buscan legibilidad y fidelidad a la propuesta aprobada; no demuestran por sí solos una mejora observada de usabilidad.
 
 En móvil, una columna principal, el mismo vocabulario y un menú con el mismo orden. Temario y filtros pueden plegarse con rótulo y estado visibles. Las acciones cercanas al pulgar pueden probarse en ficha o editor, siempre que no oculten contenido, foco o controles del dispositivo. Las tablas se adaptan conservando etiquetas. No añadir barras y submenús fijos simultáneos que resten espacio al aprendizaje.
 
@@ -1308,7 +1308,7 @@ BTC.EDU será una academia donde una persona puede encontrar contenido adecuado,
 
 Las cuatro capturas suministradas muestran: catálogo por temas con tarjetas y filtros; selector tema → nivel → curso con resumen; tutoriales por categoría con búsqueda; biblioteca de recursos por tipo. También muestran navegación lateral persistente y pestañas propias de cada sección. Son evidencia de esas pantallas de escritorio. No permiten afirmar cómo funcionan progreso, pagos, administración, certificados ni móvil en Plan B Academy.
 
-Tomamos de la referencia la organización, jerarquía y continuidad de navegación. Conservamos la dirección visual aprobada de BTC.EDU: blanco cálido, negro, naranja discreto, tipografía legible e identidad industrial. No se copian marcas ni ilustraciones de la referencia.
+Tomamos de la referencia la organización, jerarquía y continuidad de navegación. Conservamos la dirección visual de BTC.EDU: blanco, negro, un único acento naranja, tipografía legible e identidad industrial. No se copian marcas ni ilustraciones de la referencia.
 
 El nombre BTC.EDU no cambia automáticamente el público o los temas ya propuestos en el documento 01. La temática editorial definitiva debe validarse; la organización vigente distingue Bitcoin, Tecnología y Creación como categorías y conserva sus subcategorías como datos del catálogo. Se inicia en español. La traducción completa es posterior y requiere traducir también los contenidos, no solo añadir un selector de idioma.
 
@@ -1806,6 +1806,26 @@ No se cargan cursos, capítulos ni recursos durante esta etapa. No se ha creado 
 ### Concepto aprobado el 1 de octubre de 2026
 
 El usuario aprobó la imagen conceptual y autorizó comenzar la base técnica y visual en un nuevo chat. Referencia guardada en src/design/btc-edu-concepto-aprobado.png. Usar su composición, nombre de puntos, fondos claros, tipografía legible, tarjetas y objetos industriales con acentos naranja como guía. Los títulos y precios en la imagen son ejemplos; no cargar cursos todavía. La aprobación corresponde a la dirección visual, no a todas las funciones o textos de ejemplo.
+
+<a id="lenguaje-monocromo-2026-10-24"></a>
+### Lenguaje monocromo del 24 de octubre de 2026
+
+El usuario pidió rehacer el lenguaje visual con prioridad en estética y experiencia: blanco y negro con naranja como acento, en una línea industrial y tecnológica inspirada en Nothing. Esta dirección sustituye la paleta cálida anterior.
+
+| Uso | Valor |
+|---|---|
+| Fondo / texto, modo claro | #FFFFFF / #000000 |
+| Fondo / superficie / texto, modo oscuro | #000000 / #111111 / #FFFFFF |
+| Texto secundario claro / oscuro | #6B6B6B (5,3 : 1) / #8C8C8C (6,2 : 1) |
+| Líneas claro / oscuro | #E6E6E6 / #262626 |
+| Acento | #FF6A13: 7,3 : 1 sobre negro y con texto negro encima; 2,9 : 1 sobre blanco |
+
+- El acento aparece una vez por vista: la acción principal, el paso actual o un estado vivo, además del punto de la marca. Sobre blanco nunca es texto.
+- Tipografía: Doto, de matriz de puntos, para la marca, cifras, precios y números de paso; Inter Tight para títulos, interfaz y lectura; Space Mono en mayúsculas para etiquetas y estados. Doto e Inter Tight son OFL y se sirven localmente; sustituyen a Ndot77 y NType82, cuya licencia web estaba pendiente.
+- Forma: retícula de 8 px, líneas de 1 px y radios de 12 px en campos, 20 px en tarjetas y píldoras en botones y etiquetas. La trama de puntos se reserva para estados vacíos y portadas.
+- Precios como cantidad y «sats», sin «Pago único». El estado pendiente muestra un punto que parpadea en silencio; solo se informa un error cuando pide una acción.
+
+La lámina de diseño con la hoja del sistema, inicio, curso, pago y lección móvil es un lienzo de diseño privado, fuera del repositorio. La agrupación de miles en los precios («3 000 sats») forma parte de la propuesta, pero todavía no está implementada. La aplicación del lenguaje es técnica; no demuestra por sí sola una mejora de usabilidad observada con participantes.
 
 <a id="04-pantallas-y-recorrido"></a>
 
