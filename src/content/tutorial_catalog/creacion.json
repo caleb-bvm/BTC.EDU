@@ -1,0 +1,587 @@
+{
+  "tutorials": [
+    {
+      "slug": "contraste-wcag",
+      "title": "Comprueba el contraste de tus colores",
+      "topic": "diseno-ui-ux",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 12,
+      "description": "Mide la relación de contraste entre texto y fondo, aplica los mínimos de WCAG 2.2 y corrige una paleta sin perder su identidad.",
+      "objective": "Verificar que los colores de una interfaz cumplen los mínimos de contraste de WCAG 2.2 nivel AA.",
+      "requirements": "Los códigos hexadecimales de tu paleta y un navegador.",
+      "steps": [
+        {
+          "title": "Conoce los mínimos de contraste",
+          "description": "4,5:1 para texto normal y 3:1 para texto grande y elementos de interfaz.",
+          "outcome": "Explicar qué relación de contraste exige WCAG 2.2 AA para cada tipo de elemento.",
+          "activity": "understand",
+          "preview": "El negro sobre blanco alcanza el máximo: 21:1.",
+          "body": "La relación de contraste compara la luminancia relativa de dos colores y va de 1:1 (el mismo color) a 21:1 (negro sobre blanco). Las pautas WCAG 2.2, nivel AA, piden al menos 4,5:1 para el texto normal y 3:1 para el texto grande, que equivale a unos 24 px normales o 18,5 px en negrita. Los elementos que no son texto pero se necesitan para usar la interfaz, como el borde de un campo o el icono de un botón, piden 3:1 frente a lo que los rodea.\n\nEl contraste ayuda a personas con baja visión, a quien mira el teléfono bajo el sol y a cualquiera con una pantalla de poco brillo.\n\nEjemplo\nEl gris #767676 sobre blanco da 4,54:1 y cumple para texto normal. El gris #777777, casi idéntico a la vista, da 4,48:1 y no cumple.\n\nPráctica\nClasifica estos casos: texto de párrafo de 16 px, título de 32 px y borde de un campo de formulario.\n\nSolución y comprobación\nEl párrafo necesita 4,5:1; el título, 3:1; el borde del campo, 3:1 frente al fondo.",
+          "sources": [
+            {
+              "title": "W3C: WCAG 2.2, contraste mínimo (inglés)",
+              "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+            },
+            {
+              "title": "W3C: WCAG 2.2, contraste de elementos no textuales (inglés)",
+              "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+            }
+          ]
+        },
+        {
+          "title": "Mide el contraste de tu paleta",
+          "description": "Comprobador de WebAIM y herramientas del navegador.",
+          "outcome": "Medir la relación de contraste de pares de colores reales.",
+          "activity": "execute",
+          "preview": "El naranja #ff6a13 sobre blanco da 2,87:1: no sirve para texto pequeño.",
+          "body": "No midas a ojo: dos grises casi iguales pueden quedar a ambos lados del límite. El comprobador de WebAIM recibe el color del texto y el del fondo en hexadecimal y muestra la relación con el resultado para cada criterio. Las herramientas de desarrollo de Chrome y Firefox también muestran el contraste al inspeccionar un texto, en el selector de color.\n\nEjemplo\n```text\n#000000 sobre #ffffff   21:1\n#6b6b6b sobre #ffffff   5,33:1   cumple texto normal\n#ff6a13 sobre #ffffff   2,87:1   no cumple ni para texto grande\n#ff6a13 sobre #000000   7,32:1   cumple texto normal\n```\n\nEl mismo naranja falla sobre blanco y cumple sobre negro. El contraste depende del par, no de un color aislado.\n\nPráctica\nMide en WebAIM los pares de texto y fondo de una página tuya: párrafos, enlaces, botones y textos secundarios.\n\nSolución y comprobación\nAnota cada par con su relación y el criterio que aplica. Marca los que no llegan al mínimo para el paso siguiente.",
+          "sources": [
+            {
+              "title": "WebAIM: comprobador de contraste (inglés)",
+              "url": "https://webaim.org/resources/contrastchecker/"
+            },
+            {
+              "title": "W3C: WCAG 2.2, contraste mínimo (inglés)",
+              "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+            }
+          ]
+        },
+        {
+          "title": "Corrige sin perder la identidad",
+          "description": "Ajusta la luminosidad o cambia el uso del color.",
+          "outcome": "Corregir combinaciones con poco contraste manteniendo la identidad visual.",
+          "activity": "design",
+          "preview": "Un color de marca puede quedarse como acento y no como texto.",
+          "body": "Cuando un par no cumple, hay dos caminos. El primero es ajustar la luminosidad: oscurecer el texto o aclarar el fondo hasta superar el mínimo, manteniendo el tono. En el comprobador de WebAIM puedes mover el control de luminosidad y ver el resultado al instante.\n\nEl segundo es cambiar el uso del color. Un naranja de marca que no alcanza 4,5:1 sobre blanco puede usarse como relleno de un botón con texto negro, como subrayado o como señal junto a un texto negro, en lugar de ser el color del texto.\n\nTampoco dependas solo del color para comunicar algo: un error se indica con color y con un texto o un icono.\n\nEjemplo\nUn enlace naranja sobre blanco da 2,87:1. Lo cambias a texto negro con subrayado naranja: el texto alcanza 21:1 y la marca sigue presente.\n\nPráctica\nCorrige los pares que marcaste y vuelve a medirlos.\n\nSolución y comprobación\nTodos los pares de texto deben alcanzar su mínimo. Revisa también los estados de foco y de botón desactivado.",
+          "sources": [
+            {
+              "title": "W3C: WCAG 2.2, contraste mínimo (inglés)",
+              "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+            },
+            {
+              "title": "WebAIM: comprobador de contraste (inglés)",
+              "url": "https://webaim.org/resources/contrastchecker/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "imagenes-web",
+      "title": "Prepara imágenes ligeras para la web",
+      "topic": "creacion-contenido",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 12,
+      "description": "Elige entre JPEG, PNG, WebP, AVIF y SVG, ajusta las dimensiones al tamaño en pantalla y escribe un texto alternativo útil.",
+      "objective": "Exportar imágenes con el formato, tamaño y descripción adecuados para una página web.",
+      "requirements": "Un editor de imágenes o un convertidor como Squoosh, y una página o blog donde publicar.",
+      "steps": [
+        {
+          "title": "Elige el formato",
+          "description": "Fotos, gráficos con transparencia e ilustraciones vectoriales.",
+          "outcome": "Elegir el formato de imagen adecuado para cada tipo de contenido.",
+          "activity": "understand",
+          "preview": "Una foto en PNG puede pesar varias veces más que en JPEG.",
+          "body": "Cada formato resuelve un problema distinto. JPEG comprime bien las fotografías, pero no admite transparencia y degrada los bordes nítidos del texto. PNG conserva cada píxel y admite transparencia: es bueno para capturas de pantalla y gráficos con pocos colores, pero pesa mucho con fotos. WebP y AVIF son formatos modernos que logran archivos más pequeños para fotos y gráficos, con transparencia; los navegadores actuales los admiten. SVG describe formas en lugar de píxeles: ideal para logotipos e iconos, que se ven nítidos a cualquier tamaño.\n\nEjemplo\nUna foto de producto: WebP o AVIF, con JPEG como alternativa si tu plataforma no admite los modernos. Un logotipo: SVG. Una captura de pantalla con texto: PNG o WebP sin pérdida.\n\nPráctica\nClasifica tres imágenes de tu sitio: una foto, un logotipo y una captura de pantalla.\n\nSolución y comprobación\nAsigna a cada una un formato y la razón. Si alguna foto está en PNG, es candidata a convertirse en el paso siguiente.",
+          "sources": [
+            {
+              "title": "web.dev: elige el formato de imagen correcto (inglés)",
+              "url": "https://web.dev/articles/choose-the-right-image-format"
+            }
+          ]
+        },
+        {
+          "title": "Ajusta dimensiones y compresión",
+          "description": "Exporta al tamaño en que se mostrará.",
+          "outcome": "Redimensionar y comprimir una imagen sin pérdida visible de calidad.",
+          "activity": "execute",
+          "preview": "Una foto de 4000 px mostrada a 800 px descarga cinco veces más ancho del necesario.",
+          "body": "La mayor parte del peso de una imagen viene de sus dimensiones. Una foto de cámara puede medir 4000 px de ancho y mostrarse en un artículo a 800 px. Redimensiónala antes de subirla: para pantallas de alta densidad, exporta al doble del ancho mostrado, por ejemplo 1600 px.\n\nDespués ajusta la calidad. En JPEG y WebP, una calidad entre 70 y 80 suele verse igual que el original y pesa mucho menos. Compara a tamaño real antes de decidir; los degradados del cielo y la piel muestran primero los defectos.\n\nEjemplo\nEn Squoosh, abre la foto, cambia el ancho a 1600 px, elige WebP con calidad 75 y compara con el control deslizante. La herramienta muestra el peso original y el nuevo.\n\nPráctica\nExporta una foto tuya al doble de su ancho en pantalla y con calidad 75.\n\nSolución y comprobación\nAnota el peso antes y después. Una foto de varios megabytes suele quedar por debajo de 300 KB sin diferencias visibles a tamaño normal.",
+          "sources": [
+            {
+              "title": "web.dev: elige el formato de imagen correcto (inglés)",
+              "url": "https://web.dev/articles/choose-the-right-image-format"
+            }
+          ]
+        },
+        {
+          "title": "Escribe el texto alternativo",
+          "description": "Describe la función de la imagen, no su archivo.",
+          "outcome": "Redactar un texto alternativo que transmita la información de la imagen.",
+          "activity": "design",
+          "preview": "Una imagen decorativa lleva un alt vacío.",
+          "body": "El texto alternativo (atributo alt) es lo que leen los lectores de pantalla y lo que aparece si la imagen no carga. Debe transmitir lo que la imagen aporta en ese contexto, no su nombre de archivo. Evita empezar con «imagen de»: el lector ya anuncia que es una imagen.\n\nSi la imagen es solo decorativa, deja el alt vacío para que el lector la omita. Si contiene texto, como un cartel, ese texto debe estar en el alt.\n\nEjemplo\n```html\n<img src=\"mochila-azul.webp\" width=\"800\" height=\"600\"\n     alt=\"Mochila azul con bolsillo frontal y cierre de cremallera.\">\n<img src=\"separador.svg\" alt=\"\">\n```\n\nIndicar width y height reserva el espacio y evita que la página salte al cargar.\n\nPráctica\nEscribe el texto alternativo de tres imágenes de tu sitio y decide si alguna es decorativa.\n\nSolución y comprobación\nLee solo los textos alternativos en voz alta: alguien que no ve la página debe entender lo esencial.",
+          "sources": [
+            {
+              "title": "web.dev: elige el formato de imagen correcto (inglés)",
+              "url": "https://web.dev/articles/choose-the-right-image-format"
+            },
+            {
+              "title": "W3C: WCAG 2.2, contraste de elementos no textuales (inglés)",
+              "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "regla-tercios",
+      "title": "Compón tus fotos con la regla de los tercios",
+      "topic": "fotografia",
+      "access": "freemium",
+      "level": "beginner",
+      "minutes": 10,
+      "description": "Activa la cuadrícula de la cámara, coloca el sujeto y el horizonte en sus líneas y decide cuándo romper la regla.",
+      "objective": "Componer fotografías con la regla de los tercios y evaluar el resultado.",
+      "requirements": "Un teléfono con cámara o una cámara con cuadrícula en pantalla.",
+      "steps": [
+        {
+          "title": "Activa la cuadrícula",
+          "description": "Dos líneas horizontales y dos verticales.",
+          "outcome": "Activar la cuadrícula de la cámara y entender qué divide.",
+          "activity": "execute",
+          "preview": "En iPhone: Ajustes > Cámara > Cuadrícula.",
+          "body": "La regla de los tercios divide la imagen con dos líneas horizontales y dos verticales en nueve partes iguales. Colocar los elementos importantes sobre esas líneas o en sus cruces suele dar fotos más equilibradas y con más movimiento que centrarlo todo.\n\nLa mayoría de cámaras muestran esa cuadrícula. En iPhone se activa en Ajustes > Cámara > Cuadrícula. En los teléfonos Pixel está en los ajustes de la app Cámara, en el tipo de cuadrícula; en otros Android suele llamarse «Líneas de cuadrícula». En cámaras dedicadas, búscala en el menú de pantalla o visor.\n\nEjemplo\nCon la cuadrícula activa verás cuatro puntos de cruce. Son los lugares donde la mirada se detiene con más facilidad.\n\nPráctica\nActiva la cuadrícula en tu cámara y toma una foto de cualquier objeto centrado, como referencia.\n\nSolución y comprobación\nLa pantalla debe mostrar las cuatro líneas. Guarda la foto centrada: la compararás con las siguientes.",
+          "sources": [
+            {
+              "title": "Soporte de Apple: cuadrícula de la cámara del iPhone",
+              "url": "https://support.apple.com/es-es/guide/iphone/iph3dc593597/ios"
+            },
+            {
+              "title": "Ayuda de Google Pixel: ajustes de la cámara",
+              "url": "https://support.google.com/pixelphone/answer/7158570?hl=es-419"
+            }
+          ]
+        },
+        {
+          "title": "Coloca el sujeto y el horizonte",
+          "description": "Cruces para el sujeto y líneas para el horizonte.",
+          "outcome": "Componer una foto colocando sujeto y horizonte sobre la cuadrícula.",
+          "activity": "execute",
+          "preview": "Deja espacio hacia donde mira o se mueve el sujeto.",
+          "body": "Coloca el sujeto principal sobre uno de los cruces. En un retrato, sitúa los ojos en la línea superior. Deja espacio libre hacia donde mira o se mueve el sujeto: una persona que mira a la derecha se ubica en el tercio izquierdo.\n\nCon paisajes, no pongas el horizonte en el centro. Si el cielo es lo interesante, colócalo en la línea inferior para darle dos tercios; si el protagonista es el suelo o el mar, en la superior. Comprueba que el horizonte esté recto con la propia cuadrícula.\n\nEjemplo\nUn atardecer en la playa: horizonte en la línea inferior, el sol cerca del cruce superior derecho y una persona caminando en la línea vertical izquierda, mirando hacia el sol.\n\nPráctica\nFotografía el mismo objeto del paso anterior en un cruce y un paisaje con el horizonte en una línea.\n\nSolución y comprobación\nCompara con la foto centrada. La nueva debería sentirse menos estática; si el fondo distrae, cambia de ángulo antes de recortar.",
+          "sources": [
+            {
+              "title": "Soporte de Apple: cuadrícula de la cámara del iPhone",
+              "url": "https://support.apple.com/es-es/guide/iphone/iph3dc593597/ios"
+            }
+          ]
+        },
+        {
+          "title": "Decide cuándo romper la regla",
+          "description": "Simetría, centro y recorte posterior.",
+          "outcome": "Reconocer cuándo una composición centrada funciona mejor que la regla de los tercios.",
+          "activity": "design",
+          "preview": "La simetría pide el centro.",
+          "body": "La regla de los tercios es un punto de partida, no una obligación. Una escena simétrica, como un pasillo, un reflejo en el agua o una fachada, suele funcionar mejor centrada, porque la simetría es el tema. Un retrato frontal que busca intensidad también puede ir al centro.\n\nSi al tomar la foto no tuviste tiempo de componer, puedes recortar después. Los editores de fotos del teléfono y Lightroom muestran la cuadrícula de tercios al recortar. Recortar reduce resolución, así que es mejor componer al disparar cuando puedas.\n\nEjemplo\nUn puente reflejado en un lago en calma: el horizonte al centro duplica la forma y la foto gana fuerza. Moverlo a un tercio rompería el reflejo.\n\nPráctica\nToma una foto simétrica centrada y otra con la regla de los tercios del mismo lugar.\n\nSolución y comprobación\nElige la mejor y escribe en una frase por qué. Tu explicación debe hablar de qué quieres que mire primero quien vea la foto.",
+          "sources": [
+            {
+              "title": "Soporte de Apple: cuadrícula de la cámara del iPhone",
+              "url": "https://support.apple.com/es-es/guide/iphone/iph3dc593597/ios"
+            },
+            {
+              "title": "Adobe: tono y color en Lightroom Classic (inglés)",
+              "url": "https://helpx.adobe.com/lightroom-classic/desktop/process-and-develop-photos/image-tone-color.html"
+            }
+          ]
+        }
+      ],
+      "price": 150
+    },
+    {
+      "slug": "histograma-lightroom",
+      "title": "Corrige la exposición con el histograma en Lightroom",
+      "topic": "adobe-lightroom",
+      "access": "freemium",
+      "level": "intermediate",
+      "minutes": 15,
+      "description": "Lee el histograma, detecta sombras y luces recortadas y ajusta exposición, luces y sombras en Lightroom sin perder detalle.",
+      "objective": "Usar el histograma para corregir la exposición de una foto sin recortar luces ni sombras.",
+      "requirements": "Adobe Lightroom o Lightroom Classic y una foto, idealmente en formato RAW.",
+      "steps": [
+        {
+          "title": "Lee el histograma",
+          "description": "Sombras a la izquierda, luces a la derecha.",
+          "outcome": "Interpretar el histograma de una foto y detectar recortes.",
+          "activity": "understand",
+          "preview": "Una montaña pegada al borde indica detalle perdido.",
+          "body": "El histograma es un gráfico de cuántos píxeles hay de cada luminosidad. A la izquierda están los negros y las sombras; en el centro, los medios tonos; a la derecha, las luces y los blancos. No existe un histograma correcto: una foto nocturna se concentra a la izquierda y una escena con nieve, a la derecha.\n\nLo que sí importa son los bordes. Si el gráfico se amontona contra el borde derecho, hay luces recortadas: zonas blancas sin detalle. Contra el borde izquierdo, sombras recortadas. En Lightroom, los triángulos de las esquinas superiores del histograma activan avisos de recorte: rojo para luces y azul para sombras.\n\nEjemplo\nUna foto a contraluz muestra un pico pegado a la derecha (el cielo) y otro a la izquierda (la persona): se recortan ambos extremos.\n\nPráctica\nAbre una foto en el módulo Revelar, activa los avisos de recorte y localiza las zonas marcadas.\n\nSolución y comprobación\nLas zonas en rojo o azul son las que corregirás en el paso siguiente.",
+          "sources": [
+            {
+              "title": "Adobe: tono y color en Lightroom Classic (inglés)",
+              "url": "https://helpx.adobe.com/lightroom-classic/desktop/process-and-develop-photos/image-tone-color.html"
+            }
+          ]
+        },
+        {
+          "title": "Ajusta la exposición y los extremos",
+          "description": "Exposición, Luces, Sombras, Blancos y Negros.",
+          "outcome": "Corregir la exposición general y recuperar luces y sombras.",
+          "activity": "execute",
+          "preview": "Primero exposición, después los extremos.",
+          "body": "Empieza por Exposición, que mueve todo el histograma. Ajústala hasta que el sujeto principal tenga la luminosidad que buscas, aunque los extremos se recorten un poco. Después recupera detalle: baja Luces para devolver textura al cielo y sube Sombras para abrir las zonas oscuras. Por último, fija los extremos con Blancos y Negros.\n\nUn truco útil: mantén pulsada la tecla Alt (Opción en Mac) mientras arrastras Blancos o Negros. La imagen se vuelve negra o blanca y solo muestra las zonas que se recortan, así sabes exactamente dónde parar.\n\nEjemplo\nPara la foto a contraluz: Exposición +0,7 para la persona, Luces −80 para el cielo, Sombras +40 y Negros −10 para conservar profundidad.\n\nPráctica\nCorrige tu foto siguiendo ese orden y vuelve a mirar los avisos de recorte.\n\nSolución y comprobación\nLas zonas rojas y azules deben reducirse o desaparecer, salvo reflejos o fuentes de luz, que es normal que se recorten.",
+          "sources": [
+            {
+              "title": "Adobe: tono y color en Lightroom Classic (inglés)",
+              "url": "https://helpx.adobe.com/lightroom-classic/desktop/process-and-develop-photos/image-tone-color.html"
+            }
+          ]
+        },
+        {
+          "title": "Compara y crea un ajuste propio",
+          "description": "Antes y después, y ajustes preestablecidos.",
+          "outcome": "Evaluar una corrección comparando con el original y guardar un ajuste reutilizable.",
+          "activity": "execute",
+          "preview": "La tecla \\ alterna entre antes y después.",
+          "body": "Después de varios minutos editando, el ojo se acostumbra y es fácil exagerar. Compara con el original: en Lightroom Classic, la tecla \\ alterna la vista antes y después, y la tecla Y muestra ambas lado a lado. Si la foto parece artificial, reduce a la mitad los ajustes más fuertes.\n\nSi editas varias fotos de la misma sesión, guarda tus ajustes como ajuste preestablecido (preset) desde el panel Ajustes preestablecidos o sincronízalos con las fotos seleccionadas. Cada foto puede necesitar un retoque final de exposición.\n\nEjemplo\nGuardas «Contraluz suave» con Luces −80 y Sombras +40, sin incluir la exposición, y lo aplicas a toda la sesión. Luego ajustas la exposición foto por foto.\n\nPráctica\nCompara tu edición con el original, ajústala y guarda un preset con los controles de luces y sombras.\n\nSolución y comprobación\nEl preset aparece en el panel y, al aplicarlo a otra foto de la sesión, produce un resultado parecido con solo ajustar la exposición.",
+          "sources": [
+            {
+              "title": "Adobe: tono y color en Lightroom Classic (inglés)",
+              "url": "https://helpx.adobe.com/lightroom-classic/desktop/process-and-develop-photos/image-tone-color.html"
+            }
+          ]
+        }
+      ],
+      "price": 200
+    },
+    {
+      "slug": "subtitulos-video",
+      "title": "Crea subtítulos SRT y WebVTT para tus videos",
+      "topic": "edicion-video",
+      "access": "paid",
+      "level": "intermediate",
+      "minutes": 20,
+      "description": "Escribe subtítulos con tiempos correctos, conviértelos entre SRT y WebVTT y súbelos a YouTube o a tu sitio con buenas prácticas de lectura.",
+      "objective": "Producir subtítulos legibles y sincronizados en SRT y WebVTT.",
+      "requirements": "Un video propio, un editor de texto y una cuenta de YouTube o una página web donde publicarlo.",
+      "steps": [
+        {
+          "title": "Entiende el formato SRT",
+          "description": "Número, tiempos y texto.",
+          "outcome": "Escribir bloques de subtítulos SRT con tiempos válidos.",
+          "activity": "understand",
+          "preview": "SRT usa coma antes de los milisegundos.",
+          "body": "Un archivo SRT es texto plano con bloques separados por una línea en blanco. Cada bloque tiene un número, una línea de tiempo con inicio y fin, y una o dos líneas de texto. Los tiempos se escriben horas:minutos:segundos,milisegundos y la flecha separa el inicio del fin.\n\nEjemplo\n```text\n1\n00:00:01,000 --> 00:00:03,500\nHola, bienvenidos a este tutorial.\n\n2\n00:00:03,800 --> 00:00:07,200\nHoy vamos a crear subtítulos\npara nuestros videos.\n```\n\nGuarda el archivo con codificación UTF-8 para que las tildes y la ñ se vean bien.\n\nPráctica\nEscribe los tres primeros subtítulos de un video tuyo en un archivo .srt.\n\nSolución y comprobación\nCada bloque debe tener número, tiempos con coma y texto, y una línea en blanco entre bloques. Ábrelo en un reproductor como VLC junto al video para comprobar que se muestran.",
+          "sources": [
+            {
+              "title": "W3C: formato WebVTT (inglés)",
+              "url": "https://www.w3.org/TR/webvtt1/"
+            },
+            {
+              "title": "Ayuda de YouTube: subtítulos",
+              "url": "https://support.google.com/youtube/answer/2734698?hl=es"
+            }
+          ]
+        },
+        {
+          "title": "Cuida la legibilidad",
+          "description": "Longitud de línea, duración y sonidos.",
+          "outcome": "Aplicar criterios de legibilidad y accesibilidad a los subtítulos.",
+          "activity": "design",
+          "preview": "Dos líneas como máximo y tiempo suficiente para leerlas.",
+          "body": "Un subtítulo sincronizado puede seguir siendo difícil de leer. Usa como máximo dos líneas por bloque y unos 42 caracteres por línea. Deja cada bloque en pantalla al menos un segundo y el tiempo suficiente para leerlo; si alguien habla rápido, resume sin cambiar el sentido. Corta las líneas por unidades de sentido, no a mitad de una expresión.\n\nLos subtítulos para personas sordas incluyen además sonidos relevantes y quién habla cuando no es evidente: [música], [risas], [suena el teléfono]. Las pautas de accesibilidad del W3C piden subtítulos para el audio de los videos pregrabados.\n\nEjemplo\n```text\n00:00:12,000 --> 00:00:14,500\n[suena el timbre]\nANA: ¿Quién será a esta hora?\n```\n\nPráctica\nRevisa tus subtítulos: divide las líneas largas y añade los sonidos importantes.\n\nSolución y comprobación\nReproduce el video sin sonido. Debes poder seguirlo completo leyendo solo los subtítulos.",
+          "sources": [
+            {
+              "title": "W3C WAI: subtítulos para personas sordas (inglés)",
+              "url": "https://www.w3.org/WAI/media/av/captions/"
+            }
+          ]
+        },
+        {
+          "title": "Convierte a WebVTT para la web",
+          "description": "Cabecera WEBVTT y punto en los milisegundos.",
+          "outcome": "Convertir subtítulos SRT a WebVTT y añadirlos a un video HTML.",
+          "activity": "execute",
+          "preview": "WebVTT es el formato que entiende la etiqueta track.",
+          "body": "Para un video en tu propia página, el navegador usa WebVTT. Es casi igual a SRT, con tres diferencias: el archivo empieza con la línea WEBVTT, los milisegundos van después de un punto y los números de bloque son opcionales.\n\nEjemplo\n```text\nWEBVTT\n\n00:00:01.000 --> 00:00:03.500\nHola, bienvenidos a este tutorial.\n```\n\n```html\n<video controls src=\"tutorial.mp4\">\n  <track kind=\"captions\" src=\"tutorial.vtt\" srclang=\"es\" label=\"Español\" default>\n</video>\n```\n\nEl archivo .vtt debe servirse desde el mismo sitio que la página, o con permisos de origen cruzado.\n\nPráctica\nConvierte tu archivo SRT a WebVTT y añádelo a una página de prueba con la etiqueta track.\n\nSolución y comprobación\nAl reproducir el video, el botón de subtítulos muestra «Español». Si no aparece, revisa la cabecera WEBVTT y que los tiempos usen punto.",
+          "sources": [
+            {
+              "title": "W3C: formato WebVTT (inglés)",
+              "url": "https://www.w3.org/TR/webvtt1/"
+            }
+          ]
+        },
+        {
+          "title": "Publica en YouTube",
+          "description": "Subir el archivo y revisar la sincronización.",
+          "outcome": "Subir subtítulos a YouTube y comprobar su sincronización.",
+          "activity": "execute",
+          "preview": "Los subtítulos automáticos son un borrador, no el resultado final.",
+          "body": "YouTube acepta archivos SRT y WebVTT. En YouTube Studio, abre el video, entra en Subtítulos, elige el idioma y la opción de subir archivo, con tiempos. También puedes partir de los subtítulos automáticos y corregirlos, pero revísalos siempre: confunden nombres, términos técnicos y puntuación.\n\nDespués de subirlos, reproduce el video con los subtítulos activados en varios puntos, sobre todo al final: un desfase pequeño al principio suele crecer si el archivo se hizo con una versión distinta del video.\n\nEjemplo\nSi todos los subtítulos llegan medio segundo tarde, corrige el desfase en tu editor de subtítulos (por ejemplo, Subtitle Edit o Aegisub) con la opción de desplazar tiempos, y vuelve a subir el archivo.\n\nPráctica\nSube tu archivo a un video, privado si prefieres, y revisa tres puntos del video.\n\nSolución y comprobación\nLos subtítulos aparecen al mismo tiempo que la voz en el inicio, la mitad y el final del video.",
+          "sources": [
+            {
+              "title": "Ayuda de YouTube: subtítulos",
+              "url": "https://support.google.com/youtube/answer/2734698?hl=es"
+            }
+          ]
+        }
+      ],
+      "price": 300
+    }
+  ],
+  "resources": [
+    {
+      "kind": "video",
+      "slug": "video-teoria-color",
+      "title": "¿Cómo usar la teoría del color para diseñar?",
+      "topic": "diseno-ui-ux",
+      "video_url": "https://www.youtube.com/watch?v=OX7ELZ9cT6w",
+      "video_author": "Coderhouse",
+      "description": "Introducción en español a la teoría del color aplicada al diseño: círculo cromático, armonías y uso en interfaces.",
+      "outcome": "Elegir combinaciones de color con criterios de armonía para un diseño.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video de Coderhouse, reproducido desde YouTube."
+    },
+    {
+      "kind": "video",
+      "slug": "video-regla-tercios",
+      "title": "Composición fotográfica: la regla de los tercios",
+      "topic": "fotografia",
+      "video_url": "https://www.youtube.com/watch?v=u9nTpf0N3As",
+      "video_author": "Felipe Passolas Fotografía",
+      "description": "Explicación en español de la regla de los tercios con ejemplos fotográficos. Complementa el tutorial «Compón tus fotos con la regla de los tercios».",
+      "outcome": "Aplicar la regla de los tercios al componer una fotografía.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video de Felipe Passolas Fotografía, reproducido desde YouTube."
+    },
+    {
+      "kind": "material",
+      "slug": "lista-accesibilidad-visual",
+      "title": "Lista de accesibilidad visual",
+      "topic": "diseno-ui-ux",
+      "access": "free",
+      "description": "Lista de comprobación para revisar contraste, tipografía, color, foco, imágenes y movimiento antes de publicar una interfaz.",
+      "outcome": "Revisar la accesibilidad visual de una interfaz con criterios de WCAG 2.2.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "execute",
+      "preview": "Incluye los mínimos de contraste de WCAG 2.2 AA en una tabla.",
+      "document": {
+        "subtitle": "Para revisar una pantalla antes de publicarla. Basada en WCAG 2.2, nivel AA.",
+        "sections": [
+          {
+            "heading": "Mínimos de contraste",
+            "table": {
+              "columns": [
+                "Elemento",
+                "Mínimo AA"
+              ],
+              "mono": [
+                1
+              ],
+              "widths": [
+                0.65,
+                0.35
+              ],
+              "rows": [
+                [
+                  "Texto normal",
+                  "4,5:1"
+                ],
+                [
+                  "Texto grande (unos 24 px, o 18,5 px en negrita)",
+                  "3:1"
+                ],
+                [
+                  "Iconos, bordes de campos y estados de foco",
+                  "3:1"
+                ],
+                [
+                  "Logotipos y texto decorativo",
+                  "Sin mínimo"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Texto y color",
+            "checklist": [
+              "Todos los pares de texto y fondo alcanzan su mínimo.",
+              "El texto del cuerpo mide al menos 16 px.",
+              "La información no depende solo del color: los errores también tienen texto o icono.",
+              "Los enlaces se distinguen del texto por algo más que el color."
+            ]
+          },
+          {
+            "heading": "Interacción",
+            "checklist": [
+              "El foco del teclado es visible en todos los controles.",
+              "Los botones y enlaces tienen un área táctil de al menos 24 × 24 px.",
+              "Los campos tienen una etiqueta visible, no solo un texto de ejemplo.",
+              "Puedo recorrer la pantalla completa con Tab en un orden lógico."
+            ]
+          },
+          {
+            "heading": "Imágenes y movimiento",
+            "checklist": [
+              "Las imágenes informativas tienen texto alternativo; las decorativas, alt vacío.",
+              "Los videos tienen subtítulos.",
+              "Las animaciones respetan la preferencia de movimiento reducido.",
+              "Nada parpadea más de tres veces por segundo."
+            ]
+          },
+          {
+            "heading": "Comprobación final",
+            "items": [
+              "Amplía la página al 200 %: el contenido debe seguir siendo usable.",
+              "Revisa la pantalla en modo oscuro si la interfaz lo ofrece.",
+              "Mide los colores dudosos con un comprobador de contraste."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "W3C: WCAG 2.2, contraste mínimo (inglés)",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+        },
+        {
+          "title": "W3C: WCAG 2.2, contraste de elementos no textuales (inglés)",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+        },
+        {
+          "title": "WebAIM: comprobador de contraste (inglés)",
+          "url": "https://webaim.org/resources/contrastchecker/"
+        }
+      ]
+    },
+    {
+      "kind": "material",
+      "slug": "guia-exportacion-imagenes",
+      "title": "Guía de exportación de imágenes para la web",
+      "topic": "creacion-contenido",
+      "access": "paid",
+      "description": "Tablas de formato, dimensiones y calidad para fotos, gráficos, iconos y redes, con una lista de comprobación antes de publicar.",
+      "outcome": "Exportar cada tipo de imagen con el formato, tamaño y calidad adecuados.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "execute",
+      "preview": "Incluye una tabla de ajustes de exportación por tipo de imagen.",
+      "document": {
+        "subtitle": "Ajustes de partida. Comprueba siempre el resultado a tamaño real.",
+        "sections": [
+          {
+            "heading": "Formato por tipo de imagen",
+            "table": {
+              "columns": [
+                "Contenido",
+                "Formato",
+                "Alternativa"
+              ],
+              "widths": [
+                0.4,
+                0.3,
+                0.3
+              ],
+              "rows": [
+                [
+                  "Fotografía",
+                  "AVIF o WebP",
+                  "JPEG"
+                ],
+                [
+                  "Captura de pantalla con texto",
+                  "WebP sin pérdida",
+                  "PNG"
+                ],
+                [
+                  "Gráfico con transparencia",
+                  "WebP",
+                  "PNG"
+                ],
+                [
+                  "Logotipo o icono",
+                  "SVG",
+                  "PNG a 2×"
+                ],
+                [
+                  "Animación corta",
+                  "Video MP4 o WebM",
+                  "GIF solo si es imprescindible"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Dimensiones",
+            "table": {
+              "columns": [
+                "Uso",
+                "Ancho mostrado",
+                "Ancho a exportar"
+              ],
+              "mono": [
+                1,
+                2
+              ],
+              "widths": [
+                0.4,
+                0.3,
+                0.3
+              ],
+              "rows": [
+                [
+                  "Imagen de cabecera a todo el ancho",
+                  "1280–1440 px",
+                  "2560–2880 px"
+                ],
+                [
+                  "Imagen dentro de un artículo",
+                  "720–800 px",
+                  "1440–1600 px"
+                ],
+                [
+                  "Miniatura de tarjeta",
+                  "320–400 px",
+                  "640–800 px"
+                ],
+                [
+                  "Avatar",
+                  "48–96 px",
+                  "96–192 px"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Calidad y peso",
+            "items": [
+              "JPEG y WebP: calidad 70–80 como punto de partida.",
+              "AVIF: calidad 50–65 suele equivaler visualmente a JPEG 80.",
+              "Revisa degradados de cielo y piel: muestran primero los defectos.",
+              "Objetivo orientativo: menos de 200 KB para imágenes de artículo."
+            ]
+          },
+          {
+            "heading": "Antes de publicar",
+            "checklist": [
+              "La imagen tiene el ancho adecuado al uso, no el original de la cámara.",
+              "El nombre del archivo es descriptivo y sin espacios.",
+              "Escribí un texto alternativo o la marqué como decorativa.",
+              "En HTML, indiqué width y height para reservar el espacio.",
+              "Eliminé los metadatos de ubicación si la foto es personal."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "web.dev: elige el formato de imagen correcto (inglés)",
+          "url": "https://web.dev/articles/choose-the-right-image-format"
+        }
+      ],
+      "price": 130
+    },
+    {
+      "kind": "reference",
+      "slug": "webaim-contraste",
+      "title": "Comprobador de contraste de WebAIM",
+      "topic": "diseno-ui-ux",
+      "source_name": "WebAIM",
+      "source_url": "https://webaim.org/resources/contrastchecker/",
+      "description": "Herramienta gratuita para medir la relación de contraste entre dos colores y comprobar los criterios de WCAG para texto y elementos de interfaz. En inglés."
+    }
+  ]
+}

@@ -63,3 +63,8 @@
   .resource-row-mark{width:36px;height:36px}
   .resource-row .resource-access{grid-column:2;text-align:left;white-space:normal}
 }
+
+/* Ficha de un video externo */
+.external-video{overflow:hidden;border:1px solid var(--line);border-radius:var(--ui-radius);background:var(--ui-muted-surface)}
+.external-video iframe{display:block;width:100%;aspect-ratio:16/9;height:auto;border:0}
+.external-video-credit{margin:12px 0 0;font-size:13px;color:var(--muted)}

@@ -1,0 +1,783 @@
+{
+  "tutorials": [
+    {
+      "slug": "entorno-virtual-python",
+      "title": "Crea un entorno virtual de Python",
+      "topic": "programacion",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 10,
+      "description": "Aísla las dependencias de cada proyecto con venv, actívalo en tu sistema y registra los paquetes en requirements.txt.",
+      "objective": "Crear, activar y reproducir un entorno virtual de Python para un proyecto.",
+      "requirements": "Python 3 instalado y una terminal. En Windows, comprueba la instalación con `py --version`.",
+      "steps": [
+        {
+          "title": "Crea el entorno dentro del proyecto",
+          "description": "Una carpeta .venv con su propio Python y pip.",
+          "outcome": "Crear un entorno virtual para un proyecto con el módulo venv.",
+          "activity": "execute",
+          "preview": "Cada proyecto con su entorno evita choques de versiones.",
+          "body": "Si instalas todos los paquetes en el Python del sistema, dos proyectos que necesitan versiones distintas de la misma biblioteca terminan rompiéndose entre sí. Un entorno virtual es una carpeta con su propio intérprete y su propio pip: lo que instalas ahí no afecta al resto.\n\nAbre la terminal en la carpeta del proyecto y crea el entorno. Por convención se llama .venv.\n\nEjemplo\n```bash\n# Windows\npy -m venv .venv\n# macOS y Linux\npython3 -m venv .venv\n```\n\nLa orden crea la carpeta .venv con el intérprete, pip y una carpeta para los paquetes. No pongas tu código dentro de .venv: es desechable y puedes recrearlo cuando quieras.\n\nPráctica\nCrea una carpeta mi-proyecto y, dentro, un entorno virtual llamado .venv.\n\nSolución y comprobación\nDebe existir mi-proyecto/.venv. En Windows contiene la carpeta Scripts; en macOS y Linux, la carpeta bin. Si recibes «No module named venv» en Linux, instala el paquete python3-venv de tu distribución.",
+          "sources": [
+            {
+              "title": "Documentación de Python: venv",
+              "url": "https://docs.python.org/es/3/library/venv.html"
+            },
+            {
+              "title": "Tutorial de Python: entornos virtuales y paquetes",
+              "url": "https://docs.python.org/es/3/tutorial/venv.html"
+            }
+          ]
+        },
+        {
+          "title": "Actívalo y compruébalo",
+          "description": "Activar en cada sistema y confirmar qué Python usas.",
+          "outcome": "Activar el entorno y comprobar que la terminal usa su intérprete.",
+          "activity": "execute",
+          "preview": "El nombre del entorno aparece entre paréntesis al inicio de la línea.",
+          "body": "Activar el entorno ajusta la terminal para que python y pip apunten a .venv. Tienes que activarlo en cada terminal nueva.\n\nEjemplo\n```bash\n# Windows, PowerShell\n.venv\\Scripts\\Activate.ps1\n# Windows, símbolo del sistema\n.venv\\Scripts\\activate.bat\n# macOS y Linux\nsource .venv/bin/activate\n```\n\nSi PowerShell bloquea el script por la política de ejecución, la documentación de Python explica cómo permitir scripts locales para tu usuario; también puedes usar el símbolo del sistema.\n\nPara comprobar que funciona, pregunta a Python dónde está:\n\n```bash\npython -c \"import sys; print(sys.prefix)\"\n```\n\nPara salir del entorno, escribe deactivate.\n\nPráctica\nActiva el entorno y ejecuta la comprobación.\n\nSolución y comprobación\nLa línea de la terminal empieza con (.venv) y sys.prefix muestra una ruta que termina en .venv. Si muestra la ruta de tu instalación general, el entorno no está activo.",
+          "sources": [
+            {
+              "title": "Documentación de Python: venv",
+              "url": "https://docs.python.org/es/3/library/venv.html"
+            },
+            {
+              "title": "Tutorial de Python: entornos virtuales y paquetes",
+              "url": "https://docs.python.org/es/3/tutorial/venv.html"
+            }
+          ]
+        },
+        {
+          "title": "Instala paquetes y registra las dependencias",
+          "description": "pip install, requirements.txt y .gitignore.",
+          "outcome": "Registrar las dependencias de un proyecto para reproducir el entorno en otra computadora.",
+          "activity": "execute",
+          "preview": "Se comparte requirements.txt, no la carpeta .venv.",
+          "body": "Con el entorno activo, instala lo que necesita el proyecto. Después guarda la lista exacta de paquetes en requirements.txt. Ese archivo, y no la carpeta .venv, es lo que compartes con tu equipo y subes al repositorio.\n\nEjemplo\n```bash\npython -m pip install requests\npython -m pip freeze > requirements.txt\n```\n\nUsar python -m pip garantiza que pip corresponde al Python activo. requirements.txt tendrá líneas como requests==2.32.3, con la versión exacta instalada.\n\nPara reproducir el entorno en otra computadora, se crea un entorno nuevo y se instala desde el archivo:\n\n```bash\npython -m pip install -r requirements.txt\n```\n\nAñade .venv/ a tu archivo .gitignore para no subirla por accidente.\n\nPráctica\nInstala un paquete, genera requirements.txt, borra .venv y recrea el entorno desde el archivo.\n\nSolución y comprobación\nTras recrearlo, `python -m pip list` debe mostrar el mismo paquete con la misma versión que figura en requirements.txt.",
+          "sources": [
+            {
+              "title": "Tutorial de Python: entornos virtuales y paquetes",
+              "url": "https://docs.python.org/es/3/tutorial/venv.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "primera-prueba-pytest",
+      "title": "Escribe tu primera prueba con pytest",
+      "topic": "pruebas-calidad",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Prueba una función de descuentos con pytest: escribe aserciones, lee un fallo, cubre varios casos y comprueba los errores esperados.",
+      "objective": "Escribir y ejecutar pruebas automáticas con pytest para una función de Python.",
+      "requirements": "Python 3 y un entorno virtual con pytest instalado (`python -m pip install pytest`).",
+      "steps": [
+        {
+          "title": "Escribe una función y su prueba",
+          "description": "Archivos test_*.py y funciones test_*.",
+          "outcome": "Escribir una prueba con assert y ejecutarla con pytest.",
+          "activity": "execute",
+          "preview": "pytest encuentra solo las pruebas cuyos nombres empiezan con test.",
+          "body": "Una prueba automática ejecuta tu código con datos conocidos y comprueba el resultado. pytest busca archivos que se llamen test_*.py y, dentro, funciones que empiecen con test. Basta con un assert de Python.\n\nEjemplo\nCrea precios.py:\n\n```python\ndef aplicar_descuento(precio, porcentaje):\n    if not 0 <= porcentaje <= 100:\n        raise ValueError(\"El porcentaje debe estar entre 0 y 100.\")\n    return round(precio * (1 - porcentaje / 100), 2)\n```\n\nY en la misma carpeta, test_precios.py:\n\n```python\nfrom precios import aplicar_descuento\n\n\ndef test_descuento_del_diez_por_ciento():\n    assert aplicar_descuento(50, 10) == 45\n\n\ndef test_sin_descuento():\n    assert aplicar_descuento(19.99, 0) == 19.99\n```\n\nPráctica\nCrea ambos archivos y ejecuta `python -m pytest -q` en la carpeta.\n\nSolución y comprobación\nLa salida muestra dos puntos y «2 passed». Cada punto es una prueba que pasó.",
+          "sources": [
+            {
+              "title": "pytest: primeros pasos (inglés)",
+              "url": "https://docs.pytest.org/en/stable/getting-started.html"
+            }
+          ]
+        },
+        {
+          "title": "Provoca un fallo y léelo",
+          "description": "Cómo muestra pytest la diferencia.",
+          "outcome": "Interpretar el informe de una prueba fallida para encontrar el error.",
+          "activity": "understand",
+          "preview": "pytest muestra el valor obtenido y el esperado en la misma línea.",
+          "body": "Una prueba vale por los errores que detecta. Introduce uno a propósito: en precios.py cambia el signo menos por un signo más, de modo que el descuento suba el precio.\n\n```python\nreturn round(precio * (1 + porcentaje / 100), 2)\n```\n\nEjecuta de nuevo las pruebas. pytest marca con F la prueba que falló e imprime el detalle.\n\nEjemplo\n```text\n>       assert aplicar_descuento(50, 10) == 45\nE       assert 55.0 == 45\n```\n\nLa línea con > es la aserción que falló. La línea con E compara lo obtenido, 55.0, con lo esperado, 45. Así sabes qué entrada produce el error sin añadir print.\n\nLa prueba sin descuento sigue pasando porque con 0 % el signo no importa. Por eso conviene probar varios casos.\n\nPráctica\nIntroduce el error, ejecuta las pruebas y después corrígelo.\n\nSolución y comprobación\nCon el error verás «1 failed, 1 passed». Al restaurar el signo menos vuelve «2 passed».",
+          "sources": [
+            {
+              "title": "pytest: primeros pasos (inglés)",
+              "url": "https://docs.pytest.org/en/stable/getting-started.html"
+            }
+          ]
+        },
+        {
+          "title": "Cubre varios casos y los errores esperados",
+          "description": "parametrize y pytest.raises.",
+          "outcome": "Probar varios casos con parametrize y comprobar que una función rechaza datos inválidos.",
+          "activity": "execute",
+          "preview": "También se prueba que el código falle cuando debe.",
+          "body": "Escribir una función de prueba por caso se vuelve repetitivo. Con @pytest.mark.parametrize, una sola prueba recibe varias combinaciones de datos y pytest las cuenta por separado. Con pytest.raises compruebas que la función rechaza un dato inválido con la excepción correcta.\n\nEjemplo\nAñade a test_precios.py:\n\n```python\nimport pytest\n\n\n@pytest.mark.parametrize(\"precio, porcentaje, esperado\", [\n    (100, 25, 75),\n    (80, 50, 40),\n    (10, 100, 0),\n])\ndef test_varios_descuentos(precio, porcentaje, esperado):\n    assert aplicar_descuento(precio, porcentaje) == esperado\n\n\ndef test_porcentaje_invalido():\n    with pytest.raises(ValueError):\n        aplicar_descuento(50, 120)\n```\n\nPráctica\nAñade las pruebas y ejecuta pytest. Después vuelve a introducir el error del paso anterior.\n\nSolución y comprobación\nSin el error: «6 passed». Con el signo cambiado: «4 failed, 2 passed»; los tres casos parametrizados ahora detectan el fallo y la prueba de porcentaje inválido sigue pasando.",
+          "sources": [
+            {
+              "title": "pytest: primeros pasos (inglés)",
+              "url": "https://docs.pytest.org/en/stable/getting-started.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "deshacer-cambios-git",
+      "title": "Deshaz cambios en Git sin perder trabajo",
+      "topic": "git-colaboracion",
+      "access": "freemium",
+      "level": "intermediate",
+      "minutes": 20,
+      "description": "Elige la orden correcta para cada situación: descartar cambios, sacar archivos del área de preparación, rehacer el último commit, revertir lo publicado y recuperar con reflog.",
+      "objective": "Deshacer cambios en Git según su estado sin perder trabajo ni reescribir historial compartido.",
+      "requirements": "Git 2.23 o posterior y un repositorio de práctica. Conocer add y commit.",
+      "steps": [
+        {
+          "title": "Descarta cambios y saca archivos del área de preparación",
+          "description": "git restore en sus dos usos.",
+          "outcome": "Descartar cambios locales y deshacer un git add con git restore.",
+          "activity": "execute",
+          "preview": "git restore sin --staged borra cambios no guardados: no hay vuelta atrás.",
+          "body": "Antes de deshacer, mira dónde está el cambio con git status. Un archivo puede estar modificado en tu carpeta de trabajo, preparado con git add o ya guardado en un commit. Cada estado tiene su orden.\n\nPara descartar los cambios de un archivo y volver a la última versión guardada usa git restore. Para sacar un archivo del área de preparación sin perder sus cambios, añade --staged.\n\nEjemplo\n```bash\ngit status --short        #  M notas.txt\ngit restore notas.txt     # descarta los cambios\n\ngit add notas.txt\ngit status --short        # M  notas.txt\ngit restore --staged notas.txt\ngit status --short        #  M notas.txt\n```\n\nLa posición de la M indica el estado: a la izquierda, preparado; a la derecha, modificado sin preparar.\n\nPráctica\nEn un repositorio de prueba, modifica un archivo, prepáralo, sácalo del área de preparación y después descarta el cambio.\n\nSolución y comprobación\nAl final, git status debe decir que no hay nada que confirmar y el archivo debe tener el contenido del último commit.",
+          "sources": [
+            {
+              "title": "Pro Git: deshacer cosas",
+              "url": "https://git-scm.com/book/es/v2/Fundamentos-de-Git-Deshacer-Cosas"
+            }
+          ]
+        },
+        {
+          "title": "Rehaz tu último commit local",
+          "description": "git reset --soft cuando aún no lo publicaste.",
+          "outcome": "Deshacer el último commit local conservando sus cambios preparados.",
+          "activity": "execute",
+          "preview": "--soft mueve la rama y deja los cambios listos para un nuevo commit.",
+          "body": "Si acabas de hacer un commit con un mensaje equivocado o le faltó un archivo, y todavía no lo enviaste con push, puedes deshacerlo sin perder nada. git reset --soft HEAD~1 mueve la rama un commit atrás y deja sus cambios en el área de preparación.\n\nEjemplo\n```bash\ngit log --oneline\n# 7fa0d31 Añade paso 2\n# f6fe1d0 Añade notas\ngit reset --soft HEAD~1\ngit status --short        # M  notas.txt\ngit commit -m \"Añade el paso 2\"\n```\n\nPara un cambio pequeño en el último commit también existe git commit --amend, que lo reemplaza por uno nuevo.\n\nAmbas órdenes reescriben historial. Úsalas solo con commits que nadie más tiene: si ya hiciste push, tus compañeros tendrían un historial distinto del tuyo. Para lo publicado, usa el paso siguiente.\n\nPráctica\nHaz un commit con un mensaje que quieras cambiar, deshazlo con --soft y vuelve a hacerlo.\n\nSolución y comprobación\ngit log muestra el commit nuevo con el mensaje corregido y ya no aparece el anterior.",
+          "sources": [
+            {
+              "title": "Pro Git: deshacer cosas",
+              "url": "https://git-scm.com/book/es/v2/Fundamentos-de-Git-Deshacer-Cosas"
+            }
+          ]
+        },
+        {
+          "title": "Revierte un commit publicado",
+          "description": "git revert crea un commit que deshace otro.",
+          "outcome": "Deshacer un commit compartido sin reescribir el historial.",
+          "activity": "execute",
+          "preview": "revert añade historial en lugar de borrarlo.",
+          "body": "Cuando un commit ya está en el repositorio compartido, no lo borres. git revert crea un commit nuevo que aplica los cambios contrarios. El historial conserva el error y su corrección, y nadie tiene que reconciliar historias distintas.\n\nEjemplo\n```bash\ngit revert --no-edit HEAD\ngit log --oneline\n# a2fd0c6 Revert \"Cambio malo\"\n# 48d32ad Cambio malo\n# aa550f9 Añade el paso 2\n```\n\nHEAD es el último commit; también puedes indicar el identificador de cualquier commit anterior. --no-edit acepta el mensaje propuesto. Si commits posteriores tocaron las mismas líneas, Git puede pedirte resolver un conflicto, igual que en una fusión.\n\nPráctica\nHaz un commit que añada una línea equivocada a un archivo y reviértelo.\n\nSolución y comprobación\nEl archivo vuelve a su contenido anterior y git log muestra ambos commits: el original y el de reversión. Después puedes publicar la reversión con push como cualquier otro commit.",
+          "sources": [
+            {
+              "title": "Git: git revert (inglés)",
+              "url": "https://git-scm.com/docs/git-revert"
+            },
+            {
+              "title": "Pro Git: deshacer cosas",
+              "url": "https://git-scm.com/book/es/v2/Fundamentos-de-Git-Deshacer-Cosas"
+            }
+          ]
+        },
+        {
+          "title": "Recupera lo que creías perdido con reflog",
+          "description": "El registro local de movimientos de HEAD.",
+          "outcome": "Recuperar commits tras un reset equivocado usando git reflog.",
+          "activity": "execute",
+          "preview": "Un commit que hiciste no desaparece de inmediato: reflog lo recuerda.",
+          "body": "Un git reset --hard equivocado parece borrar commits, pero Git guarda durante un tiempo un registro local de cada posición por la que pasó HEAD. git reflog lo muestra y te permite volver.\n\nEjemplo\n```bash\ngit reset --hard HEAD~2   # error: perdimos dos commits\ngit reflog\n# aa550f9 HEAD@{0}: reset: moving to HEAD~2\n# a2fd0c6 HEAD@{1}: revert: Revert \"Cambio malo\"\n# 48d32ad HEAD@{2}: commit: Cambio malo\ngit reset --hard HEAD@{1}\n```\n\nHEAD@{1} es la posición anterior al último movimiento. También puedes crear una rama en ese punto con `git branch rescate HEAD@{1}` si prefieres revisar antes.\n\nEl reflog es local: no se comparte con push y sus entradas antiguas caducan, por defecto a los 90 días. Los cambios que nunca guardaste en un commit no aparecen en él.\n\nPráctica\nHaz un reset --hard de dos commits en tu repositorio de prueba y recupéralos con reflog.\n\nSolución y comprobación\ngit log --oneline vuelve a mostrar los commits recuperados en el primer lugar.",
+          "sources": [
+            {
+              "title": "Git: git reflog (inglés)",
+              "url": "https://git-scm.com/docs/git-reflog"
+            },
+            {
+              "title": "Pro Git: deshacer cosas",
+              "url": "https://git-scm.com/book/es/v2/Fundamentos-de-Git-Deshacer-Cosas"
+            }
+          ]
+        }
+      ],
+      "price": 200
+    },
+    {
+      "slug": "consumir-api-fetch",
+      "title": "Consume una API REST con fetch",
+      "topic": "desarrollo-web",
+      "access": "freemium",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Pide datos con fetch, comprueba el estado de la respuesta antes de usarla y envía JSON con POST, usando una API pública de práctica.",
+      "objective": "Leer y enviar datos a una API REST con fetch y manejar sus errores.",
+      "requirements": "Un navegador con la consola de desarrollo o Node.js 18 o posterior. Conocer funciones de JavaScript.",
+      "steps": [
+        {
+          "title": "Pide datos y conviértelos a JSON",
+          "description": "fetch, await y response.json().",
+          "outcome": "Hacer una petición GET con fetch y leer el cuerpo como JSON.",
+          "activity": "execute",
+          "preview": "fetch devuelve una promesa; con await esperas la respuesta.",
+          "body": "fetch es la función estándar para hacer peticiones HTTP en el navegador y en Node.js. Devuelve una promesa con la respuesta. Como el cuerpo puede tardar en llegar, leerlo también es asíncrono: response.json() devuelve otra promesa con los datos ya convertidos.\n\nUsarás JSONPlaceholder, una API pública de práctica que responde con datos ficticios.\n\nEjemplo\n```javascript\nconst respuesta = await fetch(\"https://jsonplaceholder.typicode.com/todos/1\");\nconst tarea = await respuesta.json();\nconsole.log(tarea.title, tarea.completed);\n```\n\nEn la consola del navegador puedes usar await directamente. En un archivo de Node.js, guárdalo con extensión .mjs para poder usar await fuera de una función.\n\nPráctica\nEjecuta el ejemplo en la consola de tu navegador (F12, pestaña Consola) o con Node.js.\n\nSolución y comprobación\nLa salida muestra el título «delectus aut autem» y false. Cambia el 1 por otro número entre 1 y 200 para obtener otras tareas.",
+          "sources": [
+            {
+              "title": "MDN: usar Fetch",
+              "url": "https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch"
+            }
+          ]
+        },
+        {
+          "title": "Comprueba el estado antes de usar los datos",
+          "description": "response.ok y los errores de red.",
+          "outcome": "Distinguir un error HTTP de un fallo de red y manejar ambos.",
+          "activity": "understand",
+          "preview": "fetch no falla con un 404: tienes que comprobarlo tú.",
+          "body": "fetch solo rechaza la promesa cuando no hay respuesta: sin red, dominio inexistente o una petición bloqueada. Si el servidor responde con 404 o 500, fetch lo considera una respuesta válida. Por eso hay que mirar response.ok, que es verdadero para los estados del 200 al 299.\n\nEjemplo\n```javascript\nasync function obtenerTarea(id) {\n  const respuesta = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);\n  if (!respuesta.ok) {\n    throw new Error(`Error HTTP ${respuesta.status}`);\n  }\n  return respuesta.json();\n}\n\ntry {\n  await obtenerTarea(9999);\n} catch (error) {\n  console.log(error.message);\n}\n```\n\nEl bloque try/catch recoge tanto el error HTTP que lanzaste como un fallo de red.\n\nPráctica\nEjecuta la función con el id 1 y con el id 9999.\n\nSolución y comprobación\nCon 1 recibes la tarea. Con 9999 se imprime «Error HTTP 404». Sin la comprobación de ok, habrías intentado usar una respuesta vacía como si fuera una tarea.",
+          "sources": [
+            {
+              "title": "MDN: usar Fetch",
+              "url": "https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch"
+            },
+            {
+              "title": "MDN: códigos de estado de respuesta HTTP",
+              "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Status"
+            }
+          ]
+        },
+        {
+          "title": "Envía datos con POST",
+          "description": "Método, cabeceras y cuerpo en JSON.",
+          "outcome": "Enviar un objeto JSON con fetch e interpretar la respuesta de creación.",
+          "activity": "execute",
+          "preview": "Un 201 indica que el servidor creó el recurso.",
+          "body": "Para enviar datos, pasa a fetch un segundo argumento con el método, las cabeceras y el cuerpo. El cuerpo debe ser texto, así que conviertes el objeto con JSON.stringify, y la cabecera Content-Type avisa al servidor de que es JSON.\n\nEjemplo\n```javascript\nconst respuesta = await fetch(\"https://jsonplaceholder.typicode.com/posts\", {\n  method: \"POST\",\n  headers: { \"Content-Type\": \"application/json\" },\n  body: JSON.stringify({ title: \"Hola\", body: \"Primera publicación\", userId: 1 }),\n});\nconsole.log(respuesta.status, await respuesta.json());\n```\n\nJSONPlaceholder simula la creación: responde como si guardara el dato, pero no lo guarda. En una API real, la respuesta incluiría el identificador definitivo.\n\nPráctica\nEnvía una publicación con tu propio título y muestra el estado y el cuerpo de la respuesta.\n\nSolución y comprobación\nEl estado es 201 y el cuerpo repite tus datos con un campo id: 101. Si olvidas JSON.stringify, el servidor recibe «[object Object]» en lugar de tus datos.",
+          "sources": [
+            {
+              "title": "MDN: usar Fetch",
+              "url": "https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch"
+            },
+            {
+              "title": "MDN: códigos de estado de respuesta HTTP",
+              "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Status"
+            }
+          ]
+        }
+      ],
+      "price": 220
+    },
+    {
+      "slug": "probar-api-curl",
+      "title": "Prueba una API desde la terminal con curl",
+      "topic": "apis-backend",
+      "access": "paid",
+      "level": "intermediate",
+      "minutes": 20,
+      "description": "Inspecciona respuestas, estados y cabeceras, envía JSON con autenticación y usa curl en scripts que fallen cuando la API falla.",
+      "objective": "Probar y depurar una API HTTP desde la terminal con curl.",
+      "requirements": "curl instalado (viene con Windows 10 o posterior, macOS y la mayoría de distribuciones Linux) y nociones de HTTP.",
+      "steps": [
+        {
+          "title": "Haz una petición y mira las cabeceras",
+          "description": "GET, -i y -v.",
+          "outcome": "Hacer una petición GET y leer el estado y las cabeceras de la respuesta.",
+          "activity": "execute",
+          "preview": "-i muestra las cabeceras; -v muestra también lo que envías.",
+          "body": "curl hace peticiones HTTP desde la terminal, sin navegador ni código. Es la forma más directa de comprobar qué responde una API. Sin opciones, hace un GET e imprime el cuerpo.\n\nCon -i ves además la línea de estado y las cabeceras de la respuesta. Con -v ves todo el intercambio, incluidas las cabeceras que envía curl; útil cuando algo no funciona y no sabes por qué.\n\nEjemplo\n```bash\ncurl -i https://jsonplaceholder.typicode.com/todos/1\n```\n\n```text\nHTTP/1.1 200 OK\nContent-Type: application/json; charset=utf-8\n...\n{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"delectus aut autem\",\n  \"completed\": false\n}\n```\n\nEn Windows PowerShell 5.1, curl puede ser un alias de otro comando; escribe curl.exe para usar el programa real.\n\nPráctica\nPide la tarea 1 con -i y localiza el estado y el tipo de contenido.\n\nSolución y comprobación\nEl estado es 200 OK y Content-Type indica application/json. Repite con -v y localiza las líneas que empiezan con >, que son lo que envió curl.",
+          "sources": [
+            {
+              "title": "curl: manual (inglés)",
+              "url": "https://curl.se/docs/manpage.html"
+            }
+          ]
+        },
+        {
+          "title": "Obtén solo el código de estado",
+          "description": "-o, -s y -w para comprobaciones rápidas.",
+          "outcome": "Extraer el código de estado de una respuesta para comprobaciones automáticas.",
+          "activity": "execute",
+          "preview": "-w \"%{http_code}\" imprime solo el número del estado.",
+          "body": "A veces solo quieres saber si un recurso existe o si un servicio responde. Combina tres opciones: -s silencia la barra de progreso, -o descarta el cuerpo enviándolo a un archivo nulo y -w imprime variables de la transferencia, como el código de estado.\n\nEjemplo\n```bash\ncurl -s -o /dev/null -w \"%{http_code}\\n\" https://jsonplaceholder.typicode.com/todos/1\ncurl -s -o /dev/null -w \"%{http_code}\\n\" https://jsonplaceholder.typicode.com/todos/9999\n```\n\nEn Windows, usa NUL en lugar de /dev/null.\n\nLos códigos se agrupan por centenas: 2xx éxito, 3xx redirección, 4xx error de quien pide (404 no existe, 401 falta autenticación, 422 datos inválidos) y 5xx error del servidor. Distinguirlos te dice dónde buscar el problema.\n\nTambién puedes medir tiempos con -w \"%{time_total}\\n\".\n\nPráctica\nComprueba el estado de las tareas 1 y 9999.\n\nSolución y comprobación\nLa primera devuelve 200 y la segunda 404. Si recibes 000, curl no obtuvo respuesta: revisa la conexión o la dirección.",
+          "sources": [
+            {
+              "title": "curl: manual (inglés)",
+              "url": "https://curl.se/docs/manpage.html"
+            },
+            {
+              "title": "MDN: códigos de estado de respuesta HTTP",
+              "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Status"
+            }
+          ]
+        },
+        {
+          "title": "Envía JSON con autenticación",
+          "description": "-X, -H y -d, con la clave en una variable.",
+          "outcome": "Enviar una petición POST con cuerpo JSON y cabecera de autenticación sin exponer la clave.",
+          "activity": "execute",
+          "preview": "Guarda la clave en una variable de entorno, no en el historial.",
+          "body": "Para crear un recurso, indica el método con -X, las cabeceras con -H y el cuerpo con -d. Muchas API requieren una clave en una cabecera, como Authorization o X-Api-Key. Escribirla directamente deja la clave en el historial de la terminal; guárdala antes en una variable de entorno.\n\nEjemplo\n```bash\nexport API_TOKEN=\"tu-clave-de-prueba\"\ncurl -s -X POST https://jsonplaceholder.typicode.com/posts \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer $API_TOKEN\" \\\n  -d '{\"title\": \"Hola\", \"userId\": 1}' \\\n  -w \"\\n%{http_code}\\n\"\n```\n\nJSONPlaceholder ignora la cabecera de autorización, pero la petición tiene la misma forma que en una API real. En PowerShell, la variable se define con $env:API_TOKEN = \"…\" y conviene guardar el cuerpo JSON en un archivo y enviarlo con -d @cuerpo.json para evitar problemas con las comillas.\n\nPráctica\nEnvía la publicación y comprueba el estado.\n\nSolución y comprobación\nLa respuesta repite tus datos con \"id\": 101 y el estado es 201.",
+          "sources": [
+            {
+              "title": "curl: manual (inglés)",
+              "url": "https://curl.se/docs/manpage.html"
+            }
+          ]
+        },
+        {
+          "title": "Usa curl en scripts que detecten fallos",
+          "description": "--fail y códigos de salida.",
+          "outcome": "Hacer que un script se detenga cuando una API responde con error.",
+          "activity": "design",
+          "preview": "Sin --fail, curl termina con éxito aunque reciba un 500.",
+          "body": "curl considera exitosa cualquier respuesta HTTP, incluso un 404 o un 500: su código de salida es 0. En un script de despliegue o de monitoreo eso oculta errores. Con --fail (o -f), curl termina con el código 22 cuando el estado es 400 o mayor. Con --fail-with-body, además conserva el cuerpo del error para leer el mensaje.\n\nEjemplo\n```bash\nif curl -sf https://jsonplaceholder.typicode.com/todos/9999 > /dev/null; then\n  echo \"Disponible\"\nelse\n  echo \"Falló con código $?\"\nfi\n```\n\nAñade también un límite de tiempo con --max-time 10, para que una API que no responde no deje tu script esperando indefinidamente, y --retry 3 si quieres reintentos ante fallos transitorios.\n\nPráctica\nEjecuta el script con la tarea 9999 y después con la tarea 1.\n\nSolución y comprobación\nCon 9999 imprime «Falló con código 22». Con 1 imprime «Disponible».",
+          "sources": [
+            {
+              "title": "curl: manual (inglés)",
+              "url": "https://curl.se/docs/manpage.html"
+            }
+          ]
+        }
+      ],
+      "price": 300
+    }
+  ],
+  "resources": [
+    {
+      "kind": "video",
+      "slug": "video-api-fetch",
+      "title": "Cómo consumir una API REST con JavaScript y fetch",
+      "topic": "desarrollo-web",
+      "video_url": "https://www.youtube.com/watch?v=FJ-w0tf3d_w",
+      "video_author": "midulive",
+      "description": "Explicación en español del uso de fetch para consumir una API REST desde JavaScript. Complementa el tutorial «Consume una API REST con fetch».",
+      "outcome": "Usar fetch para pedir y mostrar datos de una API en una página.",
+      "requirements": "Conocer variables y funciones de JavaScript.",
+      "activity": "understand",
+      "preview": "Video de midulive, reproducido desde YouTube."
+    },
+    {
+      "kind": "video",
+      "slug": "video-pytest",
+      "title": "PyTest: pruebas unitarias en Python",
+      "topic": "pruebas-calidad",
+      "video_url": "https://www.youtube.com/watch?v=JZ0TMkwMgp8",
+      "video_author": "UskoKruM2010",
+      "description": "Recorrido en español por la escritura de pruebas unitarias con pytest. Complementa el tutorial «Escribe tu primera prueba con pytest».",
+      "outcome": "Organizar y ejecutar pruebas unitarias de Python con pytest.",
+      "requirements": "Conocer funciones de Python.",
+      "activity": "understand",
+      "preview": "Video de UskoKruM2010, reproducido desde YouTube."
+    },
+    {
+      "kind": "material",
+      "slug": "hoja-git",
+      "title": "Hoja de referencia de Git",
+      "topic": "git-colaboracion",
+      "access": "free",
+      "description": "Las órdenes de Git de uso diario agrupadas por tarea, con una tabla para elegir cómo deshacer cada tipo de cambio.",
+      "outcome": "Elegir la orden de Git adecuada para cada tarea habitual y para deshacer cambios.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "execute",
+      "preview": "Incluye la tabla «¿Qué quiero deshacer?» con la orden segura para cada caso.",
+      "document": {
+        "subtitle": "Órdenes de uso diario. Requiere Git 2.23 o posterior para restore y switch.",
+        "sections": [
+          {
+            "heading": "Empezar",
+            "table": {
+              "columns": [
+                "Orden",
+                "Qué hace"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.45,
+                0.55
+              ],
+              "rows": [
+                [
+                  "git init",
+                  "Crea un repositorio en la carpeta actual"
+                ],
+                [
+                  "git clone URL",
+                  "Copia un repositorio remoto"
+                ],
+                [
+                  "git config --global user.name \"Nombre\"",
+                  "Define tu nombre para los commits"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Guardar cambios",
+            "table": {
+              "columns": [
+                "Orden",
+                "Qué hace"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.45,
+                0.55
+              ],
+              "rows": [
+                [
+                  "git status --short",
+                  "Estado de los archivos"
+                ],
+                [
+                  "git diff",
+                  "Cambios no preparados"
+                ],
+                [
+                  "git diff --staged",
+                  "Cambios preparados"
+                ],
+                [
+                  "git add archivo",
+                  "Prepara un archivo"
+                ],
+                [
+                  "git commit -m \"mensaje\"",
+                  "Guarda lo preparado"
+                ],
+                [
+                  "git log --oneline --graph",
+                  "Historial resumido"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Ramas y remoto",
+            "table": {
+              "columns": [
+                "Orden",
+                "Qué hace"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.45,
+                0.55
+              ],
+              "rows": [
+                [
+                  "git switch -c rama",
+                  "Crea una rama y cambia a ella"
+                ],
+                [
+                  "git switch main",
+                  "Vuelve a main"
+                ],
+                [
+                  "git merge rama",
+                  "Une una rama a la actual"
+                ],
+                [
+                  "git pull",
+                  "Trae e integra cambios remotos"
+                ],
+                [
+                  "git push -u origin rama",
+                  "Publica una rama nueva"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "¿Qué quiero deshacer?",
+            "table": {
+              "columns": [
+                "Situación",
+                "Orden",
+                "¿Pierde trabajo?"
+              ],
+              "mono": [
+                1
+              ],
+              "widths": [
+                0.38,
+                0.37,
+                0.25
+              ],
+              "rows": [
+                [
+                  "Cambios no preparados de un archivo",
+                  "git restore archivo",
+                  "Sí, esos cambios"
+                ],
+                [
+                  "Un git add",
+                  "git restore --staged archivo",
+                  "No"
+                ],
+                [
+                  "Último commit, sin publicar",
+                  "git reset --soft HEAD~1",
+                  "No"
+                ],
+                [
+                  "Mensaje del último commit, sin publicar",
+                  "git commit --amend",
+                  "No"
+                ],
+                [
+                  "Un commit ya publicado",
+                  "git revert ID",
+                  "No"
+                ],
+                [
+                  "Un reset equivocado",
+                  "git reflog y git reset --hard HEAD@{n}",
+                  "No, si el commit existió"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Reglas de seguridad",
+            "items": [
+              "Antes de deshacer, ejecuta `git status` y `git log --oneline`.",
+              "No reescribas commits que ya publicaste: usa revert.",
+              "Antes de una operación arriesgada, crea una rama de respaldo: `git branch respaldo`.",
+              "Haz commits pequeños y frecuentes: son más fáciles de revertir."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Pro Git: deshacer cosas",
+          "url": "https://git-scm.com/book/es/v2/Fundamentos-de-Git-Deshacer-Cosas"
+        },
+        {
+          "title": "Git: git revert (inglés)",
+          "url": "https://git-scm.com/docs/git-revert"
+        },
+        {
+          "title": "Git: git reflog (inglés)",
+          "url": "https://git-scm.com/docs/git-reflog"
+        }
+      ]
+    },
+    {
+      "kind": "material",
+      "slug": "guia-codigos-http",
+      "title": "Guía de códigos de estado HTTP para APIs",
+      "topic": "apis-backend",
+      "access": "paid",
+      "description": "Los códigos de estado que una API usa con más frecuencia, cuándo devolver cada uno y cómo debe reaccionar el cliente.",
+      "outcome": "Elegir el código de estado correcto en una API y manejar cada respuesta en el cliente.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Incluye una tabla de decisión para errores 4xx y un formato de error en JSON.",
+      "document": {
+        "subtitle": "Para quien diseña una API y para quien la consume.",
+        "sections": [
+          {
+            "heading": "Las cinco familias",
+            "table": {
+              "columns": [
+                "Rango",
+                "Significado",
+                "Quién debe actuar"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.15,
+                0.4,
+                0.45
+              ],
+              "rows": [
+                [
+                  "1xx",
+                  "Información provisional",
+                  "Nadie; poco frecuente en APIs"
+                ],
+                [
+                  "2xx",
+                  "Éxito",
+                  "El cliente usa la respuesta"
+                ],
+                [
+                  "3xx",
+                  "Redirección",
+                  "El cliente sigue la nueva dirección"
+                ],
+                [
+                  "4xx",
+                  "Error en la petición",
+                  "El cliente corrige y reintenta"
+                ],
+                [
+                  "5xx",
+                  "Error del servidor",
+                  "El servidor; el cliente puede reintentar más tarde"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Éxito",
+            "table": {
+              "columns": [
+                "Código",
+                "Cuándo usarlo"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.25,
+                0.75
+              ],
+              "rows": [
+                [
+                  "200 OK",
+                  "Lectura o acción completada con cuerpo de respuesta"
+                ],
+                [
+                  "201 Created",
+                  "Recurso creado; incluye su ubicación o su id"
+                ],
+                [
+                  "202 Accepted",
+                  "Aceptado para procesar más tarde"
+                ],
+                [
+                  "204 No Content",
+                  "Completado sin cuerpo, por ejemplo al borrar"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Errores del cliente",
+            "table": {
+              "columns": [
+                "Código",
+                "Cuándo usarlo",
+                "Reacción del cliente"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.22,
+                0.43,
+                0.35
+              ],
+              "rows": [
+                [
+                  "400 Bad Request",
+                  "Petición mal formada: JSON inválido",
+                  "Corregir el formato"
+                ],
+                [
+                  "401 Unauthorized",
+                  "Falta autenticación o es inválida",
+                  "Iniciar sesión o renovar el token"
+                ],
+                [
+                  "403 Forbidden",
+                  "Autenticado, pero sin permiso",
+                  "No reintentar; pedir acceso"
+                ],
+                [
+                  "404 Not Found",
+                  "El recurso no existe",
+                  "Revisar el identificador"
+                ],
+                [
+                  "409 Conflict",
+                  "Choca con el estado actual: duplicado",
+                  "Resolver el conflicto"
+                ],
+                [
+                  "422 Unprocessable Content",
+                  "Formato correcto, datos inválidos",
+                  "Mostrar los errores por campo"
+                ],
+                [
+                  "429 Too Many Requests",
+                  "Límite de peticiones superado",
+                  "Esperar lo que indique Retry-After"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Errores del servidor",
+            "table": {
+              "columns": [
+                "Código",
+                "Cuándo usarlo"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.3,
+                0.7
+              ],
+              "rows": [
+                [
+                  "500 Internal Server Error",
+                  "Fallo inesperado; registra el detalle en el servidor"
+                ],
+                [
+                  "502 Bad Gateway",
+                  "Un servicio intermedio recibió una respuesta inválida"
+                ],
+                [
+                  "503 Service Unavailable",
+                  "Mantenimiento o sobrecarga temporal"
+                ],
+                [
+                  "504 Gateway Timeout",
+                  "Un servicio intermedio no respondió a tiempo"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Un formato de error útil",
+            "paragraphs": [
+              "Devuelve siempre el mismo formato para que el cliente pueda mostrar mensajes claros."
+            ],
+            "code": "{\n  \"error\": \"datos_invalidos\",\n  \"mensaje\": \"Revisa los campos marcados.\",\n  \"campos\": {\"correo\": \"El formato del correo no es válido.\"}\n}"
+          },
+          {
+            "heading": "Reglas para el cliente",
+            "items": [
+              "Comprueba siempre el estado antes de leer el cuerpo.",
+              "Reintenta solo 429 y 5xx, con esperas crecientes.",
+              "No reintentes un POST sin una clave de idempotencia: podrías crear dos veces.",
+              "No muestres al usuario detalles internos de un 500."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "MDN: códigos de estado de respuesta HTTP",
+          "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Status"
+        }
+      ],
+      "price": 150
+    },
+    {
+      "kind": "reference",
+      "slug": "mdn-usar-fetch",
+      "title": "Usar Fetch",
+      "topic": "desarrollo-web",
+      "source_name": "MDN Web Docs",
+      "source_url": "https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch",
+      "description": "Guía de referencia de Mozilla sobre la API Fetch: peticiones, cabeceras, cuerpos, errores y cancelación. En español, con ejemplos para el navegador."
+    }
+  ]
+}

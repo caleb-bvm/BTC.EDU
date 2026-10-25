@@ -185,6 +185,12 @@ class StandaloneResource(Publication, EducationalUnit):
 
 
 class Video(StandaloneResource):
+    # Un video externo se reproduce con el reproductor de privacidad mejorada de YouTube,
+    # conserva el crédito de su autor y no se vende.
+    video_url = models.URLField("video de YouTube", max_length=200, blank=True, validators=[URLValidator(schemes=["https"])],
+                                help_text="Opcional, en lugar de un archivo MP4. El recurso queda gratuito.")
+    video_author = models.CharField("autor del video", max_length=160, blank=True)
+
     class Meta(StandaloneResource.Meta):
         abstract = False
         verbose_name = "video"
@@ -221,6 +227,8 @@ class ResourceVersion(FrozenRecord, EducationalUnit):
     body = models.TextField(blank=True)
     asset = models.ForeignKey("media.Asset", on_delete=models.PROTECT, null=True, blank=True, related_name="+")
     subtitles = models.ForeignKey("media.Asset", on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+    video_url = models.URLField(max_length=200, blank=True)
+    video_author = models.CharField(max_length=160, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -235,6 +243,11 @@ class ResourceVersion(FrozenRecord, EducationalUnit):
         if self.kind == "text":
             if self.asset_id or self.subtitles_id or not self.body.strip():
                 raise ValidationError("Un recurso de texto requiere contenido y no admite archivos.")
+        elif self.video_url or self.video_author:
+            from .reading import video_embed
+            if (self.kind != "video" or self.asset_id or self.subtitles_id or not video_embed(self.video_url)
+                    or not self.video_author.strip() or self.access_type != AccessType.FREE):
+                raise ValidationError("Un video de YouTube necesita un enlace válido, el autor y acceso gratuito, sin archivo.")
         elif not self.asset_id or self.asset.kind != self.kind or self.asset.creator_id != self.creator_id:
             raise ValidationError("El archivo debe pertenecer al creador y corresponder al formato del recurso.")
         if self.subtitles_id and (self.kind != "video" or self.subtitles.kind != "subtitle" or self.subtitles.creator_id != self.creator_id):

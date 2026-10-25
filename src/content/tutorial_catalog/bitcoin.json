@@ -1,0 +1,709 @@
+{
+  "tutorials": [
+    {
+      "slug": "explorador-de-bloques",
+      "title": "Sigue una transacción en un explorador de bloques",
+      "topic": "bitcoin",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 12,
+      "description": "Encuentra una transacción en mempool.space, lee sus entradas, salidas y comisión, y entiende qué significa cada confirmación.",
+      "objective": "Consultar el estado de cualquier transacción de Bitcoin e interpretar entradas, salidas, comisión y confirmaciones.",
+      "requirements": "Un navegador. No necesitas una billetera ni fondos: practicarás con una transacción histórica pública.",
+      "steps": [
+        {
+          "title": "Busca la transacción por su identificador",
+          "description": "Qué es un txid y cómo buscarlo sin exponer de más.",
+          "outcome": "Encontrar una transacción en un explorador a partir de su identificador.",
+          "activity": "execute",
+          "preview": "Usarás la transacción de las pizzas de 2010 como práctica.",
+          "body": "Cada transacción de Bitcoin tiene un identificador, el txid: 64 caracteres hexadecimales que resultan de aplicar una función hash a la transacción. Tu billetera lo muestra en los detalles de cada envío o recepción, a veces con el nombre «ID de transacción». Un explorador de bloques, como mempool.space, lee la cadena de bloques pública y te permite buscar por txid, por dirección o por altura de bloque.\n\nTen presente la privacidad: cuando buscas tu propia dirección en un explorador público, ese sitio puede asociar tu dirección IP con tu interés por esa dirección. Para consultas frecuentes conviene usar una red privada, como Tor, o un explorador conectado a tu propio nodo; mempool.space también se puede instalar en casa.\n\nEjemplo\nLa transacción con la que Laszlo Hanyecz pagó dos pizzas en mayo de 2010 tiene este txid:\n```text\na1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d\n```\n\nPráctica\nAbre mempool.space, pega el txid en el buscador y abre el resultado. Anota la fecha del bloque, su altura y cuántas entradas y salidas tiene.\n\nSolución y comprobación\nLa página de la transacción muestra el bloque donde se incluyó y su fecha de mayo de 2010. Si ves «No encontrado», revisa que copiaste los 64 caracteres sin espacios.",
+          "sources": [
+            {
+              "title": "mempool.space: preguntas frecuentes",
+              "url": "https://mempool.space/docs/faq"
+            },
+            {
+              "title": "Bitcoin Developer Guide: transacciones",
+              "url": "https://developer.bitcoin.org/devguide/transactions.html"
+            }
+          ]
+        },
+        {
+          "title": "Lee entradas, salidas y comisión",
+          "description": "Cómo se consumen salidas anteriores y de dónde sale la comisión.",
+          "outcome": "Explicar entradas, salidas, cambio y comisión de una transacción.",
+          "activity": "understand",
+          "preview": "La comisión no aparece como una salida: es la diferencia entre lo que entra y lo que sale.",
+          "body": "Bitcoin no guarda saldos por cuenta. Cada transacción consume salidas no gastadas de transacciones anteriores (UTXO) y crea salidas nuevas. Las entradas apuntan a esas salidas previas y aportan la prueba de que quien gasta controla las claves. Las salidas indican cuánto recibe cada dirección.\n\nComo una salida se gasta completa, casi siempre aparece una salida de cambio que devuelve el excedente a quien envía. Por eso un pago sencillo suele tener una salida para el destinatario y otra para el cambio. La comisión no figura como salida: es la suma de las entradas menos la suma de las salidas, y se la queda el minero que incluye la transacción en un bloque.\n\nEjemplo\nUna transacción gasta una entrada de 50 000 sats y crea dos salidas: 30 000 sats para el comercio y 19 000 sats de cambio. La comisión es 50 000 − 30 000 − 19 000 = 1 000 sats.\n\nPráctica\nCalcula la comisión de una transacción con entradas de 120 000 y 80 000 sats, y salidas de 150 000 y 48 500 sats.\n\nSolución y comprobación\nEntradas: 200 000 sats. Salidas: 198 500 sats. Comisión: 1 500 sats. En el explorador, compara tu cálculo con el campo «Comisión» de cualquier transacción reciente.",
+          "sources": [
+            {
+              "title": "Bitcoin Developer Guide: transacciones",
+              "url": "https://developer.bitcoin.org/devguide/transactions.html"
+            },
+            {
+              "title": "mempool.space: preguntas frecuentes",
+              "url": "https://mempool.space/docs/faq"
+            }
+          ]
+        },
+        {
+          "title": "Interpreta el estado y las confirmaciones",
+          "description": "Qué significa estar en la mempool y cuántas confirmaciones esperar.",
+          "outcome": "Calcular las confirmaciones de una transacción y decidir cuándo considerarla firme.",
+          "activity": "understand",
+          "preview": "Una confirmación es un bloque; cada bloque nuevo encima suma otra.",
+          "body": "Una transacción recién enviada queda en la mempool: el conjunto de transacciones válidas que los nodos conocen y que todavía no están en un bloque. En ese estado el explorador la marca como «sin confirmar». Cuando un minero la incluye en un bloque recibe su primera confirmación, y cada bloque que se añade después suma otra.\n\nLas confirmaciones importan porque revertir una transacción exigiría rehacer todos esos bloques con más trabajo que el resto de la red. Para importes pequeños muchos comercios aceptan una confirmación; seis es una referencia habitual para importes grandes. Decide según el riesgo que asumes, no por costumbre.\n\nEjemplo\nSi la transacción está en el bloque 870 000 y el último bloque es el 870 005, tiene 870 005 − 870 000 + 1 = 6 confirmaciones.\n\nPráctica\nUna transacción entró en el bloque 900 120 y el último bloque es el 900 122. ¿Cuántas confirmaciones tiene?\n\nSolución y comprobación\nTiene 3 confirmaciones. En el explorador, el número aparece junto al estado de la transacción y aumenta con cada bloque nuevo, en promedio cada diez minutos.",
+          "sources": [
+            {
+              "title": "mempool.space: preguntas frecuentes",
+              "url": "https://mempool.space/docs/faq"
+            },
+            {
+              "title": "Bitcoin: documento original en español",
+              "url": "https://bitcoin.org/files/bitcoin-paper/bitcoin_es.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "respaldo-frase-semilla",
+      "title": "Comprueba el respaldo de tu frase semilla",
+      "topic": "seguridad",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Anota tu frase semilla sin copias digitales, prueba que restaura la misma billetera antes de recibir fondos y guárdala con un plan.",
+      "objective": "Verificar que un respaldo de frase semilla restaura la billetera correcta y guardarlo de forma segura.",
+      "requirements": "Una billetera de Bitcoin recién creada y sin fondos, papel y bolígrafo. Si ya tienes fondos, haz la prueba con una billetera nueva.",
+      "steps": [
+        {
+          "title": "Anota la frase sin dejar copias digitales",
+          "description": "Cómo escribir las palabras sin errores ni rastros en tus dispositivos.",
+          "outcome": "Registrar una frase semilla completa, en orden y sin copias digitales.",
+          "activity": "execute",
+          "preview": "Basta con las cuatro primeras letras de cada palabra para distinguirla en la lista inglesa.",
+          "body": "La frase semilla, también llamada frase de recuperación, suele tener 12 o 24 palabras tomadas de una lista estándar de 2048 (BIP 39). De ella se derivan todas las claves de tu billetera: quien la tenga controla tus fondos, y si la pierdes y se daña el dispositivo, no hay a quién reclamar.\n\nEscríbela a mano, numerando cada palabra, porque el orden importa. No le tomes foto, no la copies en notas, correo ni nube, y no la escribas en ningún sitio web. En la lista inglesa, las cuatro primeras letras identifican cada palabra sin ambigüedad: úsalo para revisar la ortografía.\n\nSi tu billetera ofrece una frase de contraseña adicional (passphrase), recuerda que forma parte del respaldo: sin ella, la misma semilla abre una billetera distinta.\n\nPráctica\nCopia tu frase en papel con números del 1 al 12 o al 24. Después compárala palabra por palabra con la pantalla de la billetera.\n\nSolución y comprobación\nEl respaldo está completo si tiene todas las palabras, numeradas y legibles, y no existe ninguna copia digital. Muchas billeteras piden confirmar algunas palabras al final: si falla, vuelve a copiar.",
+          "sources": [
+            {
+              "title": "BIP 39: código mnemónico para claves deterministas",
+              "url": "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki"
+            },
+            {
+              "title": "bitcoin.org: asegura tu billetera (inglés)",
+              "url": "https://bitcoin.org/en/secure-your-wallet"
+            }
+          ]
+        },
+        {
+          "title": "Restaura la billetera antes de recibir fondos",
+          "description": "Una prueba sencilla que confirma que el respaldo funciona.",
+          "outcome": "Comprobar que la frase restaura la misma billetera comparando la primera dirección.",
+          "activity": "execute",
+          "preview": "Si la primera dirección coincide, tu respaldo restaura la billetera correcta.",
+          "body": "Un respaldo que nunca probaste es una suposición. La forma más simple de comprobarlo es restaurar la billetera mientras todavía está vacía y comparar una dirección de recepción.\n\nPrimero anota la primera dirección de recepción que muestra tu billetera. Después elimina la billetera de la aplicación, o usa otra aplicación compatible con BIP 39, y elige «Restaurar» o «Importar» con tu frase. Al terminar, abre de nuevo la primera dirección de recepción.\n\nEjemplo\nAntes de la prueba la billetera mostraba una dirección que empieza con bc1q. Después de restaurar, la primera dirección debe ser exactamente la misma.\n\nPráctica\nHaz la prueba con tu billetera vacía y compara los primeros y últimos seis caracteres de la dirección.\n\nSolución y comprobación\nSi la dirección coincide, el respaldo es correcto. Si no coincide y usaste otra aplicación, revisa el tipo de dirección o la ruta de derivación: una billetera puede usar SegWit nativo (bc1q) y otra el formato anterior. Si coincide el tipo y aun así difiere, revisa una por una las palabras y la frase de contraseña. No recibas fondos hasta que coincida.",
+          "sources": [
+            {
+              "title": "BIP 39: código mnemónico para claves deterministas",
+              "url": "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki"
+            },
+            {
+              "title": "bitcoin.org: asegura tu billetera (inglés)",
+              "url": "https://bitcoin.org/en/secure-your-wallet"
+            }
+          ]
+        },
+        {
+          "title": "Guarda el respaldo y planifica su revisión",
+          "description": "Dónde guardarlo y cómo evitar fraudes.",
+          "outcome": "Elegir ubicaciones para el respaldo y reconocer las solicitudes fraudulentas.",
+          "activity": "design",
+          "preview": "Ningún soporte legítimo te pedirá tu frase semilla.",
+          "body": "Un solo lugar es un solo punto de falla. Considera dos ubicaciones físicas separadas, protegidas del agua y del fuego; para importes grandes, una placa de metal resiste mejor que el papel. Cada copia adicional también es una oportunidad más de robo, así que decide cuántas necesitas según tu situación.\n\nPiensa en quién podría necesitar recuperar los fondos si te ocurre algo. Puedes dejar instrucciones sobre dónde está el respaldo y qué aplicación usar sin escribir la frase en ese documento.\n\nLa regla de seguridad más importante: nadie legítimo te pedirá tu frase. Ni el soporte de una billetera, ni un exchange, ni un sitio que promete «sincronizar» o «validar» tu billetera. Quien la pide quiere tus fondos.\n\nPráctica\nEscribe dónde guardarás cada copia, quién sabe que existe y cada cuánto revisarás que sigue legible.\n\nSolución y comprobación\nUn buen plan nombra ubicaciones concretas, evita copias digitales y fija una revisión, por ejemplo una vez al año, sin volver a escribir la frase en ningún dispositivo.",
+          "sources": [
+            {
+              "title": "bitcoin.org: asegura tu billetera (inglés)",
+              "url": "https://bitcoin.org/en/secure-your-wallet"
+            },
+            {
+              "title": "BIP 39: código mnemónico para claves deterministas",
+              "url": "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "leer-factura-lightning",
+      "title": "Lee una factura Lightning antes de pagarla",
+      "topic": "lightning",
+      "access": "freemium",
+      "level": "beginner",
+      "minutes": 10,
+      "description": "Reconoce la red, el monto, la descripción y el vencimiento de una factura BOLT 11, y págala una sola vez con comprobante.",
+      "objective": "Revisar los datos de una factura Lightning antes de pagarla y entender el comprobante de pago.",
+      "requirements": "Una billetera Lightning, real o de prueba. No necesitas pagar nada para practicar.",
+      "steps": [
+        {
+          "title": "Reconoce las partes de una factura",
+          "description": "Prefijo de red, monto, separador, datos y firma.",
+          "outcome": "Identificar la red y el monto de una factura a partir de su prefijo.",
+          "activity": "understand",
+          "preview": "lnbc2500u significa 250 000 sats en la red principal.",
+          "body": "Una factura Lightning en formato BOLT 11 es un texto que empieza con «ln». Le sigue el prefijo de red: lnbc para la red principal de Bitcoin, lntb para testnet, lntbs para signet y lnbcrt para regtest. Después puede venir el monto, un separador «1» y la parte de datos, que incluye la fecha de creación, el hash del pago, la descripción, el vencimiento y la firma de quien cobra.\n\nEl monto se expresa en bitcoin con un multiplicador opcional: m (mili, 0,001), u (micro, 0,000001), n (nano) y p (pico). Como 1 BTC son 100 000 000 sats, conviene convertir siempre a sats.\n\nEjemplo\nEn lnbc2500u…, el monto es 2500 × 0,000001 BTC = 0,0025 BTC = 250 000 sats. En lnbc20m…, es 20 × 0,001 BTC = 0,02 BTC = 2 000 000 sats.\n\nPráctica\nConvierte a sats los montos de lnbc10u, lnbc500n y lnbc1m.\n\nSolución y comprobación\n10u son 1000 sats; 500n son 50 sats; 1m son 100 000 sats. Tu billetera mostrará el mismo monto al leer la factura.",
+          "sources": [
+            {
+              "title": "BOLT 11: protocolo de facturas de Lightning",
+              "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+            }
+          ]
+        },
+        {
+          "title": "Comprueba monto, descripción y vencimiento",
+          "description": "Lo que debes mirar en la pantalla de confirmación.",
+          "outcome": "Detectar una factura vencida, sin monto o con datos que no corresponden al pedido.",
+          "activity": "execute",
+          "preview": "Una factura sin monto deja que tú lo escribas: revisa dos veces.",
+          "body": "Antes de pagar, la billetera decodifica la factura y muestra sus datos. Comprueba tres cosas. El monto en sats debe coincidir con lo acordado; si la factura no trae monto, la billetera te pedirá escribirlo, y ahí un cero de más es fácil. La descripción debe corresponder al pedido. Y el vencimiento: si la factura no indica otro, BOLT 11 fija una hora (3600 segundos) desde su creación; muchos comercios usan quince minutos.\n\nSi la factura venció, no intentes pagarla: pide una nueva. Si el monto o la descripción no corresponden, no pagues y confirma con quien cobra por otro canal.\n\nEjemplo\nUn comercio te muestra un código QR por un café de 4500 sats. Tu billetera lee 45 000 sats. Algo está mal: cancela y pide que generen la factura otra vez.\n\nPráctica\nGenera en tu billetera una factura de 1234 sats con la descripción «Prueba» y léela desde otra billetera o desde la opción de pegar factura, sin pagarla.\n\nSolución y comprobación\nLa pantalla de pago debe mostrar 1234 sats, la descripción «Prueba» y el tiempo restante. Cancela el pago al terminar la revisión.",
+          "sources": [
+            {
+              "title": "BOLT 11: protocolo de facturas de Lightning",
+              "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+            }
+          ]
+        },
+        {
+          "title": "Paga una sola vez y conserva el comprobante",
+          "description": "Facturas de un solo uso y la preimagen como prueba de pago.",
+          "outcome": "Explicar por qué una factura se paga una vez y qué prueba el pago.",
+          "activity": "understand",
+          "preview": "La preimagen que recibes al pagar es tu comprobante.",
+          "body": "Cada factura BOLT 11 contiene un hash de pago. Quien cobra conoce un secreto, la preimagen, cuyo hash SHA-256 es ese valor. Cuando el pago llega, el cobrador revela la preimagen para recibir los fondos, y esa preimagen viaja de regreso hasta tu billetera. Tener la preimagen demuestra que el pago se completó.\n\nPor eso las facturas son de un solo uso: el comercio genera una nueva para cada cobro. Si tu billetera dice que el pago está «en curso», espera antes de reintentar; pagar otra factura por el mismo pedido podría dejarte con dos pagos. Si el pago falla, la billetera lo indica y los fondos no salen.\n\nPráctica\nBusca en el historial de tu billetera un pago Lightning completado y localiza el hash de pago o la preimagen en sus detalles.\n\nSolución y comprobación\nMuchas billeteras muestran ambos valores en los detalles del pago. Si un comercio duda de tu pago, la preimagen junto con la factura sirve como prueba.",
+          "sources": [
+            {
+              "title": "BOLT 11: protocolo de facturas de Lightning",
+              "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+            }
+          ]
+        }
+      ],
+      "price": 210
+    },
+    {
+      "slug": "calcular-comision",
+      "title": "Calcula la comisión de una transacción en sat/vB",
+      "topic": "bitcoin",
+      "access": "freemium",
+      "level": "intermediate",
+      "minutes": 15,
+      "description": "Entiende el tamaño virtual, calcula la comisión con la tasa en sat/vB y acelera una transacción atascada con RBF o CPFP.",
+      "objective": "Estimar la comisión de una transacción de Bitcoin y corregir una comisión insuficiente.",
+      "requirements": "Haber enviado o visto una transacción de Bitcoin. El primer tutorial de esta categoría ayuda a leer entradas y salidas.",
+      "steps": [
+        {
+          "title": "Entiende el peso y el tamaño virtual",
+          "description": "Por qué la comisión depende de bytes y no del monto.",
+          "outcome": "Explicar unidades de peso y tamaño virtual de una transacción.",
+          "activity": "understand",
+          "preview": "Enviar 1000 o 1 000 000 sats puede costar la misma comisión.",
+          "body": "El espacio de cada bloque es limitado, así que los mineros priorizan las transacciones que pagan más por cada unidad de espacio. Por eso la comisión depende del tamaño de la transacción y no del monto enviado.\n\nDesde SegWit (BIP 141) el tamaño se mide en unidades de peso. Los bytes que no son de testigo cuentan cuatro veces y los bytes de testigo (las firmas en SegWit) cuentan una vez. El tamaño virtual, en vbytes (vB), es el peso dividido entre cuatro, redondeado hacia arriba. Un bloque admite como máximo 4 000 000 unidades de peso.\n\nEjemplo\nUna transacción con 100 bytes sin testigo y 110 bytes de testigo pesa 100 × 4 + 110 = 510 unidades. Su tamaño virtual es 510 / 4 = 127,5, es decir, 128 vB.\n\nPráctica\nCalcula el tamaño virtual de una transacción con 150 bytes sin testigo y 220 bytes de testigo.\n\nSolución y comprobación\nPeso: 150 × 4 + 220 = 820. Tamaño virtual: 205 vB. En mempool.space, la página de cada transacción muestra su tamaño virtual y su peso.",
+          "sources": [
+            {
+              "title": "BIP 141: Segregated Witness (peso y tamaño virtual)",
+              "url": "https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki"
+            },
+            {
+              "title": "mempool.space: preguntas frecuentes",
+              "url": "https://mempool.space/docs/faq"
+            }
+          ]
+        },
+        {
+          "title": "Calcula la comisión con la tasa",
+          "description": "Comisión = tasa en sat/vB × tamaño virtual.",
+          "outcome": "Calcular la comisión de una transacción a partir de su tamaño y la tasa elegida.",
+          "activity": "execute",
+          "preview": "Cada entrada SegWit nativa añade unos 68 vB.",
+          "body": "La tasa se expresa en sats por vbyte. La comisión total es la tasa multiplicada por el tamaño virtual. Las billeteras calculan el tamaño por ti, pero conviene estimarlo para entender por qué consolidar muchas entradas pequeñas sale caro.\n\nComo referencia, una transacción SegWit nativa (P2WPKH) con una entrada y dos salidas mide alrededor de 141 vB, y cada entrada adicional del mismo tipo añade unos 68 vB. Las cifras exactas varían unos pocos bytes según las firmas.\n\nEjemplo\nA 5 sat/vB, una transacción de 141 vB paga 5 × 141 = 705 sats. A 20 sat/vB, paga 2820 sats.\n\nPráctica\nEstima la comisión de una transacción P2WPKH con dos entradas y dos salidas a 12 sat/vB.\n\nSolución y comprobación\nTamaño aproximado: 141 + 68 = 209 vB. Comisión: 12 × 209 = 2508 sats. Antes de firmar, tu billetera muestra la comisión final; debe estar cerca de tu estimación.",
+          "sources": [
+            {
+              "title": "BIP 141: Segregated Witness (peso y tamaño virtual)",
+              "url": "https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki"
+            },
+            {
+              "title": "mempool.space: preguntas frecuentes",
+              "url": "https://mempool.space/docs/faq"
+            }
+          ]
+        },
+        {
+          "title": "Elige la tasa y acelera una transacción atascada",
+          "description": "Recomendaciones del explorador, RBF y CPFP.",
+          "outcome": "Elegir una tasa según la urgencia y calcular un aumento de comisión.",
+          "activity": "execute",
+          "preview": "CPFP: una transacción hija paga por su madre.",
+          "body": "Los exploradores, como mempool.space, recomiendan tasas según el estado de la mempool: baja prioridad, media y alta. Si no tienes prisa, una tasa baja puede tardar horas o días en confirmarse.\n\nSi una transacción queda atascada hay dos salidas. Con RBF (reemplazo por comisión, BIP 125) envías una versión nueva que paga más; tu billetera lo ofrece como «Aumentar comisión». Con CPFP (la hija paga por la madre) gastas una salida de la transacción atascada, normalmente tu cambio, con una comisión alta: los mineros valoran el paquete completo.\n\nEjemplo\nLa transacción madre mide 141 vB y pagó 2 sat/vB, es decir, 282 sats. Quieres que el paquete llegue a 15 sat/vB con una hija de 110 vB. El paquete mide 251 vB y necesita 15 × 251 = 3765 sats. La hija debe pagar 3765 − 282 = 3483 sats.\n\nPráctica\nCon una madre de 200 vB que pagó 400 sats y una hija de 141 vB, ¿cuánto debe pagar la hija para que el paquete alcance 10 sat/vB?\n\nSolución y comprobación\nEl paquete mide 341 vB y necesita 3410 sats; la hija paga 3410 − 400 = 3010 sats. En el explorador verás la tasa efectiva del paquete cuando ambas estén en la mempool.",
+          "sources": [
+            {
+              "title": "BIP 125: reemplazo por comisión (RBF)",
+              "url": "https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki"
+            },
+            {
+              "title": "mempool.space: preguntas frecuentes",
+              "url": "https://mempool.space/docs/faq"
+            }
+          ]
+        }
+      ],
+      "price": 240
+    },
+    {
+      "slug": "factura-api-lnbits",
+      "title": "Crea y consulta una factura con la API de LNbits",
+      "topic": "desarrollo-lightning",
+      "access": "paid",
+      "level": "intermediate",
+      "minutes": 20,
+      "description": "Usa la clave de facturas de LNbits para crear una factura con curl, guardar su hash y comprobar desde tu servidor si fue pagada.",
+      "objective": "Integrar el cobro con Lightning en una aplicación usando la API de LNbits sin exponer claves.",
+      "requirements": "Una instancia de LNbits de prueba (por ejemplo, con FakeWallet o en testnet), curl y una terminal. Saber qué es una petición HTTP.",
+      "steps": [
+        {
+          "title": "Obtén y protege la clave de facturas",
+          "description": "Qué clave usar y dónde guardarla.",
+          "outcome": "Distinguir la clave de administración de la clave de facturas y guardarla fuera del código.",
+          "activity": "understand",
+          "preview": "Tu servidor solo necesita la clave que crea y consulta facturas.",
+          "body": "Cada billetera de LNbits tiene dos claves de API. La clave de administración puede enviar pagos; la clave de facturas, también llamada de lectura, solo crea facturas y consulta su estado. Un servidor que cobra no necesita gastar, así que usa la clave de facturas: si se filtra, nadie puede vaciar la billetera con ella.\n\nEncontrarás las claves en la página de la billetera, en la sección de claves de API. Guárdala en una variable de entorno o en el gestor de secretos de tu servidor, nunca en el código del navegador ni en el repositorio.\n\nEjemplo\n```bash\nexport LNBITS_URL=\"https://lnbits.ejemplo.test\"\nexport LNBITS_INVOICE_KEY=\"pega-aquí-la-clave-de-facturas\"\n```\n\nPráctica\nCrea una billetera de prueba en tu instancia de LNbits, copia la clave de facturas y guárdala en una variable de entorno.\n\nSolución y comprobación\nEjecuta `echo $LNBITS_URL` para confirmar la dirección. No imprimas la clave en registros compartidos ni capturas de pantalla.",
+          "sources": [
+            {
+              "title": "Documentación de LNbits",
+              "url": "https://docs.lnbits.org/"
+            }
+          ]
+        },
+        {
+          "title": "Crea la factura con una petición POST",
+          "description": "El cuerpo mínimo y los datos que debes guardar.",
+          "outcome": "Crear una factura de prueba y guardar su hash de pago.",
+          "activity": "execute",
+          "preview": "out: false significa que la billetera recibe.",
+          "body": "Para crear una factura envía un POST a /api/v1/payments con la clave en la cabecera X-Api-Key. El campo out en false indica que la billetera recibe. amount va en sats, memo es la descripción visible y expiry, el vencimiento en segundos.\n\nEjemplo\n```bash\ncurl -X POST \"$LNBITS_URL/api/v1/payments\" \\\n  -H \"X-Api-Key: $LNBITS_INVOICE_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"out\": false, \"amount\": 1000, \"memo\": \"Pedido 42\", \"expiry\": 900}'\n```\n\nLa respuesta incluye payment_hash, que identifica el pago, y la factura en el campo bolt11 (las versiones anteriores la llamaban payment_request). Guarda el hash junto al pedido en tu base de datos: es la referencia para comprobar el pago sin depender de lo que diga el navegador.\n\nPráctica\nCrea una factura de 1000 sats con vencimiento de 900 segundos y guarda payment_hash y bolt11.\n\nSolución y comprobación\nLa factura debe empezar con el prefijo de tu red y, al leerla en una billetera, mostrar 1000 sats y la descripción «Pedido 42».",
+          "sources": [
+            {
+              "title": "Documentación de LNbits",
+              "url": "https://docs.lnbits.org/"
+            },
+            {
+              "title": "BOLT 11: protocolo de facturas de Lightning",
+              "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+            }
+          ]
+        },
+        {
+          "title": "Comprueba el pago desde tu servidor",
+          "description": "Consulta el estado y entrega solo con paid en true.",
+          "outcome": "Confirmar un pago desde el servidor antes de entregar el producto.",
+          "activity": "execute",
+          "preview": "Nunca entregues por un aviso del navegador: pregunta a LNbits.",
+          "body": "Para saber si una factura fue pagada, consulta /api/v1/payments/ seguido del hash, con la misma clave. La respuesta incluye paid: true cuando el pago se completó.\n\nEjemplo\n```bash\ncurl \"$LNBITS_URL/api/v1/payments/$PAYMENT_HASH\" \\\n  -H \"X-Api-Key: $LNBITS_INVOICE_KEY\"\n```\n\nEntrega el producto únicamente cuando tu servidor reciba paid: true, nunca porque el navegador diga que se pagó. Si consultas periódicamente, hazlo cada pocos segundos y deja de consultar al vencer la factura. Registra la entrega junto al hash para que una consulta repetida no entregue dos veces. BTC.EDU sigue este mismo recorrido al confirmar tus compras.\n\nPráctica\nConsulta el estado de tu factura antes de pagarla y después de pagarla desde una billetera de prueba.\n\nSolución y comprobación\nAntes del pago, paid es false. Después, paid es true. Si tu instancia usa FakeWallet, paga desde otra billetera de la misma instancia.",
+          "sources": [
+            {
+              "title": "Documentación de LNbits",
+              "url": "https://docs.lnbits.org/"
+            }
+          ]
+        }
+      ],
+      "price": 450
+    }
+  ],
+  "resources": [
+    {
+      "kind": "video",
+      "slug": "video-semilla-bitcoin",
+      "title": "¿Qué es la semilla en Bitcoin?",
+      "topic": "seguridad",
+      "video_url": "https://www.youtube.com/watch?v=0LUb2THvaUE",
+      "video_author": "Bitcoin Desde Cero",
+      "description": "Explicación en español de la frase semilla como raíz de tu billetera. Complementa el tutorial «Comprueba el respaldo de tu frase semilla».",
+      "outcome": "Explicar qué es la frase semilla y por qué controla todas las claves de una billetera.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video de Bitcoin Desde Cero, reproducido desde YouTube."
+    },
+    {
+      "kind": "video",
+      "slug": "video-que-es-bitcoin",
+      "title": "¿Qué es Bitcoin y cómo funciona?",
+      "topic": "bitcoin",
+      "video_url": "https://www.youtube.com/watch?v=S2HxMK7iO4c",
+      "video_author": "Magic Markers",
+      "description": "Animación en español que presenta Bitcoin, la cadena de bloques y la minería. Un punto de partida antes de los tutoriales de transacciones y comisiones.",
+      "outcome": "Describir con tus palabras qué es Bitcoin y qué papel cumplen la cadena de bloques y la minería.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video animado de Magic Markers, reproducido desde YouTube."
+    },
+    {
+      "kind": "material",
+      "slug": "hoja-unidades-direcciones",
+      "title": "Hoja de referencia: unidades, direcciones y comisiones",
+      "topic": "bitcoin",
+      "access": "free",
+      "description": "Una página para consultar conversiones de unidades, prefijos de direcciones y facturas, y las fórmulas de comisión y confirmaciones.",
+      "outcome": "Convertir unidades, reconocer el tipo de una dirección o factura y estimar comisiones.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "execute",
+      "preview": "Incluye la tabla de prefijos de direcciones desde 1… hasta bc1p….",
+      "document": {
+        "subtitle": "Unidades, prefijos y fórmulas para consultar mientras usas Bitcoin y Lightning.",
+        "sections": [
+          {
+            "heading": "Unidades",
+            "table": {
+              "columns": [
+                "Unidad",
+                "Equivale a",
+                "Uso habitual"
+              ],
+              "mono": [
+                1
+              ],
+              "widths": [
+                0.25,
+                0.35,
+                0.4
+              ],
+              "rows": [
+                [
+                  "1 bitcoin (BTC)",
+                  "100 000 000 sats",
+                  "Precios y saldos grandes"
+                ],
+                [
+                  "1 milibitcoin (mBTC)",
+                  "100 000 sats",
+                  "Poco usado hoy"
+                ],
+                [
+                  "1 microbitcoin (µBTC, bit)",
+                  "100 sats",
+                  "Algunas billeteras"
+                ],
+                [
+                  "1 satoshi (sat)",
+                  "0,00000001 BTC",
+                  "Precios pequeños y comisiones"
+                ],
+                [
+                  "1 milisatoshi (msat)",
+                  "0,001 sats",
+                  "Contabilidad interna de Lightning"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Prefijos de direcciones",
+            "table": {
+              "columns": [
+                "Empieza con",
+                "Tipo",
+                "Notas"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.2,
+                0.35,
+                0.45
+              ],
+              "rows": [
+                [
+                  "1",
+                  "P2PKH (heredada)",
+                  "Formato original; comisiones más altas"
+                ],
+                [
+                  "3",
+                  "P2SH",
+                  "Multifirma o SegWit envuelto"
+                ],
+                [
+                  "bc1q",
+                  "SegWit nativo v0 (P2WPKH, P2WSH)",
+                  "Comisiones menores; minúsculas"
+                ],
+                [
+                  "bc1p",
+                  "Taproot (SegWit v1)",
+                  "Disponible desde 2021"
+                ],
+                [
+                  "tb1 / bcrt1",
+                  "Testnet o signet / regtest",
+                  "Sin valor; solo pruebas"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Facturas Lightning (BOLT 11)",
+            "paragraphs": [
+              "El prefijo indica la red y el multiplicador indica el monto. Convierte siempre a sats antes de pagar."
+            ],
+            "table": {
+              "columns": [
+                "Elemento",
+                "Significado"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.3,
+                0.7
+              ],
+              "rows": [
+                [
+                  "lnbc",
+                  "Red principal de Bitcoin"
+                ],
+                [
+                  "lntb / lntbs",
+                  "Testnet / signet"
+                ],
+                [
+                  "lnbcrt",
+                  "Regtest"
+                ],
+                [
+                  "m",
+                  "× 0,001 BTC (100 000 sats)"
+                ],
+                [
+                  "u",
+                  "× 0,000001 BTC (100 sats)"
+                ],
+                [
+                  "n",
+                  "× 0,000000001 BTC (0,1 sats)"
+                ],
+                [
+                  "p",
+                  "× 0,000000000001 BTC (0,0001 sats)"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Fórmulas",
+            "items": [
+              "Peso = bytes sin testigo × 4 + bytes de testigo.",
+              "Tamaño virtual (vB) = peso ÷ 4, redondeado hacia arriba.",
+              "Comisión (sats) = tasa (sat/vB) × tamaño virtual.",
+              "Tasa de un paquete CPFP = (comisión madre + comisión hija) ÷ (vB madre + vB hija).",
+              "Confirmaciones = altura del último bloque − altura del bloque de la transacción + 1."
+            ]
+          },
+          {
+            "heading": "Referencias de tamaño",
+            "paragraphs": [
+              "Valores aproximados para P2WPKH; las firmas hacen variar unos pocos bytes."
+            ],
+            "table": {
+              "columns": [
+                "Transacción",
+                "Tamaño aproximado"
+              ],
+              "mono": [
+                1
+              ],
+              "widths": [
+                0.6,
+                0.4
+              ],
+              "rows": [
+                [
+                  "1 entrada, 2 salidas",
+                  "141 vB"
+                ],
+                [
+                  "Cada entrada adicional",
+                  "+68 vB"
+                ],
+                [
+                  "Cada salida adicional",
+                  "+31 vB"
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "BIP 141: Segregated Witness (peso y tamaño virtual)",
+          "url": "https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki"
+        },
+        {
+          "title": "BOLT 11: protocolo de facturas de Lightning",
+          "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+        },
+        {
+          "title": "Bitcoin Developer Guide: transacciones",
+          "url": "https://developer.bitcoin.org/devguide/transactions.html"
+        }
+      ]
+    },
+    {
+      "kind": "material",
+      "slug": "plan-custodia-semilla",
+      "title": "Plan de custodia de tu frase semilla",
+      "topic": "seguridad",
+      "access": "paid",
+      "description": "Plantilla imprimible para registrar tus billeteras sin escribir la frase, comprobar el respaldo, elegir ubicaciones y dejar instrucciones a tus herederos.",
+      "outcome": "Documentar y revisar la custodia de tus respaldos sin exponer la frase semilla.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "design",
+      "preview": "Incluye una lista de comprobación de diez puntos y un inventario para completar a mano.",
+      "document": {
+        "subtitle": "Plantilla para completar a mano. No escribas aquí tu frase semilla.",
+        "sections": [
+          {
+            "heading": "Antes de empezar",
+            "paragraphs": [
+              "Este plan registra dónde están tus respaldos y cómo se usan, nunca las palabras. Imprímelo y guárdalo separado de la frase."
+            ]
+          },
+          {
+            "heading": "Inventario de billeteras",
+            "table": {
+              "columns": [
+                "Billetera / aplicación",
+                "Tipo de dirección",
+                "Frase de 12 o 24",
+                "¿Passphrase?",
+                "Última prueba"
+              ],
+              "widths": [
+                0.28,
+                0.2,
+                0.17,
+                0.15,
+                0.2
+              ],
+              "rows": [
+                [
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                [
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ],
+                [
+                  "",
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Lista de comprobación",
+            "checklist": [
+              "La frase está escrita a mano, numerada y legible.",
+              "No existe ninguna foto, nota, correo ni copia en la nube.",
+              "Restauré la billetera vacía y la primera dirección coincidió.",
+              "Si uso passphrase, está respaldada por separado y probada.",
+              "Hay dos ubicaciones físicas separadas, protegidas del agua y el fuego.",
+              "Para importes grandes, el respaldo está en metal.",
+              "Una persona de confianza sabe que existe un respaldo, sin conocer la frase.",
+              "Dejé instrucciones sobre qué aplicación usar para restaurar.",
+              "Fijé una fecha de revisión anual.",
+              "Sé que ningún soporte legítimo me pedirá la frase."
+            ]
+          },
+          {
+            "heading": "Ubicaciones",
+            "table": {
+              "columns": [
+                "Copia",
+                "Lugar",
+                "Protección",
+                "Quién tiene acceso"
+              ],
+              "widths": [
+                0.12,
+                0.33,
+                0.25,
+                0.3
+              ],
+              "rows": [
+                [
+                  "1",
+                  "",
+                  "",
+                  ""
+                ],
+                [
+                  "2",
+                  "",
+                  "",
+                  ""
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Instrucciones para herederos",
+            "paragraphs": [
+              "Describe, sin escribir la frase: qué billeteras existen, dónde está cada respaldo, qué aplicación compatible con BIP 39 usar y a quién consultar antes de mover fondos.",
+              "Recuerda actualizar estas instrucciones si cambias de billetera o de ubicación."
+            ]
+          },
+          {
+            "heading": "Señales de fraude",
+            "items": [
+              "Un «soporte» te pide la frase para «validar» o «sincronizar» tu billetera.",
+              "Un sitio o aplicación desconocida te pide escribir las palabras para recibir un premio.",
+              "Alguien te apura para mover fondos a una dirección «segura»."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "BIP 39: código mnemónico para claves deterministas",
+          "url": "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki"
+        },
+        {
+          "title": "bitcoin.org: asegura tu billetera (inglés)",
+          "url": "https://bitcoin.org/en/secure-your-wallet"
+        }
+      ],
+      "price": 150
+    },
+    {
+      "kind": "reference",
+      "slug": "whitepaper-bitcoin-es",
+      "title": "Bitcoin: un sistema de efectivo electrónico usuario a usuario",
+      "topic": "bitcoin",
+      "source_name": "Satoshi Nakamoto · bitcoin.org",
+      "source_url": "https://bitcoin.org/files/bitcoin-paper/bitcoin_es.pdf",
+      "description": "Traducción al español del documento de 2008 que describe Bitcoin: transacciones, marca de tiempo, prueba de trabajo e incentivos. Nueve páginas para leer después de los tutoriales de transacciones."
+    }
+  ]
+}

@@ -1,0 +1,860 @@
+{
+  "tutorials": [
+    {
+      "slug": "llave-ssh",
+      "title": "Crea una llave SSH y entra sin contraseña",
+      "topic": "linux-sistemas",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Genera una llave ed25519 con frase de protección, instala la parte pública en un servidor y define un alias para conectarte.",
+      "objective": "Configurar el acceso a un servidor con una llave SSH y comprobar que funciona.",
+      "requirements": "Una terminal con OpenSSH (incluido en Windows 10 o posterior, macOS y Linux) y acceso con contraseña a un servidor o máquina virtual.",
+      "steps": [
+        {
+          "title": "Genera el par de llaves",
+          "description": "Llave privada, llave pública y frase de protección.",
+          "outcome": "Generar un par de llaves ed25519 protegido con una frase.",
+          "activity": "execute",
+          "preview": "La llave privada nunca sale de tu equipo.",
+          "body": "SSH puede autenticarte con un par de llaves en lugar de una contraseña. La llave privada se queda en tu equipo; la pública se copia a los servidores. El servidor comprueba que tienes la privada sin que esta viaje por la red. Las llaves resisten mucho mejor los ataques de adivinación que las contraseñas.\n\nEd25519 es el tipo recomendado hoy: llaves cortas, rápidas y seguras. La opción -C añade un comentario para reconocer la llave.\n\nEjemplo\n```bash\nssh-keygen -t ed25519 -C \"ana@portatil\"\n```\n\nAcepta la ubicación propuesta (~/.ssh/id_ed25519) y escribe una frase de protección. Si alguien copia tu llave privada, la frase le impedirá usarla.\n\nPráctica\nGenera tu llave y muestra la parte pública con `cat ~/.ssh/id_ed25519.pub` (en PowerShell, `Get-Content $HOME\\.ssh\\id_ed25519.pub`).\n\nSolución y comprobación\nLa llave pública es una sola línea que empieza con ssh-ed25519 y termina con tu comentario. Es la única parte que compartes. El archivo sin .pub es la privada: no la copies ni la envíes.",
+          "sources": [
+            {
+              "title": "Manual de ssh-keygen (inglés)",
+              "url": "https://man.openbsd.org/ssh-keygen"
+            },
+            {
+              "title": "GitHub Docs: generar una nueva clave SSH",
+              "url": "https://docs.github.com/es/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
+            }
+          ]
+        },
+        {
+          "title": "Instala la llave pública en el servidor",
+          "description": "ssh-copy-id o authorized_keys a mano.",
+          "outcome": "Autorizar una llave pública en un servidor con los permisos correctos.",
+          "activity": "execute",
+          "preview": "SSH ignora authorized_keys si sus permisos son demasiado abiertos.",
+          "body": "El servidor guarda las llaves autorizadas en ~/.ssh/authorized_keys, una por línea, dentro de la cuenta con la que entrarás. En macOS y Linux, ssh-copy-id hace todo el trabajo usando tu contraseña por última vez.\n\nEjemplo\n```bash\nssh-copy-id ana@203.0.113.10\n```\n\nEn Windows no existe ssh-copy-id. Puedes enviar la llave con una sola orden desde PowerShell:\n\n```powershell\nGet-Content $HOME\\.ssh\\id_ed25519.pub | ssh ana@203.0.113.10 \"mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys\"\n```\n\nLos permisos importan: la carpeta .ssh debe ser 700 y authorized_keys 600. Si otros usuarios pueden escribir en ellos, el servidor ignora las llaves por seguridad.\n\nPráctica\nInstala tu llave en el servidor de práctica.\n\nSolución y comprobación\nEn el servidor, `tail -n 1 ~/.ssh/authorized_keys` debe mostrar la misma línea que tu archivo .pub.",
+          "sources": [
+            {
+              "title": "Manual de ssh-keygen (inglés)",
+              "url": "https://man.openbsd.org/ssh-keygen"
+            }
+          ]
+        },
+        {
+          "title": "Conéctate y crea un alias",
+          "description": "Huella del servidor y archivo ~/.ssh/config.",
+          "outcome": "Conectarte con la llave, verificar la huella del servidor y simplificar la conexión con un alias.",
+          "activity": "execute",
+          "preview": "La primera conexión pide confirmar la huella del servidor.",
+          "body": "Conéctate como siempre: ssh ana@203.0.113.10. Si todo está bien, te pedirá la frase de tu llave, no la contraseña del servidor. En la primera conexión, SSH muestra la huella del servidor y pregunta si confías en él. Compárala con la que te dio el administrador o con la que ves en la consola del proveedor; si no coincide, no continúes.\n\nPara no escribir usuario y dirección cada vez, crea un alias en ~/.ssh/config:\n\nEjemplo\n```text\nHost practica\n    HostName 203.0.113.10\n    User ana\n    IdentityFile ~/.ssh/id_ed25519\n```\n\nAhora basta con ssh practica. El agente SSH (ssh-agent) puede recordar la frase durante tu sesión para no escribirla en cada conexión.\n\nPráctica\nCrea el alias y conéctate con él.\n\nSolución y comprobación\n`ssh practica` debe abrir la sesión pidiendo solo la frase de la llave. Con la conexión comprobada, el administrador puede desactivar el acceso con contraseña en el servidor (PasswordAuthentication no).",
+          "sources": [
+            {
+              "title": "Manual de ssh-keygen (inglés)",
+              "url": "https://man.openbsd.org/ssh-keygen"
+            },
+            {
+              "title": "GitHub Docs: generar una nueva clave SSH",
+              "url": "https://docs.github.com/es/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "programar-cron",
+      "title": "Programa tareas automáticas con cron",
+      "topic": "linux-sistemas",
+      "access": "freemium",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Lee y escribe expresiones de cron, programa una copia diaria y evita los errores habituales de entorno, rutas y registros.",
+      "objective": "Programar tareas periódicas en Linux con cron y comprobar que se ejecutan.",
+      "requirements": "Un equipo o servidor con Linux y una terminal. Conocer comandos básicos.",
+      "steps": [
+        {
+          "title": "Lee la expresión de cinco campos",
+          "description": "Minuto, hora, día del mes, mes y día de la semana.",
+          "outcome": "Interpretar y escribir expresiones de cron.",
+          "activity": "understand",
+          "preview": "30 2 * * * significa todos los días a las 2:30.",
+          "body": "cron es el servicio de Linux que ejecuta tareas programadas. Cada línea de una tabla crontab tiene cinco campos de tiempo seguidos de la orden: minuto (0–59), hora (0–23), día del mes (1–31), mes (1–12) y día de la semana (0–7, donde 0 y 7 son domingo).\n\nUn asterisco significa «cualquiera». Una lista separada por comas indica varios valores, un guion indica un rango y una barra indica un intervalo.\n\nEjemplo\n```text\n30 2 * * *      todos los días a las 2:30\n0 9 * * 1-5     de lunes a viernes a las 9:00\n*/15 * * * *    cada 15 minutos\n0 0 1 * *       el primer día de cada mes a medianoche\n```\n\nSi indicas día del mes y día de la semana a la vez, la tarea se ejecuta cuando se cumple cualquiera de los dos, no ambos.\n\nPráctica\nEscribe la expresión para «cada domingo a las 18:45».\n\nSolución y comprobación\n45 18 * * 0. La hora usa el reloj del sistema: compruébala con `date` y `timedatectl`.",
+          "sources": [
+            {
+              "title": "Manual de crontab(5) (inglés)",
+              "url": "https://man7.org/linux/man-pages/man5/crontab.5.html"
+            }
+          ]
+        },
+        {
+          "title": "Programa una copia diaria",
+          "description": "crontab -e y un script con rutas absolutas.",
+          "outcome": "Crear una tarea programada que ejecute un script de copia.",
+          "activity": "execute",
+          "preview": "cron no conoce tu carpeta actual: usa rutas absolutas.",
+          "body": "Crea primero un script que haga la tarea y pruébalo a mano. Este comprime una carpeta en un archivo con la fecha:\n\n```bash\n#!/bin/sh\ntar -czf /home/ana/copias/documentos-$(date +%F).tar.gz -C /home/ana documentos\n```\n\nGuárdalo como /home/ana/bin/copia.sh y dale permiso de ejecución con `chmod +x /home/ana/bin/copia.sh`. Después abre tu tabla con crontab -e y añade una línea:\n\nEjemplo\n```text\n30 2 * * * /home/ana/bin/copia.sh >> /home/ana/copias/copia.log 2>&1\n```\n\nLa redirección guarda la salida y los errores en un registro. Usa rutas absolutas: cron ejecuta las tareas con un entorno mínimo y desde tu carpeta personal. Si escribes la fecha directamente en la línea de crontab, escapa el signo de porcentaje como \\%, porque cron lo interpreta como salto de línea; por eso conviene usar un script.\n\nPráctica\nCrea el script y prográmalo para dentro de dos minutos.\n\nSolución y comprobación\n`crontab -l` muestra tu línea. Tras la hora indicada, debe existir el archivo .tar.gz y el registro sin errores.",
+          "sources": [
+            {
+              "title": "Manual de crontab(5) (inglés)",
+              "url": "https://man7.org/linux/man-pages/man5/crontab.5.html"
+            }
+          ]
+        },
+        {
+          "title": "Diagnostica una tarea que no se ejecuta",
+          "description": "PATH, permisos y registros del sistema.",
+          "outcome": "Encontrar la causa de una tarea de cron que no funciona.",
+          "activity": "execute",
+          "preview": "Si funciona a mano y no en cron, casi siempre es el entorno.",
+          "body": "Cuando una tarea funciona en la terminal y no en cron, revisa en orden. Primero, el registro de salida que configuraste: suele mostrar el error. Segundo, el PATH: cron usa uno mínimo, como /usr/bin:/bin, y no encontrará programas instalados en otras rutas. Usa rutas completas (`which programa` te la dice) o define PATH al inicio de la tabla. Tercero, los permisos: el script debe ser ejecutable para el usuario dueño de la tabla.\n\nEjemplo\n```text\nPATH=/usr/local/bin:/usr/bin:/bin\nMAILTO=\"\"\n30 2 * * * /home/ana/bin/copia.sh >> /home/ana/copias/copia.log 2>&1\n```\n\nPara saber si cron intentó ejecutarla, consulta el registro del sistema: `grep CRON /var/log/syslog` en Debian y Ubuntu, o `journalctl -u cron` (en otras distribuciones el servicio se llama crond).\n\nPráctica\nPrograma una tarea que llame a un programa sin ruta completa, observa el error en el registro y corrígelo.\n\nSolución y comprobación\nEl registro mostrará «command not found» o similar. Con la ruta completa o el PATH definido, la tarea se ejecuta y el registro queda limpio.",
+          "sources": [
+            {
+              "title": "Manual de crontab(5) (inglés)",
+              "url": "https://man7.org/linux/man-pages/man5/crontab.5.html"
+            }
+          ]
+        }
+      ],
+      "price": 180
+    },
+    {
+      "slug": "componentes-pc",
+      "title": "Identifica los componentes de tu computadora",
+      "topic": "hardware-pc",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 10,
+      "description": "Consulta procesador, memoria, almacenamiento y gráficos desde Windows o Linux para decidir una mejora o pedir soporte con datos.",
+      "objective": "Obtener un inventario fiable del hardware de una computadora sin abrirla.",
+      "requirements": "Una computadora con Windows 10 u 11, o con Linux. No necesitas herramientas externas.",
+      "steps": [
+        {
+          "title": "Consulta el resumen del sistema",
+          "description": "msinfo32 en Windows y lscpu en Linux.",
+          "outcome": "Encontrar el modelo de procesador, la memoria total y el sistema operativo.",
+          "activity": "execute",
+          "preview": "En Windows, msinfo32 reúne casi todo en una ventana.",
+          "body": "Antes de comprar una pieza o pedir ayuda, necesitas saber qué tienes. No hace falta abrir el equipo: el sistema operativo lo informa.\n\nEn Windows, pulsa Windows + R, escribe msinfo32 y pulsa Enter. La pantalla Resumen del sistema muestra el procesador, la memoria física instalada, el modelo del equipo, la versión de Windows y el tipo de BIOS. En Linux, lscpu describe el procesador y free -h la memoria.\n\nEjemplo\n```bash\nlscpu | grep -E \"Model name|^CPU\\(s\\)|Thread\"\nfree -h\n```\n\nlscpu muestra el modelo y el número de CPU lógicas; free -h muestra la memoria total y la disponible en unidades legibles.\n\nPráctica\nAnota el modelo del procesador, la memoria total y la versión del sistema operativo.\n\nSolución y comprobación\nTendrás tres datos concretos, por ejemplo «AMD Ryzen 5, 16 GB, Windows 11 Pro». Si la memoria que ves es algo menor que la instalada, es normal: parte se reserva para los gráficos integrados o el sistema.",
+          "sources": [
+            {
+              "title": "Microsoft Learn: Get-CimInstance",
+              "url": "https://learn.microsoft.com/es-es/powershell/module/cimcmdlets/get-ciminstance"
+            },
+            {
+              "title": "Manual de lscpu (inglés)",
+              "url": "https://man7.org/linux/man-pages/man1/lscpu.1.html"
+            }
+          ]
+        },
+        {
+          "title": "Obtén los detalles con PowerShell o la terminal",
+          "description": "Núcleos, módulos de memoria, discos y gráficos.",
+          "outcome": "Consultar detalles de núcleos, módulos de memoria, discos y gráficos con comandos.",
+          "activity": "execute",
+          "preview": "Get-CimInstance consulta el inventario de Windows sin instalar nada.",
+          "body": "Para decidir una mejora necesitas más detalle: cuántos núcleos tiene el procesador, cuántos módulos de memoria hay y de qué velocidad, y si el disco es SSD o HDD. En Windows, PowerShell consulta el inventario con Get-CimInstance.\n\nEjemplo\n```powershell\nGet-CimInstance Win32_Processor | Select-Object Name, NumberOfCores, NumberOfLogicalProcessors\nGet-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed\nGet-PhysicalDisk | Select-Object FriendlyName, MediaType, Size\nGet-CimInstance Win32_VideoController | Select-Object Name\n```\n\nCapacity y Size aparecen en bytes: 17179869184 bytes son 16 GB (divide entre 1024 tres veces). Cada línea de Win32_PhysicalMemory es un módulo instalado.\n\nEn Linux, lsblk -d -o NAME,ROTA,SIZE,MODEL lista los discos; ROTA 0 indica un SSD. lspci | grep -i vga muestra la tarjeta gráfica.\n\nPráctica\nEjecuta las consultas de tu sistema y completa una tabla con procesador, núcleos, módulos de memoria, discos y gráficos.\n\nSolución y comprobación\nLa suma de la capacidad de los módulos debe coincidir con la memoria total del paso anterior.",
+          "sources": [
+            {
+              "title": "Microsoft Learn: Get-CimInstance",
+              "url": "https://learn.microsoft.com/es-es/powershell/module/cimcmdlets/get-ciminstance"
+            },
+            {
+              "title": "Manual de lscpu (inglés)",
+              "url": "https://man7.org/linux/man-pages/man1/lscpu.1.html"
+            }
+          ]
+        },
+        {
+          "title": "Decide una mejora con los datos",
+          "description": "Qué limita tu equipo y qué se puede cambiar.",
+          "outcome": "Relacionar el inventario con el uso del equipo para priorizar una mejora.",
+          "activity": "design",
+          "preview": "Un disco duro mecánico suele ser el mayor cuello de botella.",
+          "body": "Con el inventario completo, compáralo con lo que haces. Abre el Administrador de tareas (Ctrl + Shift + Esc) en la pestaña Rendimiento mientras trabajas: si la memoria está casi llena, más memoria ayudará; si el disco está al 100 % y es HDD, un SSD será la mejora más notable; si el procesador está al máximo con tus programas habituales, cambiarlo suele implicar cambiar más piezas.\n\nAntes de comprar, comprueba la compatibilidad. Para la memoria: tipo (DDR4 o DDR5), velocidad y si quedan ranuras libres; en muchas portátiles la memoria va soldada. Para el disco: si el equipo admite M.2 NVMe, SATA o ambos. El manual del fabricante, buscado por el modelo que viste en msinfo32, lo indica.\n\nEjemplo\nUna portátil con 8 GB en un solo módulo y la memoria al 90 % al abrir el navegador: si tiene una ranura libre, añadir otro módulo igual es la mejora más directa.\n\nPráctica\nObserva el rendimiento durante tu uso habitual y escribe qué componente limita más.\n\nSolución y comprobación\nTu decisión debe citar un dato observado (porcentaje de uso) y uno de compatibilidad (tipo de memoria o de disco).",
+          "sources": [
+            {
+              "title": "Microsoft Learn: Get-CimInstance",
+              "url": "https://learn.microsoft.com/es-es/powershell/module/cimcmdlets/get-ciminstance"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "dockerfile-python",
+      "title": "Escribe un Dockerfile para una app de Python",
+      "topic": "devops-contenedores",
+      "access": "freemium",
+      "level": "intermediate",
+      "minutes": 20,
+      "description": "Empaqueta una aplicación de Python en una imagen de contenedor ordenando las capas para aprovechar la caché y ejecutándola sin privilegios.",
+      "objective": "Construir y ejecutar una imagen de contenedor reproducible para una aplicación de Python.",
+      "requirements": "Docker Desktop o Docker Engine instalado, y una aplicación de Python con requirements.txt.",
+      "steps": [
+        {
+          "title": "Entiende imagen, contenedor y capas",
+          "description": "Qué produce cada instrucción del Dockerfile.",
+          "outcome": "Explicar la relación entre Dockerfile, imagen y contenedor.",
+          "activity": "understand",
+          "preview": "Cada instrucción crea una capa que Docker puede reutilizar.",
+          "body": "Un Dockerfile es una receta. Docker la lee de arriba abajo y produce una imagen: un paquete inmutable con el sistema base, tu código y sus dependencias. Un contenedor es una instancia en ejecución de esa imagen; puedes iniciar varios de la misma imagen.\n\nCada instrucción que modifica archivos (FROM, COPY, RUN) crea una capa. Docker guarda las capas en caché: si una instrucción y lo anterior no cambiaron, reutiliza la capa en lugar de repetir el trabajo. Por eso el orden importa: lo que cambia poco va arriba y lo que cambia mucho, abajo.\n\nEjemplo\nTu código cambia en cada edición; requirements.txt cambia pocas veces. Si copias primero requirements.txt e instalas, y después copias el código, editar el código no obliga a reinstalar las dependencias.\n\nPráctica\nPara tu aplicación, ordena de menor a mayor frecuencia de cambio: imagen base de Python, dependencias y código.\n\nSolución y comprobación\nEl orden es imagen base, dependencias y código. Ese mismo orden tendrán las instrucciones de tu Dockerfile.",
+          "sources": [
+            {
+              "title": "Docker Docs: escribir un Dockerfile (inglés)",
+              "url": "https://docs.docker.com/get-started/docker-concepts/building-images/writing-a-dockerfile/"
+            }
+          ]
+        },
+        {
+          "title": "Escribe el Dockerfile",
+          "description": "FROM, WORKDIR, COPY, RUN y CMD.",
+          "outcome": "Escribir un Dockerfile ordenado para una aplicación de Python.",
+          "activity": "execute",
+          "preview": "Una imagen slim reduce tamaño y superficie de ataque.",
+          "body": "Crea un archivo llamado Dockerfile, sin extensión, en la raíz del proyecto.\n\nEjemplo\n```dockerfile\nFROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\nRUN useradd --create-home app\nUSER app\nEXPOSE 8000\nCMD [\"python\", \"app.py\"]\n```\n\nFROM elige la imagen base; la variante slim es más pequeña. WORKDIR fija la carpeta de trabajo. --no-cache-dir evita guardar la caché de pip dentro de la imagen. USER hace que la aplicación no se ejecute como administrador del contenedor. EXPOSE documenta el puerto y CMD indica la orden de inicio en formato de lista.\n\nCrea también .dockerignore para no copiar lo que no necesitas:\n\n```text\n.venv\n.git\n__pycache__\n.env\n```\n\nPráctica\nAdapta el Dockerfile a tu aplicación y crea el .dockerignore.\n\nSolución y comprobación\nRevisa que .env esté en .dockerignore: los secretos se pasan al ejecutar, no se copian a la imagen.",
+          "sources": [
+            {
+              "title": "Docker Docs: escribir un Dockerfile (inglés)",
+              "url": "https://docs.docker.com/get-started/docker-concepts/building-images/writing-a-dockerfile/"
+            },
+            {
+              "title": "Docker Docs: referencia de Dockerfile (inglés)",
+              "url": "https://docs.docker.com/reference/dockerfile/"
+            }
+          ]
+        },
+        {
+          "title": "Construye y ejecuta la imagen",
+          "description": "docker build, docker run y puertos.",
+          "outcome": "Construir la imagen, ejecutarla publicando un puerto y comprobar la caché de capas.",
+          "activity": "execute",
+          "preview": "-p 8000:8000 conecta el puerto de tu equipo con el del contenedor.",
+          "body": "Construye la imagen desde la carpeta del proyecto. -t le da un nombre y el punto indica que el contexto es la carpeta actual.\n\nEjemplo\n```bash\ndocker build -t mi-app .\ndocker run --rm -p 8000:8000 --env-file .env mi-app\n```\n\n-p publica el puerto: el primer número es el de tu equipo y el segundo, el del contenedor. --rm borra el contenedor al detenerlo. --env-file pasa variables de entorno desde un archivo sin incluirlas en la imagen.\n\nTu aplicación debe escuchar en 0.0.0.0 y no solo en 127.0.0.1; dentro del contenedor, 127.0.0.1 no es accesible desde fuera.\n\nPráctica\nConstruye la imagen, cambia una línea de código y vuelve a construir.\n\nSolución y comprobación\nEn la segunda construcción, los pasos hasta la instalación de dependencias aparecen como CACHED y solo se repiten los posteriores. La aplicación responde en http://localhost:8000.",
+          "sources": [
+            {
+              "title": "Docker Docs: referencia de Dockerfile (inglés)",
+              "url": "https://docs.docker.com/reference/dockerfile/"
+            },
+            {
+              "title": "Docker Docs: escribir un Dockerfile (inglés)",
+              "url": "https://docs.docker.com/get-started/docker-concepts/building-images/writing-a-dockerfile/"
+            }
+          ]
+        }
+      ],
+      "price": 240
+    },
+    {
+      "slug": "subredes-cidr",
+      "title": "Divide una red en subredes con CIDR",
+      "topic": "redes",
+      "access": "paid",
+      "level": "intermediate",
+      "minutes": 25,
+      "description": "Calcula máscara, dirección de red, difusión y equipos útiles a partir de un prefijo CIDR, divide una red /24 en cuatro y comprueba con Python.",
+      "objective": "Calcular subredes IPv4 con notación CIDR y verificar los resultados.",
+      "requirements": "Saber qué es una dirección IP. Python 3 para la comprobación final.",
+      "steps": [
+        {
+          "title": "Lee el prefijo CIDR",
+          "description": "Bits de red, bits de equipo y máscara.",
+          "outcome": "Convertir un prefijo CIDR en máscara y número de direcciones.",
+          "activity": "understand",
+          "preview": "Un /24 deja 8 bits para equipos: 256 direcciones.",
+          "body": "Una dirección IPv4 tiene 32 bits, escritos como cuatro números de 0 a 255. En la notación CIDR, el número después de la barra indica cuántos bits iniciales identifican la red; el resto identifica a los equipos dentro de ella.\n\nEn 192.168.10.0/24, los primeros 24 bits son la red y quedan 32 − 24 = 8 bits para equipos. Con 8 bits hay 2⁸ = 256 direcciones. La máscara equivalente pone en 1 los bits de red: 255.255.255.0.\n\nEjemplo\n```text\n/24  máscara 255.255.255.0    256 direcciones\n/26  máscara 255.255.255.192   64 direcciones\n/22  máscara 255.255.252.0   1024 direcciones\n```\n\nCada bit que añades al prefijo divide la red a la mitad.\n\nPráctica\n¿Cuántas direcciones tiene un /27 y cuál es su máscara?\n\nSolución y comprobación\nQuedan 5 bits: 2⁵ = 32 direcciones. La máscara es 255.255.255.224, porque el último octeto tiene tres bits de red: 128 + 64 + 32 = 224.",
+          "sources": [
+            {
+              "title": "RFC 4632: CIDR (inglés)",
+              "url": "https://www.rfc-editor.org/rfc/rfc4632"
+            }
+          ]
+        },
+        {
+          "title": "Calcula red, difusión y equipos útiles",
+          "description": "La primera y la última dirección están reservadas.",
+          "outcome": "Calcular la dirección de red, la de difusión y el rango de equipos de una subred.",
+          "activity": "execute",
+          "preview": "Equipos útiles = direcciones − 2.",
+          "body": "En cada subred, la primera dirección identifica la red y la última es la de difusión, que llega a todos los equipos. Ninguna se asigna a un equipo, así que los útiles son las direcciones totales menos dos (las redes /31 y /32 son casos especiales para enlaces y equipos individuales).\n\nPara encontrar la red a la que pertenece una dirección, divide su octeto variable entre el tamaño del bloque y quédate con el múltiplo inferior.\n\nEjemplo\nPara 172.16.5.130/27, el bloque es de 32. Los múltiplos de 32 en el último octeto son 0, 32, 64, 96, 128, 160… 130 cae en el bloque que empieza en 128. Entonces:\n\n```text\nred        172.16.5.128\nequipos    172.16.5.129 – 172.16.5.158  (30)\ndifusión   172.16.5.159\n```\n\nPráctica\nCalcula red, rango de equipos y difusión de 10.0.0.0/22.\n\nSolución y comprobación\nUn /22 tiene 1024 direcciones que ocupan cuatro valores del tercer octeto: de 10.0.0.0 a 10.0.3.255. Red: 10.0.0.0; equipos: 10.0.0.1 a 10.0.3.254 (1022); difusión: 10.0.3.255.",
+          "sources": [
+            {
+              "title": "RFC 4632: CIDR (inglés)",
+              "url": "https://www.rfc-editor.org/rfc/rfc4632"
+            }
+          ]
+        },
+        {
+          "title": "Divide una red /24 en cuatro",
+          "description": "Pedir prestados bits para crear subredes.",
+          "outcome": "Dividir una red en subredes iguales y asignarlas a usos distintos.",
+          "activity": "design",
+          "preview": "Dos bits más dan cuatro subredes: de /24 a /26.",
+          "body": "Para dividir una red en partes iguales, toma bits de la parte de equipos. Con n bits obtienes 2ⁿ subredes. Para cuatro subredes necesitas 2 bits: de /24 pasas a /26, con bloques de 64 direcciones y 62 equipos útiles cada uno.\n\nEjemplo\nUna oficina tiene 192.168.10.0/24 y quiere separar personal, invitados, cámaras y servidores:\n\n```text\nsubred              equipos útiles                 difusión\n192.168.10.0/26     192.168.10.1   – .62           192.168.10.63\n192.168.10.64/26    192.168.10.65  – .126          192.168.10.127\n192.168.10.128/26   192.168.10.129 – .190          192.168.10.191\n192.168.10.192/26   192.168.10.193 – .254          192.168.10.255\n```\n\nSeparar redes permite aplicar reglas distintas: los invitados no ven las cámaras y las cámaras no salen a Internet.\n\nPráctica\n¿A qué subred pertenece 192.168.10.77 y cuál es su difusión?\n\nSolución y comprobación\n77 está entre 64 y 127: pertenece a 192.168.10.64/26 y su difusión es 192.168.10.127.",
+          "sources": [
+            {
+              "title": "RFC 4632: CIDR (inglés)",
+              "url": "https://www.rfc-editor.org/rfc/rfc4632"
+            }
+          ]
+        },
+        {
+          "title": "Comprueba tus cálculos con Python",
+          "description": "El módulo estándar ipaddress.",
+          "outcome": "Verificar cálculos de subredes con el módulo ipaddress de Python.",
+          "activity": "execute",
+          "preview": "ipaddress viene con Python: no necesitas instalar nada.",
+          "body": "Calcular a mano te ayuda a entender, pero en el trabajo diario conviene verificar con una herramienta. El módulo ipaddress de la biblioteca estándar de Python hace estos cálculos sin errores.\n\nEjemplo\n```python\nimport ipaddress\n\nred = ipaddress.ip_network(\"192.168.10.0/24\")\nfor subred in red.subnets(new_prefix=26):\n    equipos = list(subred.hosts())\n    print(subred, equipos[0], equipos[-1], len(equipos), subred.broadcast_address)\n\nprint(ipaddress.ip_address(\"192.168.10.77\") in ipaddress.ip_network(\"192.168.10.64/26\"))\nprint(ipaddress.ip_network(\"172.16.5.130/27\", strict=False))\n```\n\nstrict=False acepta una dirección de equipo y devuelve la red que la contiene; sin esa opción, Python avisa de que 172.16.5.130 no es una dirección de red.\n\nPráctica\nEjecuta el código y compáralo con tus resultados de los pasos anteriores.\n\nSolución y comprobación\nLa primera línea es «192.168.10.0/26 192.168.10.1 192.168.10.62 62 192.168.10.63». La comprobación de pertenencia devuelve True y la última línea, 172.16.5.128/27.",
+          "sources": [
+            {
+              "title": "Documentación de Python: ipaddress",
+              "url": "https://docs.python.org/es/3/library/ipaddress.html"
+            }
+          ]
+        }
+      ],
+      "price": 320
+    }
+  ],
+  "resources": [
+    {
+      "kind": "video",
+      "slug": "video-que-es-la-nube",
+      "title": "¿Qué es la nube (cloud computing)?",
+      "topic": "computacion-nube",
+      "video_url": "https://www.youtube.com/watch?v=h4Af5bbFAq0",
+      "video_author": "EDteam",
+      "description": "Explicación en español de qué es la computación en la nube, sus modelos de servicio y por qué la usan las empresas.",
+      "outcome": "Explicar qué es la computación en la nube y distinguir sus modelos de servicio.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video de EDteam, reproducido desde YouTube."
+    },
+    {
+      "kind": "video",
+      "slug": "video-llave-ssh",
+      "title": "Cómo generar y usar una llave pública SSH",
+      "topic": "linux-sistemas",
+      "video_url": "https://www.youtube.com/watch?v=_u3_z1ywWec",
+      "video_author": "Livaur Consultoría en Informática",
+      "description": "Demostración en español de la generación de llaves SSH y su uso para conectarse a un servidor. Complementa el tutorial «Crea una llave SSH y entra sin contraseña».",
+      "outcome": "Generar una llave SSH y usarla para conectarte a un servidor.",
+      "requirements": "Conocer la terminal de Linux.",
+      "activity": "understand",
+      "preview": "Video de Livaur Consultoría en Informática, reproducido desde YouTube."
+    },
+    {
+      "kind": "material",
+      "slug": "hoja-comandos-linux",
+      "title": "Hoja de comandos de Linux",
+      "topic": "linux-sistemas",
+      "access": "free",
+      "description": "Los comandos de Linux más usados para moverse por el sistema, gestionar archivos, permisos, procesos, red y paquetes.",
+      "outcome": "Encontrar el comando de Linux adecuado para las tareas administrativas habituales.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "execute",
+      "preview": "Incluye una tabla de permisos en notación numérica.",
+      "document": {
+        "subtitle": "Comandos de uso diario en distribuciones como Ubuntu y Debian.",
+        "sections": [
+          {
+            "heading": "Moverse y ver archivos",
+            "table": {
+              "columns": [
+                "Comando",
+                "Qué hace"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.4,
+                0.6
+              ],
+              "rows": [
+                [
+                  "pwd",
+                  "Muestra la carpeta actual"
+                ],
+                [
+                  "ls -lah",
+                  "Lista con detalles, ocultos y tamaños legibles"
+                ],
+                [
+                  "cd ~/proyectos",
+                  "Cambia de carpeta"
+                ],
+                [
+                  "cat archivo / less archivo",
+                  "Muestra o pagina un archivo"
+                ],
+                [
+                  "tail -f registro.log",
+                  "Sigue un archivo en tiempo real"
+                ],
+                [
+                  "grep -rn \"texto\" carpeta",
+                  "Busca texto con número de línea"
+                ],
+                [
+                  "find . -name \"*.log\"",
+                  "Busca archivos por nombre"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Gestionar archivos",
+            "table": {
+              "columns": [
+                "Comando",
+                "Qué hace"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.4,
+                0.6
+              ],
+              "rows": [
+                [
+                  "mkdir -p a/b/c",
+                  "Crea carpetas anidadas"
+                ],
+                [
+                  "cp -r origen destino",
+                  "Copia carpetas"
+                ],
+                [
+                  "mv viejo nuevo",
+                  "Mueve o renombra"
+                ],
+                [
+                  "rm archivo",
+                  "Borra (sin papelera)"
+                ],
+                [
+                  "tar -czf copia.tar.gz carpeta",
+                  "Comprime una carpeta"
+                ],
+                [
+                  "tar -xzf copia.tar.gz",
+                  "Descomprime"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Permisos",
+            "paragraphs": [
+              "Cada dígito suma lectura (4), escritura (2) y ejecución (1) para dueño, grupo y otros."
+            ],
+            "table": {
+              "columns": [
+                "Valor",
+                "Permisos",
+                "Uso típico"
+              ],
+              "mono": [
+                0,
+                1
+              ],
+              "widths": [
+                0.15,
+                0.3,
+                0.55
+              ],
+              "rows": [
+                [
+                  "755",
+                  "rwxr-xr-x",
+                  "Scripts y carpetas públicas"
+                ],
+                [
+                  "644",
+                  "rw-r--r--",
+                  "Archivos de texto"
+                ],
+                [
+                  "700",
+                  "rwx------",
+                  "Carpeta ~/.ssh"
+                ],
+                [
+                  "600",
+                  "rw-------",
+                  "Llaves privadas y authorized_keys"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Procesos y sistema",
+            "table": {
+              "columns": [
+                "Comando",
+                "Qué hace"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.4,
+                0.6
+              ],
+              "rows": [
+                [
+                  "top / htop",
+                  "Procesos y uso de recursos"
+                ],
+                [
+                  "ps aux | grep nombre",
+                  "Busca un proceso"
+                ],
+                [
+                  "kill PID",
+                  "Pide terminar un proceso"
+                ],
+                [
+                  "df -h",
+                  "Espacio libre por disco"
+                ],
+                [
+                  "du -sh carpeta",
+                  "Tamaño de una carpeta"
+                ],
+                [
+                  "free -h",
+                  "Memoria"
+                ],
+                [
+                  "systemctl status servicio",
+                  "Estado de un servicio"
+                ],
+                [
+                  "journalctl -u servicio -n 50",
+                  "Últimas líneas de su registro"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Red y paquetes",
+            "table": {
+              "columns": [
+                "Comando",
+                "Qué hace"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.4,
+                0.6
+              ],
+              "rows": [
+                [
+                  "ip addr",
+                  "Direcciones de las interfaces"
+                ],
+                [
+                  "ping -c 4 host",
+                  "Comprueba conectividad"
+                ],
+                [
+                  "ss -tulpn",
+                  "Puertos en escucha"
+                ],
+                [
+                  "curl -I https://sitio",
+                  "Cabeceras de una respuesta HTTP"
+                ],
+                [
+                  "sudo apt update && sudo apt upgrade",
+                  "Actualiza paquetes"
+                ],
+                [
+                  "sudo apt install paquete",
+                  "Instala un paquete"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Precauciones",
+            "items": [
+              "rm no usa papelera: revisa la ruta antes de pulsar Enter.",
+              "Usa sudo solo cuando el comando lo necesite.",
+              "No ejecutes scripts copiados de Internet sin leerlos."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Manual de crontab(5) (inglés)",
+          "url": "https://man7.org/linux/man-pages/man5/crontab.5.html"
+        },
+        {
+          "title": "Manual de lscpu (inglés)",
+          "url": "https://man7.org/linux/man-pages/man1/lscpu.1.html"
+        },
+        {
+          "title": "Manual de ssh-keygen (inglés)",
+          "url": "https://man.openbsd.org/ssh-keygen"
+        }
+      ]
+    },
+    {
+      "kind": "material",
+      "slug": "tabla-subredes-ipv4",
+      "title": "Tabla de subredes IPv4",
+      "topic": "redes",
+      "access": "paid",
+      "description": "Tabla completa de prefijos /8 a /30 con máscara, direcciones y equipos útiles, más los rangos privados y un método para calcular a mano.",
+      "outcome": "Consultar rápidamente máscaras y tamaños de subred y calcular rangos sin herramientas.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Incluye la tabla de los prefijos /8 a /30 calculada con el módulo ipaddress de Python.",
+      "document": {
+        "subtitle": "Valores calculados con el módulo ipaddress de Python.",
+        "sections": [
+          {
+            "heading": "Prefijos y tamaños",
+            "table": {
+              "columns": [
+                "Prefijo",
+                "Máscara",
+                "Direcciones",
+                "Equipos útiles"
+              ],
+              "mono": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "widths": [
+                0.15,
+                0.35,
+                0.25,
+                0.25
+              ],
+              "rows": [
+                [
+                  "/8",
+                  "255.0.0.0",
+                  "16 777 216",
+                  "16 777 214"
+                ],
+                [
+                  "/9",
+                  "255.128.0.0",
+                  "8 388 608",
+                  "8 388 606"
+                ],
+                [
+                  "/10",
+                  "255.192.0.0",
+                  "4 194 304",
+                  "4 194 302"
+                ],
+                [
+                  "/11",
+                  "255.224.0.0",
+                  "2 097 152",
+                  "2 097 150"
+                ],
+                [
+                  "/12",
+                  "255.240.0.0",
+                  "1 048 576",
+                  "1 048 574"
+                ],
+                [
+                  "/13",
+                  "255.248.0.0",
+                  "524 288",
+                  "524 286"
+                ],
+                [
+                  "/14",
+                  "255.252.0.0",
+                  "262 144",
+                  "262 142"
+                ],
+                [
+                  "/15",
+                  "255.254.0.0",
+                  "131 072",
+                  "131 070"
+                ],
+                [
+                  "/16",
+                  "255.255.0.0",
+                  "65 536",
+                  "65 534"
+                ],
+                [
+                  "/17",
+                  "255.255.128.0",
+                  "32 768",
+                  "32 766"
+                ],
+                [
+                  "/18",
+                  "255.255.192.0",
+                  "16 384",
+                  "16 382"
+                ],
+                [
+                  "/19",
+                  "255.255.224.0",
+                  "8 192",
+                  "8 190"
+                ],
+                [
+                  "/20",
+                  "255.255.240.0",
+                  "4 096",
+                  "4 094"
+                ],
+                [
+                  "/21",
+                  "255.255.248.0",
+                  "2 048",
+                  "2 046"
+                ],
+                [
+                  "/22",
+                  "255.255.252.0",
+                  "1 024",
+                  "1 022"
+                ],
+                [
+                  "/23",
+                  "255.255.254.0",
+                  "512",
+                  "510"
+                ],
+                [
+                  "/24",
+                  "255.255.255.0",
+                  "256",
+                  "254"
+                ],
+                [
+                  "/25",
+                  "255.255.255.128",
+                  "128",
+                  "126"
+                ],
+                [
+                  "/26",
+                  "255.255.255.192",
+                  "64",
+                  "62"
+                ],
+                [
+                  "/27",
+                  "255.255.255.224",
+                  "32",
+                  "30"
+                ],
+                [
+                  "/28",
+                  "255.255.255.240",
+                  "16",
+                  "14"
+                ],
+                [
+                  "/29",
+                  "255.255.255.248",
+                  "8",
+                  "6"
+                ],
+                [
+                  "/30",
+                  "255.255.255.252",
+                  "4",
+                  "2"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Rangos privados (RFC 1918)",
+            "table": {
+              "columns": [
+                "Rango",
+                "Bloque",
+                "Uso habitual"
+              ],
+              "mono": [
+                0,
+                1
+              ],
+              "widths": [
+                0.4,
+                0.25,
+                0.35
+              ],
+              "rows": [
+                [
+                  "10.0.0.0 – 10.255.255.255",
+                  "10.0.0.0/8",
+                  "Empresas y nube"
+                ],
+                [
+                  "172.16.0.0 – 172.31.255.255",
+                  "172.16.0.0/12",
+                  "Empresas y contenedores"
+                ],
+                [
+                  "192.168.0.0 – 192.168.255.255",
+                  "192.168.0.0/16",
+                  "Hogares y oficinas pequeñas"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Método rápido",
+            "items": [
+              "Tamaño del bloque = 256 − valor de la máscara en el octeto que cambia.",
+              "La red es el múltiplo del bloque inmediatamente inferior o igual a la dirección.",
+              "La difusión es la red siguiente menos uno.",
+              "Equipos útiles = direcciones − 2 (salvo /31 y /32)."
+            ]
+          },
+          {
+            "heading": "Ejemplo resuelto",
+            "code": "Dirección: 172.16.5.130/27   máscara 255.255.255.224\nBloque:    256 − 224 = 32\nRed:       172.16.5.128   (128 es múltiplo de 32 y ≤ 130)\nDifusión:  172.16.5.159   (160 − 1)\nEquipos:   172.16.5.129 – 172.16.5.158 (30)"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "RFC 4632: CIDR (inglés)",
+          "url": "https://www.rfc-editor.org/rfc/rfc4632"
+        },
+        {
+          "title": "Documentación de Python: ipaddress",
+          "url": "https://docs.python.org/es/3/library/ipaddress.html"
+        }
+      ],
+      "price": 120
+    },
+    {
+      "kind": "reference",
+      "slug": "redhat-que-es-la-nube",
+      "title": "¿Qué es la nube?",
+      "topic": "computacion-nube",
+      "source_name": "Red Hat",
+      "source_url": "https://www.redhat.com/es/topics/cloud",
+      "description": "Introducción de Red Hat a la computación en la nube: nubes públicas, privadas e híbridas, y los modelos IaaS, PaaS y SaaS. En español."
+    }
+  ]
+}

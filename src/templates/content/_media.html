@@ -1,7 +1,10 @@
 <section class="media-panel learning-section">
   {% if not media.standalone %}{% if not compact %}<h2>{{ media.title }}</h2>{% endif %}{% include 'content/_education.html' with unit=media.unit %}{% endif %}
   {% if media.allowed %}
-    {% if media.file_url %}
+    {% if media.embed_url %}
+      <div class="external-video"><iframe src="{{ media.embed_url }}" title="{{ media.title }}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe></div>
+      <p class="external-video-credit">Video de {{ media.video_author }} en YouTube. <a class="text-link" href="{{ media.video_url }}" rel="noopener noreferrer" target="_blank">Abrir en YouTube ↗</a></p>
+    {% elif media.file_url %}
       {% if media.kind == 'video' %}
       <video class="lesson-video" controls playsinline preload="metadata" aria-label="{{ media.title }}">
         <source src="{{ media.file_url }}" type="video/mp4">

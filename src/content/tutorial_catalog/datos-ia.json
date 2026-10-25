@@ -1,0 +1,732 @@
+{
+  "tutorials": [
+    {
+      "slug": "tabla-dinamica",
+      "title": "Resume ventas con una tabla dinámica",
+      "topic": "analisis-datos",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Convierte una lista de ventas en un resumen por mes y sucursal con una tabla dinámica de Hojas de cálculo de Google o Excel.",
+      "objective": "Crear una tabla dinámica que resuma datos por filas, columnas y totales, y comprobar sus resultados.",
+      "requirements": "Hojas de cálculo de Google o Excel. No necesitas fórmulas.",
+      "steps": [
+        {
+          "title": "Prepara los datos como tabla",
+          "description": "Una fila por registro y una columna por dato.",
+          "outcome": "Organizar una lista de datos para que una tabla dinámica pueda resumirla.",
+          "activity": "execute",
+          "preview": "Usarás ocho ventas de tres meses y dos sucursales.",
+          "body": "Una tabla dinámica resume una lista sin fórmulas, pero necesita datos ordenados: una fila por registro, una columna por dato, una sola fila de encabezados y sin filas de totales ni celdas combinadas en medio. Si tus datos ya traen subtotales, quítalos: la tabla dinámica los calculará.\n\nCopia esta lista en una hoja nueva, empezando en la celda A1.\n\nEjemplo\n```text\nmes      sucursal  monto\nEnero    Centro    120\nEnero    Norte     80\nEnero    Centro    60\nFebrero  Norte     90\nFebrero  Centro    150\nFebrero  Norte     40\nMarzo    Centro    100\nMarzo    Norte     110\n```\n\nRevisa que la columna monto contenga números y no texto: en la hoja, los números se alinean a la derecha por defecto.\n\nPráctica\nCopia los datos y selecciona el rango A1:C9.\n\nSolución y comprobación\nEl rango debe tener tres encabezados y ocho filas de datos. La suma de la columna monto es 750: compruébala seleccionando la columna y mirando la suma en la parte inferior de la ventana.",
+          "sources": [
+            {
+              "title": "Ayuda de Hojas de cálculo de Google: tablas dinámicas",
+              "url": "https://support.google.com/docs/answer/1272900?hl=es"
+            }
+          ]
+        },
+        {
+          "title": "Crea la tabla dinámica",
+          "description": "Filas, columnas y valores.",
+          "outcome": "Configurar filas, columnas y valores de una tabla dinámica.",
+          "activity": "execute",
+          "preview": "Mes en filas, sucursal en columnas y la suma del monto en valores.",
+          "body": "Con el rango seleccionado, en Hojas de cálculo de Google elige Insertar > Tabla dinámica; en Excel, Insertar > Tabla dinámica. Acepta crearla en una hoja nueva. Se abrirá un panel con los campos de tu tabla.\n\nArrastra o añade mes a Filas, sucursal a Columnas y monto a Valores. Por defecto, los valores numéricos se resumen con SUMA. La tabla agrupa todas las ventas del mismo mes y sucursal en una sola celda y añade totales generales.\n\nEjemplo\n```text\nmes      Centro  Norte  Total\nEnero    180     80     260\nFebrero  150     130    280\nMarzo    100     110    210\nTotal    430     320    750\n```\n\nHojas de cálculo de Google ordena las filas alfabéticamente (Enero, Febrero, Marzo coincide aquí por casualidad). Con meses reales, usa una columna de fecha y agrupa por mes.\n\nPráctica\nCrea la tabla dinámica con esa configuración.\n\nSolución y comprobación\nEnero Centro debe mostrar 180, porque suma dos ventas: 120 + 60. El total general debe ser 750, igual que la suma de la lista original.",
+          "sources": [
+            {
+              "title": "Ayuda de Hojas de cálculo de Google: tablas dinámicas",
+              "url": "https://support.google.com/docs/answer/1272900?hl=es"
+            }
+          ]
+        },
+        {
+          "title": "Cambia el resumen y filtra",
+          "description": "Promedios, recuentos y filtros.",
+          "outcome": "Cambiar la función de resumen y aplicar filtros para responder preguntas concretas.",
+          "activity": "understand",
+          "preview": "Contar ventas y sumarlas responden preguntas distintas.",
+          "body": "La misma tabla responde otras preguntas si cambias la función de resumen. En el campo de valores, cambia SUMA por PROMEDIO para ver el ticket medio, o por CONTAR para saber cuántas ventas hubo. Puedes añadir el mismo campo dos veces a Valores, una con SUMA y otra con CONTAR, para ver ambos datos lado a lado.\n\nLos filtros limitan los registros que entran en el cálculo. Añade sucursal a Filtros y deja marcada solo una para ver su evolución por mes.\n\nEjemplo\nCon CONTAR, Enero Centro muestra 2 ventas y Febrero Norte también 2. Con PROMEDIO, Enero Centro muestra 90.\n\nPráctica\nCalcula el promedio por venta de cada sucursal en todo el trimestre.\n\nSolución y comprobación\nCentro tiene 4 ventas que suman 430: promedio 107,5. Norte tiene 4 ventas que suman 320: promedio 80. Si los datos de origen cambian, actualiza la tabla dinámica: en Excel con Actualizar; en Hojas de cálculo de Google se actualiza sola.",
+          "sources": [
+            {
+              "title": "Ayuda de Hojas de cálculo de Google: tablas dinámicas",
+              "url": "https://support.google.com/docs/answer/1272900?hl=es"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "limpiar-csv-pandas",
+      "title": "Limpia un archivo CSV con pandas",
+      "topic": "analisis-datos",
+      "access": "freemium",
+      "level": "beginner",
+      "minutes": 20,
+      "description": "Carga un CSV con errores, detecta faltantes y duplicados, corrige tipos de datos y guarda una versión limpia lista para analizar.",
+      "objective": "Limpiar un conjunto de datos con pandas y comprobar cada cambio con cifras.",
+      "requirements": "Python 3 con pandas instalado (`pip install pandas`) y nociones básicas de Python.",
+      "steps": [
+        {
+          "title": "Carga e inspecciona los datos",
+          "description": "shape, dtypes e isna antes de tocar nada.",
+          "outcome": "Inspeccionar un CSV con pandas e identificar tipos incorrectos y faltantes.",
+          "activity": "execute",
+          "preview": "Una columna numérica leída como texto es la primera señal de problemas.",
+          "body": "Antes de limpiar, mide. Guarda este contenido como ventas.csv:\n\n```text\nfecha,cliente,producto,monto\n2026-03-02,Ana,Cuaderno,3.50\n2026-03-02,Ana,Cuaderno,3.50\n2026-03-03,Luis,Lápiz,\n2026-03-04,María,Mochila,24.00\n2026-03-05,Pedro,Cuaderno,tres\n2026-03-06, Luis ,Mochila,22.00\n```\n\nEjemplo\n```python\nimport pandas as pd\n\ndf = pd.read_csv(\"ventas.csv\")\nprint(df.shape)         # (6, 4)\nprint(df.dtypes)\nprint(df.isna().sum())\n```\n\nshape indica filas y columnas. dtypes muestra el tipo de cada columna: monto aparece como texto (object o str, según la versión de pandas) porque una celda dice «tres». isna().sum() cuenta los valores vacíos por columna.\n\nPráctica\nEjecuta la inspección y anota qué columnas tienen problemas.\n\nSolución y comprobación\nmonto tiene 1 vacío y es de tipo texto; fecha también es texto. Además, a simple vista hay una fila repetida y un nombre con espacios. Los siguientes pasos corrigen cada cosa.",
+          "sources": [
+            {
+              "title": "pandas: datos faltantes (inglés)",
+              "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html"
+            }
+          ]
+        },
+        {
+          "title": "Elimina duplicados y corrige textos",
+          "description": "drop_duplicates y str.strip.",
+          "outcome": "Eliminar filas duplicadas y normalizar textos para que los grupos coincidan.",
+          "activity": "execute",
+          "preview": "« Luis » y «Luis» serían dos clientes distintos.",
+          "body": "Las filas repetidas inflan los totales. duplicated() marca las filas idénticas a una anterior y drop_duplicates() las elimina, conservando la primera. Los espacios sobrantes en los textos crean grupos falsos: « Luis » y «Luis» no coinciden al agrupar.\n\nEjemplo\n```python\nprint(df.duplicated().sum())   # 1\ndf = df.drop_duplicates()\ndf[\"cliente\"] = df[\"cliente\"].str.strip()\n```\n\nSi solo algunas columnas definen un duplicado, por ejemplo un mismo número de pedido, usa subset: `df.drop_duplicates(subset=[\"pedido\"])`. Revisa antes de borrar: dos compras iguales el mismo día pueden ser reales. Cuando dudes, consulta a quien generó los datos.\n\nPráctica\nElimina el duplicado, limpia los espacios de cliente y vuelve a contar las filas.\n\nSolución y comprobación\nQuedan 5 filas. `df[\"cliente\"].unique()` debe mostrar Ana, Luis, María y Pedro, sin espacios.",
+          "sources": [
+            {
+              "title": "pandas: DataFrame.drop_duplicates (inglés)",
+              "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop_duplicates.html"
+            }
+          ]
+        },
+        {
+          "title": "Convierte tipos y decide qué hacer con los faltantes",
+          "description": "to_numeric, to_datetime y dropna.",
+          "outcome": "Convertir columnas a número y fecha, y tratar los valores inválidos de forma explícita.",
+          "activity": "execute",
+          "preview": "errors=\"coerce\" convierte lo inválido en vacío en lugar de fallar.",
+          "body": "Para sumar montos, la columna debe ser numérica. pd.to_numeric con errors=\"coerce\" convierte lo que puede y deja vacío (NaN) lo que no, como «tres». Después decide: eliminar esas filas, completarlas con un valor justificado o corregirlas a mano. Aquí no sabemos el monto real, así que las quitamos.\n\nEjemplo\n```python\ndf[\"monto\"] = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(df[\"monto\"].isna().sum())   # 2\ndf = df.dropna(subset=[\"monto\"])\ndf[\"fecha\"] = pd.to_datetime(df[\"fecha\"], format=\"%Y-%m-%d\")\nprint(df[\"monto\"].sum())          # 49.5\n```\n\nIndicar format hace la conversión de fechas predecible: si una fecha no sigue el formato, pandas lo avisa en lugar de adivinar.\n\nPráctica\nConvierte los tipos, elimina las filas sin monto y calcula el total por cliente con `df.groupby(\"cliente\")[\"monto\"].sum()`.\n\nSolución y comprobación\nQuedan 3 filas y el total es 49,5. Por cliente: Ana 3,5; Luis 22,0; María 24,0. Guarda el resultado con `df.to_csv(\"ventas_limpias.csv\", index=False)` y anota cuántas filas eliminaste y por qué.",
+          "sources": [
+            {
+              "title": "pandas: datos faltantes (inglés)",
+              "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html"
+            },
+            {
+              "title": "pandas: to_datetime (inglés)",
+              "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html"
+            }
+          ]
+        }
+      ],
+      "price": 200
+    },
+    {
+      "slug": "group-by-having",
+      "title": "Agrupa y filtra con GROUP BY y HAVING",
+      "topic": "bases-de-datos",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Crea una tabla de ventas en SQLite y responde preguntas con COUNT, SUM y AVG, filtrando filas con WHERE y grupos con HAVING.",
+      "objective": "Escribir consultas SQL que agrupen datos y filtren antes y después de agrupar.",
+      "requirements": "SQLite (o el módulo sqlite3 de Python) o cualquier editor SQL en línea.",
+      "steps": [
+        {
+          "title": "Crea la tabla y cuenta por grupo",
+          "description": "GROUP BY con COUNT y SUM.",
+          "outcome": "Agrupar filas por una columna y calcular recuentos y sumas por grupo.",
+          "activity": "execute",
+          "preview": "Cada columna del SELECT debe estar en GROUP BY o dentro de una función de agregación.",
+          "body": "GROUP BY reúne en un solo resultado las filas que comparten un valor y te permite calcular sobre cada grupo con funciones de agregación: COUNT, SUM, AVG, MIN y MAX. Crea esta tabla en SQLite:\n\n```sql\nCREATE TABLE ventas (id INTEGER PRIMARY KEY, producto TEXT, categoria TEXT, monto REAL);\nINSERT INTO ventas (producto, categoria, monto) VALUES\n  ('Cuaderno', 'Papelería', 3.5), ('Lápiz', 'Papelería', 0.5), ('Cuaderno', 'Papelería', 3.5),\n  ('Mochila', 'Accesorios', 24), ('Botella', 'Accesorios', 8), ('Calculadora', 'Electrónica', 15),\n  ('Audífonos', 'Electrónica', 12), ('Audífonos', 'Electrónica', 12), ('Cargador', 'Electrónica', 9);\n```\n\nEjemplo\n```sql\nSELECT categoria, COUNT(*) AS ventas, SUM(monto) AS total\nFROM ventas\nGROUP BY categoria\nORDER BY total DESC;\n```\n\nPráctica\nEjecuta la consulta y anota el resultado.\n\nSolución y comprobación\nElectrónica: 4 ventas, 48. Accesorios: 2 ventas, 32. Papelería: 3 ventas, 7,5. Las tres sumas dan 87,5, el total de la tabla.",
+          "sources": [
+            {
+              "title": "SQLite: sintaxis de SELECT (inglés)",
+              "url": "https://www.sqlite.org/lang_select.html"
+            }
+          ]
+        },
+        {
+          "title": "Filtra grupos con HAVING",
+          "description": "WHERE actúa antes de agrupar y HAVING después.",
+          "outcome": "Distinguir WHERE de HAVING y usar cada uno en su momento.",
+          "activity": "understand",
+          "preview": "HAVING puede usar COUNT o SUM; WHERE no.",
+          "body": "WHERE filtra filas antes de agrupar: decide qué ventas entran en el cálculo. HAVING filtra grupos después de agrupar: decide qué resultados se muestran. Por eso HAVING puede usar funciones de agregación y WHERE no.\n\nEjemplo\n```sql\nSELECT categoria, COUNT(*) AS ventas, SUM(monto) AS total\nFROM ventas\nGROUP BY categoria\nHAVING COUNT(*) >= 3\nORDER BY total DESC;\n```\n\nEsta consulta devuelve Electrónica (4 ventas, 48) y Papelería (3 ventas, 7,5). Accesorios queda fuera porque tiene 2 ventas.\n\nPuedes combinar ambos filtros. La consulta siguiente ignora las ventas menores de 5 y muestra las categorías cuyo total supera 20:\n\n```sql\nSELECT categoria, SUM(monto) AS total\nFROM ventas\nWHERE monto >= 5\nGROUP BY categoria\nHAVING SUM(monto) > 20\nORDER BY total DESC;\n```\n\nPráctica\nEjecuta la consulta combinada.\n\nSolución y comprobación\nDevuelve Electrónica, 48, y Accesorios, 32. Papelería desaparece porque ninguna de sus ventas llega a 5.",
+          "sources": [
+            {
+              "title": "SQLite: sintaxis de SELECT (inglés)",
+              "url": "https://www.sqlite.org/lang_select.html"
+            }
+          ]
+        },
+        {
+          "title": "Encuentra repetidos y promedios",
+          "description": "Dos usos frecuentes de la agrupación.",
+          "outcome": "Usar GROUP BY y HAVING para encontrar registros repetidos y comparar promedios.",
+          "activity": "execute",
+          "preview": "HAVING COUNT(*) > 1 es la forma clásica de encontrar duplicados.",
+          "body": "La agrupación sirve también para revisar la calidad de los datos. Si agrupas por las columnas que deberían ser únicas y filtras los grupos con más de una fila, encuentras los repetidos.\n\nEjemplo\n```sql\nSELECT producto, COUNT(*) AS veces\nFROM ventas\nGROUP BY producto\nHAVING COUNT(*) > 1;\n```\n\nEl resultado muestra Audífonos y Cuaderno, cada uno 2 veces. En esta tabla pueden ser ventas reales distintas; en una tabla de clientes, dos filas con el mismo correo serían un error.\n\nAVG calcula el promedio por grupo y ROUND limita los decimales:\n\n```sql\nSELECT categoria, ROUND(AVG(monto), 2) AS promedio\nFROM ventas\nGROUP BY categoria\nORDER BY promedio DESC;\n```\n\nPráctica\nCalcula el promedio por categoría y explica por qué Accesorios supera a Electrónica aunque venda menos.\n\nSolución y comprobación\nAccesorios: 16; Electrónica: 12; Papelería: 2,5. Accesorios tiene pocas ventas de monto alto, así que su promedio es mayor aunque su total sea menor.",
+          "sources": [
+            {
+              "title": "SQLite: sintaxis de SELECT (inglés)",
+              "url": "https://www.sqlite.org/lang_select.html"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "primer-modelo-scikit-learn",
+      "title": "Entrena y evalúa tu primer modelo con scikit-learn",
+      "topic": "aprendizaje-automatico",
+      "access": "paid",
+      "level": "intermediate",
+      "minutes": 25,
+      "description": "Separa datos de entrenamiento y prueba, compara un modelo con una referencia ingenua y lee la matriz de confusión antes de confiar en la exactitud.",
+      "objective": "Entrenar un clasificador con scikit-learn y evaluarlo con datos que no vio.",
+      "requirements": "Python 3 con scikit-learn instalado (`pip install scikit-learn`). Conocer listas y funciones de Python.",
+      "steps": [
+        {
+          "title": "Carga los datos y sepáralos",
+          "description": "Entrenamiento y prueba con train_test_split.",
+          "outcome": "Separar un conjunto de datos en entrenamiento y prueba de forma reproducible.",
+          "activity": "execute",
+          "preview": "Un modelo se evalúa con datos que no vio al entrenar.",
+          "body": "Usarás el conjunto Iris, incluido en scikit-learn: 150 flores con cuatro medidas (largo y ancho del sépalo y del pétalo) y tres especies. X contiene las medidas y y la especie.\n\nSi evalúas un modelo con los mismos datos con que aprendió, medirás memoria, no capacidad de generalizar. Por eso se reserva una parte como prueba. random_state fija la mezcla para que el resultado sea reproducible, y stratify mantiene la proporción de especies en ambos grupos.\n\nEjemplo\n```python\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\n\nX, y = load_iris(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=42, stratify=y\n)\nprint(X_train.shape, X_test.shape)\n```\n\nPráctica\nEjecuta el código y anota cuántas flores quedan en cada grupo.\n\nSolución y comprobación\nLa salida es (112, 4) (38, 4): 112 flores para entrenar y 38 para probar, cada una con 4 medidas.",
+          "sources": [
+            {
+              "title": "scikit-learn: train_test_split (inglés)",
+              "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html"
+            },
+            {
+              "title": "scikit-learn: primeros pasos (inglés)",
+              "url": "https://scikit-learn.org/stable/getting_started.html"
+            }
+          ]
+        },
+        {
+          "title": "Compara con una referencia ingenua",
+          "description": "DummyClassifier como punto de partida.",
+          "outcome": "Establecer una línea base antes de valorar la exactitud de un modelo.",
+          "activity": "understand",
+          "preview": "Una exactitud solo significa algo comparada con una referencia.",
+          "body": "Antes de celebrar una cifra, pregunta cuánto obtendría un modelo que no aprende nada. DummyClassifier con strategy=\"most_frequent\" predice siempre la clase más común del entrenamiento. Es la referencia mínima: tu modelo debe superarla con claridad.\n\nEjemplo\n```python\nfrom sklearn.dummy import DummyClassifier\nfrom sklearn.tree import DecisionTreeClassifier\n\nbase = DummyClassifier(strategy=\"most_frequent\").fit(X_train, y_train)\narbol = DecisionTreeClassifier(max_depth=3, random_state=42).fit(X_train, y_train)\nprint(base.score(X_test, y_test))\nprint(arbol.score(X_test, y_test))\n```\n\nscore devuelve la exactitud: la proporción de aciertos en los datos de prueba. max_depth=3 limita las preguntas que el árbol puede encadenar, lo que reduce el riesgo de memorizar.\n\nPráctica\nEjecuta ambos modelos y compara la exactitud.\n\nSolución y comprobación\nCon scikit-learn 1.9 obtuvimos 0,316 para la referencia y 0,895 para el árbol; en otras versiones la cifra puede variar levemente. La referencia ronda un tercio porque hay tres especies en proporciones casi iguales.",
+          "sources": [
+            {
+              "title": "scikit-learn: primeros pasos (inglés)",
+              "url": "https://scikit-learn.org/stable/getting_started.html"
+            }
+          ]
+        },
+        {
+          "title": "Lee la matriz de confusión",
+          "description": "Dónde se equivoca el modelo.",
+          "outcome": "Interpretar una matriz de confusión y detectar qué clases se confunden.",
+          "activity": "understand",
+          "preview": "La diagonal son aciertos; todo lo demás son errores.",
+          "body": "La exactitud resume todo en un número y oculta dónde están los errores. La matriz de confusión los muestra: cada fila es la clase real y cada columna, la predicha. La diagonal cuenta los aciertos.\n\nEjemplo\n```python\nfrom sklearn.metrics import confusion_matrix\n\nprint(confusion_matrix(y_test, arbol.predict(X_test)))\n```\n\n```text\n[[12  0  0]\n [ 0 12  1]\n [ 0  3 10]]\n```\n\nLas 12 setosas se clasifican bien. Una versicolor se predice como virginica y tres virginicas como versicolor. Esas dos especies tienen medidas parecidas; setosa se separa con facilidad.\n\nPráctica\nCalcula la exactitud a partir de la matriz.\n\nSolución y comprobación\nAciertos: 12 + 12 + 10 = 34 de 38, es decir, 0,895, el mismo valor que devolvió score.",
+          "sources": [
+            {
+              "title": "scikit-learn: primeros pasos (inglés)",
+              "url": "https://scikit-learn.org/stable/getting_started.html"
+            }
+          ]
+        },
+        {
+          "title": "Prueba otro modelo y predice",
+          "description": "Comparar con los mismos datos y usar el modelo.",
+          "outcome": "Comparar dos modelos con la misma partición y hacer predicciones nuevas.",
+          "activity": "execute",
+          "preview": "Compara modelos siempre con la misma partición de prueba.",
+          "body": "Para elegir entre modelos, evalúalos con la misma partición. La regresión logística es otro clasificador habitual; max_iter le da más iteraciones para converger.\n\nEjemplo\n```python\nfrom sklearn.linear_model import LogisticRegression\n\nlogistica = LogisticRegression(max_iter=1000).fit(X_train, y_train)\nprint(logistica.score(X_test, y_test))\nprint(arbol.predict([[5.1, 3.5, 1.4, 0.2], [6.7, 3.0, 5.2, 2.3]]))\n```\n\npredict recibe una lista de flores, cada una con sus cuatro medidas, y devuelve el número de especie: 0 setosa, 1 versicolor y 2 virginica.\n\nCon solo 38 flores de prueba, una diferencia de uno o dos aciertos no basta para declarar un ganador. En proyectos reales se usa validación cruzada, que repite la evaluación con varias particiones.\n\nPráctica\nEvalúa la regresión logística y predice las dos flores del ejemplo.\n\nSolución y comprobación\nCon scikit-learn 1.9 obtuvimos 0,947 de exactitud y las predicciones [0 2]: una setosa y una virginica.",
+          "sources": [
+            {
+              "title": "scikit-learn: primeros pasos (inglés)",
+              "url": "https://scikit-learn.org/stable/getting_started.html"
+            },
+            {
+              "title": "Google: curso intensivo de aprendizaje automático",
+              "url": "https://developers.google.com/machine-learning/crash-course?hl=es-419"
+            }
+          ]
+        }
+      ],
+      "price": 380
+    },
+    {
+      "slug": "resumen-verificable-ia",
+      "title": "Pide a una IA un resumen que puedas verificar",
+      "topic": "inteligencia-artificial",
+      "access": "freemium",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Escribe instrucciones claras con contexto y formato, pide citas del texto original y comprueba cada afirmación antes de usar el resumen.",
+      "objective": "Obtener de un asistente de IA un resumen útil y verificar su fidelidad al documento original.",
+      "requirements": "Acceso a un asistente de IA conversacional y un documento propio sin datos sensibles.",
+      "steps": [
+        {
+          "title": "Escribe una instrucción completa",
+          "description": "Tarea, contexto, formato y límites.",
+          "outcome": "Redactar una instrucción que indique tarea, público, formato y límites.",
+          "activity": "design",
+          "preview": "Una buena instrucción dice para quién es el resumen y qué no debe hacer.",
+          "body": "Los asistentes de IA generan texto probable a partir de tu instrucción y del material que les das. Una instrucción vaga produce un resumen genérico; una instrucción clara reduce el trabajo de corrección. Las guías de Google y Anthropic coinciden en lo básico: indica la tarea, el contexto, el público, el formato de salida y las restricciones.\n\nAntes de pegar un documento, revisa que no contenga datos personales, contraseñas ni información confidencial: el servicio puede almacenarlo según sus condiciones.\n\nEjemplo\n```text\nResume el siguiente acta de reunión para el equipo que no asistió.\nFormato: cinco viñetas como máximo y una lista de tareas con responsable y fecha.\nUsa solo información del texto. Si un dato no aparece, escribe «No consta».\n<acta>\n…pega aquí el texto…\n</acta>\n```\n\nDelimitar el documento con etiquetas ayuda al modelo a distinguir tus instrucciones del material.\n\nPráctica\nEscribe una instrucción para resumir un documento tuyo con público, formato y la regla «No consta».\n\nSolución y comprobación\nTu instrucción está completa si alguien que no conoce el documento entendería qué resultado esperas y en qué formato.",
+          "sources": [
+            {
+              "title": "Google AI: introducción al diseño de instrucciones",
+              "url": "https://ai.google.dev/gemini-api/docs/prompting-intro?hl=es-419"
+            },
+            {
+              "title": "Anthropic: ingeniería de instrucciones",
+              "url": "https://docs.anthropic.com/es/docs/build-with-claude/prompt-engineering/overview"
+            }
+          ]
+        },
+        {
+          "title": "Pide citas que respalden cada punto",
+          "description": "Fragmentos textuales para comprobar.",
+          "outcome": "Solicitar citas textuales del documento que respalden cada afirmación.",
+          "activity": "execute",
+          "preview": "Una cita literal se comprueba con buscar en el documento.",
+          "body": "Los modelos pueden escribir afirmaciones que suenan bien y no están en el texto. Para comprobarlas rápido, pide que cada punto vaya acompañado de una cita literal del documento. Así no tienes que releerlo completo: buscas la cita y confirmas que dice lo que el resumen afirma.\n\nEjemplo\n```text\nPara cada viñeta, añade debajo una cita textual del acta entre comillas\nque la respalde. No parafrasees las citas. Si no encuentras una cita,\nelimina la viñeta.\n```\n\nPedir que elimine lo que no puede respaldar reduce el contenido inventado, aunque no lo elimina por completo: el modelo también puede alterar una cita.\n\nPráctica\nRepite tu solicitud añadiendo la petición de citas.\n\nSolución y comprobación\nCada viñeta debe tener una cita entre comillas. Si alguna viñeta no la tiene o la cita parece demasiado perfecta, márcala para revisar en el siguiente paso.",
+          "sources": [
+            {
+              "title": "Anthropic: ingeniería de instrucciones",
+              "url": "https://docs.anthropic.com/es/docs/build-with-claude/prompt-engineering/overview"
+            }
+          ]
+        },
+        {
+          "title": "Verifica antes de usar el resultado",
+          "description": "Busca cada cita y revisa cifras, nombres y fechas.",
+          "outcome": "Comprobar un resumen generado contra el original y corregir los errores.",
+          "activity": "execute",
+          "preview": "Las cifras y los nombres son los errores más frecuentes y los más caros.",
+          "body": "Abre el documento original y usa la búsqueda del editor (Ctrl+F) para encontrar cada cita. Si la cita no aparece igual, la viñeta no está respaldada. Después revisa con atención cifras, nombres, fechas y negaciones: un «no» perdido invierte una decisión.\n\nComprueba también lo que falta. Un resumen puede ser fiel y aun así omitir un punto clave, como una fecha límite o un riesgo. Si lo encuentras, pide que lo añada o agrégalo tú.\n\nEjemplo\nEl resumen dice «Entrega el 15 de noviembre». Buscas «15 de noviembre» y el acta dice «a más tardar el 15 de noviembre, si se aprueba el presupuesto». Corriges la viñeta para incluir la condición.\n\nPráctica\nVerifica todas las citas de tu resumen y anota cuántas viñetas corregiste o eliminaste.\n\nSolución y comprobación\nSolo comparte el resumen cuando cada viñeta tenga una cita encontrada y las cifras coincidan. Si corregiste muchas, simplifica la instrucción o divide el documento en partes.",
+          "sources": [
+            {
+              "title": "Anthropic: ingeniería de instrucciones",
+              "url": "https://docs.anthropic.com/es/docs/build-with-claude/prompt-engineering/overview"
+            },
+            {
+              "title": "Google AI: introducción al diseño de instrucciones",
+              "url": "https://ai.google.dev/gemini-api/docs/prompting-intro?hl=es-419"
+            }
+          ]
+        }
+      ],
+      "price": 180
+    }
+  ],
+  "resources": [
+    {
+      "kind": "video",
+      "slug": "video-machine-learning",
+      "title": "¿Qué es el machine learning? ¿Y el deep learning?",
+      "topic": "aprendizaje-automatico",
+      "video_url": "https://www.youtube.com/watch?v=KytW151dpqU",
+      "video_author": "Dot CSV",
+      "description": "Mapa conceptual en español de la inteligencia artificial, el aprendizaje automático y el aprendizaje profundo. Contexto útil antes de entrenar tu primer modelo.",
+      "outcome": "Distinguir inteligencia artificial, aprendizaje automático y aprendizaje profundo.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video de Dot CSV, reproducido desde YouTube."
+    },
+    {
+      "kind": "video",
+      "slug": "video-tablas-dinamicas",
+      "title": "Tutorial de tablas dinámicas en Excel",
+      "topic": "analisis-datos",
+      "video_url": "https://www.youtube.com/watch?v=UcGv0ObKCok",
+      "video_author": "Academia Excel - Andrés Roldán",
+      "description": "Recorrido en español por la creación de tablas dinámicas en Excel. Complementa el tutorial «Resume ventas con una tabla dinámica».",
+      "outcome": "Crear y ajustar una tabla dinámica en Excel.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video de Academia Excel - Andrés Roldán, reproducido desde YouTube."
+    },
+    {
+      "kind": "material",
+      "slug": "hoja-sql",
+      "title": "Hoja de referencia de SQL",
+      "topic": "bases-de-datos",
+      "access": "free",
+      "description": "Las cláusulas de SELECT en el orden en que se escriben y en el que se evalúan, con funciones de agregación y ejemplos breves.",
+      "outcome": "Escribir consultas SELECT con filtros, agrupaciones y uniones sin consultar la documentación cada vez.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "execute",
+      "preview": "Incluye el orden de evaluación de una consulta y la diferencia entre WHERE y HAVING.",
+      "document": {
+        "subtitle": "Consultas SELECT para SQLite y otros motores. Los ejemplos usan una tabla ventas(producto, categoria, monto).",
+        "sections": [
+          {
+            "heading": "Estructura de una consulta",
+            "code": "SELECT columnas, AGREGADO(columna) AS alias\nFROM tabla\nJOIN otra ON tabla.id = otra.tabla_id\nWHERE condición_de_fila\nGROUP BY columnas\nHAVING condición_de_grupo\nORDER BY columna DESC\nLIMIT n;"
+          },
+          {
+            "heading": "Orden de evaluación",
+            "paragraphs": [
+              "El motor no lee la consulta en el orden en que se escribe. Por eso un alias del SELECT no siempre puede usarse en WHERE."
+            ],
+            "table": {
+              "columns": [
+                "Paso",
+                "Cláusula",
+                "Qué hace"
+              ],
+              "mono": [
+                1
+              ],
+              "widths": [
+                0.1,
+                0.25,
+                0.65
+              ],
+              "rows": [
+                [
+                  "1",
+                  "FROM / JOIN",
+                  "Reúne las tablas y sus filas."
+                ],
+                [
+                  "2",
+                  "WHERE",
+                  "Descarta filas antes de agrupar."
+                ],
+                [
+                  "3",
+                  "GROUP BY",
+                  "Agrupa las filas que comparten valores."
+                ],
+                [
+                  "4",
+                  "HAVING",
+                  "Descarta grupos según agregados."
+                ],
+                [
+                  "5",
+                  "SELECT",
+                  "Calcula columnas y alias."
+                ],
+                [
+                  "6",
+                  "ORDER BY",
+                  "Ordena el resultado."
+                ],
+                [
+                  "7",
+                  "LIMIT",
+                  "Recorta el número de filas."
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Funciones de agregación",
+            "table": {
+              "columns": [
+                "Función",
+                "Devuelve",
+                "Ejemplo"
+              ],
+              "mono": [
+                0,
+                2
+              ],
+              "widths": [
+                0.2,
+                0.35,
+                0.45
+              ],
+              "rows": [
+                [
+                  "COUNT(*)",
+                  "Número de filas",
+                  "COUNT(*) AS ventas"
+                ],
+                [
+                  "COUNT(col)",
+                  "Filas con valor no nulo",
+                  "COUNT(monto)"
+                ],
+                [
+                  "SUM(col)",
+                  "Suma",
+                  "SUM(monto) AS total"
+                ],
+                [
+                  "AVG(col)",
+                  "Promedio",
+                  "ROUND(AVG(monto), 2)"
+                ],
+                [
+                  "MIN / MAX",
+                  "Mínimo y máximo",
+                  "MAX(monto)"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Filtros frecuentes",
+            "table": {
+              "columns": [
+                "Condición",
+                "Significado"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.45,
+                0.55
+              ],
+              "rows": [
+                [
+                  "monto BETWEEN 5 AND 20",
+                  "Entre 5 y 20, ambos incluidos"
+                ],
+                [
+                  "categoria IN ('A', 'B')",
+                  "Igual a cualquiera de la lista"
+                ],
+                [
+                  "producto LIKE 'Cua%'",
+                  "Empieza con «Cua»"
+                ],
+                [
+                  "monto IS NULL",
+                  "Sin valor (no usar = NULL)"
+                ],
+                [
+                  "NOT, AND, OR",
+                  "Combinan condiciones; usa paréntesis"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Uniones",
+            "table": {
+              "columns": [
+                "Tipo",
+                "Resultado"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.3,
+                0.7
+              ],
+              "rows": [
+                [
+                  "INNER JOIN",
+                  "Solo filas con coincidencia en ambas tablas"
+                ],
+                [
+                  "LEFT JOIN",
+                  "Todas las filas de la izquierda y las coincidencias de la derecha"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Patrones útiles",
+            "items": [
+              "Duplicados: `GROUP BY col HAVING COUNT(*) > 1`.",
+              "Los cinco mayores: `ORDER BY total DESC LIMIT 5`.",
+              "Prueba primero con `LIMIT 10` antes de consultar tablas grandes.",
+              "Antes de un DELETE o UPDATE, ejecuta un SELECT con el mismo WHERE."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "SQLite: sintaxis de SELECT (inglés)",
+          "url": "https://www.sqlite.org/lang_select.html"
+        }
+      ]
+    },
+    {
+      "kind": "material",
+      "slug": "hoja-pandas-limpieza",
+      "title": "Hoja de limpieza de datos con pandas",
+      "topic": "analisis-datos",
+      "access": "paid",
+      "description": "Las operaciones de pandas para inspeccionar, limpiar, transformar y guardar un conjunto de datos, con un orden de trabajo recomendado.",
+      "outcome": "Aplicar un proceso de limpieza ordenado y comprobable con pandas.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "execute",
+      "preview": "Incluye un orden de trabajo en siete pasos y las operaciones de cada uno.",
+      "document": {
+        "subtitle": "Operaciones frecuentes con pandas, ordenadas como un proceso de limpieza.",
+        "sections": [
+          {
+            "heading": "Orden de trabajo",
+            "items": [
+              "Inspecciona: forma, tipos, faltantes y una muestra.",
+              "Guarda una copia del original sin modificar.",
+              "Elimina duplicados exactos.",
+              "Normaliza textos.",
+              "Convierte tipos.",
+              "Trata faltantes y valores inválidos.",
+              "Comprueba totales y guarda con un registro de cambios."
+            ]
+          },
+          {
+            "heading": "Inspeccionar",
+            "table": {
+              "columns": [
+                "Operación",
+                "Para qué"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.45,
+                0.55
+              ],
+              "rows": [
+                [
+                  "df.shape",
+                  "Filas y columnas"
+                ],
+                [
+                  "df.dtypes / df.info()",
+                  "Tipos y no nulos por columna"
+                ],
+                [
+                  "df.head() / df.sample(5)",
+                  "Ver filas de ejemplo"
+                ],
+                [
+                  "df.isna().sum()",
+                  "Faltantes por columna"
+                ],
+                [
+                  "df.describe()",
+                  "Resumen de columnas numéricas"
+                ],
+                [
+                  "df[\"col\"].value_counts()",
+                  "Frecuencia de cada valor"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Limpiar",
+            "table": {
+              "columns": [
+                "Operación",
+                "Para qué"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.5,
+                0.5
+              ],
+              "rows": [
+                [
+                  "df.drop_duplicates()",
+                  "Quitar filas idénticas"
+                ],
+                [
+                  "df.drop_duplicates(subset=[\"id\"])",
+                  "Duplicados por clave"
+                ],
+                [
+                  "df[\"col\"].str.strip()",
+                  "Quitar espacios sobrantes"
+                ],
+                [
+                  "df[\"col\"].str.lower()",
+                  "Unificar mayúsculas"
+                ],
+                [
+                  "df.rename(columns={\"a\": \"b\"})",
+                  "Renombrar columnas"
+                ],
+                [
+                  "df.dropna(subset=[\"col\"])",
+                  "Quitar filas sin valor"
+                ],
+                [
+                  "df[\"col\"].fillna(0)",
+                  "Completar faltantes (justifícalo)"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Convertir tipos",
+            "table": {
+              "columns": [
+                "Operación",
+                "Para qué"
+              ],
+              "mono": [
+                0
+              ],
+              "widths": [
+                0.55,
+                0.45
+              ],
+              "rows": [
+                [
+                  "pd.to_numeric(s, errors=\"coerce\")",
+                  "Texto a número; inválidos a NaN"
+                ],
+                [
+                  "pd.to_datetime(s, format=\"%Y-%m-%d\")",
+                  "Texto a fecha con formato fijo"
+                ],
+                [
+                  "s.astype(\"category\")",
+                  "Pocas categorías repetidas"
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Resumir y guardar",
+            "code": "resumen = df.groupby(\"cliente\")[\"monto\"].agg([\"count\", \"sum\", \"mean\"])\ndf.to_csv(\"datos_limpios.csv\", index=False)\nprint(len(df), df[\"monto\"].sum())   # anota las cifras finales"
+          },
+          {
+            "heading": "Comprobaciones finales",
+            "checklist": [
+              "Conté las filas eliminadas en cada paso y sé por qué.",
+              "Los totales coinciden con una fuente independiente o los expliqué.",
+              "Las columnas numéricas y de fecha tienen su tipo correcto.",
+              "No sobrescribí el archivo original."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "pandas: datos faltantes (inglés)",
+          "url": "https://pandas.pydata.org/docs/user_guide/missing_data.html"
+        },
+        {
+          "title": "pandas: DataFrame.drop_duplicates (inglés)",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop_duplicates.html"
+        },
+        {
+          "title": "pandas: to_datetime (inglés)",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html"
+        }
+      ],
+      "price": 140
+    },
+    {
+      "kind": "reference",
+      "slug": "curso-ml-google",
+      "title": "Curso intensivo de aprendizaje automático",
+      "topic": "aprendizaje-automatico",
+      "source_name": "Google for Developers",
+      "source_url": "https://developers.google.com/machine-learning/crash-course?hl=es-419",
+      "description": "Curso gratuito de Google con lecciones, visualizaciones y ejercicios sobre regresión, clasificación, datos y redes neuronales. Disponible en español latinoamericano."
+    }
+  ]
+}

@@ -47,6 +47,7 @@ def prepare_resource(resource, actor):
         creator=resource.creator, kind="video" if model == Video else "material",
         title=resource.title, description=resource.description, topic=resource.topic, access_type=resource.access_type,
         body=resource.transcript, asset=resource.pending_asset, subtitles=resource.pending_subtitles,
+        video_url=getattr(resource, "video_url", ""), video_author=getattr(resource, "video_author", ""),
         **education_values(resource),
     )
     return revision

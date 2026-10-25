@@ -40,8 +40,8 @@ def approved_offer(creator, reviewer, target, title, amount):
     return offer
 
 
-@transaction.atomic
-def publish_collection(catalog):
+def editorial_team():
+    """The approved editorial creator and the reserved reviewer, enabled only during a load."""
     users = get_user_model().objects
     creator, created = users.get_or_create(
         email=CREATOR_EMAIL, account_type="creator", defaults={"first_name": "BTC.EDU"},
@@ -65,8 +65,35 @@ def publish_collection(catalog):
     reviewer.save(update_fields=["password", "is_active", "is_staff"])
     reviewer.user_permissions.set(Permission.objects.filter(
         content_type__app_label__in=["content", "creators", "commerce"],
-        codename__in=["change_course", "change_submission", "change_offer"],
+        codename__in=["change_course", "change_video", "change_material", "change_submission", "change_offer"],
     ))
+    return creator, reviewer
+
+
+def close_review(reviewer):
+    reviewer.is_active = reviewer.is_staff = False
+    reviewer.save(update_fields=["is_active", "is_staff"])
+    reviewer.user_permissions.clear()
+
+
+def backup_database(prefix):
+    database = settings.DATABASES["default"]
+    source = Path(database["NAME"])
+    if database["ENGINE"] != "django.db.backends.sqlite3" or not source.is_file():
+        raise CommandError("La carga requiere una base SQLite existente para respaldarla.")
+    directory = settings.BASE_DIR / ".local" / "backups"
+    directory.mkdir(parents=True, exist_ok=True)
+    backup = directory / f"{prefix}-{datetime.now():%Y%m%d-%H%M%S-%f}.sqlite3"
+    with sqlite3.connect(source) as origin, sqlite3.connect(backup) as destination:
+        origin.backup(destination)
+    origin.close()
+    destination.close()
+    return backup
+
+
+@transaction.atomic
+def publish_collection(catalog):
+    creator, reviewer = editorial_team()
     added = 0
     for item in catalog:
         if Course.objects.filter(creator=creator, title=item["title"]).exists():
@@ -141,9 +168,7 @@ def publish_collection(catalog):
                     approved_offer(creator, reviewer, f"chapter:{chapter.pk}", chapter.title, lesson_price * len(lessons))
             approved_offer(creator, reviewer, f"course:{version.pk}", item["title"], item["price"])
         added += 1
-    reviewer.is_active = reviewer.is_staff = False
-    reviewer.save(update_fields=["is_active", "is_staff"])
-    reviewer.user_permissions.clear()
+    close_review(reviewer)
     return added
 
 
@@ -170,17 +195,7 @@ class Command(BaseCommand):
         if not missing:
             self.stdout.write("Cursos añadidos: 0. El catálogo ya está cargado; no se modificó ningún curso.")
             return
-        database = settings.DATABASES["default"]
-        source = Path(database["NAME"])
-        if database["ENGINE"] != "django.db.backends.sqlite3" or not source.is_file():
-            raise CommandError("La carga requiere una base SQLite existente para respaldarla.")
-        directory = settings.BASE_DIR / ".local" / "backups"
-        directory.mkdir(parents=True, exist_ok=True)
-        backup = directory / f"before-complete-courses-{datetime.now():%Y%m%d-%H%M%S-%f}.sqlite3"
-        with sqlite3.connect(source) as origin, sqlite3.connect(backup) as destination:
-            origin.backup(destination)
-        origin.close()
-        destination.close()
+        backup = backup_database("before-complete-courses")
         self.stdout.write(f"Respaldo local: {backup}")
         count = publish_collection(missing)
         self.stdout.write(self.style.SUCCESS(f"Cursos añadidos: {count}. Lecciones, evaluaciones, proyectos, ofertas y membresía publicados."))

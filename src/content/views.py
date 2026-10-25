@@ -24,6 +24,7 @@ from .models import (
     VersionLesson,
     Video,
 )
+from .reading import video_embed
 
 
 def is_owner(user, course):
@@ -157,7 +158,8 @@ def resource_detail(request, kind, pk):
         resource.topic = revision.topic
     for field, value in education_values(revision or model()).items():
         setattr(resource, field, value)
-    file_url = reverse("resource-file", args=[kind, pk, revision.number, "archivo"]) if revision and decision.allowed else ""
+    asset = revision.asset if revision else None
+    file_url = reverse("resource-file", args=[kind, pk, revision.number, "archivo"]) if asset and decision.allowed else ""
     subtitles_url = reverse("resource-file", args=[kind, pk, revision.number, "subtitulos"]) if revision and revision.subtitles_id and decision.allowed else ""
     from commerce.catalog import available
     from commerce.models import Offer
@@ -178,9 +180,10 @@ def resource_detail(request, kind, pk):
             "kind": "Video" if kind == "videos" else "Material",
             "allowed": decision.allowed, "file_url": file_url, "subtitle_url": subtitles_url,
             "offers": offers,
-            "asset": revision.asset if revision else None,
+            "asset": asset,
             "transcript": revision.body if revision and decision.allowed else "",
-            "media": {"standalone": True, "title": resource.title, "kind": "video" if kind == "videos" else "material", "allowed": decision.allowed, "file_url": file_url if revision and revision.asset.file.storage.exists(revision.asset.file.name) else "", "subtitle_url": subtitles_url, "body": revision.body if revision and decision.allowed else "", "size": revision.asset.size if revision else 0, "mime": revision.asset.mime_type if revision else ""},
+            "media": {"standalone": True, "title": resource.title, "kind": "video" if kind == "videos" else "material", "allowed": decision.allowed, "file_url": file_url if asset and asset.file.storage.exists(asset.file.name) else "", "subtitle_url": subtitles_url, "body": revision.body if revision and decision.allowed else "", "size": asset.size if asset else 0, "mime": asset.mime_type if asset else "",
+                      "embed_url": video_embed(revision.video_url) if revision and revision.video_url else "", "video_url": revision.video_url if revision else "", "video_author": revision.video_author if revision else ""},
             "return_to": return_path(request, "resources"),
             "creator_name": public_creator_name(resource.creator),
             "resource_support_url": support_url,

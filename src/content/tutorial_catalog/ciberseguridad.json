@@ -1,0 +1,612 @@
+{
+  "tutorials": [
+    {
+      "slug": "verificacion-dos-pasos",
+      "title": "Activa la verificación en dos pasos con una app",
+      "topic": "ciberseguridad",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 12,
+      "description": "Protege tu cuenta principal con códigos de una app autenticadora, guarda los códigos de respaldo y comprueba que puedes entrar sin el teléfono.",
+      "objective": "Activar la verificación en dos pasos con códigos TOTP y preparar un acceso de respaldo.",
+      "requirements": "Una cuenta que ofrezca verificación en dos pasos (correo, redes o banca) y un teléfono con una app autenticadora.",
+      "steps": [
+        {
+          "title": "Entiende qué añade un segundo factor",
+          "description": "Algo que sabes, algo que tienes y por qué el SMS es la opción más débil.",
+          "outcome": "Explicar qué protege el segundo factor y comparar SMS, app y llave física.",
+          "activity": "understand",
+          "preview": "Con dos pasos, una contraseña filtrada ya no basta para entrar.",
+          "body": "Una contraseña es algo que sabes. Si se filtra en una brecha o la escribes en una página falsa, cualquiera puede usarla. La verificación en dos pasos añade algo que tienes: un teléfono con una app autenticadora, una llave física o, en el caso más débil, un número que recibe SMS.\n\nLas opciones no protegen igual. El SMS depende de la operadora y puede interceptarse o desviarse con un cambio fraudulento de SIM. Una app autenticadora genera los códigos en tu propio teléfono, sin red. Las llaves físicas y las llaves de acceso (passkeys) resisten además las páginas falsas, porque comprueban el dominio antes de responder.\n\nEjemplo\nAlguien obtiene tu contraseña de correo en una filtración. Sin segundo factor, entra. Con una app autenticadora, se detiene en la pantalla que pide el código de seis dígitos.\n\nPráctica\nRevisa la sección de seguridad de tu cuenta principal y anota qué métodos ofrece: SMS, app, llave física o llave de acceso.\n\nSolución y comprobación\nLa mayoría de servicios grandes ofrece al menos SMS y app. Prioriza app o llave; deja el SMS solo como respaldo si no hay otra opción.",
+          "sources": [
+            {
+              "title": "INCIBE: autenticación de dos factores",
+              "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras/autenticacion-de-dos-factores"
+            }
+          ]
+        },
+        {
+          "title": "Vincula la app autenticadora",
+          "description": "Escanea el código QR y confirma el primer código.",
+          "outcome": "Activar códigos TOTP en una cuenta y confirmar que la app quedó vinculada.",
+          "activity": "execute",
+          "preview": "Los códigos cambian cada 30 segundos y se calculan sin conexión.",
+          "body": "Las apps autenticadoras (Google Authenticator, Microsoft Authenticator, Aegis, 2FAS y otras) siguen el estándar TOTP. Al activar la opción, el servicio te muestra un código QR que contiene un secreto compartido. La app combina ese secreto con la hora actual y genera un código de seis dígitos que cambia cada 30 segundos. Por eso funciona sin datos móviles, pero necesita que la hora del teléfono sea correcta.\n\nEn la configuración de seguridad de tu cuenta, elige «App autenticadora», abre la app en el teléfono, toca «Añadir» y escanea el QR. El servicio te pedirá escribir el código que muestra la app para confirmar.\n\nEjemplo\nSi el servicio rechaza un código recién generado, revisa que la hora del teléfono esté en automático: un desfase de un minuto basta para que no coincida.\n\nPráctica\nActiva la app autenticadora en una cuenta que uses a diario y confirma el primer código.\n\nSolución y comprobación\nLa cuenta debe mostrar la verificación en dos pasos como activa. Cierra sesión en otro navegador y vuelve a entrar: tras la contraseña debe pedirte el código de la app.",
+          "sources": [
+            {
+              "title": "RFC 6238: TOTP, contraseñas de un solo uso basadas en tiempo (inglés)",
+              "url": "https://www.rfc-editor.org/rfc/rfc6238"
+            },
+            {
+              "title": "INCIBE: autenticación de dos factores",
+              "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras/autenticacion-de-dos-factores"
+            }
+          ]
+        },
+        {
+          "title": "Guarda los códigos de respaldo y prueba el acceso",
+          "description": "Qué hacer si pierdes o cambias el teléfono.",
+          "outcome": "Preparar códigos de respaldo y comprobar que permiten entrar sin el teléfono.",
+          "activity": "execute",
+          "preview": "Cada código de respaldo funciona una sola vez.",
+          "body": "Si pierdes el teléfono, la app y sus códigos se van con él. Los servicios ofrecen códigos de respaldo de un solo uso para ese caso. Descárgalos o cópialos al activar la verificación y guárdalos fuera del teléfono: impresos en un lugar seguro o en tu gestor de contraseñas.\n\nAlgunas apps permiten copias cifradas o exportar las cuentas a otro dispositivo. Si cambias de teléfono, transfiere las cuentas antes de borrar el anterior. Desconfía de quien te pida un código por mensaje o llamada: un servicio legítimo nunca lo hace, y un código entregado permite entrar aunque tu contraseña esté a salvo.\n\nEjemplo\nEntras desde un navegador nuevo, eliges «Probar otra forma» y escribes uno de tus códigos de respaldo. El servicio lo acepta y lo marca como usado.\n\nPráctica\nGuarda tus códigos de respaldo y usa uno para iniciar sesión en una ventana privada.\n\nSolución y comprobación\nEl acceso debe funcionar y el código usado debe quedar tachado o desaparecer de la lista. Si te quedan pocos, genera una lista nueva: la anterior deja de valer.",
+          "sources": [
+            {
+              "title": "INCIBE: autenticación de dos factores",
+              "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras/autenticacion-de-dos-factores"
+            },
+            {
+              "title": "INCIBE: contraseñas seguras",
+              "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "revisar-filtraciones",
+      "title": "Revisa si tu correo aparece en una filtración",
+      "topic": "ciberseguridad",
+      "access": "free",
+      "level": "beginner",
+      "minutes": 10,
+      "description": "Consulta Have I Been Pwned, interpreta qué datos se filtraron y actúa: cambia contraseñas repetidas y activa protecciones.",
+      "objective": "Comprobar la exposición de una dirección de correo en filtraciones conocidas y responder con acciones concretas.",
+      "requirements": "Una dirección de correo propia y acceso a las cuentas asociadas.",
+      "steps": [
+        {
+          "title": "Consulta tu correo en Have I Been Pwned",
+          "description": "Un servicio público que reúne filtraciones conocidas.",
+          "outcome": "Buscar una dirección de correo en un servicio de filtraciones y leer el resultado.",
+          "activity": "execute",
+          "preview": "El resultado lista los servicios filtrados y la fecha de cada brecha.",
+          "body": "Cuando un servicio sufre una brecha, las bases de datos robadas suelen circular en foros y mercados. Have I Been Pwned, creado por el investigador Troy Hunt, recopila filtraciones conocidas y permite comprobar si una dirección de correo aparece en ellas. No muestra tus contraseñas: solo indica en qué incidentes figura tu dirección.\n\nEscribe tu correo en la página principal y pulsa el botón de búsqueda. Si el resultado es verde, tu dirección no aparece en las filtraciones que el servicio conoce, lo que no garantiza que nunca se haya expuesto. Si es rojo, verás una lista de servicios con la fecha de cada brecha.\n\nEjemplo\nUna dirección creada en 2012 suele aparecer en varias brechas antiguas de redes sociales o foros, aunque ya no uses esos servicios.\n\nPráctica\nConsulta cada dirección de correo que usas y anota los servicios que aparecen.\n\nSolución y comprobación\nTendrás una lista de servicios y fechas. Úsala en el siguiente paso; no necesitas crear cuenta en el sitio para consultarla.",
+          "sources": [
+            {
+              "title": "Have I Been Pwned (inglés)",
+              "url": "https://haveibeenpwned.com/"
+            }
+          ]
+        },
+        {
+          "title": "Interpreta qué se filtró",
+          "description": "Tipos de datos, fechas y riesgo real de cada brecha.",
+          "outcome": "Priorizar las cuentas afectadas según los datos expuestos.",
+          "activity": "understand",
+          "preview": "Una contraseña filtrada es más urgente que un nombre de usuario.",
+          "body": "Cada brecha en la lista indica los tipos de datos comprometidos: direcciones de correo, nombres, teléfonos, contraseñas (a veces cifradas o con hash) y otros. No todas pesan igual. Si se filtraron contraseñas, aunque fuera con hash, asume que pueden descifrarse, sobre todo si eran cortas o comunes.\n\nEl riesgo más grande aparece cuando repites contraseñas. Los atacantes prueban automáticamente pares de correo y contraseña robados en otros servicios; a esto se le llama relleno de credenciales. Por eso una brecha en un foro olvidado puede abrir tu correo actual.\n\nEjemplo\nLa lista muestra una brecha de 2016 con «Email addresses, Passwords». Si en 2016 usabas esa misma contraseña en tu correo y no la has cambiado, esa cuenta está en riesgo.\n\nPráctica\nMarca en tu lista las brechas que incluyan contraseñas y escribe junto a cada una si repetiste esa contraseña en otro servicio.\n\nSolución y comprobación\nLas cuentas marcadas, empezando por correo y banca, son tu prioridad. Las brechas con solo correo y nombre aumentan sobre todo el riesgo de phishing.",
+          "sources": [
+            {
+              "title": "Have I Been Pwned (inglés)",
+              "url": "https://haveibeenpwned.com/"
+            },
+            {
+              "title": "INCIBE: contraseñas seguras",
+              "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras"
+            }
+          ]
+        },
+        {
+          "title": "Cambia contraseñas y refuerza tus cuentas",
+          "description": "Contraseñas únicas, gestor y segundo factor.",
+          "outcome": "Cambiar las contraseñas afectadas y evitar que una brecha futura se propague.",
+          "activity": "execute",
+          "preview": "Una contraseña única por servicio corta el relleno de credenciales.",
+          "body": "Empieza por tu correo principal: quien lo controla puede restablecer casi cualquier otra cuenta. Cambia allí la contraseña por una nueva y única, y activa la verificación en dos pasos. Después sigue con banca, redes y compras.\n\nPara no depender de la memoria, usa un gestor de contraseñas. Genera claves largas y distintas para cada servicio y solo necesitas recordar una contraseña maestra robusta, por ejemplo una frase de varias palabras. Have I Been Pwned también ofrece Pwned Passwords, que comprueba si una contraseña aparece en filtraciones sin enviarla completa: solo viajan los primeros caracteres de su hash. Muchos gestores usan este servicio.\n\nEjemplo\nTras cambiar la contraseña del correo, revisa en la configuración de seguridad las sesiones abiertas y cierra las que no reconozcas.\n\nPráctica\nCambia la contraseña de la cuenta más importante de tu lista y activa su segundo factor.\n\nSolución y comprobación\nLa cuenta tendrá una contraseña que no usas en ningún otro sitio y pedirá un código al entrar desde un dispositivo nuevo. Repite con el resto de tu lista.",
+          "sources": [
+            {
+              "title": "INCIBE: contraseñas seguras",
+              "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras"
+            },
+            {
+              "title": "Have I Been Pwned (inglés)",
+              "url": "https://haveibeenpwned.com/"
+            },
+            {
+              "title": "INCIBE: autenticación de dos factores",
+              "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras/autenticacion-de-dos-factores"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "analizar-correo-sospechoso",
+      "title": "Analiza un correo sospechoso antes de hacer clic",
+      "topic": "ciberseguridad",
+      "access": "freemium",
+      "level": "beginner",
+      "minutes": 15,
+      "description": "Reconoce las señales de phishing, revisa los encabezados SPF, DKIM y DMARC, y decide qué hacer si ya hiciste clic.",
+      "objective": "Evaluar un correo sospechoso con señales visibles y encabezados técnicos, y responder correctamente.",
+      "requirements": "Una cuenta de correo web, como Gmail u Outlook. Saber abrir el menú de un mensaje.",
+      "steps": [
+        {
+          "title": "Revisa las señales visibles",
+          "description": "Remitente, urgencia, enlaces y archivos adjuntos.",
+          "outcome": "Detectar señales de phishing sin abrir enlaces ni adjuntos.",
+          "activity": "understand",
+          "preview": "Pasa el cursor sobre un enlace para ver su destino real.",
+          "body": "El phishing intenta que entregues datos o instales algo haciéndose pasar por alguien de confianza: tu banco, una tienda, tu jefe o un servicio de paquetería. Antes de hacer clic, revisa cuatro señales.\n\nLa dirección real del remitente: el nombre visible puede decir «Banco» y la dirección venir de un dominio desconocido o con letras cambiadas. La urgencia o la amenaza: «tu cuenta se bloqueará hoy». Los enlaces: en una computadora, pasa el cursor sobre ellos sin hacer clic y mira la dirección que aparece; en el teléfono, mantén pulsado. Y los adjuntos inesperados, sobre todo documentos que piden habilitar macros o archivos comprimidos.\n\nEjemplo\nUn correo de «Soporte de Paquetería» pide pagar 1,50 dólares para liberar un envío. El enlace apunta a un dominio que no es el de la empresa. Es phishing, aunque el logo sea idéntico.\n\nPráctica\nAbre la carpeta de spam y elige un mensaje. Sin hacer clic, anota el remitente real y el destino de uno de sus enlaces.\n\nSolución y comprobación\nSi el dominio del remitente o del enlace no corresponde a la organización que dice ser, trata el mensaje como fraude.",
+          "sources": [
+            {
+              "title": "INCIBE: phishing",
+              "url": "https://www.incibe.es/ciudadania/tematicas/fraudes-online/phishing"
+            }
+          ]
+        },
+        {
+          "title": "Lee los encabezados de autenticación",
+          "description": "Qué dicen SPF, DKIM y DMARC sobre el remitente.",
+          "outcome": "Interpretar los resultados SPF, DKIM y DMARC de un mensaje.",
+          "activity": "execute",
+          "preview": "dmarc=fail con el dominio de tu banco es una alarma clara.",
+          "body": "Cada correo trae encabezados que registran su recorrido. Tres comprobaciones ayudan a saber si un mensaje viene de quien dice. SPF verifica que el servidor que lo envió está autorizado por el dominio. DKIM verifica una firma criptográfica del dominio sobre el mensaje. DMARC une ambos resultados con el dominio visible en el campo «De» y aplica la política que ese dominio publicó.\n\nEn Gmail, abre el mensaje, toca el menú de tres puntos y elige «Mostrar original». Arriba verás SPF, DKIM y DMARC con PASS o FAIL. En Outlook, la opción se llama «Ver origen del mensaje» o «Ver detalles del mensaje»; busca la línea Authentication-Results.\n\nEjemplo\n```text\nAuthentication-Results: mx.google.com;\n       spf=pass smtp.mailfrom=ejemplo.com;\n       dkim=pass header.i=@ejemplo.com;\n       dmarc=pass header.from=ejemplo.com\n```\n\nPráctica\nAbre los encabezados de un correo legítimo de tu banco o de una tienda y de un mensaje de spam. Compara los tres resultados.\n\nSolución y comprobación\nEl mensaje legítimo suele mostrar pass en los tres. Un pass no garantiza buenas intenciones: solo confirma el dominio. Si el dominio es parecido pero distinto, sigue siendo fraude.",
+          "sources": [
+            {
+              "title": "Ayuda de Gmail: rastrear un correo con los encabezados completos",
+              "url": "https://support.google.com/mail/answer/29436?hl=es"
+            },
+            {
+              "title": "INCIBE: phishing",
+              "url": "https://www.incibe.es/ciudadania/tematicas/fraudes-online/phishing"
+            }
+          ]
+        },
+        {
+          "title": "Reporta el mensaje o actúa si ya hiciste clic",
+          "description": "Pasos inmediatos para limitar el daño.",
+          "outcome": "Reportar un intento de phishing y responder si se entregaron datos.",
+          "activity": "execute",
+          "preview": "Cambia primero la contraseña desde la dirección oficial, nunca desde el enlace.",
+          "body": "Si el mensaje es fraudulento, repórtalo con la opción «Denunciar phishing» o «Notificar como suplantación» de tu correo y bórralo. Si suplanta a una organización, avísale por su canal oficial; muchas tienen una dirección para reportes.\n\nSi ya hiciste clic, actúa según lo que pasó. Si solo abriste la página y no escribiste nada, cierra la pestaña y vigila. Si escribiste una contraseña, cámbiala de inmediato entrando por la dirección oficial que tú escribes, activa el segundo factor y cierra las sesiones abiertas. Si diste datos de tarjeta, llama a tu banco para bloquearla. Si descargaste y abriste un archivo, desconecta el equipo de la red y analízalo con tu antivirus.\n\nEjemplo\nEscribiste la contraseña del correo en una página falsa. Entras a la configuración de seguridad desde el navegador, cambias la contraseña, cierras todas las sesiones y revisas reglas de reenvío que no creaste.\n\nPráctica\nLocaliza en tu correo la opción para reportar phishing y la sección de sesiones activas de tu cuenta.\n\nSolución y comprobación\nDebes poder llegar a ambas en menos de un minuto. Anota el número de emergencia de tu banco junto a tus contactos.",
+          "sources": [
+            {
+              "title": "INCIBE: phishing",
+              "url": "https://www.incibe.es/ciudadania/tematicas/fraudes-online/phishing"
+            },
+            {
+              "title": "INCIBE: contraseñas seguras",
+              "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras"
+            }
+          ]
+        }
+      ],
+      "price": 180
+    },
+    {
+      "slug": "verificar-descarga-sha256",
+      "title": "Verifica una descarga con SHA-256",
+      "topic": "ciberseguridad",
+      "access": "freemium",
+      "level": "beginner",
+      "minutes": 10,
+      "description": "Calcula el hash SHA-256 de un archivo en Windows, macOS o Linux y compáralo con el valor que publica el proyecto.",
+      "objective": "Comprobar la integridad de un archivo descargado comparando su hash SHA-256.",
+      "requirements": "Una terminal: PowerShell en Windows o Terminal en macOS y Linux.",
+      "steps": [
+        {
+          "title": "Entiende qué es un hash",
+          "description": "Una huella que cambia por completo si cambia un solo byte.",
+          "outcome": "Explicar qué comprueba un hash y qué no comprueba.",
+          "activity": "understand",
+          "preview": "El hash SHA-256 de un archivo vacío siempre empieza con e3b0c442.",
+          "body": "Una función hash convierte un archivo de cualquier tamaño en una huella de longitud fija. SHA-256 produce 64 caracteres hexadecimales. El mismo archivo produce siempre el mismo hash, y un cambio de un solo byte produce uno completamente distinto. Por eso los proyectos publican el hash junto a sus descargas: si tu archivo da el mismo valor, es idéntico al que publicaron.\n\nEl hash comprueba integridad, no autoría. Si un atacante controla la página de descarga, puede cambiar el archivo y también el hash publicado. Para comprobar quién lo firmó, algunos proyectos publican además firmas GPG o firmas de código. Como mínimo, toma el hash de la página oficial, a ser posible desde una fuente distinta a la del archivo.\n\nEjemplo\nEl hash SHA-256 de un archivo vacío es:\n```text\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n```\n\nPráctica\nBusca en la página de descargas de un programa que uses (por ejemplo, VLC o Python) dónde publica sus hashes.\n\nSolución y comprobación\nSuele aparecer como «SHA256», «checksum» o en un archivo con extensión .sha256 junto a la descarga.",
+          "sources": [
+            {
+              "title": "Microsoft Learn: Get-FileHash",
+              "url": "https://learn.microsoft.com/es-es/powershell/module/microsoft.powershell.utility/get-filehash"
+            }
+          ]
+        },
+        {
+          "title": "Calcula el hash en tu sistema",
+          "description": "Get-FileHash, certutil, shasum y sha256sum.",
+          "outcome": "Calcular el hash SHA-256 de un archivo desde la terminal.",
+          "activity": "execute",
+          "preview": "En Windows, Get-FileHash usa SHA-256 por defecto.",
+          "body": "Cada sistema trae una herramienta. Abre la terminal en la carpeta donde está el archivo y usa la orden de tu sistema.\n\n```powershell\n# Windows (PowerShell)\nGet-FileHash .\\archivo.zip -Algorithm SHA256\n# Windows (símbolo del sistema)\ncertutil -hashfile archivo.zip SHA256\n```\n\n```bash\n# macOS\nshasum -a 256 archivo.zip\n# Linux\nsha256sum archivo.zip\n```\n\nLa salida muestra los 64 caracteres. PowerShell y certutil los escriben en mayúsculas y las herramientas de Unix en minúsculas; para un hash hexadecimal es lo mismo.\n\nPráctica\nCrea un archivo vacío y calcula su hash. En PowerShell: `New-Item vacio.txt -ItemType File`. En macOS o Linux: `touch vacio.txt`.\n\nSolución y comprobación\nEl resultado debe ser e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855, en mayúsculas o minúsculas. Si escribes una letra en el archivo y repites, el hash cambia por completo.",
+          "sources": [
+            {
+              "title": "Microsoft Learn: Get-FileHash",
+              "url": "https://learn.microsoft.com/es-es/powershell/module/microsoft.powershell.utility/get-filehash"
+            }
+          ]
+        },
+        {
+          "title": "Compara el resultado sin errores",
+          "description": "Comparación automática y qué hacer si no coincide.",
+          "outcome": "Comparar hashes de forma automática y decidir qué hacer ante una diferencia.",
+          "activity": "execute",
+          "preview": "Comparar a ojo los primeros caracteres no basta.",
+          "body": "Comparar 64 caracteres a simple vista es propenso a errores, y comparar solo los primeros no basta. Deja que la terminal lo haga.\n\n```powershell\n(Get-FileHash .\\archivo.zip).Hash -eq \"PEGA-AQUÍ-EL-HASH-PUBLICADO\"\n```\n\nEn PowerShell, -eq no distingue mayúsculas, así que el resultado es True si coinciden. En Linux, si el proyecto publica un archivo .sha256 con el formato «hash  nombre», usa `sha256sum -c archivo.zip.sha256` y verás «OK» o «FAILED».\n\nSi no coincide, no abras el archivo. Bórralo y descárgalo otra vez desde la página oficial: una descarga interrumpida también cambia el hash. Si vuelve a fallar, avisa al proyecto por su canal oficial.\n\nPráctica\nDescarga un instalador que publique su hash y compáralo con la orden de tu sistema.\n\nSolución y comprobación\nDebes obtener True u OK. Si obtienes False, revisa primero que copiaste el hash completo, sin espacios al inicio o al final.",
+          "sources": [
+            {
+              "title": "Microsoft Learn: Get-FileHash",
+              "url": "https://learn.microsoft.com/es-es/powershell/module/microsoft.powershell.utility/get-filehash"
+            }
+          ]
+        }
+      ],
+      "price": 150
+    },
+    {
+      "slug": "inventario-red-nmap",
+      "title": "Haz un inventario de tu red doméstica con Nmap",
+      "topic": "hacking-etico",
+      "access": "paid",
+      "level": "intermediate",
+      "minutes": 25,
+      "description": "Con permiso y en tu propia red, descubre los equipos conectados, revisa sus puertos abiertos y decide qué cerrar.",
+      "objective": "Inventariar los equipos y servicios expuestos de una red propia con Nmap y priorizar correcciones.",
+      "requirements": "Nmap instalado desde nmap.org, una red doméstica propia o una en la que tengas autorización por escrito, y acceso al router.",
+      "steps": [
+        {
+          "title": "Define el permiso y el alcance",
+          "description": "Qué red puedes analizar y cómo encontrar su rango.",
+          "outcome": "Delimitar el alcance autorizado de un análisis y encontrar el rango de tu red.",
+          "activity": "design",
+          "preview": "Analizar redes ajenas sin permiso puede ser ilegal.",
+          "body": "El hacking ético empieza por el permiso. Analiza solo tu propia red o una en la que tengas autorización por escrito del responsable, con el alcance definido. Escanear redes ajenas, incluso la del trabajo o la de un café, puede violar normas internas y leyes de delitos informáticos.\n\nPara conocer el rango de tu red, mira tu dirección y máscara. En Windows ejecuta `ipconfig`; en macOS o Linux, `ip addr` o `ifconfig`. Si tu dirección es 192.168.1.37 con máscara 255.255.255.0, tu red es 192.168.1.0/24: 256 direcciones, de 192.168.1.0 a 192.168.1.255. Tu router suele ser la puerta de enlace, como 192.168.1.1.\n\nEjemplo\n```text\nDirección IPv4. . . . . . : 192.168.1.37\nMáscara de subred . . . . : 255.255.255.0\nPuerta de enlace  . . . . : 192.168.1.1\n```\n\nPráctica\nEncuentra tu dirección, máscara y puerta de enlace, y escribe el rango de tu red en notación CIDR.\n\nSolución y comprobación\nCon máscara 255.255.255.0 el sufijo es /24. Anota también la fecha y que se trata de tu red: es tu registro de alcance.",
+          "sources": [
+            {
+              "title": "Guía de referencia de Nmap en español",
+              "url": "https://nmap.org/man/es/"
+            }
+          ]
+        },
+        {
+          "title": "Descubre los equipos conectados",
+          "description": "Un barrido sin escaneo de puertos.",
+          "outcome": "Listar los equipos activos de la red con un descubrimiento de hosts.",
+          "activity": "execute",
+          "preview": "La opción -sn descubre equipos sin revisar puertos.",
+          "body": "El primer paso es saber qué equipos responden. La opción -sn hace solo descubrimiento de hosts: Nmap envía sondas y lista los equipos activos sin escanear sus puertos. En una red local, usa solicitudes ARP, que son rápidas y fiables.\n\n```bash\nnmap -sn 192.168.1.0/24\n```\n\nPara cada equipo verás su dirección IP y, en la red local y con permisos de administrador, su dirección MAC y el fabricante de la tarjeta de red. El fabricante ayuda a identificar el dispositivo: un televisor, una impresora, una cámara.\n\nEjemplo\n```text\nNmap scan report for 192.168.1.20\nHost is up (0.0040s latency).\nMAC Address: XX:XX:XX:XX:XX:XX (Hon Hai Precision)\n```\n\nPráctica\nEjecuta el barrido en tu red y construye una tabla con IP, fabricante y qué dispositivo crees que es.\n\nSolución y comprobación\nCompara tu tabla con la lista de dispositivos conectados que muestra el router. Si un equipo no aparece en ninguna de tus notas, investígalo antes de seguir.",
+          "sources": [
+            {
+              "title": "Nmap: descubrimiento de equipos (inglés)",
+              "url": "https://nmap.org/book/man-host-discovery.html"
+            },
+            {
+              "title": "Guía de referencia de Nmap en español",
+              "url": "https://nmap.org/man/es/"
+            }
+          ]
+        },
+        {
+          "title": "Revisa los puertos abiertos",
+          "description": "Puertos comunes, versión del servicio y estados.",
+          "outcome": "Identificar los servicios expuestos de un equipo y sus versiones.",
+          "activity": "execute",
+          "preview": "open significa que un servicio acepta conexiones.",
+          "body": "Con la lista de equipos, revisa qué servicios expone cada uno. Sin opciones, Nmap revisa los 1000 puertos TCP más comunes. Con -sV intenta identificar el servicio y su versión.\n\n```bash\nnmap -sV 192.168.1.20\n```\n\nCada puerto aparece con un estado. open: un servicio acepta conexiones. closed: el equipo responde, pero nadie escucha ahí. filtered: un cortafuegos impide saberlo. Lo que importa son los abiertos y si los esperabas.\n\nEjemplo\n```text\nPORT     STATE SERVICE VERSION\n22/tcp   open  ssh     OpenSSH 8.9\n80/tcp   open  http    lighttpd\n554/tcp  open  rtsp\n```\n\nUn puerto 554 (RTSP) abierto en una cámara indica que su transmisión de video es accesible desde la red.\n\nPráctica\nRevisa los puertos de tu router y de un dispositivo inteligente de tu casa.\n\nSolución y comprobación\nAnota por cada equipo los puertos abiertos y el servicio. Un router suele exponer su panel web (80 o 443) y DNS (53) dentro de la red local.",
+          "sources": [
+            {
+              "title": "Guía de referencia de Nmap en español",
+              "url": "https://nmap.org/man/es/"
+            }
+          ]
+        },
+        {
+          "title": "Prioriza y corrige",
+          "description": "Qué cerrar, qué actualizar y cómo documentarlo.",
+          "outcome": "Priorizar correcciones de los servicios expuestos y documentar el resultado.",
+          "activity": "design",
+          "preview": "Todo servicio que no uses es superficie de ataque.",
+          "body": "Con el inventario completo, decide qué hacer con cada servicio abierto. Si no lo usas, desactívalo: Telnet (23), paneles web de dispositivos que no administras o el acceso remoto del router desde Internet. Si lo usas, actualiza el firmware o el software y cambia las contraseñas de fábrica. Revisa en el router que UPnP y la redirección de puertos solo abran lo que necesitas.\n\nPrioriza por exposición y por daño posible: primero lo que podría verse desde Internet, después cámaras y almacenamiento con datos personales, y al final los servicios de solo lectura. Separar los dispositivos inteligentes en una red de invitados limita el alcance de un equipo comprometido.\n\nEjemplo\nUna impresora con el puerto 23 abierto: desactivas Telnet en su panel, actualizas su firmware y vuelves a escanearla.\n\nPráctica\nElige el hallazgo más grave de tu inventario, corrígelo y vuelve a escanear ese equipo.\n\nSolución y comprobación\nEl puerto corregido debe aparecer como closed o desaparecer de la lista de abiertos. Guarda la tabla con la fecha para comparar en tu próxima revisión.",
+          "sources": [
+            {
+              "title": "Guía de referencia de Nmap en español",
+              "url": "https://nmap.org/man/es/"
+            }
+          ]
+        }
+      ],
+      "price": 400
+    }
+  ],
+  "resources": [
+    {
+      "kind": "video",
+      "slug": "video-hacking-etico",
+      "title": "¿Qué es el hacking ético y para qué sirve?",
+      "topic": "hacking-etico",
+      "video_url": "https://www.youtube.com/watch?v=rhEhjk2iDYU",
+      "video_author": "Telefónica",
+      "description": "Introducción en español al hacking ético: qué hace un profesional, con qué permisos y para qué sirve en una organización.",
+      "outcome": "Explicar qué distingue al hacking ético de un ataque y por qué requiere autorización.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video de Telefónica, reproducido desde YouTube."
+    },
+    {
+      "kind": "video",
+      "slug": "video-verificacion-google",
+      "title": "Cómo activar la verificación en dos pasos de Google",
+      "topic": "ciberseguridad",
+      "video_url": "https://www.youtube.com/watch?v=0tpin55ra88",
+      "video_author": "Computer Hoy",
+      "description": "Recorrido en español por la configuración de la verificación en dos pasos en una cuenta de Google. Complementa el tutorial de verificación con app.",
+      "outcome": "Encontrar y activar la verificación en dos pasos en una cuenta de Google.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "understand",
+      "preview": "Video de Computer Hoy, reproducido desde YouTube."
+    },
+    {
+      "kind": "material",
+      "slug": "lista-seguridad-personal",
+      "title": "Lista de seguridad personal",
+      "topic": "ciberseguridad",
+      "access": "free",
+      "description": "Lista de comprobación imprimible para revisar cuentas, contraseñas, dispositivos, copias de seguridad y señales de fraude una vez al trimestre.",
+      "outcome": "Revisar de forma periódica las protecciones básicas de tus cuentas y dispositivos.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "execute",
+      "preview": "Incluye veinte comprobaciones agrupadas en cinco áreas.",
+      "document": {
+        "subtitle": "Revísala cada tres meses. Marca lo que ya cumples y anota lo pendiente.",
+        "sections": [
+          {
+            "heading": "Cuentas",
+            "checklist": [
+              "Mi correo principal tiene una contraseña única y verificación en dos pasos.",
+              "Banca, redes y compras usan verificación en dos pasos con app o llave.",
+              "Guardé los códigos de respaldo fuera del teléfono.",
+              "Revisé las sesiones abiertas y los dispositivos vinculados."
+            ]
+          },
+          {
+            "heading": "Contraseñas",
+            "checklist": [
+              "Uso un gestor de contraseñas con una contraseña maestra robusta.",
+              "No repito contraseñas entre servicios.",
+              "Revisé mis correos en Have I Been Pwned este trimestre.",
+              "Cambié las contraseñas de fábrica del router y de los dispositivos."
+            ]
+          },
+          {
+            "heading": "Dispositivos",
+            "checklist": [
+              "El sistema y las aplicaciones se actualizan automáticamente.",
+              "El teléfono y la computadora tienen bloqueo de pantalla.",
+              "El almacenamiento está cifrado (BitLocker, FileVault o el cifrado del teléfono).",
+              "Desinstalé aplicaciones que no uso."
+            ]
+          },
+          {
+            "heading": "Copias de seguridad",
+            "checklist": [
+              "Tengo copia de mis archivos importantes en otro dispositivo o en la nube.",
+              "Al menos una copia está desconectada o protegida contra borrado.",
+              "Probé restaurar un archivo de la copia este trimestre.",
+              "Las fotos del teléfono se respaldan automáticamente."
+            ]
+          },
+          {
+            "heading": "Señales de fraude",
+            "checklist": [
+              "Reviso la dirección real del remitente antes de abrir enlaces.",
+              "Nunca entrego códigos de verificación por mensaje o llamada.",
+              "Entro a mi banco escribiendo la dirección, no desde enlaces.",
+              "Sé dónde reportar phishing en mi correo y el teléfono de mi banco."
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "INCIBE: contraseñas seguras",
+          "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras"
+        },
+        {
+          "title": "INCIBE: autenticación de dos factores",
+          "url": "https://www.incibe.es/ciudadania/tematicas/contrasenas-seguras/autenticacion-de-dos-factores"
+        },
+        {
+          "title": "INCIBE: phishing",
+          "url": "https://www.incibe.es/ciudadania/tematicas/fraudes-online/phishing"
+        }
+      ]
+    },
+    {
+      "kind": "material",
+      "slug": "registro-incidentes",
+      "title": "Plantilla de registro de incidentes",
+      "topic": "respuesta-incidentes",
+      "access": "paid",
+      "description": "Plantilla para documentar un incidente de seguridad en un equipo pequeño: detección, cronología, contención, recuperación y lecciones aprendidas.",
+      "outcome": "Registrar un incidente de forma ordenada y convertirlo en mejoras concretas.",
+      "requirements": "No necesitas conocimientos previos.",
+      "activity": "design",
+      "preview": "Incluye una escala de severidad de cuatro niveles y una tabla de cronología.",
+      "document": {
+        "subtitle": "Para equipos pequeños. Completa una copia por incidente y guárdala con acceso restringido.",
+        "sections": [
+          {
+            "heading": "Datos del incidente",
+            "table": {
+              "columns": [
+                "Campo",
+                "Valor"
+              ],
+              "widths": [
+                0.3,
+                0.7
+              ],
+              "rows": [
+                [
+                  "Identificador",
+                  ""
+                ],
+                [
+                  "Detectado por",
+                  ""
+                ],
+                [
+                  "Fecha y hora de detección",
+                  ""
+                ],
+                [
+                  "Sistemas o cuentas afectadas",
+                  ""
+                ],
+                [
+                  "Datos posiblemente expuestos",
+                  ""
+                ],
+                [
+                  "Severidad (1–4)",
+                  ""
+                ],
+                [
+                  "Responsable de la respuesta",
+                  ""
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Escala de severidad",
+            "table": {
+              "columns": [
+                "Nivel",
+                "Criterio",
+                "Respuesta"
+              ],
+              "widths": [
+                0.12,
+                0.53,
+                0.35
+              ],
+              "rows": [
+                [
+                  "1",
+                  "Intento sin efecto: phishing reportado, acceso bloqueado.",
+                  "Registrar y cerrar."
+                ],
+                [
+                  "2",
+                  "Una cuenta o equipo comprometido, sin datos de terceros.",
+                  "Contener el mismo día."
+                ],
+                [
+                  "3",
+                  "Varios equipos o datos personales de clientes.",
+                  "Contener de inmediato; valorar avisos."
+                ],
+                [
+                  "4",
+                  "Servicio detenido, extorsión o datos sensibles masivos.",
+                  "Escalar a dirección y apoyo externo."
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Cronología",
+            "paragraphs": [
+              "Registra los hechos en orden y con hora, también lo que se descartó."
+            ],
+            "table": {
+              "columns": [
+                "Fecha y hora",
+                "Qué pasó o qué se hizo",
+                "Quién"
+              ],
+              "widths": [
+                0.22,
+                0.58,
+                0.2
+              ],
+              "rows": [
+                [
+                  "",
+                  "",
+                  ""
+                ],
+                [
+                  "",
+                  "",
+                  ""
+                ],
+                [
+                  "",
+                  "",
+                  ""
+                ],
+                [
+                  "",
+                  "",
+                  ""
+                ]
+              ]
+            }
+          },
+          {
+            "heading": "Contención y recuperación",
+            "checklist": [
+              "Aislé los equipos afectados de la red sin apagarlos, si se necesita evidencia.",
+              "Cambié contraseñas y revoqué sesiones y claves de API expuestas.",
+              "Conservé registros, correos y capturas relevantes.",
+              "Eliminé la causa: cuenta, archivo, regla o vulnerabilidad.",
+              "Restauré desde una copia verificada y comprobé el funcionamiento.",
+              "Valoré si hay obligación de avisar a clientes o autoridades."
+            ]
+          },
+          {
+            "heading": "Lecciones aprendidas",
+            "paragraphs": [
+              "Responde en una reunión breve, sin buscar culpables, dentro de las dos semanas siguientes."
+            ],
+            "items": [
+              "¿Cómo entró el atacante o cómo ocurrió el fallo?",
+              "¿Qué nos permitió detectarlo y cuánto tardamos?",
+              "¿Qué habría reducido el daño?",
+              "¿Qué cambiaremos, quién lo hará y para cuándo?"
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "NIST SP 800-61 Rev. 3: respuesta a incidentes (inglés)",
+          "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+        },
+        {
+          "title": "INCIBE: plan de respuesta a incidentes",
+          "url": "https://www.incibe.es/empresas/blog/plan-respuesta-incidentes"
+        }
+      ],
+      "price": 160
+    },
+    {
+      "kind": "reference",
+      "slug": "owasp-cheat-sheets",
+      "title": "OWASP Cheat Sheet Series",
+      "topic": "seguridad-aplicaciones",
+      "source_name": "OWASP Foundation",
+      "source_url": "https://cheatsheetseries.owasp.org/",
+      "description": "Colección abierta de guías breves para desarrollar aplicaciones seguras: autenticación, contraseñas, sesiones, validación de entradas y más. En inglés; útil como consulta al programar."
+    }
+  ]
+}
