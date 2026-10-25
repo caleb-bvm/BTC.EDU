@@ -44,4 +44,10 @@
   document.querySelectorAll('[data-cart-form]').forEach(bind);
   document.addEventListener('htmx:afterSwap', event => event.detail.target.querySelectorAll('[data-cart-form]').forEach(bind));
   document.querySelector('[data-checkout-error]')?.focus();
+  // The phone total steps aside while the full summary is on screen.
+  const bar = document.querySelector('[data-checkout-bar]');
+  const summary = document.querySelector('[data-checkout-summary]');
+  if (bar && summary && window.IntersectionObserver) {
+    new IntersectionObserver(([entry]) => bar.classList.toggle('is-covered', entry.isIntersecting)).observe(summary);
+  }
 })();

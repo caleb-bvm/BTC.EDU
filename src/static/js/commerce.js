@@ -2,17 +2,22 @@
 
 const paymentForms = document.querySelectorAll("[data-payment-form]");
 paymentForms.forEach((form) => {
-  const button = form.querySelector('button[type="submit"]');
-  if (!button) return;
-  const label = button.textContent;
+  // Buttons outside the form (the phone total bar) submit it through the form attribute.
+  const buttons = [...form.querySelectorAll('button[type="submit"]'), ...(form.id ? document.querySelectorAll(`button[type="submit"][form="${form.id}"]`) : [])];
+  if (!buttons.length) return;
+  const labels = buttons.map((button) => button.textContent);
   form.addEventListener("submit", () => {
-    button.disabled = true;
     form.setAttribute("aria-busy", "true");
-    button.textContent = form.dataset.pendingLabel;
+    buttons.forEach((button) => {
+      button.disabled = true;
+      button.textContent = form.dataset.pendingLabel;
+    });
   });
   window.addEventListener("pageshow", () => {
-    button.disabled = false;
-    button.textContent = label;
+    buttons.forEach((button, index) => {
+      button.disabled = false;
+      button.textContent = labels[index];
+    });
     form.removeAttribute("aria-busy");
   });
 });

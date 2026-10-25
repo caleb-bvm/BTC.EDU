@@ -2,6 +2,7 @@
 .commerce-page {max-width: 1180px; margin-inline: auto; min-width: 0;}
 .commerce-page .commerce-grid {grid-template-columns: minmax(0, 1.45fr) minmax(280px, 1fr); gap: 24px;}
 .commerce-page .commerce-panel {margin: 0; border-radius: var(--card-radius); background: var(--ui-surface); padding: 32px;}
+.commerce-page .commerce-panel a.text-link {width: fit-content;}
 .commerce-page .page-heading {margin-bottom: 28px;}
 .commerce-page .page-heading p {max-width: 65ch;}
 .commerce-page .breadcrumbs {display: flex; margin-bottom: 24px; font-size: 13px;}

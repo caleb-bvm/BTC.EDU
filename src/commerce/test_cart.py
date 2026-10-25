@@ -193,7 +193,7 @@ class CartJourneyTests(TestCase):
         owned = self.client.get(reverse("cart"))
         self.assertContains(owned, "Ya adquirido")
         self.assertEqual(owned.context["selection"]["eligible_total_sats"], 0)
-        self.assertNotContains(owned, 'class="cart-item-price">150 sats')
+        self.assertNotContains(owned, 'class="cart-item-price">150 <small>sats</small>')
 
     def test_replaced_price_is_preserved_for_review_and_never_substituted_silently(self):
         self.add()
@@ -302,7 +302,7 @@ class CartJourneyTests(TestCase):
         repriced = self.pay_review(fresh)
         self.assertEqual(repriced.status_code, 409)
         self.assertFalse(Order.objects.exists())
-        self.assertContains(repriced, "99 sats", status_code=409)
+        self.assertContains(repriced, 'class="cart-item-price">99 <small>sats</small>', status_code=409)
 
     def test_payment_keeps_new_cart_items_and_replay_survives_cart_changes(self):
         self.add()
