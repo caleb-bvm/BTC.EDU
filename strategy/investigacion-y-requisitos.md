@@ -16,7 +16,7 @@ Revisión del 13 de octubre de 2026, en `main` sobre `2d318f6`, con cambios loca
 
 ### Orientación confirmada
 
-El usuario prioriza educación de distintas áreas desde el inicio. A los seis cursos iniciales de Bitcoin y Lightning se añadieron el 15 de octubre cuatro cursos originales completos de Creación y Tecnología, y el 25 de octubre quince más, repartidos por categoría y modalidad. La publicación acredita contenido disponible en otras áreas; la revisión experta y su utilidad con alumnos siguen pendientes. [Contenido, fuentes y alcance](#cursos-completos-creacion-tecnologia), [cursos por modalidad](#cursos-por-modalidad).
+El usuario prioriza educación de distintas áreas desde el inicio. A los seis cursos iniciales de Bitcoin y Lightning se añadieron el 15 de octubre cuatro cursos originales completos de Creación y Tecnología, y el 25 de octubre quince más, repartidos por categoría y modalidad. La publicación acredita contenido disponible en otras áreas; la revisión experta y su utilidad con alumnos siguen pendientes. El mismo día se publicaron cinco tutoriales y cinco recursos por categoría. [Contenido, fuentes y alcance](#cursos-completos-creacion-tecnologia), [cursos por modalidad](#cursos-por-modalidad), [tutoriales y recursos](#tutoriales-y-recursos).
 
 Definimos el público por necesidad: estudiantes, personas que trabajan y autodidactas que quieren aplicar un conocimiento a una tarea delimitada. Priorizamos investigación en El Salvador, sin asumir disponibilidad de wallet, familiaridad con sats o preferencia por pagar. El creador inicial por investigar es alguien con material propio y una audiencia o contexto de enseñanza identificable, dispuesto a preparar unidades útiles y mantenerlas.
 
@@ -2061,6 +2061,27 @@ Las lecciones de pago de los cursos de pago y freemium cuestan 1,5 veces su part
 Cada curso enlaza entre cuatro y ocho videos externos insertables, con el título y el canal de origen. Comprobamos la inserción con el servicio oEmbed de YouTube y reemplazamos los que la tenían desactivada; preferimos videos en español y marcamos como apoyo opcional el único en inglés. Los videos complementan las lecciones; ninguna depende de ellos. Las portadas son quince ilustraciones SVG propias, una por subcategoría, que no requieren créditos ni peticiones a terceros.
 
 Ejecutamos los ejemplos de código antes de publicarlos: consultas en SQLite, análisis con pandas, ejemplos de seguridad con Flask, una API de FastAPI con sus pruebas, contenedores con Docker y un nodo Bitcoin Core en regtest. Esa ejecución corrigió afirmaciones concretas, como el reinicio de systemd tras una señal, la conversión de mayúsculas acentuadas en SQLite y el intervalo del halving en regtest. Los ejercicios de Blender y Figma no se ejecutaron. Comprobamos también los enlaces de las fuentes. Ninguno de los cursos tiene revisión de especialistas ni se ha probado con alumnos.
+
+<a id="tutoriales-y-recursos"></a>
+
+### Tutoriales y recursos por categoría
+
+Tutoriales y Recursos estaban vacíos. El 25 de octubre de 2026 publicamos cinco tutoriales y cinco recursos en cada categoría para que las tres secciones tengan contenido real con el que revisar su diferencia. Tomamos como criterio la distinción de [Diátaxis](https://diataxis.fr/) entre aprender, resolver una tarea y consultar: un curso acompaña un aprendizaje largo, un tutorial resuelve una tarea concreta en minutos y un recurso se consulta cuando hace falta.
+
+Cada tutorial tiene de tres a cuatro pasos de entre 110 y 180 palabras, con ejemplo, práctica, solución y las fuentes oficiales del paso. Por categoría hay dos gratuitos, dos que abren el primer paso y venden los demás y uno de pago. El precio del paso sigue la regla de los cursos (1,5 veces su parte proporcional) y el tutorial completo cuesta entre 150 y 450 sats. Los recursos son dos videos de YouTube en español, una hoja de referencia gratuita en PDF, un material de pago en PDF de 120 a 160 sats y un enlace externo.
+
+| Categoría | Tutoriales | Recursos propios y enlace |
+|---|---|---|
+| Bitcoin y Lightning | Explorador de bloques; respaldo de la frase semilla; leer una factura Lightning; comisión en sat/vB; factura con la API de LNbits | Hoja de unidades, direcciones y comisiones; plan de custodia de la semilla; [documento de Bitcoin en español](https://bitcoin.org/files/bitcoin-paper/bitcoin_es.pdf) |
+| Ciberseguridad | Verificación en dos pasos; revisar filtraciones; analizar un correo sospechoso; verificar una descarga con SHA-256; inventario de la red doméstica con Nmap | Lista de seguridad personal; registro de incidentes; [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/) |
+| Datos e inteligencia artificial | Tabla dinámica; limpiar un CSV con pandas; GROUP BY y HAVING; primer modelo con scikit-learn; resumen verificable con IA | Hoja de SQL; limpieza con pandas; [curso de aprendizaje automático de Google](https://developers.google.com/machine-learning/crash-course?hl=es-419) |
+| Desarrollo de software | Entorno virtual de Python; primera prueba con pytest; deshacer cambios en Git; API con fetch; probar una API con curl | Hoja de Git; códigos de estado HTTP; [MDN: usar Fetch](https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch) |
+| Infraestructura y nube | Llave SSH; tareas con cron; componentes del PC; Dockerfile para Python; subredes CIDR | Hoja de comandos de Linux; tabla de subredes IPv4; [Red Hat: ¿qué es la nube?](https://www.redhat.com/es/topics/cloud) |
+| Diseño y creación digital | Contraste WCAG; imágenes para la web; regla de los tercios; histograma en Lightroom; subtítulos SRT y WebVTT | Lista de accesibilidad visual; exportación de imágenes; [comprobador de WebAIM](https://webaim.org/resources/contrastchecker/) |
+
+Los videos son de canales que publican en español, como Dot CSV, EDteam, midulive, Telefónica o Coderhouse. Se insertan desde `youtube-nocookie.com` con el autor y un enlace al original, y la plataforma los mantiene gratuitos: no vende contenido ajeno ni copia sus archivos. Comprobamos con oEmbed que los doce permiten la inserción. Los PDF son originales, generados con el estilo de la interfaz y con sus fuentes al final.
+
+Ejecutamos los ejemplos de pandas, scikit-learn, pytest, SQLite, Git, `ssh-keygen`, `fetch`, `curl` e `ipaddress`, y los cálculos de comisiones, subredes y contraste; las cifras publicadas son las obtenidas. No se ejecutaron los tutoriales de Docker, cron, Nmap, Lightroom, subtítulos ni LNbits. Ningún tutorial tiene revisión de especialistas; los precios y la división entre pasos gratuitos y de pago son decisiones editoriales sin validar. Falta observar con participantes si la diferencia entre curso, tutorial y recurso ayuda a elegir.
 
 <a id="rutas-de-aprendizaje"></a>
 

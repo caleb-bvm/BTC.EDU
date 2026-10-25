@@ -284,6 +284,12 @@ Los cursos de pago venden cada lección, cada capítulo y el curso completo. Los
 
 Los textos son originales y se apoyan en documentación primaria, como SQLite, pandas, FastAPI, Docker, Blender, Git, NIST, CISA, OWASP, LNbits y Bitcoin Core. Cada curso enlaza videos externos atribuidos, en español salvo uno en inglés identificado como apoyo opcional. Las portadas son ilustraciones propias. Ejecutamos los ejemplos de código y los ejercicios de SQLite, pandas, Flask, FastAPI, Docker y un nodo Bitcoin Core en regtest; los de Blender no se ejecutaron. Ningún curso tiene todavía revisión de especialistas ni se ha probado con alumnos. El catálogo local suma 25 cursos y 252 lecciones. [Fuentes y criterios](investigacion-y-requisitos.md#cursos-por-modalidad).
 
+### Tutoriales y recursos
+
+El mismo día publicamos cinco tutoriales y cinco recursos en cada categoría, porque esas secciones estaban vacías y no permitían comprobar su diferencia con Cursos. Un tutorial resuelve una tarea concreta en tres o cuatro pasos de 10 a 25 minutos, por ejemplo calcular la comisión de una transacción, verificar una descarga con SHA-256 o dividir una red en subredes. En cada categoría hay dos gratuitos, dos que abren el primer paso y venden los demás y uno de pago; el tutorial completo cuesta entre 150 y 450 sats.
+
+Los recursos son dos videos de YouTube en español, una hoja de referencia gratuita en PDF, un material de pago en PDF de 120 a 160 sats y un enlace a una fuente externa. Los videos se insertan con el nombre de su autor y siempre son gratuitos, porque no son contenido propio. Los textos y los PDF son originales y citan sus fuentes; ejecutamos los ejemplos de código y cálculo, salvo los de Docker, cron, Nmap, Lightroom, subtítulos y LNbits. Ningún tutorial tiene revisión de especialistas y los precios no están validados. [Inventario y criterios](investigacion-y-requisitos.md#tutoriales-y-recursos).
+
 ### Estado actual
 
 BTC.EDU dispone de cuentas independientes, aprobación de creadores, edición y revisión editorial, contenido y archivos protegidos por versión, ofertas, carrito, pedidos, facturas, compras, biblioteca, guardados, inscripción, progreso y evaluaciones. La entrega esencial añade certificados, preguntas por lección, notificaciones internas y paneles de creador y administración. La compra agrupada conecta selección, pago y acceso; la remuneración del educador permanece por definir.
