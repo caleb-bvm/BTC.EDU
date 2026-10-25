@@ -1,0 +1,110 @@
+/* Learning paths: numbered nodes on a trail; orange marks only the suggested step of a path in progress, or the purchase before starting. */
+.path-group{margin-bottom:40px}
+.path-group-title{display:flex;align-items:center;gap:10px;margin:0 0 16px;font:11px/1.5 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.path-group-title span{padding:2px 9px;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink)}
+.path-grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
+.path-card{position:relative;display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--card-radius);background:var(--ui-surface);overflow:hidden;transition:border-color .15s}
+.path-card:hover,.path-card:focus-within{border-color:var(--ink)}
+.path-card-trail{position:relative;display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:128px;padding:28px 22px;border-bottom:1px solid var(--line);background:radial-gradient(var(--dot-grid) 1px,transparent 1.2px) 0 0/12px 12px}
+.path-card-trail:before{content:'';position:absolute;left:40px;right:40px;top:50%;border-top:1px solid var(--line-strong)}
+.path-node{position:relative;display:grid;place-items:center;flex-shrink:0;width:38px;height:38px;border:1px solid var(--ink);border-radius:50%;background:var(--ui-surface);font:900 14px/1 var(--font-display);color:var(--ink)}
+.path-node.is-optional{border-style:dashed;border-color:var(--muted);color:var(--muted)}
+.path-node.is-done{border:1px solid var(--ink);background:var(--ink);color:var(--paper)}
+.path-node.is-next{border:1px solid var(--orange);background:var(--orange);color:var(--on-orange)}
+.path-card-body{display:flex;flex:1;flex-direction:column;gap:12px;min-width:0;padding:22px}
+.path-card-meta,.path-stop-meta{display:flex;flex-wrap:wrap;margin:0;font:10px/1.6 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.path-card-meta span,.path-stop-meta span{white-space:nowrap}
+.path-card-meta span:not(:last-child):after,.path-stop-meta span:not(:last-child):after{content:'·';margin:0 6px}
+.academy .path-card h3{margin:0;font-size:22px;line-height:1.2;letter-spacing:-.015em}
+.path-card h3 a{color:var(--ink);text-decoration:none}
+.path-card h3 a:after{content:'';position:absolute;inset:0}
+.path-card-summary{margin:0;font-size:14px;line-height:1.55;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.path-card-author{margin:0;font-size:13px;color:var(--muted)}
+.path-card-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.path-card-label{margin:0 0 8px;font:11px/1.4 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.path-card-figure{display:flex;align-items:baseline;gap:4px;margin:0}
+.path-card-figure strong{font:900 28px/.9 var(--font-display);color:var(--ink);white-space:nowrap}
+.path-card-figure small{font:400 12px/1 var(--font-mono);color:var(--muted)}
+.path-card-figure--text{font-size:15px;font-weight:600;color:var(--ink)}
+.path-card-access{margin:8px 0 0;font-size:13px;color:var(--muted)}
+.path-card-go{display:inline-grid;place-items:center;flex-shrink:0;width:40px;height:40px;border:1px solid var(--line-strong);border-radius:50%;font-size:16px;color:var(--ink);transition:background .15s,border-color .15s,color .15s}
+.path-card:hover .path-card-go,.path-card:focus-within .path-card-go{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+
+.path-heading .path-author{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.path-author .educator-author-link{color:var(--ink)}
+.path-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;align-items:start}
+.path-section-title{margin:0 0 12px;font:11px/1.5 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.path-goal{margin-bottom:32px;padding:20px 22px;border-radius:var(--card-radius);background:var(--ui-muted-surface)}
+.path-goal p{margin:0;font-size:16px;line-height:1.6}
+.path-hint{margin:0 0 20px;font-size:14px;line-height:1.55;color:var(--muted)}
+.path-trail{display:grid;gap:16px;margin:0;padding:0;list-style:none}
+.path-stop{position:relative;display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px}
+.path-stop:not(:last-child):before{content:'';position:absolute;left:27.5px;top:56px;bottom:-16px;border-left:1px solid var(--line-strong)}
+.path-stop-number{display:grid;place-items:center;width:56px;height:56px;border:1px solid var(--ink);border-radius:50%;background:var(--paper);font:900 20px/1 var(--font-display);color:var(--ink)}
+.is-optional .path-stop-number{border-style:dashed;border-color:var(--muted);color:var(--muted)}
+.is-done .path-stop-number{border:1px solid var(--ink);background:var(--ink);color:var(--paper)}
+.is-next .path-stop-number{border:1px solid var(--orange);background:var(--orange);color:var(--on-orange)}
+.path-stop-card{display:grid;gap:10px;min-width:0;padding:20px 22px;border:1px solid var(--line);border-radius:var(--card-radius);background:var(--ui-surface);transition:border-color .15s}
+.path-stop-card:hover,.path-stop-card:focus-within{border-color:var(--ink)}
+.is-optional .path-stop-card{border-style:dashed;border-color:var(--line-strong)}
+.is-optional .path-stop-meta span:first-child{color:var(--ink)}
+.path-stop-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
+.path-stop-state{display:inline-flex;align-items:center;gap:7px;flex-shrink:0;padding:4px 11px;border:1px solid var(--line-strong);border-radius:999px;font:10px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.path-stop-state:before{content:'';width:7px;height:7px;border:1.5px solid currentColor;border-radius:50%}
+.is-active .path-stop-state{border-color:var(--ink);color:var(--ink)}
+.is-done .path-stop-state,.path-stop-state.is-live{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.is-done .path-stop-state:before,.path-stop-state.is-live:before{background:currentColor}
+.academy .path-stop-card h3{margin:0;font-size:20px;line-height:1.25;letter-spacing:-.015em}
+.path-stop-card h3 a{color:var(--ink);text-decoration:none}
+.path-stop-card h3 a:hover{text-decoration:underline;text-underline-offset:4px}
+.path-stop-note{margin:0;font-size:14px;line-height:1.55;color:var(--muted)}
+.path-stop-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--line)}
+.path-stop-access{margin:0;font-size:13px;color:var(--muted)}
+.path-stop-access strong{font:900 20px/1 var(--font-display);color:var(--ink)}
+.path-stop-link{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none}
+.path-stop-link:hover{text-decoration:underline;text-underline-offset:4px}
+
+.path-aside{position:sticky;top:calc(var(--academy-header-height) + 24px);display:grid;gap:16px}
+.path-panel{display:grid;gap:12px;padding:22px;border:1px solid var(--line);border-radius:var(--card-radius);background:var(--ui-surface)}
+.path-panel p{margin:0}
+.path-panel-label{margin:0;font:11px/1.5 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.path-panel-figure{display:flex;align-items:baseline;gap:5px}
+.path-panel-figure strong{font:900 48px/.85 var(--font-display);color:var(--ink)}
+.path-panel-figure small{font:400 12px/1 var(--font-mono);color:var(--muted)}
+.path-panel-count{font:11px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.path-track{display:flex;gap:3px;height:8px}
+.path-track span{flex:1;border-radius:2px;background:var(--line)}
+.path-track .is-optional{background:repeating-linear-gradient(135deg,var(--line-strong) 0 1.5px,transparent 1.5px 4px);box-shadow:inset 0 0 0 1px var(--line)}
+.path-track .is-done{background:var(--ink);box-shadow:none}
+.path-track .is-next{background:var(--orange);box-shadow:none}
+.path-panel-action{width:100%}
+.path-bundle-copy{font-size:15px;font-weight:600;line-height:1.4}
+.path-bundle-lines{display:grid;gap:6px;margin:0;padding:12px 0;border-block:1px solid var(--line)}
+.path-bundle-lines div{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.path-bundle-lines dt{font-weight:400;color:var(--muted)}
+.path-bundle-lines dd{margin:0;font:13px/1.5 var(--font-mono);color:var(--ink);white-space:nowrap}
+.path-panel-note{font-size:13px;line-height:1.5;color:var(--muted)}
+.path-membership{padding:0 6px}
+.path-membership a{color:var(--ink)}
+.path-credential-form{display:grid;gap:8px}
+
+.studio-path-list{display:grid;gap:14px}
+.studio-path-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 22px;border:1px solid var(--line);border-radius:var(--card-radius);background:var(--ui-surface)}
+.studio-path-card h2{margin:12px 0 6px;font-size:20px}
+.studio-path-card h2 a{color:var(--ink);text-decoration:none}
+.studio-path-card p{margin:0 0 6px;font-size:14px;color:var(--muted)}
+.studio-path-actions{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.studio-help{margin:0 0 12px;font-size:14px;line-height:1.55;color:var(--muted)}
+.studio-path-steps{display:grid;gap:10px}
+.studio-path-step{display:grid;gap:10px;padding:12px 16px;border:1px solid var(--line);border-radius:var(--ui-radius)}
+.studio-path-step:has(.studio-path-pick input:checked){border-color:var(--ink)}
+.studio-path-pick{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600}
+.studio-path-pick input,.studio-path-optional input{width:18px;height:18px;accent-color:var(--ink)}
+.studio-path-options{display:grid;grid-template-columns:96px auto minmax(0,1fr);align-items:end;gap:12px}
+.studio-path-options label{display:grid;gap:4px;margin:0;font-size:12px;color:var(--muted)}
+.studio-path-options .studio-path-optional{display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px;color:var(--ink)}
+.studio-path-step:not(:has(.studio-path-pick input:checked)) .studio-path-options{display:none}
+/* On narrow screens progress and purchase come before the trail; the credential stays after it. */
+@media(max-width:960px){.path-layout{grid-template-columns:1fr;gap:16px}.path-aside{display:contents}.path-aside>:not(.path-credential-panel){order:-1}.path-main{margin-bottom:16px}}
+@media(max-width:640px){.path-card-body{padding:18px}.path-card-trail{padding:24px 16px}.path-card-trail:before{left:32px;right:32px}.path-node{width:32px;height:32px;font-size:12px}.path-stop{grid-template-columns:40px minmax(0,1fr);gap:12px}.path-stop-number{width:40px;height:40px;font-size:15px}.path-stop:not(:last-child):before{left:19.5px;top:40px}.path-stop-card{padding:18px}.studio-path-card{flex-direction:column;align-items:flex-start}.studio-path-options{grid-template-columns:1fr 1fr}.studio-path-note{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){.path-card,.path-card-go,.path-stop-card{transition:none}}

@@ -219,7 +219,16 @@ class LessonDiscussionMigrationTests(TransactionTestCase):
     def test_existing_general_threads_keep_all_values_after_migration(self):
         executor = MigrationExecutor(connection)
         latest = executor.loader.graph.leaf_nodes()
-        previous = [node for node in latest if node[0] != "learning"] + [("learning", "0007_communitysubscription")]
+        target = ("learning", "0007_communitysubscription")
+        graph, kept = executor.loader.graph, set(executor.loader.graph.forwards_plan(target))
+        previous = [target]
+        for node in latest:
+            if node[0] == "learning":
+                continue
+            # Another app's migration that needs a later learning state steps back with it.
+            while any(item[0] == "learning" and item not in kept for item in graph.forwards_plan(node)):
+                node = next(parent.key for parent in graph.node_map[node].parents if parent.key[0] == node[0])
+            previous.append(node)
         try:
             executor.migrate(previous)
             apps = executor.loader.project_state(previous).apps

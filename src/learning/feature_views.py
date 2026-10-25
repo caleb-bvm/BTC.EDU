@@ -88,17 +88,35 @@ def showcase_toggle(request, pk):
     return redirect("student-practice", pk=showcase.delivery.practice_id)
 
 
+def path_overview(user, path):
+    """Progress joined with how each course is reached and the bundle price, for the path pages."""
+    from commerce.bundles import BUNDLE_MIN_COURSES, bundle_quote, bundle_rows
+    progress = path_progress(user, path)
+    rows = bundle_rows(user, path)
+    access = {row["course"].pk: row for row in rows}
+    for item in progress["steps"]:
+        row = access.get(item["course"].pk)
+        item["access"] = row["state"] if row else "free"
+        item["price"] = row["offer"].amount_sats if row and row["offer"] else None
+    buy = sum(row["state"] == "bundle" for row in rows)
+    quote = bundle_quote(user, path, rows) if path.bundle_percent and buy >= BUNDLE_MIN_COURSES else None
+    return {"path": path, "progress": progress, "bundle": quote, "to_buy": buy,
+            "membership_steps": sum(item["access"] == "membership" for item in progress["steps"])}
+
+
 @require_GET
 @never_cache
 def paths_list(request):
-    paths = [{"path": path, "progress": path_progress(request.user, path)} for path in published_paths()]
-    return render(request, "learning/paths.html", {"paths": paths, "active": "learning-paths"})
+    entries = [path_overview(request.user, path) for path in published_paths()]
+    return render(request, "learning/paths.html", {"editorial": [entry for entry in entries if not entry["path"].creator_id],
+                                                   "educators": [entry for entry in entries if entry["path"].creator_id],
+                                                   "active": "learning-paths"})
 
 
 @require_http_methods(["GET", "POST"])
 @never_cache
 def path_detail(request, slug):
-    path = get_object_or_404(LearningPath, slug=slug, published=True)
+    path = get_object_or_404(LearningPath.objects.select_related("creator__creator_profile"), slug=slug, published=True)
     if request.method == "POST":
         if not request.user.is_authenticated or request.user.account_type != "student":
             raise PermissionDenied
@@ -108,7 +126,7 @@ def path_detail(request, slug):
             messages.error(request, " ".join(exc.messages))
         else:
             return redirect("path-credential", pk=completion.pk)
-    return render(request, "learning/path.html", {"path": path, "progress": path_progress(request.user, path), "active": "learning-paths"})
+    return render(request, "learning/path.html", {**path_overview(request.user, path), "active": "learning-paths"})
 
 
 @student_required

@@ -2,13 +2,10 @@
 {% block title %}Rutas · BTC.EDU{% endblock %}
 {% block academy_content %}
 <section class="learning-page paths-page">
-  <header class="page-heading"><div><p class="eyebrow">RUTAS</p><h1>Recorridos de varios cursos.</h1><p>Cada ruta ordena cursos y tutoriales hacia un objetivo. Al completarlos obtienes una credencial verificable.</p></div></header>
-  <div class="path-list">
-  {% for entry in paths %}
-    <article class="path-card"><p class="eyebrow">{{ entry.progress.total }} paso{{ entry.progress.total|pluralize:'s' }}</p><h2><a href="{% url 'learning-path' entry.path.slug %}">{{ entry.path.title }}</a></h2><p>{{ entry.path.summary }}</p>
-      {% if user.is_authenticated and entry.progress.finished %}<div class="meter-label"><span>{{ entry.progress.finished }} de {{ entry.progress.total }} completados</span><strong>{{ entry.progress.percentage }}%</strong></div><progress class="progress-track" value="{{ entry.progress.finished }}" max="{{ entry.progress.total|default:1 }}" aria-label="Progreso en {{ entry.path.title }}"></progress>{% endif %}
-      <a class="text-link" href="{% url 'learning-path' entry.path.slug %}">Ver la ruta →</a></article>
-  {% empty %}<div class="commerce-empty"><h2>Todavía no hay rutas publicadas.</h2><a class="btn btn-outline-dark" href="{% url 'courses' %}">Explorar cursos →</a></div>{% endfor %}
-  </div>
+  <header class="page-heading"><div><p class="eyebrow">Rutas</p><h1>Rutas de aprendizaje.</h1><p>Cursos ordenados hacia un objetivo. Sigue el orden recomendado o salta los pasos que ya dominas.</p></div></header>
+  {% if editorial or educators %}
+    {% if editorial %}<section class="path-group" aria-labelledby="paths-editorial"><h2 id="paths-editorial" class="path-group-title">De BTC.EDU<span>{{ editorial|length }}</span></h2><div class="path-grid">{% for entry in editorial %}{% include 'learning/_path_card.html' %}{% endfor %}</div></section>{% endif %}
+    {% if educators %}<section class="path-group" aria-labelledby="paths-educators"><h2 id="paths-educators" class="path-group-title">De educadores<span>{{ educators|length }}</span></h2><div class="path-grid">{% for entry in educators %}{% include 'learning/_path_card.html' %}{% endfor %}</div></section>{% endif %}
+  {% else %}<div class="commerce-empty"><h2>Todavía no hay rutas publicadas.</h2><a class="btn btn-outline-dark" href="{% url 'courses' %}">Explorar cursos →</a></div>{% endif %}
 </section>
 {% endblock %}

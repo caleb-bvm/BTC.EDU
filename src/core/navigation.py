@@ -22,7 +22,7 @@ SECTION_MENUS = {
     "learning": [("workspace", "Mi aprendizaje"), ("student-questions", "Mis preguntas"), ("student-practices", "Prácticas")],
     "payments": [("purchases", "Historial de compras"), ("cart", "Carrito"), ("student-tips", "Propinas")],
     "community": [("community-spaces", "Comunidades de cursos"), ("members", "Personas")],
-    "studio": [("creator-content", "Todo el contenido"), ("creator-files", "Biblioteca de archivos")],
+    "studio": [("creator-content", "Todo el contenido"), ("creator-paths", "Rutas"), ("creator-files", "Biblioteca de archivos")],
     "teaching": [("creator-questions", "Preguntas"), ("creator-results", "Evaluaciones"), ("creator-practices", "Entregas")],
     "sales": [("creator-analytics", "Actividad"), ("creator-offers", "Ofertas y precios"), ("creator-coupons", "Cupones"), ("creator-tips", "Propinas")],
 }
@@ -55,9 +55,9 @@ def contextual_navigation(request):
         selected = "members" if route == "member-profile" else "community-spaces" if route.startswith("community-") else route
     elif route in {"notifications", "notification-read", "notifications-read-all"}:
         context, selected, primary = "notifications", "notifications", ""
-    elif route in {"offer-detail", "checkout", "purchases", "direct-checkout", "refund-request", "gift-detail", "student-tips"} or route.startswith(("invoice-", "cart", "tip-")):
+    elif route in {"offer-detail", "checkout", "purchases", "direct-checkout", "path-checkout", "refund-request", "gift-detail", "student-tips"} or route.startswith(("invoice-", "cart", "tip-")):
         context, primary = "payments", "purchases"
-        selected = ("cart" if route.startswith("cart") or route == "direct-checkout" else "student-tips" if route == "student-tips" or route.startswith("tip-")
+        selected = ("cart" if route.startswith("cart") or route in {"direct-checkout", "path-checkout"} else "student-tips" if route == "student-tips" or route.startswith("tip-")
                     else "purchases" if route in {"purchases", "refund-request", "gift-detail"} or route.startswith("invoice-") else "")
     elif route == "student-profile" or route.startswith("student-account"):
         context, primary = "account", ""
@@ -93,7 +93,7 @@ def contextual_navigation(request):
             selected = "creator-questions" if route.startswith("creator-question") else "creator-practices" if route.startswith("creator-practice") else "creator-results"
         else:
             context, primary = "studio", "creator-dashboard" if route == "creator-dashboard" else "creator-content"
-            selected = "creator-files" if route in {"creator-files", "creator-file"} else "creator-content"
+            selected = "creator-files" if route in {"creator-files", "creator-file"} else "creator-paths" if route.startswith("creator-path") else "creator-content"
     elif route in {"resource-detail", "reference-detail"}:
         selected, primary = "resources", "resources"
     elif route == "course-selector":

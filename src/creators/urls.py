@@ -6,7 +6,13 @@ from accounts.views import CreatorLoginView, CreatorLogoutView, register
 from commerce.feature_views import creator_coupons, creator_tips
 from commerce.views import creator_offer, creator_offers
 from core.analytics_views import creator_analytics
-from learning import assessment_views, essential_views, feature_views, practice_views
+from learning import (
+    assessment_views,
+    essential_views,
+    feature_views,
+    path_views,
+    practice_views,
+)
 
 from . import views
 
@@ -49,6 +55,9 @@ urlpatterns = [
     path("recursos/<str:kind>/<int:pk>/", views.resource_edit, name="creator-resource"),
     path("recursos/<str:kind>/<int:pk>/vista-previa/", views.resource_preview, name="creator-resource-preview"),
     path("archivos/", views.files, name="creator-files"),
+    path("rutas/", path_views.creator_paths, name="creator-paths"),
+    path("rutas/nueva/", path_views.creator_path_edit, name="creator-path-new"),
+    path("rutas/<int:pk>/", path_views.creator_path_edit, name="creator-path"),
     path("archivos/<int:pk>/", views.own_file, name="creator-file"),
     path("enviar/<str:kind>/<int:pk>/", views.send, name="creator-send"),
     path("revision/<int:pk>/", views.review, name="creator-review"),

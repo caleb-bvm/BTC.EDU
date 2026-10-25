@@ -49,6 +49,8 @@ def canonical_lines(lines):
             row["credit_sats"] = line["credit_sats"]
         if line.get("discount_sats"):
             row.update(coupon_id=line["coupon_id"], discount_sats=line["discount_sats"])
+        if line.get("path_id"):
+            row["path_id"] = line["path_id"]
         rows.append(row)
     return rows
 
@@ -58,10 +60,17 @@ def fingerprint_for(lines, gift=False):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
 
 
-def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code="", gift=False):
-    from .pricing import coupon_applies, coupon_discount, find_coupon, upgrade_quote
+def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code="", gift=False, path=None):
+    from .pricing import (
+        bundle_discount,
+        coupon_applies,
+        coupon_discount,
+        find_coupon,
+        upgrade_quote,
+    )
     lines, conflicts, seen_offers, covered = [], [], set(), set()
-    coupon, coupon_error = find_coupon(coupon_code, buyer=actor)
+    # A path bundle carries its own discount, so it never combines with a coupon.
+    coupon, coupon_error = find_coupon(coupon_code, buyer=actor) if path is None else (None, "")
     coupon_used = False
     def conflict(code, message, entry=None, invoice=None):
         entry = entry if isinstance(entry, dict) else None
@@ -120,13 +129,16 @@ def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code
             if reserved:
                 issues.append("pending_overlap")
                 conflict("pending_overlap", "Parte de esta selección tiene un pago pendiente o en revisión. Consulta esa factura antes de pagar otra vez.", entry, reserved)
-        discount = coupon_discount(coupon, amount) if coupon_applies(coupon, offer) else 0
-        coupon_used |= bool(discount)
+        bundled = path is not None and offer.kind == "course"
+        discount = bundle_discount(path.bundle_percent, amount) if bundled else coupon_discount(coupon, amount) if coupon_applies(coupon, offer) else 0
+        coupon_used |= bool(discount) and not bundled
         covered |= paid
         key = str(entry.get("cart_item_key")) if entry.get("cart_item_key") else None
         lines.append({"offer": offer, "offer_id": offer.pk, "creator": offer.creator, "creator_id": offer.creator_id,
                       "title": offer.title, "amount_sats": amount - discount, "list_sats": offer.amount_sats,
-                      "credit_sats": credit, "coupon": coupon if discount else None, "coupon_id": coupon.pk if discount else None,
+                      "credit_sats": credit, "coupon": coupon if discount and not bundled else None,
+                      "coupon_id": coupon.pk if discount and not bundled else None,
+                      "path": path if discount and bundled else None, "path_id": path.pk if discount and bundled else None,
                       "discount_sats": discount, "course_version": offer.course_version,
                       "inventory": units, "return_lesson": origin, "return_lesson_id": origin.pk if origin else None,
                       "cart_item_key": key, "eligible": not issues, "issues": issues})
@@ -197,7 +209,7 @@ def load_quote(actor, token, request_key, mode):
     return payload, None
 
 
-def create_reserved_order(actor, quote, key, cart=None, activity_session=None, gift_message=""):
+def create_reserved_order(actor, quote, key, cart=None, activity_session=None, gift_message="", title=""):
     if not quote["can_checkout"]:
         raise ValidationError([item["message"] for item in quote["conflicts"]])
     inventory = inventory_union(quote["lines"])
@@ -206,7 +218,7 @@ def create_reserved_order(actor, quote, key, cart=None, activity_session=None, g
         require_unreserved(actor, {item["resource_id"] for item in inventory if item["paid"]})
     line_count = len(quote["lines"])
     label = "Regalo" if gift else "Pedido"
-    order = Order.objects.create(buyer=actor, title=f"{label} · {line_count} artículo{'s' if line_count != 1 else ''}",
+    order = Order.objects.create(buyer=actor, title=title[:200] or f"{label} · {line_count} artículo{'s' if line_count != 1 else ''}",
                                  amount_sats=quote["total_sats"], inventory=inventory, cart=cart, cart_revision=quote["cart_revision"],
                                  fingerprint=quote["fingerprint"], request_key=key, gift=gift,
                                  gift_message=" ".join(str(gift_message or "").split())[:280] if gift else "")
@@ -214,7 +226,8 @@ def create_reserved_order(actor, quote, key, cart=None, activity_session=None, g
         OrderLine.objects.create(order=order, offer=line["offer"], creator=line["creator"], title=line["title"],
                                  amount_sats=line["amount_sats"], inventory=line["inventory"], logical_key=line["offer"].logical_key,
                                  course_version=line["course_version"], return_lesson=line["return_lesson"], cart_item_key=line["cart_item_key"], position=position,
-                                 credit_sats=line.get("credit_sats", 0), coupon=line.get("coupon"), discount_sats=line.get("discount_sats", 0))
+                                 credit_sats=line.get("credit_sats", 0), coupon=line.get("coupon"), discount_sats=line.get("discount_sats", 0),
+                                 path=line.get("path"))
     Order._base_manager.filter(pk=order.pk).update(sealed=True)
     order.sealed = True
     invoice = Invoice.objects.create(buyer=actor, order=order, title=order.title, amount_sats=order.amount_sats,
@@ -326,5 +339,6 @@ def _order_snapshot_valid(invoice):
                               "title": line.title, "amount_sats": line.amount_sats, "course_version": line.course_version,
                               "inventory": line.inventory, "return_lesson_id": line.return_lesson_id,
                               "cart_item_key": str(line.cart_item_key) if line.cart_item_key else None,
-                              "credit_sats": line.credit_sats, "coupon_id": line.coupon_id, "discount_sats": line.discount_sats})
+                              "credit_sats": line.credit_sats, "coupon_id": line.coupon_id, "discount_sats": line.discount_sats,
+                              "path_id": line.path_id})
     return fingerprint_for(reconstructed, order.gift) == order.fingerprint

@@ -11,6 +11,7 @@ urlpatterns = [
     path("carrito/incorporar/", cart_views.cart_merge, name="cart-merge"),
     path("comprar/", cart_views.cart_checkout, name="cart-checkout"),
     path("comprar/oferta/<int:pk>/", cart_views.direct_checkout, name="direct-checkout"),
+    path("comprar/ruta/<slug:slug>/", cart_views.path_checkout, name="path-checkout"),
     path("crear/ofertas/<int:pk>/revision/", views.offer_review, name="offer-review"),
     path("ofertas/<int:pk>/", views.offer_detail, name="offer-detail"),
     path("ofertas/<int:pk>/comprar/", views.checkout, name="checkout"),

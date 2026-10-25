@@ -1,0 +1,23 @@
+{% with progress=entry.progress path=entry.path %}
+<article class="path-card{% if progress.started %} is-started{% endif %}{% if progress.completion %} is-complete{% endif %}">
+  <div class="path-card-trail" aria-hidden="true">{% for item in progress.steps %}<span class="path-node{% if item.state == 'certified' or item.state == 'completed' %} is-done{% elif item.is_next and progress.started %} is-next{% endif %}{% if item.optional %} is-optional{% endif %}">{{ forloop.counter|stringformat:'02d' }}</span>{% endfor %}</div>
+  <div class="path-card-body">
+    <p class="path-card-meta"><span>{{ progress.total }} curso{{ progress.total|pluralize }}</span>{% if progress.optional_total %}<span>{{ progress.optional_total }} opcional{{ progress.optional_total|pluralize:'es' }}</span>{% endif %}{% if progress.duration %}<span>{{ progress.duration }}</span>{% endif %}</p>
+    <h3><a href="{% url 'learning-path' path.slug %}">{{ path.title }}</a></h3>
+    <p class="path-card-summary">{{ path.summary }}</p>
+    <p class="path-card-author">Por {{ path.author_name }}</p>
+    <div class="path-card-foot">
+      {% if progress.completion %}
+      <div><p class="path-card-label">Credencial</p><p class="path-card-figure"><strong>Obtenida</strong></p></div>
+      {% elif progress.started %}
+      <div><p class="path-card-label">{{ progress.required_finished }} de {{ progress.required_total }} obligatorios</p><p class="path-card-figure"><strong>{{ progress.percentage }}</strong><small>%</small></p></div>
+      {% elif entry.bundle %}
+      <div><p class="path-card-label">Paquete · −{{ path.bundle_percent }}&nbsp;%</p><p class="path-card-figure"><strong>{{ entry.bundle.total_sats }} sats</strong></p><p class="path-card-access">Por separado {{ entry.bundle.list_total_sats }} sats</p></div>
+      {% else %}
+      <div><p class="path-card-label">Acceso</p><p class="path-card-figure path-card-figure--text">{% if entry.to_buy %}Por curso{% elif entry.membership_steps %}Membresía{% else %}Gratis{% endif %}</p></div>
+      {% endif %}
+      <span class="path-card-go" aria-hidden="true">→</span>
+    </div>
+  </div>
+</article>
+{% endwith %}

@@ -80,13 +80,14 @@ class CertificateTimestampAdmin(HistoryAdmin):
 class PathCourseInline(admin.TabularInline):
     model = PathCourse
     extra = 1
+    fields = ("position", "course", "optional", "note")
     autocomplete_fields = ()
 
 
 @admin.register(LearningPath)
 class LearningPathAdmin(admin.ModelAdmin):
-    list_display = ("title", "slug", "published", "position")
-    list_filter = ("published",)
+    list_display = ("title", "slug", "creator", "published", "bundle_percent", "position")
+    list_filter = ("published", ("creator", admin.EmptyFieldListFilter))
     prepopulated_fields = {"slug": ("title",)}
     inlines = (PathCourseInline,)
 

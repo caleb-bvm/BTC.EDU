@@ -432,22 +432,36 @@ class PracticeShowcase(models.Model):
             raise ValidationError("Solo se pueden mostrar prácticas aprobadas.")
 
 
+BUNDLE_MAX_PERCENT = 50
+
+
 class LearningPath(models.Model):
+    # Without an educator the path is editorial: BTC.EDU may combine published courses from anyone.
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True,
+                                related_name="learning_paths", verbose_name="educador")
     title = models.CharField("título", max_length=200)
     slug = models.SlugField("identificador", unique=True)
     summary = models.CharField("resumen", max_length=240)
     description = models.TextField("descripción", blank=True)
     published = models.BooleanField("publicada", default=False)
     position = models.PositiveIntegerField("orden", default=1)
+    bundle_percent = models.PositiveSmallIntegerField("descuento del paquete (%)", default=0, validators=[MaxValueValidator(BUNDLE_MAX_PERCENT)],
+                                                      help_text="Con 0, los cursos se compran solo por separado.")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ("position", "pk")
         verbose_name = "ruta de aprendizaje"
         verbose_name_plural = "rutas de aprendizaje"
+        constraints = [models.CheckConstraint(condition=models.Q(bundle_percent__lte=BUNDLE_MAX_PERCENT), name="path_bundle_percent_bounds")]
 
     def __str__(self):
         return self.title
+
+    @property
+    def author_name(self):
+        profile = getattr(self.creator, "creator_profile", None) if self.creator_id else None
+        return profile.display_name if profile else "BTC.EDU"
 
 
 class PathCourse(models.Model):
@@ -455,6 +469,8 @@ class PathCourse(models.Model):
     course = models.ForeignKey("content.Course", on_delete=models.PROTECT, related_name="path_steps", verbose_name="curso o tutorial")
     position = models.PositiveIntegerField("orden", default=1)
     note = models.CharField("por qué en este paso", max_length=240, blank=True)
+    # The path is a recommended trail: an optional step never blocks the credential.
+    optional = models.BooleanField("opcional", default=False)
 
     class Meta:
         ordering = ("position", "pk")

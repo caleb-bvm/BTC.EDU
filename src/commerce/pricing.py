@@ -102,6 +102,13 @@ def coupon_discount(coupon, base_sats):
     return max(0, min(value, base_sats - 1))
 
 
+def bundle_discount(percent, base_sats):
+    """A path bundle discount on the price left after credit, rounded down; each course keeps at least one sat."""
+    if base_sats <= 1 or not percent:
+        return 0
+    return min(base_sats * percent // 100, base_sats - 1)
+
+
 def creator_coupons(creator):
     return Coupon.objects.filter(creator=creator).select_related("course").order_by("-created_at", "-pk")
 

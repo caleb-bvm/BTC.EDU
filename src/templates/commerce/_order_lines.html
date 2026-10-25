@@ -2,7 +2,7 @@
 {% for row in order_lines %}
   <article class="order-content-item">
     <div class="order-content-heading"><div><p class="small-note">{{ row.scope }}{% if row.line.course_version_id %} · Versión {{ row.line.course_version.number }}{% endif %}</p><h3>{{ row.line.title }}</h3><p class="creator-name">Por {% include 'creators/_author_link.html' with person=row.creator author_name=row.creator_label %}</p></div><strong>{{ row.line.amount_sats }} sats</strong></div>
-    {% if row.line.credit_sats %}<p class="small-note">Crédito por compras anteriores: −{{ row.line.credit_sats }} sats</p>{% endif %}{% if row.line.discount_sats %}<p class="small-note">Cupón {{ row.line.coupon.code }}: −{{ row.line.discount_sats }} sats</p>{% endif %}
+    {% if row.line.credit_sats %}<p class="small-note">Crédito por compras anteriores: −{{ row.line.credit_sats }} sats</p>{% endif %}{% if row.line.discount_sats %}<p class="small-note">{% if row.line.path_id %}Paquete de la ruta{% else %}Cupón {{ row.line.coupon.code }}{% endif %}: −{{ row.line.discount_sats }} sats</p>{% endif %}
     {% if row.line.return_lesson_id %}<p class="small-note">Lección elegida: {{ row.line.return_lesson.content.title }}</p>{% endif %}
     <details class="purchase-terms"><summary>Qué incluye</summary><ul class="offer-inventory">{% for item in row.line.inventory %}<li><span>{{ item.title }}</span><span class="access-badge">{% if item.paid %}Incluido{% else %}Gratis{% endif %}</span></li>{% endfor %}</ul></details>
     {% if invoice.status == 'paid' %}<a class="btn btn-outline-dark" href="{{ row.destination.url }}">{{ row.destination.label }} →</a>{% endif %}

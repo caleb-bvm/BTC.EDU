@@ -225,6 +225,39 @@ def cart_checkout(request):
 
 @never_cache
 @require_http_methods(["GET", "POST"])
+def path_checkout(request, slug):
+    _role(request)
+    from learning.models import LearningPath
+
+    from .bundles import bundle_quote, reserve_path_order
+    path = get_object_or_404(LearningPath, slug=slug, published=True)
+    review_url = reverse("path-checkout", args=[path.slug])
+    error = ""
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return redirect_to_login(review_url, reverse("login"))
+        verification = _verified(request, review_url)
+        if verification:
+            return verification
+        try:
+            from core.telemetry import session_id
+            invoice = reserve_path_order(request.user, path, request.POST.get("token", ""), request_key=request.POST.get("request_key"),
+                                         activity_session=session_id(request))
+        except ValidationError as exc:
+            error = " ".join(exc.messages)
+        else:
+            invoice, warning = _payment(invoice)
+            if warning:
+                messages.warning(request, warning)
+            return redirect("invoice-detail", pk=invoice.pk)
+    quote = decorate_quote(request.user, bundle_quote(request.user, path))
+    return render(request, "commerce/cart_checkout.html", {"selection": quote, "direct_purchase": True, "bundle_path": path,
+                  "review_error": error, "return_url": reverse("learning-path", args=[path.slug]),
+                  "signin_url": reverse("login") + "?" + urlencode({"next": review_url})}, status=409 if error else 200)
+
+
+@never_cache
+@require_http_methods(["GET", "POST"])
 def direct_checkout(request, pk):
     _role(request)
     offer = get_object_or_404(Offer, pk=pk)

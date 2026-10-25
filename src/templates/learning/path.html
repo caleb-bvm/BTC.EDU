@@ -3,19 +3,64 @@
 {% block academy_content %}
 <section class="learning-page path-page">
   <nav class="breadcrumbs" aria-label="Ruta de navegación"><a href="{% url 'learning-paths' %}">Rutas</a><span aria-hidden="true">/</span><span aria-current="page">{{ path.title }}</span></nav>
-  <header class="page-heading"><div><p class="eyebrow">RUTA · {{ progress.total }} PASO{{ progress.total|pluralize:'S' }}</p><h1>{{ path.title }}</h1><p>{{ path.summary }}</p></div></header>
-  {% if path.description %}<div class="path-description">{{ path.description|linebreaks }}</div>{% endif %}
-  {% if user.is_authenticated %}<div class="path-progress"><div class="meter-label"><span>{{ progress.finished }} de {{ progress.total }} completados</span><strong>{{ progress.percentage }}%</strong></div><progress class="progress-track" value="{{ progress.finished }}" max="{{ progress.total|default:1 }}" aria-label="Progreso en la ruta"></progress></div>{% endif %}
-  <ol class="path-steps">
-  {% for item in progress.steps %}
-    <li class="path-step path-step--{{ item.state }}"><span class="chapter-number" aria-hidden="true">{{ forloop.counter|stringformat:'02d' }}</span><div><p class="eyebrow">{{ item.course.get_kind_display }}{% if item.course.level %} · {{ item.course.get_level_display }}{% endif %}</p><h2><a href="{{ item.url }}">{{ item.course.title }}</a></h2>{% if item.step.note %}<p>{{ item.step.note }}</p>{% endif %}
-      <p class="small-note">{% if item.state == 'certified' %}Certificado obtenido{% elif item.state == 'completed' %}Completado{% elif item.state == 'in_progress' %}En curso · {{ item.done }} de {{ item.total }} lecciones{% else %}Sin empezar{% endif %}</p></div></li>
-  {% endfor %}
-  </ol>
-  <section class="commerce-panel path-credential-panel"><h2>Credencial de la ruta</h2>
-    {% if progress.completion %}<p>Ya obtuviste la credencial de esta ruta.</p><a class="btn btn-dark" href="{% url 'path-credential' progress.completion.pk %}">Ver credencial →</a>
-    {% elif progress.eligible and user.account_type == 'student' %}<p>Completaste todos los pasos. Indica el nombre que aparecerá en la credencial.</p><form method="post" class="studio-form">{% csrf_token %}<label for="path-name">Nombre</label><input id="path-name" class="form-control" name="student_name" maxlength="150" required value="{{ user.display_name }}"><button class="btn btn-dark" type="submit">Obtener credencial</button></form>
-    {% else %}<p>Completa cada curso de la ruta. Cuando un curso ofrece certificado, la credencial lo incluye con su huella SHA-256.</p>{% if progress.next %}<a class="btn btn-outline-dark" href="{{ progress.next.url }}">Continuar con {{ progress.next.course.title }} →</a>{% endif %}{% endif %}
-  </section>
+  <header class="page-heading path-heading"><div>
+    <p class="eyebrow">Ruta · {{ progress.total }} curso{{ progress.total|pluralize }}{% if progress.optional_total %} · {{ progress.optional_total }} opcional{{ progress.optional_total|pluralize:'es' }}{% endif %}{% if progress.duration %} · {{ progress.duration }}{% endif %}</p>
+    <h1>{{ path.title }}</h1><p>{{ path.summary }}</p>
+    <p class="path-author">Por {% if path.creator_id %}{% include 'creators/_author_link.html' with person=path.creator author_name=path.author_name %}{% else %}{{ path.author_name }}{% endif %}</p>
+  </div></header>
+  <div class="path-layout">
+    <div class="path-main">
+      {% if path.description %}<section class="path-goal" aria-labelledby="path-goal-heading"><h2 id="path-goal-heading" class="path-section-title">Al terminar</h2>{{ path.description|linebreaks }}</section>{% endif %}
+      <section aria-labelledby="path-trail-heading">
+        <h2 id="path-trail-heading" class="path-section-title">Orden recomendado</h2>
+        <p class="path-hint">Puedes empezar por cualquier curso y saltar los que ya dominas. Los opcionales no cuentan para la credencial.</p>
+        <ol class="path-trail">
+        {% for item in progress.steps %}
+          <li class="path-stop{% if item.state == 'certified' or item.state == 'completed' %} is-done{% elif item.state == 'in_progress' %} is-active{% endif %}{% if item.is_next and progress.started %} is-next{% endif %}{% if item.optional %} is-optional{% endif %}">
+            <span class="path-stop-number" aria-hidden="true">{{ forloop.counter|stringformat:'02d' }}</span>
+            <article class="path-stop-card">
+              <header class="path-stop-head"><p class="path-stop-meta">{% if item.optional %}<span>Opcional</span>{% endif %}<span>{{ item.course.get_kind_display }}</span>{% if item.course.level %}<span>{{ item.course.get_level_display }}</span>{% endif %}{% if item.course.estimated_minutes %}<span>~{{ item.course.estimated_minutes }} min</span>{% endif %}</p>
+                <span class="path-stop-state">{% if item.state == 'certified' %}Certificado{% elif item.state == 'completed' %}Completado{% elif item.state == 'in_progress' %}En curso · {{ item.done }}/{{ item.total }}{% else %}Sin empezar{% endif %}</span></header>
+              <h3><a href="{{ item.url }}">{{ item.course.title }}</a></h3>
+              {% if item.step.note %}<p class="path-stop-note">{{ item.step.note }}</p>{% endif %}
+              <footer class="path-stop-foot"><p class="path-stop-access">{% if item.access == 'owned' %}Ya es tuyo{% elif item.access == 'membership' %}Incluido en la membresía{% elif item.access == 'free' %}Gratis{% elif item.price %}<strong>{{ item.price }}</strong> sats{% endif %}</p>
+                <a class="path-stop-link" href="{{ item.url }}">{% if item.state == 'in_progress' %}Continuar{% elif item.state == 'certified' or item.state == 'completed' %}Repasar{% else %}Ver curso{% endif %} <span aria-hidden="true">→</span></a></footer>
+            </article>
+          </li>
+        {% endfor %}
+        </ol>
+      </section>
+    </div>
+    <aside class="path-aside" aria-label="Tu ruta">
+      {% if user.is_authenticated and user.account_type == 'student' %}
+      <section class="path-panel" aria-labelledby="path-progress-heading">
+        <h2 id="path-progress-heading" class="path-panel-label">Tu avance</h2>
+        <p class="path-panel-figure"><strong>{{ progress.percentage }}</strong><small>%</small></p>
+        <p class="path-panel-count">{{ progress.required_finished }} de {{ progress.required_total }} cursos obligatorios</p>
+        <div class="path-track" role="progressbar" aria-valuemin="0" aria-valuemax="{{ progress.required_total }}" aria-valuenow="{{ progress.required_finished }}" aria-label="Avance en la ruta">{% for item in progress.steps %}<span class="{% if item.state == 'certified' or item.state == 'completed' %}is-done{% elif item.is_next and progress.started %}is-next{% endif %}{% if item.optional %} is-optional{% endif %}"></span>{% endfor %}</div>
+        {% if progress.next and not progress.completion %}<a class="btn btn-dark path-panel-action" href="{{ progress.next.url }}">{% if progress.started %}Continuar{% else %}Empezar{% endif %} con {{ progress.next.course.title|truncatechars:38 }} <span aria-hidden="true">→</span></a>{% endif %}
+      </section>
+      {% endif %}
+      {% if bundle %}
+      <section class="path-panel path-bundle" aria-labelledby="path-bundle-heading">
+        <h2 id="path-bundle-heading" class="path-panel-label">Paquete de la ruta</h2>
+        <p class="path-bundle-copy">{{ to_buy }} curso{{ to_buy|pluralize }} con {{ path.bundle_percent }}&nbsp;% de descuento{% if progress.started %} en lo que te falta{% endif %}.</p>
+        <dl class="path-bundle-lines"><div><dt>Por separado</dt><dd>{{ bundle.list_total_sats }} sats</dd></div>{% if bundle.credit_total_sats %}<div><dt>Crédito por tus compras</dt><dd>−{{ bundle.credit_total_sats }} sats</dd></div>{% endif %}<div><dt>Descuento</dt><dd>−{{ bundle.discount_total_sats }} sats</dd></div></dl>
+        <p class="path-panel-figure path-bundle-total"><strong>{{ bundle.total_sats }}</strong><small>sats</small></p>
+        <a class="btn {% if progress.started %}btn-dark{% else %}btn-accent{% endif %} path-panel-action" href="{% url 'path-checkout' path.slug %}">Comprar la ruta <span aria-hidden="true">→</span></a>
+        <p class="path-panel-note">No se cobran los cursos que ya tienes, los gratuitos ni los de la membresía.</p>
+      </section>
+      {% elif to_buy and path.bundle_percent %}
+      <section class="path-panel"><h2 class="path-panel-label">Paquete de la ruta</h2><p class="path-panel-note">Solo te falta un curso de pago. Cómpralo desde su ficha.</p></section>
+      {% endif %}
+      {% if membership_steps %}<p class="path-panel-note path-membership">{{ membership_steps }} curso{{ membership_steps|pluralize }} de esta ruta se abre{{ membership_steps|pluralize:'n' }} con la <a href="{% url 'membership' %}">membresía</a>.</p>{% endif %}
+      <section class="path-panel path-credential-panel" aria-labelledby="path-credential-heading">
+        <h2 id="path-credential-heading" class="path-panel-label">Credencial de la ruta</h2>
+        {% if progress.completion %}<p>Ya obtuviste la credencial de esta ruta.</p><a class="btn btn-outline-dark path-panel-action" href="{% url 'path-credential' progress.completion.pk %}">Ver credencial →</a>
+        {% elif progress.eligible and user.account_type == 'student' %}<p>Completaste los cursos obligatorios. Indica el nombre que aparecerá en la credencial.</p><form method="post" class="path-credential-form">{% csrf_token %}<label for="path-name">Nombre</label><input id="path-name" class="form-control" name="student_name" maxlength="150" required value="{{ user.display_name }}"><button class="btn btn-dark" type="submit">Obtener credencial →</button></form>
+        {% else %}<p class="path-panel-note">Completa los cursos obligatorios. Si un curso ofrece certificado, la credencial lo incluye con su huella SHA-256.</p>{% endif %}
+      </section>
+    </aside>
+  </div>
 </section>
 {% endblock %}

@@ -129,6 +129,8 @@ class OrderLine(FrozenRecord):
     credit_sats = models.PositiveIntegerField(default=0)
     coupon = models.ForeignKey("Coupon", on_delete=models.PROTECT, null=True, blank=True, related_name="order_lines")
     discount_sats = models.PositiveIntegerField(default=0)
+    # A path bundle discounts each course it sells instead of a coupon.
+    path = models.ForeignKey("learning.LearningPath", on_delete=models.PROTECT, null=True, blank=True, related_name="order_lines")
 
     class Meta:
         ordering = ("position", "pk")
@@ -140,8 +142,12 @@ class OrderLine(FrozenRecord):
             raise ValidationError("El pedido solo se compone antes de confirmar su selección, con el educador de cada oferta.")
         if self.amount_sats + self.credit_sats + self.discount_sats != self.offer.amount_sats or self.course_version_id != self.offer.course_version_id:
             raise ValidationError("La línea debe conservar el precio y la versión de su oferta.")
-        if bool(self.discount_sats) != bool(self.coupon_id) or (self.coupon_id and self.coupon.creator_id != self.creator_id):
-            raise ValidationError("Un descuento requiere un cupón del educador de la oferta.")
+        if self.coupon_id and self.path_id:
+            raise ValidationError("Un artículo admite un cupón o el paquete de una ruta, no ambos.")
+        if bool(self.discount_sats) != bool(self.coupon_id or self.path_id) or (self.coupon_id and self.coupon.creator_id != self.creator_id):
+            raise ValidationError("Un descuento requiere un cupón del educador de la oferta o el paquete de una ruta.")
+        if self.path_id and (self.offer.kind != "course" or not self.path.steps.filter(course_id=self.course_version.course_id).exists()):
+            raise ValidationError("El paquete solo descuenta cursos completos de su ruta.")
         resources = {item.resource_id for item in self.offer.items.all()}
         included = {item["resource_id"] for item in self.inventory}
         # A credited line completes a package and keeps only the components still missing.
