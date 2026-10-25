@@ -16,7 +16,7 @@ Revisión del 13 de octubre de 2026, en `main` sobre `2d318f6`, con cambios loca
 
 ### Orientación confirmada
 
-El usuario prioriza educación de distintas áreas desde el inicio. A los seis cursos iniciales de Bitcoin y Lightning se añadieron el 15 de octubre cuatro cursos originales completos de Creación y Tecnología. La publicación acredita contenido disponible en otras áreas; la revisión experta y su utilidad con alumnos siguen pendientes. [Contenido, fuentes y alcance](#cursos-completos-creacion-tecnologia).
+El usuario prioriza educación de distintas áreas desde el inicio. A los seis cursos iniciales de Bitcoin y Lightning se añadieron el 15 de octubre cuatro cursos originales completos de Creación y Tecnología, y el 25 de octubre quince más, repartidos por categoría y modalidad. La publicación acredita contenido disponible en otras áreas; la revisión experta y su utilidad con alumnos siguen pendientes. [Contenido, fuentes y alcance](#cursos-completos-creacion-tecnologia), [cursos por modalidad](#cursos-por-modalidad).
 
 Definimos el público por necesidad: estudiantes, personas que trabajan y autodidactas que quieren aplicar un conocimiento a una tarea delimitada. Priorizamos investigación en El Salvador, sin asumir disponibilidad de wallet, familiaridad con sats o preferencia por pagar. El creador inicial por investigar es alguien con material propio y una audiencia o contexto de enseñanza identificable, dispuesto a preparar unidades útiles y mantenerlas.
 
@@ -296,7 +296,7 @@ La organización vigente tiene dos niveles: categoría y subcategoría. Desde el
 | Infraestructura y nube | Hardware de PC, Redes, Linux y sistemas, Computación en la nube, DevOps y contenedores |
 | Diseño y creación digital | Diseño UI/UX, Adobe Photoshop, Adobe Lightroom, Adobe Premiere Pro, Fotografía, Creación de contenido, Modelado y animación 3D |
 
-Las subcategorías anteriores conservan su identificador, de modo que los enlaces por `tema` siguen funcionando. La migración `content.0009_technology_categories` solo reemplaza nombres y descripciones que seguían con su valor inicial y retira Tecnología cuando ya no le quedan subcategorías. Las cuatro categorías nuevas tienen ilustración propia. Este cambio organiza el catálogo; los cursos de cada categoría y modalidad se añaden por separado.
+Las subcategorías anteriores conservan su identificador, de modo que los enlaces por `tema` siguen funcionando. La migración `content.0009_technology_categories` solo reemplaza nombres y descripciones que seguían con su valor inicial y retira Tecnología cuando ya no le quedan subcategorías. Las cuatro categorías nuevas tienen ilustración propia. Desde el 25 de octubre cada categoría tiene un curso de pago, uno freemium y uno de membresía; el inventario está en [cursos por categoría y modalidad](#cursos-por-modalidad).
 
 El filtro `categoria` reúne las publicaciones de sus subcategorías y `tema` acota una de ellas. Los enlaces anteriores que solo incluyen `tema` conservan su destino. La búsqueda, los demás filtros y el retorno desde una ficha mantienen la selección; no se mezclan publicaciones de otra sección. El educador elige la subcategoría en un selector agrupado por categoría. La administración conserva descripciones e ilustraciones integradas, con imagen por defecto cuando corresponde; la carga de imágenes personalizadas sigue pendiente.
 
@@ -2027,6 +2027,36 @@ Las portadas se integran como ilustraciones del curso con la [licencia Unsplash]
 | Python | [Chris Ried](https://unsplash.com/photos/a-computer-screen-with-a-bunch-of-code-on-it-ieic5Tq8YMk) |
 
 La revisión editorial registra estructura, fuentes y acceso; sigue pendiente la revisión independiente por especialistas y la validación con estudiantes. El certificado requiere doce lecciones y cuatro evaluaciones con nota mínima de 75 %. Los proyectos permiten autoevaluación; no prometemos corrección personal y mantenemos cerrada la recepción hasta asignar un responsable. Aprobar el proyecto no es requisito del certificado actual. La publicación mantiene el entorno de pagos local y no demuestra cobros con fondos reales. [Carga, pruebas y límites](../src/docs/operacion-y-bitacora.md#cursos-completos-2026-10-15).
+
+<a id="cursos-por-modalidad"></a>
+
+### Cursos por categoría y modalidad
+
+El 25 de octubre de 2026 añadimos quince cursos para que cada categoría tenga una opción de pago, una freemium y una de membresía. Elegimos temas habituales en la formación de cada categoría y con documentación primaria abierta, de modo que las explicaciones pudieran apoyarse en fuentes verificables. Mantienen la profundidad de los cursos del 15 de octubre: doce lecciones de al menos 250 palabras con ejemplo, práctica y solución, dieciséis preguntas y un proyecto con criterios.
+
+| Curso | Modalidad | Fuentes principales |
+|---|---|---|
+| Opera tu propio nodo Bitcoin | Pago, 3000 sats | [Bitcoin.org](https://bitcoin.org/en/full-node), [Bitcoin Developer Guide](https://developer.bitcoin.org/devguide/), [bitcoin.conf](https://github.com/bitcoin/bitcoin/blob/master/doc/bitcoin-conf.md) |
+| Cobros con Lightning para negocios | Membresía | [LNbits](https://docs.lnbits.org/), [Mastering the Lightning Network](https://github.com/lnbook/lnbook) |
+| Git y GitHub | Freemium, 2100 sats | [Pro Git](https://git-scm.com/book/es/v2), [referencia de Git](https://git-scm.com/docs/git-config) |
+| APIs REST con FastAPI | Membresía | [FastAPI](https://fastapi.tiangolo.com/es/tutorial/first-steps/), [MDN: HTTP](https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Methods) |
+| SQL con SQLite | Pago, 3000 sats | [SQLite](https://sqlite.org/cli.html), [tablas STRICT](https://sqlite.org/stricttables.html) |
+| IA generativa en el trabajo | Freemium, 2400 sats | [NIST AI 600-1](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence), [UNESCO](https://www.unesco.org/es/artificial-intelligence/recommendation-ethics), guías de Anthropic y OpenAI |
+| Análisis de datos con pandas | Membresía | [pandas](https://pandas.pydata.org/docs/user_guide/10min.html), [venv](https://docs.python.org/3/library/venv.html) |
+| Seguridad de aplicaciones web | Pago, 3600 sats | [OWASP Top 10:2025](https://top10.owasp.org/2025/), [ASVS](https://owasp.org/www-project-application-security-verification-standard/), [Flask](https://flask.palletsprojects.com/en/stable/web-security/) |
+| Fundamentos de ciberseguridad | Freemium, 2100 sats | [NIST SP 800-63B-4](https://pages.nist.gov/800-63-4/sp800-63b.html), [CISA](https://www.cisa.gov/secure-our-world), [INCIBE](https://www.incibe.es/ciudadania) |
+| Respuesta a incidentes | Membresía | [NIST SP 800-61r3](https://csrc.nist.gov/pubs/sp/800/61/r3/final), [CSF 2.0](https://www.nist.gov/cyberframework), [FIRST](https://www.first.org/standards/frameworks/csirts/csirt_services_framework_v2.1) |
+| Linux para servidores | Pago, 3000 sats | [Ubuntu Server](https://documentation.ubuntu.com/server/), [WSL](https://learn.microsoft.com/es-es/windows/wsl/install) |
+| Redes desde cero | Freemium, 2100 sats | [RFC 1918](https://www.rfc-editor.org/rfc/rfc1918), [MDN](https://developer.mozilla.org/es/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work) |
+| Docker y contenedores | Membresía | [Docker](https://docs.docker.com/get-started/docker-overview/), [OCI](https://opencontainers.org/) |
+| Diseño UI/UX con Figma | Freemium, 2400 sats | [Design Council](https://www.designcouncil.org.uk/our-resources/the-double-diamond/), [Nielsen Norman Group](https://www.nngroup.com/articles/user-interviews/) |
+| Modelado 3D con Blender | Membresía | [Manual de Blender](https://docs.blender.org/manual/es/latest/), [Blender 5.2 LTS](https://www.blender.org/releases/5-2/) |
+
+Las lecciones de pago de los cursos de pago y freemium cuestan 1,5 veces su parte proporcional del curso (375 o 450 sats en los de pago; 350 o 400 en los freemium), los capítulos suman sus tres lecciones y el curso completo cuesta menos que esa suma. Los freemium abren tres lecciones para que se pueda juzgar el curso antes de pagar. Los de membresía abren solo la primera lección y no venden unidades, para que la diferencia entre comprar y suscribirse se vea en la ficha. Son decisiones de demostración; los precios y la proporción gratuita siguen sin validar.
+
+Cada curso enlaza entre cuatro y ocho videos externos insertables, con el título y el canal de origen. Comprobamos la inserción con el servicio oEmbed de YouTube y reemplazamos los que la tenían desactivada; preferimos videos en español y marcamos como apoyo opcional el único en inglés. Los videos complementan las lecciones; ninguna depende de ellos. Las portadas son quince ilustraciones SVG propias, una por subcategoría, que no requieren créditos ni peticiones a terceros.
+
+Ejecutamos los ejemplos de código antes de publicarlos: consultas en SQLite, análisis con pandas, ejemplos de seguridad con Flask, una API de FastAPI con sus pruebas, contenedores con Docker y un nodo Bitcoin Core en regtest. Esa ejecución corrigió afirmaciones concretas, como el reinicio de systemd tras una señal, la conversión de mayúsculas acentuadas en SQLite y el intervalo del halving en regtest. Los ejercicios de Blender y Figma no se ejecutaron. Comprobamos también los enlaces de las fuentes. Ninguno de los cursos tiene revisión de especialistas ni se ha probado con alumnos.
 
 ### Ejemplos históricos de programación
 

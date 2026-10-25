@@ -267,6 +267,23 @@ Los textos y proyectos son originales de BTC.EDU, apoyados en documentación pri
 
 El certificado de finalización exige completar doce lecciones y aprobar las cuatro evaluaciones con al menos 75 %. El proyecto incluye instrucciones y rúbrica para autoevaluación; no incluye tutoría ni corrección personal y su recepción está cerrada hasta asignar atención. Su revisión no condiciona el certificado. El catálogo local suma diez cursos y 72 lecciones. El entorno de pagos conserva su configuración local; publicar contenido completo no acredita cobros reales, acreditación institucional ni validación con alumnos. [Operación y comprobaciones de esta entrega](../src/docs/operacion-y-bitacora.md#cursos-completos-2026-10-15).
 
+### Cursos por categoría y modalidad
+
+Para mostrar que la compra por unidades convive con el acceso gratuito y la membresía, el 25 de octubre de 2026 añadimos quince cursos con la misma estructura: cuatro capítulos, doce lecciones, cuatro evaluaciones y un proyecto final. Cada una de las seis categorías tiene ahora un curso de pago, uno freemium y uno incluido en la membresía.
+
+| Categoría | De pago | Freemium | Membresía |
+|---|---|---|---|
+| Bitcoin y Lightning | Opera tu propio nodo Bitcoin (3000 sats) | Cursos iniciales con la primera lección gratis | Cobros con Lightning para negocios |
+| Desarrollo de software | Desarrollo web y Python (3000 sats) | Git y GitHub (2100 sats) | APIs REST con FastAPI |
+| Datos e inteligencia artificial | SQL con SQLite (3000 sats) | IA generativa en el trabajo (2400 sats) | Análisis de datos con pandas |
+| Ciberseguridad | Seguridad de aplicaciones web con OWASP Top 10:2025 (3600 sats) | Fundamentos de ciberseguridad (2100 sats) | Respuesta a incidentes |
+| Infraestructura y nube | Linux para servidores (3000 sats) | Redes desde cero (2100 sats) | Docker y contenedores |
+| Diseño y creación digital | Fotografía con celular (1800 sats) y Shotcut (2400 sats) | Diseño UI/UX con Figma (2400 sats) | Modelado 3D con Blender |
+
+Los cursos de pago venden cada lección, cada capítulo y el curso completo. Los freemium abren tres lecciones y venden las nueve restantes. En ambos, la lección cuesta 1,5 veces su parte proporcional del curso, de modo que el curso completo resulta más barato que sus unidades. Los cursos de membresía abren la primera lección; las demás se abren con la membresía de 5000 sats por 30 días y no tienen ofertas individuales. Todos los importes son decisiones editoriales sin validación comercial.
+
+Los textos son originales y se apoyan en documentación primaria, como SQLite, pandas, FastAPI, Docker, Blender, Git, NIST, CISA, OWASP, LNbits y Bitcoin Core. Cada curso enlaza videos externos atribuidos, en español salvo uno en inglés identificado como apoyo opcional. Las portadas son ilustraciones propias. Ejecutamos los ejemplos de código y los ejercicios de SQLite, pandas, Flask, FastAPI, Docker y un nodo Bitcoin Core en regtest; los de Blender no se ejecutaron. Ningún curso tiene todavía revisión de especialistas ni se ha probado con alumnos. El catálogo local suma 25 cursos y 252 lecciones. [Fuentes y criterios](investigacion-y-requisitos.md#cursos-por-modalidad).
+
 ### Estado actual
 
 BTC.EDU dispone de cuentas independientes, aprobación de creadores, edición y revisión editorial, contenido y archivos protegidos por versión, ofertas, carrito, pedidos, facturas, compras, biblioteca, guardados, inscripción, progreso y evaluaciones. La entrega esencial añade certificados, preguntas por lección, notificaciones internas y paneles de creador y administración. La compra agrupada conecta selección, pago y acceso; la remuneración del educador permanece por definir.
