@@ -1,0 +1,1970 @@
+[
+  {
+    "slug": "linux-servidores",
+    "title": "Linux para servidores: terminal, permisos, servicios y SSH",
+    "access": "paid",
+    "category": {
+      "name": "Infraestructura y nube",
+      "slug": "infraestructura"
+    },
+    "topic": {
+      "name": "Linux y sistemas",
+      "slug": "linux-sistemas"
+    },
+    "description": "Aprende a administrar un servidor Ubuntu desde la terminal: navegar el sistema de archivos, manejar texto y registros, crear usuarios y grupos, asignar permisos, instalar paquetes, ejecutar una aplicación como servicio de systemd y acceder por SSH con claves y un cortafuegos. Los comandos se comprobaron en Ubuntu 24.04 LTS.",
+    "objective": "Preparar y mantener un servidor Ubuntu con usuarios y permisos correctos, servicios supervisados, registros consultables y acceso remoto seguro.",
+    "requirements": "Una computadora con Windows 10 u 11 donde puedas instalar WSL, o una máquina virtual o servidor con Ubuntu 24.04. No necesitas experiencia previa con Linux.",
+    "minutes": 600,
+    "price": 3000,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "Microsoft: instalar Linux en Windows con WSL",
+        "url": "https://learn.microsoft.com/es-es/windows/wsl/install"
+      },
+      {
+        "title": "Ubuntu: la línea de comandos para principiantes",
+        "url": "https://ubuntu.com/tutorials/command-line-for-beginners"
+      },
+      {
+        "title": "Ubuntu Server: documentación",
+        "url": "https://documentation.ubuntu.com/server/"
+      },
+      {
+        "title": "Linux Foundation: jerarquía estándar del sistema de archivos",
+        "url": "https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html"
+      },
+      {
+        "title": "GNU coreutils: manual",
+        "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+      },
+      {
+        "title": "GNU grep: manual",
+        "url": "https://www.gnu.org/software/grep/manual/grep.html"
+      },
+      {
+        "title": "Ubuntu: página de manual de adduser",
+        "url": "https://manpages.ubuntu.com/manpages/noble/man8/adduser.8.html"
+      },
+      {
+        "title": "Ubuntu: página de manual de chmod",
+        "url": "https://manpages.ubuntu.com/manpages/noble/man1/chmod.1.html"
+      },
+      {
+        "title": "Ubuntu: página de manual de apt",
+        "url": "https://manpages.ubuntu.com/manpages/noble/man8/apt.8.html"
+      },
+      {
+        "title": "Ubuntu Server: actualizaciones automáticas",
+        "url": "https://documentation.ubuntu.com/server/how-to/software/automatic-updates/"
+      },
+      {
+        "title": "systemd: unidades de servicio",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html"
+      },
+      {
+        "title": "systemd: journalctl",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+      },
+      {
+        "title": "OpenSSH: ssh-keygen",
+        "url": "https://man.openbsd.org/ssh-keygen"
+      },
+      {
+        "title": "OpenSSH: sshd_config",
+        "url": "https://man.openbsd.org/sshd_config"
+      },
+      {
+        "title": "Ubuntu Server: cortafuegos con ufw",
+        "url": "https://documentation.ubuntu.com/server/how-to/security/firewalls/"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Primeros pasos en la terminal",
+        "description": "Instala un entorno de práctica, recorre el sistema de archivos y trabaja con archivos y texto.",
+        "lessons": [
+          {
+            "title": "Linux en servidores y tu entorno de práctica",
+            "description": "Conoce el papel de Linux en los servidores y prepara Ubuntu con WSL.",
+            "outcome": "Instalar un entorno Ubuntu de práctica y ejecutar los primeros comandos con criterio.",
+            "activity": "execute",
+            "preview": "Tendrás Ubuntu funcionando en tu computadora en pocos minutos.",
+            "body": "La mayoría de los servidores de internet, los servicios en la nube y los contenedores funcionan con Linux. Linux es el núcleo del sistema; una distribución lo combina con herramientas, gestor de paquetes y configuración. En este curso usaremos Ubuntu Server 24.04 LTS, una distribución muy común en servidores. LTS significa soporte a largo plazo: recibe actualizaciones de seguridad durante años, algo esencial en un servidor.\n\nUn entorno de práctica sin riesgo\n\nSi usas Windows 10 u 11, el Subsistema de Windows para Linux, WSL, ejecuta Ubuntu dentro de Windows. En una terminal de PowerShell abierta como administrador:\n\n```text\nwsl --install -d Ubuntu-24.04\n```\n\nAl terminar, reinicia si el sistema lo pide, abre Ubuntu desde el menú Inicio y crea tu usuario y contraseña de Linux, independientes de los de Windows. Ese usuario podrá usar sudo para tareas de administración. Si prefieres, una máquina virtual o un servidor pequeño en la nube también sirven; lo importante es practicar en un equipo donde equivocarte no afecte a nadie.\n\nEl indicador y los comandos\n\nLa terminal muestra un indicador como ana@laptop:~$. Indica el usuario, el nombre del equipo, el directorio actual —~ es tu carpeta personal— y $ para un usuario normal; # aparece cuando se trabaja como root, el administrador. Un comando tiene un nombre, opciones y argumentos: ls -l /etc ejecuta ls con la opción -l sobre el directorio /etc. Linux distingue mayúsculas y minúsculas: Informe.txt e informe.txt son archivos distintos.\n\nAyuda dentro del sistema\n\nman ls muestra el manual de un comando; sal con q. La mayoría de los comandos aceptan --help para un resumen. La tecla Tab completa nombres de comandos y archivos, y las flechas recorren el historial. Ctrl+C interrumpe un comando que no termina.\n\nCuidado con sudo\n\nsudo ejecuta un comando con privilegios de administrador y pide tu contraseña. Con esos privilegios puedes borrar el sistema entero con un comando mal escrito. La regla de oro: entiende lo que haces antes de presionar Enter, sobre todo si copias comandos de internet.\n\nEjemplo\n\n```text\nwhoami\nhostname\ncat /etc/os-release\nuname -r\n```\n\nwhoami muestra tu usuario; hostname, el nombre del equipo; /etc/os-release, la distribución y su versión, por ejemplo Ubuntu 24.04 LTS; uname -r, la versión del núcleo Linux.\n\nPráctica\n\nInstala Ubuntu 24.04 en WSL o en una máquina virtual. Ejecuta los cuatro comandos del ejemplo y man uname, y responde: ¿qué versión exacta de Ubuntu tienes y qué hace la opción -a de uname?\n\nSolución y comprobación\n\n/etc/os-release muestra una línea como PRETTY_NAME=\"Ubuntu 24.04.x LTS\", donde x es la actualización acumulada. uname -a imprime toda la información disponible: núcleo, nombre del equipo, versión, arquitectura y sistema. Si wsl --install da un error de virtualización, revisa que la virtualización esté habilitada en la configuración del firmware de tu computadora.",
+            "sources": [
+              {
+                "title": "Microsoft: instalar Linux en Windows con WSL",
+                "url": "https://learn.microsoft.com/es-es/windows/wsl/install"
+              },
+              {
+                "title": "Ubuntu: la línea de comandos para principiantes",
+                "url": "https://ubuntu.com/tutorials/command-line-for-beginners"
+              },
+              {
+                "title": "Ubuntu Server: documentación",
+                "url": "https://documentation.ubuntu.com/server/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Platzi: Linux en Windows con WSL (español)",
+                "url": "https://www.youtube.com/watch?v=Qy44XLpiChc"
+              }
+            ]
+          },
+          {
+            "title": "El sistema de archivos",
+            "description": "Navega con rutas absolutas y relativas y conoce para qué sirve cada directorio principal.",
+            "outcome": "Moverse por el sistema de archivos y ubicar configuración, registros y datos de aplicaciones.",
+            "activity": "execute",
+            "preview": "Sabrás dónde buscar configuración, registros y datos en cualquier servidor.",
+            "body": "En Linux todo cuelga de un único árbol que empieza en la raíz, /. No hay letras de unidad como C:. Los discos adicionales se montan como carpetas dentro del árbol. La Jerarquía Estándar del Sistema de Archivos define para qué sirve cada directorio, y casi todas las distribuciones la siguen:\n\n/etc: configuración del sistema y de los servicios. Por ejemplo, /etc/ssh/sshd_config.\n/var: datos que cambian. /var/log guarda los registros y /var/lib los datos de servicios como bases de datos.\n/home: carpetas personales de los usuarios, como /home/ana.\n/root: carpeta personal del administrador.\n/usr: programas y bibliotecas instalados por el sistema de paquetes.\n/opt y /srv: software adicional y datos servidos por el equipo, una buena ubicación para tus aplicaciones.\n/tmp: archivos temporales, que pueden borrarse al reiniciar.\n\nRutas absolutas y relativas\n\nUna ruta absoluta empieza en la raíz: /var/log/syslog. Una ruta relativa parte del directorio actual: si estás en /var, log/syslog apunta al mismo archivo. Dos atajos: . es el directorio actual y .. el directorio superior. ~ es tu carpeta personal.\n\nComandos para moverse\n\n```text\npwd\nls -la\ncd /var/log\nls -lh\ncd ..\ncd ~\n```\n\npwd muestra dónde estás. ls lista el contenido; -l muestra detalles, -a incluye archivos ocultos, cuyos nombres empiezan con punto, y -h muestra tamaños legibles como 4.0K. cd cambia de directorio; cd sin argumentos, o cd ~, vuelve a tu carpeta personal.\n\nLeer la salida de ls -l\n\n```text\n-rw-r--r-- 1 root root 2.3K mar 14 10:02 hosts\ndrwxr-xr-x 2 root root 4.0K mar 14 10:00 ssh\n```\n\nEl primer carácter indica el tipo: - archivo, d directorio, l enlace. Siguen los permisos, que estudiaremos en el capítulo 2, el número de enlaces, el usuario y el grupo propietarios, el tamaño, la fecha de modificación y el nombre.\n\nBuscar archivos\n\nfind busca por nombre, tipo, tamaño o fecha: find /etc -name \"*.conf\" lista archivos de configuración; find /var/log -mtime -1 muestra los modificados en el último día. Si un resultado dice Permission denied, ese directorio requiere privilegios: no es un error del comando.\n\nEjemplo\n\n¿Dónde está la configuración del servicio SSH y dónde sus registros? La configuración vive en /etc/ssh; los registros se consultan con journalctl, como veremos en el capítulo 3, y en Ubuntu también en /var/log/auth.log.\n\nPráctica\n\nSin usar cd más de cinco veces, responde: ¿cuántos archivos terminados en .conf hay directamente dentro de /etc?, ¿qué contiene /etc/hostname? y ¿cuál es el archivo más grande de /var/log? Pista: ls -lS ordena por tamaño.\n\nSolución y comprobación\n\nPara el primero, ls /etc/*.conf | wc -l cuenta los archivos; el número varía según los paquetes instalados. cat /etc/hostname muestra el nombre del equipo, el mismo que devuelve hostname. sudo ls -lS /var/log | head -5 muestra los más grandes primero. Si usaste rutas absolutas, no necesitaste moverte con cd: es una buena costumbre en servidores, porque reduce errores.",
+            "sources": [
+              {
+                "title": "Linux Foundation: jerarquía estándar del sistema de archivos",
+                "url": "https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html"
+              },
+              {
+                "title": "Ubuntu: la línea de comandos para principiantes",
+                "url": "https://ubuntu.com/tutorials/command-line-for-beginners"
+              },
+              {
+                "title": "GNU coreutils: manual",
+                "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "HolaMundo: Linux desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=L906Kti3gzE"
+              }
+            ]
+          },
+          {
+            "title": "Archivos, texto y tuberías",
+            "description": "Crea, copia y edita archivos, y combina comandos para analizar registros.",
+            "outcome": "Manipular archivos con seguridad y responder preguntas sobre registros combinando grep, sort y uniq.",
+            "activity": "execute",
+            "preview": "Contarás errores en un registro con una sola línea de comandos.",
+            "body": "La administración de servidores consiste en gran parte en leer y modificar archivos de texto: configuraciones y registros. Linux ofrece herramientas pequeñas que hacen una sola cosa bien y se combinan entre sí.\n\nCrear, copiar, mover y borrar\n\n```text\nmkdir -p ~/proyecto/datos\ncp /etc/hosts ~/proyecto/\nmv ~/proyecto/hosts ~/proyecto/hosts.copia\nrm ~/proyecto/hosts.copia\n```\n\nmkdir -p crea también los directorios intermedios. cp copia; con -r copia directorios completos. mv mueve o renombra. rm borra sin papelera: lo borrado no se recupera. Usa rm -i para que pregunte y desconfía de cualquier comando con rm -rf que no entiendas por completo.\n\nLeer archivos\n\ncat muestra un archivo completo; less permite recorrerlo, buscar con / y salir con q; head y tail muestran el principio y el final. tail -f sigue un archivo mientras crece, ideal para mirar un registro en tiempo real; termina con Ctrl+C.\n\nEditar\n\nnano es un editor sencillo que muestra los atajos en la parte inferior: Ctrl+O guarda y Ctrl+X sale. Antes de editar una configuración importante, haz una copia: sudo cp /etc/archivo.conf /etc/archivo.conf.bak.\n\nRedirección y tuberías\n\n> envía la salida de un comando a un archivo, reemplazando su contenido; >> agrega al final. La tubería | conecta la salida de un comando con la entrada del siguiente. Así se construyen análisis potentes:\n\n```text\nprintf \"linea1\\nERROR disco lleno\\nlinea3\\nerror de red\\nERROR disco lleno\\n\" > app.log\ngrep -c ERROR app.log\ngrep -i error app.log | sort | uniq -c\n```\n\ngrep -c cuenta las líneas que contienen ERROR: 2. Con -i, grep ignora mayúsculas y encuentra tres líneas; sort las ordena y uniq -c cuenta las repeticiones: 2 veces «ERROR disco lleno» y 1 vez «error de red». Agregando | sort -rn al final, el resultado se ordena de mayor a menor frecuencia.\n\nOtras herramientas frecuentes\n\nwc -l cuenta líneas. cut extrae columnas: cut -d: -f1 /etc/passwd lista los nombres de usuario. awk procesa columnas con más flexibilidad. Con estas piezas puedes responder en segundos preguntas como «¿qué dirección IP aparece más veces en este registro?».\n\nEjemplo\n\nPara ver los últimos intentos de conexión SSH fallidos en Ubuntu:\n\n```text\nsudo grep \"Failed password\" /var/log/auth.log | tail -5\n```\n\nPráctica\n\nCrea app.log con las cinco líneas del ejemplo. Escribe una línea de comandos que muestre los mensajes que contienen error sin distinguir mayúsculas, sin repetir, ordenados de mayor a menor frecuencia y guarde el resultado en resumen.txt.\n\nSolución y comprobación\n\n```text\ngrep -i error app.log | sort | uniq -c | sort -rn > resumen.txt\ncat resumen.txt\n```\n\nEl archivo contiene dos líneas: primero la de «ERROR disco lleno» con 2 y después «error de red» con 1. Si ves «ERROR disco lleno» dos veces con conteo 1, faltó el primer sort: uniq solo agrupa líneas repetidas consecutivas.",
+            "sources": [
+              {
+                "title": "GNU coreutils: manual",
+                "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+              },
+              {
+                "title": "GNU grep: manual",
+                "url": "https://www.gnu.org/software/grep/manual/grep.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "MoureDev: curso de Bash y terminal desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=ABgLEKFhlZE"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: primeros pasos en la terminal",
+              "questions": [
+                {
+                  "prompt": "¿Dónde se guarda normalmente la configuración de los servicios?",
+                  "multiple": false,
+                  "options": [
+                    "/home",
+                    "/etc",
+                    "/tmp",
+                    "/usr/bin"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "/etc contiene la configuración del sistema y de los servicios."
+                },
+                {
+                  "prompt": "¿Qué diferencia hay entre > y >>?",
+                  "multiple": false,
+                  "options": [
+                    "Ninguna.",
+                    "> reemplaza el contenido del archivo; >> agrega al final.",
+                    "> agrega y >> reemplaza.",
+                    ">> envía a otro comando."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Un > en lugar de >> puede borrar un registro completo."
+                },
+                {
+                  "prompt": "¿Por qué grep -i error app.log | uniq -c sin sort puede contar mal?",
+                  "multiple": false,
+                  "options": [
+                    "Porque uniq solo agrupa líneas repetidas consecutivas.",
+                    "Porque grep no admite -i.",
+                    "Porque uniq ordena al revés.",
+                    "Porque falta sudo."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "sort coloca juntas las líneas iguales antes de contarlas."
+                },
+                {
+                  "prompt": "¿Qué indica el carácter # al final del indicador de la terminal?",
+                  "multiple": false,
+                  "options": [
+                    "Que hay un error.",
+                    "Que se trabaja como root, el administrador.",
+                    "Que la terminal está en pausa.",
+                    "Que no hay red."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Con privilegios de root cualquier error puede afectar a todo el sistema."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Usuarios, grupos y permisos",
+        "description": "Controla quién puede leer, modificar y ejecutar cada archivo.",
+        "lessons": [
+          {
+            "title": "Usuarios, grupos y sudo",
+            "description": "Crea usuarios y grupos y delega la administración con sudo.",
+            "outcome": "Administrar cuentas y grupos aplicando el principio de mínimo privilegio.",
+            "activity": "execute",
+            "preview": "Crearás cuentas para un equipo de contabilidad.",
+            "body": "Linux es multiusuario: cada proceso y cada archivo pertenecen a un usuario. Separar cuentas permite saber quién hizo qué, limitar el daño de un error o de una cuenta comprometida y retirar accesos sin afectar a los demás. Nunca compartas una cuenta entre varias personas.\n\nVer la identidad\n\n```text\nid\nid ana\n```\n\nid muestra el identificador numérico del usuario, uid; su grupo principal, gid; y los grupos a los que pertenece. Los usuarios del sistema se guardan en /etc/passwd, una línea por cuenta con campos separados por dos puntos: nombre, x, uid, gid, descripción, carpeta personal y programa de inicio. Las contraseñas no están ahí: se guardan con un hash en /etc/shadow, legible solo por root.\n\nCrear usuarios y grupos\n\nEn Ubuntu, adduser crea el usuario, su carpeta personal y pide la contraseña de forma interactiva:\n\n```text\nsudo adduser ana\nsudo groupadd contabilidad\nsudo usermod -aG contabilidad ana\nid ana\n```\n\nusermod -aG agrega al grupo sin quitar los grupos actuales. Sin la a, el usuario quedaría solo en los grupos indicados: un error frecuente. Los cambios de grupo se aplican en la siguiente sesión de esa persona. useradd es la herramienta de bajo nivel disponible en todas las distribuciones; en Ubuntu, adduser es más cómoda.\n\nUsuarios de sistema\n\nLos servicios deben ejecutarse con su propia cuenta sin permisos de inicio de sesión, no como root. Si el servicio tiene una falla, el atacante obtiene solo los permisos de esa cuenta:\n\n```text\nsudo useradd --system --no-create-home --shell /usr/sbin/nologin inventario\n```\n\nsudo y el principio de mínimo privilegio\n\nEn Ubuntu, los miembros del grupo sudo pueden ejecutar comandos como administrador: sudo usermod -aG sudo ana. Otorga ese grupo solo a quien administra el servidor. sudo registra cada uso en los registros del sistema, lo que facilita auditar. Evita trabajar con una sesión de root abierta permanentemente: usa sudo para cada comando que lo requiera.\n\nBloquear y retirar\n\nCuando alguien deja la organización, bloquea su cuenta de inmediato con sudo usermod -L ana y sudo usermod -s /usr/sbin/nologin ana, revisa sus archivos y elimínala cuando ya no sea necesaria con sudo deluser --remove-home ana.\n\nEjemplo\n\n```text\nsudo adduser beto\nsudo usermod -aG contabilidad beto\ngetent group contabilidad\n```\n\ngetent muestra el grupo y sus miembros: contabilidad:x:1001:ana,beto. El número exacto del grupo depende de los que ya existían.\n\nPráctica\n\nCrea los usuarios ana, beto y carla, el grupo contabilidad con ana y beto como miembros, y un usuario de sistema llamado inventario sin carpeta ni inicio de sesión. Verifica todo con id y getent.\n\nSolución y comprobación\n\nid ana e id beto muestran contabilidad entre sus grupos; id carla, no. getent passwd inventario muestra /usr/sbin/nologin como programa de inicio, y sudo su - inventario no abre una sesión. Si contabilidad no aparece en el grupo de una persona, revisa que usaste -aG y no -G.",
+            "sources": [
+              {
+                "title": "Ubuntu: página de manual de adduser",
+                "url": "https://manpages.ubuntu.com/manpages/noble/man8/adduser.8.html"
+              },
+              {
+                "title": "Ubuntu Server: documentación",
+                "url": "https://documentation.ubuntu.com/server/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Permisos rwx y chmod",
+            "description": "Lee y asigna permisos de lectura, escritura y ejecución en notación simbólica y numérica.",
+            "outcome": "Asignar permisos adecuados a archivos y directorios y explicar el efecto de cada bit.",
+            "activity": "execute",
+            "preview": "Descifrarás -rw-r----- y sabrás cuándo usar 640 o 750.",
+            "body": "Cada archivo tiene permisos para tres clases de personas: el usuario propietario, el grupo propietario y los demás. Para cada clase hay tres permisos: lectura r, escritura w y ejecución x. ls -l los muestra en ese orden:\n\n```text\n-rw-r----- 1 ana contabilidad 0 mar 14 10:00 informe.txt\n```\n\nEl propietario ana puede leer y escribir; el grupo contabilidad puede leer; los demás no tienen permisos.\n\nEn directorios, el significado cambia\n\nr permite listar el contenido; w permite crear, renombrar y borrar archivos dentro; x permite entrar y acceder a los archivos si se conoce su nombre. Un directorio sin x para alguien es una puerta cerrada aunque tenga r. Y un detalle importante: borrar un archivo depende de los permisos del directorio que lo contiene, no del archivo.\n\nNotación numérica\n\nCada permiso tiene un valor: r = 4, w = 2, x = 1. Se suman por clase:\n\n```text\nchmod 640 informe.txt   # rw- r-- ---\nchmod 750 script.sh     # rwx r-x ---\nchmod 755 directorio    # rwx r-x r-x\nchmod 600 clave.txt     # rw- --- ---\n```\n\nstat -c \"%a %A\" informe.txt muestra ambas notaciones: 640 -rw-r-----.\n\nNotación simbólica\n\nchmod u=rwx,g=rx,o= script.sh asigna exactamente esos permisos, el mismo resultado que 750. También se pueden agregar o quitar permisos sin tocar los demás: chmod g+w informe.txt agrega escritura al grupo; chmod o-r archivo quita lectura a los demás. La notación simbólica es más segura cuando solo quieres cambiar un bit.\n\nPermisos por defecto: umask\n\nLos archivos nuevos no tienen todos los permisos: umask resta los bits indicados. En Ubuntu, el valor habitual 0022 hace que un archivo nuevo tenga 644, rw-r--r--, y un directorio 755. Para un directorio de trabajo compartido conviene un umask de 007, que da 660 a los archivos y deja fuera a los demás.\n\nErrores frecuentes\n\nchmod 777 da todos los permisos a todo el mundo. Es la «solución» que aparece en muchos foros cuando algo no funciona por permisos, y casi siempre es una mala idea: cualquier usuario o proceso del sistema podrá modificar el archivo. Busca el permiso mínimo que resuelve el problema. Los archivos con secretos, como claves privadas, deben ser 600; SSH, de hecho, se niega a usar una clave privada con permisos más abiertos.\n\nEjemplo\n\nUn script de respaldo que debe ejecutar su dueño y leer el grupo de administración, pero nadie más: chmod 750 respaldo.sh. Un archivo de configuración con una contraseña de base de datos que solo debe leer el servicio: propietario el usuario del servicio y permisos 600.\n\nPráctica\n\nCrea informe.txt, script.sh y un directorio compartido. Asigna 640 al informe con notación numérica, rwx para el usuario y rx para el grupo al script con notación simbólica, y deja el directorio en 755. Verifica con stat y luego quita la lectura a los demás del directorio con notación simbólica.\n\nSolución y comprobación\n\nstat muestra 640 -rw-r----- para el informe, 750 -rwxr-x--- para el script y 755 drwxr-xr-x para el directorio. Después de chmod o-r compartido, el directorio queda en 751: los demás pueden entrar si conocen un nombre de archivo, pero no listar el contenido. Si quieres cerrarlo por completo a los demás, usa chmod o= compartido.",
+            "sources": [
+              {
+                "title": "Ubuntu: página de manual de chmod",
+                "url": "https://manpages.ubuntu.com/manpages/noble/man1/chmod.1.html"
+              },
+              {
+                "title": "GNU coreutils: manual",
+                "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Antonio Sánchez Corbalán: permisos con chmod (español)",
+                "url": "https://www.youtube.com/watch?v=BS1Xb0NA9Dw"
+              }
+            ]
+          },
+          {
+            "title": "Propietarios y carpetas compartidas",
+            "description": "Cambia propietarios con chown y crea un directorio de trabajo compartido con setgid.",
+            "outcome": "Configurar una carpeta compartida donde un grupo colabora sin exponer los archivos a otros usuarios.",
+            "activity": "design",
+            "preview": "Prepararás la carpeta del equipo de contabilidad.",
+            "body": "Los permisos solo funcionan bien si el usuario y el grupo propietarios son los correctos. chown cambia el propietario de un archivo o directorio; requiere sudo:\n\n```text\nsudo chown ana informe.txt\nsudo chown ana:contabilidad informe.txt\nsudo chown -R inventario:inventario /opt/inventario\n```\n\nLa forma usuario:grupo cambia ambos y -R aplica el cambio a todo el contenido de un directorio. chgrp cambia solo el grupo.\n\nEl problema de las carpetas compartidas\n\nAna y Beto deben trabajar en /srv/contabilidad: leer y modificar los archivos de ambos, sin que el resto de usuarios vea nada. Si Ana crea un archivo, por defecto queda con su grupo personal, ana, y Beto no podría modificarlo. La solución combina tres elementos.\n\n1. El directorio pertenece al grupo contabilidad y solo ese grupo tiene acceso:\n\n```text\nsudo mkdir /srv/contabilidad\nsudo chown root:contabilidad /srv/contabilidad\nsudo chmod 2770 /srv/contabilidad\n```\n\n2. El primer dígito, 2, activa el bit setgid en el directorio: los archivos creados dentro heredan el grupo del directorio, contabilidad, en lugar del grupo personal de quien los crea. stat muestra 2770 drwxrws---: la s en el lugar de la x del grupo indica setgid.\n\n3. Los miembros del grupo trabajan con umask 007 para que sus archivos sean de lectura y escritura para el grupo. Se puede configurar en su perfil o en la aplicación que usen.\n\nEl resultado\n\nCuando Ana crea un archivo con umask 007, queda como ana contabilidad 660: Beto puede leerlo y modificarlo. Con el umask habitual de 022 quedaría en 644 y Beto solo podría leer: por eso el tercer paso importa. Carla, que no pertenece al grupo, recibe Permission denied al intentar listar el directorio.\n\nBits especiales\n\nAdemás de setgid existen setuid, que hace que un programa se ejecute con los permisos de su propietario —por ejemplo passwd—, y el bit sticky, que en un directorio impide borrar archivos ajenos aunque se tenga escritura. /tmp tiene permisos 1777: todos pueden crear archivos, pero cada quien solo puede borrar los suyos. Revisa con cuidado cualquier archivo con setuid que no reconozcas: es un vector clásico de escalada de privilegios.\n\nEjemplo\n\n```text\nsudo -u ana bash -c \"umask 007; touch /srv/contabilidad/conciliacion.txt\"\nstat -c \"%U %G %a\" /srv/contabilidad/conciliacion.txt\n```\n\nResultado: ana contabilidad 660.\n\nPráctica\n\nConfigura /srv/contabilidad como en la lección. Comprueba que Ana crea un archivo que Beto puede modificar y que Carla no puede listar el directorio. Después busca en el sistema los archivos con setuid con find / -perm -4000 -type f 2>/dev/null.\n\nSolución y comprobación\n\nLa prueba de escritura de Beto con sudo -u beto bash -c \"echo nota >> /srv/contabilidad/conciliacion.txt\" termina sin error, y sudo -u carla ls /srv/contabilidad responde Permission denied. La búsqueda de setuid muestra programas del sistema como passwd, sudo, su y mount. 2>/dev/null descarta los mensajes de error de directorios sin permiso.",
+            "sources": [
+              {
+                "title": "Ubuntu: página de manual de chmod",
+                "url": "https://manpages.ubuntu.com/manpages/noble/man1/chmod.1.html"
+              },
+              {
+                "title": "GNU coreutils: manual",
+                "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: usuarios, grupos y permisos",
+              "questions": [
+                {
+                  "prompt": "¿Qué hace usermod -aG contabilidad ana?",
+                  "multiple": false,
+                  "options": [
+                    "Reemplaza todos los grupos de ana por contabilidad.",
+                    "Agrega a ana al grupo contabilidad sin quitarle sus grupos actuales.",
+                    "Crea el grupo contabilidad.",
+                    "Borra a ana del grupo."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Sin la a, usermod -G reemplazaría la lista de grupos."
+                },
+                {
+                  "prompt": "¿Qué permisos representa 640?",
+                  "multiple": false,
+                  "options": [
+                    "rwxr-x---",
+                    "rw-r-----",
+                    "rw-rw-rw-",
+                    "r--r--r--"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "6 es lectura y escritura, 4 lectura y 0 ningún permiso."
+                },
+                {
+                  "prompt": "¿Qué efecto tiene el bit setgid (2770) en un directorio compartido?",
+                  "multiple": false,
+                  "options": [
+                    "Los archivos nuevos heredan el grupo del directorio.",
+                    "Todos pueden borrar cualquier archivo.",
+                    "El directorio se vuelve invisible.",
+                    "Los archivos se ejecutan como root."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Así los archivos de cada miembro pertenecen al grupo de trabajo."
+                },
+                {
+                  "prompt": "¿Por qué chmod 777 casi nunca es una buena solución?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es lento.",
+                    "Porque permite a cualquier usuario o proceso modificar el archivo.",
+                    "Porque borra el archivo.",
+                    "Porque solo funciona en /tmp."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Se busca el permiso mínimo que resuelve el problema."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Procesos, paquetes y servicios",
+        "description": "Supervisa recursos, instala software y ejecuta aplicaciones como servicios.",
+        "lessons": [
+          {
+            "title": "Procesos y recursos",
+            "description": "Observa procesos, memoria y disco, y detén procesos con las señales adecuadas.",
+            "outcome": "Diagnosticar un servidor lento o sin espacio con ps, top, free, df y du.",
+            "activity": "execute",
+            "preview": "Encontrarás qué consume la memoria y el disco de un servidor.",
+            "body": "Un proceso es un programa en ejecución. Cada uno tiene un identificador, PID, un usuario propietario y consume procesador y memoria. Cuando un servidor está lento o un servicio no responde, el primer paso es mirar los procesos y los recursos.\n\nVer procesos\n\n```text\nps aux | head\nps -eo pid,user,%cpu,%mem,comm --sort=-%mem | head -6\ntop\n```\n\nps aux muestra todos los procesos con su usuario, uso de CPU y memoria. La segunda forma elige columnas y ordena por memoria. top los muestra en tiempo real; dentro, M ordena por memoria, P por CPU y q sale. htop, si está instalado, ofrece una vista más cómoda.\n\nLa primera línea de top muestra la carga promedio de 1, 5 y 15 minutos: el número de procesos esperando procesador. En un equipo con 4 núcleos, una carga sostenida de 4 indica uso completo; muy por encima, saturación.\n\nMemoria y disco\n\nfree -h muestra la memoria. No te alarmes si la columna free es pequeña: Linux usa la memoria libre como caché de disco y la libera cuando se necesita. La columna available es la que indica cuánta memoria queda realmente para programas.\n\ndf -h muestra el espacio de cada sistema de archivos montado. Un disco al 100 % detiene servicios: las bases de datos no pueden escribir y los registros dejan de guardarse. du -sh /var/log muestra cuánto ocupa un directorio, y sudo du -h --max-depth=1 /var | sort -h ayuda a encontrar qué crece.\n\nDetener procesos\n\nkill envía una señal a un proceso. La señal por defecto, TERM, pide que termine ordenadamente, guardando su trabajo. Solo si no responde se usa KILL, que lo detiene de inmediato sin permitirle limpiar:\n\n```text\nkill 4321\nkill -9 4321\n```\n\nPara procesos de un servicio, no uses kill: usa systemctl, como verás en la lección siguiente, para que el sistema sepa que el servicio se detuvo a propósito.\n\nEjemplo\n\nUn servidor se vuelve lento cada noche. top muestra un proceso de compresión de respaldos usando 100 % de un núcleo, y df -h muestra el disco de datos al 97 %. Dos acciones: programar el respaldo en un horario de menor uso y revisar con du qué ocupa espacio; aparecen respaldos antiguos que nadie borra. La solución de fondo es una política de retención.\n\nPráctica\n\nEn tu entorno, ejecuta un proceso de prueba con sleep 600 &, encuéntralo con ps, mira su PID y termínalo con kill. Después identifica los tres procesos que más memoria usan, el porcentaje de uso de tu disco principal y el tamaño de /var/log.\n\nSolución y comprobación\n\nEl & ejecuta sleep en segundo plano y la terminal muestra su PID. ps aux | grep sleep lo encuentra; tras kill PID, jobs o ps ya no lo muestran. Los demás resultados dependen de tu equipo; anota los valores como referencia. En WSL, df -h muestra también las unidades de Windows montadas en /mnt.",
+            "sources": [
+              {
+                "title": "GNU coreutils: manual",
+                "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+              },
+              {
+                "title": "Ubuntu Server: documentación",
+                "url": "https://documentation.ubuntu.com/server/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Paquetes con apt y actualizaciones",
+            "description": "Instala, actualiza y elimina software desde los repositorios oficiales.",
+            "outcome": "Mantener un servidor actualizado y decidir qué instalar con el gestor de paquetes.",
+            "activity": "execute",
+            "preview": "Instalarás software de forma segura y activarás las actualizaciones automáticas de seguridad.",
+            "body": "En Ubuntu, el software se instala desde repositorios: servidores que distribuyen paquetes firmados digitalmente. El gestor apt descarga el paquete, verifica la firma, instala sus dependencias y registra todo para poder actualizarlo o eliminarlo después. Instalar programas descargados de sitios aleatorios rompe esa cadena de confianza y de actualizaciones.\n\nOperaciones básicas\n\n```text\nsudo apt update\napt list --upgradable\nsudo apt upgrade\nsudo apt install htop\napt show htop\nsudo apt remove htop\nsudo apt autoremove\n```\n\napt update descarga la lista actualizada de paquetes disponibles; no instala nada. apt upgrade instala las nuevas versiones de lo que ya tienes. install agrega un paquete, show muestra su descripción, versión y dependencias, remove lo elimina conservando su configuración y autoremove limpia dependencias que ya nadie usa. Para buscar un paquete: apt search palabra.\n\nActualizaciones de seguridad\n\nUn servidor desactualizado acumula vulnerabilidades conocidas. Ubuntu puede instalar automáticamente las actualizaciones de seguridad con el paquete unattended-upgrades, que en muchas instalaciones de Ubuntu Server ya viene configurado. Para comprobarlo o activarlo:\n\n```text\nsudo apt install unattended-upgrades\nsudo dpkg-reconfigure --priority=low unattended-upgrades\n```\n\nAlgunas actualizaciones, como las del núcleo, requieren reiniciar para aplicarse. Ubuntu crea el archivo /var/run/reboot-required cuando hace falta. Planifica una ventana de mantenimiento periódica para reiniciar.\n\nAntes de actualizar en producción\n\nEn servidores importantes, prueba las actualizaciones grandes en un entorno de pruebas, ten una copia de seguridad reciente y lee las notas de versión. Las actualizaciones de seguridad dentro de una misma versión LTS son conservadoras y conviene aplicarlas pronto; los cambios de versión de la distribución, por ejemplo de 22.04 a 24.04, se planifican como un proyecto.\n\nFuentes de software adicionales\n\nA veces una aplicación ofrece su propio repositorio o un paquete .deb. Antes de agregarlo, verifica que provenga del sitio oficial del fabricante y que use firma. Cada repositorio adicional es una entidad más en la que confías con privilegios de administrador.\n\nEjemplo\n\n```text\nsudo apt update\napt list --upgradable 2>/dev/null | grep -i security | head\n```\n\nMuestra las actualizaciones pendientes provenientes del repositorio de seguridad. En un servidor bien mantenido, la lista suele estar vacía o tener pocos paquetes recientes.\n\nPráctica\n\nActualiza tu entorno con apt update y apt upgrade. Instala htop, consulta su versión con apt show y elimínalo con remove. Comprueba si unattended-upgrades está instalado con apt-cache policy unattended-upgrades y si tu sistema requiere reinicio.\n\nSolución y comprobación\n\napt-cache policy indica Installed: con una versión si está instalado, o Installed: (none) si no lo está. ls /var/run/reboot-required muestra el archivo solo cuando hace falta reiniciar. En WSL, los reinicios del núcleo los gestiona Windows: para reiniciar la distribución se usa wsl --shutdown desde PowerShell.",
+            "sources": [
+              {
+                "title": "Ubuntu: página de manual de apt",
+                "url": "https://manpages.ubuntu.com/manpages/noble/man8/apt.8.html"
+              },
+              {
+                "title": "Ubuntu Server: actualizaciones automáticas",
+                "url": "https://documentation.ubuntu.com/server/how-to/software/automatic-updates/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Servicios con systemd y registros con journalctl",
+            "description": "Gestiona servicios, crea una unidad propia y consulta sus registros.",
+            "outcome": "Ejecutar una aplicación como servicio supervisado que se reinicia ante fallas y deja registros consultables.",
+            "activity": "execute",
+            "preview": "Convertirás un programa de Python en un servicio que arranca con el sistema.",
+            "body": "Un servidor ejecuta servicios: programas que funcionan en segundo plano, como el servidor SSH, una base de datos o tu aplicación. En Ubuntu los administra systemd, que los inicia al arrancar, los reinicia si fallan y recoge su salida en el registro del sistema.\n\nGestionar servicios\n\n```text\nsystemctl status ssh\nsudo systemctl restart ssh\nsudo systemctl enable --now nombre\nsudo systemctl disable --now nombre\nsystemctl list-units --type=service --state=running\n```\n\nstatus muestra si el servicio está activo, desde cuándo, su proceso principal y las últimas líneas de registro. start y stop lo inician y detienen; restart lo reinicia; enable hace que arranque con el sistema y --now además lo inicia en ese momento.\n\nUna unidad propia\n\nPara ejecutar una aplicación como servicio se escribe un archivo de unidad en /etc/systemd/system. Este ejemplo sirve los archivos de /opt/inventario con el servidor web incluido en Python, solo en la dirección local:\n\n```text\n[Unit]\nDescription=Servicio de inventario (ejemplo del curso)\nAfter=network-online.target\nWants=network-online.target\n\n[Service]\nUser=inventario\nWorkingDirectory=/opt/inventario\nExecStart=/usr/bin/python3 -m http.server 8080 --bind 127.0.0.1\nRestart=on-failure\nRestartSec=5\n\n[Install]\nWantedBy=multi-user.target\n```\n\nUser ejecuta el proceso con la cuenta de sistema inventario, no como root. Restart=on-failure lo reinicia si termina con error, esperando 5 segundos. WantedBy=multi-user.target lo incluye en el arranque normal. Después de crear o modificar el archivo:\n\n```text\nsudo systemd-analyze verify /etc/systemd/system/inventario.service\nsudo systemctl daemon-reload\nsudo systemctl enable --now inventario\n```\n\nverify revisa la sintaxis antes de usarla y daemon-reload hace que systemd lea los cambios.\n\nRegistros con journalctl\n\n```text\njournalctl -u inventario\njournalctl -u inventario -f\njournalctl -u ssh --since \"1 hour ago\"\njournalctl -p err -b\n```\n\n-u filtra por servicio, -f sigue los mensajes en tiempo real, --since limita por tiempo, -p err muestra solo errores y -b, los del arranque actual. Lo que tu programa escribe en la salida estándar aparece aquí automáticamente.\n\nEjemplo\n\nSi el servicio no arranca, systemctl status inventario muestra el error resumido y journalctl -u inventario -n 20 las últimas veinte líneas. Un error común es que el usuario inventario no tenga permiso de lectura sobre /opt/inventario.\n\nPráctica\n\nCrea el usuario de sistema inventario, el directorio /opt/inventario con un archivo index.html y la unidad de la lección. Habilita el servicio, comprueba con curl http://127.0.0.1:8080 que responde, simula una falla deteniendo el proceso con sudo kill -9 y verifica que systemd lo reinicia.\n\nSolución y comprobación\n\ncurl devuelve el contenido de index.html. Tras kill -9, unos cinco segundos después systemctl status muestra un PID nuevo y journalctl -u inventario registra la falla y el reinicio. Si usas kill sin -9, el servicio no vuelve: systemd considera la señal TERM una detención limpia y on-failure solo reinicia ante fallas. Si necesitas que el servicio vuelva siempre, usa Restart=always. Si systemctl indica que systemd no está disponible en WSL, revisa que /etc/wsl.conf contenga systemd=true en la sección [boot] y reinicia con wsl --shutdown.",
+            "sources": [
+              {
+                "title": "systemd: unidades de servicio",
+                "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html"
+              },
+              {
+                "title": "systemd: journalctl",
+                "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Locos por Linux: qué es systemd (español)",
+                "url": "https://www.youtube.com/watch?v=oKvyTGWsZEM"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: procesos, paquetes y servicios",
+              "questions": [
+                {
+                  "prompt": "free -h muestra poca memoria en la columna free. ¿Qué columna indica la memoria realmente disponible?",
+                  "multiple": false,
+                  "options": [
+                    "total",
+                    "used",
+                    "available",
+                    "shared"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Linux usa la memoria libre como caché y la libera cuando se necesita."
+                },
+                {
+                  "prompt": "¿Qué hace sudo apt update?",
+                  "multiple": false,
+                  "options": [
+                    "Instala todas las actualizaciones.",
+                    "Descarga la lista actualizada de paquetes disponibles.",
+                    "Reinicia el servidor.",
+                    "Elimina paquetes antiguos."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "apt upgrade es el que instala las nuevas versiones."
+                },
+                {
+                  "prompt": "En una unidad de systemd, ¿qué consigue Restart=on-failure?",
+                  "multiple": false,
+                  "options": [
+                    "Reinicia el servidor completo.",
+                    "Reinicia el servicio si termina con error.",
+                    "Impide que el servicio arranque.",
+                    "Ejecuta el servicio como root."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "systemd supervisa el proceso y lo vuelve a iniciar."
+                },
+                {
+                  "prompt": "¿Qué comando muestra en tiempo real los registros del servicio inventario?",
+                  "multiple": false,
+                  "options": [
+                    "systemctl enable inventario",
+                    "journalctl -u inventario -f",
+                    "tail /etc/inventario",
+                    "ps -f inventario"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "-u filtra por unidad y -f sigue los mensajes nuevos."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. Acceso remoto y seguridad",
+        "description": "Conéctate con claves, endurece el servidor y prepara un servidor completo.",
+        "lessons": [
+          {
+            "title": "SSH con claves",
+            "description": "Genera un par de claves, instala la pública en el servidor y protege la privada.",
+            "outcome": "Acceder a un servidor por SSH con claves y entender por qué son más seguras que las contraseñas.",
+            "activity": "execute",
+            "preview": "Entrarás a tu servidor sin escribir contraseñas y con más seguridad.",
+            "body": "SSH es el protocolo estándar para administrar servidores Linux de forma remota: cifra toda la sesión y verifica la identidad del servidor. La primera vez que te conectas, el cliente muestra la huella de la clave del servidor y pregunta si confías en ella; después la recuerda en ~/.ssh/known_hosts y avisa si cambia, lo que puede indicar un intento de suplantación.\n\nPor qué claves y no contraseñas\n\nUna contraseña se puede adivinar, robar o reutilizar. Cualquier servidor con SSH accesible desde internet recibe intentos automáticos de adivinar contraseñas a las pocas horas de publicarse. Con claves, el servidor guarda tu clave pública y tú conservas la privada, que nunca sale de tu equipo. Sin la clave privada no se puede entrar, por muchos intentos que se hagan.\n\nGenerar el par de claves\n\nEn tu computadora, no en el servidor:\n\n```text\nssh-keygen -t ed25519 -C \"ana@laptop\"\n```\n\nEd25519 es un algoritmo moderno, rápido y con claves cortas. El programa pregunta dónde guardar la clave, por defecto ~/.ssh/id_ed25519, y una frase de contraseña. Usa una: si alguien copia tu clave privada, no podrá usarla sin la frase. ssh-agent recuerda la frase durante la sesión para no escribirla en cada conexión.\n\nSe crean dos archivos: id_ed25519, la clave privada, con permisos 600; e id_ed25519.pub, la pública, que puedes compartir. El directorio ~/.ssh tiene permisos 700.\n\nInstalar la clave pública\n\n```text\nssh-copy-id ana@servidor.ejemplo\nssh ana@servidor.ejemplo\n```\n\nssh-copy-id agrega tu clave pública al archivo ~/.ssh/authorized_keys de tu usuario en el servidor. Si no está disponible, puedes copiar el contenido de id_ed25519.pub y agregarlo manualmente a ese archivo, que debe tener permisos 600. La siguiente conexión usa la clave.\n\nUn archivo de configuración\n\nEn ~/.ssh/config puedes guardar alias:\n\n```text\nHost ventas\n    HostName 203.0.113.20\n    User ana\n    IdentityFile ~/.ssh/id_ed25519\n```\n\nCon eso, ssh ventas basta para conectarte.\n\nEjemplo\n\nAl generar la clave en Ubuntu, ls -l ~/.ssh muestra -rw------- para id_ed25519 y -rw-r--r-- para id_ed25519.pub, y stat -c %a ~/.ssh devuelve 700. Si la clave privada tuviera permisos más abiertos, el cliente SSH se negaría a usarla con el aviso UNPROTECTED PRIVATE KEY FILE.\n\nPráctica\n\nGenera un par de claves Ed25519 con frase de contraseña. Si tienes un segundo equipo, una máquina virtual o un servidor de práctica, instala la clave pública y conéctate con ella. Crea un alias en ~/.ssh/config.\n\nSolución y comprobación\n\nssh -v ventas muestra en el detalle de la conexión que la autenticación se realizó con publickey. Si el servidor sigue pidiendo contraseña, revisa los permisos de ~/.ssh (700) y de authorized_keys (600) en el servidor, y que la clave copiada esté completa en una sola línea. Nunca copies tu clave privada al servidor.",
+            "sources": [
+              {
+                "title": "OpenSSH: ssh-keygen",
+                "url": "https://man.openbsd.org/ssh-keygen"
+              },
+              {
+                "title": "OpenSSH: sshd_config",
+                "url": "https://man.openbsd.org/sshd_config"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Pelado Nerd: aprendiendo SSH (español)",
+                "url": "https://www.youtube.com/watch?v=RMS5zBYQIqA"
+              }
+            ]
+          },
+          {
+            "title": "Endurecer el servidor",
+            "description": "Desactiva el acceso por contraseña y de root, y configura el cortafuegos.",
+            "outcome": "Aplicar una configuración de seguridad básica sin quedar fuera del servidor.",
+            "activity": "execute",
+            "preview": "Cerrarás las puertas más atacadas de un servidor en internet.",
+            "body": "Endurecer un servidor es reducir su superficie de ataque: desactivar lo que no se usa y exigir los mecanismos más seguros para lo que sí. Tres medidas cubren los ataques más frecuentes contra servidores Linux en internet.\n\n1. SSH solo con claves y sin root\n\nUbuntu lee la configuración de /etc/ssh/sshd_config y de los archivos de /etc/ssh/sshd_config.d/ que terminan en .conf. Crea un archivo propio en lugar de editar el principal:\n\n```text\nsudo nano /etc/ssh/sshd_config.d/10-endurecer.conf\n```\n\nCon este contenido:\n\n```text\nPasswordAuthentication no\nKbdInteractiveAuthentication no\nPermitRootLogin no\n```\n\nPara cada opción, sshd usa el primer valor que encuentra. Los archivos del directorio se leen en orden alfabético y algunas imágenes de servidores en la nube incluyen uno llamado 50-cloud-init.conf que activa las contraseñas; el prefijo 10 hace que tu archivo se lea antes. Comprueba la sintaxis y la configuración efectiva antes de reiniciar:\n\n```text\nsudo sshd -t\nsudo sshd -T | grep -E \"passwordauthentication|permitrootlogin\"\nsudo systemctl restart ssh\n```\n\nsshd -t no muestra nada si la sintaxis es correcta; sshd -T imprime los valores efectivos, que deben ser no.\n\nNo cierres tu sesión actual. Abre una segunda terminal y confirma que puedes entrar con tu clave. Si algo falla, la primera sesión te permite corregirlo. Cerrar la única sesión con una configuración errónea puede dejarte fuera del servidor.\n\n2. Cortafuegos\n\nufw, el cortafuegos sencillo de Ubuntu, permite definir reglas legibles. Primero permite SSH, después actívalo:\n\n```text\nsudo ufw allow OpenSSH\nsudo ufw enable\nsudo ufw status verbose\n```\n\nEl orden importa por la misma razón: activar el cortafuegos sin permitir SSH corta tu conexión. Por defecto, ufw niega las conexiones entrantes y permite las salientes. Agrega solo los puertos que el servidor debe ofrecer, por ejemplo sudo ufw allow 443/tcp para un sitio web. Los servicios internos, como una base de datos, deben escuchar solo en 127.0.0.1 o en la red privada.\n\n3. Actualizaciones y vigilancia\n\nMantén unattended-upgrades activo, revisa periódicamente journalctl -u ssh y considera herramientas como fail2ban, que bloquean temporalmente direcciones con muchos intentos fallidos. En servidores en la nube, el proveedor ofrece además cortafuegos de red: úsalos para que el puerto 22 solo sea accesible desde direcciones conocidas o mediante una VPN.\n\nEjemplo\n\nDespués de aplicar la configuración, un intento de conexión con contraseña recibe Permission denied (publickey) sin pedir contraseña, y el registro de SSH deja de mostrar intentos de adivinar contraseñas exitosos o fallidos por ese método.\n\nPráctica\n\nEn tu servidor o máquina virtual de práctica, aplica la configuración de SSH, verifícala con sshd -T, configura ufw permitiendo solo SSH y comprueba el acceso desde una segunda terminal. Documenta cada comando y su resultado.\n\nSolución y comprobación\n\nsshd -T muestra passwordauthentication no y permitrootlogin no; ufw status verbose muestra Status: active, la política por defecto deny (incoming) y la regla OpenSSH ALLOW. La segunda terminal entra con la clave. En WSL, ufw puede no estar disponible por la forma en que funciona la red; practica esta lección en una máquina virtual o un servidor.",
+            "sources": [
+              {
+                "title": "OpenSSH: sshd_config",
+                "url": "https://man.openbsd.org/sshd_config"
+              },
+              {
+                "title": "Ubuntu Server: cortafuegos con ufw",
+                "url": "https://documentation.ubuntu.com/server/how-to/security/firewalls/"
+              },
+              {
+                "title": "Ubuntu Server: actualizaciones automáticas",
+                "url": "https://documentation.ubuntu.com/server/how-to/software/automatic-updates/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Proyecto: preparar un servidor para una aplicación",
+            "description": "Integra usuarios, permisos, servicio, registros, SSH y cortafuegos en un procedimiento documentado.",
+            "outcome": "Entregar un procedimiento reproducible para preparar un servidor Ubuntu y desplegar una aplicación como servicio.",
+            "activity": "design",
+            "preview": "Prepararás un servidor de principio a fin como lo haría un equipo de operaciones.",
+            "body": "En este proyecto aplicarás todo el curso para preparar un servidor Ubuntu 24.04 que ejecute la aplicación de inventario de una empresa ficticia. El resultado es un procedimiento escrito que otra persona pueda seguir y obtener el mismo servidor.\n\nRequisitos del servidor\n\n1. Sistema actualizado y actualizaciones de seguridad automáticas activas.\n2. Usuarios personales para dos administradores, con acceso por clave y miembros del grupo sudo. Ninguna cuenta compartida.\n3. Usuario de sistema inventario, sin inicio de sesión.\n4. Directorio /opt/inventario propiedad de inventario con permisos 750, y un directorio /srv/inventario-respaldos accesible solo para el grupo de administradores.\n5. Servicio inventario con systemd, ejecutado como inventario, escuchando solo en 127.0.0.1, con reinicio ante fallas.\n6. SSH sin contraseñas ni acceso de root.\n7. Cortafuegos activo que permite solo SSH.\n8. Un script de respaldo que comprime /opt/inventario con la fecha en el nombre, guardado en /srv/inventario-respaldos, y que conserva solo los últimos siete archivos.\n\nEstructura del entregable\n\nPara cada requisito: los comandos exactos, la explicación breve de por qué, y el comando que comprueba que quedó bien hecho. Agrega al final una sección de verificación completa y otra de operación diaria: cómo ver el estado del servicio, sus registros, el espacio en disco y los últimos accesos SSH.\n\nEjemplo\n\nFragmento del script de respaldo:\n\n```text\n#!/bin/bash\nset -euo pipefail\ndestino=/srv/inventario-respaldos\ntar -czf \"$destino/inventario-$(date +%F).tar.gz\" -C /opt inventario\nls -1t \"$destino\"/inventario-*.tar.gz | tail -n +8 | xargs -r rm --\n```\n\nset -euo pipefail detiene el script ante cualquier error. tar crea el archivo comprimido con la fecha en formato AAAA-MM-DD. La última línea lista los respaldos del más nuevo al más antiguo, toma desde el octavo en adelante y los borra; -r evita ejecutar rm si no hay nada que borrar.\n\nPráctica\n\nPrepara un servidor o máquina virtual siguiendo tu procedimiento desde una instalación limpia. Programa el respaldo diario con una unidad timer de systemd o con cron, y ejecuta la verificación completa.\n\nSolución y comprobación\n\nLa verificación demuestra cada requisito con evidencia: id de los administradores con sudo, getent passwd inventario con nologin, stat de los directorios con sus permisos, systemctl status inventario activo, ss -tlnp mostrando el puerto 8080 solo en 127.0.0.1, sshd -T con los valores endurecidos, ufw status con solo SSH y la lista de respaldos. Prueba el procedimiento desde cero una segunda vez: si necesitaste un paso que no está escrito, agrégalo.",
+            "sources": [
+              {
+                "title": "Ubuntu Server: documentación",
+                "url": "https://documentation.ubuntu.com/server/"
+              },
+              {
+                "title": "systemd: unidades de servicio",
+                "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html"
+              },
+              {
+                "title": "OpenSSH: sshd_config",
+                "url": "https://man.openbsd.org/sshd_config"
+              }
+            ],
+            "videos": [
+              {
+                "title": "HolaMundo: Linux desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=L906Kti3gzE"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación final: acceso remoto y seguridad",
+              "questions": [
+                {
+                  "prompt": "¿Por qué las claves SSH son más seguras que las contraseñas?",
+                  "multiple": false,
+                  "options": [
+                    "Porque son más cortas.",
+                    "Porque sin la clave privada no se puede entrar, aunque se hagan muchos intentos.",
+                    "Porque no cifran la sesión.",
+                    "Porque se comparten con el servidor."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La clave privada nunca sale de tu equipo."
+                },
+                {
+                  "prompt": "¿Por qué el archivo de endurecimiento se llama 10-endurecer.conf?",
+                  "multiple": false,
+                  "options": [
+                    "Por estética.",
+                    "Porque sshd usa el primer valor encontrado y el prefijo hace que se lea antes que otros archivos.",
+                    "Porque sshd solo lee archivos que empiezan con 10.",
+                    "Para que se ejecute diez veces."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Un archivo posterior como 50-cloud-init.conf no podrá reactivar las contraseñas."
+                },
+                {
+                  "prompt": "¿Qué debes hacer antes de cerrar la sesión después de cambiar la configuración de SSH?",
+                  "multiple": false,
+                  "options": [
+                    "Nada.",
+                    "Comprobar desde una segunda terminal que puedes entrar con tu clave.",
+                    "Reiniciar el servidor.",
+                    "Borrar authorized_keys."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La sesión abierta te permite corregir un error sin quedar fuera."
+                },
+                {
+                  "prompt": "¿En qué orden se configura ufw para no perder el acceso?",
+                  "multiple": false,
+                  "options": [
+                    "Activar y luego permitir SSH.",
+                    "Permitir SSH y luego activar.",
+                    "Desactivar SSH y activar.",
+                    "El orden no importa."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Activar sin permitir SSH corta la conexión remota."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: procedimiento de preparación de un servidor",
+              "instructions": "Entrega el procedimiento completo para preparar un servidor Ubuntu 24.04 con los ocho requisitos de la lección: comandos, explicación y comprobación de cada uno, el script de respaldo con su programación, la verificación completa y la guía de operación diaria. No incluyas contraseñas, claves privadas ni direcciones reales de servidores de terceros. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Mínimo privilegio",
+                  "description": "Cuentas personales, usuario de sistema para el servicio y permisos ajustados en cada directorio."
+                },
+                {
+                  "label": "Servicio supervisado",
+                  "description": "La aplicación corre con systemd como su propio usuario, solo en la dirección local y con reinicio ante fallas."
+                },
+                {
+                  "label": "Acceso seguro",
+                  "description": "SSH solo con claves y sin root, cortafuegos activo y actualizaciones automáticas."
+                },
+                {
+                  "label": "Reproducible y verificable",
+                  "description": "Otra persona puede seguir el procedimiento desde cero y cada requisito tiene un comando de comprobación."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "redes-desde-cero",
+    "title": "Redes desde cero: direcciones IP, DNS y diagnóstico de conexiones",
+    "access": "freemium",
+    "category": {
+      "name": "Infraestructura y nube",
+      "slug": "infraestructura"
+    },
+    "topic": {
+      "name": "Redes",
+      "slug": "redes"
+    },
+    "description": "Entiende cómo viaja la información por una red y resuelve problemas de conexión con método: capas, direcciones IPv4 e IPv6, máscaras y subredes, DNS, puertos, NAT y Wi-Fi. Practicarás con los comandos de Windows y con Python, y terminarás diseñando la red de una oficina pequeña. El primer capítulo es gratuito.",
+    "objective": "Explicar el recorrido de una conexión, interpretar la configuración de red de un equipo, diagnosticar fallas por capas y documentar el diseño de direcciones de una red pequeña.",
+    "requirements": "Una computadora con Windows 10 u 11 conectada a internet. Para algunos ejercicios conviene tener Python 3 instalado. No necesitas conocimientos previos de redes.",
+    "minutes": 480,
+    "price": 2100,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "MDN: cómo funciona internet",
+        "url": "https://developer.mozilla.org/es/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work"
+      },
+      {
+        "title": "Cloudflare: el modelo OSI",
+        "url": "https://www.cloudflare.com/es-es/learning/ddos/glossary/open-systems-interconnection-model-osi/"
+      },
+      {
+        "title": "RFC 1918: direcciones privadas IPv4",
+        "url": "https://www.rfc-editor.org/rfc/rfc1918"
+      },
+      {
+        "title": "RFC 6598: espacio compartido para CGNAT",
+        "url": "https://www.rfc-editor.org/rfc/rfc6598"
+      },
+      {
+        "title": "Python: módulo ipaddress",
+        "url": "https://docs.python.org/3/library/ipaddress.html"
+      },
+      {
+        "title": "Microsoft: comando ipconfig",
+        "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/ipconfig"
+      },
+      {
+        "title": "Cloudflare: ¿qué es el DNS?",
+        "url": "https://www.cloudflare.com/es-es/learning/dns/what-is-dns/"
+      },
+      {
+        "title": "Cloudflare: registros DNS",
+        "url": "https://www.cloudflare.com/es-es/learning/dns/dns-records/"
+      },
+      {
+        "title": "Microsoft: comando nslookup",
+        "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/nslookup"
+      },
+      {
+        "title": "IANA: registro de puertos y servicios",
+        "url": "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml"
+      },
+      {
+        "title": "Microsoft: Test-NetConnection",
+        "url": "https://learn.microsoft.com/es-es/powershell/module/nettcpip/test-netconnection"
+      },
+      {
+        "title": "Microsoft: comando tracert",
+        "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/tracert"
+      },
+      {
+        "title": "Microsoft: comando pathping",
+        "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/pathping"
+      },
+      {
+        "title": "Wi-Fi Alliance: seguridad Wi-Fi",
+        "url": "https://www.wi-fi.org/discover-wi-fi/security"
+      },
+      {
+        "title": "RFC 8200: especificación de IPv6",
+        "url": "https://www.rfc-editor.org/rfc/rfc8200"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Cómo viaja la información",
+        "description": "Capas, direcciones IPv4 y la configuración real de tu equipo.",
+        "lessons": [
+          {
+            "title": "Redes, paquetes y capas",
+            "description": "Comprende cómo se divide la comunicación en capas y qué hace cada una.",
+            "outcome": "Describir el recorrido de una solicitud web desde tu equipo hasta un servidor usando el modelo de capas.",
+            "activity": "understand",
+            "preview": "Seguirás lo que ocurre cuando abres una página web.",
+            "body": "Cuando abres una página web desde tu casa en San Salvador, tu computadora y un servidor que puede estar en otro continente intercambian cientos de mensajes en fracciones de segundo. Para que eso funcione entre equipos de fabricantes distintos, la comunicación se organiza en capas: cada una resuelve un problema y se apoya en la de abajo.\n\nPaquetes\n\nLa información no viaja como un bloque. Se divide en paquetes, pequeños trozos con una cabecera que indica origen, destino y otros datos de control. Cada paquete puede tomar un camino distinto y el receptor los reordena. Si uno se pierde, solo se reenvía ese.\n\nEl modelo TCP/IP\n\nInternet funciona con la familia de protocolos TCP/IP, que suele describirse en cuatro capas:\n\nAcceso a la red: cómo se transmiten los bits por un medio concreto, cable Ethernet o Wi-Fi, y cómo se identifican los equipos de la misma red local mediante direcciones físicas, llamadas MAC.\n\nInternet: cómo llega un paquete de una red a otra. Aquí vive el protocolo IP y sus direcciones. Los enrutadores trabajan en esta capa: reciben un paquete y deciden hacia dónde enviarlo.\n\nTransporte: cómo se entrega la información a la aplicación correcta y con qué garantías. TCP asegura que todo llegue completo y en orden; UDP es más simple y rápido, sin esas garantías. Los puertos identifican la aplicación.\n\nAplicación: el lenguaje de cada servicio. HTTP y HTTPS para la web, DNS para traducir nombres, SMTP e IMAP para el correo.\n\nEl modelo OSI\n\nEn cursos y certificaciones verás también el modelo OSI, con siete capas: física, enlace de datos, red, transporte, sesión, presentación y aplicación. Es un modelo de referencia más detallado que divide en dos la capa de acceso y en tres la de aplicación de TCP/IP. Cuando alguien dice «un problema de capa 3», se refiere a la capa de red de OSI: direcciones IP y enrutamiento.\n\nEncapsulación\n\nCada capa agrega su propia cabecera al mensaje que recibe de la capa superior. La solicitud HTTP se envuelve en un segmento TCP, este en un paquete IP y este en una trama Ethernet o Wi-Fi. En el destino, cada capa retira su cabecera y entrega el contenido a la siguiente. Es como una carta dentro de un sobre, dentro de una caja de envío con su propia etiqueta.\n\nEjemplo\n\nAl escribir un dominio en el navegador: la capa de aplicación pregunta al DNS la dirección IP del servidor y prepara la solicitud HTTPS; transporte abre una conexión TCP al puerto 443; la capa de internet envía los paquetes a tu enrutador, que los dirige hacia internet; la capa de acceso los transmite por Wi-Fi hasta el enrutador.\n\nPráctica\n\nDescribe con tus palabras, capa por capa, qué ocurre cuando envías un mensaje de correo desde tu teléfono conectado al Wi-Fi de tu casa. Indica en qué capa trabajaría cada uno de estos elementos: el enrutador, el cable de red, el puerto 993 y el nombre del servidor de correo.\n\nSolución y comprobación\n\nEl enrutador trabaja en la capa de internet, decidiendo hacia dónde enviar paquetes IP. El cable o la señal Wi-Fi pertenecen a la capa de acceso a la red. El puerto 993, usado por IMAP seguro, pertenece a transporte. El nombre del servidor se traduce con DNS, un protocolo de la capa de aplicación. Si tu descripción menciona encapsulación al enviar y desencapsulación al recibir, captaste la idea central.",
+            "sources": [
+              {
+                "title": "MDN: cómo funciona internet",
+                "url": "https://developer.mozilla.org/es/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work"
+              },
+              {
+                "title": "Cloudflare: el modelo OSI",
+                "url": "https://www.cloudflare.com/es-es/learning/ddos/glossary/open-systems-interconnection-model-osi/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "NASeros: modelo de capas OSI y TCP/IP (español)",
+                "url": "https://www.youtube.com/watch?v=iNh-62Mf0O4"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "Direcciones IPv4 y máscaras de red",
+            "description": "Lee direcciones IPv4, máscaras y notación CIDR, y distingue direcciones privadas y públicas.",
+            "outcome": "Calcular la red, el rango de equipos y la dirección de difusión de una dirección con su máscara.",
+            "activity": "execute",
+            "preview": "Sabrás qué significa 192.168.1.37/24 y por qué tu casa usa esas direcciones.",
+            "body": "Una dirección IPv4 identifica una interfaz de red con 32 bits, escritos como cuatro números de 0 a 255 separados por puntos: 192.168.1.37. Con 32 bits existen 4 294 967 296 combinaciones posibles, una cantidad que hace décadas resultó insuficiente para todos los dispositivos del mundo.\n\nRed y equipo\n\nCada dirección tiene dos partes: la que identifica la red y la que identifica el equipo dentro de ella. La máscara indica dónde termina una y empieza la otra. Con la máscara 255.255.255.0, los tres primeros números identifican la red y el último, el equipo. La notación CIDR escribe lo mismo indicando cuántos bits son de red: 192.168.1.37/24.\n\nPara la red 192.168.1.0/24:\n\nDirección de red: 192.168.1.0, identifica la red completa.\nRango de equipos: de 192.168.1.1 a 192.168.1.254, 254 direcciones utilizables.\nDifusión: 192.168.1.255, para enviar a todos los equipos de la red.\n\nLa regla general: una red /n tiene 2 elevado a (32 − n) direcciones, menos dos reservadas. Una /24 tiene 256 − 2 = 254; una /26, 64 − 2 = 62; una /23, 512 − 2 = 510.\n\nDos equipos en la misma red se comunican directamente. Para llegar a otra red, el equipo envía los paquetes a su puerta de enlace, normalmente el enrutador, que en las casas suele ser 192.168.1.1 o 192.168.0.1.\n\nPrivadas y públicas\n\nEl RFC 1918 reservó tres rangos para redes privadas, que no se enrutan en internet: 10.0.0.0/8, 172.16.0.0/12 —de 172.16.0.0 a 172.31.255.255— y 192.168.0.0/16. Tu casa y tu oficina usan direcciones privadas; el enrutador las traduce a una dirección pública al salir a internet. Por eso miles de hogares pueden usar 192.168.1.10 sin conflicto.\n\nOtros rangos especiales: 127.0.0.0/8 es el propio equipo, llamado loopback; 169.254.0.0/16 se asigna automáticamente cuando un equipo no obtuvo dirección del servidor DHCP, una pista útil de diagnóstico; y 100.64.0.0/10 es el espacio compartido que algunos proveedores usan para su propia traducción de direcciones, conocida como CGNAT.\n\nComprobar con Python\n\n```python\nimport ipaddress\nred = ipaddress.ip_network(\"192.168.1.0/24\")\nprint(red.netmask, red.broadcast_address, red.num_addresses)\nprint(ipaddress.ip_address(\"172.20.1.5\").is_private)\n```\n\nEl resultado es 255.255.255.0, 192.168.1.255 y 256, y True para 172.20.1.5.\n\nEjemplo\n\n¿Están en la misma red 192.168.1.37 y 192.168.1.200 con máscara /25? Una /25 divide la red en dos mitades: de .0 a .127 y de .128 a .255. La primera dirección está en la primera mitad y la segunda en la otra: no se comunican directamente, necesitan un enrutador.\n\nPráctica\n\nClasifica como privada, pública o especial: 10.4.7.20, 172.20.1.5, 172.32.0.1, 192.168.0.10, 8.8.8.8 y 169.254.12.4. Después calcula la red, la difusión y el número de equipos de 192.168.10.70/26 y comprueba con ipaddress.\n\nSolución y comprobación\n\nSon privadas 10.4.7.20, 172.20.1.5 y 192.168.0.10. Son públicas 172.32.0.1, que queda fuera del rango 172.16 a 172.31, y 8.8.8.8. Es especial 169.254.12.4, una dirección automática por falta de DHCP. 192.168.10.70/26 pertenece a la red 192.168.10.64/26, con difusión 192.168.10.127 y 62 equipos, de .65 a .126. ipaddress.ip_interface(\"192.168.10.70/26\").network confirma la red.",
+            "sources": [
+              {
+                "title": "RFC 1918: direcciones privadas IPv4",
+                "url": "https://www.rfc-editor.org/rfc/rfc1918"
+              },
+              {
+                "title": "RFC 6598: espacio compartido para CGNAT",
+                "url": "https://www.rfc-editor.org/rfc/rfc6598"
+              },
+              {
+                "title": "Python: módulo ipaddress",
+                "url": "https://docs.python.org/3/library/ipaddress.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Gabriel Marcano: direccionamiento IPv4 y subredes (español)",
+                "url": "https://www.youtube.com/watch?v=SHbBso63X38"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "La configuración de red de tu equipo",
+            "description": "Interpreta ipconfig /all y entiende cómo DHCP asigna la configuración.",
+            "outcome": "Leer la configuración de un equipo e identificar dirección, máscara, puerta de enlace, DNS y origen de la configuración.",
+            "activity": "execute",
+            "preview": "Leerás la ficha de red de tu propia computadora.",
+            "body": "Cada equipo conectado a una red necesita al menos cuatro datos: su dirección IP, la máscara, la puerta de enlace y uno o más servidores DNS. En casi todas las redes, esos datos llegan automáticamente mediante DHCP, un servicio que suele ejecutar el enrutador.\n\nCómo funciona DHCP\n\nAl conectarse, el equipo envía un mensaje de difusión preguntando si hay un servidor DHCP. El servidor ofrece una dirección libre con el resto de la configuración; el equipo la acepta y el servidor la registra como prestada durante un tiempo, llamado concesión. Antes de que venza, el equipo la renueva. Si nadie responde, Windows se asigna una dirección del rango 169.254.0.0/16: si la ves, el problema está en la conexión con el servidor DHCP, no en internet.\n\nLeer ipconfig /all\n\nEn Windows abre una terminal y ejecuta:\n\n```text\nipconfig /all\n```\n\nPara cada adaptador, Wi-Fi o Ethernet, revisa:\n\nDirección física: la dirección MAC de la tarjeta, en formato como 3C-52-82-1A-9F-07.\nDHCP habilitado: Sí indica configuración automática.\nDirección IPv4: por ejemplo 192.168.1.37 (Preferido).\nMáscara de subred: 255.255.255.0.\nConcesión obtenida y La concesión expira: el periodo del préstamo.\nPuerta de enlace predeterminada: 192.168.1.1.\nServidor DHCP y Servidores DNS: a menudo la misma dirección del enrutador, que reenvía las consultas al proveedor.\n\nVerás también direcciones IPv6, incluida una que empieza con fe80::, de vínculo local, que existe siempre en la red local.\n\nComandos útiles\n\nipconfig muestra un resumen. ipconfig /release seguido de ipconfig /renew solicita una configuración nueva al servidor DHCP. ipconfig /flushdns borra la caché de nombres del equipo, útil cuando un sitio cambió de dirección. En macOS y Linux, la información equivalente se obtiene con ip addr y ip route en Linux, o en la configuración de red del sistema.\n\nConfiguración estática\n\nServidores e impresoras suelen tener direcciones fijas para que los demás equipos los encuentren siempre en el mismo lugar. Hay dos formas: configurarlas manualmente en el equipo o reservar la dirección en el servidor DHCP para su MAC. La reserva es preferible porque la configuración queda centralizada. Una dirección fija configurada a mano dentro del rango que reparte DHCP provoca conflictos de direcciones.\n\nEjemplo\n\nUna laptop muestra Dirección IPv4 169.254.88.12 y no navega, mientras los teléfonos de la casa funcionan. Diagnóstico probable: la laptop no recibió respuesta del servidor DHCP. Acciones: revisar que esté conectada a la red correcta, ejecutar ipconfig /renew y, si persiste, reiniciar el adaptador.\n\nPráctica\n\nEjecuta ipconfig /all y completa una ficha de tu adaptador activo con MAC, dirección IPv4, máscara, puerta de enlace, servidores DNS, servidor DHCP y vencimiento de la concesión. Calcula con ipaddress la red a la que pertenece tu equipo.\n\nSolución y comprobación\n\nLa ficha muestra una dirección privada y una puerta de enlace dentro de la misma red; ipaddress.ip_interface con tu dirección y la máscara en notación CIDR debe devolver la red. Si tu dirección empieza con 169.254, tu equipo no obtuvo configuración: es una buena oportunidad para practicar el diagnóstico del capítulo 3. No publiques tu ficha: la MAC identifica tu dispositivo.",
+            "sources": [
+              {
+                "title": "Microsoft: comando ipconfig",
+                "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/ipconfig"
+              },
+              {
+                "title": "MDN: cómo funciona internet",
+                "url": "https://developer.mozilla.org/es/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work"
+              }
+            ],
+            "videos": [],
+            "free": true,
+            "quiz": {
+              "title": "Evaluación: cómo viaja la información",
+              "questions": [
+                {
+                  "prompt": "¿En qué capa de TCP/IP trabajan los enrutadores?",
+                  "multiple": false,
+                  "options": [
+                    "Aplicación.",
+                    "Transporte.",
+                    "Internet.",
+                    "Acceso a la red."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Los enrutadores deciden hacia dónde enviar los paquetes IP."
+                },
+                {
+                  "prompt": "¿Cuántas direcciones utilizables para equipos tiene una red /26?",
+                  "multiple": false,
+                  "options": [
+                    "64.",
+                    "62.",
+                    "254.",
+                    "30."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "2 elevado a 6 son 64 direcciones, menos la de red y la de difusión."
+                },
+                {
+                  "prompt": "¿Cuál de estas direcciones es privada según el RFC 1918?",
+                  "multiple": false,
+                  "options": [
+                    "172.32.0.1",
+                    "8.8.8.8",
+                    "172.20.1.5",
+                    "100.64.1.1"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "El rango privado 172.16.0.0/12 va de 172.16 a 172.31."
+                },
+                {
+                  "prompt": "Un equipo muestra la dirección 169.254.88.12. ¿Qué indica?",
+                  "multiple": false,
+                  "options": [
+                    "Que tiene una dirección pública.",
+                    "Que no obtuvo configuración del servidor DHCP.",
+                    "Que está en otra ciudad.",
+                    "Que usa IPv6."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Windows se asigna una dirección de ese rango cuando nadie responde por DHCP."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Nombres, puertos y traducción",
+        "description": "DNS, TCP y UDP, puertos, NAT y el enrutador del hogar.",
+        "lessons": [
+          {
+            "title": "DNS: de nombres a direcciones",
+            "description": "Comprende cómo se resuelve un nombre y qué contienen los principales registros.",
+            "outcome": "Consultar registros DNS con nslookup e interpretar sus respuestas.",
+            "activity": "execute",
+            "preview": "Consultarás qué dirección y qué servidores de correo tiene un dominio.",
+            "body": "Las personas recordamos nombres; las redes usan direcciones. El Sistema de Nombres de Dominio, DNS, traduce un nombre como es.wikipedia.org en una dirección IP. Es una base de datos distribuida por todo el mundo y organizada como un árbol.\n\nCómo se resuelve un nombre\n\nTu equipo pregunta primero a su caché y luego al servidor DNS configurado, normalmente el enrutador o el del proveedor. Ese servidor, llamado resolutor recursivo, hace el trabajo: si no tiene la respuesta guardada, pregunta a un servidor raíz por el dominio de primer nivel, como .org; el servidor de .org le indica qué servidores son autoritativos para wikipedia.org; y estos responden con la dirección. El resolutor guarda la respuesta durante el tiempo indicado por el TTL, en segundos, y la entrega a tu equipo. La siguiente consulta del mismo nombre será casi instantánea.\n\nRegistros principales\n\nA: dirección IPv4 de un nombre.\nAAAA: dirección IPv6.\nCNAME: un alias que apunta a otro nombre.\nMX: los servidores que reciben el correo del dominio, con su prioridad.\nTXT: texto libre, usado por ejemplo para verificar la propiedad de un dominio y para políticas de correo como SPF y DMARC.\nNS: los servidores autoritativos del dominio.\n\nConsultar con nslookup\n\n```text\nnslookup es.wikipedia.org\nnslookup -type=MX gmail.com\nnslookup es.wikipedia.org 1.1.1.1\n```\n\nLa primera consulta usa tu servidor configurado y muestra la respuesta, a menudo marcada como no autoritativa porque viene de una caché. La segunda pide los registros de correo. La tercera pregunta a un servidor DNS público específico, útil para comparar si tu servidor da una respuesta distinta. En PowerShell, Resolve-DnsName ofrece lo mismo con un formato más estructurado.\n\nCuando el DNS falla\n\nSi puedes llegar a una dirección IP pero no a un nombre, el problema está en DNS. Síntomas típicos: el navegador dice que no encuentra el servidor, pero las aplicaciones que usan direcciones funcionan. Un cambio reciente de dirección puede tardar en verse por las cachés: ipconfig /flushdns limpia la de tu equipo, pero no la de los resolutores intermedios, que esperan a que venza el TTL.\n\nDNS y seguridad\n\nLos atacantes registran dominios parecidos a los reales para engañar, y un DNS manipulado puede dirigir a sitios falsos. Por eso HTTPS verifica que el certificado corresponda al nombre solicitado. Los resolutores modernos también ofrecen consultas cifradas, como DNS sobre HTTPS, para que terceros en la red no vean qué nombres consultas.\n\nEjemplo\n\nnslookup -type=MX de un dominio de empresa devuelve dos servidores con prioridades 10 y 20. El correo se entrega primero al de menor número; el segundo es respaldo. Si ninguno responde, los correos se acumulan en los servidores remitentes y se reintentan durante un tiempo.\n\nPráctica\n\nConsulta los registros A, AAAA y MX de tres dominios que uses a diario. Repite la consulta A de uno de ellos contra 1.1.1.1 y contra 8.8.8.8, y compara las respuestas.\n\nSolución y comprobación\n\nPara cada dominio deberías obtener al menos una dirección IPv4; muchos servicios grandes también tienen IPv6 y varios registros MX. Es normal que dos resolutores devuelvan direcciones distintas para un mismo servicio grande: las redes de distribución de contenido responden con el servidor más cercano. Si una consulta falla en tu servidor y funciona contra 1.1.1.1, el problema está en tu resolutor configurado.",
+            "sources": [
+              {
+                "title": "Cloudflare: ¿qué es el DNS?",
+                "url": "https://www.cloudflare.com/es-es/learning/dns/what-is-dns/"
+              },
+              {
+                "title": "Cloudflare: registros DNS",
+                "url": "https://www.cloudflare.com/es-es/learning/dns/dns-records/"
+              },
+              {
+                "title": "Microsoft: comando nslookup",
+                "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/nslookup"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Enreta Sistemas: qué es el DNS (español)",
+                "url": "https://www.youtube.com/watch?v=t7EGv2I5FpM"
+              }
+            ]
+          },
+          {
+            "title": "Puertos, TCP y UDP",
+            "description": "Distingue TCP y UDP, conoce puertos comunes y comprueba si un servicio responde.",
+            "outcome": "Verificar la conectividad con un servicio usando su puerto y explicar qué protocolo de transporte usa.",
+            "activity": "execute",
+            "preview": "Comprobarás si un servidor acepta conexiones en un puerto concreto.",
+            "body": "Una dirección IP lleva el paquete hasta el equipo correcto; el puerto lo entrega a la aplicación correcta dentro de ese equipo. Un servidor puede atender web, correo y acceso remoto al mismo tiempo, cada servicio escuchando en su propio puerto, un número de 0 a 65 535.\n\nTCP: conexión confiable\n\nTCP establece una conexión antes de enviar datos, con un intercambio de tres mensajes conocido como saludo de tres vías: el cliente envía SYN, el servidor responde SYN-ACK y el cliente confirma con ACK. Después numera los datos, confirma lo recibido y retransmite lo perdido. Lo usan la web, el correo, las transferencias de archivos y el acceso remoto, donde importa que todo llegue completo.\n\nUDP: rápido y simple\n\nUDP envía datagramas sin establecer conexión ni confirmar la entrega. Es útil cuando la rapidez importa más que recibir cada paquete, como en llamadas de voz y video en tiempo real, juegos en línea y la mayoría de las consultas DNS. Si un paquete de voz se pierde, retransmitirlo un segundo tarde no sirve de nada.\n\nPuertos conocidos\n\nLa IANA mantiene el registro oficial. Algunos frecuentes: 22 SSH para administración remota segura; 25 SMTP entre servidores de correo; 53 DNS; 80 HTTP; 443 HTTPS, que también usa HTTP/3 sobre UDP; 993 IMAP seguro; 3389 Escritorio remoto de Windows. Un puerto conocido es una convención: un servicio puede funcionar en otro número, y un puerto abierto no garantiza que el servicio sea el esperado.\n\nComprobar un puerto\n\nEn PowerShell, Test-NetConnection intenta abrir una conexión TCP:\n\n```text\nTest-NetConnection es.wikipedia.org -Port 443\n```\n\nSi el resultado incluye TcpTestSucceeded : True, el servidor aceptó la conexión en ese puerto. False puede significar que el servicio no escucha, que un cortafuegos bloquea el tráfico o que la ruta falla; el capítulo siguiente enseña a distinguir esos casos. Para ver las conexiones de tu propio equipo, netstat -an lista puertos en escucha y conexiones establecidas.\n\nExponer puertos con cuidado\n\nCada puerto abierto hacia internet es una puerta que alguien intentará abrir. Los registros de cualquier servidor con SSH o Escritorio remoto expuesto muestran intentos de acceso automáticos a las pocas horas de publicarse. Expón solo lo necesario, protege los servicios de administración detrás de una VPN y mantén actualizado lo que publiques.\n\nEjemplo\n\nUn técnico no puede conectarse por Escritorio remoto a la computadora de la oficina desde su casa. Test-NetConnection a la dirección pública de la oficina en el puerto 3389 devuelve False. Es lo esperado y correcto: ese servicio no debe estar expuesto a internet. La solución adecuada es una VPN, no abrir el puerto.\n\nPráctica\n\nCon Test-NetConnection comprueba el puerto 443 y el puerto 25 de un servidor web conocido. Luego ejecuta netstat -an en tu equipo y anota dos puertos en estado LISTENING y dos conexiones ESTABLISHED.\n\nSolución y comprobación\n\nEl puerto 443 de un servidor web responde True. El 25 suele dar False: los servidores web no reciben correo y muchos proveedores domésticos bloquean ese puerto de salida para evitar envío de spam. En netstat, LISTENING indica servicios de tu equipo esperando conexiones y ESTABLISHED, conexiones activas, por ejemplo hacia el puerto 443 de los sitios abiertos en tu navegador.",
+            "sources": [
+              {
+                "title": "IANA: registro de puertos y servicios",
+                "url": "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml"
+              },
+              {
+                "title": "Microsoft: Test-NetConnection",
+                "url": "https://learn.microsoft.com/es-es/powershell/module/nettcpip/test-netconnection"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "NAT y el enrutador de tu casa u oficina",
+            "description": "Comprende cómo NAT comparte una dirección pública y qué implica para los servicios.",
+            "outcome": "Explicar la traducción de direcciones y reconocer cuándo CGNAT impide publicar un servicio.",
+            "activity": "understand",
+            "preview": "Entenderás por qué tu computadora no tiene la dirección que ven los sitios web.",
+            "body": "Tu proveedor de internet asigna normalmente una sola dirección pública a tu conexión, pero en tu casa hay teléfonos, computadoras y televisores conectados al mismo tiempo. El enrutador lo resuelve con NAT, traducción de direcciones de red: reemplaza la dirección privada de origen de cada paquete por su dirección pública y lleva un registro para devolver las respuestas al equipo correcto.\n\nCómo funciona\n\nCuando tu laptop 192.168.1.37 abre una conexión desde su puerto 51 200 hacia un servidor web, el enrutador cambia el origen por su dirección pública y un puerto propio, por ejemplo 40 001, y anota la correspondencia en su tabla. La respuesta del servidor llega a la dirección pública en el puerto 40 001; el enrutador consulta la tabla y la entrega a la laptop. Como usa puertos para distinguir conexiones, esta variante se llama traducción de puertos, o PAT, y es la que usan casi todos los enrutadores domésticos.\n\nUn efecto secundario útil: las conexiones iniciadas desde internet no tienen una entrada en la tabla, así que el enrutador las descarta. NAT no es un cortafuegos completo, pero en la práctica impide que alguien en internet llegue directamente a los equipos de tu red.\n\nRedirección de puertos\n\nPara publicar un servicio de tu red, como una cámara o un servidor, se configura una redirección de puertos: «todo lo que llegue al puerto 8080 público, envíalo a 192.168.1.50 puerto 80». Es una decisión de seguridad seria: expones ese equipo a todo internet. Muchos dispositivos domésticos tienen fallas conocidas. Antes de abrir un puerto, considera alternativas como una VPN o el servicio en la nube del fabricante, y nunca expongas administración remota sin protección adicional.\n\nDesactiva también UPnP en el enrutador si no lo necesitas: permite que los programas de tu red abran puertos automáticamente, sin que lo decidas.\n\nCGNAT\n\nLa escasez de direcciones IPv4 llevó a algunos proveedores a aplicar NAT también en su red: varios clientes comparten una misma dirección pública. Se llama NAT de grado operador, o CGNAT. Una señal típica: la dirección WAN que muestra tu enrutador está en el rango 100.64.0.0/10 o es privada, y no coincide con la que muestran los sitios que dicen «tu IP es...». Con CGNAT, la redirección de puertos de tu enrutador no funciona, porque el proveedor descarta las conexiones entrantes antes de que lleguen. Si necesitas publicar un servicio, puedes pedir al proveedor una dirección pública, a veces con costo, o usar IPv6 si está disponible.\n\nEjemplo\n\nUn pequeño comercio configura la redirección del puerto 8000 hacia su sistema de cámaras para verlas desde el teléfono, pero no funciona. La página del enrutador muestra la WAN 100.72.15.9, mientras un sitio de consulta de IP muestra otra dirección. Diagnóstico: CGNAT. La alternativa más segura es la aplicación oficial del fabricante con verificación en dos pasos, o una VPN hacia el comercio.\n\nPráctica\n\nEntra a la página de tu enrutador y anota su dirección WAN. Compárala con la dirección pública que muestra un sitio de consulta de IP. Revisa si hay redirecciones de puertos configuradas y si UPnP está activo.\n\nSolución y comprobación\n\nSi ambas direcciones coinciden, tienes una dirección pública directa. Si la WAN está en 100.64.0.0/10 o en un rango privado, tu proveedor usa CGNAT; puedes comprobarlo con ipaddress.ip_address(...) in ipaddress.ip_network(\"100.64.0.0/10\"). Elimina las redirecciones que nadie sepa justificar y desactiva UPnP si no lo necesitas.",
+            "sources": [
+              {
+                "title": "RFC 6598: espacio compartido para CGNAT",
+                "url": "https://www.rfc-editor.org/rfc/rfc6598"
+              },
+              {
+                "title": "RFC 1918: direcciones privadas IPv4",
+                "url": "https://www.rfc-editor.org/rfc/rfc1918"
+              },
+              {
+                "title": "MDN: cómo funciona internet",
+                "url": "https://developer.mozilla.org/es/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: nombres, puertos y traducción",
+              "questions": [
+                {
+                  "prompt": "¿Qué registro DNS indica los servidores que reciben el correo de un dominio?",
+                  "multiple": false,
+                  "options": [
+                    "A.",
+                    "CNAME.",
+                    "MX.",
+                    "TXT."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "MX lista los servidores de correo con su prioridad."
+                },
+                {
+                  "prompt": "Puedes abrir un sitio por su dirección IP pero no por su nombre. ¿Dónde está el problema probable?",
+                  "multiple": false,
+                  "options": [
+                    "En el cable.",
+                    "En DNS.",
+                    "En el puerto 443.",
+                    "En la tarjeta de video."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Si la red funciona con direcciones, falla la traducción de nombres."
+                },
+                {
+                  "prompt": "¿Por qué las llamadas de voz en tiempo real suelen usar UDP?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es más seguro.",
+                    "Porque retransmitir un paquete tarde no sirve y la rapidez importa más.",
+                    "Porque TCP no funciona en teléfonos.",
+                    "Porque UDP usa el puerto 443."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "UDP evita las esperas de confirmación y retransmisión."
+                },
+                {
+                  "prompt": "La dirección WAN de tu enrutador es 100.72.15.9 y no coincide con tu IP pública. ¿Qué ocurre?",
+                  "multiple": false,
+                  "options": [
+                    "Tu enrutador está dañado.",
+                    "Tu proveedor usa CGNAT y la redirección de puertos no funcionará.",
+                    "Tienes IPv6.",
+                    "Tu DNS está mal configurado."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "100.64.0.0/10 es el espacio compartido de CGNAT."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Diagnosticar problemas de conexión",
+        "description": "Un método por capas, herramientas de prueba y redes inalámbricas.",
+        "lessons": [
+          {
+            "title": "Un método de diagnóstico por capas",
+            "description": "Sigue un orden de pruebas de abajo hacia arriba para aislar la causa de una falla.",
+            "outcome": "Diagnosticar una falla de conectividad con un procedimiento reproducible y registrar la evidencia.",
+            "activity": "design",
+            "preview": "Dejarás de probar al azar y encontrarás la causa en pocos pasos.",
+            "body": "«No hay internet» puede significar decenas de cosas: un cable suelto, un equipo sin dirección, un enrutador sin conexión al proveedor, un DNS que no responde o un sitio caído. Probar soluciones al azar —reiniciar todo, cambiar contraseñas, reinstalar— a veces funciona, pero no enseña nada y no sirve cuando el problema reaparece. Un método por capas aísla la causa en pocos pasos.\n\nDe abajo hacia arriba\n\n1. Conexión física o inalámbrica. ¿El cable está conectado y la luz del puerto encendida? ¿El equipo está conectado a la red Wi-Fi correcta y con buena señal?\n\n2. Configuración IP. ipconfig: ¿el equipo tiene una dirección válida, máscara y puerta de enlace? Una dirección 169.254 indica un problema con DHCP.\n\n3. Red local. ping a la puerta de enlace, por ejemplo ping 192.168.1.1. Si responde, tu equipo y el enrutador se comunican.\n\n4. Salida a internet. ping a una dirección pública conocida, como 1.1.1.1. Si falla y la puerta de enlace responde, el problema está entre el enrutador y el proveedor.\n\n5. Nombres. nslookup de un dominio conocido. Si las direcciones funcionan y los nombres no, es DNS.\n\n6. Servicio. Test-NetConnection al puerto del servicio o prueba desde otro equipo. Si todo lo anterior funciona y un solo sitio falla, el problema probablemente está en ese sitio.\n\nEn cuanto una prueba falla, la causa está en esa capa o justo debajo: concentra ahí la investigación.\n\nComparar para aislar\n\nPrueba desde otro dispositivo de la misma red: si también falla, el problema es de la red o del proveedor; si funciona, es del primer equipo. Cambia una sola cosa a la vez y anota el resultado. Las luces del módem o enrutador del proveedor también informan: una luz de conexión WAN apagada o roja apunta al proveedor.\n\nRegistrar\n\nAnota hora, síntomas, pruebas realizadas, resultados y solución. Un registro de fallas revela patrones: si la conexión se cae cada tarde a la misma hora, quizá sea congestión o un equipo que se reinicia. Con un registro ordenado, la llamada al soporte del proveedor es más corta y efectiva.\n\nEjemplo\n\nUna oficina reporta que nadie puede abrir páginas web. ipconfig muestra direcciones correctas; ping a la puerta de enlace responde; ping a 1.1.1.1 responde; nslookup de un dominio devuelve «tiempo de espera agotado». El problema es el DNS configurado en el enrutador. Solución temporal: configurar en el enrutador servidores DNS alternativos confiables y reportar la falla al proveedor.\n\nPráctica\n\nEscribe una lista de verificación de seis pasos para tu red con los comandos exactos, las direcciones de tu puerta de enlace y una dirección pública de prueba. Ejecútala completa en condiciones normales y guarda los resultados como referencia.\n\nSolución y comprobación\n\nLa lista sigue el orden físico, IP, puerta de enlace, internet, DNS y servicio. Los resultados en condiciones normales son tu línea base: cuando algo falle, compararás contra ellos. Si alguna prueba falla hoy, ya encontraste algo que investigar.",
+            "sources": [
+              {
+                "title": "Microsoft: comando ipconfig",
+                "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/ipconfig"
+              },
+              {
+                "title": "Microsoft: comando nslookup",
+                "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/nslookup"
+              },
+              {
+                "title": "Microsoft: Test-NetConnection",
+                "url": "https://learn.microsoft.com/es-es/powershell/module/nettcpip/test-netconnection"
+              }
+            ],
+            "videos": [
+              {
+                "title": "CeroEnredos: diagnóstico de red con ping, tracert, ipconfig y nslookup (español)",
+                "url": "https://www.youtube.com/watch?v=8W5kzoaoZ6U"
+              }
+            ]
+          },
+          {
+            "title": "ping, tracert y pathping",
+            "description": "Mide latencia y pérdida, sigue la ruta de los paquetes e interpreta resultados con cautela.",
+            "outcome": "Usar herramientas de diagnóstico para localizar dónde se pierde o se retrasa el tráfico.",
+            "activity": "execute",
+            "preview": "Verás por cuántos enrutadores pasa tu conexión hasta un servidor.",
+            "body": "ping envía mensajes de eco del protocolo ICMP y mide cuánto tardan en volver. Es la prueba más simple de conectividad.\n\n```text\nping 1.1.1.1\n```\n\nWindows envía cuatro mensajes y muestra para cada uno el tiempo de ida y vuelta en milisegundos y el TTL. Al final resume enviados, recibidos, perdidos y tiempos mínimo, máximo y medio. Valores orientativos: dentro de la red local, menos de 5 ms con cable; hacia servidores en la región, decenas de milisegundos; hacia otros continentes, más de cien. Más importante que la cifra exacta es la estabilidad: grandes variaciones entre mensajes, llamadas fluctuación o jitter, afectan las videollamadas aunque el promedio sea bueno.\n\nCuidado al interpretar\n\nMuchos servidores y cortafuegos bloquean ICMP. Que un servidor no responda a ping no significa que esté caído: puede atender HTTPS perfectamente. Para comprobar un servicio, prueba su puerto con Test-NetConnection.\n\ntracert: la ruta\n\ntracert muestra los enrutadores por los que pasan los paquetes. Envía mensajes con TTL creciente: el primer enrutador descarta el que tiene TTL 1 y avisa; el segundo, el de TTL 2; y así sucesivamente. Cada línea es un salto con tres tiempos de respuesta.\n\n```text\ntracert 1.1.1.1\n```\n\nEl primer salto suele ser tu enrutador; los siguientes, la red de tu proveedor y luego otras redes. Los asteriscos en un salto intermedio indican que ese enrutador no responde a estos mensajes, algo frecuente y no necesariamente un problema si los saltos siguientes responden. Un aumento brusco de tiempo que se mantiene en todos los saltos posteriores sugiere congestión o un tramo largo, por ejemplo un cable submarino.\n\npathping: pérdida por salto\n\npathping combina ambos: descubre la ruta y luego envía muchos mensajes a cada salto durante unos minutos, calculando la pérdida en cada uno. Es útil cuando la conexión funciona mal de forma intermitente. Si un salto intermedio muestra pérdida pero los siguientes no, ese enrutador simplemente da baja prioridad a responder; la pérdida que importa es la que continúa hasta el destino.\n\nEjemplo\n\nVideollamadas entrecortadas por las tardes. pathping hacia el servidor de videollamadas muestra 0 % de pérdida en el salto 1, el enrutador de la casa, y 8 % desde el salto 2 en adelante, la red del proveedor. La evidencia apunta a congestión en el proveedor y sirve para presentar un reclamo concreto.\n\nPráctica\n\nEjecuta ping a tu puerta de enlace y a 1.1.1.1, y tracert a 1.1.1.1. Registra la latencia media de ambos ping, el número de saltos y en qué salto aparece la red de tu proveedor. Si tienes tiempo, ejecuta pathping y anota la pérdida en el destino.\n\nSolución y comprobación\n\nLa latencia a la puerta de enlace debe ser mucho menor que la latencia a internet; si con Wi-Fi supera unos pocos milisegundos de forma constante, revisa la señal en la próxima lección. El número de saltos varía según el proveedor. Una pérdida de 0 % en el destino indica una ruta sana en ese momento; repite la prueba en el horario en que notas problemas.",
+            "sources": [
+              {
+                "title": "Microsoft: comando tracert",
+                "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/tracert"
+              },
+              {
+                "title": "Microsoft: comando pathping",
+                "url": "https://learn.microsoft.com/es-es/windows-server/administration/windows-commands/pathping"
+              },
+              {
+                "title": "MDN: cómo funciona internet",
+                "url": "https://developer.mozilla.org/es/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Wi-Fi: bandas, canales y seguridad",
+            "description": "Mejora la cobertura y el rendimiento de una red inalámbrica y configúrala de forma segura.",
+            "outcome": "Elegir banda, canal y ubicación del punto de acceso y aplicar la configuración de seguridad adecuada.",
+            "activity": "design",
+            "preview": "Mejorarás el Wi-Fi de una casa u oficina sin comprar equipos nuevos.",
+            "body": "Muchas «fallas de internet» son en realidad problemas de Wi-Fi: señal débil, interferencia o demasiados equipos compitiendo. Comprender cómo funciona la radio ahorra compras innecesarias.\n\nBandas\n\n2.4 GHz: alcanza más lejos y atraviesa mejor las paredes, pero tiene pocos canales que no se superpongan —1, 6 y 11— y comparte espacio con redes vecinas, microondas y dispositivos Bluetooth. Es la más congestionada en edificios y colonias densas.\n\n5 GHz: más canales y más velocidad, con menor alcance. Es la mejor opción para equipos cerca del punto de acceso.\n\n6 GHz: disponible con Wi-Fi 6E y Wi-Fi 7 en equipos y países que la habilitan; ofrece mucho espacio libre pero alcance aún menor.\n\nMuchos enrutadores usan un mismo nombre de red para varias bandas y dejan que cada equipo elija. Si un dispositivo antiguo tiene problemas, una red separada de 2.4 GHz puede ayudar.\n\nUbicación y canales\n\nLa señal pierde fuerza con la distancia y con cada pared, especialmente de concreto, y con superficies metálicas o agua, como peceras o refrigeradoras. Coloca el punto de acceso en un lugar central y elevado, no dentro de un mueble. En espacios grandes, varios puntos de acceso conectados por cable o un sistema mallado dan mejor cobertura que un enrutador más potente. Para elegir canal, una aplicación de análisis de Wi-Fi en el teléfono muestra qué canales usan las redes vecinas; elige el menos ocupado o deja la selección automática si el enrutador la hace bien.\n\nSeguridad\n\nUsa WPA3 o, si algún equipo no lo admite, el modo de transición WPA2/WPA3; evita WEP y redes abiertas. La contraseña debe ser larga y única. Desactiva WPS, que facilita conexiones pero ha tenido debilidades. Cambia la contraseña de administración del enrutador, mantén su software actualizado y crea una red de invitados aislada para visitas y dispositivos inteligentes.\n\nMedir\n\nEn Windows, netsh wlan show interfaces muestra la red conectada, la banda, el canal y la señal en porcentaje. Mide en distintos lugares y anota los resultados en un plano sencillo.\n\nEjemplo\n\nUna oficina en un segundo piso tiene el enrutador del proveedor en la recepción, dentro de un mueble metálico. En la sala de reuniones, la señal es de 30 % en 5 GHz. Moverlo a un estante alto y agregar un punto de acceso por cable en la sala sube la señal a más de 80 % y elimina los cortes de las videollamadas.\n\nPráctica\n\nMide la señal de tu Wi-Fi con netsh wlan show interfaces en tres lugares de tu casa u oficina y en ambas bandas si es posible. Revisa la configuración de seguridad de la red y propón tres mejoras.\n\nSolución y comprobación\n\nUna buena propuesta relaciona cada mejora con una medición: «la señal en el cuarto del fondo es de 35 % en 5 GHz; mover el enrutador al pasillo central o agregar un punto de acceso». En seguridad, la configuración final usa WPA2 o WPA3 con contraseña larga, WPS desactivado y una red de invitados.",
+            "sources": [
+              {
+                "title": "Wi-Fi Alliance: seguridad Wi-Fi",
+                "url": "https://www.wi-fi.org/discover-wi-fi/security"
+              },
+              {
+                "title": "MDN: cómo funciona internet",
+                "url": "https://developer.mozilla.org/es/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: diagnosticar problemas de conexión",
+              "questions": [
+                {
+                  "prompt": "ping a la puerta de enlace responde, ping a 1.1.1.1 responde y nslookup falla. ¿Dónde está el problema?",
+                  "multiple": false,
+                  "options": [
+                    "En el cable.",
+                    "En DHCP.",
+                    "En DNS.",
+                    "En el sitio web."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "La red y la salida a internet funcionan; falla la resolución de nombres."
+                },
+                {
+                  "prompt": "Un servidor no responde a ping. ¿Qué puedes concluir?",
+                  "multiple": false,
+                  "options": [
+                    "Que está apagado.",
+                    "Nada definitivo: puede bloquear ICMP y atender su servicio normalmente.",
+                    "Que tu equipo tiene virus.",
+                    "Que el DNS falla."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Para comprobar un servicio, prueba su puerto."
+                },
+                {
+                  "prompt": "En tracert, un salto intermedio muestra asteriscos pero los siguientes responden. ¿Qué significa?",
+                  "multiple": false,
+                  "options": [
+                    "Que la ruta está cortada.",
+                    "Que ese enrutador no responde a estos mensajes; no es necesariamente un problema.",
+                    "Que el destino está caído.",
+                    "Que hay pérdida total."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La pérdida que importa es la que continúa hasta el destino."
+                },
+                {
+                  "prompt": "¿Qué configuración de seguridad Wi-Fi es la recomendada?",
+                  "multiple": false,
+                  "options": [
+                    "WEP con contraseña corta.",
+                    "Red abierta con nombre oculto.",
+                    "WPA3 o WPA2/WPA3 con contraseña larga y WPS desactivado.",
+                    "WPS activado para facilitar conexiones."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "WEP y las redes abiertas no protegen el tráfico; WPS ha tenido debilidades."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. La red de una oficina pequeña",
+        "description": "Subredes, IPv6 y el diseño documentado de una red real.",
+        "lessons": [
+          {
+            "title": "Subredes y segmentación",
+            "description": "Divide una red en subredes para separar equipos de trabajo, invitados y dispositivos.",
+            "outcome": "Planificar subredes con el número de direcciones adecuado y justificar la separación por seguridad.",
+            "activity": "design",
+            "preview": "Separarás la red de trabajo de la de invitados y cámaras.",
+            "body": "En una red plana, todos los equipos se ven entre sí: la laptop de una visita, la cámara de seguridad con software antiguo y el servidor de contabilidad. Si cualquiera se compromete, el atacante tiene acceso directo a los demás. Dividir la red en segmentos limita ese movimiento y además organiza el tráfico.\n\nDividir una /24\n\nUna red 192.168.10.0/24 tiene 254 direcciones para equipos. Al usar dos bits más para la red, /26, se obtienen cuatro subredes de 62 equipos cada una:\n\n192.168.10.0/26: equipos de .1 a .62, difusión .63.\n192.168.10.64/26: equipos de .65 a .126, difusión .127.\n192.168.10.128/26: equipos de .129 a .190, difusión .191.\n192.168.10.192/26: equipos de .193 a .254, difusión .255.\n\nPython lo calcula sin errores:\n\n```python\nimport ipaddress\nfor subred in ipaddress.ip_network(\"192.168.10.0/24\").subnets(new_prefix=26):\n    print(subred, subred.num_addresses - 2)\n```\n\nElegir el tamaño\n\nCalcula cuántos equipos necesita cada segmento hoy y deja margen para crecer. Recuerda la tabla: /27 da 30 equipos, /26 da 62, /25 da 126 y /24 da 254. Reserva en cada subred las primeras direcciones para la puerta de enlace y los equipos con dirección fija, y deja el resto al DHCP.\n\nVLAN\n\nEn una oficina, la segmentación se implementa con VLAN: redes virtuales separadas que comparten los mismos conmutadores y cables. Cada puerto del conmutador o cada nombre de red Wi-Fi se asigna a una VLAN, y un enrutador o cortafuegos decide qué tráfico se permite entre ellas. Los conmutadores administrables y muchos puntos de acceso empresariales lo admiten. En un hogar, la red de invitados del enrutador cumple una función parecida.\n\nReglas entre segmentos\n\nLa regla de partida es negar todo y permitir lo necesario. La red de invitados solo sale a internet. Las cámaras solo hablan con el grabador. Los equipos de trabajo acceden a la impresora y al servidor, y el servidor no inicia conexiones hacia los equipos de trabajo.\n\nEjemplo\n\nPlan de una oficina contable de 15 personas: VLAN 10 trabajo, 192.168.10.0/26; VLAN 20 servidores e impresoras, 192.168.10.64/27; VLAN 30 invitados, 192.168.10.128/26, aislada; VLAN 40 cámaras, 192.168.10.192/27. Quedan libres 192.168.10.96/27 y 192.168.10.224/27 para crecer.\n\nPráctica\n\nUna escuela necesita segmentos para 80 computadoras de laboratorio, 20 equipos administrativos, 40 dispositivos de invitados y 10 cámaras, a partir de 10.20.0.0/23. Asigna una subred a cada segmento y comprueba con ipaddress que no se superponen.\n\nSolución y comprobación\n\nUna solución válida es: laboratorio 10.20.0.0/25 con 126 equipos; invitados 10.20.0.128/26 con 62; administración 10.20.0.192/27 con 30; cámaras 10.20.0.224/28 con 14; y toda la mitad 10.20.1.0/24 libre para crecer. Comprueba la superposición con red_a.overlaps(red_b), que debe devolver False para cada par. Ordenar de la subred más grande a la más pequeña evita huecos.",
+            "sources": [
+              {
+                "title": "Python: módulo ipaddress",
+                "url": "https://docs.python.org/3/library/ipaddress.html"
+              },
+              {
+                "title": "RFC 1918: direcciones privadas IPv4",
+                "url": "https://www.rfc-editor.org/rfc/rfc1918"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Gabriel Marcano: direccionamiento IPv4 y subredes (español)",
+                "url": "https://www.youtube.com/watch?v=SHbBso63X38"
+              }
+            ]
+          },
+          {
+            "title": "IPv6 básico",
+            "description": "Lee direcciones IPv6, conoce sus tipos y entiende la configuración automática.",
+            "outcome": "Interpretar las direcciones IPv6 de un equipo y explicar en qué difiere su funcionamiento de IPv4.",
+            "activity": "understand",
+            "preview": "Descifrarás las direcciones largas que aparecen en ipconfig.",
+            "body": "IPv6 resolvió la escasez de direcciones con 128 bits en lugar de 32: unos 340 sextillones de combinaciones, suficientes para asignar redes enteras a cada hogar sin NAT. Su adopción avanza de forma desigual entre países y proveedores, pero tu equipo ya lo usa en la red local y, si tu proveedor lo ofrece, también hacia internet.\n\nCómo se escribe\n\nUna dirección IPv6 tiene ocho grupos de cuatro dígitos hexadecimales separados por dos puntos:\n\n```text\n2001:0db8:0000:0000:0000:ff00:0042:8329\n```\n\nDos reglas la acortan: se eliminan los ceros a la izquierda de cada grupo, y una sola secuencia de grupos de ceros se reemplaza por ::. La dirección anterior se escribe 2001:db8::ff00:42:8329. ipaddress.ip_address(...).compressed hace esta conversión y exploded la revierte. El prefijo 2001:db8::/32 está reservado para documentación, igual que los ejemplos de IPv4 de este curso.\n\nTipos de direcciones\n\nGlobales: empiezan normalmente por 2 o 3 y son enrutables en internet. Un hogar suele recibir un prefijo /56 o /64 del proveedor.\n\nDe vínculo local: empiezan por fe80:: y solo sirven dentro de la red local. Todo equipo con IPv6 tiene una, aunque no haya conexión IPv6 a internet.\n\nLoopback: ::1, equivalente a 127.0.0.1.\n\nLocales únicas: empiezan por fd y cumplen un papel parecido a las privadas de IPv4 dentro de una organización.\n\nConfiguración automática\n\nEn IPv6, el enrutador anuncia el prefijo de la red y los equipos pueden construir su propia dirección dentro de él, un mecanismo llamado SLAAC. Para proteger la privacidad, los sistemas modernos generan direcciones temporales que cambian periódicamente, por eso ipconfig puede mostrar varias direcciones IPv6 globales a la vez. DHCPv6 existe para redes que necesitan asignación centralizada.\n\nSin NAT, con cortafuegos\n\nCon IPv6 cada equipo tiene una dirección global. La protección que NAT daba de forma indirecta la cumple el cortafuegos del enrutador, que por defecto debe bloquear las conexiones entrantes no solicitadas. Verifica que tu enrutador lo haga.\n\nEjemplo\n\nipconfig muestra en el adaptador Wi-Fi: Dirección IPv6 2803:...:1a2b, Dirección IPv6 temporal 2803:...:9f3c y Vínculo: dirección IPv6 local fe80::... La presencia de direcciones que no empiezan por fe80 indica que el proveedor entrega IPv6; el prefijo 2803 corresponde a los bloques asignados al registro regional de América Latina y el Caribe.\n\nPráctica\n\nRevisa con ipconfig si tu equipo tiene direcciones IPv6 globales, temporales y de vínculo local. Usa ipaddress para comprimir 2001:0db8:0000:0000:0000:ff00:0042:8329 y para comprobar si fe80::1 es de vínculo local.\n\nSolución y comprobación\n\nLa forma comprimida es 2001:db8::ff00:42:8329 y ip_address(\"fe80::1\").is_link_local devuelve True. Si tu equipo solo tiene una dirección fe80::, tu proveedor o tu enrutador no ofrecen IPv6 hacia internet; las aplicaciones seguirán usando IPv4 sin problemas.",
+            "sources": [
+              {
+                "title": "RFC 8200: especificación de IPv6",
+                "url": "https://www.rfc-editor.org/rfc/rfc8200"
+              },
+              {
+                "title": "Python: módulo ipaddress",
+                "url": "https://docs.python.org/3/library/ipaddress.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "NASeros: qué es IPv6 (español)",
+                "url": "https://www.youtube.com/watch?v=LQf1azzcG7s"
+              }
+            ]
+          },
+          {
+            "title": "Proyecto: diseño y documentación de la red de una oficina",
+            "description": "Diseña, documenta y prepara el diagnóstico de la red de una oficina pequeña.",
+            "outcome": "Entregar un diseño de red con direccionamiento, segmentación, seguridad y procedimiento de diagnóstico.",
+            "activity": "design",
+            "preview": "Integrarás todo el curso en el expediente de una red real.",
+            "body": "Una red bien documentada se puede mantener, ampliar y reparar sin depender de la memoria de una persona. En este proyecto diseñarás y documentarás la red de una oficina pequeña real o ficticia, por ejemplo una clínica con recepción, tres consultorios, una oficina administrativa y sala de espera con Wi-Fi para pacientes.\n\nContenido del expediente\n\n1. Inventario: equipos por tipo y ubicación —computadoras, impresoras, servidor o NAS, cámaras, teléfonos IP, puntos de acceso— con la cantidad prevista a dos años.\n\n2. Diagrama: un esquema sencillo de la conexión al proveedor, el enrutador o cortafuegos, los conmutadores, los puntos de acceso y cada segmento. Puede hacerse a mano y fotografiarse o con cualquier herramienta de dibujo.\n\n3. Plan de direcciones: rango general, subredes por segmento con su tamaño justificado, puerta de enlace, rango de DHCP, reservas para equipos fijos y espacio libre. Verifícalo con ipaddress.\n\n4. Reglas entre segmentos: qué puede comunicarse con qué, siguiendo el principio de negar todo y permitir lo necesario.\n\n5. Wi-Fi: nombres de red, bandas, ubicación de los puntos de acceso y configuración de seguridad.\n\n6. DNS y servicios: servidores DNS configurados, servicios publicados si los hay, y por qué no se exponen puertos de administración.\n\n7. Procedimiento de diagnóstico: la lista por capas del capítulo 3, adaptada a las direcciones de esta red, con la línea base de mediciones.\n\n8. Datos de contacto y acceso: proveedor, número de servicio, dónde se guardan las credenciales de administración —nunca en el documento— y quién está autorizado a cambiar la configuración.\n\nEjemplo\n\nFragmento del plan de direcciones: «Segmento clínico, 10.50.0.0/26: puerta de enlace .1; impresoras .2 a .9 por reserva DHCP; DHCP de .20 a .62. Segmento de pacientes, 10.50.0.64/26: solo salida a internet, aislamiento entre clientes activado en el punto de acceso».\n\nPráctica\n\nElabora el expediente completo con las ocho secciones. Incluye el script de Python que verifica que las subredes no se superponen y que cada una tiene espacio para los equipos previstos.\n\nSolución y comprobación\n\nEl expediente permite a otra persona entender la red sin visitarla. El script recorre todas las parejas de subredes con overlaps y compara num_addresses - 2 con los equipos previstos más un margen. Revisa estas preguntas: ¿la red de pacientes puede ver los equipos clínicos?, ¿qué pasa si el técnico no está?, ¿dónde se mira primero cuando «no hay internet»? Si alguna respuesta no está en el documento, falta una sección.",
+            "sources": [
+              {
+                "title": "Python: módulo ipaddress",
+                "url": "https://docs.python.org/3/library/ipaddress.html"
+              },
+              {
+                "title": "RFC 1918: direcciones privadas IPv4",
+                "url": "https://www.rfc-editor.org/rfc/rfc1918"
+              },
+              {
+                "title": "Wi-Fi Alliance: seguridad Wi-Fi",
+                "url": "https://www.wi-fi.org/discover-wi-fi/security"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación final: la red de una oficina pequeña",
+              "questions": [
+                {
+                  "prompt": "¿Por qué separar invitados, cámaras y equipos de trabajo en segmentos distintos?",
+                  "multiple": false,
+                  "options": [
+                    "Para tener más direcciones públicas.",
+                    "Para limitar el movimiento de un atacante y organizar el tráfico.",
+                    "Porque el Wi-Fi lo exige.",
+                    "Para usar menos cables."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "En una red plana, un equipo comprometido alcanza a todos los demás."
+                },
+                {
+                  "prompt": "¿Cuántos equipos admite una subred /27?",
+                  "multiple": false,
+                  "options": [
+                    "30.",
+                    "32.",
+                    "62.",
+                    "14."
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "2 elevado a 5 son 32 direcciones, menos dos reservadas."
+                },
+                {
+                  "prompt": "¿Cuál es la forma comprimida de 2001:0db8:0000:0000:0000:ff00:0042:8329?",
+                  "multiple": false,
+                  "options": [
+                    "2001:db8::ff00:42:8329",
+                    "2001:db8:0:ff00:42:8329",
+                    "2001::db8::ff00:42:8329",
+                    "2001:0db8::ff:42:83"
+                  ],
+                  "correct": [
+                    0
+                  ],
+                  "explanation": "Se quitan ceros a la izquierda y una sola secuencia de grupos de ceros se reemplaza por ::."
+                },
+                {
+                  "prompt": "¿Qué no debe incluir el expediente de la red?",
+                  "multiple": false,
+                  "options": [
+                    "El plan de direcciones.",
+                    "Las contraseñas de administración.",
+                    "El diagrama.",
+                    "El procedimiento de diagnóstico."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las credenciales se guardan en un gestor y el documento indica dónde y quién tiene acceso."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: expediente de red de una oficina",
+              "instructions": "Entrega el expediente de red de una oficina real o ficticia con inventario, diagrama, plan de direcciones verificado con Python, reglas entre segmentos, configuración Wi-Fi, DNS y servicios, procedimiento de diagnóstico con línea base y datos de contacto, sin contraseñas. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Direccionamiento correcto",
+                  "description": "Las subredes no se superponen, tienen el tamaño justificado y dejan espacio para crecer; el script lo comprueba."
+                },
+                {
+                  "label": "Segmentación segura",
+                  "description": "Invitados y dispositivos están separados de los equipos de trabajo con reglas de negar por defecto."
+                },
+                {
+                  "label": "Diagnóstico preparado",
+                  "description": "El procedimiento por capas usa las direcciones reales de la red e incluye una línea base de mediciones."
+                },
+                {
+                  "label": "Documentación mantenible",
+                  "description": "Otra persona puede entender, ampliar y reparar la red con el expediente."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "docker-contenedores",
+    "title": "Docker y contenedores: empaqueta, ejecuta y despliega aplicaciones",
+    "access": "membership",
+    "category": {
+      "name": "Infraestructura y nube",
+      "slug": "infraestructura"
+    },
+    "topic": {
+      "name": "DevOps y contenedores",
+      "slug": "devops-contenedores"
+    },
+    "description": "Empaqueta una aplicación web de Python con sus dependencias en una imagen, ejecútala junto a Redis con Docker Compose y prepárala para producción: caché de capas, usuario sin privilegios, volúmenes, variables de entorno, redes, comprobaciones de salud y reinicios. Cada archivo del curso se construyó y ejecutó con Docker 29.",
+    "objective": "Construir imágenes reproducibles y seguras, ejecutar aplicaciones de varios servicios con Docker Compose y preparar un despliegue con datos persistentes, configuración externa y supervisión de salud.",
+    "requirements": "Conocimientos básicos de terminal y de Python; el curso Linux para servidores es un buen punto de partida. Una computadora con Windows 10 u 11 y WSL, macOS o Linux con permisos para instalar Docker.",
+    "minutes": 540,
+    "price": 0,
+    "level": "intermediate",
+    "sources": [
+      {
+        "title": "Docker: descripción general",
+        "url": "https://docs.docker.com/get-started/docker-overview/"
+      },
+      {
+        "title": "Open Container Initiative",
+        "url": "https://opencontainers.org/"
+      },
+      {
+        "title": "Docker Desktop: instalación en Windows",
+        "url": "https://docs.docker.com/desktop/setup/install/windows-install/"
+      },
+      {
+        "title": "Docker Engine: instalación en Ubuntu",
+        "url": "https://docs.docker.com/engine/install/ubuntu/"
+      },
+      {
+        "title": "Docker Desktop: condiciones de licencia",
+        "url": "https://docs.docker.com/subscription/desktop-license/"
+      },
+      {
+        "title": "Docker Hub: imágenes oficiales y contenido confiable",
+        "url": "https://docs.docker.com/docker-hub/image-library/trusted-content/"
+      },
+      {
+        "title": "Docker: referencia de Dockerfile",
+        "url": "https://docs.docker.com/reference/dockerfile/"
+      },
+      {
+        "title": "Docker: buenas prácticas de construcción",
+        "url": "https://docs.docker.com/build/building/best-practices/"
+      },
+      {
+        "title": "Docker: caché de construcción",
+        "url": "https://docs.docker.com/build/cache/"
+      },
+      {
+        "title": "Docker: construcciones de varias etapas",
+        "url": "https://docs.docker.com/build/building/multi-stage/"
+      },
+      {
+        "title": "Docker: secretos durante la construcción",
+        "url": "https://docs.docker.com/build/building/secrets/"
+      },
+      {
+        "title": "Docker: volúmenes",
+        "url": "https://docs.docker.com/engine/storage/volumes/"
+      },
+      {
+        "title": "Docker Compose: referencia del archivo",
+        "url": "https://docs.docker.com/reference/compose-file/"
+      },
+      {
+        "title": "Docker: redes",
+        "url": "https://docs.docker.com/engine/network/"
+      },
+      {
+        "title": "Docker Compose: orden de inicio",
+        "url": "https://docs.docker.com/compose/how-tos/startup-order/"
+      },
+      {
+        "title": "Docker: iniciar contenedores automáticamente",
+        "url": "https://docs.docker.com/engine/containers/start-containers-automatically/"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Contenedores e imágenes",
+        "description": "Qué resuelve un contenedor, cómo se ejecuta y de dónde vienen las imágenes.",
+        "lessons": [
+          {
+            "title": "Qué resuelve un contenedor",
+            "description": "Distingue contenedores, imágenes, registros y máquinas virtuales.",
+            "outcome": "Explicar qué problema resuelven los contenedores y en qué se diferencian de una máquina virtual.",
+            "activity": "understand",
+            "preview": "Entenderás por qué «en mi computadora sí funciona» deja de ser un problema.",
+            "body": "Una aplicación necesita más que su código: una versión concreta del lenguaje, bibliotecas, configuración y archivos del sistema. Cuando se instala a mano en cada servidor, pequeñas diferencias producen el clásico «en mi computadora sí funciona». Un contenedor empaqueta la aplicación con todo lo que necesita para ejecutarse y la aísla del resto del sistema, de modo que se comporta igual en la laptop de desarrollo, en el servidor de pruebas y en producción.\n\nImagen y contenedor\n\nUna imagen es un paquete de solo lectura con el sistema de archivos y la configuración necesarios para ejecutar la aplicación: por ejemplo, Python 3.12, las bibliotecas instaladas y el código. Un contenedor es una instancia en ejecución de una imagen, con una capa propia donde puede escribir. De una misma imagen pueden crearse muchos contenedores, como de un plano se construyen muchas casas iguales.\n\nLas imágenes se guardan y comparten en registros. Docker Hub es el registro público más conocido; las empresas usan también registros privados y los de sus proveedores de nube. El formato de imágenes y la forma de ejecutarlas están estandarizados por la Open Container Initiative, por eso una imagen construida con Docker funciona con otras herramientas compatibles, como Podman o Kubernetes.\n\nContenedores y máquinas virtuales\n\nUna máquina virtual emula un equipo completo con su propio sistema operativo y núcleo; arranca en minutos y ocupa gigabytes. Un contenedor comparte el núcleo del sistema anfitrión y aísla solo los procesos, la red y el sistema de archivos mediante funciones del núcleo Linux; arranca en segundos y ocupa megabytes. La contrapartida: el aislamiento de una máquina virtual es más fuerte. Por eso los contenedores no deben considerarse una frontera de seguridad absoluta, y en Windows y macOS Docker ejecuta los contenedores Linux dentro de una máquina virtual ligera.\n\nQué no es un contenedor\n\nNo es un servidor completo donde se entra a instalar cosas a mano: los cambios hechos dentro de un contenedor se pierden al reemplazarlo. La configuración se escribe en el Dockerfile y los datos que deben conservarse se guardan en volúmenes. Esta disciplina es la que hace reproducibles los despliegues.\n\nEjemplo\n\nEl equipo de una tienda en línea desarrolla en Windows, prueba en una laptop con macOS y despliega en un servidor Ubuntu. Con contenedores, los tres ejecutan la misma imagen, con la misma versión de Python y de cada biblioteca. Una actualización se despliega construyendo una imagen nueva, probándola y reemplazando el contenedor; si falla, se vuelve a la imagen anterior en segundos.\n\nPráctica\n\nDescribe una aplicación que conozcas —un sistema de inventario, una página web con base de datos o un bot— y enumera qué necesita para ejecutarse: lenguaje y versión, bibliotecas, servicios externos, configuración y datos persistentes. Indica qué iría en la imagen y qué fuera de ella.\n\nSolución y comprobación\n\nEn la imagen van el lenguaje, las bibliotecas y el código. Fuera de la imagen quedan la configuración que cambia entre entornos, como direcciones de servicios y credenciales, que se pasan al ejecutar; los datos persistentes, que van en volúmenes; y los servicios externos, como la base de datos, que se ejecutan en sus propios contenedores. Si pusiste una contraseña dentro de la imagen, la lección 2.3 explica por qué no hacerlo.",
+            "sources": [
+              {
+                "title": "Docker: descripción general",
+                "url": "https://docs.docker.com/get-started/docker-overview/"
+              },
+              {
+                "title": "Open Container Initiative",
+                "url": "https://opencontainers.org/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Ringa Tech: Docker, la explicación que querías (español)",
+                "url": "https://www.youtube.com/watch?v=9eTVZwMZJsA"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "Instalar Docker y ejecutar los primeros contenedores",
+            "description": "Instala Docker y practica el ciclo de vida de un contenedor.",
+            "outcome": "Ejecutar, inspeccionar, detener y eliminar contenedores, y publicar un puerto.",
+            "activity": "execute",
+            "preview": "Levantarás un servidor web en segundos sin instalarlo en tu sistema.",
+            "body": "En Windows y macOS, la forma habitual de usar Docker es Docker Desktop, que incluye el motor, la herramienta de línea de comandos y Docker Compose, y en Windows se integra con WSL 2. Su uso es gratuito para personas, educación y pequeñas empresas; las organizaciones grandes necesitan una suscripción de pago según sus condiciones de licencia. En servidores Linux se instala Docker Engine desde el repositorio oficial de Docker, siguiendo su guía para Ubuntu.\n\nComprueba la instalación:\n\n```text\ndocker version\ndocker run hello-world\n```\n\nhello-world descarga una imagen mínima, crea un contenedor que imprime un mensaje y termina. Si ves el mensaje, el motor funciona.\n\nUn servidor web en un comando\n\n```text\ndocker run -d --name web -p 8080:80 nginx:1.27\n```\n\n-d ejecuta el contenedor en segundo plano. --name le da un nombre. -p 8080:80 publica un puerto: las conexiones al puerto 8080 de tu equipo llegan al puerto 80 del contenedor, donde escucha nginx. nginx:1.27 es la imagen con su etiqueta de versión. Abre http://localhost:8080 y verás la página de bienvenida de nginx.\n\nEl ciclo de vida\n\n```text\ndocker ps\ndocker logs web\ndocker exec -it web sh\ndocker stop web\ndocker ps -a\ndocker rm web\n```\n\ndocker ps lista los contenedores en ejecución y docker ps -a también los detenidos. logs muestra la salida del proceso principal; con -f la sigue en tiempo real. exec ejecuta un comando dentro de un contenedor activo: -it abre una terminal interactiva, útil para inspeccionar, no para configurar a mano. stop detiene el contenedor enviándole una señal de terminación y rm lo elimina. docker run --rm elimina el contenedor automáticamente al terminar.\n\nPuertos y direcciones\n\n-p 8080:80 publica el puerto en todas las interfaces del equipo, accesible desde la red local. Para publicarlo solo para tu equipo usa -p 127.0.0.1:8080:80. En un servidor, publica únicamente lo que deba ser accesible.\n\nEjemplo\n\nPara probar la versión 7 de Redis sin instalarla: docker run --rm -it redis:7-alpine redis-server --version muestra la versión y el contenedor desaparece al terminar. Ninguna biblioteca queda instalada en tu sistema.\n\nPráctica\n\nEjecuta nginx publicando el puerto 8081 solo en 127.0.0.1, comprueba que responde en el navegador, revisa sus registros, entra con exec y ejecuta nginx -v. Después detén y elimina el contenedor y verifica que no aparece en docker ps -a.\n\nSolución y comprobación\n\nEl comando es docker run -d --name web2 -p 127.0.0.1:8081:80 nginx:1.27. Los registros muestran una línea por cada solicitud del navegador. Dentro del contenedor, nginx -v imprime la versión 1.27.x. Tras docker stop web2 y docker rm web2, docker ps -a ya no lo lista; la imagen sigue descargada y docker image ls la muestra.",
+            "sources": [
+              {
+                "title": "Docker Desktop: instalación en Windows",
+                "url": "https://docs.docker.com/desktop/setup/install/windows-install/"
+              },
+              {
+                "title": "Docker Engine: instalación en Ubuntu",
+                "url": "https://docs.docker.com/engine/install/ubuntu/"
+              },
+              {
+                "title": "Docker Desktop: condiciones de licencia",
+                "url": "https://docs.docker.com/subscription/desktop-license/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "HolaMundo: curso de Docker desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=4Dko5W96WHg"
+              }
+            ]
+          },
+          {
+            "title": "Imágenes, capas, etiquetas y registros",
+            "description": "Comprende cómo se componen las imágenes y cómo elegirlas y versionarlas.",
+            "outcome": "Elegir imágenes confiables, fijar versiones y entender el sistema de capas.",
+            "activity": "understand",
+            "preview": "Sabrás por qué :latest no es una versión.",
+            "body": "Una imagen se compone de capas apiladas: cada capa registra los cambios de archivos de un paso de la construcción. Las capas se comparten entre imágenes: si diez imágenes parten de python:3.12-slim, esa base se descarga y se guarda una sola vez. Al ejecutar un contenedor, Docker agrega encima una capa de escritura propia, que desaparece cuando se elimina el contenedor.\n\ndocker history muestra las capas de una imagen y la instrucción que creó cada una. Esa información es pública para quien tenga la imagen: lo que pongas en una capa queda en ella aunque una capa posterior lo borre.\n\nNombres, etiquetas y resúmenes\n\nUn nombre completo de imagen tiene la forma registro/usuario/repositorio:etiqueta. Para las imágenes oficiales de Docker Hub basta el repositorio: python:3.12-slim. La etiqueta señala una versión, pero es un puntero que puede moverse: python:3.12 apunta hoy a la última actualización de la serie 3.12 y mañana a otra.\n\nlatest es solo la etiqueta que se usa cuando no indicas ninguna. No significa «la más reciente» ni «la estable», y cambia sin aviso. En producción, fija versiones explícitas, por ejemplo nginx:1.27 o redis:7-alpine, y actualízalas a propósito.\n\nPara máxima reproducibilidad, cada imagen tiene un resumen criptográfico, o digest, de la forma sha256:… Referirse a una imagen por su digest garantiza que se usa exactamente el mismo contenido, aunque alguien mueva la etiqueta. docker image ls --digests lo muestra.\n\nVariantes\n\nMuchas imágenes oficiales ofrecen variantes: la normal, basada en Debian, con muchas herramientas; slim, una versión reducida; y alpine, basada en Alpine Linux, muy pequeña pero con otra biblioteca de C, lo que a veces causa diferencias con paquetes de Python que incluyen código compilado. Para aplicaciones Python, slim suele ser un buen equilibrio.\n\nConfiar en una imagen\n\nEjecutar una imagen es ejecutar el software de quien la publicó. Prefiere imágenes oficiales o de editores verificados, que Docker Hub marca como contenido confiable, o las publicadas por el propio proyecto. Desconfía de imágenes populares de autores desconocidos, especialmente si piden privilegios o montar el socket de Docker.\n\nEjemplo\n\n```text\ndocker pull python:3.12-slim\ndocker image ls python\ndocker history python:3.12-slim\n```\n\nimage ls muestra el tamaño y la etiqueta; history muestra las capas que construyeron la imagen, desde la base de Debian hasta la instalación de Python.\n\nPráctica\n\nDescarga python:3.12-slim y python:3.12-alpine, compara sus tamaños con docker image ls y anota el digest de una de ellas. Explica qué variante usarías para una aplicación Flask y por qué.\n\nSolución y comprobación\n\nLa variante alpine es notablemente más pequeña que slim. Para Flask cualquiera funciona, pero slim evita sorpresas con dependencias que incluyen código compilado, que en Alpine pueden requerir compilación o paquetes distintos. Si eliges alpine, prueba la instalación de todas tus dependencias antes de decidir. El digest aparece en la salida de docker pull y con docker image ls --digests.",
+            "sources": [
+              {
+                "title": "Docker Hub: imágenes oficiales y contenido confiable",
+                "url": "https://docs.docker.com/docker-hub/image-library/trusted-content/"
+              },
+              {
+                "title": "Docker: referencia de Dockerfile",
+                "url": "https://docs.docker.com/reference/dockerfile/"
+              },
+              {
+                "title": "Docker: descripción general",
+                "url": "https://docs.docker.com/get-started/docker-overview/"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: contenedores e imágenes",
+              "questions": [
+                {
+                  "prompt": "¿Qué diferencia una imagen de un contenedor?",
+                  "multiple": false,
+                  "options": [
+                    "Son lo mismo.",
+                    "La imagen es un paquete de solo lectura; el contenedor es una instancia en ejecución con su propia capa de escritura.",
+                    "El contenedor es más grande.",
+                    "La imagen solo existe en Docker Hub."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "De una imagen pueden crearse muchos contenedores."
+                },
+                {
+                  "prompt": "¿Qué hace -p 127.0.0.1:8080:80?",
+                  "multiple": false,
+                  "options": [
+                    "Publica el puerto 80 del equipo hacia el 8080 del contenedor para toda la red.",
+                    "Publica el puerto 80 del contenedor en el 8080 del equipo, solo para conexiones locales.",
+                    "Bloquea el puerto 8080.",
+                    "Cambia el puerto de nginx."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La dirección limita quién puede conectarse."
+                },
+                {
+                  "prompt": "¿Por qué no usar la etiqueta latest en producción?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es la más antigua.",
+                    "Porque es un puntero que cambia sin aviso y no garantiza una versión concreta.",
+                    "Porque está prohibida.",
+                    "Porque no existe."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Fija versiones explícitas o digests."
+                },
+                {
+                  "prompt": "¿Qué garantiza referirse a una imagen por su digest sha256?",
+                  "multiple": false,
+                  "options": [
+                    "Que sea la más rápida.",
+                    "Que se usa exactamente el mismo contenido, aunque muevan la etiqueta.",
+                    "Que no tiene vulnerabilidades.",
+                    "Que es oficial."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El digest identifica el contenido, no un nombre."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Construir imágenes",
+        "description": "Escribe un Dockerfile, aprovecha la caché y produce imágenes seguras.",
+        "lessons": [
+          {
+            "title": "Tu primer Dockerfile",
+            "description": "Escribe el Dockerfile de una aplicación Flask y construye su imagen.",
+            "outcome": "Escribir un Dockerfile claro y construir y ejecutar la imagen de una aplicación web.",
+            "activity": "execute",
+            "preview": "Empaquetarás una aplicación que cuenta visitas.",
+            "body": "Un Dockerfile es la receta de una imagen: una lista de instrucciones que Docker ejecuta en orden. Usaremos una aplicación Flask pequeña que cuenta visitas en Redis. Crea una carpeta contador con app.py:\n\n```python\nimport os\n\nimport redis\nfrom flask import Flask\n\napp = Flask(__name__)\ncache = redis.Redis(host=os.environ.get(\"REDIS_HOST\", \"redis\"), port=6379)\n\n\n@app.get(\"/\")\ndef inicio():\n    visitas = cache.incr(\"visitas\")\n    return f\"Hola desde el contenedor. Visitas: {visitas}\\n\"\n\n\n@app.get(\"/salud\")\ndef salud():\n    cache.ping()\n    return \"ok\\n\"\n```\n\nY requirements.txt con versiones fijas:\n\n```text\nflask==3.1.3\nredis==6.4.0\ngunicorn==23.0.0\n```\n\nGunicorn es un servidor de aplicaciones para producción; el servidor de desarrollo de Flask no está pensado para eso.\n\nEl Dockerfile\n\n```text\nFROM python:3.12-slim\n\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\nCOPY app.py .\n\nEXPOSE 8000\nCMD [\"gunicorn\", \"--bind\", \"0.0.0.0:8000\", \"--workers\", \"2\", \"app:app\"]\n```\n\nFROM elige la imagen base. WORKDIR fija el directorio de trabajo y lo crea si no existe. COPY copia archivos del contexto de construcción a la imagen. RUN ejecuta un comando durante la construcción y guarda el resultado en una capa; --no-cache-dir evita guardar la caché de pip en la imagen. EXPOSE documenta el puerto en que escucha la aplicación, pero no lo publica. CMD define el comando que se ejecuta al iniciar el contenedor; en forma de lista JSON, el proceso recibe directamente las señales de detención.\n\nLa aplicación escucha en 0.0.0.0 porque dentro del contenedor 127.0.0.1 solo es accesible desde el propio contenedor: Docker no podría reenviarle las conexiones del puerto publicado.\n\nConstruir y ejecutar\n\n```text\ndocker build -t contador:1.0 .\ndocker image ls contador\n```\n\nEl punto final indica el contexto de construcción: la carpeta cuyos archivos puede usar COPY. Para probar la aplicación necesita Redis; en el capítulo 4 lo resolverá Compose. Por ahora, la ruta /salud fallará sin Redis, pero la imagen está lista.\n\nEjemplo\n\ndocker run --rm contador:1.0 python -c \"from importlib.metadata import version; print(version('flask'))\" ejecuta otro comando en lugar de CMD y muestra 3.1.3: la versión fijada en requirements.txt quedó instalada en la imagen.\n\nPráctica\n\nCrea los tres archivos, construye la imagen con la etiqueta contador:1.0, comprueba la versión de Flask y revisa las capas con docker history contador:1.0.\n\nSolución y comprobación\n\ndocker history muestra una capa por cada instrucción que modifica archivos —WORKDIR, los dos COPY y el RUN— encima de las capas de python:3.12-slim. La capa de pip install es la más grande. Si la construcción falla en pip install, revisa que requirements.txt esté en la misma carpeta que el Dockerfile y que ejecutaste docker build desde esa carpeta.",
+            "sources": [
+              {
+                "title": "Docker: referencia de Dockerfile",
+                "url": "https://docs.docker.com/reference/dockerfile/"
+              },
+              {
+                "title": "Docker: buenas prácticas de construcción",
+                "url": "https://docs.docker.com/build/building/best-practices/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Pelado Nerd: Docker de novato a pro (español)",
+                "url": "https://www.youtube.com/watch?v=CV_Uf3Dq-EU"
+              }
+            ]
+          },
+          {
+            "title": "Caché de capas y .dockerignore",
+            "description": "Ordena las instrucciones para reconstruir rápido y excluye archivos del contexto.",
+            "outcome": "Optimizar el tiempo de construcción y evitar copiar archivos innecesarios o sensibles a la imagen.",
+            "activity": "execute",
+            "preview": "Reconstruirás la imagen en segundos tras cambiar el código.",
+            "body": "Docker guarda en caché el resultado de cada instrucción. Al reconstruir, reutiliza una capa si la instrucción y sus archivos de entrada no cambiaron. En cuanto una capa cambia, todas las siguientes se reconstruyen. El orden de las instrucciones decide, por tanto, cuánto trabajo se repite.\n\nPor qué copiamos requirements.txt primero\n\nEn el Dockerfile del curso, requirements.txt se copia y se instala antes de copiar app.py. Las dependencias cambian poco; el código cambia todo el tiempo. Cuando editas app.py y reconstruyes, Docker reutiliza la capa de pip install y solo repite COPY app.py:\n\n```text\n#9 [4/6] RUN pip install --no-cache-dir -r requirements.txt\n#9 CACHED\n#10 [5/6] COPY app.py .\n```\n\nSi el Dockerfile copiara toda la carpeta antes de instalar, cualquier cambio en el código invalidaría la caché y reinstalaría todas las dependencias en cada construcción.\n\nReglas prácticas\n\nColoca primero lo que cambia menos: la imagen base, paquetes del sistema, dependencias; al final, el código. Combina en un solo RUN los comandos relacionados, como actualizar e instalar paquetes del sistema y limpiar sus listas en la misma capa. Fija versiones en requirements.txt: si no, dos construcciones con la caché vacía pueden producir imágenes distintas.\n\nEl contexto de construcción y .dockerignore\n\ndocker build envía al motor todos los archivos de la carpeta de contexto. Un archivo .dockerignore, con la misma sintaxis que .gitignore, excluye lo que no debe enviarse:\n\n```text\n__pycache__/\n*.pyc\n.env\n.git/\n```\n\nAsí la construcción es más rápida y, sobre todo, evitas que archivos sensibles como .env, con credenciales, o el historial de .git terminen dentro de la imagen por un COPY . demasiado amplio. Copia explícitamente los archivos que la imagen necesita.\n\nForzar una construcción limpia\n\ndocker build --no-cache ignora la caché. Úsalo cuando quieras incorporar las actualizaciones de seguridad más recientes de la imagen base o de los paquetes, junto con --pull, que descarga de nuevo la imagen base.\n\nEjemplo\n\nPrimera construcción de la aplicación del curso: descarga la base e instala las dependencias. Tras agregar una línea a app.py, la segunda construcción marca como CACHED todas las capas hasta pip install y solo rehace la copia del código y las capas posteriores.\n\nPráctica\n\nAgrega .dockerignore, reconstruye, cambia el texto de bienvenida en app.py y vuelve a construir observando qué pasos aparecen como CACHED. Después invierte el orden en una copia del Dockerfile —copia todo con COPY . . antes de pip install— y compara.\n\nSolución y comprobación\n\nCon el orden recomendado, el cambio de código reutiliza la capa de dependencias. Con el orden invertido, cada cambio de código vuelve a ejecutar pip install. Comprueba también que .env no está en la imagen: docker run --rm contador:1.1 ls -a /app no debe listarlo.",
+            "sources": [
+              {
+                "title": "Docker: caché de construcción",
+                "url": "https://docs.docker.com/build/cache/"
+              },
+              {
+                "title": "Docker: buenas prácticas de construcción",
+                "url": "https://docs.docker.com/build/building/best-practices/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Imágenes pequeñas y seguras",
+            "description": "Ejecuta como usuario sin privilegios, separa la construcción en etapas y protege los secretos.",
+            "outcome": "Aplicar prácticas de seguridad al construir imágenes y verificar sus efectos.",
+            "activity": "execute",
+            "preview": "Harás que tu contenedor no se ejecute como root.",
+            "body": "Por defecto, los procesos de un contenedor se ejecutan como root dentro del contenedor. Si la aplicación tiene una vulnerabilidad, el atacante obtiene esos privilegios dentro del contenedor, y una mala configuración o una falla del aislamiento puede extender el daño al equipo anfitrión. La primera medida es sencilla: crear un usuario y ejecutar la aplicación con él.\n\n```text\nCOPY app.py .\nRUN useradd --system --uid 10001 appuser\nUSER appuser\n```\n\nUSER cambia el usuario para las instrucciones siguientes y para el proceso del contenedor. Colócalo después de instalar dependencias, que sí requieren privilegios. docker compose exec web whoami responde appuser, e id muestra uid=10001. La aplicación del curso escucha en el puerto 8000; los puertos menores que 1024 suelen requerir privilegios, por eso conviene usar uno mayor dentro del contenedor y publicarlo en el puerto que necesites.\n\nNunca pongas secretos en la imagen\n\nCualquier secreto escrito en el Dockerfile o copiado a la imagen queda en sus capas. Una instrucción ENV CLAVE_API=secreto123 aparece completa con docker history --no-trunc y con docker inspect, y la ve cualquiera que tenga la imagen, incluido quien la descargue de un registro. Borrar el archivo en una capa posterior tampoco sirve: la capa anterior lo conserva. Los secretos se entregan al ejecutar el contenedor, como verás en el capítulo 3, y si la construcción necesita uno —por ejemplo para descargar un paquete privado— se usan los secretos de construcción de Docker, que no se guardan en las capas.\n\nConstrucciones de varias etapas\n\nUn Dockerfile puede tener varias etapas, cada una con su propio FROM. Las primeras compilan o preparan y la final copia solo el resultado con COPY --from:\n\n```text\nFROM python:3.12-slim AS construccion\nWORKDIR /build\nCOPY requirements.txt .\nRUN pip wheel --no-cache-dir --wheel-dir /wheels -r requirements.txt\n\nFROM python:3.12-slim\nWORKDIR /app\nCOPY --from=construccion /wheels /wheels\nRUN pip install --no-cache-dir --no-index --find-links=/wheels /wheels/* && rm -rf /wheels\n```\n\nLa ganancia depende del proyecto. En lenguajes compilados como Go, Java o Rust, la imagen final puede contener solo el binario, sin compiladores, y reducirse de cientos a unos pocos megabytes. En la aplicación de este curso, que no compila nada, ambas versiones ocupan unos 200 MB: las etapas son útiles cuando hay herramientas de construcción que no deben llegar a producción.\n\nRevisar vulnerabilidades\n\nLas imágenes base acumulan vulnerabilidades conocidas a medida que pasa el tiempo. Reconstruye periódicamente con --pull para incorporar las correcciones y usa un escáner de imágenes, como Docker Scout incluido en Docker Desktop u otras herramientas de código abierto, para revisar las imágenes antes de desplegarlas.\n\nEjemplo\n\nConstruye una imagen mínima con ENV CLAVE_API=secreto123 y ejecuta docker inspect sobre ella: la variable aparece en la sección Env. Es la demostración de por qué los secretos no van en el Dockerfile.\n\nPráctica\n\nAgrega el usuario appuser a tu Dockerfile, reconstruye como contador:1.1 y verifica con docker run --rm contador:1.1 id que la aplicación no se ejecuta como root.\n\nSolución y comprobación\n\nLa salida de id muestra uid=10001(appuser). Si la construcción falla en useradd, comprueba que la instrucción va antes de USER. Si la aplicación necesita escribir archivos, crea el directorio y asigna su propietario con chown en una instrucción RUN anterior a USER, o mejor, escribe en un volumen.",
+            "sources": [
+              {
+                "title": "Docker: buenas prácticas de construcción",
+                "url": "https://docs.docker.com/build/building/best-practices/"
+              },
+              {
+                "title": "Docker: construcciones de varias etapas",
+                "url": "https://docs.docker.com/build/building/multi-stage/"
+              },
+              {
+                "title": "Docker: secretos durante la construcción",
+                "url": "https://docs.docker.com/build/building/secrets/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "midudev: Docker desde cero hasta producción (español)",
+                "url": "https://www.youtube.com/watch?v=wZnddhLrmiM"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: construir imágenes",
+              "questions": [
+                {
+                  "prompt": "¿Por qué copiar requirements.txt e instalar dependencias antes de copiar el código?",
+                  "multiple": false,
+                  "options": [
+                    "Porque Docker lo exige.",
+                    "Para reutilizar la capa de dependencias cuando solo cambia el código.",
+                    "Para que la imagen sea más grande.",
+                    "Para evitar usar pip."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Un cambio invalida su capa y todas las siguientes."
+                },
+                {
+                  "prompt": "¿Por qué la aplicación escucha en 0.0.0.0 dentro del contenedor?",
+                  "multiple": false,
+                  "options": [
+                    "Por estética.",
+                    "Porque 127.0.0.1 dentro del contenedor solo es accesible desde el propio contenedor.",
+                    "Porque Flask no admite 127.0.0.1.",
+                    "Para desactivar el puerto."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Docker reenvía el puerto publicado a la interfaz del contenedor."
+                },
+                {
+                  "prompt": "Una imagen tiene ENV CLAVE_API=secreto123. ¿Quién puede verla?",
+                  "multiple": false,
+                  "options": [
+                    "Nadie.",
+                    "Cualquiera que tenga la imagen, con docker history o docker inspect.",
+                    "Solo root del servidor.",
+                    "Solo quien construyó la imagen."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los secretos se entregan al ejecutar, no se escriben en la imagen."
+                },
+                {
+                  "prompt": "¿Cuándo aporta más una construcción de varias etapas?",
+                  "multiple": false,
+                  "options": [
+                    "Siempre reduce el tamaño a la mitad.",
+                    "Cuando hay herramientas de compilación que no deben llegar a la imagen final.",
+                    "Nunca.",
+                    "Solo con imágenes alpine."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "En lenguajes compilados la imagen final puede contener solo el binario."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Datos, configuración y redes",
+        "description": "Conserva datos con volúmenes, configura con variables y comunica contenedores.",
+        "lessons": [
+          {
+            "title": "Volúmenes y montajes",
+            "description": "Guarda datos fuera del ciclo de vida del contenedor.",
+            "outcome": "Elegir entre volúmenes y montajes de carpetas y respaldar datos persistentes.",
+            "activity": "execute",
+            "preview": "Harás que las visitas no se pierdan al recrear el contenedor.",
+            "body": "Todo lo que un contenedor escribe en su capa propia se pierde cuando se elimina. Para una base de datos, eso sería perder la información en cada actualización. Los datos que deben sobrevivir se guardan fuera, en almacenamiento que Docker monta dentro del contenedor.\n\nVolúmenes\n\nUn volumen es almacenamiento gestionado por Docker. Se crea con un nombre y se monta en una ruta del contenedor:\n\n```text\ndocker volume create datos-redis\ndocker run -d --name redis -v datos-redis:/data redis:7-alpine\n```\n\nLa imagen oficial de Redis guarda sus datos en /data. Si eliminas el contenedor y creas otro con el mismo volumen, los datos siguen ahí. docker volume ls lista los volúmenes y docker volume inspect muestra dónde los guarda Docker. Los volúmenes son la opción recomendada para datos de aplicaciones: Docker los gestiona, funcionan igual en todos los sistemas y tienen buen rendimiento.\n\nMontajes de carpetas\n\nUn montaje de carpeta, o bind mount, conecta una carpeta concreta del equipo con una ruta del contenedor:\n\n```text\ndocker run --rm -p 8000:8000 -v \"$(pwd)\":/app contador:1.1\n```\n\nEs útil en desarrollo: editas el código en tu equipo y el contenedor ve los cambios. En producción, la dependencia de rutas concretas del anfitrión y de sus permisos lo hace menos portable que un volumen. Agrega :ro al final para montar en solo lectura cuando el contenedor no deba modificar los archivos.\n\nRespaldos\n\nUn volumen no es una copia de seguridad: si se borra o se corrompe, los datos se pierden. Para respaldar un volumen se monta en un contenedor temporal junto con una carpeta de destino y se comprime:\n\n```text\ndocker run --rm -v datos-redis:/datos:ro -v \"$(pwd)\":/respaldo alpine:3.22 tar -czf /respaldo/redis.tar.gz -C /datos .\n```\n\nPara bases de datos, prefiere las herramientas de respaldo propias del motor, que garantizan una copia consistente aunque la base esté en uso.\n\nCuidado al limpiar\n\ndocker volume rm y docker volume prune eliminan volúmenes y sus datos sin papelera. En Compose, docker compose down conserva los volúmenes, pero docker compose down -v los elimina. Revisa dos veces antes de usar -v en un entorno con datos reales.\n\nEjemplo\n\nCon la aplicación del curso en Compose y el volumen datos-redis, se registraron tres visitas, se ejecutó docker compose down y luego docker compose up -d: la siguiente visita mostró el número 4. Los contenedores se recrearon y los datos sobrevivieron en el volumen.\n\nPráctica\n\nCrea un volumen, ejecuta Redis con él, guarda una clave con docker exec redis redis-cli set curso docker, elimina el contenedor, crea uno nuevo con el mismo volumen y lee la clave. Después respalda el volumen con el comando de la lección.\n\nSolución y comprobación\n\nredis-cli get curso devuelve docker en el contenedor nuevo. Redis guarda los datos en disco de forma periódica; si eliminas el contenedor inmediatamente después de escribir, ejecuta antes redis-cli save para forzar el guardado. El archivo redis.tar.gz aparece en tu carpeta y tar -tzf redis.tar.gz lista su contenido.",
+            "sources": [
+              {
+                "title": "Docker: volúmenes",
+                "url": "https://docs.docker.com/engine/storage/volumes/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Programación en español: volúmenes y redes en Docker (español)",
+                "url": "https://www.youtube.com/watch?v=DIDel70dFlI"
+              }
+            ]
+          },
+          {
+            "title": "Configuración con variables de entorno",
+            "description": "Separa la configuración del código y entrega secretos de forma segura al ejecutar.",
+            "outcome": "Configurar contenedores con variables y archivos de entorno sin exponer credenciales.",
+            "activity": "execute",
+            "preview": "Usarás la misma imagen en desarrollo y producción con configuraciones distintas.",
+            "body": "Una imagen debe ser la misma en todos los entornos; lo que cambia —direcciones de servicios, nivel de registro, credenciales— se entrega al ejecutar. Esta separación es uno de los principios de las aplicaciones preparadas para la nube.\n\nVariables de entorno\n\nLa aplicación del curso lee la dirección de Redis con os.environ.get(\"REDIS_HOST\", \"redis\"): usa redis si no se indica otra cosa. Al ejecutar:\n\n```text\ndocker run -d -p 8000:8000 -e REDIS_HOST=redis-pruebas contador:1.1\n```\n\n-e define una variable. Para varias variables, un archivo de entorno es más ordenado:\n\n```text\n# produccion.env\nREDIS_HOST=redis\nNIVEL_REGISTRO=info\n```\n\n```text\ndocker run -d --env-file produccion.env contador:1.1\n```\n\nValores por defecto y validación\n\nUsa valores por defecto razonables para lo que no es crítico y haz que la aplicación se niegue a arrancar si falta una configuración obligatoria, con un mensaje claro. Es mejor un contenedor que no inicia y explica por qué, que uno que inicia con una configuración incorrecta.\n\nSecretos\n\nLas variables de entorno son el mecanismo más común para entregar credenciales, pero tienen límites: son visibles con docker inspect para quien tenga acceso al motor de Docker y pueden aparecer en registros de errores si la aplicación imprime su entorno. Reglas mínimas: nunca guardes archivos .env con credenciales en el repositorio, protege el acceso al motor de Docker —quien lo controla, controla el equipo— y no registres el contenido de las variables. Para mayor protección, Docker Compose y los orquestadores admiten secretos montados como archivos en /run/secrets, con permisos restringidos, que la aplicación lee al iniciar.\n\nDistintos entornos\n\nCon la misma imagen contador:1.1, desarrollo usa un archivo de entorno con un Redis local y registros detallados; producción, otro con su servidor y registros mínimos. Así lo que pruebas es exactamente lo que despliegas.\n\nEjemplo\n\ndocker run --rm -e SALUDO=Hola alpine:3.22 sh -c 'echo $SALUDO desde el contenedor' imprime «Hola desde el contenedor». Las comillas simples evitan que tu terminal reemplace $SALUDO antes de que llegue al contenedor.\n\nPráctica\n\nModifica app.py para que el texto de bienvenida venga de una variable MENSAJE con un valor por defecto. Reconstruye y ejecuta dos contenedores de la misma imagen con mensajes distintos usando -e en uno y --env-file en el otro.\n\nSolución y comprobación\n\nLa línea os.environ.get(\"MENSAJE\", \"Hola desde el contenedor\") permite ambos casos. Cada contenedor responde con su propio mensaje sin reconstruir la imagen entre ellos. Revisa con docker inspect que la variable aparece en la configuración: por eso no se usan variables simples para secretos muy sensibles en entornos compartidos.",
+            "sources": [
+              {
+                "title": "Docker: descripción general",
+                "url": "https://docs.docker.com/get-started/docker-overview/"
+              },
+              {
+                "title": "Docker Compose: referencia del archivo",
+                "url": "https://docs.docker.com/reference/compose-file/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Redes entre contenedores",
+            "description": "Conecta contenedores en redes definidas por el usuario y resuelve servicios por nombre.",
+            "outcome": "Comunicar contenedores por nombre y exponer solo los servicios necesarios.",
+            "activity": "execute",
+            "preview": "Conectarás la aplicación con Redis sin conocer ninguna dirección IP.",
+            "body": "Cada contenedor tiene su propia interfaz de red. Para que la aplicación hable con Redis, ambos deben estar en la misma red de Docker. Las redes definidas por el usuario, de tipo bridge, ofrecen además un servicio DNS interno: cada contenedor se puede alcanzar por su nombre.\n\n```text\ndocker network create contador-red\ndocker run -d --name redis --network contador-red -v datos-redis:/data redis:7-alpine\ndocker run -d --name web --network contador-red -p 8000:8000 contador:1.1\n```\n\nLa aplicación se conecta a redis, el nombre del contenedor, y Docker lo traduce a su dirección. Las direcciones IP de los contenedores cambian al recrearlos; los nombres se mantienen. Por eso nunca se configuran direcciones IP de contenedores a mano.\n\nQué exponer\n\nSolo web publica un puerto con -p. Redis no publica ninguno: es accesible para los contenedores de su red, pero no desde fuera del equipo. Publicar el puerto de una base de datos «por si acaso» es una causa frecuente de filtraciones: existen bases de datos y servidores Redis sin contraseña expuestos en internet que se encuentran con búsquedas automáticas. Publica solo lo que deba recibir conexiones externas.\n\nLa red por defecto\n\nLos contenedores creados sin --network usan la red bridge por defecto, donde no funciona la resolución por nombre. Es una razón más para crear redes propias. Docker Compose crea automáticamente una red para cada proyecto y conecta en ella todos sus servicios, que se resuelven por el nombre del servicio.\n\nDiagnóstico\n\ndocker network ls lista las redes; docker network inspect contador-red muestra los contenedores conectados y sus direcciones. Para probar la conectividad desde dentro de la red se puede ejecutar un contenedor temporal con herramientas:\n\n```text\ndocker run --rm --network contador-red redis:7-alpine redis-cli -h redis ping\n```\n\nResponde PONG si Redis es accesible por su nombre.\n\nEjemplo\n\nCon la aplicación del curso en Compose, un contenedor temporal conectado a la red del proyecto ejecutó redis-cli -h redis get visitas y devolvió 4: el mismo valor que la aplicación había contado. El contenedor temporal encontró a Redis por su nombre de servicio.\n\nPráctica\n\nCrea la red, ejecuta redis y web en ella, visita http://localhost:8000 varias veces y comprueba el contador desde un contenedor temporal con redis-cli. Después intenta conectarte a Redis desde tu equipo con el puerto 6379 y explica el resultado.\n\nSolución y comprobación\n\nLa aplicación muestra el contador aumentando y redis-cli -h redis get visitas devuelve el mismo número. La conexión desde tu equipo a localhost:6379 falla porque Redis no publicó su puerto: exactamente lo que queremos. Elimina después los contenedores y la red con docker rm -f web redis y docker network rm contador-red.",
+            "sources": [
+              {
+                "title": "Docker: redes",
+                "url": "https://docs.docker.com/engine/network/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "HolaMundo: curso de Docker desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=4Dko5W96WHg"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: datos, configuración y redes",
+              "questions": [
+                {
+                  "prompt": "¿Qué ocurre con los datos escritos en la capa propia de un contenedor al eliminarlo?",
+                  "multiple": false,
+                  "options": [
+                    "Se guardan en la imagen.",
+                    "Se pierden; los datos persistentes van en volúmenes.",
+                    "Se copian a Docker Hub.",
+                    "Se conservan en /tmp."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El almacenamiento persistente vive fuera del ciclo de vida del contenedor."
+                },
+                {
+                  "prompt": "¿Qué hace docker compose down -v?",
+                  "multiple": false,
+                  "options": [
+                    "Detiene los contenedores y conserva todo.",
+                    "Detiene y elimina los contenedores y también los volúmenes con sus datos.",
+                    "Muestra la versión.",
+                    "Reinicia los servicios."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Sin -v, los volúmenes se conservan."
+                },
+                {
+                  "prompt": "¿Por qué la misma imagen sirve para desarrollo y producción?",
+                  "multiple": false,
+                  "options": [
+                    "Porque contiene todas las contraseñas.",
+                    "Porque la configuración se entrega al ejecutar con variables o archivos de entorno.",
+                    "Porque usa latest.",
+                    "Porque no tiene configuración."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Lo que se prueba es exactamente lo que se despliega."
+                },
+                {
+                  "prompt": "¿Por qué Redis no debe publicar su puerto con -p en este caso?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es lento.",
+                    "Porque solo la aplicación necesita acceder y publicarlo lo expondría fuera del equipo.",
+                    "Porque Redis no usa puertos.",
+                    "Porque Compose lo prohíbe."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los servicios internos se comunican por la red de Docker."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. Varios servicios y despliegue",
+        "description": "Orquesta con Compose, supervisa la salud y prepara un despliegue.",
+        "lessons": [
+          {
+            "title": "Docker Compose",
+            "description": "Define la aplicación y sus dependencias en un archivo y gestiónalas con un comando.",
+            "outcome": "Escribir un archivo compose.yaml con servicios, volúmenes, dependencias y reinicios.",
+            "activity": "execute",
+            "preview": "Levantarás la aplicación completa con un solo comando.",
+            "body": "Escribir comandos docker run con redes, volúmenes y variables para cada contenedor es propenso a errores. Docker Compose describe toda la aplicación en un archivo compose.yaml y la gestiona con pocos comandos. Este es el de la aplicación del curso:\n\n```text\nservices:\n  web:\n    build: .\n    ports:\n      - \"8000:8000\"\n    environment:\n      REDIS_HOST: redis\n    depends_on:\n      redis:\n        condition: service_healthy\n    restart: unless-stopped\n  redis:\n    image: redis:7-alpine\n    volumes:\n      - datos-redis:/data\n    healthcheck:\n      test: [\"CMD\", \"redis-cli\", \"ping\"]\n      interval: 5s\n      timeout: 3s\n      retries: 5\n    restart: unless-stopped\n\nvolumes:\n  datos-redis:\n```\n\nCada entrada de services describe un contenedor. web se construye con el Dockerfile de la carpeta y publica el puerto 8000; redis usa la imagen oficial con un volumen. Compose crea una red para el proyecto donde los servicios se resuelven por su nombre.\n\nOrden de inicio\n\ndepends_on con condition: service_healthy hace que web espere a que Redis pase su comprobación de salud, definida con healthcheck: redis-cli ping cada cinco segundos. Sin la condición, Compose solo esperaría a que el contenedor de Redis se haya creado, no a que acepte conexiones.\n\nComandos principales\n\n```text\ndocker compose config --quiet\ndocker compose up -d --build\ndocker compose ps\ndocker compose logs -f web\ndocker compose exec web whoami\ndocker compose down\n```\n\nconfig valida el archivo. up -d --build construye lo necesario y levanta todo en segundo plano; ps muestra el estado de cada servicio, incluida su salud; logs muestra registros; exec ejecuta un comando en un servicio; down detiene y elimina los contenedores y la red, conservando los volúmenes.\n\nEjemplo\n\nAl ejecutar docker compose up -d --build, la salida muestra que el contenedor de Redis espera, pasa a healthy y solo entonces se inicia web. Tres solicitudes a http://localhost:8000 responden con 1, 2 y 3 visitas.\n\nPráctica\n\nCrea compose.yaml en la carpeta del proyecto, valídalo, levanta la aplicación y haz tres visitas. Ejecuta docker compose down, vuelve a levantarla y visita una vez más. Después cambia el mensaje en app.py y aplica el cambio con docker compose up -d --build.\n\nSolución y comprobación\n\nTras down y up, la cuarta visita muestra 4: el volumen conservó el contador. El último comando reconstruye solo la imagen de web, reutilizando la capa de dependencias, y reemplaza su contenedor sin tocar Redis. docker compose ps muestra ambos servicios en estado running, Redis como healthy.",
+            "sources": [
+              {
+                "title": "Docker Compose: referencia del archivo",
+                "url": "https://docs.docker.com/reference/compose-file/"
+              },
+              {
+                "title": "Docker Compose: orden de inicio",
+                "url": "https://docs.docker.com/compose/how-tos/startup-order/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "AplicaDigital: Docker Compose desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=cCcLAdUUBjg"
+              }
+            ]
+          },
+          {
+            "title": "Salud, reinicios y registros",
+            "description": "Configura comprobaciones de salud, políticas de reinicio y límites de recursos.",
+            "outcome": "Supervisar contenedores en ejecución y reaccionar automáticamente ante fallas.",
+            "activity": "execute",
+            "preview": "Harás que Docker sepa si tu aplicación está realmente funcionando.",
+            "body": "Un contenedor en ejecución no garantiza que la aplicación funcione: el proceso puede estar vivo pero bloqueado, o sin conexión con su base de datos. Las comprobaciones de salud permiten que Docker lo sepa.\n\nHEALTHCHECK\n\nEn el Dockerfile de la aplicación:\n\n```text\nHEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \\\n  CMD python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/salud')\"\n```\n\nCada 30 segundos Docker ejecuta el comando dentro del contenedor. Si termina con éxito, el contenedor está healthy; si falla tres veces seguidas, pasa a unhealthy. start-period da tiempo a la aplicación para arrancar sin contar fallas. La ruta /salud de la aplicación hace ping a Redis: si Redis no responde, la aplicación se declara no saludable. Usamos Python para la comprobación porque la imagen slim no incluye curl. docker compose ps y docker ps muestran el estado: Up 40 seconds (healthy).\n\nUna comprobación de salud debe ser rápida, no tener efectos secundarios y verificar lo esencial. No incluyas servicios externos opcionales: si un servicio de correo cae, tu aplicación no debería marcarse como no saludable por ello.\n\nPolíticas de reinicio\n\nrestart define qué hace Docker cuando el contenedor termina: no, nunca reiniciar; on-failure, solo si termina con error; always, siempre, incluso al reiniciar el motor de Docker; unless-stopped, siempre salvo que lo hayas detenido manualmente. Para servicios, unless-stopped es una opción sensata. Ten en cuenta que Docker por sí solo no reinicia un contenedor marcado como unhealthy: ese estado se usa para alertas y lo aprovechan los orquestadores como Docker Swarm o Kubernetes.\n\nRegistros\n\nLos contenedores deben escribir sus registros en la salida estándar, no en archivos internos. docker compose logs --since 10m web muestra los últimos diez minutos. Por defecto Docker guarda los registros en archivos en el equipo sin límite de tamaño; configura la rotación para que no llenen el disco:\n\n```text\n    logging:\n      driver: json-file\n      options:\n        max-size: \"10m\"\n        max-file: \"3\"\n```\n\nLímites de recursos\n\nUn contenedor sin límites puede consumir toda la memoria del servidor. En Compose, deploy.resources.limits fija memoria y CPU; Docker detiene el proceso si supera la memoria permitida, y con la política de reinicio vuelve a iniciarlo.\n\nEjemplo\n\nCon ambos servicios en marcha, docker compose stop redis provoca que /salud falle; tras tres comprobaciones fallidas, web aparece como unhealthy. Al iniciar de nuevo Redis, vuelve a healthy sin intervención.\n\nPráctica\n\nAgrega HEALTHCHECK al Dockerfile, la rotación de registros y un límite de 256 MB de memoria a web en compose.yaml. Levanta la aplicación, espera a que esté healthy, detén Redis y observa el cambio de estado. Reinicia Redis.\n\nSolución y comprobación\n\ndocker compose ps muestra web como healthy y, unos noventa segundos después de detener Redis, como unhealthy; tras iniciarlo, vuelve a healthy. docker inspect --format \"{{.State.Health.Status}}\" con el nombre del contenedor muestra el estado actual. El límite de memoria aparece en docker stats en la columna MEM USAGE / LIMIT.",
+            "sources": [
+              {
+                "title": "Docker: referencia de Dockerfile",
+                "url": "https://docs.docker.com/reference/dockerfile/"
+              },
+              {
+                "title": "Docker: iniciar contenedores automáticamente",
+                "url": "https://docs.docker.com/engine/containers/start-containers-automatically/"
+              },
+              {
+                "title": "Docker Compose: referencia del archivo",
+                "url": "https://docs.docker.com/reference/compose-file/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Proyecto: contenerizar y desplegar una aplicación",
+            "description": "Prepara una aplicación de varios servicios lista para desplegar en un servidor.",
+            "outcome": "Entregar una aplicación contenerizada, segura y documentada, con un procedimiento de despliegue y actualización.",
+            "activity": "design",
+            "preview": "Integrarás todo el curso en un despliegue que otra persona puede repetir.",
+            "body": "En este proyecto llevarás la aplicación del curso, o una propia de complejidad similar, hasta un estado listo para un servidor. El resultado es un repositorio que cualquier persona del equipo puede clonar y desplegar siguiendo instrucciones escritas.\n\nRequisitos\n\n1. Dockerfile con imagen base de versión fija, dependencias fijadas, orden que aprovecha la caché, usuario sin privilegios, puerto documentado y HEALTHCHECK.\n2. .dockerignore que excluye archivos innecesarios y sensibles.\n3. compose.yaml con la aplicación y su base de datos o caché, volumen para los datos, red interna sin publicar puertos de servicios internos, dependencias con condición de salud, política de reinicio, rotación de registros y límites de memoria.\n4. Configuración por variables de entorno con un archivo de ejemplo, ejemplo.env, sin valores secretos reales; el archivo real se excluye del repositorio.\n5. Etiquetas de versión: la imagen se etiqueta con una versión semántica, por ejemplo contador:1.2.0, además de cualquier etiqueta de conveniencia.\n6. Procedimiento de respaldo y restauración del volumen de datos, probado.\n7. README con requisitos, primer despliegue, actualización, reversión a la versión anterior, respaldo y diagnóstico.\n\nActualizar y revertir\n\nEl procedimiento de actualización construye la nueva versión con su etiqueta, la prueba, respalda los datos y reemplaza el contenedor con docker compose up -d. Para revertir, se vuelve a la etiqueta anterior: por eso las versiones anteriores no se sobrescriben. Si la nueva versión cambió el formato de los datos, la reversión requiere también restaurar el respaldo: documenta cuándo ocurre.\n\nEjemplo\n\nFragmento del README: «Actualizar a 1.3.0: 1) docker compose build --pull web; 2) docker tag contador-web contador:1.3.0; 3) respaldar el volumen con scripts/respaldo.sh; 4) docker compose up -d; 5) comprobar docker compose ps con web healthy y una visita en http://servidor:8000. Revertir: cambiar la etiqueta de imagen a 1.2.0 en compose.yaml y docker compose up -d».\n\nPráctica\n\nCompleta los siete requisitos con la aplicación del curso. Despliega en tu equipo o en un servidor de práctica siguiendo solo el README, realiza una actualización con un cambio visible y una reversión, y prueba la restauración del respaldo.\n\nSolución y comprobación\n\nUna solución completa supera esta verificación: docker compose config sin errores; whoami en web distinto de root; Redis sin puertos publicados; contador conservado tras down y up; ambos servicios healthy; actualización y reversión documentadas y probadas; y restauración que recupera el valor del contador desde el archivo de respaldo. Pide a otra persona que siga el README: cada pregunta que haga indica una sección por mejorar.",
+            "sources": [
+              {
+                "title": "Docker: buenas prácticas de construcción",
+                "url": "https://docs.docker.com/build/building/best-practices/"
+              },
+              {
+                "title": "Docker Compose: referencia del archivo",
+                "url": "https://docs.docker.com/reference/compose-file/"
+              },
+              {
+                "title": "Docker: volúmenes",
+                "url": "https://docs.docker.com/engine/storage/volumes/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "midudev: Docker desde cero hasta producción (español)",
+                "url": "https://www.youtube.com/watch?v=wZnddhLrmiM"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación final: varios servicios y despliegue",
+              "questions": [
+                {
+                  "prompt": "¿Qué consigue depends_on con condition: service_healthy?",
+                  "multiple": false,
+                  "options": [
+                    "Que los servicios arranquen en paralelo.",
+                    "Que web espere a que Redis pase su comprobación de salud.",
+                    "Que Redis espere a web.",
+                    "Que se ignoren los errores."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Sin la condición, solo se espera a que el contenedor se cree."
+                },
+                {
+                  "prompt": "Un contenedor aparece como unhealthy. ¿Qué hace Docker por sí solo?",
+                  "multiple": false,
+                  "options": [
+                    "Lo reinicia siempre.",
+                    "Lo marca para alertas; no lo reinicia automáticamente sin un orquestador.",
+                    "Lo elimina.",
+                    "Borra su volumen."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El estado de salud lo aprovechan alertas y orquestadores."
+                },
+                {
+                  "prompt": "¿Por qué configurar la rotación de registros de los contenedores?",
+                  "multiple": false,
+                  "options": [
+                    "Para leerlos más rápido.",
+                    "Para que los archivos de registro no llenen el disco del servidor.",
+                    "Para cifrarlos.",
+                    "Para enviarlos a Docker Hub."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Por defecto Docker los guarda sin límite de tamaño."
+                },
+                {
+                  "prompt": "¿Por qué no se sobrescriben las etiquetas de versiones anteriores?",
+                  "multiple": false,
+                  "options": [
+                    "Porque Docker no lo permite.",
+                    "Para poder revertir rápidamente a una versión conocida.",
+                    "Para ahorrar espacio.",
+                    "Porque latest las reemplaza."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La reversión consiste en volver a ejecutar la etiqueta anterior."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: aplicación contenerizada lista para desplegar",
+              "instructions": "Entrega el repositorio de la aplicación con Dockerfile, .dockerignore, compose.yaml, ejemplo.env sin secretos reales, scripts de respaldo y restauración y un README con primer despliegue, actualización, reversión, respaldo y diagnóstico. Demuestra cada requisito de la lección con un comando y su resultado. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Imagen reproducible y segura",
+                  "description": "Versiones fijas, caché aprovechada, usuario sin privilegios, sin secretos en capas y HEALTHCHECK funcional."
+                },
+                {
+                  "label": "Servicios bien conectados",
+                  "description": "Red interna, servicios internos sin puertos publicados, dependencias por salud, reinicios, registros rotados y límites de memoria."
+                },
+                {
+                  "label": "Datos protegidos",
+                  "description": "Volumen para los datos con respaldo y restauración probados."
+                },
+                {
+                  "label": "Operación documentada",
+                  "description": "El README permite desplegar, actualizar y revertir a otra persona sin ayuda."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

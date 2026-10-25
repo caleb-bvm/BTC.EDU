@@ -9,17 +9,18 @@ from django.test import SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 
 from commerce.gateway import ProviderStatus
-from commerce.models import Entitlement, Offer
+from commerce.membership import check_membership, create_membership_payment
+from commerce.models import Entitlement, MembershipPlan, Offer
 from commerce.services import ensure_emitted, reserve_invoice, settle
 from commerce.tests import FakeGateway
 from creators.models import Submission
 from learning.assessment_services import save_attempt, start_attempt
 from learning.certificates import completion_status, issue_certificate
-from learning.models import Enrollment, PracticeIntake, VersionPractice, VersionQuiz
+from learning.models import PracticeIntake, VersionPractice, VersionQuiz
 from learning.quizzes import validate_questions
-from learning.services import save_progress
+from learning.services import enroll, save_progress
 
-from .course_catalog import CREATOR_EMAIL, REVIEWER_EMAIL, load_catalog
+from .course_catalog import CREATOR_EMAIL, REVIEWER_EMAIL, access_model, load_catalog
 from .management.commands.load_complete_courses import publish_collection
 from .models import (
     Category,
@@ -31,6 +32,7 @@ from .models import (
     VersionLesson,
 )
 from .reading import reading_sections, video_embed
+from .templatetags.course_media import PHOTOS
 
 
 class CourseReadingTests(SimpleTestCase):
@@ -74,10 +76,25 @@ class CompleteCoursesTests(TestCase):
         invoice = ensure_emitted(reserve_invoice(self.student, offer.pk), FakeGateway())
         return settle(invoice.pk, ProviderStatus(True, invoice.amount_sats * 1000, invoice.payment_hash))
 
+    def by_model(self, model):
+        titles = {item["title"] for item in self.catalog if access_model(item) == model}
+        return self.courses().filter(title__in=titles)
+
+    def course_offer(self, course):
+        return Offer.objects.filter(kind="course", course_version=course.current_version, status="active").first()
+
+    def grant(self, course):
+        """Open a course through its own access model: a course offer or the membership."""
+        offer = self.course_offer(course)
+        if offer:
+            return self.buy(offer)
+        payment = create_membership_payment(self.student, MembershipPlan.objects.get(active=True))
+        return check_membership(payment, FakeGateway(), simulate=True)
+
     def test_original_content_has_complete_curricula_and_valid_module_assessments(self):
-        self.assertEqual(len(self.catalog), 4)
-        self.assertEqual(self.courses().count(), 4)
-        self.assertEqual(Lesson.objects.filter(chapter__course__in=self.courses()).count(), 48)
+        count = len(self.catalog)
+        self.assertEqual(self.courses().count(), count)
+        self.assertEqual(Lesson.objects.filter(chapter__course__in=self.courses()).count(), 12 * count)
         for course in self.courses():
             version = course.current_version
             self.assertTrue(version.sealed and version.published_at)
@@ -89,53 +106,87 @@ class CompleteCoursesTests(TestCase):
             validate_questions(quiz.questions)
             self.assertEqual(len(quiz.questions), 4)
             self.assertTrue(quiz.required)
-        self.assertEqual(Submission.objects.filter(course__in=self.courses(), status="approved").count(), 4)
+        self.assertEqual(Submission.objects.filter(course__in=self.courses(), status="approved").count(), count)
 
-    def test_every_lesson_is_locked_before_purchase_and_photos_are_visible(self):
-        self.assertEqual(set(self.courses().values_list("topic__category__slug", flat=True)), {"creacion", "desarrollo-software"})
+    def test_catalog_offers_paid_freemium_and_membership_courses(self):
+        for model in ("paid", "freemium", "membership"):
+            self.assertTrue(self.by_model(model).exists(), model)
+        self.assertEqual(set(self.by_model("membership").values_list("membership", flat=True)), {True})
+        self.assertFalse(self.courses().exclude(pk__in=self.by_model("membership")).filter(membership=True).exists())
+        self.assertTrue(MembershipPlan.objects.filter(active=True).exists())
+
+    def test_access_follows_each_model_and_every_cover_is_credited(self):
+        freemium = set(self.by_model("freemium").values_list("pk", flat=True))
         for course in self.courses():
             response = self.client.get(reverse("course-detail", args=[course.pk]))
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "/static/images/courses/")
-            self.assertContains(response, "Unsplash")
-            self.assertContains(response, '<details class="course-unit-offers">')
-            self.assertNotContains(response, "Lee las lecciones gratis sin cuenta.")
-            for lesson in VersionLesson.objects.filter(chapter__version=course.current_version).select_related("content"):
-                self.assertEqual(lesson.content.access_type, "paid")
-                url = reverse("version-lesson", args=[course.pk, 1, lesson.pk])
-                response = self.client.get(url)
+            credited = course.topic.slug in PHOTOS
+            self.assertEqual("Unsplash" in response.content.decode(), credited, course.title)
+            model = "membership" if course.membership else "freemium" if course.pk in freemium else "paid"
+            lessons = VersionLesson.objects.filter(chapter__version=course.current_version).select_related("content")
+            self.assertEqual(any(lesson.content.access_type == "free" for lesson in lessons), model != "paid", course.title)
+            for lesson in lessons:
+                response = self.client.get(reverse("version-lesson", args=[course.pk, 1, lesson.pk]))
+                if lesson.content.access_type == "free":
+                    self.assertEqual(response.status_code, 200)
+                    self.assertTrue(response.context["body"])
+                    continue
                 self.assertEqual(response.status_code, 403)
                 self.assertIsNone(response.context["body"])
                 self.assertEqual(response.context["reading_sections"], [])
                 self.assertNotContains(response, 'youtube-nocookie.com/embed/', status_code=403)
-                self.assertEqual(len(response.context["offers"]), 3)
+                if model == "membership":
+                    self.assertEqual(response.context["offers"], [])
+                    self.assertContains(response, "Incluido en la membresía", status_code=403)
+                else:
+                    self.assertEqual(len(response.context["offers"]), 3)
 
     def test_course_purchase_unlocks_exact_inventory_and_other_courses_stay_locked(self):
         self.client.force_login(self.student)
-        course = self.courses().first()
-        self.buy(Offer.objects.get(kind="course", course_version=course.current_version, status="active"))
+        course = self.by_model("paid").first()
+        self.buy(self.course_offer(course))
         self.assertEqual(Entitlement.objects.filter(buyer=self.student).count(), 12)
         for lesson in VersionLesson.objects.filter(chapter__version=course.current_version):
             response = self.client.get(reverse("version-lesson", args=[course.pk, 1, lesson.pk]))
             self.assertEqual(response.status_code, 200)
             self.assertTrue(response.context["body"])
-        other = self.courses().exclude(pk=course.pk).first()
+        other = self.by_model("paid").exclude(pk=course.pk).first()
         lesson = VersionLesson.objects.filter(chapter__version=other.current_version).first()
         self.assertEqual(self.client.get(reverse("version-lesson", args=[other.pk, 1, lesson.pk])).status_code, 403)
 
-    def test_individual_purchase_unlocks_one_lesson_and_preserves_other_units(self):
-        course = self.courses().first()
+    def test_individual_purchase_unlocks_one_lesson_and_offers_match_the_catalog(self):
+        course = self.by_model("paid").first()
         lesson = VersionLesson.objects.filter(chapter__version=course.current_version).first()
         self.buy(Offer.objects.get(kind="lesson", lesson=lesson, status="active"))
         self.assertEqual(set(Entitlement.objects.filter(buyer=self.student).values_list("resource_id", flat=True)), {lesson.content_id})
-        self.assertEqual(Offer.objects.filter(creator__email=CREATOR_EMAIL, kind="course", status="active").count(), 4)
-        self.assertEqual(Offer.objects.filter(creator__email=CREATOR_EMAIL, kind="chapter", status="active").count(), 16)
-        self.assertEqual(Offer.objects.filter(creator__email=CREATOR_EMAIL, kind="lesson", status="active").count(), 48)
+        sold = [item for item in self.catalog if access_model(item) != "membership"]
+        paid_lessons = sum(1 for item in sold for chapter in item["chapters"] for entry in chapter["lessons"] if not entry.get("free"))
+        paid_chapters = sum(1 for item in sold for chapter in item["chapters"] if not all(entry.get("free") for entry in chapter["lessons"]))
+        offers = Offer.objects.filter(creator__email=CREATOR_EMAIL, status="active")
+        self.assertEqual(offers.filter(kind="course").count(), len(sold))
+        self.assertEqual(offers.filter(kind="chapter").count(), paid_chapters)
+        self.assertEqual(offers.filter(kind="lesson").count(), paid_lessons)
+        for item in sold:
+            self.assertEqual(self.course_offer(self.courses().get(title=item["title"])).amount_sats, item["price"])
 
-    def test_quizzes_and_progress_allow_completion_certificate_for_all_four_courses(self):
+    def test_membership_opens_its_courses_but_not_paid_ones(self):
+        self.client.force_login(self.student)
+        course = self.by_model("membership").first()
+        detail = self.client.get(reverse("course-detail", args=[course.pk]), follow=True)
+        self.assertContains(detail, "Incluido en la membresía")
+        self.assertNotContains(detail, "Gratis + lecciones de pago")
+        self.grant(course)
+        for lesson in VersionLesson.objects.filter(chapter__version=course.current_version):
+            self.assertEqual(self.client.get(reverse("version-lesson", args=[course.pk, 1, lesson.pk])).status_code, 200)
+        paid = self.by_model("paid").first()
+        lesson = VersionLesson.objects.filter(chapter__version=paid.current_version).first()
+        self.assertEqual(self.client.get(reverse("version-lesson", args=[paid.pk, 1, lesson.pk])).status_code, 403)
+
+    def test_quizzes_and_progress_allow_completion_certificate_for_every_course(self):
         for course in self.courses():
-            self.buy(Offer.objects.get(kind="course", course_version=course.current_version, status="active"))
-            enrollment = Enrollment.objects.get(student=self.student, version=course.current_version)
+            self.grant(course)
+            enrollment = enroll(self.student, course.current_version)
             self.assertFalse(completion_status(enrollment)["eligible"])
             for quiz in VersionQuiz.objects.filter(lesson__chapter__version=course.current_version):
                 attempt = start_attempt(self.student, enrollment.pk, quiz.pk)
@@ -150,8 +201,8 @@ class CompleteCoursesTests(TestCase):
 
     def test_projects_do_not_promise_personal_review_when_intake_is_closed(self):
         self.client.force_login(self.student)
-        course = self.courses().first()
-        self.buy(Offer.objects.get(kind="course", course_version=course.current_version, status="active"))
+        course = self.by_model("paid").first()
+        self.buy(self.course_offer(course))
         practice = VersionPractice.objects.get(lesson__chapter__version=course.current_version)
         self.assertFalse(PracticeIntake.objects.get(practice=practice).accepting)
         response = self.client.get(reverse("student-practice", args=[practice.pk]))

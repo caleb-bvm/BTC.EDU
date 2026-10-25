@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <defs><pattern id="g" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0v60" stroke="#d4d7cb" stroke-width=".8"/></pattern>
+  <linearGradient id="p" x2="1" y2="1"><stop stop-color="#e5e9dc"/><stop offset="1" stop-color="#cbd2c0"/></linearGradient></defs>
+  <path fill="#efefe6" d="M0 0h1600v900H0z"/><path fill="url(#g)" d="M0 0h1600v900H0z"/>
+  <path d="M150 140h24m-12-12v24m1264 596h24m-12-12v24" stroke="#adb4a4" stroke-width="2"/>
+  <ellipse cx="800" cy="760" rx="360" ry="29" fill="#74806c" opacity=".14"/><path d="M560 520v70c0 40 120 62 240 62s240-22 240-62v-70" fill="url(#p)" stroke="#8a9383" stroke-width="3"/><path d="M560 420v70c0 40 120 62 240 62s240-22 240-62v-70" fill="url(#p)" stroke="#8a9383" stroke-width="3"/><path d="M560 320v70c0 40 120 62 240 62s240-22 240-62v-70" fill="url(#p)" stroke="#8a9383" stroke-width="3"/><ellipse cx="800" cy="320" rx="240" ry="62" fill="#e8ecdf" stroke="#8a9383" stroke-width="3"/><g stroke="#9ca78e" stroke-width="3"><path d="M560 390c0 40 120 62 240 62s240-22 240-62M560 490c0 40 120 62 240 62s240-22 240-62"/></g><g fill="#f2b56c" stroke="#ad6b2c" stroke-width="2"><circle cx="980" cy="420" r="11"/><circle cx="980" cy="520" r="11"/><circle cx="980" cy="620" r="11"/></g><rect x="1070" y="470" width="210" height="210" rx="38" fill="#f2b56c" stroke="#ad6b2c" stroke-width="3"/><g stroke="#805022" stroke-width="5"><path d="M1105 520h140M1105 560h140M1105 600h140M1105 640h140M1150 505v150M1200 505v150"/></g>
+</svg>

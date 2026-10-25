@@ -1,0 +1,1334 @@
+[
+  {
+    "slug": "diseno-ui-ux-figma",
+    "title": "Diseño UI/UX: de la investigación al prototipo en Figma",
+    "access": "freemium",
+    "category": {
+      "name": "Diseño y creación digital",
+      "slug": "creacion"
+    },
+    "topic": {
+      "name": "Diseño UI/UX",
+      "slug": "diseno-ui-ux"
+    },
+    "description": "Diseña la aplicación de pedidos para llevar de una pupusería ficticia siguiendo un proceso profesional: entrevistas, síntesis, arquitectura de información, wireframes, diseño visual accesible, componentes en Figma, prototipo interactivo y pruebas de usabilidad. Termina con un caso de estudio para tu portafolio. El primer capítulo es gratuito.",
+    "objective": "Aplicar un proceso de diseño centrado en las personas para investigar, definir, diseñar, prototipar y validar una interfaz accesible, documentando las decisiones en un caso de estudio.",
+    "requirements": "Una computadora con navegador y una cuenta gratuita de Figma. No necesitas experiencia en diseño ni saber dibujar. Para las investigaciones y pruebas, tres a cinco personas dispuestas a colaborar unos minutos.",
+    "minutes": 540,
+    "price": 2400,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "Design Council: el doble diamante",
+        "url": "https://www.designcouncil.org.uk/our-resources/the-double-diamond/"
+      },
+      {
+        "title": "Laws of UX en español",
+        "url": "https://lawsofux.com/es/"
+      },
+      {
+        "title": "Nielsen Norman Group: entrevistas a usuarios",
+        "url": "https://www.nngroup.com/articles/user-interviews/"
+      },
+      {
+        "title": "Nielsen Norman Group: personas",
+        "url": "https://www.nngroup.com/articles/persona/"
+      },
+      {
+        "title": "Nielsen Norman Group: mapas de recorrido",
+        "url": "https://www.nngroup.com/articles/journey-mapping-101/"
+      },
+      {
+        "title": "Nielsen Norman Group: clasificación de tarjetas",
+        "url": "https://www.nngroup.com/articles/card-sorting-definition/"
+      },
+      {
+        "title": "Google: Material Design 3",
+        "url": "https://m3.material.io/"
+      },
+      {
+        "title": "Nielsen Norman Group: pruebas de usabilidad",
+        "url": "https://www.nngroup.com/articles/usability-testing-101/"
+      },
+      {
+        "title": "Apple: Human Interface Guidelines",
+        "url": "https://developer.apple.com/design/human-interface-guidelines"
+      },
+      {
+        "title": "Nielsen Norman Group: diez heurísticas de usabilidad",
+        "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+      },
+      {
+        "title": "Figma: guía de auto layout",
+        "url": "https://help.figma.com/hc/en-us/articles/360040451373"
+      },
+      {
+        "title": "W3C: WCAG 2.2",
+        "url": "https://www.w3.org/TR/WCAG22/"
+      },
+      {
+        "title": "W3C: contraste mínimo",
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+      },
+      {
+        "title": "W3C: tamaño mínimo de objetivos táctiles",
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+      },
+      {
+        "title": "Figma: guía de componentes",
+        "url": "https://help.figma.com/hc/en-us/articles/360038662654"
+      },
+      {
+        "title": "Figma: crear y usar variantes",
+        "url": "https://help.figma.com/hc/en-us/articles/360056440594"
+      },
+      {
+        "title": "Figma: guía de prototipos",
+        "url": "https://help.figma.com/hc/en-us/articles/360040314193"
+      },
+      {
+        "title": "Nielsen Norman Group: por qué probar con cinco usuarios",
+        "url": "https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Diseñar para personas",
+        "description": "Qué es UX, cómo investigar con usuarios y cómo convertir lo aprendido en un problema claro.",
+        "lessons": [
+          {
+            "title": "UX, UI y el proceso de diseño",
+            "description": "Distingue experiencia e interfaz y conoce un proceso de diseño centrado en las personas.",
+            "outcome": "Explicar las etapas de un proceso de diseño y por qué empieza por entender el problema.",
+            "activity": "understand",
+            "preview": "Conocerás el encargo: la aplicación de una pupusería.",
+            "body": "La experiencia de usuario, UX, es todo lo que una persona vive al usar un producto o servicio: si logra lo que necesita, cuánto le cuesta, cómo se siente y si confía. La interfaz de usuario, UI, es la parte visible e interactiva: pantallas, botones, textos, colores. Una interfaz hermosa con un flujo confuso produce una mala experiencia; una experiencia excelente necesita también una interfaz clara. El diseño UX/UI trabaja ambas.\n\nEl encargo del curso\n\nLa pupusería ficticia Doña Tere, en Santa Tecla, recibe pedidos para llevar por teléfono y mensajes. En horas de mucha demanda se pierden pedidos, hay errores con las combinaciones de masa y relleno y la gente espera más de lo prometido. La dueña quiere «una aplicación». Antes de dibujar pantallas, un diseñador pregunta: ¿cuál es exactamente el problema y para quién?\n\nUn proceso, no una inspiración\n\nEl Design Council del Reino Unido describe el proceso con el modelo del doble diamante, que alterna momentos de abrir y de cerrar:\n\nDescubrir: investigar a las personas y el contexto sin suponer la solución. Se abre el panorama.\n\nDefinir: sintetizar lo aprendido en un problema concreto. Se cierra el foco.\n\nDesarrollar: explorar varias soluciones, bocetar, prototipar. Se abre de nuevo.\n\nEntregar: probar, refinar y construir la mejor. Se cierra.\n\nEl proceso es iterativo: las pruebas revelan problemas que llevan a volver a etapas anteriores. Saltar directamente a diseñar pantallas es el error más común: produce soluciones elegantes para problemas que nadie tiene.\n\nCentrado en las personas\n\nDiseñar para personas significa involucrarlas en todo el proceso: entrevistarlas, observarlas usar los prototipos y escuchar sus dificultades. Tus preferencias como diseñador importan menos que la evidencia de cómo usan el producto quienes lo necesitan. También significa diseñar para la diversidad: personas mayores, con discapacidad visual, con conexiones lentas o teléfonos sencillos.\n\nEjemplo\n\nSupuesto inicial de la dueña: «La gente quiere ver fotos de las pupusas». Tras entrevistar a clientes, el hallazgo principal es otro: quieren saber a qué hora estará listo su pedido para no esperar en el local. La solución prioriza el tiempo estimado y el aviso de pedido listo, no la galería de fotos.\n\nPráctica\n\nPiensa en una aplicación o sitio que uses con frecuencia y describe una situación en la que la interfaz era atractiva pero la experiencia fue mala, y otra en que lo contrario. Después escribe tres preguntas que harías a los clientes de la pupusería antes de diseñar.\n\nSolución y comprobación\n\nBuenas preguntas iniciales son abiertas y sobre la experiencia real, no sobre la solución: «Cuéntame la última vez que pediste pupusas para llevar», «¿Qué fue lo más molesto de esa vez?», «¿Cómo decides a qué hora ir a recoger?». Preguntas como «¿Usarías una aplicación con fotos?» inducen la respuesta y producen datos poco confiables: la próxima lección explica por qué.",
+            "sources": [
+              {
+                "title": "Design Council: el doble diamante",
+                "url": "https://www.designcouncil.org.uk/our-resources/the-double-diamond/"
+              },
+              {
+                "title": "Laws of UX en español",
+                "url": "https://lawsofux.com/es/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "EDteam: curso de Figma desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=FoCNedUiVqU"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "Investigar con entrevistas",
+            "description": "Prepara, conduce y registra entrevistas que revelan comportamientos reales.",
+            "outcome": "Diseñar una guía de entrevista con preguntas abiertas y conducir una entrevista sin sesgar las respuestas.",
+            "activity": "execute",
+            "preview": "Entrevistarás a clientes de comida para llevar.",
+            "body": "La entrevista a usuarios es una de las técnicas de investigación más útiles y accesibles: una conversación guiada para entender cómo las personas viven una situación, qué intentan lograr y qué les dificulta. No sirve para preguntar si les gusta una idea, sino para conocer su comportamiento real.\n\nPreparar\n\nDefine el objetivo: «Entender cómo las personas piden y recogen comida para llevar en restaurantes pequeños». Recluta participantes que vivan esa situación con frecuencia, de cinco a ocho para empezar; con ese número suelen repetirse los temas principales. Prepara una guía con preguntas abiertas, ordenadas de lo general a lo particular, y con preguntas de seguimiento.\n\nPreguntas que funcionan\n\nPregunta por hechos pasados concretos, no por hipótesis futuras: «Cuéntame la última vez que pediste comida para llevar» en lugar de «¿Pedirías por una aplicación?». Las personas son malas prediciendo lo que harán y buenas recordando lo que hicieron.\n\nUsa preguntas abiertas que empiecen con qué, cómo, cuéntame o describe. Evita las que se responden con sí o no.\n\nNo induzcas la respuesta: «¿No te parece frustrante esperar?» sugiere qué decir; «¿Cómo fue la espera?» deja hablar.\n\nProfundiza con «¿Por qué?», «¿Qué pasó después?» y «¿Me das un ejemplo?». Los silencios también ayudan: la persona suele completar con lo más interesante.\n\nConducir\n\nExplica el propósito, cuánto durará y cómo usarás la información. Pide consentimiento para grabar o tomar notas y aclara que puede detenerse cuando quiera. Escucha más de lo que hablas: un buen entrevistador habla menos del 20 % del tiempo. No defiendas ideas ni corrijas a la persona: estás aprendiendo, no vendiendo.\n\nRegistrar y cuidar los datos\n\nToma notas literales de frases importantes y separa lo que la persona dijo de tus interpretaciones. Guarda las grabaciones y notas de forma segura, sin datos personales innecesarios, e identifica a los participantes con códigos como P1 o P2. Elimina las grabaciones cuando ya no las necesites.\n\nEjemplo\n\nFragmento de una guía: «1. Cuéntame cómo fue la última vez que pediste comida para llevar. 2. ¿Cómo hiciste el pedido? 3. ¿Qué pasó cuando llegaste a recogerlo? 4. Si pudieras cambiar una cosa de esa experiencia, ¿cuál sería y por qué?». La última pregunta revela prioridades sin pedir que diseñen la solución.\n\nPráctica\n\nEscribe una guía de entrevista de ocho preguntas para el proyecto de la pupusería y realiza al menos tres entrevistas de 15 minutos con personas que compren comida para llevar. Toma notas literales e identifica a cada persona con un código.\n\nSolución y comprobación\n\nRevisa tu guía: si alguna pregunta se responde con sí o no, o menciona tu solución, reescríbela. En las notas deberías encontrar comportamientos concretos —«llamé dos veces porque no contestaban»— más que opiniones generales. Si las tres entrevistas fueron muy similares, es una señal de un tema fuerte; si fueron muy diferentes, quizás necesites más participantes o segmentos distintos.",
+            "sources": [
+              {
+                "title": "Nielsen Norman Group: entrevistas a usuarios",
+                "url": "https://www.nngroup.com/articles/user-interviews/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "UXTips: cómo realizar entrevistas a usuarios (español)",
+                "url": "https://www.youtube.com/watch?v=IzrBMdr9PLg"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "Sintetizar: personas, recorridos y el problema",
+            "description": "Agrupa hallazgos, construye personas y mapas de recorrido, y define el problema.",
+            "outcome": "Convertir notas de investigación en hallazgos, una persona basada en datos y una definición de problema accionable.",
+            "activity": "design",
+            "preview": "Pasarás de un montón de notas a un problema que vale la pena resolver.",
+            "body": "Después de las entrevistas tienes páginas de notas. La síntesis las convierte en conocimiento compartido que guía las decisiones.\n\nAgrupar por afinidad\n\nEscribe cada observación en una nota adhesiva, física o digital, por ejemplo en FigJam: una idea por nota, con el código del participante. Agrupa las notas que se parecen sin categorías previas y nombra cada grupo con una frase que resuma el hallazgo: «No saben cuándo estará listo su pedido», «Los errores ocurren al dictar combinaciones por teléfono». Un hallazgo fuerte aparece en varios participantes; uno aislado puede ser interesante, pero no es un patrón.\n\nPersonas\n\nUna persona es un perfil arquetípico que resume a un grupo de usuarios con objetivos y comportamientos similares. Debe basarse en la investigación, no en estereotipos ni en datos inventados. Incluye un nombre, el contexto, los objetivos, las frustraciones y una cita real o representativa. Lo importante no son los datos demográficos, sino los comportamientos: «Pide cada viernes para su familia de cinco, por teléfono, y llega con prisa del trabajo».\n\nMapa de recorrido\n\nUn mapa de recorrido muestra la experiencia de una persona a lo largo del tiempo: etapas —decidir, pedir, esperar, recoger, comer—, acciones, pensamientos, emociones y puntos de dolor en cada una. Revela dónde se concentran los problemas y dónde hay oportunidades. En el caso de la pupusería, la curva emocional cae en dos momentos: al llamar en hora pico y nadie contesta, y al llegar y esperar veinte minutos más.\n\nDefinir el problema\n\nLa síntesis termina con una definición del problema centrada en la persona, sin mencionar la solución. Un formato útil son las preguntas «¿Cómo podríamos…?»: «¿Cómo podríamos ayudar a quienes piden para llevar a saber con certeza cuándo estará listo su pedido?». La pregunta debe ser lo bastante amplia para permitir varias soluciones y lo bastante concreta para guiar.\n\nEvitar trampas\n\nNo fuerces los datos para que confirmen la idea original. Si la investigación muestra que el problema principal no es el que se suponía, ese es el resultado más valioso. Y separa los hallazgos de las soluciones: «quieren una aplicación» no es un hallazgo; «no logran comunicarse en hora pico» sí.\n\nEjemplo\n\nPersona: Karla, 34 años, contadora en Santa Tecla. Pide pupusas los viernes al salir del trabajo para cinco personas. Objetivo: recoger el pedido correcto sin esperar. Frustración: «Llamo tres veces y cuando contestan ya se acabó el revuelto». Pregunta guía: ¿Cómo podríamos permitir que Karla haga su pedido sin depender de una llamada y sepa exactamente cuándo recogerlo?\n\nPráctica\n\nCon las notas de tus entrevistas, haz el agrupamiento por afinidad, redacta una persona y un mapa de recorrido de cinco etapas, y escribe dos preguntas «¿Cómo podríamos…?».\n\nSolución y comprobación\n\nCada elemento de la persona y del mapa debe poder rastrearse hasta al menos una nota de las entrevistas. Si inventaste una frustración porque «suena lógica», márcala como supuesto pendiente de verificar. Las preguntas no deben contener palabras como aplicación, botón o pantalla: definen el problema, no la solución.",
+            "sources": [
+              {
+                "title": "Nielsen Norman Group: personas",
+                "url": "https://www.nngroup.com/articles/persona/"
+              },
+              {
+                "title": "Nielsen Norman Group: mapas de recorrido",
+                "url": "https://www.nngroup.com/articles/journey-mapping-101/"
+              },
+              {
+                "title": "Design Council: el doble diamante",
+                "url": "https://www.designcouncil.org.uk/our-resources/the-double-diamond/"
+              }
+            ],
+            "videos": [],
+            "free": true,
+            "quiz": {
+              "title": "Evaluación: diseñar para personas",
+              "questions": [
+                {
+                  "prompt": "¿Qué diferencia la experiencia de usuario de la interfaz de usuario?",
+                  "multiple": false,
+                  "options": [
+                    "Son sinónimos.",
+                    "UX es toda la vivencia de usar un producto; UI es la parte visible e interactiva.",
+                    "UI es más importante.",
+                    "UX solo trata de colores."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Una interfaz atractiva no garantiza una buena experiencia."
+                },
+                {
+                  "prompt": "¿Cuál es la mejor pregunta para una entrevista?",
+                  "multiple": false,
+                  "options": [
+                    "¿Usarías una aplicación para pedir pupusas?",
+                    "¿No te parece frustrante esperar?",
+                    "Cuéntame la última vez que pediste comida para llevar.",
+                    "¿Te gustan las fotos de comida?"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Las preguntas sobre hechos pasados concretos producen datos confiables."
+                },
+                {
+                  "prompt": "¿En qué debe basarse una persona?",
+                  "multiple": false,
+                  "options": [
+                    "En estereotipos del público.",
+                    "En la investigación, con comportamientos y objetivos observados.",
+                    "En la opinión del diseñador.",
+                    "En datos inventados para completar el perfil."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Una persona sin datos es ficción que puede engañar al equipo."
+                },
+                {
+                  "prompt": "¿Cuál es una buena definición de problema?",
+                  "multiple": false,
+                  "options": [
+                    "Diseñar una aplicación con fotos.",
+                    "¿Cómo podríamos ayudar a quienes piden para llevar a saber cuándo estará listo su pedido?",
+                    "Agregar un botón naranja.",
+                    "Hacer la mejor aplicación del país."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Define el problema de la persona sin imponer la solución."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Estructura y flujos",
+        "description": "Organiza el contenido, diseña flujos y evalúa con heurísticas.",
+        "lessons": [
+          {
+            "title": "Arquitectura de información",
+            "description": "Organiza el contenido y la navegación con clasificación de tarjetas.",
+            "outcome": "Definir la estructura y las etiquetas de una aplicación a partir de cómo piensan sus usuarios.",
+            "activity": "design",
+            "preview": "Organizarás el menú para que cada pupusa se encuentre en segundos.",
+            "body": "La arquitectura de información es la organización y el etiquetado del contenido para que las personas encuentren lo que buscan y entiendan dónde están. Una mala arquitectura no se arregla con buen diseño visual: si el revuelto con queso está escondido en «Especialidades de la casa», nadie lo encuentra.\n\nPensar como el usuario\n\nLa organización interna de un negocio no siempre coincide con la de sus clientes. La cocina puede clasificar por tipo de masa; la clientela quizás piensa primero en el relleno. La clasificación de tarjetas permite descubrir cómo agrupan y nombran el contenido las personas.\n\nClasificación de tarjetas\n\nEscribe cada elemento de contenido en una tarjeta —pupusa de queso, de frijol con queso, revuelta, de loroco, curtido extra, horchata, café, tamales— y pide a los participantes que las agrupen y nombren cada grupo. En una clasificación abierta, ellos crean los grupos; en una cerrada, ubican las tarjetas en categorías que tú defines, útil para validar una propuesta. Con quince a veinte participantes aparecen patrones confiables; con cinco ya surgen ideas valiosas. Herramientas en línea facilitan hacerlo a distancia, pero también funciona con tarjetas de papel.\n\nEtiquetas\n\nLas etiquetas deben usar las palabras de los usuarios, no las internas. «Para acompañar» puede ser más claro que «Complementos». Evita términos ambiguos como «Más» o «Varios». Mantén la consistencia: si una sección se llama «Mis pedidos», no la llames «Historial» en otra pantalla.\n\nNavegación\n\nLas aplicaciones móviles suelen usar una barra de navegación inferior con tres a cinco destinos principales, siempre visibles. Los destinos secundarios van dentro de las pantallas. Cada pantalla debe responder: ¿dónde estoy?, ¿qué puedo hacer aquí?, ¿cómo vuelvo?\n\nMapa del sitio\n\nUn mapa del sitio o de pantallas representa la estructura completa en forma de árbol. Ayuda a detectar pantallas huérfanas, caminos demasiado largos y contenido duplicado. Para la pupusería: Inicio con estado del pedido activo, Menú con categorías, Carrito, Mis pedidos y Cuenta.\n\nEjemplo\n\nEn una clasificación abierta con doce clientes, nueve agruparon las pupusas por relleno y no por masa, y la mayoría creó un grupo «Bebidas» separado de «Para acompañar». La propuesta final del menú usa rellenos como categoría principal y la masa —maíz o arroz— como una opción dentro de cada pupusa.\n\nPráctica\n\nLista quince elementos del menú y funciones de la aplicación. Realiza una clasificación abierta con tres personas y compara sus agrupaciones. Propón el mapa de pantallas con la navegación principal.\n\nSolución y comprobación\n\nEl resultado incluye una tabla con los grupos de cada participante y los nombres que usaron, y un mapa de pantallas con no más de cinco destinos principales. Si dos personas usaron el mismo nombre para un grupo, es un buen candidato para la etiqueta. Si las agrupaciones fueron muy diferentes, considera ofrecer búsqueda o filtros además de las categorías.",
+            "sources": [
+              {
+                "title": "Nielsen Norman Group: clasificación de tarjetas",
+                "url": "https://www.nngroup.com/articles/card-sorting-definition/"
+              },
+              {
+                "title": "Google: Material Design 3",
+                "url": "https://m3.material.io/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Flujos y wireframes",
+            "description": "Diseña flujos de tareas y bocetos de baja fidelidad antes del diseño visual.",
+            "outcome": "Representar el flujo principal de una tarea y sus pantallas en wireframes de baja fidelidad.",
+            "activity": "design",
+            "preview": "Dibujarás el flujo de hacer un pedido en papel antes de abrir Figma.",
+            "body": "Un flujo de usuario describe los pasos que sigue una persona para completar una tarea: desde dónde empieza, qué decide en cada paso y dónde termina. Diseñar el flujo antes de las pantallas evita pasos innecesarios y callejones sin salida.\n\nEl flujo principal\n\nPara la tarea «hacer un pedido para llevar»: abrir la aplicación; ver el menú; elegir una pupusa; seleccionar masa y cantidad; agregar al carrito; repetir; revisar el carrito; elegir hora de recogida; confirmar y pagar; ver el estado del pedido; recibir aviso de pedido listo. Representa cada paso con un rectángulo, las decisiones con rombos y las conexiones con flechas.\n\nRevisa el flujo con preguntas: ¿cada paso es necesario?, ¿qué pasa si la persona se equivoca?, ¿qué pasa si una pupusa se agota?, ¿puede repetir un pedido anterior en un toque? Los clientes que piden lo mismo cada viernes agradecerán un flujo de «repetir pedido» de tres pasos en lugar de diez.\n\nWireframes de baja fidelidad\n\nUn wireframe es un esquema de una pantalla: muestra la estructura, la jerarquía y el contenido sin colores, imágenes ni tipografías definitivas. Se dibujan rápido, en papel o en Figma con rectángulos grises, y se descartan sin pena. Su baja fidelidad es una ventaja: las personas comentan la estructura en lugar de discutir colores.\n\nEmpieza con bocetos rápidos: la técnica de los ocho bocetos en ocho minutos obliga a explorar alternativas en lugar de quedarse con la primera idea. Elige las mejores y desarrolla las pantallas del flujo principal.\n\nContenido real\n\nUsa contenido realista desde el principio: nombres reales de pupusas, precios plausibles, textos de botones definitivos. El texto de relleno oculta problemas: un nombre largo como «Revuelta con loroco y queso» puede romper un diseño pensado para «Queso».\n\nEstados\n\nCada pantalla tiene varios estados: vacía —el carrito sin productos—, cargando, con error, con mucho contenido. Diséñalos todos; un estado vacío bien diseñado guía a la persona —«Tu carrito está vacío. Explora el menú»— en lugar de dejarla perdida.\n\nEjemplo\n\nWireframe del carrito: título «Tu pedido»; lista de productos con cantidad editable y subtotal; selector de hora de recogida con horarios disponibles cada 15 minutos; total destacado; botón principal «Confirmar pedido» al final, visible sin desplazarse en un teléfono común.\n\nPráctica\n\nDibuja el flujo completo de hacer un pedido, incluido un camino alternativo para un producto agotado y el flujo de repetir un pedido anterior. Haz los wireframes en baja fidelidad de cinco pantallas del flujo principal, con contenido real, y el estado vacío del carrito.\n\nSolución y comprobación\n\nEl flujo no tiene callejones sin salida: desde cada error hay un camino para continuar. Los wireframes muestran jerarquía clara —una acción principal por pantalla— y textos reales. Pide a una persona que recorra los wireframes en papel intentando hacer un pedido; cada duda que exprese es una mejora pendiente.",
+            "sources": [
+              {
+                "title": "Nielsen Norman Group: pruebas de usabilidad",
+                "url": "https://www.nngroup.com/articles/usability-testing-101/"
+              },
+              {
+                "title": "Apple: Human Interface Guidelines",
+                "url": "https://developer.apple.com/design/human-interface-guidelines"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Evaluación heurística",
+            "description": "Aplica las diez heurísticas de Nielsen para encontrar problemas de usabilidad.",
+            "outcome": "Evaluar una interfaz con heurísticas reconocidas y priorizar los problemas encontrados.",
+            "activity": "execute",
+            "preview": "Revisarás tus wireframes con la mirada de un experto en usabilidad.",
+            "body": "Las diez heurísticas de usabilidad de Jakob Nielsen son principios generales para el diseño de interfaces, publicadas en 1994 y vigentes. Una evaluación heurística consiste en revisar una interfaz con esos principios para detectar problemas antes de probar con usuarios. Es rápida y económica, aunque no reemplaza las pruebas con personas reales.\n\nLas diez heurísticas\n\n1. Visibilidad del estado del sistema: informar qué está pasando. «Tu pedido se está preparando. Listo aprox. a las 6:40 p. m.»\n2. Coincidencia con el mundo real: usar palabras y conceptos de los usuarios, no del sistema.\n3. Control y libertad: ofrecer salidas claras, deshacer y cancelar.\n4. Consistencia y estándares: seguir convenciones de la plataforma y mantener coherencia interna.\n5. Prevención de errores: diseñar para que el error no ocurra, por ejemplo deshabilitando horas no disponibles.\n6. Reconocer antes que recordar: mostrar opciones en lugar de obligar a memorizarlas, como los pedidos anteriores.\n7. Flexibilidad y eficiencia: atajos para usuarios frecuentes, como repetir pedido.\n8. Diseño estético y minimalista: no mostrar información irrelevante que compite con la importante.\n9. Ayudar a reconocer, diagnosticar y recuperarse de errores: mensajes en lenguaje claro que indiquen la solución.\n10. Ayuda y documentación: accesible cuando se necesita, breve y orientada a tareas.\n\nCómo hacer la evaluación\n\nRecorre el flujo principal pantalla por pantalla. Para cada problema, anota la pantalla, la descripción, la heurística afectada y la severidad: 0, no es un problema; 1, cosmético; 2, menor; 3, mayor; 4, catástrofe que impide completar la tarea. Varias personas evaluando por separado encuentran más problemas que una sola; después se combinan las listas.\n\nMensajes de error\n\nLa heurística 9 merece atención especial. Compara «Error 402» con «No pudimos procesar el pago con esta tarjeta. Revisa el número o elige otro método». El segundo mensaje dice qué pasó, en palabras comunes, y cómo resolverlo, sin culpar a la persona.\n\nLeyes de UX\n\nAdemás de las heurísticas, existen principios de psicología aplicados al diseño, como la ley de Hick —más opciones aumentan el tiempo de decisión— y la ley de Fitts —los objetivos grandes y cercanos se alcanzan más rápido—. Son útiles para justificar decisiones, por ejemplo destacar el botón principal y reducir las opciones en pantallas de decisión.\n\nEjemplo\n\nProblema encontrado: en la pantalla de hora de recogida, aparecen horarios pasados que al elegirse muestran un error. Heurística 5, prevención de errores. Severidad 3. Solución: mostrar solo los horarios disponibles y el siguiente horario recomendado.\n\nPráctica\n\nRealiza una evaluación heurística de tus wireframes, o de la aplicación de pedidos de un restaurante real, con al menos ocho problemas, su heurística y severidad. Propón una solución para los tres más graves.\n\nSolución y comprobación\n\nLa lista cubre al menos cinco heurísticas distintas y la severidad se justifica por el impacto en la tarea, no por gusto personal. Las soluciones son concretas y verificables. Si encontraste pocos problemas en tu propio diseño, pide a otra persona que evalúe: es difícil ver los problemas de lo que uno diseñó.",
+            "sources": [
+              {
+                "title": "Nielsen Norman Group: diez heurísticas de usabilidad",
+                "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+              },
+              {
+                "title": "Laws of UX en español",
+                "url": "https://lawsofux.com/es/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Nadia Cavalleri: las diez heurísticas de usabilidad (español)",
+                "url": "https://www.youtube.com/watch?v=yZm60-Ra0hk"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: estructura y flujos",
+              "questions": [
+                {
+                  "prompt": "¿Para qué sirve una clasificación de tarjetas?",
+                  "multiple": false,
+                  "options": [
+                    "Para elegir colores.",
+                    "Para descubrir cómo agrupan y nombran el contenido los usuarios.",
+                    "Para medir la velocidad de la aplicación.",
+                    "Para diseñar el logotipo."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La organización debe responder a cómo piensan los usuarios."
+                },
+                {
+                  "prompt": "¿Por qué usar contenido real en los wireframes?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es obligatorio.",
+                    "Porque el texto de relleno oculta problemas como nombres largos que rompen el diseño.",
+                    "Para que se vean más bonitos.",
+                    "Para no diseñar estados vacíos."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El contenido real revela los problemas desde el principio."
+                },
+                {
+                  "prompt": "Mostrar horarios pasados que luego dan error viola principalmente la heurística de…",
+                  "multiple": false,
+                  "options": [
+                    "Diseño estético.",
+                    "Prevención de errores.",
+                    "Ayuda y documentación.",
+                    "Flexibilidad."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Lo mejor es diseñar para que el error no pueda ocurrir."
+                },
+                {
+                  "prompt": "¿Cuál es el mejor mensaje de error?",
+                  "multiple": false,
+                  "options": [
+                    "Error 402.",
+                    "Pago rechazado.",
+                    "No pudimos procesar el pago con esta tarjeta. Revisa el número o elige otro método.",
+                    "Usuario inválido."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Dice qué pasó, en lenguaje claro, y cómo resolverlo."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Diseño visual en Figma",
+        "description": "Construye pantallas con auto layout, sistema visual accesible y componentes reutilizables.",
+        "lessons": [
+          {
+            "title": "Figma: marcos, capas y auto layout",
+            "description": "Usa marcos, capas y auto layout para construir pantallas que se adaptan.",
+            "outcome": "Construir pantallas en Figma con estructuras que se ajustan al contenido y al tamaño.",
+            "activity": "execute",
+            "preview": "Construirás la tarjeta de producto del menú.",
+            "body": "Figma es una herramienta de diseño de interfaces que funciona en el navegador o en una aplicación de escritorio, con colaboración en tiempo real. Su plan gratuito permite seguir todo este curso.\n\nMarcos y capas\n\nUn marco, o frame, es un contenedor: puede representar una pantalla de teléfono, una tarjeta o un botón. Figma ofrece tamaños predefinidos de dispositivos; para este proyecto usa un marco de teléfono común, por ejemplo 390 × 844. Dentro de los marcos colocas capas: texto, rectángulos, imágenes y otros marcos. El panel de capas muestra la jerarquía; nombrar las capas con claridad —«Tarjeta producto», «Precio»— ahorra tiempo a todo el equipo.\n\nAuto layout\n\nAuto layout convierte un marco en un contenedor que organiza sus elementos automáticamente, en fila o en columna, con un espaciado y unos márgenes definidos. Se activa seleccionando elementos y presionando Mayús+A. Si el texto de un botón crece, el botón crece con él; si agregas un elemento a una lista, los demás se reacomodan. Es el equivalente en diseño de cómo funcionan los diseños flexibles en la web y en las aplicaciones.\n\nPropiedades clave: dirección vertical u horizontal; espacio entre elementos; relleno interno; alineación; y el comportamiento de cada hijo: ancho fijo, ajustar al contenido o llenar el contenedor.\n\nUna tarjeta de producto\n\nConstruye la tarjeta del menú con auto layout vertical: imagen, nombre de la pupusa, descripción breve y una fila horizontal con el precio y el botón «Agregar». Usa espaciados de una escala consistente, por ejemplo múltiplos de 4 u 8 píxeles: 8 entre el nombre y la descripción, 16 de relleno interno. La escala consistente da orden visual y simplifica las decisiones.\n\nProbar la flexibilidad\n\nCambia el nombre de «Queso» a «Revuelta con loroco y queso». Con auto layout, la tarjeta se adapta: el texto pasa a dos líneas y los demás elementos se desplazan. Sin auto layout, el texto se superpondría con la descripción. Duplica la tarjeta en una lista vertical con auto layout y prueba agregar y quitar productos.\n\nRestricciones\n\nPara elementos que no usan auto layout, las restricciones definen cómo se comportan al cambiar el tamaño del marco: fijarse a la izquierda, centrarse o escalar. Combinadas con auto layout permiten diseñar pantallas que se ven bien en teléfonos de distintos tamaños.\n\nEjemplo\n\nFila del precio: auto layout horizontal con el precio «$0.75» a la izquierda y el botón a la derecha, separados con la opción de espacio automático entre elementos. El botón es otro marco con auto layout, relleno de 12 × 20 y texto centrado; al cambiar «Agregar» por «Agregar al pedido», el botón crece sin intervención manual.\n\nPráctica\n\nConstruye en Figma la pantalla del menú con encabezado, filtros de categoría en una fila horizontal desplazable y una lista de seis tarjetas de producto, todo con auto layout. Comprueba que un nombre largo y una lista con más productos no rompen el diseño.\n\nSolución y comprobación\n\nAl seleccionar cualquier contenedor, el panel derecho muestra la configuración de auto layout. Cambia el ancho del marco de la pantalla: las tarjetas configuradas para llenar el contenedor se ajustan. Si un elemento no se mueve al cambiar el contenido, probablemente está fuera del contenedor con auto layout o tiene una posición absoluta.",
+            "sources": [
+              {
+                "title": "Figma: guía de auto layout",
+                "url": "https://help.figma.com/hc/en-us/articles/360040451373"
+              }
+            ],
+            "videos": [
+              {
+                "title": "OscarRGB: diseño con auto layout en Figma (español)",
+                "url": "https://www.youtube.com/watch?v=Zy2aNhXZf2o"
+              }
+            ]
+          },
+          {
+            "title": "Tipografía, color, espaciado y accesibilidad",
+            "description": "Define un sistema visual legible y con contraste suficiente.",
+            "outcome": "Elegir tipografía, colores y espaciados que cumplan los criterios de accesibilidad de WCAG 2.2.",
+            "activity": "design",
+            "preview": "Harás que tu diseño se lea bien bajo el sol y para todas las personas.",
+            "body": "El diseño visual comunica jerarquía, orden y confianza, pero su primera obligación es que todas las personas puedan leer y usar la interfaz. Las Pautas de Accesibilidad para el Contenido Web, WCAG 2.2, del W3C, son la referencia internacional y muchos países las incorporan en sus normas.\n\nTipografía\n\nUsa una o dos familias tipográficas legibles. Define una escala con pocos tamaños, por ejemplo 12, 14, 16, 20, 24 y 32, y asigna cada uno a un papel: texto de cuerpo de 16 en pantallas móviles, títulos más grandes, notas más pequeñas. El tamaño del cuerpo de texto no debería bajar de 14 a 16 en un teléfono. Un interlineado de 1.4 a 1.6 veces el tamaño facilita la lectura. La jerarquía se construye con tamaño y peso, no con muchos colores.\n\nContraste\n\nWCAG exige un contraste mínimo de 4.5:1 entre el texto y su fondo, y de 3:1 para texto grande —desde 18 puntos, o 14 en negrita— y para elementos gráficos necesarios, como los bordes de un campo o un ícono que funciona como botón. Algunos valores calculados con la fórmula de WCAG:\n\nGris #767676 sobre blanco: 4.54:1, cumple para texto normal.\nGris #999999 sobre blanco: 2.85:1, no cumple.\nNaranja #ff6a13 sobre blanco: 2.87:1, no cumple ni para texto grande.\nEse mismo naranja sobre negro: 7.32:1, cumple con holgura.\nNaranja oscuro #c2410c sobre blanco: 5.18:1, cumple.\n\nFigma y muchos complementos calculan el contraste. Comprueba todos los pares de texto y fondo, incluidos los botones deshabilitados que aún deben leerse y los textos sobre fotografías, que necesitan una capa oscura o un fondo sólido.\n\nNo depender solo del color\n\nAlrededor de uno de cada doce hombres de ascendencia del norte de Europa, y cerca de una de cada doscientas mujeres, tiene alguna forma de daltonismo; además, la luz del sol reduce el contraste percibido. Nunca comuniques solo con color: un campo con error lleva un ícono y un mensaje, no solo un borde rojo; un pedido listo dice «Listo» además de mostrarse en verde.\n\nTamaño de los objetivos táctiles\n\nWCAG 2.2 pide que los objetivos táctiles midan al menos 24 × 24 píxeles CSS o tengan espacio suficiente alrededor. Las guías de Apple recomiendan 44 × 44 puntos y Material Design 48 × 48 dp: valores más cómodos que conviene usar como referencia para los botones principales.\n\nEspaciado y color en el sistema\n\nDefine tus colores como estilos o variables con nombres por función —primario, texto principal, texto secundario, fondo, error, éxito— en lugar de por apariencia. Así cambiar un tono afecta a todo el diseño y la intención queda clara. Usa la misma escala de espaciado en todas las pantallas.\n\nEjemplo\n\nEl naranja de la marca de la pupusería no tiene contraste suficiente para texto sobre blanco. Solución: usar el naranja como fondo de botones con texto negro, que da 7.32:1, y un naranja más oscuro, #c2410c, para enlaces de texto sobre blanco.\n\nPráctica\n\nDefine en Figma tu escala tipográfica, una paleta con estilos o variables por función y la escala de espaciado. Comprueba el contraste de todos los pares de texto y fondo de tus pantallas y corrige los que no cumplan. Revisa que los botones principales midan al menos 44 de alto.\n\nSolución y comprobación\n\nEntrega una hoja de estilos en Figma con tipografías, colores y espaciados nombrados, y una tabla de contrastes con cada par, su valor y si cumple. Ningún texto de cuerpo debe quedar por debajo de 4.5:1. Si tu color de marca no cumple, no lo descartes: úsalo donde funcione y crea una variante accesible.",
+            "sources": [
+              {
+                "title": "W3C: WCAG 2.2",
+                "url": "https://www.w3.org/TR/WCAG22/"
+              },
+              {
+                "title": "W3C: contraste mínimo",
+                "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+              },
+              {
+                "title": "W3C: tamaño mínimo de objetivos táctiles",
+                "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Componentes, variantes y sistema de diseño",
+            "description": "Crea componentes reutilizables con variantes y propiedades.",
+            "outcome": "Construir una biblioteca de componentes coherente que acelere el diseño y la implementación.",
+            "activity": "execute",
+            "preview": "Crearás un botón con todos sus estados y lo usarás en todas las pantallas.",
+            "body": "Cuando la aplicación tiene veinte pantallas, mantener la consistencia a mano es imposible: un botón con un relleno distinto aquí, un tono diferente allá. Los componentes resuelven el problema: defines un elemento una vez y lo reutilizas; al modificar el original, todas las copias se actualizan.\n\nComponentes e instancias\n\nEn Figma, un componente principal se crea seleccionando un elemento y usando la opción Crear componente, con el atajo Ctrl+Alt+K en Windows o Cmd+Opción+K en Mac. Cada copia es una instancia: hereda los cambios del componente, pero permite modificar propiedades como el texto. Si cambias el radio de las esquinas del botón principal, cambia en todas las pantallas.\n\nVariantes\n\nUn mismo componente tiene versiones: el botón puede ser primario, secundario o de texto, y estar en estado normal, presionado, deshabilitado o cargando. Las variantes agrupan esas versiones en un conjunto con propiedades —tipo y estado— que se eligen desde el panel de la instancia. Así el equipo usa siempre una versión definida en lugar de inventar una nueva.\n\nPropiedades de componente\n\nAdemás de las variantes, los componentes pueden tener propiedades de texto, de mostrar u ocultar elementos —por ejemplo, un ícono opcional— y de intercambio de instancias anidadas. Esto reduce la cantidad de variantes necesarias.\n\nUn sistema de diseño\n\nUn sistema de diseño reúne los estilos o variables —colores, tipografía, espaciados—, los componentes y las reglas para usarlos: cuándo usar un botón primario, cuántos por pantalla, cómo redactar los mensajes. Material Design de Google y las Human Interface Guidelines de Apple son sistemas de referencia; para un producto pequeño basta una biblioteca con una decena de componentes bien documentados: botones, campos, tarjetas de producto, barra de navegación, selector de cantidad, mensajes y etiquetas de estado.\n\nDocumentar para desarrollo\n\nCada componente lleva una descripción breve y sus estados. Los equipos de desarrollo implementarán los mismos componentes en código; cuando diseño y código comparten nombres y estados, la implementación es más fiel y rápida. El modo de inspección de Figma muestra medidas, colores y estilos para quien implementa.\n\nEjemplo\n\nComponente «Selector de cantidad»: botón menos, número y botón más, en auto layout horizontal. Variantes: normal, con el botón menos deshabilitado cuando la cantidad es 1, y con el botón más deshabilitado al llegar al máximo de 20. Usado en la tarjeta del producto y en el carrito.\n\nPráctica\n\nCrea una página «Componentes» con: botón con variantes de tipo y estado, campo de texto con estados normal, enfocado y con error, tarjeta de producto, selector de cantidad y barra de navegación inferior. Reemplaza los elementos de tus pantallas por instancias.\n\nSolución y comprobación\n\nCambia el color primario en el componente del botón: todas las pantallas deben actualizarse. Todos los estados de error incluyen un mensaje de texto, no solo color. Si al cambiar el componente una pantalla no se actualiza, ese elemento no era una instancia: reemplázalo.",
+            "sources": [
+              {
+                "title": "Figma: guía de componentes",
+                "url": "https://help.figma.com/hc/en-us/articles/360038662654"
+              },
+              {
+                "title": "Figma: crear y usar variantes",
+                "url": "https://help.figma.com/hc/en-us/articles/360056440594"
+              },
+              {
+                "title": "Google: Material Design 3",
+                "url": "https://m3.material.io/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "afor digital: curso de Figma desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=VdS9ZGHHXWQ"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: diseño visual en Figma",
+              "questions": [
+                {
+                  "prompt": "¿Qué hace auto layout en Figma?",
+                  "multiple": false,
+                  "options": [
+                    "Elige colores automáticamente.",
+                    "Organiza los elementos de un marco con espaciado y márgenes que se ajustan al contenido.",
+                    "Crea prototipos.",
+                    "Exporta imágenes."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Un botón crece si su texto crece; una lista se reacomoda al agregar elementos."
+                },
+                {
+                  "prompt": "¿Qué contraste mínimo exige WCAG para texto normal?",
+                  "multiple": false,
+                  "options": [
+                    "2:1",
+                    "3:1",
+                    "4.5:1",
+                    "10:1"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "El texto grande y los elementos gráficos necesarios requieren 3:1."
+                },
+                {
+                  "prompt": "¿Por qué no comunicar un error solo con un borde rojo?",
+                  "multiple": false,
+                  "options": [
+                    "Porque el rojo no está de moda.",
+                    "Porque personas con daltonismo o bajo contraste podrían no percibirlo; se agrega ícono y mensaje.",
+                    "Porque Figma no lo permite.",
+                    "Porque ocupa espacio."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La información no debe depender solo del color."
+                },
+                {
+                  "prompt": "¿Qué ventaja tienen los componentes en Figma?",
+                  "multiple": false,
+                  "options": [
+                    "Hacen el archivo más pesado.",
+                    "Al cambiar el componente principal, todas las instancias se actualizan.",
+                    "Eliminan la necesidad de diseñar.",
+                    "Solo sirven para íconos."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Garantizan consistencia en todas las pantallas."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. Prototipar y validar",
+        "description": "Crea un prototipo interactivo, pruébalo con personas y presenta tu caso de estudio.",
+        "lessons": [
+          {
+            "title": "Prototipos interactivos",
+            "description": "Conecta pantallas con interacciones para simular la aplicación.",
+            "outcome": "Construir un prototipo navegable del flujo principal listo para pruebas con usuarios.",
+            "activity": "execute",
+            "preview": "Tu diseño se podrá usar en un teléfono como si fuera real.",
+            "body": "Un prototipo es una simulación del producto que permite probar el flujo antes de construirlo. En Figma, el modo Prototipo conecta elementos con pantallas mediante interacciones: al tocar el botón «Agregar», ir al carrito; al tocar la flecha, volver.\n\nConexiones\n\nSelecciona un elemento, arrastra el conector hacia la pantalla de destino y define la interacción: el disparador —al hacer clic o tocar, al arrastrar, después de un tiempo— y la acción —navegar a, abrir superposición, volver atrás, desplazarse—. Las transiciones animadas dan sensación de continuidad, pero úsalas con moderación: una transición lenta en cada paso cansa.\n\nSuperposiciones y estados\n\nLas superposiciones muestran elementos encima de la pantalla actual, como una hoja inferior para elegir la masa o un mensaje de confirmación. Las variantes interactivas permiten que un componente cambie de estado en el prototipo, por ejemplo el selector de cantidad que aumenta al tocar el botón más, sin duplicar pantallas.\n\nPuntos de inicio y flujos\n\nDefine un punto de inicio para cada flujo que quieras probar: «Hacer un pedido» y «Repetir pedido». Al compartir el prototipo, quien lo prueba empieza en el lugar correcto. La aplicación móvil de Figma permite abrir el prototipo en un teléfono, lo que da una experiencia más realista para las pruebas.\n\nFidelidad adecuada\n\nPrototipa lo necesario para las tareas que vas a probar, no cada botón de la aplicación. Si la prueba trata del flujo de pedido, el perfil de usuario puede quedar sin conectar. Una fidelidad media —diseño visual aplicado y navegación principal funcional— suele bastar para pruebas de usabilidad.\n\nDatos realistas\n\nUsa datos coherentes a lo largo del flujo: si la persona agrega dos pupusas de queso y una revuelta, el carrito debe mostrar exactamente eso y el total correcto. Las incoherencias distraen a los participantes y contaminan los resultados de la prueba.\n\nEjemplo\n\nPrototipo del flujo principal: Inicio → tocar «Hacer un pedido» → Menú → tocar una tarjeta → superposición con opciones de masa y cantidad → «Agregar» → mensaje breve «Agregado» y regreso al menú → ícono de carrito → Carrito → elegir hora → «Confirmar pedido» → Estado del pedido con hora estimada.\n\nPráctica\n\nConecta en Figma el flujo completo de hacer un pedido y el de repetir un pedido, con puntos de inicio para cada uno. Pruébalo tú en el teléfono y corrige conexiones rotas o pantallas sin salida.\n\nSolución y comprobación\n\nRecorre cada flujo de principio a fin sin quedar atrapado en ninguna pantalla. Las cantidades y totales son coherentes. Comparte el enlace del prototipo con permisos de solo lectura y verifica que se abre correctamente en otro dispositivo antes de la prueba con usuarios.",
+            "sources": [
+              {
+                "title": "Figma: guía de prototipos",
+                "url": "https://help.figma.com/hc/en-us/articles/360040314193"
+              },
+              {
+                "title": "Figma: crear y usar variantes",
+                "url": "https://help.figma.com/hc/en-us/articles/360056440594"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Pruebas de usabilidad",
+            "description": "Planifica, conduce y analiza pruebas con usuarios reales.",
+            "outcome": "Observar a personas realizando tareas con el prototipo e identificar y priorizar problemas.",
+            "activity": "execute",
+            "preview": "Verás a personas reales usar tu diseño y descubrirás lo que no funciona.",
+            "body": "Una prueba de usabilidad consiste en observar a personas representativas mientras intentan realizar tareas reales con el producto o el prototipo. Es la forma más directa de descubrir dónde se confunden, dónde se equivocan y qué no entienden. Ninguna cantidad de opiniones internas reemplaza ver a cinco personas usar tu diseño.\n\n¿Cuántas personas?\n\nNielsen Norman Group sostiene que una prueba cualitativa con cinco participantes de un mismo perfil descubre la mayoría de los problemas de usabilidad importantes, y que es mejor hacer varias rondas pequeñas —probar, corregir, volver a probar— que una grande. Si tienes perfiles muy distintos, por ejemplo clientes y personal de cocina, prueba con varios de cada uno.\n\nTareas\n\nEscribe tareas realistas como escenarios, sin revelar cómo hacerlas: «Es viernes y quieres pedir cuatro pupusas de frijol con queso de arroz y dos revueltas de maíz para recoger a las 6:30. Haz el pedido». No digas «toca el botón Agregar»: estarías dando la respuesta. Define para cada tarea qué se considera éxito.\n\nDurante la sesión\n\nExplica que se prueba el diseño, no a la persona, y que no hay respuestas incorrectas. Pide que piense en voz alta: que diga lo que busca, lo que espera y lo que le sorprende. Observa sin ayudar; si se bloquea, pregunta «¿Qué esperabas que pasara?» antes de intervenir. Anota dónde duda, qué toca, qué dice y si completa la tarea. Con consentimiento, graba la pantalla y la voz.\n\nAnalizar\n\nPara cada tarea registra si se completó sin ayuda, con ayuda o no se completó, y el tiempo aproximado. Agrupa los problemas observados, cuenta cuántos participantes los tuvieron y asigna una severidad según su impacto en la tarea. Un problema que bloqueó a tres de cinco personas es prioritario; uno cosmético que mencionó una persona puede esperar.\n\nLo que dicen y lo que hacen\n\nLas personas a menudo dicen que algo fue fácil después de haber tenido dificultades. Prioriza lo observado sobre lo opinado. Del mismo modo, las sugerencias de solución de los participantes son pistas sobre el problema, no instrucciones de diseño.\n\nEjemplo\n\nHallazgo: tres de cinco participantes no encontraron dónde elegir la masa de arroz, porque la opción aparecía después de desplazarse en la hoja de opciones. Cambio: mover el selector de masa al principio de la hoja con las dos opciones visibles. Segunda ronda: cinco de cinco eligieron la masa sin dificultad.\n\nPráctica\n\nPrepara un guion con tres tareas y criterios de éxito y prueba tu prototipo con al menos tres personas. Registra resultados por tarea, lista los problemas con su frecuencia y severidad, corrige los dos más graves y, si puedes, prueba de nuevo con otra persona.\n\nSolución y comprobación\n\nEl informe incluye una tabla de tareas por participante con éxito, ayuda o fracaso, los problemas priorizados y los cambios realizados con su justificación. Si todas las tareas fueron exitosas sin dificultades, revisa si las tareas eran demasiado guiadas. Recuerda: tres personas permiten descubrir problemas, no medir porcentajes con precisión.",
+            "sources": [
+              {
+                "title": "Nielsen Norman Group: pruebas de usabilidad",
+                "url": "https://www.nngroup.com/articles/usability-testing-101/"
+              },
+              {
+                "title": "Nielsen Norman Group: por qué probar con cinco usuarios",
+                "url": "https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Proyecto: caso de estudio de la aplicación",
+            "description": "Documenta el proceso completo de diseño como un caso de estudio profesional.",
+            "outcome": "Comunicar un proyecto de diseño mostrando problema, proceso, decisiones, evidencia y resultados.",
+            "activity": "design",
+            "preview": "Convertirás el curso en una pieza de portafolio.",
+            "body": "Un caso de estudio cuenta la historia de un proyecto de diseño: el problema, cómo lo investigaste, qué decidiste y por qué, y qué aprendiste. Quienes contratan diseñadores leen casos de estudio para entender cómo piensas, no solo para ver pantallas bonitas.\n\nEstructura\n\n1. Resumen: el problema, tu rol, el tiempo y el resultado en tres o cuatro líneas.\n\n2. Contexto y problema: la situación de la pupusería y los supuestos iniciales.\n\n3. Investigación: método, participantes —sin datos personales— y hallazgos principales, con citas representativas.\n\n4. Definición: persona, mapa de recorrido y las preguntas «¿Cómo podríamos…?».\n\n5. Estructura: resultados de la clasificación de tarjetas, mapa de pantallas y flujos.\n\n6. Diseño: evolución de los wireframes al diseño final, sistema visual y componentes, con las decisiones de accesibilidad.\n\n7. Validación: pruebas de usabilidad, problemas encontrados, cambios realizados y resultados de la segunda ronda.\n\n8. Aprendizajes y próximos pasos: qué harías diferente, qué quedó pendiente y qué mediría el éxito si la aplicación se construyera.\n\nMostrar el proceso\n\nIncluye fotografías de bocetos, el tablero de afinidad, versiones descartadas y la razón para descartarlas. Mostrar un cambio basado en evidencia —«tres de cinco personas no encontraron la masa de arroz; movimos el selector»— vale más que una pantalla perfecta sin explicación.\n\nHonestidad\n\nDistingue lo que hiciste de lo que hizo el equipo, lo que probaste de lo que supones y lo que es un proyecto de práctica de lo que se lanzó. Un caso de estudio de un proyecto ficticio es válido si se presenta como tal. No inventes métricas de impacto, como aumentos de ventas, para un producto que no existe.\n\nEjemplo\n\nResumen: «Diseñé, como proyecto de práctica, una aplicación de pedidos para llevar para una pupusería ficticia. Entrevisté a cinco clientes, encontré que el problema principal era la incertidumbre sobre la hora de recogida y diseñé un flujo de pedido con hora garantizada y aviso de pedido listo. Dos rondas de pruebas con ocho personas redujeron los problemas graves de cuatro a uno».\n\nPráctica\n\nEscribe y diseña tu caso de estudio con las ocho secciones, en una presentación de Figma, un documento o una página web. Incluye el enlace al prototipo.\n\nSolución y comprobación\n\nPide a alguien que no conoce el proyecto que lo lea en cinco minutos y te explique cuál era el problema y por qué la solución lo resuelve. Si no puede, el resumen o la sección de problema necesitan más claridad. Revisa que no aparezcan datos personales de los participantes.",
+            "sources": [
+              {
+                "title": "Design Council: el doble diamante",
+                "url": "https://www.designcouncil.org.uk/our-resources/the-double-diamond/"
+              },
+              {
+                "title": "Nielsen Norman Group: pruebas de usabilidad",
+                "url": "https://www.nngroup.com/articles/usability-testing-101/"
+              },
+              {
+                "title": "W3C: WCAG 2.2",
+                "url": "https://www.w3.org/TR/WCAG22/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "EDteam: curso de Figma desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=FoCNedUiVqU"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación final: prototipar y validar",
+              "questions": [
+                {
+                  "prompt": "¿Qué nivel de fidelidad conviene para una prueba de usabilidad del flujo de pedido?",
+                  "multiple": false,
+                  "options": [
+                    "Cada botón de la aplicación conectado.",
+                    "Lo necesario para las tareas que se probarán, con datos coherentes.",
+                    "Solo bocetos sin pantallas.",
+                    "Código final."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Se prototipa lo que se va a probar."
+                },
+                {
+                  "prompt": "¿Cuál es una tarea bien escrita para una prueba?",
+                  "multiple": false,
+                  "options": [
+                    "Toca el botón Agregar y luego el carrito.",
+                    "Es viernes y quieres pedir cuatro pupusas de frijol con queso para recoger a las 6:30. Haz el pedido.",
+                    "¿Te gusta la pantalla del menú?",
+                    "Encuentra el botón naranja."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Un escenario realista sin revelar cómo hacerlo."
+                },
+                {
+                  "prompt": "Durante la prueba, el participante se bloquea. ¿Qué haces primero?",
+                  "multiple": false,
+                  "options": [
+                    "Le muestras dónde tocar.",
+                    "Le preguntas qué esperaba que pasara.",
+                    "Terminas la sesión.",
+                    "Cambias el diseño en ese momento."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Su respuesta revela el modelo mental que el diseño no satisfizo."
+                },
+                {
+                  "prompt": "En un caso de estudio de un proyecto de práctica, ¿qué no debes hacer?",
+                  "multiple": false,
+                  "options": [
+                    "Mostrar bocetos descartados.",
+                    "Inventar métricas de ventas de un producto que no existe.",
+                    "Explicar decisiones con evidencia.",
+                    "Indicar que es un proyecto de práctica."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La honestidad sobre el alcance da credibilidad."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: caso de estudio de diseño",
+              "instructions": "Entrega el caso de estudio de la aplicación de pedidos con las ocho secciones de la lección, el archivo de Figma con estilos, componentes y pantallas, y el enlace al prototipo navegable. Incluye la evidencia de investigación y pruebas sin datos personales de los participantes y presenta el proyecto como práctica. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Decisiones con evidencia",
+                  "description": "Cada decisión importante se relaciona con un hallazgo de entrevistas, clasificación de tarjetas, evaluación heurística o pruebas."
+                },
+                {
+                  "label": "Diseño accesible y consistente",
+                  "description": "Contraste de 4.5:1 en texto, objetivos táctiles adecuados, información que no depende solo del color y componentes reutilizados."
+                },
+                {
+                  "label": "Validación iterativa",
+                  "description": "Pruebas con usuarios documentadas, problemas priorizados y cambios verificados."
+                },
+                {
+                  "label": "Comunicación clara",
+                  "description": "Una persona ajena al proyecto entiende el problema y la solución en cinco minutos."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "modelado-3d-blender",
+    "title": "Modelado 3D con Blender: de la primera malla al render y la impresión 3D",
+    "access": "membership",
+    "category": {
+      "name": "Diseño y creación digital",
+      "slug": "creacion"
+    },
+    "topic": {
+      "name": "Modelado y animación 3D",
+      "slug": "modelado-3d"
+    },
+    "description": "Aprende Blender, el programa libre de modelado 3D, creando una taza y un jarrón inspirados en la cerámica artesanal salvadoreña: navegación, modelado de mallas, modificadores no destructivos, materiales, iluminación, cámara, render con EEVEE y Cycles, y exportación para la web y la impresión 3D. Basado en Blender 5.2 LTS; los atajos y conceptos del curso también funcionan en 4.5 LTS.",
+    "objective": "Modelar objetos sólidos con buena topología, aplicar materiales e iluminación, producir un render de producto y exportar el modelo en formatos adecuados para la web, motores de juego e impresión 3D.",
+    "requirements": "Una computadora con Windows, macOS o Linux con tarjeta gráfica compatible con Blender; se recomienda un ratón con rueda y botón central. No necesitas experiencia previa en 3D ni saber dibujar.",
+    "minutes": 600,
+    "price": 0,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "Blender: descarga oficial",
+        "url": "https://www.blender.org/download/"
+      },
+      {
+        "title": "Blender 5.2 LTS: notas de la versión",
+        "url": "https://www.blender.org/releases/5-2/"
+      },
+      {
+        "title": "Manual de Blender en español",
+        "url": "https://docs.blender.org/manual/es/latest/"
+      },
+      {
+        "title": "Manual de Blender: navegación en la vista 3D",
+        "url": "https://docs.blender.org/manual/en/latest/editors/3dview/navigate/index.html"
+      },
+      {
+        "title": "Manual de Blender: aplicar transformaciones",
+        "url": "https://docs.blender.org/manual/en/latest/scene_layout/object/editing/apply.html"
+      },
+      {
+        "title": "Manual de Blender: extruir",
+        "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/editing/mesh/extrude.html"
+      },
+      {
+        "title": "Manual de Blender: corte en bucle",
+        "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/editing/edge/loopcut_slide.html"
+      },
+      {
+        "title": "Manual de Blender: introducción a los modificadores",
+        "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/introduction.html"
+      },
+      {
+        "title": "Manual de Blender: subdivisión de superficie",
+        "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/subdivision_surface.html"
+      },
+      {
+        "title": "Manual de Blender: modificador espejo",
+        "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/mirror.html"
+      },
+      {
+        "title": "Manual de Blender: modificador biselar",
+        "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/bevel.html"
+      },
+      {
+        "title": "Manual de Blender: modificador de matriz",
+        "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/array.html"
+      },
+      {
+        "title": "Manual de Blender: Principled BSDF",
+        "url": "https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html"
+      },
+      {
+        "title": "Manual de Blender: mapas UV",
+        "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/uv/index.html"
+      },
+      {
+        "title": "Manual de Blender: luces",
+        "url": "https://docs.blender.org/manual/en/latest/render/lights/light_object.html"
+      },
+      {
+        "title": "Manual de Blender: EEVEE",
+        "url": "https://docs.blender.org/manual/en/latest/render/eevee/index.html"
+      },
+      {
+        "title": "Manual de Blender: cámaras",
+        "url": "https://docs.blender.org/manual/en/latest/render/cameras.html"
+      },
+      {
+        "title": "Manual de Blender: Cycles",
+        "url": "https://docs.blender.org/manual/en/latest/render/cycles/index.html"
+      },
+      {
+        "title": "Khronos: formato glTF",
+        "url": "https://www.khronos.org/gltf/"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Primeros pasos en Blender",
+        "description": "Conoce el flujo de trabajo 3D, navega por la escena y edita mallas.",
+        "lessons": [
+          {
+            "title": "Qué es Blender y el flujo de producción 3D",
+            "description": "Conoce las etapas de un proyecto 3D e instala Blender.",
+            "outcome": "Describir las etapas de producción 3D e identificar las áreas principales de la interfaz de Blender.",
+            "activity": "understand",
+            "preview": "Conocerás el proyecto: una taza y un jarrón de cerámica en 3D.",
+            "body": "Blender es un programa libre y de código abierto para crear contenido 3D: modelado, escultura, materiales, animación, simulaciones, edición de video y render. Lo desarrolla la Blender Foundation con una comunidad mundial y se publica bajo la licencia GPL: puedes usarlo gratis para cualquier propósito, incluso comercial, y lo que creas con él es tuyo. Se usa en películas, videojuegos, visualización de productos, arquitectura e impresión 3D.\n\nEl flujo de producción\n\nCasi todo proyecto 3D sigue etapas parecidas:\n\nModelado: construir la forma del objeto con una malla de vértices, aristas y caras.\nMateriales y texturas: definir de qué parece hecho cada superficie.\nIluminación: colocar luces o un entorno que ilumine la escena.\nCámara: elegir el encuadre.\nRender: calcular la imagen final.\nExportación: llevar el modelo a otro uso, como una página web, un videojuego o una impresora 3D.\n\nEn este curso recorrerás todas las etapas con un proyecto: una taza y un jarrón inspirados en la cerámica artesanal de Ilobasco, para presentarlos como si fueran productos de una tienda en línea.\n\nInstalar\n\nDescarga Blender desde blender.org/download. Las versiones de soporte a largo plazo, LTS, reciben correcciones durante dos años; la más reciente es Blender 5.2 LTS, de julio de 2026. Para aprender y producir, la última versión estable es la recomendada. En Windows puedes usar el instalador o la versión portable en un archivo comprimido.\n\nLa interfaz\n\nAl abrir Blender aparece una escena con un cubo, una cámara y una luz. Las áreas principales son: la vista 3D en el centro; el Outliner arriba a la derecha, que lista los objetos de la escena; el editor de Propiedades abajo a la derecha, con pestañas para el render, la salida, el mundo, el objeto, los modificadores y los materiales; y la línea de tiempo abajo. Las pestañas de espacios de trabajo en la parte superior —Layout, Modeling, Shading— reorganizan la interfaz para cada tarea.\n\nIdioma y ratón\n\nEn Editar > Preferencias > Interfaz > Traducción puedes poner la interfaz en español. Este curso menciona los nombres en español y, cuando ayuda, en inglés, porque la mayoría de los tutoriales usan la interfaz en inglés. Si usas una laptop sin ratón, en Preferencias > Entrada activa Emular ratón de 3 botones y Emular teclado numérico.\n\nEjemplo\n\nProyecto final: una imagen de 1920 × 1080 de la taza y el jarrón sobre una mesa, con iluminación suave, y dos archivos exportados: el modelo de la taza en glTF para mostrarlo en la web y en STL para imprimirlo en 3D.\n\nPráctica\n\nInstala Blender, cambia el idioma de la interfaz si lo prefieres y recorre las pestañas del editor de Propiedades con el cubo seleccionado. Anota para qué sirve cada una de estas pestañas: Render, Salida, Objeto, Modificadores y Material.\n\nSolución y comprobación\n\nRender configura el motor y la calidad; Salida, la resolución y el formato del archivo; Objeto, la posición, rotación y escala del objeto seleccionado; Modificadores, las operaciones no destructivas que se aplican a la malla; Material, el aspecto de la superficie. Si la pestaña Modificadores no aparece, selecciona el cubo: las pestañas dependen del objeto activo.",
+            "sources": [
+              {
+                "title": "Blender: descarga oficial",
+                "url": "https://www.blender.org/download/"
+              },
+              {
+                "title": "Blender 5.2 LTS: notas de la versión",
+                "url": "https://www.blender.org/releases/5-2/"
+              },
+              {
+                "title": "Manual de Blender en español",
+                "url": "https://docs.blender.org/manual/es/latest/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "The Parabox: Blender desde cero 2026 (español)",
+                "url": "https://www.youtube.com/watch?v=OtpDxkiNcjY"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "Navegar y transformar objetos",
+            "description": "Mueve la vista y transforma objetos con precisión usando atajos.",
+            "outcome": "Navegar la vista 3D y mover, rotar y escalar objetos con restricciones de eje y valores numéricos.",
+            "activity": "execute",
+            "preview": "Colocarás objetos en la escena con medidas exactas.",
+            "body": "Blender se usa con una mano en el ratón y otra en el teclado. Los atajos parecen muchos al principio, pero unos pocos cubren la mayor parte del trabajo.\n\nNavegar la vista\n\nBotón central del ratón y arrastrar: orbitar alrededor de la escena. Mayús + botón central: desplazar la vista. Rueda: acercar y alejar. En el teclado numérico, 1 muestra la vista frontal, 3 la lateral derecha y 7 la superior; con Ctrl se ven las vistas opuestas. 5 alterna entre perspectiva y ortográfica: la ortográfica, sin perspectiva, es útil para modelar con precisión. 0 muestra la vista de la cámara y la tecla punto del teclado numérico encuadra el objeto seleccionado. Los ejes de navegación de la esquina superior derecha también permiten cambiar de vista con el ratón.\n\nAgregar objetos\n\nMayús+A abre el menú Añadir. Los objetos nuevos aparecen en la posición del cursor 3D, el pequeño círculo rojo y blanco; Mayús+C lo devuelve al origen y encuadra la escena. Justo después de agregar un objeto, el panel de la operación en la esquina inferior izquierda permite ajustar sus parámetros, como el número de vértices de un cilindro.\n\nTransformar\n\nG mueve, R rota y S escala. Después de presionar la tecla, mueve el ratón y confirma con clic izquierdo o Enter; cancela con clic derecho o Esc. Para restringir a un eje, presiona X, Y o Z después de la tecla de la transformación; para un valor exacto, escríbelo: G, Z, 2, Enter sube el objeto 2 unidades; R, Z, 45 lo gira 45 grados alrededor del eje Z; S, 0.5 lo reduce a la mitad. Mayús con un eje excluye ese eje: S, Mayús+Z escala solo en X e Y.\n\nUnidades\n\nPor defecto, una unidad de Blender equivale a un metro. Para objetos pequeños como una taza, piensa en medidas reales: una taza común mide unos 9 centímetros de alto y 8 de diámetro, es decir 0.09 y 0.08 unidades. Trabajar a escala real hace que la iluminación, la profundidad de campo y la exportación para impresión 3D se comporten de forma correcta.\n\nEl panel lateral\n\nN muestra y oculta el panel lateral de la vista 3D, con la pestaña Elemento, donde se ven y editan la ubicación, rotación, escala y dimensiones exactas del objeto.\n\nEjemplo\n\nPara colocar una mesa: Mayús+A > Malla > Cubo; en el panel N escribe dimensiones de 1.2 × 0.8 × 0.04 metros; G, Z, −0.02 para que su superficie quede a la altura cero. La taza se apoyará luego sobre esa superficie.\n\nPráctica\n\nEn una escena nueva, crea un plano de 2 × 2 metros como suelo, un cubo de 0.3 metros de lado apoyado sobre él y un cilindro de 0.1 metros de diámetro y 0.2 de alto junto al cubo. Usa solo atajos y valores numéricos. Observa la escena desde las vistas frontal, lateral y superior.\n\nSolución y comprobación\n\nEn el panel N, el cubo muestra Dimensiones 0.3 en los tres ejes y su ubicación Z es 0.15 si su origen está en el centro; el cilindro tiene dimensiones de 0.1, 0.1 y 0.2. En la vista frontal ortográfica, ambos objetos se apoyan exactamente sobre el plano. Si un objeto aparece enterrado o flotando, revisa la ubicación Z respecto de la mitad de su altura.",
+            "sources": [
+              {
+                "title": "Manual de Blender: navegación en la vista 3D",
+                "url": "https://docs.blender.org/manual/en/latest/editors/3dview/navigate/index.html"
+              },
+              {
+                "title": "Manual de Blender: aplicar transformaciones",
+                "url": "https://docs.blender.org/manual/en/latest/scene_layout/object/editing/apply.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Aura Prods: la guía definitiva de Blender 4.5 (español)",
+                "url": "https://www.youtube.com/watch?v=lrlpwIumFnE"
+              }
+            ]
+          },
+          {
+            "title": "Modo Edición: vértices, aristas y caras",
+            "description": "Edita la malla con extruir, insertar, corte en bucle y bisel.",
+            "outcome": "Modificar la forma de una malla con las herramientas fundamentales de modelado.",
+            "activity": "execute",
+            "preview": "Transformarás un cubo en un objeto con forma propia.",
+            "body": "Un objeto de malla está formado por vértices —puntos—, aristas —líneas entre vértices— y caras —superficies entre aristas—. En el modo Objeto mueves el objeto completo; en el modo Edición modificas sus partes. Tab alterna entre ambos modos.\n\nSeleccionar\n\nEn modo Edición, las teclas 1, 2 y 3 de la fila superior del teclado cambian entre selección de vértices, aristas y caras. Clic izquierdo selecciona; Mayús+clic agrega o quita de la selección; A selecciona todo y Alt+A nada. Alt+clic sobre una arista selecciona un bucle completo: la fila de aristas que rodea la malla. Alt+Z activa la vista de rayos X para seleccionar también lo que está detrás.\n\nHerramientas fundamentales\n\nExtruir, E: crea geometría nueva a partir de la selección y la desplaza. Extruir una cara hacia arriba levanta un bloque; extruir una arista crea una pared.\n\nInsertar caras, I: crea una cara más pequeña dentro de la seleccionada, con un borde alrededor. Es la base de muchas formas: insertar la cara superior de un cilindro y luego extruirla hacia abajo crea el hueco de un recipiente.\n\nCorte en bucle, Ctrl+R: agrega un bucle de aristas alrededor de la malla. Al pasar el ratón aparece una línea amarilla; la rueda aumenta la cantidad de cortes, clic para confirmar y luego desliza para ubicarlo. Los bucles agregan detalle donde se necesita y controlan cómo se suaviza la malla.\n\nBiselar, Ctrl+B: redondea o achaflana las aristas seleccionadas. En el mundo real casi ningún borde es perfectamente afilado: un bisel pequeño hace que los bordes reflejen la luz y el objeto se vea más creíble.\n\nEliminar, X: abre un menú para borrar vértices, aristas o caras. Unir, M: fusiona vértices.\n\nNormales\n\nCada cara tiene una dirección, su normal, que indica cuál es el exterior. Las normales invertidas producen sombras extrañas y problemas al exportar o imprimir. En modo Edición, con todo seleccionado, Mayús+N recalcula las normales hacia afuera.\n\nEjemplo\n\nUna caja simple: con un cubo en modo Edición y selección de caras, selecciona la cara superior, I para insertarla con un margen pequeño, y E con un valor negativo para hundirla. Resultado: una caja abierta con paredes.\n\nPráctica\n\nA partir de un cubo, crea una caja abierta con paredes delgadas, agrega un corte en bucle horizontal a media altura y bisela levemente las aristas exteriores superiores. Revisa la malla con la vista de rayos X.\n\nSolución y comprobación\n\nLa caja tiene paredes visibles desde arriba, un bucle horizontal y bordes superiores suavizados. En el encabezado de la vista 3D, la superposición de estadísticas —activable en el menú de superposiciones— muestra la cantidad de vértices y caras; un objeto así no debería pasar de unas pocas decenas de caras. Si una extrusión salió en la dirección equivocada, Ctrl+Z la deshace.",
+            "sources": [
+              {
+                "title": "Manual de Blender: extruir",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/editing/mesh/extrude.html"
+              },
+              {
+                "title": "Manual de Blender: corte en bucle",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/editing/edge/loopcut_slide.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Aura Prods: la guía definitiva de Blender 4.5 (español)",
+                "url": "https://www.youtube.com/watch?v=lrlpwIumFnE"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: primeros pasos en Blender",
+              "questions": [
+                {
+                  "prompt": "¿Qué secuencia sube un objeto exactamente 2 unidades?",
+                  "multiple": false,
+                  "options": [
+                    "S, Z, 2, Enter",
+                    "G, Z, 2, Enter",
+                    "R, Z, 2, Enter",
+                    "E, 2, Enter"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "G mueve, Z restringe al eje vertical y el número fija la distancia."
+                },
+                {
+                  "prompt": "¿Por qué conviene modelar a escala real?",
+                  "multiple": false,
+                  "options": [
+                    "Porque Blender no admite otras escalas.",
+                    "Porque la iluminación, la profundidad de campo y la exportación para impresión se comportan correctamente.",
+                    "Porque el render es más rápido.",
+                    "Para usar menos memoria."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Una unidad de Blender equivale a un metro."
+                },
+                {
+                  "prompt": "¿Qué herramienta crea una cara más pequeña dentro de la seleccionada?",
+                  "multiple": false,
+                  "options": [
+                    "Extruir (E).",
+                    "Insertar caras (I).",
+                    "Biselar (Ctrl+B).",
+                    "Corte en bucle (Ctrl+R)."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Insertar y luego extruir hacia adentro crea huecos."
+                },
+                {
+                  "prompt": "¿Qué hace Mayús+N con toda la malla seleccionada en modo Edición?",
+                  "multiple": false,
+                  "options": [
+                    "Agrega una luz.",
+                    "Recalcula las normales hacia afuera.",
+                    "Crea un objeto nuevo.",
+                    "Cambia a modo Objeto."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las normales invertidas causan sombras extrañas y problemas al exportar."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Modelado de objetos",
+        "description": "Modela una taza, usa modificadores y cuida la topología.",
+        "lessons": [
+          {
+            "title": "Modelar una taza",
+            "description": "Construye una taza a partir de un cilindro con herramientas de modo Edición.",
+            "outcome": "Modelar un objeto cerrado con hueco y asa siguiendo una secuencia ordenada.",
+            "activity": "execute",
+            "preview": "Modelarás la taza de cerámica del proyecto.",
+            "body": "La taza es un ejercicio clásico porque combina las herramientas principales: un cuerpo hueco, un borde con grosor y un asa. Trabaja a escala real: 8 centímetros de diámetro y 9 de alto.\n\n1. El cuerpo\n\nMayús+A > Malla > Cilindro. En el panel de la operación, ajusta Vértices a 32, Radio a 0.04 y Profundidad a 0.09. Mueve el cilindro para que su base quede sobre el suelo: G, Z, 0.045. Aplica la escala si la cambiaste con Ctrl+A > Escala; lo veremos en detalle en la lección de topología.\n\n2. El hueco\n\nTab para entrar en modo Edición, 3 para seleccionar caras y clic en la cara superior. I inserta una cara interna dejando un borde de unos 4 milímetros: escribe 0.004 y Enter. E extruye hacia abajo para crear el interior: escribe −0.08 y Enter, dejando un fondo de 1 centímetro.\n\n3. La base\n\nSelecciona la cara inferior, I con un margen de unos 5 milímetros y E con un valor pequeño, −0.002, para crear el pie ligeramente hundido que tienen muchas piezas de cerámica.\n\n4. Bucles de control\n\nCon Ctrl+R agrega bucles cerca del borde superior, por fuera y por dentro, y cerca de la base. Estos bucles mantendrán la forma cuando suavices la taza con el modificador de subdivisión en la próxima lección. Sin ellos, el borde se vería redondeado como una gota.\n\n5. El asa\n\nElige en el costado dos caras alineadas verticalmente, una alta y una baja, en la misma columna. Extrúyelas un poco hacia afuera con E. Para unirlas, selecciona las dos caras extruidas y usa Unir bucles de aristas, disponible en el menú Arista como Puente de bucles de aristas: Blender crea un puente entre ellas. En el panel de la operación aumenta el número de cortes y ajusta la suavidad para curvar el asa. Si la forma no queda bien, deshaz y prueba con caras más separadas.\n\n6. Suavizar\n\nVuelve a modo Objeto con Tab, haz clic derecho sobre la taza y elige Sombreado suave. La superficie deja de verse facetada, aunque la geometría sigue siendo la misma; el modificador de subdivisión de la próxima lección agregará la suavidad real.\n\nEjemplo\n\nMedidas de referencia de una taza artesanal: alto 0.09 m, diámetro 0.08 m, pared de 4 a 5 mm, fondo de 1 cm, asa con hueco suficiente para dos dedos, unos 2.5 cm.\n\nPráctica\n\nModela la taza siguiendo los seis pasos. Comprueba sus dimensiones en el panel N y obsérvala desde todas las vistas. Guarda el archivo como taza.blend.\n\nSolución y comprobación\n\nLas dimensiones del objeto son aproximadamente 0.08 × 0.08 × 0.09, más el ancho que agrega el asa en un eje. Desde la vista superior se ve el hueco con un borde uniforme y desde un costado, el fondo más grueso que la pared. Si el asa atraviesa el interior de la taza, las caras elegidas estaban demasiado cerca del borde o del fondo: deshaz y elige otras.",
+            "sources": [
+              {
+                "title": "Manual de Blender: extruir",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/editing/mesh/extrude.html"
+              },
+              {
+                "title": "Manual de Blender: corte en bucle",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/editing/edge/loopcut_slide.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Chuck CG Español: modelado de una taza, Blender 2.9 (español)",
+                "url": "https://www.youtube.com/watch?v=2m_vNs67Bb4"
+              }
+            ]
+          },
+          {
+            "title": "Modificadores no destructivos",
+            "description": "Usa subdivisión, espejo, bisel, solidificar y matriz sin alterar la malla original.",
+            "outcome": "Combinar modificadores en el orden correcto y decidir cuándo aplicarlos.",
+            "activity": "execute",
+            "preview": "Suavizarás la taza y crearás un jarrón simétrico en minutos.",
+            "body": "Un modificador realiza una operación automática sobre un objeto sin cambiar su malla original: puedes ajustarlo, desactivarlo o eliminarlo en cualquier momento. Se agregan en la pestaña Modificadores del editor de Propiedades, con Añadir modificador, organizados por categorías; los de generación son los más usados al modelar.\n\nSubdivisión de superficie\n\nDivide cada cara en varias y suaviza el resultado. Con la taza seleccionada, Ctrl+2 agrega el modificador con nivel 2 en la vista. Los bucles de control que agregaste cerca de los bordes determinan qué tan afilados se mantienen: cuanto más cerca está un bucle de un borde, más definido queda. El parámetro Render permite usar un nivel mayor solo al renderizar, sin hacer lenta la vista.\n\nEspejo\n\nRefleja la malla respecto de un eje. Se modela solo la mitad de un objeto simétrico y el modificador completa la otra. Activa Recortar para que los vértices del centro no crucen al otro lado y queden unidos.\n\nBisel\n\nRedondea las aristas sin modificar la malla. El límite por Ángulo bisela solo las aristas más pronunciadas. Es ideal para objetos de bordes duros, como una caja o un mueble.\n\nSolidificar\n\nDa grosor a una superficie sin espesor. Un plano curvado con Solidificar se convierte en una lámina con paredes, útil para telas, hojas o recipientes modelados como una sola superficie.\n\nMatriz\n\nRepite el objeto un número de veces con un desplazamiento. Con un objeto vacío como desplazamiento y rotación, crea repeticiones circulares, por ejemplo los pétalos de una decoración pintada en el jarrón.\n\nEl orden importa\n\nLos modificadores se aplican de arriba hacia abajo. Espejo y luego Subdivisión suaviza el objeto completo; al revés, se suavizaría cada mitad por separado y aparecería una costura. Bisel antes de Subdivisión produce bordes controlados. Arrastra los modificadores para cambiar el orden y observa el resultado.\n\nAplicar\n\nAplicar un modificador lo convierte en geometría real y ya no se puede ajustar. Hazlo solo cuando sea necesario, por ejemplo antes de exportar para impresión 3D o si necesitas editar el resultado. Guarda una copia del archivo antes de aplicar.\n\nEjemplo\n\nEl jarrón: un cilindro de 32 lados, en modo Edición escala bucles horizontales para dar la silueta —base estrecha, panza ancha, cuello estrecho y boca abierta—, I y E en la cara superior para el hueco, y luego los modificadores Solidificar para el grosor y Subdivisión de nivel 2 para la suavidad.\n\nPráctica\n\nAgrega Subdivisión de superficie a la taza y observa el efecto de mover los bucles de control. Modela el jarrón con la técnica del ejemplo y prueba invertir el orden de los modificadores para ver la diferencia.\n\nSolución y comprobación\n\nLa taza muestra bordes suaves pero definidos donde agregaste bucles cercanos. El jarrón tiene paredes con grosor uniforme y una silueta suave. Si aparece una costura o el grosor se ve irregular, revisa el orden: Solidificar antes de Subdivisión suele dar el resultado más limpio.",
+            "sources": [
+              {
+                "title": "Manual de Blender: introducción a los modificadores",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/introduction.html"
+              },
+              {
+                "title": "Manual de Blender: subdivisión de superficie",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/subdivision_surface.html"
+              },
+              {
+                "title": "Manual de Blender: modificador espejo",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/mirror.html"
+              },
+              {
+                "title": "Manual de Blender: modificador biselar",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/bevel.html"
+              },
+              {
+                "title": "Manual de Blender: modificador de matriz",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/array.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Entíntate: aprende a usar los modificadores en Blender (español)",
+                "url": "https://www.youtube.com/watch?v=o6yBoG5Yneo"
+              }
+            ]
+          },
+          {
+            "title": "Topología y buenas prácticas",
+            "description": "Cuida la estructura de la malla, la escala y la cantidad de polígonos.",
+            "outcome": "Revisar y corregir problemas comunes de mallas antes del render y la exportación.",
+            "activity": "design",
+            "preview": "Prepararás modelos que se ven bien y funcionan en cualquier destino.",
+            "body": "La topología es la organización de los vértices, aristas y caras de una malla. Dos modelos pueden verse iguales y comportarse de manera muy distinta al suavizarlos, texturizarlos, animarlos o imprimirlos. Unas pocas prácticas evitan la mayoría de los problemas.\n\nPreferir cuadriláteros\n\nLas caras de cuatro lados, cuadriláteros, se subdividen de forma predecible y permiten seleccionar bucles completos. Los triángulos y las caras de muchos lados, llamadas n-gonos, pueden producir pellizcos y artefactos con la subdivisión. No son un error en superficies planas que no se deforman, pero en zonas curvas conviene evitarlos. Los cilindros de Blender tienen tapas de n-gonos; al insertar y extruir, el centro de la taza queda con un n-gono plano en el fondo, aceptable porque es plano.\n\nEscala aplicada\n\nSi escalaste un objeto en modo Objeto, su escala ya no es 1. Los modificadores, como Bisel y Solidificar, y la exportación pueden comportarse de forma inesperada con escalas distintas de 1. Antes de agregar esos modificadores y antes de exportar, aplica la escala con Ctrl+A > Escala: el objeto mantiene su tamaño, pero la escala vuelve a 1 y las dimensiones pasan a la malla.\n\nNormales consistentes\n\nLas normales deben apuntar hacia afuera. En el menú de superposiciones de la vista 3D, la opción Orientación de caras muestra en azul el exterior y en rojo las caras invertidas. Corrige con Mayús+N en modo Edición.\n\nGeometría duplicada y huecos\n\nLos vértices duplicados en la misma posición, frecuentes al combinar piezas, causan sombras extrañas. En modo Edición, Malla > Limpiar > Fusionar por distancia los une. Para impresión 3D, la malla debe ser cerrada, sin huecos ni aristas que pertenezcan a más de dos caras; Selección > Seleccionar todo por rasgo > No múltiple resalta las zonas problemáticas.\n\nCantidad de polígonos\n\nMás polígonos no significa mejor calidad. Un modelo para la web o un videojuego debe ser ligero; para un render de producto puedes permitir más detalle, a menudo generado por la subdivisión solo al renderizar. Revisa las estadísticas de la escena y pregúntate si cada bucle aporta forma.\n\nNombres y orden\n\nNombra los objetos en el Outliner —Taza, Jarrón, Mesa— y agrúpalos en colecciones. Cuando una escena crece, el orden ahorra tiempo y evita exportar objetos equivocados.\n\nEjemplo\n\nUna taza exportada para impresión llega a la impresora con una escala de 100: se escaló en modo Objeto sin aplicar. Tras Ctrl+A > Escala y volver a exportar, el programa de impresión muestra 8 × 8 × 9 centímetros.\n\nPráctica\n\nRevisa la taza y el jarrón: aplica la escala, activa la orientación de caras y corrige las normales, fusiona vértices duplicados y busca geometría no múltiple. Nombra los objetos y organízalos en una colección llamada Cerámica.\n\nSolución y comprobación\n\nAmbos objetos muestran escala 1 en el panel N, se ven completamente azules con la orientación de caras activada y la selección de geometría no múltiple no encuentra nada en la taza sin modificadores aplicados. Si el jarrón tiene Solidificar sin aplicar, la comprobación de no múltiple se hace sobre la malla original: repítela después de aplicar el modificador en una copia.",
+            "sources": [
+              {
+                "title": "Manual de Blender: aplicar transformaciones",
+                "url": "https://docs.blender.org/manual/en/latest/scene_layout/object/editing/apply.html"
+              },
+              {
+                "title": "Manual de Blender: introducción a los modificadores",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/introduction.html"
+              },
+              {
+                "title": "Manual de Blender en español",
+                "url": "https://docs.blender.org/manual/es/latest/"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: modelado de objetos",
+              "questions": [
+                {
+                  "prompt": "¿Para qué sirven los bucles de control cerca de un borde con Subdivisión de superficie?",
+                  "multiple": false,
+                  "options": [
+                    "Para colorear el borde.",
+                    "Para mantener el borde definido en lugar de redondearlo demasiado.",
+                    "Para eliminar caras.",
+                    "Para crear el asa."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Cuanto más cerca del borde, más definido queda."
+                },
+                {
+                  "prompt": "¿Por qué el orden de los modificadores importa?",
+                  "multiple": false,
+                  "options": [
+                    "No importa.",
+                    "Se aplican de arriba hacia abajo y el resultado cambia según el orden.",
+                    "Porque Blender solo permite uno.",
+                    "Porque el último se ignora."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Espejo antes de Subdivisión evita costuras."
+                },
+                {
+                  "prompt": "¿Qué hace Ctrl+A > Escala?",
+                  "multiple": false,
+                  "options": [
+                    "Duplica el objeto.",
+                    "Mantiene el tamaño visible pero deja la escala en 1, pasando las dimensiones a la malla.",
+                    "Borra la escala.",
+                    "Cambia las unidades a centímetros."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Evita comportamientos inesperados en modificadores y exportación."
+                },
+                {
+                  "prompt": "¿Qué requisito debe cumplir una malla para impresión 3D?",
+                  "multiple": false,
+                  "options": [
+                    "Tener muchos triángulos.",
+                    "Ser cerrada, sin huecos ni geometría no múltiple.",
+                    "Tener texturas.",
+                    "Estar en modo Edición."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La impresora necesita un volumen bien definido."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Materiales, luz y cámara",
+        "description": "Da apariencia de cerámica, ilumina la escena y encuadra como un fotógrafo de producto.",
+        "lessons": [
+          {
+            "title": "Materiales con Principled BSDF",
+            "description": "Crea materiales de cerámica esmaltada y barro mate.",
+            "outcome": "Ajustar los parámetros principales de un material físico para imitar superficies reales.",
+            "activity": "execute",
+            "preview": "Harás que la taza parezca de barro esmaltado.",
+            "body": "Un material define cómo una superficie interactúa con la luz. En Blender, el material por defecto usa el sombreador Principled BSDF, que reúne en un solo nodo los parámetros de la mayoría de los materiales reales, siguiendo un modelo de renderizado basado en la física. Trabajar con sus parámetros principales basta para conseguir resultados creíbles.\n\nParámetros esenciales\n\nColor base: el color de la superficie. Evita blancos y negros absolutos; el barro cocido tiene tonos terracota y la cerámica blanca es ligeramente cálida.\n\nMetálico: 0 para materiales no metálicos, como cerámica, madera o plástico, y 1 para metales. Casi nunca se usan valores intermedios.\n\nRugosidad: controla qué tan nítidos son los reflejos. Cerca de 0, la superficie refleja como un espejo; cerca de 1, la luz se dispersa y se ve mate. El esmalte brillante tiene una rugosidad baja, alrededor de 0.1 a 0.2; el barro sin esmaltar, alta, cerca de 0.8.\n\nIOR, índice de refracción, y la sección de capa transparente, Coat, permiten imitar una capa de barniz sobre otro material.\n\nCrear y asignar\n\nSelecciona la taza, ve a la pestaña Material y presiona Nuevo. Nombra el material, por ejemplo Esmalte_azul. El espacio de trabajo Shading muestra la vista con el material renderizado y el editor de nodos donde puedes conectar texturas al sombreador.\n\nVarios materiales en un objeto\n\nUn objeto puede tener varios materiales en distintas caras. Agrega un segundo espacio de material con el botón más, crea un material de barro mate y, en modo Edición, selecciona las caras del pie de la taza y presiona Asignar. Así la taza queda esmaltada salvo el pie, como muchas piezas artesanales.\n\nTexturas\n\nPara detalles que no son un solo color —vetas, manchas, pintura decorativa— se conectan texturas al color base o a la rugosidad. Las texturas de imagen requieren un mapa UV, que define cómo se extiende la imagen 2D sobre la superficie 3D. En modo Edición, U abre las opciones de desdoblado; Proyección UV inteligente da un resultado aceptable para objetos simples. Las texturas procedurales, como Ruido, no necesitan UV y sirven para variaciones sutiles.\n\nVer el resultado\n\nEn la vista 3D, el modo de sombreado Vista previa del material muestra los materiales con una iluminación de estudio, y el modo Renderizado usa el motor de render y las luces de la escena.\n\nEjemplo\n\nMaterial Esmalte_azul: color base azul cobalto, metálico 0, rugosidad 0.15. Material Barro: color terracota, metálico 0, rugosidad 0.85. Al girar la vista, el esmalte muestra reflejos nítidos de la luz y el barro, una superficie suave y difusa.\n\nPráctica\n\nCrea tres materiales: esmalte de color para el exterior de la taza, esmalte blanco para el interior y barro mate para el pie, y asígnalos a las caras correspondientes. Crea para el jarrón un material con una textura de Ruido conectada a la rugosidad para imitar un esmalte irregular.\n\nSolución y comprobación\n\nEn modo Vista previa del material, la taza muestra tres zonas diferenciadas. El jarrón refleja la luz de manera desigual, como un esmalte artesanal. Si al asignar un material cambia todo el objeto, estabas en modo Objeto: entra en modo Edición, selecciona las caras y usa Asignar.",
+            "sources": [
+              {
+                "title": "Manual de Blender: Principled BSDF",
+                "url": "https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html"
+              },
+              {
+                "title": "Manual de Blender: mapas UV",
+                "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/uv/index.html"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Iluminación",
+            "description": "Ilumina con luces y entornos para resaltar la forma y el material.",
+            "outcome": "Diseñar una iluminación de producto con luz principal, de relleno y de contorno, y usar un entorno HDRI.",
+            "activity": "design",
+            "preview": "Harás que la cerámica brille como en una foto de catálogo.",
+            "body": "La iluminación decide cómo se perciben la forma, el material y el ambiente. Una buena luz hace que un modelo sencillo se vea profesional; una mala luz arruina el mejor modelo.\n\nTipos de luz\n\nPuntual: emite en todas las direcciones desde un punto, como una bombilla.\nFoco: emite en un cono, como una linterna o un reflector de escenario.\nSol: luz paralela de intensidad uniforme, como la luz solar; su intensidad se mide en unidades físicas de irradiancia y su posición no importa, solo su dirección.\nÁrea: emite desde una superficie rectangular o circular y produce sombras suaves, como una ventana o una caja de luz de fotografía.\n\nPara fotografía de producto, las luces de área son las más útiles: cuanto más grande es la fuente respecto del objeto, más suaves son las sombras. La potencia de las luces puntuales, de foco y de área se expresa en vatios.\n\nIluminación de tres puntos\n\nEl esquema clásico de estudio:\n\nLuz principal: la más intensa, a un lado y por encima del objeto, define la forma y las sombras.\nLuz de relleno: del lado opuesto, menos intensa, suaviza las sombras sin eliminarlas.\nLuz de contorno: detrás del objeto, separa su silueta del fondo con un borde de luz.\n\nEmpieza solo con la principal, ajusta y luego agrega las otras. Cada luz debe tener un propósito.\n\nIluminación por entorno\n\nEl mundo de la escena también ilumina. En la pestaña Mundo puedes conectar al color una textura de entorno con una imagen HDRI: una fotografía panorámica de alto rango dinámico que ilumina y se refleja en los objetos. Las superficies brillantes, como el esmalte, se ven realistas porque reflejan un entorno creíble. Sitios como Poly Haven ofrecen HDRI con licencia de dominio público.\n\nFondo de estudio\n\nPara un aspecto de catálogo, crea un plano curvado como fondo continuo: un plano extruido hacia arriba con la arista de unión biselada. Evita esquinas visibles detrás del producto.\n\nEjemplo\n\nIluminación de la taza y el jarrón: luz de área grande a la izquierda y arriba con 30 W, luz de área de relleno a la derecha con 10 W, luz de contorno detrás con 15 W, y un mundo gris oscuro de baja intensidad. El esmalte muestra un reflejo alargado de la luz principal que revela su curvatura.\n\nPráctica\n\nConstruye el fondo continuo, coloca la taza y el jarrón, e ilumina con el esquema de tres puntos. Después prueba la iluminación solo con un HDRI y compara ambos resultados en modo Renderizado.\n\nSolución y comprobación\n\nCon tres puntos, el objeto se separa del fondo y sus sombras son suaves pero visibles. Con HDRI, los reflejos del esmalte muestran el entorno. Las potencias exactas dependen del tamaño y la distancia de las luces: ajusta mirando el resultado. Si la escena se ve quemada, reduce la potencia de la luz principal antes de tocar la exposición.",
+            "sources": [
+              {
+                "title": "Manual de Blender: luces",
+                "url": "https://docs.blender.org/manual/en/latest/render/lights/light_object.html"
+              },
+              {
+                "title": "Manual de Blender: EEVEE",
+                "url": "https://docs.blender.org/manual/en/latest/render/eevee/index.html"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Cámara y composición",
+            "description": "Encuadra la escena con criterios fotográficos.",
+            "outcome": "Configurar la cámara, su distancia focal y la composición para una imagen de producto.",
+            "activity": "design",
+            "preview": "Encuadrarás la imagen principal del catálogo.",
+            "body": "La cámara de Blender funciona como una cámara real: tiene posición, orientación, distancia focal y, si lo deseas, profundidad de campo. La imagen final es lo que ve la cámara activa.\n\nColocar la cámara\n\nUna forma práctica: navega la vista 3D hasta un encuadre que te guste y presiona Ctrl+Alt+0 en el teclado numérico; la cámara activa se coloca en esa vista. Para ajustes finos, entra en la vista de cámara con 0 y en el panel lateral N, pestaña Vista, activa Bloquear cámara a la vista: al navegar, moverás la cámara. Desactívalo al terminar para no moverla por accidente.\n\nDistancia focal\n\nLa distancia focal, en milímetros, define el ángulo de visión. Una focal corta, como 24 mm, abarca mucho y deforma los objetos cercanos. Una focal larga, como 85 o 100 mm, comprime la perspectiva y muestra las proporciones de forma natural, por eso es habitual en fotografía de producto. Con una focal larga, la cámara se coloca más lejos para encuadrar lo mismo.\n\nComposición\n\nLa regla de los tercios divide el encuadre en tres partes horizontales y verticales; ubicar el objeto principal cerca de una intersección suele dar una imagen más dinámica que centrarlo. Para catálogos, en cambio, el centrado y el fondo limpio son la norma. Deja aire alrededor del objeto y evita que toque los bordes. En la pestaña de la cámara, Visualización > Guías de composición muestra los tercios en la vista.\n\nLa altura de la cámara cambia la lectura del objeto: a la altura del borde de la taza se aprecia la silueta; desde arriba, el interior. Prueba varias alturas.\n\nProfundidad de campo\n\nActivando Profundidad de campo en la cámara y eligiendo un objeto de enfoque y una apertura, como f/2.8, el fondo se desenfoca y la atención va al producto. A escala real el efecto es creíble; si modelaste a una escala muy distinta, el desenfoque será exagerado o inexistente.\n\nResolución\n\nEn la pestaña Salida define la resolución: 1920 × 1080 para una imagen horizontal o 1080 × 1350 para redes sociales en formato vertical. El marco de la cámara en la vista cambia de proporción en consecuencia.\n\nEjemplo\n\nImagen principal: cámara de 85 mm a la altura del borde de la taza, ligeramente girada para ver el asa; el jarrón detrás y a la derecha, desenfocado con f/2.8 y enfoque en la taza; resolución 1920 × 1080.\n\nPráctica\n\nPrepara dos encuadres con dos cámaras: una imagen horizontal de catálogo con ambos objetos centrados y una vertical para redes sociales con la taza en primer plano siguiendo la regla de los tercios. Cambia la cámara activa en la pestaña Escena para verlas.\n\nSolución y comprobación\n\nCada cámara muestra un encuadre limpio, sin bordes del fondo visibles y con el objeto principal bien enfocado. La focal larga evita que la taza se vea deformada. Si el desenfoque no aparece en la vista, cambia al modo de sombreado Renderizado: la vista sólida no lo muestra.",
+            "sources": [
+              {
+                "title": "Manual de Blender: cámaras",
+                "url": "https://docs.blender.org/manual/en/latest/render/cameras.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Escardó Club: render con Cycles y Eevee (español)",
+                "url": "https://www.youtube.com/watch?v=IOvv37cc6zw"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: materiales, luz y cámara",
+              "questions": [
+                {
+                  "prompt": "¿Qué valores de Principled BSDF imitan cerámica esmaltada brillante?",
+                  "multiple": false,
+                  "options": [
+                    "Metálico 1 y rugosidad 1.",
+                    "Metálico 0 y rugosidad baja, alrededor de 0.15.",
+                    "Metálico 0.5 y rugosidad 0.5.",
+                    "Metálico 1 y rugosidad 0."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La cerámica no es metálica y el esmalte refleja con nitidez."
+                },
+                {
+                  "prompt": "¿Por qué las luces de área grandes son útiles en fotografía de producto?",
+                  "multiple": false,
+                  "options": [
+                    "Porque son más baratas.",
+                    "Porque producen sombras suaves.",
+                    "Porque no proyectan sombras.",
+                    "Porque iluminan desde el infinito."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Cuanto mayor es la fuente respecto del objeto, más suave es la sombra."
+                },
+                {
+                  "prompt": "En la iluminación de tres puntos, ¿para qué sirve la luz de contorno?",
+                  "multiple": false,
+                  "options": [
+                    "Para iluminar el fondo de forma uniforme.",
+                    "Para separar la silueta del objeto del fondo.",
+                    "Para eliminar todas las sombras.",
+                    "Para cambiar el color del objeto."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Se coloca detrás del objeto y crea un borde de luz."
+                },
+                {
+                  "prompt": "¿Por qué se prefiere una distancia focal larga para fotografía de producto?",
+                  "multiple": false,
+                  "options": [
+                    "Porque abarca más escena.",
+                    "Porque muestra las proporciones de forma natural, sin deformar.",
+                    "Porque desactiva la profundidad de campo.",
+                    "Porque es más rápida."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las focales cortas deforman los objetos cercanos."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. Render y exportación",
+        "description": "Renderiza con calidad y exporta el modelo para la web y la impresión 3D.",
+        "lessons": [
+          {
+            "title": "Render con EEVEE y Cycles",
+            "description": "Elige el motor de render y configura calidad, ruido y formato de salida.",
+            "outcome": "Producir una imagen final con el motor adecuado equilibrando calidad y tiempo.",
+            "activity": "execute",
+            "preview": "Obtendrás la imagen final de catálogo.",
+            "body": "Renderizar es calcular la imagen final a partir de la escena: geometría, materiales, luces y cámara. Blender incluye dos motores principales.\n\nEEVEE\n\nEs un motor de render en tiempo real que usa técnicas de rasterización, como los videojuegos. Produce imágenes en segundos y es ideal para previsualizar, animaciones con plazos cortos y estilos no fotorrealistas. Las versiones recientes incorporaron mejoras importantes en sombras e iluminación indirecta, pero algunos efectos de luz complejos son aproximaciones.\n\nCycles\n\nEs un motor de trazado de trayectorias: simula físicamente el recorrido de la luz rebotando en la escena. Produce reflejos, refracciones, sombras suaves e iluminación indirecta muy realistas, a cambio de más tiempo de cálculo. Para imágenes de producto fotorrealistas, Cycles es la opción habitual. Puede usar la tarjeta gráfica para acelerar el cálculo: en Preferencias > Sistema elige el tipo de dispositivo, como CUDA u OptiX para NVIDIA, HIP para AMD, oneAPI para Intel o Metal en Mac, y en la pestaña Render selecciona Dispositivo: GPU.\n\nMuestras y ruido\n\nCycles calcula la imagen tomando muestras: más muestras reducen el ruido, el granulado típico, pero aumentan el tiempo. El reductor de ruido, activado por defecto, limpia la imagen con muchas menos muestras. Un umbral de ruido adaptativo detiene el cálculo en las zonas que ya están limpias. Empieza con un número moderado de muestras y aumenta solo si ves ruido en la imagen final.\n\nGestión de color\n\nEn la pestaña Render, Gestión de color, la transformación de vista por defecto, AgX en las versiones actuales, maneja mejor las luces intensas que la estándar, evitando colores quemados. Ajusta la exposición allí si toda la imagen está demasiado clara u oscura.\n\nRenderizar y guardar\n\nF12 renderiza la imagen desde la cámara activa y la muestra en una ventana. Guárdala con Imagen > Guardar como, o Mayús+Alt+S, en PNG para conservar la calidad sin pérdida, o en JPEG para publicar en la web con menor tamaño. En la pestaña Salida puedes fijar el formato y la profundidad de color. Para animaciones, Ctrl+F12 renderiza todos los fotogramas en la carpeta indicada.\n\nEjemplo\n\nRender de catálogo con Cycles en GPU: 1920 × 1080, muestras máximas 256 con umbral adaptativo y reductor de ruido; la imagen se calcula en unos pocos minutos en una tarjeta gráfica de gama media. La misma escena en EEVEE tarda segundos, con reflejos del esmalte ligeramente menos precisos.\n\nPráctica\n\nRenderiza la imagen principal con EEVEE y con Cycles, con la misma cámara e iluminación. Compara tiempo y resultado, especialmente en los reflejos del esmalte y la sombra de contacto bajo la taza. Guarda la mejor en PNG.\n\nSolución y comprobación\n\nLa ventana de render muestra el tiempo empleado en la parte superior. Cycles produce sombras de contacto más precisas y reflejos más naturales; EEVEE, un resultado muy rápido y suficiente para previsualizar. Si la imagen de Cycles tiene ruido, aumenta las muestras o revisa que el reductor de ruido esté activo. Si el render sale negro, la cámara activa no apunta a los objetos o las luces están ocultas en el render.",
+            "sources": [
+              {
+                "title": "Manual de Blender: Cycles",
+                "url": "https://docs.blender.org/manual/en/latest/render/cycles/index.html"
+              },
+              {
+                "title": "Manual de Blender: EEVEE",
+                "url": "https://docs.blender.org/manual/en/latest/render/eevee/index.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Escardó Club: render con Cycles y Eevee (español)",
+                "url": "https://www.youtube.com/watch?v=IOvv37cc6zw"
+              }
+            ]
+          },
+          {
+            "title": "Exportar para la web y la impresión 3D",
+            "description": "Exporta en glTF, FBX y STL con la escala y los ajustes correctos.",
+            "outcome": "Elegir el formato de exportación según el destino y preparar el modelo para cada uno.",
+            "activity": "execute",
+            "preview": "Tu taza podrá verse en una página web y fabricarse en una impresora 3D.",
+            "body": "Un modelo de Blender a menudo termina en otro programa: un sitio web, un motor de videojuegos, una aplicación de realidad aumentada o una impresora 3D. Cada destino requiere un formato y una preparación distintos.\n\nglTF para la web y la realidad aumentada\n\nglTF es un formato abierto de Khronos Group diseñado para transmitir y mostrar modelos 3D de forma eficiente; se le llama el «JPEG del 3D». Conserva geometría, materiales basados en Principled BSDF, texturas y animaciones. La variante .glb empaqueta todo en un solo archivo, cómodo para publicar. Exporta con Archivo > Exportar > glTF 2.0. Antes, aplica la escala, revisa que los materiales usen el nodo Principled BSDF con texturas de imagen —los nodos procedurales, como Ruido, no se exportan y deben convertirse en imagen mediante horneado— y reduce la cantidad de polígonos si la subdivisión está muy alta. Los visores web, como el componente model-viewer, muestran archivos .glb directamente en una página.\n\nFBX y otros formatos\n\nFBX es habitual para llevar modelos y animaciones a motores como Unity o Unreal. OBJ es antiguo y sencillo, útil para intercambiar solo geometría. Revisa en cada caso la escala y los ejes: algunos programas usan Y hacia arriba y Blender usa Z; los exportadores incluyen opciones para convertirlo.\n\nSTL para impresión 3D\n\nSTL guarda solo la superficie como triángulos, sin color ni material, y es el formato más aceptado por los programas que preparan la impresión. Requisitos del modelo:\n\nMalla cerrada, sin huecos ni geometría no múltiple, con normales hacia afuera.\nGrosor de pared suficiente para la impresora y el material: para impresoras de filamento, en general no menos de 1 a 2 milímetros; la taza tiene 4.\nModificadores aplicados en una copia del objeto, para exportar la forma final.\nEscala correcta: con la escala de la escena en metros, configura la exportación para que el programa de la impresora reciba 80 × 80 × 90 milímetros. Comprueba las dimensiones en ese programa antes de imprimir.\n\nExporta con Archivo > Exportar > STL, con la opción de exportar solo la selección.\n\nUso del objeto impreso\n\nUna taza impresa en plástico de filamento no es apta para alimentos ni bebidas calientes sin materiales y procesos certificados: las capas dejan rendijas que acumulan bacterias. Para la cerámica artesanal, el modelo 3D puede servir como prototipo, molde o pieza decorativa.\n\nEjemplo\n\nTaza para la web: copia del objeto con subdivisión de nivel 1 aplicada, materiales de esmalte con colores sólidos, exportada como taza.glb de unos cientos de kilobytes. Taza para imprimir: otra copia con todos los modificadores aplicados, comprobada sin geometría no múltiple, exportada como taza.stl y abierta en el programa de impresión con 80 × 80 × 90 mm.\n\nPráctica\n\nExporta la taza en .glb y en .stl siguiendo los pasos. Abre el .glb en un visor de glTF en línea o en el visor 3D de tu sistema y el .stl en un programa de preparación de impresión, como un laminador gratuito, y comprueba dimensiones y aspecto.\n\nSolución y comprobación\n\nEl visor de glTF muestra la taza con sus colores y reflejos; si aparece gris o sin textura, el material usaba nodos que glTF no admite. El laminador muestra dimensiones de unos 80 × 80 × 90 mm y no reporta errores de malla. Si las dimensiones aparecen como 0.08 mm o 80 metros, ajusta la escala de exportación.",
+            "sources": [
+              {
+                "title": "Khronos: formato glTF",
+                "url": "https://www.khronos.org/gltf/"
+              },
+              {
+                "title": "Manual de Blender: aplicar transformaciones",
+                "url": "https://docs.blender.org/manual/en/latest/scene_layout/object/editing/apply.html"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Proyecto: escena de producto de cerámica artesanal",
+            "description": "Integra modelado, materiales, iluminación, render y exportación en una pieza de portafolio.",
+            "outcome": "Entregar una escena de producto completa con imágenes finales y modelos exportados para dos destinos.",
+            "activity": "design",
+            "preview": "Producirás las imágenes y los modelos de un catálogo en línea.",
+            "body": "En este proyecto reunirás todo el curso en un encargo realista: una tienda en línea de artesanías necesita imágenes de producto y modelos 3D de una taza y un jarrón de cerámica para su catálogo y para una vista en 3D en su página.\n\nRequisitos\n\n1. Modelos: taza y jarrón a escala real, con buena topología, escala aplicada, normales correctas, nombres claros y organizados en una colección.\n\n2. Materiales: al menos tres materiales basados en Principled BSDF, con una variación de superficie que imite el acabado artesanal y una decoración sencilla, por ejemplo una franja pintada o un patrón creado con una textura o con caras de otro material.\n\n3. Escena: fondo continuo de estudio y un elemento de contexto opcional, como un mantel o una mesa de madera, sin quitar protagonismo a la cerámica.\n\n4. Iluminación: esquema de tres puntos o HDRI, justificado.\n\n5. Imágenes: una imagen horizontal de catálogo de 1920 × 1080 con ambos objetos, una vertical de 1080 × 1350 de la taza y un detalle cercano del asa o la textura. Renderizadas con Cycles y guardadas en PNG.\n\n6. Exportación: la taza en .glb para la web y en .stl para impresión, verificadas en un visor y en un laminador.\n\n7. Documentación: una página con las decisiones de diseño, la configuración de render, los tiempos y los problemas encontrados con su solución.\n\nCalidad de portafolio\n\nRevisa las imágenes como lo haría un director de arte: ¿la forma se lee con claridad?, ¿los reflejos describen la curvatura?, ¿hay ruido, bordes del fondo visibles o sombras que flotan?, ¿la composición guía la mirada hacia el producto? Una imagen excelente vale más que diez correctas.\n\nEjemplo\n\nDocumentación breve: «Iluminación: luz de área principal de 1 × 1 m a 45 grados, relleno a la derecha a un tercio de potencia y contorno trasero para separar la silueta del fondo gris. Render: Cycles, GPU, 256 muestras con reductor de ruido, 3 minutos 40 segundos por imagen. Problema: reflejos rectangulares duros en el esmalte; solución: luz principal más grande y alejada».\n\nPráctica\n\nCompleta los siete requisitos y organiza la entrega en una carpeta con el archivo .blend, las tres imágenes, los dos modelos exportados y la documentación.\n\nSolución y comprobación\n\nLa entrega está completa cuando las tres imágenes cumplen las resoluciones indicadas sin ruido visible ni errores de composición, el .glb se ve con materiales en un visor y el .stl llega al laminador con las dimensiones reales y sin errores de malla. Pide a otra persona que mire las imágenes y describa el material de las piezas: si dice «cerámica», el material funciona.",
+            "sources": [
+              {
+                "title": "Manual de Blender: Cycles",
+                "url": "https://docs.blender.org/manual/en/latest/render/cycles/index.html"
+              },
+              {
+                "title": "Manual de Blender: Principled BSDF",
+                "url": "https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html"
+              },
+              {
+                "title": "Khronos: formato glTF",
+                "url": "https://www.khronos.org/gltf/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Aura Prods: la guía definitiva de Blender 4.5 (español)",
+                "url": "https://www.youtube.com/watch?v=lrlpwIumFnE"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación final: render y exportación",
+              "questions": [
+                {
+                  "prompt": "¿Cuándo conviene usar Cycles en lugar de EEVEE?",
+                  "multiple": false,
+                  "options": [
+                    "Para previsualizar en segundos.",
+                    "Para imágenes fotorrealistas donde importan reflejos e iluminación indirecta precisos.",
+                    "Para estilos de dibujo animado.",
+                    "Nunca."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Cycles simula físicamente la luz a cambio de más tiempo de cálculo."
+                },
+                {
+                  "prompt": "¿Qué formato es adecuado para mostrar un modelo 3D con materiales en una página web?",
+                  "multiple": false,
+                  "options": [
+                    "STL",
+                    "glTF / .glb",
+                    "PNG",
+                    "TXT"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "glTF conserva geometría, materiales y texturas y es eficiente para la web."
+                },
+                {
+                  "prompt": "¿Qué información no guarda un archivo STL?",
+                  "multiple": false,
+                  "options": [
+                    "La forma de la superficie.",
+                    "Los colores y materiales.",
+                    "Los triángulos.",
+                    "Las dimensiones."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "STL guarda solo la superficie como triángulos."
+                },
+                {
+                  "prompt": "¿Por qué una taza impresa en plástico de filamento no es apta para bebidas calientes?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es de color.",
+                    "Porque las capas dejan rendijas que acumulan bacterias y el material no está certificado para alimentos.",
+                    "Porque es muy pesada.",
+                    "Porque no tiene asa."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El modelo puede servir como prototipo, molde o pieza decorativa."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: escena de producto de cerámica",
+              "instructions": "Entrega una carpeta con el archivo .blend organizado, tres imágenes renderizadas con Cycles en las resoluciones indicadas, la taza exportada en .glb y en .stl verificados, y una página de documentación con decisiones, configuración, tiempos y problemas resueltos. Usa recursos propios o con licencia que permita su uso, como HDRI de dominio público. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Modelado limpio",
+                  "description": "Objetos a escala real, escala aplicada, normales correctas, buena topología y escena organizada."
+                },
+                {
+                  "label": "Apariencia creíble",
+                  "description": "Materiales físicamente plausibles con variación artesanal e iluminación que revela forma y material."
+                },
+                {
+                  "label": "Imágenes de calidad",
+                  "description": "Composición clara, sin ruido ni errores visibles, en las tres resoluciones solicitadas."
+                },
+                {
+                  "label": "Exportación verificada",
+                  "description": "El .glb se ve con materiales en un visor y el .stl llega al laminador con dimensiones reales y sin errores."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

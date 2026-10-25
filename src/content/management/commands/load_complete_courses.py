@@ -1,4 +1,4 @@
-"""Publish the original Creation and Technology collections via normal services."""
+"""Publish the original paid, freemium and membership collections via normal services."""
 import sqlite3
 from datetime import datetime
 from pathlib import Path
@@ -9,15 +9,19 @@ from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
+from commerce.models import MembershipPlan
 from commerce.offers import create_offer, review_offer, submit_offer
 from content.course_catalog import (
     CREATOR_EMAIL,
+    MEMBERSHIP_PLAN,
     REVIEWER_EMAIL,
     SUPPORT,
+    access_model,
     load_catalog,
     teaching_body,
+    unit_price,
 )
-from content.models import Category, Chapter, Course, Lesson, Topic
+from content.models import Category, Chapter, Course, Lesson, Topic, VersionLesson
 from creators.models import CreatorProfile
 from creators.services import decide, submit
 from learning.models import (
@@ -46,10 +50,10 @@ def publish_collection(catalog):
         creator.set_unusable_password()
         creator.save(update_fields=["password"])
         CreatorProfile.objects.create(
-            user=creator, display_name="BTC.EDU · Creación y Tecnología",
+            user=creator, display_name="BTC.EDU · Colecciones",
             bio="Recorridos originales de autoestudio con prácticas, soluciones y fuentes atribuidas. "
                 "Los videos externos son complementos de sus autores. Sin tutorías personales incluidas.",
-            specialty="Fotografía, edición de video, desarrollo web y Python", status="approved",
+            specialty="Cursos originales de tecnología: software, datos, ciberseguridad, infraestructura, diseño y Bitcoin", status="approved",
         )
     if not creator.is_active or not CreatorProfile.objects.filter(user=creator, status="approved").exists():
         raise CommandError("El perfil editorial debe estar activo y aprobado.")
@@ -91,7 +95,7 @@ def publish_collection(catalog):
                     chapter=chapter, position=position, title=data["title"], description=data["description"],
                     learning_outcome=data["outcome"], requirements=item["requirements"],
                     activity_kind=data["activity"], public_preview=data["preview"], support_scope=SUPPORT,
-                    body=teaching_body(data), access_type="paid", status="published",
+                    body=teaching_body(data), access_type="free" if data.get("free") else "paid", status="published",
                 )
                 lessons.append(lesson)
                 if data.get("quiz"):
@@ -121,12 +125,21 @@ def publish_collection(catalog):
         # Autoestudio: no se vende un plazo de revisión sin un educador asignado.
         for practice in VersionPractice.objects.filter(lesson__chapter__version=version):
             PracticeIntake.objects.create(practice=practice, accepting=False)
-        lesson_price = (item["price"] + 7) // 8
-        for chapter in version.chapters.all():
-            for lesson in chapter.lessons.select_related("content"):
-                approved_offer(creator, reviewer, f"lesson:{lesson.pk}", lesson.content.title, lesson_price)
-            approved_offer(creator, reviewer, f"chapter:{chapter.pk}", chapter.title, lesson_price * 3)
-        approved_offer(creator, reviewer, f"course:{version.pk}", item["title"], item["price"])
+        if access_model(item) == "membership":
+            # Membership courses are opened by the plan, without individual offers.
+            Course.objects.filter(pk=course.pk).update(membership=True)
+            if not MembershipPlan.objects.filter(active=True).exists():
+                MembershipPlan.objects.create(**MEMBERSHIP_PLAN)
+        else:
+            paid = VersionLesson.objects.filter(chapter__version=version, content__access_type="paid")
+            lesson_price = unit_price(item["price"], paid.count())
+            for chapter in version.chapters.all():
+                lessons = list(chapter.lessons.select_related("content").filter(content__access_type="paid"))
+                for lesson in lessons:
+                    approved_offer(creator, reviewer, f"lesson:{lesson.pk}", lesson.content.title, lesson_price)
+                if lessons:
+                    approved_offer(creator, reviewer, f"chapter:{chapter.pk}", chapter.title, lesson_price * len(lessons))
+            approved_offer(creator, reviewer, f"course:{version.pk}", item["title"], item["price"])
         added += 1
     reviewer.is_active = reviewer.is_staff = False
     reviewer.save(update_fields=["is_active", "is_staff"])
@@ -135,7 +148,7 @@ def publish_collection(catalog):
 
 
 class Command(BaseCommand):
-    help = "Publica cuatro cursos completos de pago en Creación y Tecnología, sin sustituir cursos existentes."
+    help = "Publica los cursos completos de pago, freemium y de membresía, sin sustituir cursos existentes."
 
     def add_arguments(self, parser):
         parser.add_argument("--dry-run", action="store_true", help="Comprueba el contenido y muestra el inventario sin escribir.")
@@ -148,7 +161,8 @@ class Command(BaseCommand):
         if options["dry_run"]:
             for item in catalog:
                 count = sum(len(chapter["lessons"]) for chapter in item["chapters"])
-                self.stdout.write(f"{item['title']}: {len(item['chapters'])} capítulos, {count} lecciones; {item['price']} sats.")
+                price = "membresía" if access_model(item) == "membership" else f"{item['price']} sats"
+                self.stdout.write(f"{item['title']}: {len(item['chapters'])} capítulos, {count} lecciones; {price}.")
             return
         missing = [item for item in catalog if not Course.objects.filter(
             creator__email=CREATOR_EMAIL, creator__account_type="creator", title=item["title"],
@@ -169,4 +183,4 @@ class Command(BaseCommand):
         destination.close()
         self.stdout.write(f"Respaldo local: {backup}")
         count = publish_collection(missing)
-        self.stdout.write(self.style.SUCCESS(f"Cursos añadidos: {count}. Lecciones de pago, evaluaciones, proyectos y ofertas publicados."))
+        self.stdout.write(self.style.SUCCESS(f"Cursos añadidos: {count}. Lecciones, evaluaciones, proyectos, ofertas y membresía publicados."))

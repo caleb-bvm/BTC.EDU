@@ -12,6 +12,13 @@ PHOTOS = {
     "programacion": {"file": "programacion-python", "author": "Chris Ried", "url": "https://unsplash.com/photos/a-computer-screen-with-a-bunch-of-code-on-it-ieic5Tq8YMk"},
 }
 
+# Original SVG illustrations drawn for BTC.EDU, one per subcategory; they need no credit.
+ILLUSTRATIONS = {
+    "bases-de-datos", "analisis-datos", "inteligencia-artificial", "ciberseguridad", "seguridad-aplicaciones",
+    "respuesta-incidentes", "redes", "linux-sistemas", "devops-contenedores", "git-colaboracion", "apis-backend",
+    "diseno-ui-ux", "modelado-3d", "nodos-mineria", "lightning",
+}
+
 
 @register.simple_tag
 def content_cover(topic_slug="", kind="", resource=None):
@@ -19,6 +26,8 @@ def content_cover(topic_slug="", kind="", resource=None):
         filename = "cover-stack.svg"
     elif topic_slug in PHOTOS:
         filename = f"courses/{PHOTOS[topic_slug]['file']}.jpg"
+    elif topic_slug in ILLUSTRATIONS:
+        filename = f"courses/{topic_slug}.svg"
     elif kind in ("tutorial", "tutoriales") or topic_slug == "lightning":
         filename = "cover-tools.svg"
     elif topic_slug == "seguridad":

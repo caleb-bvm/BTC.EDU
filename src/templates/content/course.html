@@ -17,7 +17,7 @@
       <div class="course-cover">{% include '_content_image.html' with kind=course.kind topic_slug=course.topic.slug eager=True only %}</div>
       <div class="course-overview-content">
         {% course_photo course.topic.slug as cover_credit %}{% if cover_credit %}<small class="course-photo-credit">Fotografía: <a href="{{ cover_credit.url }}" target="_blank" rel="noopener noreferrer">{{ cover_credit.author }} / Unsplash</a></small>{% endif %}
-        <span class="access-badge">{% if journey.all_done %}{{ course.get_kind_display }} completado{% elif enrolled %}En Mi aprendizaje{% else %}{{ summary.access_label }}{% endif %}</span>
+        <span class="access-badge">{% if journey.all_done %}{{ course.get_kind_display }} completado{% elif enrolled %}En Mi aprendizaje{% elif membership and summary.paid_count %}Incluido en la membresía{% else %}{{ summary.access_label }}{% endif %}</span>
         <h2>{% if journey.all_done %}Un recorrido completado.{% elif enrolled %}Sigue donde lo dejaste.{% else %}Empieza con una lección.{% endif %}</h2>
         {% if enrolled %}{% include 'learning/_meter.html' %}{% if journey.target %}<p class="next-lesson-caption">{% if journey.all_done %}Para repasar{% else %}Tu siguiente paso{% endif %}<strong>{{ journey.target.title }}</strong></p>{% endif %}{% else %}<p class="overview-description">{{ summary.lessons|length }} lecci{{ summary.lessons|length|pluralize:'ón,ones' }} a tu ritmo.{% if summary.free_count and summary.paid_count %} {{ summary.free_count }} gratis para empezar.{% elif summary.free_count %} Todo el {{ course.get_kind_display|lower }} es gratuito.{% endif %}</p>{% endif %}
         {% if journey.target %}

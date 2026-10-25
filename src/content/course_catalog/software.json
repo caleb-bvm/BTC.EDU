@@ -1,0 +1,1301 @@
+[
+  {
+    "slug": "git-github-equipo",
+    "title": "Git y GitHub: control de versiones para trabajar en equipo",
+    "access": "freemium",
+    "category": {
+      "name": "Desarrollo de software",
+      "slug": "desarrollo-software"
+    },
+    "topic": {
+      "name": "Git y colaboración",
+      "slug": "git-colaboracion"
+    },
+    "description": "Aprende a registrar cada cambio de un proyecto, volver atrás sin miedo, trabajar en ramas, resolver conflictos y colaborar en GitHub con solicitudes de incorporación de cambios, revisión de código y versiones. Los ejemplos se comprobaron con Git 2.55 y sirven para código, documentación o cualquier proyecto de texto. El primer capítulo es gratuito.",
+    "objective": "Usar Git de forma segura en proyectos individuales y de equipo: confirmar cambios con intención, trabajar en ramas, resolver conflictos, colaborar mediante pull requests y publicar versiones.",
+    "requirements": "Una computadora con Windows, macOS o Linux y permiso para instalar Git. Una cuenta gratuita de GitHub para el capítulo 3. No necesitas saber programar: los ejercicios usan archivos de texto.",
+    "minutes": 480,
+    "price": 2100,
+    "level": "beginner",
+    "sources": [
+      {
+        "title": "Pro Git, libro oficial en español",
+        "url": "https://git-scm.com/book/es/v2"
+      },
+      {
+        "title": "Git: git config",
+        "url": "https://git-scm.com/docs/git-config"
+      },
+      {
+        "title": "Git: gitattributes y finales de línea",
+        "url": "https://git-scm.com/docs/gitattributes"
+      },
+      {
+        "title": "Git: git restore",
+        "url": "https://git-scm.com/docs/git-restore"
+      },
+      {
+        "title": "Git: git revert",
+        "url": "https://git-scm.com/docs/git-revert"
+      },
+      {
+        "title": "Git: git merge",
+        "url": "https://git-scm.com/docs/git-merge"
+      },
+      {
+        "title": "GitHub: conectar con SSH",
+        "url": "https://docs.github.com/es/authentication/connecting-to-github-with-ssh"
+      },
+      {
+        "title": "GitHub: acerca de las solicitudes de incorporación de cambios",
+        "url": "https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests"
+      },
+      {
+        "title": "GitHub: flujo de GitHub",
+        "url": "https://docs.github.com/es/get-started/using-github/github-flow"
+      },
+      {
+        "title": "Git: gitignore",
+        "url": "https://git-scm.com/docs/gitignore"
+      },
+      {
+        "title": "GitHub: eliminar datos confidenciales de un repositorio",
+        "url": "https://docs.github.com/es/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository"
+      },
+      {
+        "title": "Choose a License: elegir una licencia",
+        "url": "https://choosealicense.com/"
+      },
+      {
+        "title": "GitHub: ramas protegidas",
+        "url": "https://docs.github.com/es/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches"
+      },
+      {
+        "title": "Git: git tag",
+        "url": "https://git-scm.com/docs/git-tag"
+      },
+      {
+        "title": "Versionado semántico 2.0.0",
+        "url": "https://semver.org/lang/es/"
+      },
+      {
+        "title": "GitHub: acerca de los lanzamientos",
+        "url": "https://docs.github.com/es/repositories/releasing-projects-on-github/about-releases"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Tu primer repositorio",
+        "description": "Comprende qué hace Git, configúralo y registra los primeros cambios.",
+        "lessons": [
+          {
+            "title": "Por qué usar control de versiones",
+            "description": "Comprende instantáneas, historial y la diferencia entre Git y GitHub.",
+            "outcome": "Explicar qué problemas resuelve el control de versiones y qué papel cumplen Git y GitHub.",
+            "activity": "understand",
+            "preview": "Dejarás atrás los archivos llamados final_final_v3.",
+            "body": "Todos hemos visto carpetas con informe.docx, informe_v2.docx, informe_final.docx e informe_final_REVISADO.docx. Funciona mientras una sola persona trabaja y recuerda qué cambió en cada versión. Con un equipo, o con un proyecto de software con cientos de archivos, ese método se derrumba: nadie sabe cuál es la versión vigente, los cambios de dos personas se pisan y recuperar lo que funcionaba la semana pasada es una búsqueda arqueológica.\n\nUn sistema de control de versiones registra la historia de un proyecto como una serie de instantáneas. Cada vez que confirmas un cambio, guarda el estado de los archivos, quién lo hizo, cuándo y por qué. Puedes comparar dos momentos cualesquiera, volver a una versión anterior, trabajar en paralelo en líneas de desarrollo separadas y combinarlas después.\n\nGit\n\nGit es el sistema de control de versiones más usado del mundo. Fue creado en 2005 para desarrollar el núcleo Linux y es distribuido: cada copia de un repositorio contiene la historia completa. Puedes trabajar sin conexión, confirmar cambios en tu equipo y sincronizarlos después. Si el servidor central desaparece, cualquier copia puede restaurarlo.\n\nGit guarda la información en una carpeta oculta llamada .git dentro del proyecto. No la modifiques a mano: es la base de datos del historial.\n\nGitHub y otros servicios\n\nGitHub es un servicio en línea que aloja repositorios Git y agrega herramientas de colaboración: revisión de código, seguimiento de tareas, automatizaciones y publicación de versiones. GitLab y Bitbucket ofrecen servicios similares. Git funciona sin ellos; ellos funcionan sobre Git. Confundirlos es común: Git es la herramienta, GitHub es uno de los lugares donde compartir lo que Git registra.\n\nNo solo para programadores\n\nGit trabaja mejor con archivos de texto, porque puede mostrar línea por línea qué cambió: código, documentación en Markdown, configuraciones, datos en CSV. Con archivos binarios, como imágenes o documentos de Word, guarda las versiones pero no puede mostrar diferencias útiles ni combinar cambios.\n\nEjemplo\n\nUna pequeña agencia mantiene el sitio web de un restaurante. Antes, cada cambio se subía directamente al servidor y, cuando algo se rompía, nadie sabía qué había cambiado. Con Git, cada modificación tiene una descripción y un autor; si una actualización rompe el menú en línea, el equipo ve exactamente qué líneas cambiaron y vuelve a la versión anterior en segundos.\n\nPráctica\n\nPiensa en un proyecto propio —un trabajo de la universidad, la documentación de tu empresa o un programa— y describe tres situaciones en las que el control de versiones te habría ahorrado tiempo o problemas. Para cada una, indica qué capacidad de Git la resolvería: historial, comparación, volver atrás, ramas o colaboración.\n\nSolución y comprobación\n\nRespuestas típicas: «borré por error una sección y no tenía copia» se resuelve con el historial y volver atrás; «dos compañeros editaron el mismo archivo y uno perdió su trabajo» se resuelve con ramas y fusión; «no sé qué cambió entre la versión que funcionaba y la actual» se resuelve con la comparación. Si alguna situación involucra archivos binarios grandes, anota que Git los guarda, pero no compara su contenido.",
+            "sources": [
+              {
+                "title": "Pro Git, libro oficial en español",
+                "url": "https://git-scm.com/book/es/v2"
+              }
+            ],
+            "videos": [
+              {
+                "title": "EDteam: qué es Git y cómo funciona (español)",
+                "url": "https://www.youtube.com/watch?v=jGehuhFhtnE"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "Instalar y configurar Git",
+            "description": "Instala Git, configura tu identidad y prepara los finales de línea en Windows.",
+            "outcome": "Dejar Git listo con identidad, rama principal y editor configurados.",
+            "activity": "execute",
+            "preview": "Configurarás Git una sola vez para todos tus proyectos.",
+            "body": "Descarga Git desde git-scm.com. En Windows, el instalador incluye Git Bash, una terminal con comandos de estilo Unix, y el Git Credential Manager, que guarda de forma segura tus credenciales de GitHub. En macOS, Git se instala con las herramientas de línea de comandos de Xcode o con un gestor de paquetes; en Linux, desde el gestor de la distribución, por ejemplo sudo apt install git. Comprueba la instalación:\n\n```text\ngit --version\n```\n\nTu identidad\n\nCada confirmación registra un nombre y un correo. Configúralos una vez para tu usuario:\n\n```text\ngit config --global user.name \"Ana Rivas\"\ngit config --global user.email \"ana@example.com\"\n```\n\nUsa el mismo correo de tu cuenta de GitHub, o la dirección privada sin respuesta que GitHub te ofrece si no quieres publicar tu correo. Estos datos quedan grabados en el historial y son visibles para quien acceda al repositorio.\n\nLa rama principal\n\nLos repositorios nuevos empiezan con una rama principal. Hoy la convención más extendida es llamarla main:\n\n```text\ngit config --global init.defaultBranch main\n```\n\nEditor\n\nAlgunos comandos abren un editor para escribir mensajes. Si usas Visual Studio Code: git config --global core.editor \"code --wait\". Si no configuras uno, Git puede abrir Vim, que desconcierta a muchas personas: para salir sin guardar se escribe :q! y Enter.\n\nFinales de línea\n\nWindows termina las líneas de texto con dos caracteres, CRLF, y Linux y macOS con uno, LF. Si un equipo mezcla sistemas, Git podría registrar cambios en todas las líneas solo por esta diferencia. En Windows, el instalador suele activar core.autocrlf=true: Git guarda LF en el repositorio y entrega CRLF en tu copia de trabajo. Por eso verás avisos como «LF will be replaced by CRLF the next time Git touches it»: no son errores, son la conversión en acción. La forma más robusta para un equipo es un archivo .gitattributes en el repositorio con la línea * text=auto, que fija la regla para todos sin depender de la configuración de cada persona.\n\nRevisar la configuración\n\n```text\ngit config --list --show-origin\n```\n\nMuestra cada valor y el archivo de donde viene. La configuración global vive en tu carpeta de usuario; cada repositorio puede tener valores propios que la sustituyen.\n\nEjemplo\n\nUna persona trabaja en proyectos personales y de su empresa. Configura su correo personal de forma global y, dentro de cada repositorio de la empresa, ejecuta git config user.email \"ana@empresa.com\" sin --global. Las confirmaciones de cada proyecto llevan el correo adecuado.\n\nPráctica\n\nInstala Git, configura nombre, correo, rama principal y editor, y comprueba los valores con git config --list --show-origin. Si usas Windows, revisa el valor de core.autocrlf.\n\nSolución y comprobación\n\nLa lista muestra user.name, user.email, init.defaultbranch=main y core.editor en tu archivo .gitconfig global. En Windows, git config core.autocrlf suele devolver true. Si el correo es incorrecto, vuelve a ejecutar el comando: el valor nuevo reemplaza al anterior, pero las confirmaciones ya hechas conservan el correo con el que se crearon.",
+            "sources": [
+              {
+                "title": "Git: git config",
+                "url": "https://git-scm.com/docs/git-config"
+              },
+              {
+                "title": "Git: gitattributes y finales de línea",
+                "url": "https://git-scm.com/docs/gitattributes"
+              },
+              {
+                "title": "Pro Git, libro oficial en español",
+                "url": "https://git-scm.com/book/es/v2"
+              }
+            ],
+            "videos": [],
+            "free": true
+          },
+          {
+            "title": "Confirmar cambios: el área de preparación",
+            "description": "Crea un repositorio, prepara cambios con add y confírmalos con mensajes útiles.",
+            "outcome": "Registrar cambios con commits pequeños y mensajes que expliquen el propósito.",
+            "activity": "execute",
+            "preview": "Harás tus primeras confirmaciones en el menú de una cafetería.",
+            "body": "Un repositorio empieza con git init dentro de una carpeta. Practicaremos con el menú de una cafetería ficticia:\n\n```text\nmkdir menu\ncd menu\ngit init\n```\n\nCrea menu.md con este contenido:\n\n```text\n# Menú de La Ceiba\n\n- Café de altura: 3.00\n- Quesadilla: 1.50\n```\n\nLos tres estados\n\nGit distingue tres lugares. El directorio de trabajo, donde editas los archivos. El área de preparación, o staging, donde reúnes los cambios que formarán la siguiente confirmación. Y el repositorio, donde se guardan las confirmaciones. Esta separación te permite confirmar solo una parte de lo que cambiaste.\n\n```text\ngit status --short\ngit add menu.md\ngit commit -m \"Agrega el menú inicial\"\ngit log --oneline\n```\n\ngit status --short muestra ?? menu.md: un archivo sin seguimiento. git add lo prepara; git commit crea la confirmación con el mensaje indicado. git log --oneline muestra la historia, una línea por confirmación con su identificador abreviado, por ejemplo 123c37e Agrega el menú inicial. El identificador es un resumen criptográfico del contenido y su historia: será distinto en tu equipo.\n\nVer qué cambió\n\nCambia el precio del café a 3.25. Antes de confirmar, revisa:\n\n```text\ngit diff\n```\n\nMuestra las líneas eliminadas con - y las agregadas con +: - Café de altura: 3.00 y + Café de altura: 3.25. git diff --staged muestra lo que ya preparaste. Revisar el diff antes de cada confirmación evita incluir cambios accidentales.\n\nPara preparar y confirmar en un paso los archivos que ya tienen seguimiento: git commit -am \"Actualiza el precio del café\". Los archivos nuevos siempre requieren git add.\n\nBuenas confirmaciones\n\nUna confirmación debe contener un solo cambio lógico: «actualiza precios» y «corrige ortografía del encabezado» van por separado. Así es fácil revisarlas y revertir una sin afectar la otra. El mensaje responde qué hace el cambio y, si no es obvio, por qué. Escríbelo en modo imperativo y breve en la primera línea, como si completara la frase «esta confirmación...»: «Agrega horchata al menú», «Corrige el total en la factura». Mensajes como «cambios», «arreglos» o «asdf» no sirven a nadie dentro de seis meses.\n\nEjemplo\n\nCambiaste precios y, de paso, corregiste un error de ortografía en otro archivo. Prepara solo menu.md con git add menu.md, confirma con «Actualiza los precios de mayo», y luego confirma la corrección por separado.\n\nPráctica\n\nCrea el repositorio menu con menu.md, haz la primera confirmación, cambia el precio del café, revisa el diff y confírmalo. Después agrega un archivo horario.md con el horario de atención y confírmalo en una tercera confirmación. Muestra el historial.\n\nSolución y comprobación\n\ngit log --oneline muestra tres líneas, de la más reciente a la más antigua: la del horario, la del precio y la del menú inicial. git status indica que no hay cambios pendientes. Si en Windows ves avisos sobre LF y CRLF, es la conversión de finales de línea de la lección anterior.",
+            "sources": [
+              {
+                "title": "Pro Git, libro oficial en español",
+                "url": "https://git-scm.com/book/es/v2"
+              }
+            ],
+            "videos": [],
+            "free": true,
+            "quiz": {
+              "title": "Evaluación: tu primer repositorio",
+              "questions": [
+                {
+                  "prompt": "¿Qué diferencia hay entre Git y GitHub?",
+                  "multiple": false,
+                  "options": [
+                    "Son el mismo programa.",
+                    "Git es el sistema de control de versiones; GitHub es un servicio que aloja repositorios Git y agrega colaboración.",
+                    "GitHub es la versión de pago de Git.",
+                    "Git solo funciona con GitHub."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Git funciona sin GitHub; GitHub funciona sobre Git."
+                },
+                {
+                  "prompt": "¿Para qué sirve el área de preparación?",
+                  "multiple": false,
+                  "options": [
+                    "Para borrar archivos.",
+                    "Para reunir los cambios que formarán la siguiente confirmación.",
+                    "Para subir archivos a GitHub.",
+                    "Para guardar contraseñas."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Permite confirmar solo una parte de lo que cambiaste."
+                },
+                {
+                  "prompt": "¿Qué indica el aviso «LF will be replaced by CRLF» en Windows?",
+                  "multiple": false,
+                  "options": [
+                    "Que el archivo está dañado.",
+                    "Que Git convierte finales de línea según la configuración; no es un error.",
+                    "Que debes reinstalar Git.",
+                    "Que perdiste cambios."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Es la conversión de core.autocrlf en acción."
+                },
+                {
+                  "prompt": "¿Cuál es el mejor mensaje de confirmación?",
+                  "multiple": false,
+                  "options": [
+                    "cambios",
+                    "Agrega horchata al menú",
+                    "asdf",
+                    "versión final final"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Un mensaje imperativo y breve explica qué hace el cambio."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Historial y ramas",
+        "description": "Revisa y deshaz cambios con seguridad, trabaja en ramas y resuelve conflictos.",
+        "lessons": [
+          {
+            "title": "Revisar y deshacer con seguridad",
+            "description": "Usa restore, revert y amend según el estado del cambio que quieres deshacer.",
+            "outcome": "Elegir la forma correcta de deshacer un cambio sin perder trabajo ni reescribir historia compartida.",
+            "activity": "execute",
+            "preview": "Aprenderás a volver atrás sin miedo.",
+            "body": "Deshacer en Git depende de dónde está el cambio: solo en tu directorio de trabajo, en el área de preparación o ya confirmado, y en este último caso, si ya lo compartiste con otras personas.\n\nCambios sin preparar\n\nEditaste menu.md y quieres descartar las modificaciones:\n\n```text\ngit restore menu.md\n```\n\nEl archivo vuelve a su estado de la última confirmación. Cuidado: los cambios descartados no se pueden recuperar con Git, porque nunca se registraron.\n\nCambios preparados\n\nPreparaste un archivo por error y quieres sacarlo del área de preparación sin perder las modificaciones:\n\n```text\ngit restore --staged menu.md\n```\n\nEl archivo conserva tus cambios, pero ya no formará parte de la próxima confirmación.\n\nCorregir la última confirmación\n\nOlvidaste un archivo o escribiste mal el mensaje de la última confirmación, que todavía no compartiste:\n\n```text\ngit add archivo-olvidado.md\ngit commit --amend -m \"Agrega el horario de atención\"\n```\n\n--amend reemplaza la última confirmación por una nueva. Úsalo solo antes de compartirla: si ya la subiste a GitHub, reemplazarla obliga a otras personas a reconciliar su historia.\n\nDeshacer una confirmación compartida\n\ngit revert crea una confirmación nueva que aplica el cambio opuesto:\n\n```text\ngit revert 7313586\n```\n\nLa historia queda intacta y registra que el cambio se deshizo y por qué. Es la forma segura de deshacer en una rama compartida.\n\nViajar en la historia\n\ngit log muestra el historial completo; git log --oneline --graph lo muestra en forma de grafo. git show 7313586 muestra el detalle de una confirmación. Para ver el estado del proyecto en un momento anterior sin modificar nada, git switch --detach 123c37e; vuelve con git switch main.\n\ngit reset mueve la rama a otra confirmación y puede descartar historia. Es poderoso y útil en tu trabajo local, pero en ramas compartidas puede hacer perder trabajo a otros. Si alguna vez crees haber perdido confirmaciones, git reflog muestra los movimientos recientes de tus ramas y permite recuperarlas.\n\nEjemplo\n\nEl equipo publicó un aumento de precios que no estaba aprobado. En lugar de borrar la confirmación, se ejecuta git revert con su identificador y un mensaje que explica la razón. Cualquiera que revise la historia entiende qué pasó.\n\nPráctica\n\nEn el repositorio menu: modifica un precio y descártalo con restore; prepara un cambio y retíralo del área de preparación conservándolo; corrige el mensaje de tu última confirmación con --amend; y revierte la confirmación del cambio de precio del café con git revert.\n\nSolución y comprobación\n\nTras restore, git status no muestra cambios. Tras restore --staged, el archivo aparece como modificado sin preparar. Tras --amend, git log --oneline muestra el mensaje nuevo con otro identificador. Tras revert, aparece una confirmación nueva titulada Revert \"Actualiza el precio del café\" y menu.md vuelve a mostrar 3.00. Ninguna confirmación anterior desapareció.",
+            "sources": [
+              {
+                "title": "Git: git restore",
+                "url": "https://git-scm.com/docs/git-restore"
+              },
+              {
+                "title": "Git: git revert",
+                "url": "https://git-scm.com/docs/git-revert"
+              },
+              {
+                "title": "Pro Git, libro oficial en español",
+                "url": "https://git-scm.com/book/es/v2"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Ramas y fusiones",
+            "description": "Crea ramas para trabajar en paralelo y combínalas con merge.",
+            "outcome": "Trabajar cada cambio en su propia rama y fusionarlo distinguiendo avance rápido y confirmación de fusión.",
+            "activity": "execute",
+            "preview": "Agregarás una bebida al menú sin tocar la versión principal.",
+            "body": "Una rama es una línea de desarrollo independiente. En Git, una rama es solo un puntero ligero a una confirmación: crearla es instantáneo. Trabajar en ramas permite desarrollar un cambio sin afectar la versión principal hasta que esté listo, y mantener varios cambios en curso a la vez.\n\nCrear una rama y cambiar a ella\n\n```text\ngit switch -c horchata\n```\n\n-c crea la rama y te mueve a ella. git branch lista las ramas y marca con * la actual. Agrega - Horchata: 1.75 al final de menu.md y confirma con «Agrega horchata». En la rama main, el menú sigue sin horchata: compruébalo con git switch main y cat menu.md.\n\nFusionar\n\nDesde la rama que recibirá los cambios:\n\n```text\ngit switch main\ngit merge horchata\n```\n\nComo main no cambió desde que se creó horchata, Git solo mueve el puntero de main hacia adelante. La salida dice Fast-forward: es un avance rápido, sin confirmación adicional. git log --oneline --graph muestra una historia lineal.\n\nFusión con confirmación\n\nSi ambas ramas avanzaron por separado, Git combina los cambios en una confirmación de fusión con dos padres. git log --oneline --graph lo muestra como una bifurcación que vuelve a unirse. Si los cambios tocan partes distintas de los archivos, la fusión es automática; si tocan las mismas líneas, aparece un conflicto, el tema de la próxima lección.\n\nLimpiar\n\nUna vez fusionada, la rama ya no es necesaria: git branch -d horchata la elimina. Git se niega a eliminar con -d una rama que tenga cambios sin fusionar, una protección útil.\n\nNombrar ramas\n\nUsa nombres que describan el trabajo: agrega-horchata, corrige-total-factura, actualiza-precios-junio. Muchos equipos agregan un prefijo según el tipo: feature/, fix/. Lo importante es la consistencia dentro del equipo.\n\nMerge y rebase\n\nExiste otra forma de integrar cambios, git rebase, que reescribe las confirmaciones de una rama como si se hubieran hecho sobre la versión más reciente de otra, produciendo una historia lineal. Es útil para actualizar tu rama local antes de compartirla. La regla de seguridad: no hagas rebase de confirmaciones que ya compartiste, porque cambia sus identificadores. Si tienes dudas, usa merge.\n\nEjemplo\n\nMientras Ana agrega la horchata en su rama, Luis corrige el encabezado en otra. Ambos trabajan sin interferir. Al fusionar las dos ramas en main, Git combina ambos cambios porque tocan líneas distintas.\n\nPráctica\n\nCrea la rama horchata, agrega la bebida y fusiónala en main con avance rápido. Después crea dos ramas desde main: una que cambia el encabezado y otra que agrega una línea al final; fusiona ambas y observa el grafo.\n\nSolución y comprobación\n\nLa primera fusión muestra Fast-forward. La segunda fusión de las dos ramas paralelas crea una confirmación de fusión, porque main ya había avanzado con la primera; git log --oneline --graph muestra la bifurcación. menu.md contiene ambos cambios. Elimina las ramas fusionadas con git branch -d.",
+            "sources": [
+              {
+                "title": "Git: git merge",
+                "url": "https://git-scm.com/docs/git-merge"
+              },
+              {
+                "title": "Pro Git, libro oficial en español",
+                "url": "https://git-scm.com/book/es/v2"
+              }
+            ],
+            "videos": [
+              {
+                "title": "codigofacilito: git merge o git rebase (español)",
+                "url": "https://www.youtube.com/watch?v=NhLv3WHI_BI"
+              }
+            ]
+          },
+          {
+            "title": "Resolver conflictos",
+            "description": "Interpreta los marcadores de conflicto y resuélvelos con criterio.",
+            "outcome": "Resolver un conflicto de fusión eligiendo el contenido correcto y completar la fusión.",
+            "activity": "execute",
+            "preview": "Resolverás un desacuerdo sobre el precio de la quesadilla.",
+            "body": "Un conflicto ocurre cuando dos ramas modifican las mismas líneas de un archivo de forma distinta. Git no puede saber cuál cambio es el correcto y pide a una persona que decida. Los conflictos son normales en el trabajo en equipo, no un error.\n\nProvocar un conflicto\n\nDesde main, crea la rama promo y cambia el precio de la quesadilla a 1.25; confirma. Vuelve a main, cambia el mismo precio a 1.75 y confirma. Ahora fusiona:\n\n```text\ngit merge promo\n```\n\nGit responde:\n\n```text\nCONFLICT (content): Merge conflict in menu.md\nAutomatic merge failed; fix conflicts and then commit the result.\n```\n\ngit status --short marca el archivo con UU: modificado por ambas partes sin fusionar.\n\nLeer los marcadores\n\nGit escribe ambas versiones en el archivo:\n\n```text\n<<<<<<< HEAD\n- Quesadilla: 1.75\n=======\n- Quesadilla: 1.25\n>>>>>>> promo\n```\n\nEntre <<<<<<< HEAD y ======= está la versión de la rama actual, main. Entre ======= y >>>>>>> promo, la de la rama que estás fusionando. El resto del archivo, sin conflicto, ya está combinado.\n\nResolver\n\nEdita el archivo para dejar el contenido correcto y elimina los tres marcadores. La decisión puede ser una de las versiones, una combinación de ambas o algo nuevo. En este caso, consultas con la gerencia y la decisión es mantener 1.50 hasta definir la promoción. Guarda, prepara y confirma:\n\n```text\ngit add menu.md\ngit commit -m \"Resuelve conflicto de precio de quesadilla\"\n```\n\ngit log --oneline --graph muestra ambas ramas unidas en la confirmación de fusión.\n\nSi te arrepientes\n\nDurante un conflicto, git merge --abort cancela la fusión y deja todo como estaba antes de empezarla. Es útil si te das cuenta de que no tienes la información para decidir.\n\nPrevenir conflictos dolorosos\n\nIntegra con frecuencia: ramas que viven semanas acumulan diferencias y producen conflictos grandes. Haz cambios pequeños y enfocados. Comunica cuando vayas a reorganizar un archivo que otros también editan. Y nunca resuelvas un conflicto eligiendo una versión al azar: si no sabes qué es correcto, pregunta a quien hizo el otro cambio.\n\nHerramientas\n\nLos editores como Visual Studio Code muestran los conflictos con botones para aceptar una versión, la otra o ambas. Son cómodos, pero la decisión sigue siendo tuya; revisa siempre el resultado final.\n\nEjemplo\n\nEn un proyecto de software, dos personas cambiaron la misma función: una corrigió un error y otra agregó un parámetro. La resolución correcta combina ambos cambios, no elige uno; después se ejecutan las pruebas para confirmar que el resultado funciona.\n\nPráctica\n\nReproduce el conflicto de la lección, resuélvelo dejando el precio en 1.50 y confirma la fusión. Después provoca otro conflicto en el encabezado y cancélalo con git merge --abort.\n\nSolución y comprobación\n\nTras resolver, menu.md no contiene marcadores, muestra Quesadilla: 1.50 y git log --oneline --graph presenta la fusión con dos ramas que se unen. Tras --abort, git status indica que no hay una fusión en curso y el archivo vuelve al estado previo. Busca marcadores olvidados con git grep \"<<<<<<<\" antes de confirmar.",
+            "sources": [
+              {
+                "title": "Git: git merge",
+                "url": "https://git-scm.com/docs/git-merge"
+              },
+              {
+                "title": "Pro Git, libro oficial en español",
+                "url": "https://git-scm.com/book/es/v2"
+              }
+            ],
+            "videos": [
+              {
+                "title": "makigas: cómo resolver conflictos en Git (español)",
+                "url": "https://www.youtube.com/watch?v=CzOj076YGRY"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: historial y ramas",
+              "questions": [
+                {
+                  "prompt": "¿Cuál es la forma segura de deshacer una confirmación que ya compartiste en GitHub?",
+                  "multiple": false,
+                  "options": [
+                    "git commit --amend",
+                    "git revert, que crea una confirmación con el cambio opuesto.",
+                    "Borrar la carpeta .git",
+                    "git restore"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "revert conserva la historia y registra que el cambio se deshizo."
+                },
+                {
+                  "prompt": "¿Qué significa Fast-forward al fusionar?",
+                  "multiple": false,
+                  "options": [
+                    "Que hubo un conflicto.",
+                    "Que la rama principal solo avanzó su puntero, sin confirmación de fusión.",
+                    "Que se borraron cambios.",
+                    "Que la fusión fue cancelada."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Ocurre cuando la rama receptora no cambió desde que se creó la otra."
+                },
+                {
+                  "prompt": "En un conflicto, ¿qué contiene la sección entre <<<<<<< HEAD y =======?",
+                  "multiple": false,
+                  "options": [
+                    "La versión de la rama que se fusiona.",
+                    "La versión de la rama actual.",
+                    "Un comentario de Git.",
+                    "La versión más antigua."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Después de ======= aparece la versión de la otra rama."
+                },
+                {
+                  "prompt": "¿Qué hace git merge --abort durante un conflicto?",
+                  "multiple": false,
+                  "options": [
+                    "Elige automáticamente tu versión.",
+                    "Cancela la fusión y deja todo como estaba antes de empezarla.",
+                    "Borra la rama.",
+                    "Sube los cambios."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Útil cuando no tienes la información para decidir."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Colaborar en GitHub",
+        "description": "Conecta repositorios remotos, propón cambios con pull requests y protege lo que publicas.",
+        "lessons": [
+          {
+            "title": "Repositorios remotos",
+            "description": "Conecta tu repositorio con GitHub y sincroniza con push, fetch y pull.",
+            "outcome": "Publicar un repositorio en GitHub, clonarlo y mantener sincronizadas las copias.",
+            "activity": "execute",
+            "preview": "Publicarás el menú en GitHub y lo sincronizarás desde otra copia.",
+            "body": "Un repositorio remoto es una copia del proyecto alojada en otro lugar, normalmente un servicio como GitHub. Sirve para compartir el trabajo, colaborar y tener un respaldo fuera de tu equipo.\n\nAutenticación\n\nGitHub no acepta la contraseña de la cuenta para operaciones de Git. Hay dos formas habituales. Por HTTPS, el Git Credential Manager incluido en Git para Windows abre el navegador para que inicies sesión y guarda el acceso de forma segura. Por SSH, generas un par de claves con ssh-keygen -t ed25519 y agregas la pública en la configuración de tu cuenta de GitHub. Activa además la verificación en dos pasos en tu cuenta: protege todo tu código.\n\nPublicar un repositorio existente\n\nCrea en GitHub un repositorio vacío llamado menu, sin archivo README para evitar historias distintas. Luego, en tu repositorio local:\n\n```text\ngit remote add origin https://github.com/tu-usuario/menu.git\ngit push -u origin main\n```\n\nremote add registra el remoto con el nombre origin, una convención. push envía tus confirmaciones; -u vincula tu rama main con la remota para que los siguientes push y pull no necesiten más argumentos. git remote -v muestra los remotos configurados.\n\nClonar\n\nPara obtener una copia de un repositorio existente:\n\n```text\ngit clone https://github.com/tu-usuario/menu.git menu-copia\n```\n\nclone descarga la historia completa y configura origin automáticamente.\n\nSincronizar\n\ngit fetch descarga las confirmaciones nuevas del remoto sin modificar tu trabajo; puedes revisarlas con git log origin/main. git pull hace fetch y luego integra los cambios en tu rama actual. Antes de empezar a trabajar cada día, ejecuta git pull; antes de compartir, git push. Si alguien subió cambios desde tu último pull, push será rechazado: integra primero con pull, resuelve conflictos si los hay y vuelve a intentarlo. Nunca uses git push --force en una rama compartida para «arreglar» un rechazo: sobrescribirías el trabajo de otras personas.\n\nEjemplo\n\nAna trabaja en su laptop y en la computadora de la oficina. Al terminar en la oficina hace push; al llegar a casa hace pull en la laptop y continúa exactamente donde lo dejó. Si olvidó hacer push, sus cambios siguen solo en la computadora de la oficina: esa es la causa más común de «no encuentro mis cambios».\n\nPráctica\n\nPublica tu repositorio menu en GitHub. Clónalo en otra carpeta, haz un cambio y súbelo desde la copia. Vuelve al repositorio original y trae el cambio con git pull. Después intenta hacer push desde el original sin haber hecho pull después de un nuevo cambio en la copia, y resuelve el rechazo.\n\nSolución y comprobación\n\nEl primer push muestra la rama main en GitHub con todas tus confirmaciones. El pull en el original incorpora el cambio de la copia. El push rechazado muestra un mensaje que sugiere integrar primero los cambios remotos; tras git pull, y resolver si hay conflicto, el push funciona. En GitHub, la pestaña de confirmaciones muestra la historia completa de ambas copias.",
+            "sources": [
+              {
+                "title": "GitHub: conectar con SSH",
+                "url": "https://docs.github.com/es/authentication/connecting-to-github-with-ssh"
+              },
+              {
+                "title": "Pro Git, libro oficial en español",
+                "url": "https://git-scm.com/book/es/v2"
+              }
+            ],
+            "videos": [
+              {
+                "title": "MoureDev: curso completo de Git y GitHub (español)",
+                "url": "https://www.youtube.com/watch?v=3GymExBkKjE"
+              }
+            ]
+          },
+          {
+            "title": "Pull requests y revisión de código",
+            "description": "Propón cambios desde una rama, revísalos y fusiónalos en GitHub.",
+            "outcome": "Abrir, revisar y fusionar una solicitud de incorporación de cambios con comentarios útiles.",
+            "activity": "execute",
+            "preview": "Harás tu primera pull request y la revisarás como lo haría un equipo.",
+            "body": "Una pull request, o solicitud de incorporación de cambios, propone fusionar una rama en otra dentro de GitHub. Es el centro de la colaboración: muestra los cambios, permite comentarlos línea por línea, ejecutar pruebas automáticas y registrar la aprobación antes de fusionar.\n\nEl ciclo\n\n1. Crea una rama y confirma tus cambios localmente.\n2. Súbela: git push -u origin actualiza-precios.\n3. En GitHub, el repositorio muestra un aviso para comparar la rama y crear la pull request. Escribe un título claro y una descripción con qué cambia, por qué y cómo comprobarlo.\n4. Otra persona revisa: lee los cambios en la pestaña Files changed, comenta y aprueba o solicita cambios.\n5. Si hay que corregir, haz nuevas confirmaciones en la misma rama y súbelas: la pull request se actualiza sola.\n6. Cuando está aprobada, se fusiona y se elimina la rama.\n\nUna buena descripción\n\nTítulo: «Actualiza los precios del menú para junio». Descripción: qué cambió —tres precios de bebidas—, por qué —acuerdo de gerencia del 28 de mayo— y cómo verificar —comparar con la lista aprobada adjunta—. Si la pull request resuelve una tarea registrada, menciónala: GitHub puede cerrar la tarea automáticamente al fusionar con frases como «Closes #12».\n\nRevisar con criterio\n\nUna revisión útil comprueba que el cambio hace lo que dice, que no rompe nada, que se entiende y que no incluye cambios ajenos. Los comentarios se dirigen al código, no a la persona, y explican el porqué: «Este precio no coincide con la lista aprobada; ¿es intencional?» es mejor que «está mal». Distingue lo que bloquea la fusión de las sugerencias opcionales.\n\nLas pull requests pequeñas se revisan mejor. Una de 50 líneas recibe comentarios precisos; una de 2 000 líneas suele recibir un «se ve bien» que no revisó nada.\n\nFormas de fusionar\n\nGitHub ofrece tres: crear una confirmación de fusión, que conserva todas las confirmaciones de la rama; combinar en una sola confirmación, squash, que deja una historia más limpia; y rebase, que aplica las confirmaciones sobre la rama principal sin confirmación de fusión. Cada equipo elige una convención.\n\nContribuir a proyectos ajenos\n\nEn repositorios donde no tienes permiso de escritura, primero haces un fork —una copia en tu cuenta—, trabajas en una rama de tu fork y abres la pull request hacia el repositorio original. Así funcionan las contribuciones al software de código abierto.\n\nEjemplo\n\nLuis abre una pull request que agrega la sección de postres. Ana comenta que falta el precio de un postre y sugiere ordenar la sección alfabéticamente. Luis corrige con una nueva confirmación; Ana aprueba y fusiona con squash. La historia de main muestra una sola confirmación: «Agrega la sección de postres (#7)».\n\nPráctica\n\nEn tu repositorio de GitHub, crea una rama con un cambio, abre una pull request con título y descripción completos, revísala tú mismo dejando al menos dos comentarios en líneas concretas, haz una corrección y fusiónala.\n\nSolución y comprobación\n\nLa pull request fusionada muestra la descripción, los comentarios en las líneas, la confirmación de corrección y el registro de la fusión. Si trabajas con otra persona, pídele que revise: la práctica es más valiosa con dos perspectivas. Elimina la rama desde el botón que GitHub ofrece después de fusionar.",
+            "sources": [
+              {
+                "title": "GitHub: acerca de las solicitudes de incorporación de cambios",
+                "url": "https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests"
+              },
+              {
+                "title": "GitHub: flujo de GitHub",
+                "url": "https://docs.github.com/es/get-started/using-github/github-flow"
+              }
+            ],
+            "videos": [
+              {
+                "title": "midulive: tu primera pull request en GitHub (español)",
+                "url": "https://www.youtube.com/watch?v=BPns9r76vSI"
+              }
+            ]
+          },
+          {
+            "title": ".gitignore, secretos y licencias",
+            "description": "Decide qué no se versiona, protege credenciales y elige una licencia.",
+            "outcome": "Configurar .gitignore, evitar subir secretos y actuar correctamente si se filtró uno.",
+            "activity": "design",
+            "preview": "Evitarás el error más costoso de un repositorio público.",
+            "body": "No todo lo que hay en la carpeta del proyecto debe entrar al repositorio. Los archivos generados, las dependencias descargadas, las configuraciones personales del editor y, sobre todo, las credenciales deben quedar fuera.\n\n.gitignore\n\nUn archivo .gitignore en la raíz del repositorio lista patrones que Git ignorará:\n\n```text\n# Entornos y dependencias\n.venv/\nnode_modules/\n__pycache__/\n\n# Configuración local y secretos\n.env\n*.key\n\n# Archivos del sistema y del editor\n.DS_Store\nThumbs.db\n.vscode/\n```\n\nConfirma el .gitignore en el repositorio para que aplique a todo el equipo. GitHub ofrece plantillas por lenguaje al crear un repositorio. .gitignore solo afecta a archivos sin seguimiento: si un archivo ya se confirmó, agregarlo al .gitignore no lo saca del historial; hay que dejar de seguirlo con git rm --cached archivo.\n\nNunca confirmes secretos\n\nContraseñas, claves de API, tokens y archivos de configuración con credenciales no deben entrar nunca en un repositorio, aunque sea privado: los repositorios se clonan, se comparten y cambian de visibilidad. Existen programas automáticos que recorren los repositorios públicos buscando claves expuestas y las usan en minutos. Usa variables de entorno o archivos locales ignorados, y comparte un archivo de ejemplo sin valores reales, como ejemplo.env.\n\nSi se filtró un secreto\n\nLo primero no es limpiar el historial, sino revocar el secreto: cambia la contraseña, genera una clave nueva y desactiva la anterior en el servicio correspondiente. Un secreto que estuvo público, aunque sea por minutos, debe considerarse comprometido. Después, si el repositorio lo requiere, se puede reescribir el historial con herramientas específicas para eliminar el archivo, como indica la documentación de GitHub; es un proceso delicado que afecta a todas las copias. GitHub también ofrece análisis de secretos que alerta cuando detecta credenciales conocidas en un repositorio.\n\nLicencias\n\nUn repositorio público sin licencia no autoriza a otras personas a usar, modificar o distribuir el código: los derechos quedan reservados al autor. Si quieres que otros lo usen, agrega un archivo LICENSE. MIT es permisiva y breve; Apache 2.0 agrega una concesión explícita de patentes; GPL exige que las obras derivadas se distribuyan con la misma licencia. choosealicense.com explica las diferencias. En un proyecto de empresa, la decisión corresponde a la organización.\n\nEjemplo\n\nUna desarrolladora sube por error un archivo .env con la clave de la pasarela de pagos de su tienda. Al notarlo, revoca la clave en el panel del proveedor y genera una nueva antes de cualquier otra acción; luego agrega .env al .gitignore, deja de seguir el archivo con git rm --cached .env y revisa los registros del proveedor por si hubo uso indebido.\n\nPráctica\n\nAgrega a tu repositorio un .gitignore adecuado, un archivo .env con un valor ficticio que no debe subirse y un ejemplo.env sin valores. Comprueba con git status que .env no aparece. Elige y agrega una licencia.\n\nSolución y comprobación\n\ngit status muestra .gitignore, ejemplo.env y LICENSE como archivos nuevos, pero no .env. git check-ignore -v .env indica qué regla lo ignora. Si .env aparece en git status, revisa que la línea del .gitignore no tenga espacios extra y que el archivo no se haya confirmado antes.",
+            "sources": [
+              {
+                "title": "Git: gitignore",
+                "url": "https://git-scm.com/docs/gitignore"
+              },
+              {
+                "title": "GitHub: eliminar datos confidenciales de un repositorio",
+                "url": "https://docs.github.com/es/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository"
+              },
+              {
+                "title": "Choose a License: elegir una licencia",
+                "url": "https://choosealicense.com/"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: colaborar en GitHub",
+              "questions": [
+                {
+                  "prompt": "¿Qué hace git push -u origin main?",
+                  "multiple": false,
+                  "options": [
+                    "Descarga cambios.",
+                    "Envía las confirmaciones a origin y vincula la rama local con la remota.",
+                    "Borra la rama remota.",
+                    "Crea un repositorio nuevo."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Después, push y pull no necesitan más argumentos."
+                },
+                {
+                  "prompt": "Tu push fue rechazado porque alguien subió cambios. ¿Qué haces?",
+                  "multiple": false,
+                  "options": [
+                    "git push --force",
+                    "git pull, resolver si hay conflictos y volver a hacer push.",
+                    "Borrar el repositorio remoto.",
+                    "Crear otro repositorio."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Forzar sobrescribiría el trabajo de otras personas."
+                },
+                {
+                  "prompt": "¿Qué caracteriza una buena pull request?",
+                  "multiple": false,
+                  "options": [
+                    "Miles de líneas con varios cambios.",
+                    "Un cambio enfocado con descripción de qué, por qué y cómo comprobarlo.",
+                    "Ningún título.",
+                    "Fusionarla sin revisión."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las pull requests pequeñas reciben revisiones precisas."
+                },
+                {
+                  "prompt": "Subiste una clave de API a un repositorio público. ¿Qué haces primero?",
+                  "multiple": false,
+                  "options": [
+                    "Borrar el archivo y confirmar.",
+                    "Revocar la clave y generar una nueva.",
+                    "Hacer el repositorio privado.",
+                    "Esperar a ver si alguien la usa."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Un secreto expuesto se considera comprometido aunque se borre."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. Flujo de trabajo profesional",
+        "description": "Organiza el trabajo en equipo, publica versiones y aplica todo en un proyecto.",
+        "lessons": [
+          {
+            "title": "Un flujo de trabajo de equipo",
+            "description": "Aplica el flujo de GitHub con ramas cortas, revisión obligatoria y ramas protegidas.",
+            "outcome": "Definir y configurar las reglas de colaboración de un repositorio de equipo.",
+            "activity": "design",
+            "preview": "Diseñarás las reglas de trabajo de un equipo de cuatro personas.",
+            "body": "Un equipo necesita acuerdos: dónde se trabaja, cómo se revisa y cuándo algo se considera listo. Sin ellos, cada persona usa Git a su manera y la rama principal se vuelve impredecible.\n\nEl flujo de GitHub\n\nEs un modelo simple que funciona para la mayoría de los equipos:\n\n1. main siempre contiene una versión funcional que podría publicarse.\n2. Cada cambio se hace en una rama nueva creada desde main, con un nombre descriptivo.\n3. Se confirman cambios pequeños y se suben con frecuencia.\n4. Se abre una pull request en cuanto el cambio tiene forma, incluso como borrador, para recibir comentarios temprano.\n5. Se revisa, se corrige y se ejecutan las pruebas automáticas.\n6. Se fusiona en main y se publica.\n\nLas ramas duran horas o pocos días, no semanas. Cuanto más corta es una rama, menos conflictos y revisiones más fáciles.\n\nProteger la rama principal\n\nGitHub permite reglas de protección para main: exigir pull request para cualquier cambio, exigir al menos una aprobación, exigir que pasen las comprobaciones automáticas y prohibir el push forzado y la eliminación de la rama. Con estas reglas, nadie puede romper main por accidente, ni siquiera quien administra el repositorio, si así se configura.\n\nComprobaciones automáticas\n\nGitHub Actions y servicios similares ejecutan tareas en cada pull request: pruebas, revisión de estilo, construcción del proyecto. Su resultado aparece en la pull request y, con las ramas protegidas, impide fusionar cambios que fallan. Incluso en proyectos de documentación se pueden comprobar enlaces rotos u ortografía.\n\nMensajes y tareas\n\nAcuerden un formato de mensajes y vinculen el trabajo con las tareas: «Agrega formulario de reservas (#24)». Un CODEOWNERS opcional asigna automáticamente revisores según los archivos modificados.\n\nOtros modelos\n\nExisten modelos con más ramas, como Git Flow, con ramas de desarrollo, versiones y correcciones urgentes. Son útiles cuando se mantienen varias versiones publicadas a la vez, por ejemplo una aplicación instalada por clientes. Para servicios web que se despliegan continuamente, el flujo de GitHub suele bastar. Elige el modelo más simple que resuelva tus necesidades.\n\nEjemplo\n\nReglas de un equipo de cuatro personas que mantiene la tienda en línea de una cooperativa: main protegida con una aprobación obligatoria y pruebas exitosas; ramas con prefijo feature/ o fix/; pull requests de menos de 400 líneas cuando sea posible; fusión con squash; y despliegue automático de main a producción después de cada fusión.\n\nPráctica\n\nEscribe un archivo CONTRIBUTING.md para tu repositorio con las reglas del flujo de trabajo: nombres de ramas, formato de mensajes, tamaño y descripción de las pull requests, revisión y forma de fusión. Si tu plan de GitHub lo permite, configura la protección de main exigiendo pull request.\n\nSolución y comprobación\n\nUn buen CONTRIBUTING.md es breve, tiene ejemplos concretos de nombres y mensajes y explica qué esperar de una revisión. Con la protección activa, git push origin main desde tu equipo es rechazado y el cambio debe llegar por una pull request. Si tu plan no permite proteger ramas en repositorios privados, prueba la configuración en un repositorio público de práctica.",
+            "sources": [
+              {
+                "title": "GitHub: flujo de GitHub",
+                "url": "https://docs.github.com/es/get-started/using-github/github-flow"
+              },
+              {
+                "title": "GitHub: ramas protegidas",
+                "url": "https://docs.github.com/es/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Etiquetas, versiones y lanzamientos",
+            "description": "Marca versiones con etiquetas anotadas y aplica el versionado semántico.",
+            "outcome": "Publicar versiones identificables y comunicar el tipo de cambio con el número de versión.",
+            "activity": "execute",
+            "preview": "Publicarás la versión 1.0.0 del menú.",
+            "body": "Una etiqueta marca una confirmación concreta con un nombre permanente, normalmente una versión. A diferencia de una rama, no se mueve: v1.0.0 siempre apuntará a la misma confirmación.\n\nEtiquetas anotadas\n\n```text\ngit tag -a v1.0.0 -m \"Primera versión del menú\"\ngit tag\ngit show v1.0.0\n```\n\n-a crea una etiqueta anotada, que guarda autor, fecha y mensaje, como muestra git show con las líneas Tagger y Date. Las etiquetas ligeras, sin -a, son solo un nombre; para versiones publicadas usa siempre anotadas. Las etiquetas no se suben con un push normal: git push origin v1.0.0 sube una y git push --tags todas.\n\nVersionado semántico\n\nEl versionado semántico usa tres números, MAYOR.MENOR.PARCHE, con reglas claras:\n\nPARCHE aumenta con correcciones compatibles: 1.0.0 → 1.0.1.\nMENOR aumenta con funcionalidades nuevas compatibles: 1.0.1 → 1.1.0.\nMAYOR aumenta con cambios incompatibles: 1.1.0 → 2.0.0.\n\nAsí, quien usa tu software sabe qué esperar: actualizar de 1.4.2 a 1.4.3 debería ser seguro, y pasar a 2.0.0 requiere leer las notas. Las versiones 0.x indican que la API todavía puede cambiar en cualquier momento.\n\nLanzamientos en GitHub\n\nUn lanzamiento, o release, en GitHub se construye sobre una etiqueta y agrega notas y archivos descargables, como instaladores o documentación en PDF. GitHub puede generar automáticamente las notas a partir de las pull requests fusionadas desde la versión anterior. Las notas deben responder qué cambió para quien usa el software: funcionalidades nuevas, correcciones y cambios incompatibles con instrucciones de actualización.\n\nRegistro de cambios\n\nMuchos proyectos mantienen un archivo CHANGELOG.md con una sección por versión, de la más reciente a la más antigua. Es la memoria del proyecto para las personas, complementaria al historial de Git, que es la memoria técnica.\n\nEjemplo\n\nEl menú agrega una sección de postres: es una funcionalidad compatible, la versión pasa de 1.0.0 a 1.1.0. Después se corrige un precio mal escrito: 1.1.1. Si se cambia el formato del archivo de manera que el sitio web que lo lee deja de funcionar, la siguiente versión es 2.0.0.\n\nPráctica\n\nCrea la etiqueta anotada v1.0.0 en tu repositorio y súbela. Haz un cambio compatible, etiquétalo con la versión que corresponda y crea un lanzamiento en GitHub con notas. Inicia un CHANGELOG.md.\n\nSolución y comprobación\n\ngit tag lista v1.0.0 y la nueva versión, por ejemplo v1.1.0. git show v1.0.0 muestra Tagger con tu nombre y el mensaje. En GitHub, la sección Releases muestra el lanzamiento con sus notas y los archivos del código fuente en .zip y .tar.gz que GitHub genera automáticamente.",
+            "sources": [
+              {
+                "title": "Git: git tag",
+                "url": "https://git-scm.com/docs/git-tag"
+              },
+              {
+                "title": "Versionado semántico 2.0.0",
+                "url": "https://semver.org/lang/es/"
+              },
+              {
+                "title": "GitHub: acerca de los lanzamientos",
+                "url": "https://docs.github.com/es/repositories/releasing-projects-on-github/about-releases"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Proyecto: repositorio de equipo de principio a fin",
+            "description": "Aplica todo el curso en un repositorio con ramas, revisión, conflicto resuelto y versión publicada.",
+            "outcome": "Entregar un repositorio que demuestre un flujo de trabajo profesional completo.",
+            "activity": "design",
+            "preview": "Integrarás el curso en un proyecto que puedes mostrar en tu portafolio.",
+            "body": "En este proyecto construirás un repositorio en GitHub que demuestre todo el flujo de trabajo del curso. Puede ser documentación —el manual de procedimientos de una tienda, una guía de estudio, el sitio de un evento— o código si ya programas. Lo importante es el proceso que queda registrado.\n\nRequisitos\n\n1. README.md que explique el propósito del proyecto y cómo usarlo.\n2. .gitignore adecuado, ejemplo.env si hay configuración y LICENSE.\n3. CONTRIBUTING.md con las reglas de trabajo.\n4. Rama main protegida, si tu plan lo permite, o al menos la regla documentada de no confirmar directamente en ella.\n5. Al menos cuatro pull requests fusionadas, cada una con título, descripción y revisión con comentarios en líneas concretas.\n6. Al menos un conflicto resuelto, con la confirmación de fusión visible en el grafo.\n7. Una confirmación revertida con git revert y la razón en el mensaje.\n8. Dos versiones etiquetadas con versionado semántico, un lanzamiento con notas y un CHANGELOG.md.\n\nTrabajar con otra persona\n\nEl proyecto es más realista si colaboras con alguien: cada uno abre pull requests y revisa las del otro. Si trabajas solo, usa dos copias del repositorio para simular dos personas y revisa tus propias pull requests con la mirada de quien no conoce el cambio.\n\nEjemplo\n\nProyecto «Manual de caja de La Ceiba»: el README describe el manual; las pull requests agregan los procedimientos de apertura, cierre, devoluciones y pagos con tarjeta; un conflicto surge porque dos personas editaron el procedimiento de cierre; una confirmación con un horario incorrecto se revierte; v1.0.0 publica el manual inicial y v1.1.0 agrega el procedimiento de pagos.\n\nPráctica\n\nConstruye el repositorio con los ocho requisitos y escribe al final del README una sección «Historia del proyecto» que enlace las pull requests más importantes, el conflicto resuelto y los lanzamientos.\n\nSolución y comprobación\n\nUn revisor debe poder comprobar cada requisito desde GitHub: la pestaña de pull requests cerradas con sus comentarios, el grafo de confirmaciones con la fusión del conflicto, la confirmación Revert con su explicación, la sección Releases y las reglas de la rama. git log --oneline --graph en tu equipo debe coincidir con lo que muestra GitHub, señal de que todo está sincronizado.",
+            "sources": [
+              {
+                "title": "GitHub: flujo de GitHub",
+                "url": "https://docs.github.com/es/get-started/using-github/github-flow"
+              },
+              {
+                "title": "GitHub: acerca de las solicitudes de incorporación de cambios",
+                "url": "https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests"
+              },
+              {
+                "title": "Versionado semántico 2.0.0",
+                "url": "https://semver.org/lang/es/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "MoureDev: curso completo de Git y GitHub (español)",
+                "url": "https://www.youtube.com/watch?v=3GymExBkKjE"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación final: flujo de trabajo profesional",
+              "questions": [
+                {
+                  "prompt": "En el flujo de GitHub, ¿qué debe contener siempre la rama main?",
+                  "multiple": false,
+                  "options": [
+                    "Trabajo en progreso.",
+                    "Una versión funcional que podría publicarse.",
+                    "Solo documentación.",
+                    "Las ramas de todos."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los cambios llegan a main por pull requests revisadas."
+                },
+                {
+                  "prompt": "¿Qué consigue proteger la rama main en GitHub?",
+                  "multiple": false,
+                  "options": [
+                    "Hacerla privada.",
+                    "Exigir pull request, aprobaciones y comprobaciones antes de fusionar, e impedir el push forzado.",
+                    "Borrarla automáticamente.",
+                    "Acelerar los push."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Nadie puede romper main por accidente."
+                },
+                {
+                  "prompt": "Agregas una funcionalidad compatible a la versión 1.4.2. ¿Cuál es la siguiente versión?",
+                  "multiple": false,
+                  "options": [
+                    "1.4.3",
+                    "1.5.0",
+                    "2.0.0",
+                    "1.4.2.1"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las funcionalidades compatibles aumentan el número MENOR y reinician el PARCHE."
+                },
+                {
+                  "prompt": "¿Qué guarda una etiqueta anotada que no guarda una ligera?",
+                  "multiple": false,
+                  "options": [
+                    "El código completo.",
+                    "Autor, fecha y mensaje.",
+                    "La rama remota.",
+                    "Las contraseñas."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Para versiones publicadas se usan etiquetas anotadas."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: repositorio de equipo",
+              "instructions": "Entrega el enlace a un repositorio público de GitHub, o una exportación si debe ser privado, que cumpla los ocho requisitos de la lección: README, .gitignore y licencia, CONTRIBUTING.md, protección o regla de main, cuatro pull requests revisadas, un conflicto resuelto, una confirmación revertida y dos versiones con lanzamiento y registro de cambios. No incluyas secretos ni datos personales. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Historia clara",
+                  "description": "Confirmaciones pequeñas con mensajes imperativos que explican el propósito."
+                },
+                {
+                  "label": "Colaboración real",
+                  "description": "Pull requests con descripción, comentarios en líneas concretas, correcciones y fusión según las reglas."
+                },
+                {
+                  "label": "Seguridad del repositorio",
+                  "description": "Sin secretos versionados, con .gitignore, archivo de ejemplo y licencia."
+                },
+                {
+                  "label": "Versiones comunicadas",
+                  "description": "Etiquetas anotadas con versionado semántico, lanzamiento con notas y CHANGELOG.md."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "apis-rest-fastapi",
+    "title": "APIs REST con Python y FastAPI: diseña, prueba y protege tu backend",
+    "access": "membership",
+    "category": {
+      "name": "Desarrollo de software",
+      "slug": "desarrollo-software"
+    },
+    "topic": {
+      "name": "APIs y backend",
+      "slug": "apis-backend"
+    },
+    "description": "Construye la API de inventario de una cafetería con FastAPI: rutas, validación con Pydantic, operaciones de creación, lectura y eliminación sobre SQLite, errores claros, paginación, autenticación por clave, pruebas automatizadas, CORS y versiones. El código se comprobó con FastAPI 0.162, Pydantic 2.14 y pytest.",
+    "objective": "Diseñar y construir una API REST con FastAPI que valide sus datos, responda con códigos HTTP correctos, proteja sus operaciones de escritura y esté cubierta por pruebas automatizadas.",
+    "requirements": "Python 3.11 o posterior y conocimientos de Python: funciones, diccionarios y clases sencillas. Conocer SQL básico ayuda; el curso SQL desde cero con SQLite es un buen complemento.",
+    "minutes": 540,
+    "price": 0,
+    "level": "intermediate",
+    "sources": [
+      {
+        "title": "MDN: métodos de solicitud HTTP",
+        "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Methods"
+      },
+      {
+        "title": "MDN: códigos de estado HTTP",
+        "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Status"
+      },
+      {
+        "title": "FastAPI: primeros pasos",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/first-steps/"
+      },
+      {
+        "title": "FastAPI: parámetros de ruta",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/path-params/"
+      },
+      {
+        "title": "FastAPI: parámetros de consulta",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/query-params/"
+      },
+      {
+        "title": "FastAPI: cuerpo de la solicitud",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/body/"
+      },
+      {
+        "title": "FastAPI: modelo de respuesta",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/response-model/"
+      },
+      {
+        "title": "FastAPI: campos del cuerpo con Pydantic",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/body-fields/"
+      },
+      {
+        "title": "FastAPI: manejo de errores",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/handling-errors/"
+      },
+      {
+        "title": "FastAPI: dependencias con yield",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/dependencies/dependencies-with-yield/"
+      },
+      {
+        "title": "FastAPI: bases de datos SQL",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/sql-databases/"
+      },
+      {
+        "title": "FastAPI: pruebas",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/testing/"
+      },
+      {
+        "title": "OWASP: Top 10 de seguridad de APIs 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/"
+      },
+      {
+        "title": "FastAPI: seguridad",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/security/"
+      },
+      {
+        "title": "FastAPI: configuración y variables de entorno",
+        "url": "https://fastapi.tiangolo.com/es/advanced/settings/"
+      },
+      {
+        "title": "FastAPI: CORS",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/cors/"
+      },
+      {
+        "title": "FastAPI: aplicaciones más grandes con APIRouter",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/bigger-applications/"
+      },
+      {
+        "title": "FastAPI: despliegue con Docker",
+        "url": "https://fastapi.tiangolo.com/es/deployment/docker/"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Fundamentos de APIs con FastAPI",
+        "description": "Qué es una API REST, tu primer servicio y los parámetros de entrada.",
+        "lessons": [
+          {
+            "title": "Qué es una API REST",
+            "description": "Comprende recursos, métodos HTTP, códigos de estado y JSON.",
+            "outcome": "Diseñar las rutas de una API para un caso real aplicando las convenciones REST.",
+            "activity": "understand",
+            "preview": "Diseñarás la API de inventario antes de escribir código.",
+            "body": "Una API, interfaz de programación de aplicaciones, es un contrato que permite a un programa usar las funciones de otro. Cuando la aplicación móvil de un banco muestra tu saldo, no lee la base de datos directamente: pide el dato a una API del banco. La misma API puede servir a la aplicación móvil, al sitio web y a los sistemas de otras empresas.\n\nLas APIs web más comunes siguen el estilo REST y usan HTTP. Sus ideas centrales son simples.\n\nRecursos\n\nLa API expone recursos: productos, pedidos, clientes. Cada recurso se identifica con una ruta. /productos es la colección; /productos/2 es un producto concreto. Las rutas usan sustantivos, no verbos: /productos y no /obtenerProductos.\n\nMétodos\n\nLa acción la indica el método HTTP. GET lee sin modificar nada. POST crea un recurso nuevo en una colección. PUT reemplaza un recurso completo y PATCH modifica una parte. DELETE elimina. GET, PUT y DELETE son idempotentes: repetir la misma solicitud deja el sistema en el mismo estado; POST no lo es, y repetirlo puede crear dos recursos.\n\nCódigos de estado\n\nCada respuesta indica el resultado con un código. Los más usados: 200 OK; 201 Created, después de crear; 204 No Content, éxito sin cuerpo, típico al eliminar; 400 Bad Request; 401 Unauthorized, falta autenticación o es inválida; 403 Forbidden, autenticado pero sin permiso; 404 Not Found; 409 Conflict, por ejemplo un nombre duplicado; 422 Unprocessable Content, datos con formato correcto pero inválidos; 500, error del servidor. Los códigos 4xx señalan un problema de quien llama; los 5xx, del servidor. Usarlos bien permite a los clientes reaccionar sin leer mensajes de texto.\n\nJSON\n\nLos datos viajan casi siempre en JSON, un formato de texto con objetos, listas, textos, números, booleanos y null:\n\n```text\n{\"id\": 2, \"nombre\": \"Quesadilla\", \"categoria\": \"Pan\", \"precio_centavos\": 150, \"existencias\": 30}\n```\n\nSin estado\n\nCada solicitud contiene todo lo necesario para atenderla, incluida la autenticación. El servidor no depende de solicitudes anteriores, lo que facilita escalar a varios servidores.\n\nEjemplo\n\nAPI de inventario de la cafetería La Ceiba: GET /productos lista productos con filtros y paginación; GET /productos/{id} obtiene uno; POST /productos crea uno, respondiendo 201; DELETE /productos/{id} lo elimina, respondiendo 204. Las operaciones que modifican datos requieren una clave de API.\n\nPráctica\n\nDiseña la API de pedidos de la misma cafetería: rutas, métodos, códigos de respuesta esperados y un ejemplo de JSON para crear un pedido con dos productos. Indica qué operaciones requieren autenticación.\n\nSolución y comprobación\n\nUn diseño adecuado incluye GET /pedidos y GET /pedidos/{id}; POST /pedidos con respuesta 201 y el pedido creado; PATCH /pedidos/{id} para cambiar el estado; y DELETE o una cancelación mediante PATCH, según si los pedidos deben conservarse. Un pedido para un producto inexistente debería responder 422 o 404 con un mensaje claro, no 500. Si usaste verbos en las rutas, conviértelos en recursos con métodos.",
+            "sources": [
+              {
+                "title": "MDN: métodos de solicitud HTTP",
+                "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Methods"
+              },
+              {
+                "title": "MDN: códigos de estado HTTP",
+                "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Status"
+              }
+            ],
+            "videos": [
+              {
+                "title": "EDteam: qué es una API (español)",
+                "url": "https://www.youtube.com/watch?v=u2Ms34GE14U"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "Tu primera API con FastAPI",
+            "description": "Instala FastAPI, crea una ruta y explora la documentación automática.",
+            "outcome": "Ejecutar una aplicación FastAPI en modo de desarrollo y probarla desde la documentación interactiva.",
+            "activity": "execute",
+            "preview": "Tendrás una API respondiendo y documentada en cinco minutos.",
+            "body": "FastAPI es un marco web de Python para construir APIs. Usa las anotaciones de tipos de Python para validar datos, convertirlos y generar documentación automática. Es rápido de escribir, rápido de ejecutar y se ha vuelto uno de los marcos más usados para APIs en Python.\n\nInstalación\n\nEn un entorno virtual:\n\n```text\npy -m venv .venv\n.venv\\Scripts\\activate\npython -m pip install \"fastapi[standard]\" pytest\n```\n\nEl grupo standard instala también Uvicorn, el servidor que ejecuta la aplicación, la herramienta de línea de comandos fastapi y las dependencias que usa el cliente de pruebas.\n\nLa aplicación mínima\n\nCrea main.py:\n\n```python\nfrom fastapi import FastAPI\n\napp = FastAPI(title=\"Inventario La Ceiba\", version=\"1.0.0\")\n\n\n@app.get(\"/\")\ndef inicio():\n    return {\"mensaje\": \"API de inventario\"}\n```\n\napp es la aplicación. El decorador @app.get(\"/\") registra la función para las solicitudes GET a la ruta raíz. La función devuelve un diccionario y FastAPI lo convierte en JSON.\n\nEjecutar\n\n```text\nfastapi dev main.py\n```\n\nEl modo de desarrollo recarga la aplicación cada vez que guardas cambios y la sirve en http://127.0.0.1:8000. Abre esa dirección: verás {\"mensaje\":\"API de inventario\"}. Para producción se usa fastapi run, sin recarga automática.\n\nDocumentación automática\n\nFastAPI genera una especificación OpenAPI en /openapi.json y dos interfaces de documentación: /docs, con Swagger UI, donde puedes probar cada ruta desde el navegador, y /redoc, más orientada a lectura. Cada ruta, parámetro y modelo que definas aparecerá ahí sin trabajo adicional. Esa documentación es también un contrato que otros equipos pueden usar para generar clientes en otros lenguajes.\n\nFunciones síncronas y asíncronas\n\nPuedes definir las rutas con def o con async def. Usa async def cuando dentro de la función esperes operaciones asíncronas con await, como bibliotecas de bases de datos asíncronas. Si usas bibliotecas tradicionales, como sqlite3, define funciones normales con def: FastAPI las ejecuta en un grupo de hilos para no bloquear el servidor. Mezclar una biblioteca bloqueante dentro de async def sí bloquearía todas las solicitudes.\n\nEjemplo\n\nEn /docs, despliega GET /, presiona Try it out y luego Execute. La interfaz muestra la solicitud enviada, el código 200 y el cuerpo de la respuesta.\n\nPráctica\n\nCrea la aplicación mínima, ejecútala con fastapi dev y agrega una segunda ruta GET /salud que devuelva {\"estado\": \"ok\"}. Comprueba ambas rutas desde /docs y observa cómo cambia /openapi.json.\n\nSolución y comprobación\n\nLa nueva ruta aparece en /docs inmediatamente después de guardar, gracias a la recarga. /openapi.json incluye las dos rutas en la sección paths. Si fastapi no se reconoce como comando, el entorno virtual no está activado o instalaste fastapi sin el grupo standard.",
+            "sources": [
+              {
+                "title": "FastAPI: primeros pasos",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/first-steps/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "TuTechGuy: FastAPI explicado fácil (español)",
+                "url": "https://www.youtube.com/watch?v=FpjdLbm30ZY"
+              }
+            ]
+          },
+          {
+            "title": "Parámetros de ruta y de consulta",
+            "description": "Recibe datos en la ruta y en la consulta con tipos y restricciones.",
+            "outcome": "Declarar parámetros con tipos y límites y aprovechar la validación automática.",
+            "activity": "execute",
+            "preview": "Harás que la API rechace sola los datos inválidos.",
+            "body": "Una API recibe datos de cuatro lugares: la ruta, la consulta, las cabeceras y el cuerpo. Esta lección cubre los dos primeros.\n\nParámetros de ruta\n\nIdentifican un recurso concreto y se declaran entre llaves:\n\n```python\n@app.get(\"/productos/{producto_id}\")\ndef obtener(producto_id: int):\n    return {\"id\": producto_id}\n```\n\nLa anotación int hace que FastAPI convierta el texto de la ruta en un número y lo valide. /productos/2 llega a la función como el entero 2. /productos/abc no llega a ejecutarla: FastAPI responde 422 con un detalle que indica que el valor no es un entero válido. No necesitas escribir esa comprobación.\n\nParámetros de consulta\n\nSon los que van después del signo de interrogación, como /productos?categoria=Pan&limite=10. Cualquier parámetro de la función que no esté en la ruta se interpreta como de consulta:\n\n```python\nfrom typing import Annotated\nfrom fastapi import Query\n\n\n@app.get(\"/productos\")\ndef listar(categoria: str | None = None,\n           limite: Annotated[int, Query(ge=1, le=100)] = 20,\n           desde: Annotated[int, Query(ge=0)] = 0):\n    return {\"categoria\": categoria, \"limite\": limite, \"desde\": desde}\n```\n\ncategoria es opcional: si no se envía, vale None. limite debe estar entre 1 y 100, con 20 por defecto; desde no puede ser negativo. /productos?limite=0 responde 422. Estos límites protegen al servidor: sin un máximo, alguien podría pedir un millón de registros en una sola solicitud.\n\nAnnotated\n\nAnnotated combina el tipo de Python con información adicional para FastAPI, como las restricciones de Query. Es la forma recomendada en las versiones actuales y mantiene las funciones legibles como Python normal.\n\nDocumentación\n\nLas restricciones aparecen en /docs: el parámetro limite muestra su mínimo, máximo y valor por defecto. Quien use tu API conoce las reglas sin leer tu código.\n\nEjemplo\n\nGET /productos?categoria=Café&limite=5 llega a la función con categoria=\"Café\", limite=5 y desde=0. GET /productos?limite=500 recibe 422 con un mensaje que indica que el valor debe ser menor o igual que 100.\n\nPráctica\n\nAgrega a tu API las rutas /productos/{producto_id} y /productos con los parámetros de la lección. Prueba en /docs un identificador no numérico, un límite fuera de rango y una consulta válida con categoría.\n\nSolución y comprobación\n\nLas dos pruebas inválidas responden 422 sin que se ejecute tu función; el cuerpo de la respuesta incluye una lista detail con loc, que indica dónde está el error —por ejemplo [\"query\", \"limite\"]—, y msg con la explicación. La consulta válida devuelve los valores recibidos con sus tipos convertidos. En el capítulo 2 estas rutas consultarán la base de datos.",
+            "sources": [
+              {
+                "title": "FastAPI: parámetros de ruta",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/path-params/"
+              },
+              {
+                "title": "FastAPI: parámetros de consulta",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/query-params/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Leonardo Kuffo: REST y APIs RESTful en 5 minutos (español)",
+                "url": "https://www.youtube.com/watch?v=JD6VNRdGl98"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: fundamentos de APIs con FastAPI",
+              "questions": [
+                {
+                  "prompt": "¿Qué método HTTP corresponde a crear un recurso nuevo en una colección?",
+                  "multiple": false,
+                  "options": [
+                    "GET",
+                    "POST",
+                    "DELETE",
+                    "HEAD"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "POST crea; repetirlo puede crear dos recursos."
+                },
+                {
+                  "prompt": "¿Qué código de estado indica que un recurso se creó correctamente?",
+                  "multiple": false,
+                  "options": [
+                    "200",
+                    "201",
+                    "204",
+                    "302"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "201 Created se acompaña normalmente del recurso creado."
+                },
+                {
+                  "prompt": "¿Qué responde FastAPI a /productos/abc si producto_id está anotado como int?",
+                  "multiple": false,
+                  "options": [
+                    "500, por un error del servidor.",
+                    "422, porque el valor no es un entero válido, sin ejecutar la función.",
+                    "200 con el texto abc.",
+                    "404."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La validación ocurre antes de llamar a tu función."
+                },
+                {
+                  "prompt": "¿Por qué limitar el parámetro limite a un máximo de 100?",
+                  "multiple": false,
+                  "options": [
+                    "Por estética.",
+                    "Para que nadie pueda pedir una cantidad enorme de registros que sobrecargue el servidor.",
+                    "Porque SQLite no admite más.",
+                    "Porque JSON no lo permite."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los límites protegen el rendimiento y la disponibilidad."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Modelos y datos",
+        "description": "Valida cuerpos con Pydantic, implementa operaciones y guarda en SQLite.",
+        "lessons": [
+          {
+            "title": "Modelos con Pydantic",
+            "description": "Define modelos de entrada y salida con restricciones.",
+            "outcome": "Validar cuerpos JSON con modelos Pydantic y controlar qué datos devuelve la API.",
+            "activity": "execute",
+            "preview": "Harás que la API rechace productos con precio negativo o categoría inexistente.",
+            "body": "El cuerpo de una solicitud POST o PUT contiene un objeto JSON. FastAPI usa Pydantic para declarar su forma y sus reglas con clases de Python:\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass ProductoNuevo(BaseModel):\n    nombre: str = Field(min_length=2, max_length=80)\n    categoria: str = Field(pattern=\"^(Café|Pan|Bebidas)$\")\n    precio_centavos: int = Field(gt=0, le=100_000)\n    existencias: int = Field(default=0, ge=0)\n\n\nclass Producto(ProductoNuevo):\n    id: int\n```\n\nCada atributo tiene un tipo y restricciones: el nombre entre 2 y 80 caracteres, la categoría entre tres valores permitidos, el precio mayor que 0 y como máximo 100 000 centavos, y las existencias no negativas, con 0 por defecto. Los precios en centavos enteros evitan errores de redondeo con decimales.\n\nUsar el modelo en una ruta\n\n```python\n@app.post(\"/productos\", response_model=Producto, status_code=201)\ndef crear(producto: ProductoNuevo):\n    ...\n```\n\nAl declarar un parámetro con un modelo, FastAPI lee el cuerpo JSON, lo valida y entrega un objeto con atributos. Si el cuerpo no cumple las reglas, responde 422 con todos los errores a la vez:\n\n```text\n{\"detail\": [\n  {\"type\": \"string_pattern_mismatch\", \"loc\": [\"body\", \"categoria\"],\n   \"msg\": \"String should match pattern '^(Café|Pan|Bebidas)$'\", \"input\": \"Té\"},\n  {\"type\": \"greater_than\", \"loc\": [\"body\", \"precio_centavos\"],\n   \"msg\": \"Input should be greater than 0\", \"input\": -5}\n]}\n```\n\nEse es el resultado real de enviar la categoría Té con precio −5. Cada error indica dónde está, qué regla falló y qué se recibió.\n\nModelos de respuesta\n\nresponse_model define la forma de la respuesta. FastAPI filtra los datos devueltos según el modelo: si la función devuelve campos extra, como un costo interno o un dato de auditoría, no salen en la respuesta. Separar el modelo de entrada del de salida es una práctica de seguridad: evita que un cliente envíe campos que no debe controlar, como el id, y que la API exponga datos internos. La documentación en /docs muestra ambos modelos con ejemplos.\n\nValidación del lado del servidor\n\nAunque la aplicación que consume tu API valide los formularios, la API debe validar todo lo que recibe: cualquier persona puede enviar solicitudes directamente con herramientas como curl. Pydantic hace que esa validación sea declarativa y difícil de olvidar.\n\nEjemplo\n\nEnviar {\"nombre\": \"Quesadilla\", \"categoria\": \"Pan\", \"precio_centavos\": 150} crea un producto con existencias 0, el valor por defecto. Enviar el mismo cuerpo con \"id\": 99 no asigna ese identificador: ProductoNuevo no tiene campo id y Pydantic ignora los campos desconocidos por defecto.\n\nPráctica\n\nDefine los dos modelos y una ruta POST /productos que, por ahora, devuelva el producto recibido con un id fijo. Prueba en /docs un cuerpo válido, uno con categoría Té y precio negativo, y uno sin nombre.\n\nSolución y comprobación\n\nEl cuerpo válido responde con el producto y el id. El segundo responde 422 con dos errores, en categoria y en precio_centavos. El tercero responde 422 con un error de tipo missing en [\"body\", \"nombre\"]. Si quieres rechazar campos desconocidos en lugar de ignorarlos, agrega model_config = ConfigDict(extra=\"forbid\") al modelo.",
+            "sources": [
+              {
+                "title": "FastAPI: cuerpo de la solicitud",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/body/"
+              },
+              {
+                "title": "FastAPI: modelo de respuesta",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/response-model/"
+              },
+              {
+                "title": "FastAPI: campos del cuerpo con Pydantic",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/body-fields/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "TuTechGuy: FastAPI explicado fácil (español)",
+                "url": "https://www.youtube.com/watch?v=FpjdLbm30ZY"
+              }
+            ]
+          },
+          {
+            "title": "Operaciones, errores y códigos de estado",
+            "description": "Implementa crear, leer y eliminar con respuestas y errores correctos.",
+            "outcome": "Responder con el código HTTP adecuado en cada caso, incluidos los errores esperables.",
+            "activity": "execute",
+            "preview": "Tu API dirá claramente cuándo algo no existe o ya está repetido.",
+            "body": "Una buena API no solo funciona en el caso ideal: comunica con precisión qué pasó en cada caso. FastAPI permite fijar el código de éxito de cada ruta y lanzar errores con HTTPException.\n\nCódigos de éxito\n\n```python\nfrom fastapi import HTTPException, status\n\n\n@app.post(\"/productos\", response_model=Producto, status_code=status.HTTP_201_CREATED)\ndef crear(producto: ProductoNuevo):\n    ...\n\n\n@app.delete(\"/productos/{producto_id}\", status_code=status.HTTP_204_NO_CONTENT)\ndef eliminar(producto_id: int):\n    ...\n```\n\nEl módulo status ofrece nombres legibles para cada código. Una ruta con 204 no devuelve cuerpo.\n\nErrores esperables\n\nCuando algo no existe, la función lanza una excepción y FastAPI responde con el código y el mensaje:\n\n```python\nfila = ...  # consulta del producto\nif fila is None:\n    raise HTTPException(status.HTTP_404_NOT_FOUND, \"Producto no encontrado.\")\n```\n\nLa respuesta es {\"detail\": \"Producto no encontrado.\"} con código 404. Al eliminar, si no se borró ninguna fila, también corresponde 404: así el cliente distingue «eliminado» de «no existía».\n\nConflictos\n\nEl nombre de cada producto debe ser único. Si se intenta crear un duplicado, la base de datos lo rechaza y la API responde 409 Conflict con un mensaje claro, en lugar de dejar escapar un error interno que produciría un 500:\n\n```python\ntry:\n    ...  # INSERT\nexcept sqlite3.IntegrityError:\n    raise HTTPException(status.HTTP_409_CONFLICT, \"Ya existe un producto con ese nombre.\") from None\n```\n\nfrom None evita mostrar la excepción original en la cadena de errores; en el registro del servidor sigue siendo útil conservarla para diagnosticar.\n\nQué no revelar\n\nLos errores internos no deben devolver trazas, consultas SQL ni rutas de archivos: esa información ayuda a un atacante. FastAPI responde 500 con un mensaje genérico ante excepciones no controladas y registra el detalle en la consola del servidor. Revisa los registros, no las respuestas, para depurar.\n\nConsistencia\n\nUsa siempre la misma estructura de error. FastAPI usa {\"detail\": ...}: un texto para tus HTTPException y una lista para los errores de validación. Documenta en el README qué códigos puede devolver cada ruta.\n\nEjemplo\n\nSecuencia real con la API del curso: crear el café de altura responde 201 con id 1; crearlo otra vez responde 409; GET /productos/99 responde 404 con {\"detail\": \"Producto no encontrado.\"}; DELETE /productos/2 responde 204 y un GET posterior a ese producto, 404.\n\nPráctica\n\nImplementa las rutas de la API con una lista en memoria como almacenamiento provisional: crear con 201 y nombre único, obtener con 404 si no existe, listar con filtro de categoría y eliminar con 204 o 404. Prueba cada caso en /docs.\n\nSolución y comprobación\n\nUna lista de diccionarios y un contador para el id bastan. Cada ruta responde los códigos de la lección y la documentación muestra los modelos. Al reiniciar el servidor los datos se pierden: la próxima lección los guardará en SQLite.",
+            "sources": [
+              {
+                "title": "FastAPI: manejo de errores",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/handling-errors/"
+              },
+              {
+                "title": "MDN: códigos de estado HTTP",
+                "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Status"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Persistencia con SQLite y dependencias",
+            "description": "Guarda los datos en SQLite con una dependencia que abre y cierra la conexión.",
+            "outcome": "Usar dependencias con yield para gestionar recursos y consultas parametrizadas para los datos.",
+            "activity": "execute",
+            "preview": "Los productos sobrevivirán al reinicio del servidor.",
+            "body": "Una dependencia es una función que FastAPI ejecuta antes de la ruta y cuyo resultado entrega como parámetro. Sirve para compartir lógica: abrir una conexión, comprobar una clave, leer la configuración. Con yield, la dependencia puede además ejecutar código de limpieza cuando termina la solicitud.\n\nLa conexión como dependencia\n\n```python\nimport sqlite3\nfrom typing import Annotated\nfrom fastapi import Depends\n\nRUTA_DB = os.environ.get(\"INVENTARIO_DB\", \"inventario.db\")\n\n\ndef conexion():\n    db = sqlite3.connect(RUTA_DB, check_same_thread=False)\n    db.row_factory = sqlite3.Row\n    try:\n        yield db\n    finally:\n        db.close()\n\n\nBaseDatos = Annotated[sqlite3.Connection, Depends(conexion)]\n```\n\nCada solicitud recibe su propia conexión y finally garantiza que se cierre, incluso si la ruta lanza un error. row_factory permite convertir cada fila en diccionario. check_same_thread=False es necesario porque FastAPI ejecuta las funciones síncronas en un grupo de hilos y la dependencia y la ruta pueden correr en hilos distintos; como cada solicitud usa su propia conexión, no se comparte entre solicitudes simultáneas.\n\nCrear la tabla\n\n```python\ndef crear_tabla(ruta=RUTA_DB):\n    with sqlite3.connect(ruta) as db:\n        db.execute('''CREATE TABLE IF NOT EXISTS productos (\n            id INTEGER PRIMARY KEY, nombre TEXT NOT NULL UNIQUE, categoria TEXT NOT NULL,\n            precio_centavos INTEGER NOT NULL, existencias INTEGER NOT NULL)''')\n```\n\nUNIQUE en el nombre hace que la base rechace duplicados, la condición que la ruta traduce a 409.\n\nUsar la dependencia\n\n```python\n@app.get(\"/productos\", response_model=list[Producto])\ndef listar(db: BaseDatos, categoria: str | None = None,\n           limite: Annotated[int, Query(ge=1, le=100)] = 20,\n           desde: Annotated[int, Query(ge=0)] = 0):\n    sql, valores = \"SELECT * FROM productos\", []\n    if categoria:\n        sql, valores = sql + \" WHERE categoria = ?\", [categoria]\n    filas = db.execute(sql + \" ORDER BY id LIMIT ? OFFSET ?\", [*valores, limite, desde]).fetchall()\n    return [dict(f) for f in filas]\n```\n\nTodos los valores que vienen del cliente viajan como parámetros con ?, nunca pegados en el texto SQL: así se evita la inyección SQL. Solo se arma dinámicamente la parte fija del texto, decidida por el programa. ORDER BY garantiza un orden estable para que la paginación con LIMIT y OFFSET no repita ni omita registros.\n\nPara crear, cursor.lastrowid devuelve el id asignado; para eliminar, cursor.rowcount indica cuántas filas se borraron. No olvides db.commit() después de escribir: sin él, los cambios se descartan al cerrar la conexión.\n\nEjemplo\n\nCon dos productos creados, GET /productos?categoria=Pan devuelve solo la quesadilla, y GET /productos?limite=1&desde=1 devuelve el segundo producto. Al reiniciar el servidor, ambos siguen ahí.\n\nPráctica\n\nReemplaza el almacenamiento en memoria por SQLite con la dependencia de la lección. Implementa las cuatro rutas y comprueba que los datos persisten tras reiniciar fastapi dev.\n\nSolución y comprobación\n\nLa API responde igual que con la lista en memoria, y los productos permanecen después de reiniciar. Abre inventario.db con sqlite3 y ejecuta SELECT * FROM productos para ver los mismos datos. Si recibes «SQLite objects created in a thread can only be used in that same thread», falta check_same_thread=False.",
+            "sources": [
+              {
+                "title": "FastAPI: dependencias con yield",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/dependencies/dependencies-with-yield/"
+              },
+              {
+                "title": "FastAPI: bases de datos SQL",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/sql-databases/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Fazt Code: CRUD con FastAPI (español)",
+                "url": "https://www.youtube.com/watch?v=_eWEmRWhk9A"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: modelos y datos",
+              "questions": [
+                {
+                  "prompt": "¿Qué ocurre si el cuerpo JSON no cumple las reglas del modelo Pydantic?",
+                  "multiple": false,
+                  "options": [
+                    "La ruta se ejecuta con valores vacíos.",
+                    "FastAPI responde 422 con todos los errores y la ruta no se ejecuta.",
+                    "El servidor se detiene.",
+                    "Se guarda igual."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Cada error indica ubicación, regla y valor recibido."
+                },
+                {
+                  "prompt": "¿Para qué sirve separar ProductoNuevo de Producto?",
+                  "multiple": false,
+                  "options": [
+                    "Para escribir más código.",
+                    "Para que el cliente no controle campos como el id y la respuesta tenga una forma definida.",
+                    "Porque Pydantic lo exige.",
+                    "Para cifrar los datos."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los modelos de entrada y salida controlan qué datos entran y salen."
+                },
+                {
+                  "prompt": "Se intenta crear un producto con un nombre ya existente. ¿Qué código corresponde?",
+                  "multiple": false,
+                  "options": [
+                    "200",
+                    "404",
+                    "409",
+                    "500"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "409 Conflict indica que la solicitud choca con el estado actual."
+                },
+                {
+                  "prompt": "¿Por qué la dependencia de conexión usa try y finally con yield?",
+                  "multiple": false,
+                  "options": [
+                    "Para acelerar las consultas.",
+                    "Para cerrar la conexión siempre al terminar la solicitud, incluso si hay errores.",
+                    "Para crear la tabla.",
+                    "Para evitar la validación."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El código después de yield se ejecuta al finalizar la solicitud."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Calidad y seguridad",
+        "description": "Prueba la API automáticamente, maneja la paginación y protege la escritura.",
+        "lessons": [
+          {
+            "title": "Pruebas automatizadas con pytest",
+            "description": "Prueba las rutas con TestClient y una base de datos temporal.",
+            "outcome": "Escribir pruebas que verifiquen éxitos, errores y validaciones sin tocar los datos reales.",
+            "activity": "execute",
+            "preview": "Cada cambio en la API se comprobará en menos de un segundo.",
+            "body": "Probar en /docs después de cada cambio funciona al principio, pero no escala. Las pruebas automatizadas verifican todos los casos en segundos y detectan cuando un cambio rompe algo que funcionaba.\n\nTestClient\n\nFastAPI incluye un cliente de pruebas que hace solicitudes a la aplicación sin levantar un servidor. Con pytest, cada función que empieza con test_ es una prueba.\n\nUna base de datos temporal\n\nLas pruebas no deben tocar inventario.db. FastAPI permite reemplazar dependencias durante las pruebas con app.dependency_overrides. Una fixture de pytest prepara el entorno de cada prueba:\n\n```python\nimport sqlite3\n\nimport pytest\nfrom fastapi.testclient import TestClient\n\nfrom main import app, conexion, crear_tabla\n\nCLAVE = {\"X-API-Key\": \"clave-de-prueba\"}\n\n\n@pytest.fixture\ndef cliente(tmp_path, monkeypatch):\n    ruta = tmp_path / \"prueba.db\"\n    crear_tabla(ruta)\n    monkeypatch.setenv(\"INVENTARIO_API_KEY\", \"clave-de-prueba\")\n\n    def conexion_de_prueba():\n        db = sqlite3.connect(ruta, check_same_thread=False)\n        db.row_factory = sqlite3.Row\n        try:\n            yield db\n        finally:\n            db.close()\n\n    app.dependency_overrides[conexion] = conexion_de_prueba\n    yield TestClient(app)\n    app.dependency_overrides.clear()\n```\n\ntmp_path es una carpeta temporal distinta en cada prueba; monkeypatch define la variable de entorno solo durante la prueba. Al final se limpian los reemplazos.\n\nPruebas\n\n```python\ndef test_crear_y_obtener(cliente):\n    nuevo = {\"nombre\": \"Quesadilla\", \"categoria\": \"Pan\", \"precio_centavos\": 150}\n    respuesta = cliente.post(\"/productos\", json=nuevo, headers=CLAVE)\n    assert respuesta.status_code == 201\n    producto_id = respuesta.json()[\"id\"]\n    assert cliente.get(f\"/productos/{producto_id}\").json()[\"existencias\"] == 0\n\n\ndef test_precio_negativo_es_invalido(cliente):\n    nuevo = {\"nombre\": \"Horchata\", \"categoria\": \"Bebidas\", \"precio_centavos\": -1}\n    respuesta = cliente.post(\"/productos\", json=nuevo, headers=CLAVE)\n    assert respuesta.status_code == 422\n    assert respuesta.json()[\"detail\"][0][\"loc\"] == [\"body\", \"precio_centavos\"]\n\n\ndef test_producto_inexistente(cliente):\n    assert cliente.get(\"/productos/999\").status_code == 404\n```\n\nEjecuta python -m pytest -q. Con estas pruebas y una que verifica el rechazo sin clave, la salida es 4 passed.\n\nQué probar\n\nCada ruta con su caso de éxito y sus errores esperables: no existe, duplicado, datos inválidos, sin autorización. Los límites: precio 0 y 1, límite 100 y 101. Las pruebas deben ser independientes: cada una crea sus datos y no depende del orden de ejecución.\n\nEjemplo\n\nUn cambio introduce por error que el precio admita 0. La prueba de precio inválido no lo detecta porque usa −1; agregar una prueba con 0 sí lo detecta. Los valores límite son donde más errores aparecen.\n\nPráctica\n\nCrea test_main.py con la fixture y al menos seis pruebas: crear, obtener, listar con filtro, duplicado con 409, eliminar con 204 y 404 posterior, y un límite fuera de rango con 422.\n\nSolución y comprobación\n\npython -m pytest -q muestra 6 passed o más. Ejecuta las pruebas dos veces seguidas: si la segunda falla con 409, alguna prueba usa la base real en lugar de la temporal; revisa que dependency_overrides use la misma función conexion importada de main.",
+            "sources": [
+              {
+                "title": "FastAPI: pruebas",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/testing/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Paginación, filtros y diseño de respuestas",
+            "description": "Diseña listados escalables y respuestas predecibles para los clientes.",
+            "outcome": "Aplicar paginación, filtros y convenciones consistentes que faciliten el uso de la API.",
+            "activity": "design",
+            "preview": "Prepararás la API para miles de productos.",
+            "body": "Con cinco productos, devolver la lista completa funciona. Con cincuenta mil, una sola solicitud podría tardar segundos, consumir memoria y transferir megas innecesarios. El diseño de los listados determina si una API escala.\n\nPaginación por desplazamiento\n\nLa API del curso usa limite y desde: el cliente pide 20 registros a partir del registro 40. Es simple y permite saltar a cualquier página. Requiere un orden estable —ORDER BY id— y tiene un costo: con desplazamientos grandes, la base de datos recorre y descarta muchas filas; y si se insertan registros mientras alguien pagina, puede ver un registro dos veces o saltarse uno.\n\nPaginación por cursor\n\nLa alternativa es pedir los registros posteriores al último recibido: /productos?despues_de=120&limite=20, implementado con WHERE id > ? ORDER BY id LIMIT ?. Es eficiente con un índice y estable ante inserciones, pero no permite saltar a la página 50. Para listados con desplazamiento infinito o sincronización, es la mejor opción.\n\nMetadatos\n\nMuchas APIs devuelven, junto a los datos, información para navegar:\n\n```text\n{\"datos\": [...], \"limite\": 20, \"desde\": 40, \"total\": 1234}\n```\n\nCalcular el total cuesta una consulta adicional; inclúyelo solo si los clientes lo necesitan. Decide una estructura y mantenla en todos los listados.\n\nFiltros y orden\n\nLos filtros se expresan como parámetros de consulta con nombres claros: categoria, precio_max, con_existencias. Valida cada uno con tipos y límites. Si permites ordenar, acepta solo valores de una lista cerrada, por ejemplo con un tipo Literal[\"nombre\", \"precio_centavos\"], y nunca pegues el valor del cliente en ORDER BY: los nombres de columnas no se pueden parametrizar y sería una vía de inyección.\n\nConvenciones\n\nElige un estilo de nombres y respétalo: este curso usa snake_case en español. Usa los mismos nombres de campo en todas las rutas. Representa dinero en la unidad mínima, como centavos, o como texto decimal, nunca como número de coma flotante. Usa fechas en formato ISO 8601 con zona horaria, por ejemplo 2026-05-02T10:30:00-06:00 para El Salvador.\n\nSeguridad de los listados\n\nEl OWASP Top 10 de seguridad de APIs incluye el consumo de recursos sin restricciones: listados sin límite, filtros que provocan consultas costosas o archivos sin tamaño máximo. Limita todo lo que el cliente controla.\n\nEjemplo\n\nEndpoint de reposición: GET /productos?con_existencias_menor_a=5&orden=existencias&limite=50 devuelve los productos con pocas existencias, de menor a mayor, para que la cafetería prepare su pedido semanal al proveedor.\n\nPráctica\n\nAgrega a la ruta de listado un filtro precio_max validado, un parámetro orden limitado a nombre o precio_centavos, y la respuesta con metadatos datos, limite, desde y total. Escribe pruebas para un orden inválido y para el total.\n\nSolución y comprobación\n\norden: Literal[\"nombre\", \"precio_centavos\"] = \"nombre\" hace que un valor distinto responda 422 sin tocar la base de datos. La columna de ORDER BY se elige con un diccionario o directamente con el valor ya validado. Las pruebas comprueban que total no cambia al variar limite y desde. Si cambias la forma de la respuesta, actualiza el response_model.",
+            "sources": [
+              {
+                "title": "FastAPI: parámetros de consulta",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/query-params/"
+              },
+              {
+                "title": "OWASP: Top 10 de seguridad de APIs 2023",
+                "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Autenticación con claves de API",
+            "description": "Protege las operaciones de escritura y conoce los mecanismos más completos.",
+            "outcome": "Exigir una clave de API en las rutas que modifican datos y compararla de forma segura.",
+            "activity": "execute",
+            "preview": "Solo quien tenga la clave podrá crear o eliminar productos.",
+            "body": "Leer el catálogo puede ser público; crear y eliminar productos no. La forma más simple de proteger una API de uso interno o entre servidores es una clave de API: un secreto largo que el cliente envía en una cabecera en cada solicitud.\n\nLa dependencia de seguridad\n\n```python\nimport os\nimport secrets\nfrom fastapi import Security\nfrom fastapi.security import APIKeyHeader\n\nclave_api = APIKeyHeader(name=\"X-API-Key\", auto_error=False)\n\n\ndef requiere_clave(clave: Annotated[str | None, Security(clave_api)]):\n    esperada = os.environ.get(\"INVENTARIO_API_KEY\", \"\")\n    if not esperada or clave is None or not secrets.compare_digest(clave, esperada):\n        raise HTTPException(status.HTTP_401_UNAUTHORIZED, \"Clave de API inválida o ausente.\")\n```\n\nAPIKeyHeader lee la cabecera X-API-Key y la documenta en /docs, que muestra un botón Authorize para introducir la clave. La clave esperada viene de una variable de entorno, nunca del código. Si no está configurada, la dependencia niega todo: la API falla de forma cerrada. secrets.compare_digest compara en tiempo constante, para que el tiempo de respuesta no revele cuántos caracteres coinciden.\n\nAplicarla\n\n```python\n@app.post(\"/productos\", response_model=Producto, status_code=201,\n          dependencies=[Depends(requiere_clave)])\ndef crear(producto: ProductoNuevo, db: BaseDatos):\n    ...\n```\n\nSin la cabecera o con una clave incorrecta, la respuesta es 401 y la función no se ejecuta. Para proteger todas las rutas de un grupo, la dependencia se agrega al APIRouter o a la aplicación.\n\nGenerar y manejar la clave\n\nGenera la clave con python -c \"import secrets; print(secrets.token_urlsafe(32))\". Entrégala por un canal seguro, guárdala en un gestor de secretos y cámbiala si se expone. Usa siempre HTTPS: sin cifrado, la clave viaja legible. Si varios clientes usan la API, dale una clave a cada uno para poder revocarlas por separado y saber quién hizo cada operación.\n\nMás allá de las claves\n\nLas claves identifican aplicaciones, no personas. Cuando los usuarios inician sesión, se usan estándares como OAuth 2.0 y OpenID Connect, normalmente con tokens de acceso de corta duración. FastAPI incluye utilidades para OAuth2 y su documentación muestra cómo usar tokens JWT; en sistemas reales conviene delegar la gestión de identidades en un proveedor especializado en lugar de construirla desde cero.\n\nAutorización\n\nAutenticar responde quién eres; autorizar, qué puedes hacer. El primer riesgo del OWASP Top 10 de APIs es la autorización a nivel de objeto rota: comprobar que el usuario tiene sesión, pero no que el recurso le pertenece. Cada consulta que devuelve o modifica datos de un usuario debe filtrar por ese usuario.\n\nEjemplo\n\nSin clave: POST /productos responde 401. Con la cabecera X-API-Key correcta: 201. GET /productos sigue siendo público. En /docs, después de Authorize, las rutas protegidas muestran un candado cerrado.\n\nPráctica\n\nAgrega la dependencia a las rutas de creación y eliminación, configura la variable INVENTARIO_API_KEY con una clave generada y escribe pruebas para: sin cabecera, clave incorrecta, clave correcta y variable de entorno ausente.\n\nSolución y comprobación\n\nLas tres primeras pruebas obtienen 401, 401 y 201. La cuarta usa monkeypatch.delenv(\"INVENTARIO_API_KEY\", raising=False) y obtiene 401 aun enviando una clave: la API no acepta nada sin configuración. Verifica que la clave no aparece en el código ni en el repositorio.",
+            "sources": [
+              {
+                "title": "FastAPI: seguridad",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/security/"
+              },
+              {
+                "title": "OWASP: Top 10 de seguridad de APIs 2023",
+                "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "MoureDev: Python para backend con FastAPI (español)",
+                "url": "https://www.youtube.com/watch?v=_y9qQZXE24A"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: calidad y seguridad",
+              "questions": [
+                {
+                  "prompt": "¿Para qué sirve app.dependency_overrides en las pruebas?",
+                  "multiple": false,
+                  "options": [
+                    "Para desactivar la validación.",
+                    "Para reemplazar una dependencia, como la conexión, por otra de prueba.",
+                    "Para acelerar el servidor.",
+                    "Para crear la documentación."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Así las pruebas usan una base temporal y no tocan los datos reales."
+                },
+                {
+                  "prompt": "¿Qué problema tiene la paginación por desplazamiento con desplazamientos muy grandes?",
+                  "multiple": false,
+                  "options": [
+                    "No funciona con SQLite.",
+                    "La base recorre y descarta muchas filas, y las inserciones pueden repetir u omitir registros.",
+                    "No permite filtros.",
+                    "Siempre devuelve todo."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La paginación por cursor es más eficiente y estable."
+                },
+                {
+                  "prompt": "¿Por qué usar secrets.compare_digest para comparar la clave?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es más corto.",
+                    "Porque compara en tiempo constante y no revela cuántos caracteres coinciden.",
+                    "Porque cifra la clave.",
+                    "Porque la genera."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Una comparación normal puede filtrar información por el tiempo de respuesta."
+                },
+                {
+                  "prompt": "Si INVENTARIO_API_KEY no está configurada, ¿qué hace la dependencia del curso?",
+                  "multiple": false,
+                  "options": [
+                    "Permite todo.",
+                    "Niega todas las operaciones protegidas.",
+                    "Usa una clave por defecto.",
+                    "Desactiva la API."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Fallar de forma cerrada evita una API abierta por error de configuración."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. Preparar para producción",
+        "description": "Configuración, CORS, organización del código, versiones y despliegue.",
+        "lessons": [
+          {
+            "title": "Configuración y CORS",
+            "description": "Externaliza la configuración y permite el acceso desde navegadores con CORS.",
+            "outcome": "Configurar la API por entorno y definir qué sitios web pueden llamarla desde el navegador.",
+            "activity": "execute",
+            "preview": "Harás que el sitio web de la cafetería pueda consultar el catálogo.",
+            "body": "La misma aplicación se ejecuta en tu equipo, en pruebas y en producción con valores distintos: ruta de la base, claves, orígenes permitidos. Esos valores vienen del entorno, no del código.\n\nConfiguración con variables de entorno\n\nHasta ahora leímos variables con os.environ. Para aplicaciones con varias opciones, pydantic-settings, incluido en fastapi[standard], valida la configuración con un modelo:\n\n```python\nfrom pydantic_settings import BaseSettings, SettingsConfigDict\n\n\nclass Configuracion(BaseSettings):\n    model_config = SettingsConfigDict(env_prefix=\"INVENTARIO_\", env_file=\".env\")\n    db: str = \"inventario.db\"\n    api_key: str = \"\"\n    origenes: list[str] = []\n\n\nconfig = Configuracion()\n```\n\nLee INVENTARIO_DB, INVENTARIO_API_KEY e INVENTARIO_ORIGENES del entorno o de un archivo .env, convierte los tipos y falla al iniciar si un valor no es válido. El archivo .env nunca se sube al repositorio; se comparte un ejemplo sin valores reales.\n\nCORS\n\nPor seguridad, los navegadores impiden que una página de un sitio lea respuestas de otro sitio distinto, salvo que ese otro sitio lo autorice. Si la página https://laceiba.example quiere consultar https://api.laceiba.example, la API debe responder con cabeceras CORS que permitan ese origen. Las solicitudes desde servidores, aplicaciones móviles o curl no están sujetas a CORS: es una regla del navegador.\n\n```python\nfrom fastapi.middleware.cors import CORSMiddleware\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=config.origenes,\n    allow_methods=[\"GET\"],\n    allow_headers=[\"X-API-Key\"],\n)\n```\n\nPermite solo los orígenes y métodos necesarios. allow_origins=[\"*\"] abre la API a cualquier sitio; es aceptable para datos completamente públicos, pero no lo combines con credenciales. CORS no es autenticación: protege a los usuarios del navegador, no a tu API de llamadas directas.\n\nDocumentación en producción\n\n/docs es útil, pero en una API interna quizás no quieras exponerla públicamente. FastAPI permite desactivarla con FastAPI(docs_url=None, redoc_url=None) en producción, o protegerla detrás de autenticación.\n\nEjemplo\n\nProducción: INVENTARIO_ORIGENES='[\"https://laceiba.example\"]'. Desarrollo: '[\"http://localhost:5173\"]' para la aplicación web local. La misma imagen de la API sirve en ambos entornos.\n\nPráctica\n\nAgrega la clase de configuración, reemplaza los os.environ por config y añade CORS para un origen de desarrollo. Escribe una prueba que envíe una solicitud con la cabecera Origin permitida y compruebe la cabecera access-control-allow-origin en la respuesta, y otra con un origen no permitido.\n\nSolución y comprobación\n\nCon el origen permitido, la respuesta incluye access-control-allow-origin con ese origen; con otro origen, la cabecera no aparece. La respuesta en sí llega en ambos casos: es el navegador quien bloquea la lectura. Si las pruebas cambian la configuración, crea la aplicación en una función para poder construirla con valores de prueba.",
+            "sources": [
+              {
+                "title": "FastAPI: configuración y variables de entorno",
+                "url": "https://fastapi.tiangolo.com/es/advanced/settings/"
+              },
+              {
+                "title": "FastAPI: CORS",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/cors/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Organizar el código y versionar la API",
+            "description": "Divide la aplicación con APIRouter y gestiona versiones sin romper a los clientes.",
+            "outcome": "Estructurar una API que crece y evolucionarla sin interrumpir a quienes la usan.",
+            "activity": "design",
+            "preview": "Prepararás la versión 2 de la API sin romper la versión 1.",
+            "body": "Un archivo main.py con todas las rutas funciona al principio. Cuando la API agrega pedidos, clientes y reportes, conviene separarla en módulos.\n\nAPIRouter\n\nUn APIRouter agrupa rutas relacionadas con un prefijo, etiquetas para la documentación y dependencias comunes:\n\n```python\n# rutas/productos.py\nfrom fastapi import APIRouter\n\nrouter = APIRouter(prefix=\"/productos\", tags=[\"Productos\"])\n\n\n@router.get(\"\")\ndef listar():\n    ...\n```\n\n```python\n# main.py\nfrom fastapi import FastAPI\nfrom rutas import productos, pedidos\n\napp = FastAPI(title=\"Inventario La Ceiba\")\napp.include_router(productos.router, prefix=\"/v1\")\napp.include_router(pedidos.router, prefix=\"/v1\")\n```\n\nUna estructura habitual separa rutas, modelos, acceso a datos y configuración en módulos distintos. Las rutas reciben datos validados, llaman a funciones de negocio y devuelven modelos; el acceso a la base queda encapsulado y es fácil de reemplazar en las pruebas.\n\nPor qué versionar\n\nUna vez que otros sistemas usan tu API, cambiarla puede romperlos. Cambios compatibles: agregar una ruta, agregar un campo opcional en la respuesta, aceptar un parámetro opcional nuevo. Cambios incompatibles: renombrar o eliminar un campo, cambiar un tipo, volver obligatorio un parámetro, cambiar el significado de un código. Los compatibles se publican sin más; los incompatibles requieren una versión nueva.\n\nEstrategias\n\nLa más común es incluir la versión en la ruta: /v1/productos y /v2/productos. Es explícita y fácil de enrutar. Otras APIs usan una cabecera. Lo importante es mantener la versión anterior funcionando durante un periodo anunciado, marcarla como obsoleta en la documentación —FastAPI admite deprecated=True en una ruta— y comunicar la fecha de retiro.\n\nContratos\n\nLa especificación OpenAPI que genera FastAPI es el contrato de tu API. Guárdala en el repositorio y compárala entre versiones: una diferencia que elimina un campo es una señal de cambio incompatible. Algunos equipos ejecutan esa comparación automáticamente en cada pull request.\n\nEjemplo\n\nLa cafetería decide expresar precios con moneda: {\"precio\": {\"monto_centavos\": 150, \"moneda\": \"USD\"}}. Es incompatible con precio_centavos. Se publica /v2/productos con el nuevo formato; /v1 sigue funcionando seis meses con deprecated=True y un aviso a los clientes registrados.\n\nPráctica\n\nReorganiza tu API en un paquete con rutas/productos.py, modelos.py, datos.py y config.py, monta el router con el prefijo /v1 y verifica que las pruebas siguen pasando tras ajustar las rutas. Después escribe una propuesta breve de cambio incompatible y su plan de migración.\n\nSolución y comprobación\n\nLas pruebas pasan con las rutas bajo /v1 y /docs agrupa las rutas por etiqueta. La propuesta incluye qué cambia, por qué, la nueva versión, el periodo de convivencia, cómo se avisará a los clientes y cuándo se retirará la versión anterior.",
+            "sources": [
+              {
+                "title": "FastAPI: aplicaciones más grandes con APIRouter",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/bigger-applications/"
+              },
+              {
+                "title": "FastAPI: modelo de respuesta",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/response-model/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Proyecto: API de inventario lista para desplegar",
+            "description": "Integra validación, persistencia, seguridad, pruebas y contenedor en una API completa.",
+            "outcome": "Entregar una API documentada, probada y empaquetada, lista para desplegar.",
+            "activity": "design",
+            "preview": "Integrarás el curso en una API que puedes mostrar en tu portafolio.",
+            "body": "En este proyecto completarás la API de inventario de La Ceiba hasta un estado profesional: correcta, probada, segura y fácil de desplegar.\n\nRequisitos funcionales\n\n1. Productos: listar con filtros, orden validado y paginación con metadatos; obtener; crear; actualizar parcialmente con PATCH; eliminar.\n2. Movimientos de inventario: POST /v1/productos/{id}/movimientos registra entradas y salidas con cantidad, motivo y fecha; las existencias nunca pueden quedar negativas, y la operación responde 409 si no hay suficientes.\n3. Reporte: GET /v1/reportes/reposicion devuelve los productos por debajo de un mínimo configurable.\n\nRequisitos técnicos\n\n4. Modelos de entrada y salida separados con restricciones.\n5. Consultas parametrizadas y transacción en el registro de movimientos, para que existencia y movimiento cambien juntos.\n6. Escritura protegida con clave de API desde la configuración; CORS solo para orígenes configurados.\n7. Rutas organizadas con APIRouter bajo /v1.\n8. Pruebas con pytest que cubran éxitos, errores y límites, incluida la existencia negativa.\n9. Dockerfile basado en python:3.12-slim que ejecute la API con fastapi run como usuario sin privilegios.\n10. README con instalación, configuración, ejecución, pruebas y la tabla de rutas y códigos de respuesta.\n\nEjemplo\n\nPrueba clave del movimiento: un producto con 3 unidades recibe una salida de 5; la API responde 409 con {\"detail\": \"Existencias insuficientes.\"} y una consulta posterior muestra que las existencias siguen en 3 y no se registró el movimiento. Si el movimiento se guardara y las existencias no cambiaran, faltaría la transacción.\n\nDockerfile de referencia\n\n```text\nFROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\nRUN useradd --system --uid 10001 api\nUSER api\nCMD [\"fastapi\", \"run\", \"main.py\", \"--port\", \"8000\"]\n```\n\nPráctica\n\nImplementa los diez requisitos. Ejecuta la batería de pruebas, construye la imagen y levanta el contenedor pasando la configuración por variables de entorno y un volumen para la base de datos.\n\nSolución y comprobación\n\nLa entrega está completa cuando python -m pytest pasa todas las pruebas, /docs muestra las rutas agrupadas bajo /v1 con sus modelos, una solicitud de escritura sin clave responde 401 y el contenedor conserva los datos tras recrearse. Revisa el README como lo haría quien integrará otra aplicación con tu API: ¿encuentra qué rutas existen, qué códigos devuelven y cómo autenticarse?",
+            "sources": [
+              {
+                "title": "FastAPI: despliegue con Docker",
+                "url": "https://fastapi.tiangolo.com/es/deployment/docker/"
+              },
+              {
+                "title": "FastAPI: pruebas",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/testing/"
+              },
+              {
+                "title": "FastAPI: seguridad",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/security/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "MoureDev: Python para backend con FastAPI (español)",
+                "url": "https://www.youtube.com/watch?v=_y9qQZXE24A"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación final: preparar para producción",
+              "questions": [
+                {
+                  "prompt": "¿Qué protege CORS?",
+                  "multiple": false,
+                  "options": [
+                    "La API de cualquier llamada directa.",
+                    "A los usuarios del navegador, controlando qué sitios pueden leer respuestas de la API.",
+                    "La base de datos.",
+                    "La clave de API."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las llamadas desde servidores o curl no están sujetas a CORS."
+                },
+                {
+                  "prompt": "¿Cuál de estos cambios es incompatible y requiere una nueva versión?",
+                  "multiple": false,
+                  "options": [
+                    "Agregar una ruta nueva.",
+                    "Agregar un campo opcional a la respuesta.",
+                    "Renombrar un campo de la respuesta.",
+                    "Aceptar un filtro opcional nuevo."
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Los clientes que leen el nombre anterior dejarían de funcionar."
+                },
+                {
+                  "prompt": "¿Para qué sirve APIRouter?",
+                  "multiple": false,
+                  "options": [
+                    "Para cifrar las rutas.",
+                    "Para agrupar rutas relacionadas con prefijo, etiquetas y dependencias comunes.",
+                    "Para crear la base de datos.",
+                    "Para reemplazar Pydantic."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Permite dividir una API que crece en módulos."
+                },
+                {
+                  "prompt": "¿Por qué el registro de movimientos usa una transacción?",
+                  "multiple": false,
+                  "options": [
+                    "Para acelerarlo.",
+                    "Para que el movimiento y el cambio de existencias ocurran juntos o no ocurran.",
+                    "Porque FastAPI lo exige.",
+                    "Para evitar la validación."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Sin transacción, un error podría dejar datos inconsistentes."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: API de inventario",
+              "instructions": "Entrega el repositorio de la API con los diez requisitos de la lección: rutas de productos, movimientos y reporte bajo /v1, modelos separados, transacción en movimientos, autenticación por clave, CORS configurado, pruebas con pytest, Dockerfile con usuario sin privilegios y README con la tabla de rutas y códigos. Usa datos ficticios y no incluyas claves reales. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Contrato claro",
+                  "description": "Rutas REST con métodos y códigos correctos, modelos separados y documentación OpenAPI completa."
+                },
+                {
+                  "label": "Datos consistentes",
+                  "description": "Consultas parametrizadas, nombres únicos y movimientos en transacción que impiden existencias negativas."
+                },
+                {
+                  "label": "Seguridad",
+                  "description": "Escritura protegida con clave desde la configuración, comparación segura, CORS restringido y sin secretos en el repositorio."
+                },
+                {
+                  "label": "Calidad comprobable",
+                  "description": "Pruebas que cubren éxitos, errores y límites, y una imagen que ejecuta la API como usuario sin privilegios."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

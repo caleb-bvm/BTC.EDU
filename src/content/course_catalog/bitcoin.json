@@ -1,0 +1,1335 @@
+[
+  {
+    "slug": "nodo-bitcoin-core",
+    "title": "Opera tu propio nodo Bitcoin: Bitcoin Core paso a paso",
+    "access": "paid",
+    "category": {
+      "name": "Bitcoin y Lightning",
+      "slug": "bitcoin"
+    },
+    "topic": {
+      "name": "Nodos y minería",
+      "slug": "nodos-mineria"
+    },
+    "description": "Descarga y verifica Bitcoin Core, configura un nodo completo o podado, practica sin riesgo en regtest con wallets, transacciones y bloques, entiende la mempool, las comisiones y la minería, y protege tu nodo para conectar tus propias wallets. Los comandos del curso se ejecutaron con Bitcoin Core 31.1 en regtest.",
+    "objective": "Instalar, verificar, configurar y operar un nodo de Bitcoin Core, interpretar su estado y sus transacciones, y usarlo de forma segura como base de tus wallets y servicios.",
+    "requirements": "Conocer los fundamentos de Bitcoin —sats, transacciones y confirmaciones— o haber completado el curso Bitcoin desde cero. Una computadora con Windows, macOS o Linux. Para un nodo completo en la red principal, almacenamiento de 1 TB o más; para el laboratorio en regtest basta cualquier equipo. No se usan fondos reales.",
+    "minutes": 540,
+    "price": 3000,
+    "level": "intermediate",
+    "sources": [
+      {
+        "title": "Bitcoin.org: guía para ejecutar un nodo completo",
+        "url": "https://bitcoin.org/en/full-node"
+      },
+      {
+        "title": "Mastering Bitcoin, tercera edición (texto abierto)",
+        "url": "https://github.com/bitcoinbook/bitcoinbook"
+      },
+      {
+        "title": "Bitcoin Developer Guide",
+        "url": "https://developer.bitcoin.org/devguide/"
+      },
+      {
+        "title": "Bitcoin Core: archivo bitcoin.conf",
+        "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/bitcoin-conf.md"
+      },
+      {
+        "title": "Bitcoin Core: reducir el tráfico",
+        "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/reduce-traffic.md"
+      },
+      {
+        "title": "BIP 94: Testnet4",
+        "url": "https://github.com/bitcoin/bips/blob/master/bip-0094.mediawiki"
+      },
+      {
+        "title": "Bitcoin Core 28.0: notas de la versión",
+        "url": "https://bitcoincore.org/en/releases/28.0/"
+      },
+      {
+        "title": "Bitcoin Core: descarga y verificación",
+        "url": "https://bitcoincore.org/en/download/"
+      },
+      {
+        "title": "Bitcoin Core: firmas de compilación (guix.sigs)",
+        "url": "https://github.com/bitcoin-core/guix.sigs"
+      },
+      {
+        "title": "Bitcoin Core 31.1: notas de la versión",
+        "url": "https://bitcoincore.org/en/releases/31.1/"
+      },
+      {
+        "title": "Referencia de comandos RPC de Bitcoin Core",
+        "url": "https://developer.bitcoin.org/reference/rpc/index.html"
+      },
+      {
+        "title": "Bitcoin Core: administración de wallets",
+        "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/managing-wallets.md"
+      },
+      {
+        "title": "mempool.space: explorador de bloques y mempool",
+        "url": "https://mempool.space/es/"
+      },
+      {
+        "title": "BIP 125: reemplazo por comisión",
+        "url": "https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki"
+      },
+      {
+        "title": "Bitcoin Core: uso con Tor",
+        "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/tor.md"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Por qué y cómo tener un nodo",
+        "description": "Qué hace un nodo, qué necesita y cómo obtener el software de forma verificable.",
+        "lessons": [
+          {
+            "title": "Qué hace un nodo completo",
+            "description": "Comprende la función de los nodos frente a mineros y wallets.",
+            "outcome": "Explicar qué verifica un nodo completo y qué ganas al usar el tuyo en lugar de uno ajeno.",
+            "activity": "understand",
+            "preview": "Entenderás por qué «no confíes, verifica» se practica con un nodo.",
+            "body": "Bitcoin no tiene un servidor central. Miles de computadoras, llamadas nodos, guardan una copia de la cadena de bloques y verifican cada bloque y cada transacción según las reglas del protocolo: que nadie gaste bitcoins que no tiene, que nadie gaste dos veces la misma salida, que las firmas sean válidas y que no se creen más bitcoins de los permitidos. Un nodo completo no confía en nadie: rechaza cualquier bloque inválido, aunque lo haya producido el minero más grande del mundo.\n\nNodos, mineros y wallets\n\nLos mineros proponen bloques nuevos realizando prueba de trabajo; los nodos los validan y los aceptan o rechazan. Una wallet guarda claves y construye transacciones; para saber cuánto tiene y difundir transacciones, necesita consultar a un nodo. La mayoría de las wallets de teléfono consultan los servidores de su proveedor: confías en que te muestran la información correcta y les revelas qué direcciones te pertenecen.\n\nQué ganas con tu propio nodo\n\nVerificación: sabes que los pagos que recibes cumplen las reglas, sin depender de terceros.\n\nPrivacidad: tu wallet consulta tu nodo, no un servidor ajeno que puede asociar tus direcciones con tu dirección IP.\n\nSoberanía: decides qué versión del software y qué reglas ejecutas. Cuando hay propuestas de cambio en las reglas, los nodos son quienes las aceptan o no.\n\nResistencia de la red: cada nodo adicional distribuye la verificación y la transmisión de bloques.\n\nTipos de nodo\n\nUn nodo completo archivador guarda la cadena entera, desde el bloque génesis de 2009. Un nodo podado verifica todo igual que el archivador, pero descarta los bloques antiguos después de procesarlos y conserva solo el conjunto de salidas sin gastar y los bloques recientes; ocupa una fracción del espacio. Los clientes ligeros no verifican todas las reglas y dependen de otros nodos.\n\nBitcoin Core\n\nBitcoin Core es el software de nodo más usado. Es de código abierto, lo mantiene una comunidad de desarrolladores y se publica con firmas que permiten verificar que el programa es auténtico. Incluye el nodo, bitcoind, una interfaz gráfica, bitcoin-qt, la herramienta de línea de comandos bitcoin-cli y una wallet integrada.\n\nEjemplo\n\nUna cooperativa recibe pagos en bitcoin para su tienda. Usando la wallet de un proveedor, depende de que ese servidor esté disponible y diga la verdad. Con su propio nodo, la wallet de la tienda verifica directamente cada pago, y la información de sus clientes no sale de su red.\n\nPráctica\n\nEscribe con tus palabras qué ocurre si un minero publica un bloque que crea 100 bitcoins de recompensa en lugar de la permitida. ¿Quién lo rechaza y por qué? Después compara qué información revela una wallet que usa un servidor ajeno frente a una que usa tu nodo.\n\nSolución y comprobación\n\nLos nodos completos rechazan el bloque porque viola las reglas de emisión; el minero pierde el costo de la energía y la red continúa con bloques válidos. La wallet que usa un servidor ajeno le revela qué direcciones consulta y, con ellas, el historial de pagos asociado; con tu nodo, esa información queda en tu equipo. Ejecutar un nodo no mueve fondos ni requiere tener bitcoins.",
+            "sources": [
+              {
+                "title": "Bitcoin.org: guía para ejecutar un nodo completo",
+                "url": "https://bitcoin.org/en/full-node"
+              },
+              {
+                "title": "Mastering Bitcoin, tercera edición (texto abierto)",
+                "url": "https://github.com/bitcoinbook/bitcoinbook"
+              },
+              {
+                "title": "Bitcoin Developer Guide",
+                "url": "https://developer.bitcoin.org/devguide/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Lunaticoin: por qué tener un nodo Bitcoin (español)",
+                "url": "https://www.youtube.com/watch?v=C-razUWyUs0"
+              }
+            ]
+          },
+          {
+            "title": "Requisitos y decisiones antes de instalar",
+            "description": "Elige entre nodo completo y podado, red y hardware según tus objetivos.",
+            "outcome": "Planificar los recursos y la configuración de un nodo según su propósito.",
+            "activity": "design",
+            "preview": "Decidirás qué tipo de nodo tiene sentido para ti.",
+            "body": "Antes de instalar conviene decidir para qué será el nodo, porque eso define el almacenamiento, el ancho de banda y la configuración.\n\nAlmacenamiento\n\nUn nodo completo archivador guarda toda la cadena de bloques: según calculadoras independientes, unos 760 GB a mediados de 2026, y crece cada año. Un disco de 1 TB alcanza para un tiempo; uno de 2 TB da margen. Comprueba el tamaño actual antes de comprar. Un disco de estado sólido, SSD, acelera mucho la sincronización inicial, porque el nodo consulta constantemente el conjunto de salidas sin gastar; un disco mecánico puede tardar días o semanas más.\n\nUn nodo podado se configura con la opción prune, en megabytes, con un mínimo de 550. Con la poda al mínimo, el nodo ocupa en total alrededor de 15 GB, porque además de los bloques recientes guarda el conjunto de salidas sin gastar. Verifica todas las reglas igual que un nodo completo, pero no puede servir bloques antiguos a otros nodos ni reconstruir el historial de una wallet que importes después: para eso necesitaría volver a descargar la cadena.\n\nMemoria, procesador y conexión\n\nLa sincronización inicial descarga y valida toda la cadena. La opción dbcache, en megabytes, define cuánta memoria se usa como caché; aumentarla temporalmente acelera la sincronización si tienes memoria disponible. Después, el nodo funciona con pocos recursos. La descarga inicial equivale al tamaño de la cadena; luego el consumo es moderado, aunque un nodo que acepta conexiones entrantes sube bastante datos a otros nodos. Si tu conexión tiene límite mensual, la opción maxuploadtarget limita la subida.\n\nRedes\n\nBitcoin Core puede conectarse a varias redes. La red principal, mainnet, usa bitcoins reales. Testnet4, disponible desde Bitcoin Core 28, y signet son redes públicas de prueba con monedas sin valor. Regtest es una red local y privada donde tú creas los bloques al instante: ideal para aprender y para probar aplicaciones. Cada red guarda sus datos en una subcarpeta separada y usa sus propios puertos.\n\n¿Dónde ejecutarlo?\n\nUna computadora de escritorio que permanezca encendida, un equipo pequeño dedicado o un servidor. Muchos usan equipos de bajo consumo con sistemas que facilitan la instalación de un nodo y servicios asociados. No es necesario abrir puertos en tu enrutador para usar tu propio nodo: sin conexiones entrantes igualmente se conecta a otros nodos y verifica todo.\n\nEjemplo\n\nPlan de una persona que quiere privacidad para su wallet: laptop con SSD de 512 GB, nodo podado en mainnet con prune=10000 para conservar unos 10 GB de bloques recientes, dbcache alto durante la sincronización y luego el valor por defecto, sin abrir puertos.\n\nPráctica\n\nEscribe el plan de tu nodo: propósito, red, completo o podado, dónde se ejecutará, almacenamiento, memoria y conexión, y si aceptará conexiones entrantes. Para este curso, el laboratorio usará regtest, que no requiere ninguna de esas inversiones.\n\nSolución y comprobación\n\nUn buen plan justifica cada decisión por el propósito: si necesitas importar wallets antiguas o servir datos a otros servicios, un nodo completo; si solo quieres verificar tus pagos con poco espacio, un nodo podado. El plan menciona que el tamaño de la cadena es aproximado y crece, y no incluye fondos ni claves: un nodo no los necesita.",
+            "sources": [
+              {
+                "title": "Bitcoin Core: archivo bitcoin.conf",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/bitcoin-conf.md"
+              },
+              {
+                "title": "Bitcoin Core: reducir el tráfico",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/reduce-traffic.md"
+              },
+              {
+                "title": "BIP 94: Testnet4",
+                "url": "https://github.com/bitcoin/bips/blob/master/bip-0094.mediawiki"
+              },
+              {
+                "title": "Bitcoin Core 28.0: notas de la versión",
+                "url": "https://bitcoincore.org/en/releases/28.0/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Bitcoin Desde Cero: nodo podado con Bitcoin Core y Sparrow (español)",
+                "url": "https://www.youtube.com/watch?v=AdnqgkZFMD8"
+              }
+            ]
+          },
+          {
+            "title": "Descargar y verificar Bitcoin Core",
+            "description": "Comprueba la integridad y la autenticidad del software antes de ejecutarlo.",
+            "outcome": "Verificar el resumen criptográfico y las firmas de una versión de Bitcoin Core.",
+            "activity": "execute",
+            "preview": "No ejecutarás nada que no hayas verificado.",
+            "body": "Un nodo es la base de tu seguridad en Bitcoin: si alguien te entrega una versión modificada del programa, podría mostrarte saldos falsos o robar claves. Por eso Bitcoin Core se distribuye con mecanismos de verificación, y aprender a usarlos es parte de operar un nodo.\n\nQué se descarga\n\nDesde bitcoincore.org/en/download descargas tres archivos: el programa para tu sistema, por ejemplo bitcoin-31.1-win64-setup.exe en Windows o bitcoin-31.1-x86_64-linux-gnu.tar.gz en Linux; SHA256SUMS, la lista de resúmenes criptográficos de todos los archivos de la versión; y SHA256SUMS.asc, las firmas de esa lista.\n\nPaso 1: integridad\n\nCalcula el resumen SHA-256 del archivo descargado y compáralo con el que aparece en SHA256SUMS. En Windows:\n\n```text\ncertUtil -hashfile bitcoin-31.1-win64-setup.exe SHA256\ntype SHA256SUMS\n```\n\nEn Linux o macOS:\n\n```text\nsha256sum --ignore-missing --check SHA256SUMS\n```\n\nEl resultado debe indicar OK junto al nombre de tu archivo. En la verificación de este curso, el archivo para Linux de la versión 31.1 coincidió con su entrada en SHA256SUMS. Un resumen distinto significa que el archivo está dañado o fue modificado: no lo ejecutes.\n\nPaso 2: autenticidad\n\nCoincidir con SHA256SUMS solo demuestra que el archivo corresponde a esa lista. ¿Y si alguien reemplazó ambos? Las firmas responden esa pregunta. Varios desarrolladores compilan Bitcoin Core de forma independiente y reproducible con Guix, obtienen los mismos resúmenes y firman la lista con sus claves PGP. Sus claves públicas están en el repositorio guix.sigs, carpeta builder-keys.\n\n```text\ngit clone https://github.com/bitcoin-core/guix.sigs\ngpg --import guix.sigs/builder-keys/*\ngpg --verify SHA256SUMS.asc SHA256SUMS\n```\n\nBusca líneas gpg: Good signature de varias claves cuyas huellas coincidan con las publicadas. Los avisos de claves que no importaste pueden ignorarse. La seguridad aumenta cuando varias personas independientes firman lo mismo: un atacante tendría que comprometerlas a todas.\n\n¿Por qué no basta con la página web?\n\nUna página puede ser suplantada, y los programas pueden alterarse en espejos o en tu propia red. La verificación con firmas no depende de la página: depende de claves que puedes contrastar por varios canales, como el repositorio, conferencias y otras personas de la comunidad.\n\nInstalar\n\nEn Windows, ejecuta el instalador verificado. En Linux, descomprime el archivo: la carpeta bin contiene bitcoind, bitcoin-cli, bitcoin-qt, bitcoin-wallet, bitcoin-tx, bitcoin-util y, en las versiones recientes, una herramienta general llamada bitcoin. Comprueba la versión con bitcoind -version: la 31.1 responde Bitcoin Core daemon version v31.1.0.\n\nEjemplo\n\nUna persona descarga Bitcoin Core desde un enlace de un grupo de mensajería. El resumen no aparece en SHA256SUMS. Descarta el archivo, descarga de nuevo desde el sitio oficial y verifica antes de instalar.\n\nPráctica\n\nEscribe el procedimiento de verificación completo para tu sistema, con los comandos exactos y lo que esperas ver en cada paso. Si ya tienes el instalador y la autorización para usarlo, ejecuta la verificación y anota los resultados.\n\nSolución y comprobación\n\nEl procedimiento incluye los dos pasos: resumen frente a SHA256SUMS y firmas de SHA256SUMS.asc con claves de guix.sigs. Si solo verificaste el resumen, anótalo como verificación parcial. Si gpg indica BAD signature, el archivo de firmas o la lista fueron alterados: no instales.",
+            "sources": [
+              {
+                "title": "Bitcoin Core: descarga y verificación",
+                "url": "https://bitcoincore.org/en/download/"
+              },
+              {
+                "title": "Bitcoin Core: firmas de compilación (guix.sigs)",
+                "url": "https://github.com/bitcoin-core/guix.sigs"
+              },
+              {
+                "title": "Bitcoin Core 31.1: notas de la versión",
+                "url": "https://bitcoincore.org/en/releases/31.1/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Stick Bitcoin: cómo montar un nodo de Bitcoin desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=3K3zsYu4eEo"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: por qué y cómo tener un nodo",
+              "questions": [
+                {
+                  "prompt": "¿Qué hace un nodo completo cuando recibe un bloque que viola las reglas?",
+                  "multiple": false,
+                  "options": [
+                    "Lo acepta si viene de un minero grande.",
+                    "Lo rechaza, sin importar quién lo produjo.",
+                    "Lo envía a revisión manual.",
+                    "Lo guarda por si acaso."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los nodos verifican las reglas y no confían en los mineros."
+                },
+                {
+                  "prompt": "¿Qué diferencia a un nodo podado de uno completo archivador?",
+                  "multiple": false,
+                  "options": [
+                    "El podado no verifica las reglas.",
+                    "El podado verifica todo igual pero descarta los bloques antiguos después de procesarlos.",
+                    "El podado solo funciona en testnet.",
+                    "El podado requiere más espacio."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Ahorra espacio, pero no puede servir bloques antiguos."
+                },
+                {
+                  "prompt": "¿Qué red permite crear bloques al instante en tu propia computadora?",
+                  "multiple": false,
+                  "options": [
+                    "Mainnet.",
+                    "Testnet4.",
+                    "Signet.",
+                    "Regtest."
+                  ],
+                  "correct": [
+                    3
+                  ],
+                  "explanation": "Regtest es local y privada, ideal para aprender."
+                },
+                {
+                  "prompt": "¿Qué demuestra la verificación de firmas de SHA256SUMS.asc que no demuestra el resumen solo?",
+                  "multiple": false,
+                  "options": [
+                    "Que el archivo es pequeño.",
+                    "Que la lista de resúmenes fue firmada por desarrolladores con claves conocidas.",
+                    "Que el programa es gratis.",
+                    "Que el nodo está sincronizado."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El resumen prueba integridad; las firmas, autenticidad."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Operar el nodo",
+        "description": "Configura Bitcoin Core, observa su estado y practica en regtest.",
+        "lessons": [
+          {
+            "title": "Configurar bitcoin.conf",
+            "description": "Define red, poda, memoria y acceso RPC en el archivo de configuración.",
+            "outcome": "Escribir una configuración adecuada para cada red y propósito.",
+            "activity": "execute",
+            "preview": "Prepararás la configuración del laboratorio y la de un nodo real.",
+            "body": "Bitcoin Core lee sus opciones de la línea de comandos y del archivo bitcoin.conf, ubicado en el directorio de datos. Por defecto, ese directorio es %LOCALAPPDATA%\\Bitcoin en las versiones recientes para Windows, ~/.bitcoin en Linux y ~/Library/Application Support/Bitcoin en macOS; la opción datadir permite usar otro, por ejemplo un disco externo.\n\nOpciones esenciales\n\nserver=1 habilita la interfaz RPC que usa bitcoin-cli. bitcoind la activa siempre; bitcoin-qt la necesita explícitamente.\n\nprune=550 activa la poda con el mínimo permitido, en megabytes.\n\ndbcache=4000 usa 4000 MB de memoria como caché durante la sincronización; vuelve al valor por defecto después.\n\nregtest=1, testnet4=1 o signet=1 eligen una red de prueba. Sin ninguna, el nodo usa la red principal.\n\nSecciones por red\n\nLas opciones bajo un encabezado como [regtest] o [main] solo se aplican a esa red. Así un mismo archivo sirve para varias redes sin mezclar configuraciones.\n\nLa configuración del laboratorio\n\n```text\nregtest=1\nserver=1\nfallbackfee=0.0001\n\n[regtest]\nrpcbind=127.0.0.1\n```\n\nfallbackfee fija una tarifa de respaldo de 0.0001 BTC por kilobyte virtual, necesaria en regtest porque no hay historial para estimar comisiones. rpcbind limita la interfaz RPC a tu equipo.\n\nAutenticación RPC\n\nPor defecto, Bitcoin Core crea un archivo .cookie en el directorio de datos con una credencial temporal que bitcoin-cli lee automáticamente. Solo procesos con acceso a ese archivo pueden controlar el nodo. Si otro programa necesita acceso, la opción rpcauth permite crear usuarios con contraseña guardada como hash; nunca uses rpcpassword en texto plano en un archivo compartido.\n\nPuertos\n\nEn la red principal, el nodo se comunica con otros nodos por el puerto 8333 y atiende RPC en el 8332; en regtest usa 18444 y 18443. El puerto RPC nunca debe exponerse a internet: quien lo controle puede mover los fondos de la wallet del nodo.\n\nEjemplo\n\nConfiguración de un nodo podado para uso personal en la red principal:\n\n```text\nserver=1\nprune=10000\ndbcache=4000\nmaxuploadtarget=5000\n```\n\nConserva unos 10 GB de bloques recientes, acelera la sincronización y limita la subida a unos 5000 MB diarios.\n\nPráctica\n\nEscribe dos archivos de configuración: el del laboratorio en regtest y el de un nodo para tu plan de la lección anterior. Explica cada línea con un comentario precedido por #.\n\nSolución y comprobación\n\nEl archivo del laboratorio contiene regtest=1, server=1, fallbackfee y rpcbind en la sección de regtest. El del plan refleja tus decisiones de poda y memoria y no expone el puerto RPC. Si ejecutas el nodo y bitcoin-cli responde «Could not connect to the server», revisa que el nodo esté en marcha y que ambos usen la misma red y el mismo directorio de datos.",
+            "sources": [
+              {
+                "title": "Bitcoin Core: archivo bitcoin.conf",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/bitcoin-conf.md"
+              },
+              {
+                "title": "Referencia de comandos RPC de Bitcoin Core",
+                "url": "https://developer.bitcoin.org/reference/rpc/index.html"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Sincronización y estado del nodo",
+            "description": "Interpreta getblockchaininfo, getnetworkinfo y los registros del nodo.",
+            "outcome": "Saber en todo momento en qué estado está el nodo y diagnosticar problemas básicos.",
+            "activity": "execute",
+            "preview": "Leerás el tablero de mando de tu nodo.",
+            "body": "Al iniciar por primera vez en la red principal, el nodo realiza la descarga inicial de bloques: obtiene toda la cadena de otros nodos y valida cada bloque desde el génesis. Puede tardar desde horas hasta varios días según el disco, la memoria y la conexión. Durante ese tiempo el nodo funciona, pero la información de saldos no está actualizada.\n\ngetblockchaininfo\n\n```text\nbitcoin-cli getblockchaininfo\n```\n\nAlgunos campos importantes, con los valores que mostró el laboratorio recién iniciado en regtest:\n\nchain: la red, aquí \"regtest\".\nblocks: la altura del último bloque validado, 0 al comenzar.\nverificationprogress: una estimación del avance de 0 a 1; en la red principal llega a casi 1 al terminar.\ninitialblockdownload: true mientras el nodo cree estar sincronizando; pasa a false cuando alcanza la punta de la cadena.\npruned: si la poda está activa.\n\nUn nodo sano y sincronizado muestra initialblockdownload false y una cantidad de bloques igual a la de un explorador público. Comparar con un explorador es útil para orientarte, pero tu nodo es la fuente que verificas.\n\ngetnetworkinfo y getpeerinfo\n\ngetnetworkinfo muestra la versión del programa, en el laboratorio \"/Satoshi:31.1.0/\", y el número de conexiones. En regtest había 0 conexiones porque es una red privada; en la red principal, un nodo sin conexiones entrantes suele mantener alrededor de una decena de conexiones salientes. getpeerinfo detalla cada conexión: dirección, versión del par, si es entrante y cuántos bloques tiene.\n\nOtros comandos útiles\n\ngetblockcount devuelve la altura actual. getblockhash con una altura devuelve el identificador de ese bloque: en regtest, el bloque 0 tiene el resumen 0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206, el mismo en cualquier nodo regtest porque el génesis es fijo. help lista todos los comandos y help con un nombre explica uno.\n\nRegistros\n\nEl archivo debug.log en el directorio de datos registra la actividad: conexiones, bloques validados, errores. Durante la sincronización verás líneas UpdateTip con la altura y el progreso. Si el nodo se detiene inesperadamente, las últimas líneas suelen explicar por qué, como falta de espacio en disco.\n\nDetener correctamente\n\nbitcoin-cli stop detiene el nodo de forma ordenada y guarda su estado. Apagar el equipo bruscamente puede obligar al nodo a revalidar parte de la cadena al reiniciar.\n\nEjemplo\n\nDiagnóstico: un nodo lleva dos días con verificationprogress en 0.6 y avanza muy lento. debug.log muestra bloques procesándose cada pocos segundos y el disco está al 100 % de uso. Causa probable: disco mecánico. Soluciones: mover el directorio de datos a un SSD o aumentar dbcache.\n\nPráctica\n\nCon la configuración del laboratorio, inicia el nodo en regtest con bitcoind -daemon, o abre bitcoin-qt con regtest y usa su consola. Ejecuta getblockchaininfo, getnetworkinfo, getblockcount y getblockhash 0, y busca en debug.log la línea de inicio del programa.\n\nSolución y comprobación\n\nDeberías ver chain \"regtest\", blocks 0, 0 conexiones y el resumen del génesis indicado en la lección. debug.log incluye una línea con la versión de Bitcoin Core al inicio. En Windows, bitcoind -daemon no está disponible: ejecuta bitcoind en una terminal aparte o usa la consola de bitcoin-qt desde Ventana > Consola.",
+            "sources": [
+              {
+                "title": "Referencia de comandos RPC de Bitcoin Core",
+                "url": "https://developer.bitcoin.org/reference/rpc/index.html"
+              },
+              {
+                "title": "Bitcoin.org: guía para ejecutar un nodo completo",
+                "url": "https://bitcoin.org/en/full-node"
+              },
+              {
+                "title": "Bitcoin Developer Guide",
+                "url": "https://developer.bitcoin.org/devguide/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Laboratorio en regtest: wallets y bloques",
+            "description": "Crea wallets, genera bloques y observa la maduración de las recompensas.",
+            "outcome": "Preparar un entorno de pruebas reproducible con wallets y saldo de prueba.",
+            "activity": "execute",
+            "preview": "Tendrás bitcoins de prueba en tu propia red privada.",
+            "body": "En regtest tú produces los bloques, sin prueba de trabajo real, y obtienes las recompensas. Es la forma más rápida de aprender cómo funcionan las wallets, las transacciones y las confirmaciones sin arriesgar nada.\n\nCrear una wallet\n\nBitcoin Core puede manejar varias wallets a la vez, cada una con su nombre:\n\n```text\nbitcoin-cli createwallet tienda\nbitcoin-cli -rpcwallet=tienda getnewaddress \"\" bech32m\n```\n\ncreatewallet responde con el nombre de la wallet. Las wallets actuales son de tipo descriptor: describen con precisión qué scripts y claves controlan. getnewaddress genera una dirección; con el tipo bech32m es una dirección Taproot, que en regtest empieza por bcrt1p. Sin indicar tipo, la versión 31.1 entregó una dirección bech32 de SegWit versión 0, que empieza por bcrt1q. En la red principal los prefijos son bc1p y bc1q.\n\nGenerar bloques\n\n```text\nbitcoin-cli generatetoaddress 101 DIRECCION\nbitcoin-cli -rpcwallet=tienda getbalances\n```\n\ngeneratetoaddress crea bloques cuya recompensa va a la dirección indicada. En regtest, la recompensa es de 50 BTC de prueba por bloque. Después de 101 bloques, getbalances mostró:\n\n```text\n\"trusted\": 50.00000000,\n\"untrusted_pending\": 0.00000000,\n\"immature\": 5000.00000000\n```\n\n¿Por qué solo 50 disponibles y 5000 inmaduros? Las recompensas de bloque solo pueden gastarse cuando tienen 100 confirmaciones, una regla llamada maduración de la coinbase. De los 101 bloques, solo el primero tiene ya 100 bloques encima; las recompensas de los otros cien, 5000 BTC de prueba, esperan. La regla protege contra reorganizaciones de la cadena que harían desaparecer recompensas ya gastadas.\n\nVarias wallets\n\nCrea una segunda wallet, cliente, para practicar pagos entre ambas. -rpcwallet indica a qué wallet se dirige cada comando. listwallets muestra las wallets cargadas.\n\nRespaldo\n\nAunque en regtest los fondos no tienen valor, practica el respaldo: backupwallet con una ruta crea una copia del archivo de la wallet, y listdescriptors muestra los descriptores públicos. En la red principal, una wallet sin respaldo es dinero que puede perderse con el disco.\n\nEjemplo\n\nSecuencia completa del laboratorio: crear tienda, obtener una dirección Taproot, generar 101 bloques, verificar 50 BTC de prueba disponibles y 5000 inmaduros, crear cliente y obtener su dirección de recepción.\n\nPráctica\n\nReproduce la secuencia. Después genera 10 bloques más hacia la misma dirección y predice el nuevo saldo disponible antes de consultarlo.\n\nSolución y comprobación\n\nCon 111 bloques, las recompensas de los primeros 11 bloques ya tienen 100 confirmaciones: el saldo disponible pasa a 550 BTC de prueba. Si obtienes otro valor, revisa que todos los bloques fueran a direcciones de la wallet tienda y que no hayas enviado pagos en medio. getblockcount debe mostrar 111.",
+            "sources": [
+              {
+                "title": "Bitcoin Core: administración de wallets",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/managing-wallets.md"
+              },
+              {
+                "title": "Referencia de comandos RPC de Bitcoin Core",
+                "url": "https://developer.bitcoin.org/reference/rpc/index.html"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: operar el nodo",
+              "questions": [
+                {
+                  "prompt": "¿Por qué el puerto RPC nunca debe exponerse a internet?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es lento.",
+                    "Porque quien lo controle puede manejar el nodo y mover los fondos de su wallet.",
+                    "Porque no funciona en internet.",
+                    "Porque consume ancho de banda."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La interfaz RPC controla el nodo y su wallet."
+                },
+                {
+                  "prompt": "¿Qué indica initialblockdownload en true?",
+                  "multiple": false,
+                  "options": [
+                    "Que el nodo está apagado.",
+                    "Que el nodo todavía cree estar sincronizando la cadena.",
+                    "Que la wallet tiene saldo.",
+                    "Que hay un error de red."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Pasa a false al alcanzar la punta de la cadena."
+                },
+                {
+                  "prompt": "Tras generar 101 bloques en regtest, ¿por qué solo 50 BTC están disponibles?",
+                  "multiple": false,
+                  "options": [
+                    "Porque hay un error.",
+                    "Porque las recompensas necesitan 100 confirmaciones para madurar.",
+                    "Porque el resto se quemó.",
+                    "Porque falta fallbackfee."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Solo la recompensa del primer bloque tiene ya 100 bloques encima."
+                },
+                {
+                  "prompt": "¿Qué prefijo tiene una dirección Taproot en regtest?",
+                  "multiple": false,
+                  "options": [
+                    "bc1q",
+                    "bcrt1p",
+                    "1",
+                    "tb1q"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "En la red principal el prefijo es bc1p."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Transacciones, comisiones y minería",
+        "description": "Sigue una transacción desde la mempool hasta el bloque y entiende cómo se eligen.",
+        "lessons": [
+          {
+            "title": "Enviar y seguir una transacción",
+            "description": "Envía un pago entre wallets y observa su paso por la mempool hasta la confirmación.",
+            "outcome": "Interpretar el estado de una transacción y distinguir pendiente de confirmada.",
+            "activity": "execute",
+            "preview": "Seguirás un pago de 50 000 sats de principio a fin.",
+            "body": "Con dos wallets en el laboratorio puedes enviar un pago y observar cada etapa.\n\nEnviar\n\n```text\nbitcoin-cli -rpcwallet=cliente getnewaddress\nbitcoin-cli -rpcwallet=tienda sendtoaddress DIRECCION_CLIENTE 0.0005\n```\n\nsendtoaddress crea, firma y difunde una transacción por 0.0005 BTC, es decir 50 000 sats, y devuelve su identificador, el txid.\n\nEn la mempool\n\nAntes de incluirse en un bloque, la transacción espera en la mempool del nodo: el conjunto de transacciones válidas pendientes. Tras el envío, getmempoolinfo mostró size 1, una transacción, y bytes 130, su tamaño virtual. Cada nodo tiene su propia mempool; no existe una mempool global idéntica para todos.\n\n```text\nbitcoin-cli -rpcwallet=tienda gettransaction TXID\n```\n\nPara la wallet que paga, gettransaction mostró amount −0.00050000, fee −0.00001310 y confirmations 0. La comisión de 1310 sats proviene de la tarifa de respaldo del laboratorio aplicada al tamaño de la transacción. En la wallet que recibe, getbalances mostró los 0.0005 BTC en untrusted_pending: recibidos pero sin confirmar. Ese estado es importante: un pago sin confirmar todavía podría ser reemplazado o no llegar a un bloque.\n\nConfirmar\n\nGeneramos un bloque y la transacción pasó a confirmations 1; el saldo de cliente se volvió disponible: 0.00050000. Cada bloque adicional sobre el de la transacción suma una confirmación y hace más difícil revertirla. Cuántas confirmaciones exigir es una decisión de quien recibe según el monto y el riesgo: para montos pequeños, una puede bastar; para montos grandes, se suelen esperar varias.\n\nEntradas, salidas y cambio\n\nLa wallet tienda gastó una salida de 50 BTC de prueba, no 0.0005: una transacción consume salidas completas. Creó dos salidas nuevas, el pago al cliente y el cambio de vuelta a una dirección propia, y la diferencia es la comisión. getrawtransaction con el txid y la opción de detalle muestra entradas y salidas.\n\nTransacciones en la red principal\n\nEn mainnet el proceso es igual, pero los bloques llegan en promedio cada diez minutos y la comisión depende de la demanda. Los exploradores públicos, como mempool.space, muestran el estado de una transacción; consultar tu propio nodo te da la misma información sin revelar a terceros qué transacción te interesa.\n\nEjemplo\n\nLa tienda recibe el pago de un cliente por 50 000 sats. Mientras está en untrusted_pending, la tienda prepara el pedido pero no lo entrega; con la primera confirmación, lo entrega. La política está escrita y el personal sabe dónde verificarla.\n\nPráctica\n\nReproduce el envío de 0.0005 BTC de tienda a cliente. Consulta getmempoolinfo, gettransaction en ambas wallets y getbalances de cliente antes y después de generar un bloque. Identifica en getrawtransaction la salida de cambio.\n\nSolución y comprobación\n\nAntes del bloque: una transacción en la mempool, cero confirmaciones y el monto en untrusted_pending. Después: mempool vacía, una confirmación y el saldo disponible. La transacción tiene dos salidas: 0.0005 hacia la dirección de cliente y el resto, menos la comisión, hacia una dirección de tienda. Tu comisión puede variar ligeramente si el tamaño de la transacción difiere.",
+            "sources": [
+              {
+                "title": "Referencia de comandos RPC de Bitcoin Core",
+                "url": "https://developer.bitcoin.org/reference/rpc/index.html"
+              },
+              {
+                "title": "mempool.space: explorador de bloques y mempool",
+                "url": "https://mempool.space/es/"
+              },
+              {
+                "title": "Bitcoin Developer Guide",
+                "url": "https://developer.bitcoin.org/devguide/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Bitcoin Desde Cero: qué es la mempool y cómo funciona (español)",
+                "url": "https://www.youtube.com/watch?v=DrsZE3Ovr38"
+              }
+            ]
+          },
+          {
+            "title": "Comisiones, mempool y reemplazo",
+            "description": "Comprende cómo se calculan y estiman las comisiones y cómo acelerar una transacción.",
+            "outcome": "Elegir una tasa de comisión adecuada y usar el reemplazo por comisión o CPFP cuando sea necesario.",
+            "activity": "understand",
+            "preview": "Sabrás qué hacer cuando un pago se queda atascado.",
+            "body": "El espacio en cada bloque es limitado. Los mineros eligen las transacciones que más pagan por unidad de espacio, por eso la comisión se mide como tasa: satoshis por byte virtual, sat/vB. Una transacción de 140 vB con 1400 sats de comisión paga 10 sat/vB. El monto enviado no influye en la comisión: mover un millón de dólares o diez dólares cuesta lo mismo si la transacción ocupa lo mismo.\n\nTamaño virtual\n\nEl tamaño depende de la cantidad de entradas y salidas y de su tipo, no del monto. Las direcciones SegWit y Taproot hacen las transacciones más eficientes que las antiguas. Una wallet con muchas salidas pequeñas, que haya recibido muchos pagos chicos, produce transacciones grandes y caras cuando las gasta todas: conviene consolidarlas cuando las comisiones están bajas.\n\nEstimar la comisión\n\nestimatesmartfee con un número de bloques devuelve la tasa sugerida para confirmar en ese plazo, calculada con lo que el nodo observó en la red. En el laboratorio respondió:\n\n```text\n\"errors\": [\"Insufficient data or no feerate found\"]\n```\n\nEn regtest no hay historial de transacciones del cual aprender, por eso usamos fallbackfee. En la red principal, un nodo recién sincronizado necesita observar bloques un tiempo antes de estimar bien. Las tasas cambian mucho: en momentos tranquilos, unos pocos sat/vB bastan; en momentos de alta demanda, pueden multiplicarse.\n\nReemplazo por comisión\n\nSi una transacción se queda en la mempool por una comisión baja, quien la envió puede reemplazarla por otra que gaste las mismas entradas con una comisión mayor. Es el reemplazo por comisión, RBF, descrito en el BIP 125. Desde Bitcoin Core 28, los nodos aceptan por defecto el reemplazo de cualquier transacción no confirmada, aunque no haya señalado esa posibilidad. En Bitcoin Core, bumpfee con el txid crea el reemplazo. Consecuencia para quien recibe: una transacción sin confirmar puede ser reemplazada por otra que pague a otro destino; por eso los pagos importantes se aceptan con confirmaciones.\n\nEl hijo paga por el padre\n\nQuien recibe también puede acelerar: gastando la salida no confirmada que recibió en una nueva transacción con comisión alta, hace que a los mineros les convenga incluir ambas juntas. Se llama CPFP, child pays for parent.\n\nLímites de la mempool\n\nCada nodo limita el tamaño de su mempool. Si se llena, descarta primero las transacciones con tasas más bajas; las transacciones muy antiguas sin confirmar también expiran. Una transacción descartada no se pierde: los fondos siguen en la wallet de origen y puede reenviarse con mejor comisión.\n\nEjemplo\n\nUn pago enviado con 2 sat/vB lleva horas sin confirmar porque la mempool tiene muchas transacciones de 15 sat/vB. Quien envió usa bumpfee para reemplazarlo a 18 sat/vB y se confirma en el siguiente bloque. Si quien envió no puede hacerlo, quien recibe usa CPFP gastando su salida con una tasa alta.\n\nPráctica\n\nCalcula la tasa de la transacción del laboratorio, 1310 sats con un tamaño de 130 a 131 vB. Explica por qué aceptar sin confirmaciones un pago de alto valor es riesgoso desde Bitcoin Core 28. Describe cuándo usarías RBF y cuándo CPFP.\n\nSolución y comprobación\n\nLa tasa es de aproximadamente 10 sat/vB, coherente con la tarifa de respaldo de 0.0001 BTC por kilobyte virtual, que equivale a 10 sat/vB. Con el reemplazo aceptado por defecto, quien paga puede reemplazar una transacción no confirmada para redirigir los fondos. RBF lo usa quien envió; CPFP lo puede usar quien recibe, porque gasta la salida que le pertenece.",
+            "sources": [
+              {
+                "title": "BIP 125: reemplazo por comisión",
+                "url": "https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki"
+              },
+              {
+                "title": "Bitcoin Core 28.0: notas de la versión",
+                "url": "https://bitcoincore.org/en/releases/28.0/"
+              },
+              {
+                "title": "mempool.space: explorador de bloques y mempool",
+                "url": "https://mempool.space/es/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Minería y bloques",
+            "description": "Comprende la prueba de trabajo, el ajuste de dificultad y la emisión.",
+            "outcome": "Explicar cómo se producen los bloques y cómo se relacionan mineros y nodos.",
+            "activity": "understand",
+            "preview": "Entenderás de dónde salen los bloques que tu nodo verifica.",
+            "body": "La minería es el proceso por el cual se agregan bloques nuevos a la cadena. Un minero arma un bloque candidato con transacciones de su mempool, calcula una y otra vez el resumen criptográfico de su encabezado cambiando un número llamado nonce, y busca un resultado menor que un objetivo. Encontrarlo requiere en promedio una cantidad enorme de intentos: esa es la prueba de trabajo. Verificarlo, en cambio, toma un instante: cualquier nodo calcula un solo resumen y comprueba que cumple el objetivo.\n\nRecompensa\n\nEl minero que encuentra un bloque válido incluye una transacción especial, la coinbase, que le paga el subsidio del bloque más las comisiones de todas las transacciones incluidas. El subsidio comenzó en 50 BTC en 2009 y se reduce a la mitad cada 210 000 bloques, aproximadamente cada cuatro años. Desde el halving de abril de 2024 es de 3.125 BTC, y el siguiente se espera alrededor de 2028. Por eso la emisión total se acerca a 21 millones de BTC y nunca los supera. En regtest el subsidio también empieza en 50 BTC, pero se reduce a la mitad cada 150 bloques para poder probar ese comportamiento; con los 111 bloques del laboratorio sigue en 50.\n\nAjuste de dificultad\n\nPara mantener un bloque cada diez minutos en promedio, la red ajusta la dificultad cada 2016 bloques, unas dos semanas. Si los bloques llegaron más rápido porque se sumó potencia de cálculo, la dificultad sube; si llegaron más lento, baja. Así, más mineros no producen más bitcoins: solo compiten más por los mismos bloques.\n\nMineros y nodos\n\nLos mineros eligen qué transacciones incluir, pero no pueden cambiar las reglas: un bloque que gaste fondos ajenos o cree más subsidio del permitido es rechazado por los nodos, y la energía usada para producirlo se pierde. La seguridad de la red depende de ambos: la prueba de trabajo hace muy costoso reescribir la historia y los nodos garantizan que solo se acepten bloques válidos.\n\nGrupos de minería\n\nLa probabilidad de que un minero individual encuentre un bloque es muy baja, así que la mayoría se une a grupos que reparten las recompensas según la potencia aportada. Los grupos concentran la construcción de las plantillas de bloques; propuestas recientes buscan que los mineros individuales elijan las transacciones aunque minen en grupo.\n\nEnergía\n\nLa minería consume mucha electricidad y se ubica donde la energía es barata. El debate sobre su impacto incluye el uso de energía renovable, excedentes y gas que se quemaría de todos modos, así como sus costos. En El Salvador se realizaron proyectos de minería con energía geotérmica asociada a volcanes. Evalúa las afirmaciones sobre minería y energía con fuentes y datos, no con consignas.\n\nEjemplo\n\nEn el laboratorio, generatetoaddress produjo bloques al instante porque regtest no exige una dificultad real. getblock con el resumen de un bloque muestra su altura, las transacciones incluidas y el campo de dificultad, que en regtest es mínimo.\n\nPráctica\n\nCalcula cuántos bloques y cuánto tiempo aproximado hay entre dos halvings y entre dos ajustes de dificultad. Después explica qué ocurriría con el tiempo entre bloques si la potencia de minería se duplicara de repente, antes y después del siguiente ajuste.\n\nSolución y comprobación\n\nEntre halvings hay 210 000 bloques, unos cuatro años con bloques de diez minutos. Entre ajustes hay 2016 bloques, unas dos semanas. Si la potencia se duplica, los bloques llegarían cada cinco minutos aproximadamente hasta el siguiente ajuste, que duplicaría la dificultad y devolvería el promedio a diez minutos.",
+            "sources": [
+              {
+                "title": "Mastering Bitcoin, tercera edición (texto abierto)",
+                "url": "https://github.com/bitcoinbook/bitcoinbook"
+              },
+              {
+                "title": "Bitcoin Developer Guide",
+                "url": "https://developer.bitcoin.org/devguide/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Xataka: cómo funciona la minería de criptomonedas (español)",
+                "url": "https://www.youtube.com/watch?v=GjOs_W3wilc"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: transacciones, comisiones y minería",
+              "questions": [
+                {
+                  "prompt": "¿Qué significa que un pago aparezca en untrusted_pending?",
+                  "multiple": false,
+                  "options": [
+                    "Que está confirmado.",
+                    "Que fue recibido pero aún no tiene confirmaciones.",
+                    "Que fue rechazado.",
+                    "Que es una recompensa inmadura."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Un pago sin confirmar todavía podría ser reemplazado."
+                },
+                {
+                  "prompt": "¿De qué depende la comisión de una transacción?",
+                  "multiple": false,
+                  "options": [
+                    "Del monto enviado.",
+                    "De su tamaño virtual y de la tasa en sat/vB.",
+                    "De la distancia entre países.",
+                    "Del número de confirmaciones."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Mover mucho o poco dinero cuesta igual si la transacción ocupa lo mismo."
+                },
+                {
+                  "prompt": "¿Qué cambió en Bitcoin Core 28 respecto del reemplazo de transacciones?",
+                  "multiple": false,
+                  "options": [
+                    "Se prohibió el reemplazo.",
+                    "Los nodos aceptan por defecto reemplazar cualquier transacción no confirmada.",
+                    "Solo los mineros pueden reemplazar.",
+                    "El reemplazo requiere 6 confirmaciones."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Por eso los pagos importantes se aceptan con confirmaciones."
+                },
+                {
+                  "prompt": "¿Cada cuántos bloques se ajusta la dificultad de minería?",
+                  "multiple": false,
+                  "options": [
+                    "144",
+                    "2016",
+                    "210 000",
+                    "100"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Unas dos semanas, para mantener bloques cada diez minutos en promedio."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. Seguridad y uso del nodo",
+        "description": "Protege el nodo, conéctale tus wallets y planifica su operación.",
+        "lessons": [
+          {
+            "title": "Proteger el nodo y su wallet",
+            "description": "Aplica medidas de seguridad al acceso, la red, las actualizaciones y los respaldos.",
+            "outcome": "Configurar un nodo con acceso restringido, actualizado y con respaldos de sus wallets.",
+            "activity": "design",
+            "preview": "Cerrarás las puertas que un atacante buscaría en tu nodo.",
+            "body": "Un nodo sin wallet solo verifica y transmite información pública; los riesgos son principalmente de disponibilidad y privacidad. Un nodo con wallet guarda claves que controlan fondos: requiere la misma seguridad que cualquier sistema financiero.\n\nAcceso RPC\n\nMantén la interfaz RPC solo en la dirección local, con rpcbind=127.0.0.1 y sin rpcallowip hacia redes externas. Usa la autenticación por cookie o rpcauth para otros programas. Si necesitas administrar el nodo a distancia, conéctate primero al equipo por SSH o por una VPN y usa bitcoin-cli allí, nunca exponiendo el puerto RPC.\n\nSeparar wallet y nodo\n\nPara fondos importantes, la buena práctica es no guardar las claves en el mismo equipo que está conectado permanentemente a internet. Una wallet de hardware o una wallet de solo observación —que conoce las direcciones pero no las claves— conectada a tu nodo permite verificar y construir transacciones, mientras la firma ocurre en un dispositivo separado. Bitcoin Core admite importar descriptores públicos para crear wallets de solo observación.\n\nCifrado y respaldos\n\nSi usas la wallet de Bitcoin Core, cífrala con una contraseña fuerte, encryptwallet, y haz respaldos con backupwallet en un medio fuera del equipo. Comprueba periódicamente que el respaldo se restaura en un entorno de prueba. Guarda la contraseña de cifrado por separado: un respaldo cifrado sin contraseña es inútil y una contraseña sin respaldo, también.\n\nActualizaciones\n\nMantén Bitcoin Core actualizado con versiones verificadas, como aprendiste en el capítulo 1. Lee las notas de la versión antes de actualizar: indican cambios de comportamiento y opciones obsoletas. Las versiones antiguas dejan de recibir correcciones de seguridad.\n\nPrivacidad de red\n\nTu dirección IP es visible para los nodos a los que te conectas. Bitcoin Core puede funcionar a través de Tor para ocultar la IP, conectándose a otros nodos mediante servicios onion; la guía oficial de Tor de Bitcoin Core explica la configuración. Considéralo si la privacidad de tu ubicación es importante.\n\nEl equipo\n\nUsa un sistema operativo actualizado, con cuentas separadas y sin software innecesario, y protégelo con las prácticas del curso de Fundamentos de ciberseguridad. Un nodo en un equipo comprometido no te protege de nada.\n\nEjemplo\n\nConfiguración de una tienda: nodo podado en un equipo dedicado, RPC solo local, actualizaciones verificadas cada vez que sale una versión, y wallet de solo observación en el nodo con las claves en una wallet de hardware que guarda la gerencia; los respaldos de la configuración de la wallet de hardware están en un sobre sellado en dos ubicaciones.\n\nPráctica\n\nEscribe una lista de verificación de seguridad para tu nodo con al menos ocho puntos cubriendo acceso, wallet, respaldos, actualizaciones, red y equipo. Marca cuáles ya cumples en el laboratorio.\n\nSolución y comprobación\n\nLa lista incluye RPC solo local, autenticación por cookie o rpcauth, wallet cifrada o separada, respaldo probado, versión verificada y actualizada, decisión sobre Tor, equipo actualizado y acceso remoto solo por SSH o VPN. En regtest probablemente cumples el acceso local; los demás puntos aplican al nodo real.",
+            "sources": [
+              {
+                "title": "Bitcoin Core: administración de wallets",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/managing-wallets.md"
+              },
+              {
+                "title": "Bitcoin Core: uso con Tor",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/tor.md"
+              },
+              {
+                "title": "Bitcoin Core: archivo bitcoin.conf",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/bitcoin-conf.md"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Conectar wallets y servicios a tu nodo",
+            "description": "Usa tu nodo como fuente de verdad para wallets, exploradores y Lightning.",
+            "outcome": "Elegir cómo conectar wallets y servicios a un nodo propio y qué implica cada opción.",
+            "activity": "design",
+            "preview": "Tu wallet dejará de depender de servidores ajenos.",
+            "body": "Un nodo aporta privacidad y verificación cuando tus herramientas lo usan. Hay varias formas de conectarlas.\n\nWallet de Bitcoin Core\n\nLa propia interfaz bitcoin-qt es una wallet completa conectada a tu nodo. Es la opción más directa, aunque su interfaz es más técnica que la de otras wallets.\n\nWallets de escritorio que se conectan al nodo\n\nAlgunas wallets de escritorio pueden conectarse directamente a Bitcoin Core por RPC o mediante un servidor intermedio. Esto permite usar una wallet de hardware con una interfaz cómoda mientras la verificación ocurre en tu nodo. Configura el acceso con rpcauth o cookie, siempre en la red local.\n\nServidores de índice\n\nMuchas wallets, sobre todo de teléfono, usan el protocolo Electrum para consultar saldos e historial. Un servidor Electrum propio indexa la cadena a partir de tu nodo y responde esas consultas: la wallet se conecta a tu servidor en lugar de a uno público. Requiere un nodo con la cadena completa o, en algunos casos, configuraciones especiales para nodos podados, y espacio adicional para el índice.\n\nExploradores propios\n\nUn explorador de bloques autoalojado permite consultar transacciones y direcciones sin revelar a un sitio público cuáles te interesan. El proyecto mempool.space, por ejemplo, publica su software para instalarlo sobre tu propio nodo.\n\nLightning\n\nLos nodos de Lightning, como LND o Core Lightning, necesitan un nodo de Bitcoin para vigilar la cadena, abrir y cerrar canales y detectar intentos de fraude. Se conectan por RPC y por ZeroMQ, una interfaz que notifica en tiempo real los bloques y transacciones nuevos; en Bitcoin Core se habilita con opciones como zmqpubrawblock y zmqpubrawtx. El curso de cobros con Lightning profundiza en esta capa.\n\nPlataformas todo en uno\n\nExisten sistemas para equipos dedicados que instalan con una interfaz web el nodo, un servidor Electrum, un explorador y Lightning. Simplifican la operación, pero agregan una capa de software de terceros que también debes mantener actualizada y en la que confías.\n\nEjemplo\n\nArquitectura de una persona: Bitcoin Core completo en un equipo dedicado, servidor Electrum propio para la wallet del teléfono cuando está en casa o conectada por VPN, wallet de hardware gestionada desde una wallet de escritorio conectada al nodo, y un explorador propio para consultar transacciones.\n\nPráctica\n\nDiseña la arquitectura de tu ecosistema: qué wallets usas o usarás, cómo se conectarán al nodo, qué servicios adicionales necesitas y qué requisitos agregan en espacio y mantenimiento. Dibuja un diagrama con las conexiones y sus puertos, todos dentro de tu red o de una VPN.\n\nSolución y comprobación\n\nEl diagrama muestra el nodo como centro, cada servicio conectado por la red local y ningún puerto de administración expuesto a internet. Si un servicio requiere la cadena completa, tu plan de nodo podado debe cambiar o ese servicio quedar fuera. Indica qué componentes son de terceros y cómo se actualizarán.",
+            "sources": [
+              {
+                "title": "Bitcoin Core: archivo bitcoin.conf",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/bitcoin-conf.md"
+              },
+              {
+                "title": "Bitcoin.org: guía para ejecutar un nodo completo",
+                "url": "https://bitcoin.org/en/full-node"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Bitcoin Desde Cero: nodo podado con Bitcoin Core y Sparrow (español)",
+                "url": "https://www.youtube.com/watch?v=AdnqgkZFMD8"
+              }
+            ]
+          },
+          {
+            "title": "Proyecto: plan de operación y laboratorio documentado",
+            "description": "Integra instalación, configuración, laboratorio y seguridad en un plan de operación.",
+            "outcome": "Entregar un plan de operación de un nodo y un informe de laboratorio reproducible en regtest.",
+            "activity": "design",
+            "preview": "Dejarás documentado tu nodo como lo haría un equipo de operaciones.",
+            "body": "Un nodo bien operado no depende de la memoria de quien lo instaló. En este proyecto documentarás tu nodo y tu laboratorio para que otra persona pueda reproducirlos y mantenerlos.\n\nParte 1: plan de operación\n\n1. Propósito, red y tipo de nodo, con la justificación de la lección de requisitos.\n2. Hardware, sistema operativo y ubicación.\n3. Procedimiento de descarga y verificación, con comandos y resultados esperados.\n4. bitcoin.conf comentado.\n5. Lista de verificación de seguridad.\n6. Monitoreo: qué comandos revisar y con qué frecuencia —getblockchaininfo, getnetworkinfo, espacio en disco y debug.log— y qué valores indican un problema.\n7. Actualizaciones y respaldos: frecuencia, procedimiento y prueba de restauración.\n8. Arquitectura de wallets y servicios conectados.\n\nParte 2: informe de laboratorio en regtest\n\nUn script o una lista de comandos que, desde un directorio de datos vacío, cree dos wallets, genere 101 bloques, envíe un pago, muestre el estado en la mempool, confirme con un bloque y consulte los saldos finales. El informe incluye los resultados obtenidos y su explicación: por qué 50 disponibles y 5000 inmaduros, la comisión y su tasa, y el paso de untrusted_pending a disponible.\n\nUn script de monitoreo\n\n```text\n#!/bin/bash\nset -euo pipefail\ninfo=$(bitcoin-cli getblockchaininfo)\necho \"$info\" | grep -E '\"chain\"|\"blocks\"|\"initialblockdownload\"'\nbitcoin-cli getnetworkinfo | grep -E '\"subversion\"|\"connections\"'\ndf -h ~/.bitcoin | tail -1\n```\n\nEjecutado periódicamente, por ejemplo con un temporizador de systemd, permite detectar un nodo detenido, desconectado o sin espacio.\n\nEjemplo\n\nFragmento del informe: «Después de 101 bloques, tienda muestra 50 BTC disponibles y 5000 inmaduros: solo la recompensa del primer bloque alcanzó las 100 confirmaciones. El pago de 0.0005 BTC pagó 1310 sats de comisión, unos 10 sat/vB, por la tarifa de respaldo configurada».\n\nPráctica\n\nElabora ambas partes. Ejecuta el laboratorio dos veces desde cero para confirmar que es reproducible y compara los resultados.\n\nSolución y comprobación\n\nLas dos ejecuciones producen los mismos saldos y la misma estructura; los identificadores de bloques, direcciones y transacciones cambian porque dependen de claves y tiempos. El plan no contiene contraseñas ni descriptores privados. Si el script falla en la segunda ejecución, probablemente no partiste de un directorio de datos vacío: usa un datadir exclusivo para el laboratorio.",
+            "sources": [
+              {
+                "title": "Referencia de comandos RPC de Bitcoin Core",
+                "url": "https://developer.bitcoin.org/reference/rpc/index.html"
+              },
+              {
+                "title": "Bitcoin Core: archivo bitcoin.conf",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/bitcoin-conf.md"
+              },
+              {
+                "title": "Bitcoin Core: administración de wallets",
+                "url": "https://github.com/bitcoin/bitcoin/blob/master/doc/managing-wallets.md"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Stick Bitcoin: cómo montar un nodo de Bitcoin desde cero (español)",
+                "url": "https://www.youtube.com/watch?v=3K3zsYu4eEo"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación final: seguridad y uso del nodo",
+              "questions": [
+                {
+                  "prompt": "¿Cómo se administra un nodo a distancia de forma segura?",
+                  "multiple": false,
+                  "options": [
+                    "Exponiendo el puerto RPC a internet.",
+                    "Conectándose al equipo por SSH o VPN y usando bitcoin-cli allí.",
+                    "Compartiendo el archivo .cookie por correo.",
+                    "Desactivando la autenticación."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El puerto RPC nunca se expone."
+                },
+                {
+                  "prompt": "¿Qué es una wallet de solo observación?",
+                  "multiple": false,
+                  "options": [
+                    "Una wallet sin saldo.",
+                    "Una wallet que conoce las direcciones pero no las claves privadas.",
+                    "Una wallet en papel.",
+                    "Una wallet de otra persona."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Permite verificar y construir transacciones mientras la firma ocurre en otro dispositivo."
+                },
+                {
+                  "prompt": "¿Para qué usan los nodos Lightning las notificaciones ZeroMQ de Bitcoin Core?",
+                  "multiple": false,
+                  "options": [
+                    "Para enviar correos.",
+                    "Para enterarse en tiempo real de bloques y transacciones nuevas.",
+                    "Para minar.",
+                    "Para cifrar la wallet."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Necesitan vigilar la cadena para abrir y cerrar canales y detectar fraudes."
+                },
+                {
+                  "prompt": "¿Por qué los identificadores cambian entre dos ejecuciones del laboratorio aunque los saldos coincidan?",
+                  "multiple": false,
+                  "options": [
+                    "Porque hay un error.",
+                    "Porque dependen de claves y tiempos nuevos en cada ejecución.",
+                    "Porque regtest es aleatorio en los montos.",
+                    "Porque la red cambió."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los saldos dependen de las reglas; los identificadores, de los datos concretos."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: operación de un nodo Bitcoin",
+              "instructions": "Entrega el plan de operación con sus ocho secciones y el informe de laboratorio en regtest con el script reproducible, los resultados de dos ejecuciones y su explicación. No incluyas contraseñas, descriptores privados ni datos de fondos reales. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Software verificado",
+                  "description": "El procedimiento comprueba el resumen frente a SHA256SUMS y las firmas de SHA256SUMS.asc con claves de guix.sigs."
+                },
+                {
+                  "label": "Configuración justificada",
+                  "description": "bitcoin.conf comentado según el propósito, con RPC solo local y decisiones de poda y memoria explicadas."
+                },
+                {
+                  "label": "Laboratorio reproducible",
+                  "description": "El script crea el entorno desde cero y el informe explica maduración, comisión y confirmaciones con los resultados obtenidos."
+                },
+                {
+                  "label": "Operación sostenible",
+                  "description": "Monitoreo, actualizaciones, respaldos probados y arquitectura de wallets documentados."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cobros-lightning-negocios",
+    "title": "Cobros con Lightning para negocios: del mostrador a la contabilidad",
+    "access": "membership",
+    "category": {
+      "name": "Bitcoin y Lightning",
+      "slug": "bitcoin"
+    },
+    "topic": {
+      "name": "Lightning",
+      "slug": "lightning"
+    },
+    "description": "Prepara un negocio para cobrar con Lightning de forma ordenada: elegir el modelo de custodia, emitir facturas y códigos QR, fijar precios en dólares, operar un punto de venta, gestionar liquidez, conciliar pagos, devolver dinero y proteger las claves. Con el caso de una cafetería de San Salvador y ejemplos con LNbits, la herramienta que usa BTC.EDU.",
+    "objective": "Diseñar e implementar un proceso de cobro con Lightning que el personal pueda operar, que concilie cada pago con una venta y que gestione los riesgos de custodia, liquidez, volatilidad y fraude.",
+    "requirements": "Haber completado Lightning desde cero y Facturas Lightning, o conocer canales, liquidez y facturas. No se necesitan fondos reales: los ejercicios usan casos de estudio y entornos de prueba.",
+    "minutes": 480,
+    "price": 0,
+    "level": "intermediate",
+    "sources": [
+      {
+        "title": "EFE en swissinfo: reforma de la Ley Bitcoin de El Salvador (2025)",
+        "url": "https://www.swissinfo.ch/spa/el-salvador-aprueba-reforma-a-la-ley-bitcoin-que-pone-fin-a-la-obligatoriedad-de-su-uso/88800809"
+      },
+      {
+        "title": "Mastering the Lightning Network (texto abierto)",
+        "url": "https://github.com/lnbook/lnbook"
+      },
+      {
+        "title": "LNbits: documentación",
+        "url": "https://docs.lnbits.org/"
+      },
+      {
+        "title": "LNbits: preguntas frecuentes",
+        "url": "https://docs.lnbits.org/guide/faq.html"
+      },
+      {
+        "title": "Especificaciones de proveedores de servicios Lightning",
+        "url": "https://github.com/BitcoinAndLightningLayerSpecs/lsp"
+      },
+      {
+        "title": "BOLT 11: codificación de facturas Lightning",
+        "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+      },
+      {
+        "title": "BOLT 12: ofertas Lightning",
+        "url": "https://github.com/lightning/bolts/blob/master/12-offer-encoding.md"
+      },
+      {
+        "title": "Bitcoin Optech: ofertas",
+        "url": "https://bitcoinops.org/en/topics/offers/"
+      },
+      {
+        "title": "Lightning Address",
+        "url": "https://lightningaddress.com/"
+      },
+      {
+        "title": "LNURL: especificaciones",
+        "url": "https://github.com/lnurl/luds"
+      },
+      {
+        "title": "LNbits: extensión TPoS de punto de venta",
+        "url": "https://github.com/lnbits/tpos"
+      },
+      {
+        "title": "Bitcoin Optech: splicing",
+        "url": "https://bitcoinops.org/en/topics/splicing/"
+      },
+      {
+        "title": "Lightning Labs: recuperación ante desastres en LND",
+        "url": "https://docs.lightning.engineering/lightning-network-tools/lnd/disaster-recovery"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Decidir cómo cobrar",
+        "description": "Por qué Lightning, qué modelo de custodia elegir y qué tipos de solicitud de pago existen.",
+        "lessons": [
+          {
+            "title": "Lightning en un negocio: oportunidades y límites",
+            "description": "Evalúa cuándo tiene sentido aceptar Lightning y qué riesgos implica.",
+            "outcome": "Decidir con criterios si un negocio debe aceptar pagos Lightning y en qué condiciones.",
+            "activity": "understand",
+            "preview": "Conocerás el caso de la cafetería Las Brisas y su decisión de aceptar Lightning.",
+            "body": "Lightning permite recibir pagos en bitcoin en segundos, con comisiones generalmente muy bajas, incluso por montos de unos pocos centavos. Para un comercio, esas características son atractivas, pero aceptar un nuevo medio de pago es también una decisión operativa: alguien debe cobrar, conciliar, resolver problemas y decidir qué hacer con los fondos.\n\nEl contexto en El Salvador\n\nEn septiembre de 2021, El Salvador adoptó la Ley Bitcoin y la aceptación de bitcoin se volvió obligatoria para los comercios. En enero de 2025, la Asamblea Legislativa aprobó una reforma que eliminó esa obligación: hoy aceptar bitcoin es voluntario para los negocios, y el Gobierno dejó de operar la wallet Chivo como parte del acuerdo con el Fondo Monetario Internacional. Las fuentes interpretan de manera distinta el alcance exacto del término curso legal tras la reforma; para decisiones legales o tributarias, consulta el texto publicado en el Diario Oficial y a un profesional. La moneda de referencia de los precios y la contabilidad sigue siendo el dólar.\n\nOportunidades\n\nClientes que ya usan bitcoin, incluidos turistas que llegan atraídos por la experiencia de pagar con él. Cobros sin contracargos: un pago Lightning liquidado no puede revertirse unilateralmente, a diferencia de un pago con tarjeta. Comisiones de recepción bajas en comparación con algunos medios. Pagos pequeños viables, como propinas o productos de bajo precio.\n\nLímites y riesgos\n\nVolatilidad: el valor del bitcoin en dólares cambia; si el negocio conserva los fondos, su valor en dólares sube o baja. Liquidez: para recibir por Lightning con un nodo propio se necesita capacidad entrante en los canales. Operación: el personal debe saber cobrar y verificar. Custodia: alguien controla las claves, el negocio o un proveedor, con riesgos diferentes. Demanda: si pocos clientes pagan así, el costo de preparación puede no compensar.\n\nPensar como negocio\n\nLa pregunta no es «¿Bitcoin es bueno?», sino «¿Aceptar Lightning mejora mi negocio con un riesgo que puedo gestionar?». Las respuestas se apoyan en datos: cuántos clientes lo pedirían, qué costos tiene, quién lo operará y qué se hará con los fondos.\n\nEjemplo\n\nLa cafetería ficticia Las Brisas, en San Salvador, vende café y repostería; varios clientes extranjeros preguntan si aceptan bitcoin. La dueña decide probar tres meses con un objetivo medible: que al menos el 3 % de las ventas se paguen con Lightning, convirtiendo a dólares lo necesario cada semana y sin que los cobros demoren más que con tarjeta.\n\nPráctica\n\nPara un negocio real o ficticio que conozcas, completa una tabla con oportunidades, riesgos, costos de preparación, persona responsable y un objetivo medible para una prueba de tres meses. Concluye si recomendarías aceptar Lightning y en qué condiciones.\n\nSolución y comprobación\n\nUna buena recomendación es condicional y medible: por ejemplo, «aceptar con un proveedor custodio durante la prueba, con conversión semanal a dólares, y evaluar al tercer mes la participación en ventas y los incidentes». Si tu tabla solo tiene ventajas, revisa los riesgos de volatilidad, custodia y operación. No hay respuesta única: para algunos negocios la conclusión correcta es no aceptar todavía.",
+            "sources": [
+              {
+                "title": "EFE en swissinfo: reforma de la Ley Bitcoin de El Salvador (2025)",
+                "url": "https://www.swissinfo.ch/spa/el-salvador-aprueba-reforma-a-la-ley-bitcoin-que-pone-fin-a-la-obligatoriedad-de-su-uso/88800809"
+              },
+              {
+                "title": "Mastering the Lightning Network (texto abierto)",
+                "url": "https://github.com/lnbook/lnbook"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Bitcoin Desde Cero: qué es Lightning Network (español)",
+                "url": "https://www.youtube.com/watch?v=xvexgcV5HyI"
+              }
+            ],
+            "free": true
+          },
+          {
+            "title": "Modelos de custodia: quién controla los fondos",
+            "description": "Compara cobrar con un proveedor custodio, con una wallet propia y con infraestructura propia.",
+            "outcome": "Elegir el modelo de custodia adecuado según tamaño, capacidad técnica y riesgo del negocio.",
+            "activity": "design",
+            "preview": "Elegirás cómo recibirá los pagos la cafetería.",
+            "body": "La decisión más importante al aceptar Lightning es quién controla las claves que reciben los fondos. Hay tres modelos principales, con equilibrios distintos entre comodidad, control y responsabilidad.\n\nCustodio\n\nUn proveedor recibe los pagos en tu nombre y te muestra un saldo. Es lo más sencillo: no hay canales que gestionar, la liquidez la resuelve el proveedor y muchas ofrecen conversión automática a dólares. A cambio, el proveedor controla los fondos: puede congelar la cuenta, sufrir un hackeo, quebrar o exigir verificación de identidad. En muchos países, estos servicios están regulados como proveedores de servicios de activos digitales. Revisa las condiciones, el respaldo legal y la reputación del proveedor.\n\nNo custodio con wallet propia\n\nUna wallet Lightning en el teléfono o la computadora del negocio, donde las claves están en el dispositivo. Algunas gestionan los canales automáticamente con un proveedor de servicios Lightning, LSP, que abre canales con capacidad entrante a cambio de una comisión. Controlas los fondos, pero eres responsable de los respaldos y de la seguridad del dispositivo; si se pierde sin respaldo, los fondos pueden perderse.\n\nInfraestructura propia\n\nUn nodo de Bitcoin y un nodo Lightning propios, con una capa como LNbits para crear cuentas para el personal, puntos de venta y una API para la tienda en línea. Es el modelo con más control y privacidad, y el más exigente: gestionar canales y liquidez, respaldos, disponibilidad continua del servidor y actualizaciones. Tiene sentido para negocios con volumen o con capacidad técnica, o como servicio compartido entre varios comercios.\n\nLNbits, una capa sobre una fuente de fondos\n\nLNbits es software libre que ofrece wallets, extensiones y una API sobre una fuente de fondos: un nodo Lightning propio u otro proveedor. Importante: el saldo que LNbits muestra a cada usuario no significa que ese usuario controle canales ni claves; quien opera la instancia de LNbits y su fuente de fondos tiene la custodia. Usar la instancia de un tercero es, en la práctica, custodia de ese tercero.\n\nCriterios para elegir\n\nVolumen esperado y monto promedio. Capacidad técnica del equipo. Necesidad de conversión a dólares. Requisitos legales y contables. Tolerancia al riesgo de contraparte. Muchos negocios empiezan con un modelo sencillo y migran cuando el volumen lo justifica; lo importante es que la elección sea consciente.\n\nEjemplo\n\nLas Brisas no tiene personal técnico y quiere convertir a dólares cada semana. Para la prueba de tres meses elige un proveedor custodio regulado, con límite de saldo: cada viernes retira o convierte todo lo que supere 100 dólares, para que el riesgo de contraparte sea acotado.\n\nPráctica\n\nCompleta una tabla comparativa de los tres modelos para tu negocio con estas filas: quién controla las claves, liquidez, respaldos, conversión a dólares, requisitos técnicos, costos y riesgo principal. Elige un modelo y define una regla para limitar su riesgo.\n\nSolución y comprobación\n\nLa elección debe justificarse con los criterios de la lección. Una regla de riesgo concreta puede ser un saldo máximo en custodia, un respaldo probado cada mes o un horario de conciliación. Si elegiste infraestructura propia sin personal técnico, revisa: la disponibilidad del nodo y la gestión de canales serán tu responsabilidad diaria.",
+            "sources": [
+              {
+                "title": "LNbits: documentación",
+                "url": "https://docs.lnbits.org/"
+              },
+              {
+                "title": "LNbits: preguntas frecuentes",
+                "url": "https://docs.lnbits.org/guide/faq.html"
+              },
+              {
+                "title": "Especificaciones de proveedores de servicios Lightning",
+                "url": "https://github.com/BitcoinAndLightningLayerSpecs/lsp"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Bitcoin Desde Cero: qué es un canal de pago (español)",
+                "url": "https://www.youtube.com/watch?v=CdSJJb0niMk"
+              }
+            ]
+          },
+          {
+            "title": "Facturas, Lightning Address y códigos QR",
+            "description": "Distingue facturas de un solo uso, direcciones Lightning y ofertas reutilizables.",
+            "outcome": "Elegir el tipo de solicitud de pago adecuado para el mostrador, la tienda en línea y las propinas.",
+            "activity": "understand",
+            "preview": "Sabrás qué QR poner en el mostrador y cuál generar para cada venta.",
+            "body": "Para recibir un pago Lightning, quien cobra entrega una solicitud que la wallet del cliente puede leer, normalmente como código QR. Existen varios tipos, con usos distintos.\n\nFactura BOLT 11\n\nEs la solicitud clásica: incluye el monto, una descripción, una fecha de vencimiento y el resumen de un secreto que identifica el pago, el payment hash. Es de un solo uso: una vez pagada, no debe volver a usarse. Su vencimiento por defecto suele ser de una hora, aunque quien la emite puede definir otro; para ventas con precio en dólares conviene un vencimiento corto, de diez a quince minutos, para no quedar expuesto a cambios de tipo de cambio. Es ideal para cada venta en caja o en la tienda en línea: el monto exacto está fijado y el pago se asocia con una venta concreta mediante su payment hash.\n\nLightning Address\n\nTiene forma de correo electrónico, como cafe@ejemplo.com, y por detrás usa el protocolo LNURL-pay: la wallet del cliente consulta al servidor del negocio, que genera una factura nueva en el momento. Es reutilizable y cómoda para propinas, donaciones o pagos en los que el cliente elige el monto. Requiere un servidor que responda: un proveedor o tu propia infraestructura, como LNbits con su extensión correspondiente.\n\nOfertas BOLT 12\n\nSon solicitudes reutilizables que la wallet del cliente usa para obtener facturas directamente del nodo del negocio a través de la red Lightning, sin un servidor web intermedio. Permiten un QR estático en el mostrador y mejoran la privacidad. Su soporte varía entre wallets e implementaciones: comprueba que tus clientes y tu infraestructura lo admiten antes de depender de ellas.\n\nQR estático o dinámico\n\nUn QR impreso en el mostrador debe ser reutilizable: una Lightning Address, un LNURL u una oferta BOLT 12, y el cliente escribe el monto. Es sencillo, pero propenso a errores de monto y difícil de conciliar con una venta específica. Un QR dinámico, una factura nueva por venta mostrada en una tableta o un teléfono, fija el monto y vincula el pago con la venta: es la opción recomendada para el cobro habitual.\n\nFraude común\n\nUn QR impreso puede ser reemplazado por uno ajeno con una calcomanía. Revisa los códigos físicos con frecuencia y prefiere los dinámicos. Y nunca aceptes como prueba de pago una captura de pantalla de la wallet del cliente: la confirmación es la que muestra tu propio sistema.\n\nEjemplo\n\nLas Brisas usa facturas BOLT 11 de 10 minutos generadas en una tableta en caja para cada venta, y una Lightning Address impresa en un cartel solo para propinas. Las propinas no se concilian con ventas, por eso la Lightning Address es adecuada allí.\n\nPráctica\n\nPara la caja, la tienda en línea, las propinas y un evento con venta de boletos, elige el tipo de solicitud y justifica con monto, conciliación y comodidad del cliente.\n\nSolución y comprobación\n\nCaja y tienda en línea: facturas BOLT 11 por venta, con vencimiento corto. Propinas: Lightning Address u oferta reutilizable. Boletos de un evento: factura por compra, para asociar cada boleto a su pago. Si elegiste un QR estático para ventas con precio fijo, explica cómo verificarás que el monto recibido coincide con cada venta.",
+            "sources": [
+              {
+                "title": "BOLT 11: codificación de facturas Lightning",
+                "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+              },
+              {
+                "title": "BOLT 12: ofertas Lightning",
+                "url": "https://github.com/lightning/bolts/blob/master/12-offer-encoding.md"
+              },
+              {
+                "title": "Bitcoin Optech: ofertas",
+                "url": "https://bitcoinops.org/en/topics/offers/"
+              },
+              {
+                "title": "Lightning Address",
+                "url": "https://lightningaddress.com/"
+              },
+              {
+                "title": "LNURL: especificaciones",
+                "url": "https://github.com/lnurl/luds"
+              }
+            ],
+            "videos": [
+              {
+                "title": "BTC en Español: cómo funciona Lightning Network (español)",
+                "url": "https://www.youtube.com/watch?v=ycL7Mc6b1gA"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: decidir cómo cobrar",
+              "questions": [
+                {
+                  "prompt": "Tras la reforma de enero de 2025 en El Salvador, ¿cómo es la aceptación de bitcoin para los comercios?",
+                  "multiple": false,
+                  "options": [
+                    "Obligatoria.",
+                    "Voluntaria.",
+                    "Prohibida.",
+                    "Exclusiva de instituciones públicas."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La reforma eliminó la obligación de aceptar bitcoin."
+                },
+                {
+                  "prompt": "¿Qué implica usar la instancia de LNbits de un tercero?",
+                  "multiple": false,
+                  "options": [
+                    "Que controlas tus claves.",
+                    "Que en la práctica ese tercero tiene la custodia de los fondos.",
+                    "Que no necesitas internet.",
+                    "Que no hay comisiones."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Quien opera LNbits y su fuente de fondos tiene la custodia."
+                },
+                {
+                  "prompt": "¿Qué tipo de solicitud conviene para cobrar cada venta en caja?",
+                  "multiple": false,
+                  "options": [
+                    "Un QR estático impreso.",
+                    "Una factura BOLT 11 nueva por venta con vencimiento corto.",
+                    "Una dirección on-chain fija.",
+                    "Una captura de pantalla."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Fija el monto y vincula el pago con la venta."
+                },
+                {
+                  "prompt": "¿Qué prueba de pago debe aceptar el personal?",
+                  "multiple": false,
+                  "options": [
+                    "La captura de pantalla del cliente.",
+                    "La confirmación en el propio sistema del negocio.",
+                    "La palabra del cliente.",
+                    "Un mensaje de texto."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las capturas pueden falsificarse o corresponder a otro pago."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Cobrar en el día a día",
+        "description": "Precios en dólares, punto de venta y liquidez para recibir.",
+        "lessons": [
+          {
+            "title": "Precios en dólares, cobro en sats",
+            "description": "Convierte precios en dólares a sats con una fuente de tipo de cambio y vencimientos cortos.",
+            "outcome": "Fijar el monto en sats de cada venta de forma transparente y registrar su equivalencia en dólares.",
+            "activity": "execute",
+            "preview": "Calcularás cuántos sats cuesta un café a distintos tipos de cambio.",
+            "body": "En El Salvador los precios se expresan en dólares y la contabilidad se lleva en dólares. Cobrar con Lightning significa convertir cada precio a satoshis en el momento de la venta. Un satoshi es la cien millonésima parte de un bitcoin: 1 BTC = 100 000 000 sats.\n\nLa conversión\n\nsats = monto en dólares ÷ precio de 1 BTC en dólares × 100 000 000\n\nCon un bitcoin a 100 000 dólares, un dólar equivale a 1000 sats y un café de 2.50 dólares cuesta 2500 sats. Si el bitcoin estuviera a 80 000 dólares, el mismo café costaría 3125 sats. Redondea al satoshi entero; para importes pequeños la diferencia es de fracciones de centavo.\n\nLa fuente del tipo de cambio\n\nLos proveedores y herramientas como LNbits pueden crear facturas a partir de un monto en dólares, consultando un tipo de cambio de un proveedor de precios. Define qué fuente usas y mantenla: distintas plataformas muestran precios ligeramente distintos. Si el negocio cobra un margen por el riesgo de cambio, o hace un descuento por pagar con bitcoin, decláralo con claridad al cliente.\n\nEl vencimiento protege el precio\n\nUna factura de 2500 sats emitida hace dos horas puede valer hoy más o menos dólares. Por eso las facturas de venta llevan vencimiento corto: si el cliente no paga a tiempo, se emite otra con el tipo de cambio actualizado. Un pago que llega después del vencimiento no debería poder liquidar la factura vencida; si por algún motivo se recibe un pago tardío, trátalo como incidencia según tu política.\n\nRegistrar la venta\n\nCada venta registra el monto en dólares, el monto en sats, el tipo de cambio usado, la hora y la referencia del pago. Así la contabilidad puede expresar el ingreso en dólares al valor del momento, que es el que normalmente interesa para fines contables. Pregunta a tu contador cómo registrar los ingresos y las diferencias de cambio según la normativa aplicable.\n\nMostrar el precio\n\nEn el mostrador, muestra el precio en dólares como siempre; en la pantalla de cobro, el monto en sats y su equivalencia. Evita listas de precios fijas en sats si los precios del negocio están en dólares: se desactualizan en horas.\n\nEjemplo\n\nVenta de Las Brisas: dos cafés y una quesadilla salvadoreña, 6.75 dólares. El sistema consulta el precio de 1 BTC, por ejemplo 95 000 dólares, y genera una factura de 7105 sats con vencimiento de 10 minutos: 6.75 ÷ 95 000 × 100 000 000 = 7105.26, redondeado a 7105. El recibo muestra ambos montos y el tipo de cambio.\n\nPráctica\n\nCalcula el monto en sats de tres ventas —2.50, 6.75 y 18.00 dólares— con el bitcoin a 80 000, 95 000 y 110 000 dólares. Escribe la política de la cafetería sobre fuente de tipo de cambio, vencimiento, redondeo y facturas vencidas.\n\nSolución y comprobación\n\nA 80 000: 3125, 8438 y 22 500 sats. A 95 000: 2632, 7105 y 18 947 sats. A 110 000: 2273, 6136 y 16 364 sats, redondeando al entero más cercano. La política indica una sola fuente, un vencimiento de 10 a 15 minutos, redondeo al satoshi y que una factura vencida se reemplaza por otra nueva sin aceptar pagos tardíos como liquidación automática.",
+            "sources": [
+              {
+                "title": "BOLT 11: codificación de facturas Lightning",
+                "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+              },
+              {
+                "title": "LNbits: documentación",
+                "url": "https://docs.lnbits.org/"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Punto de venta con roles y verificación",
+            "description": "Configura un punto de venta en el que el personal cobra sin acceso a los fondos.",
+            "outcome": "Operar el cobro en caja con permisos mínimos y verificación del pago en el sistema propio.",
+            "activity": "design",
+            "preview": "El personal podrá cobrar sin poder gastar el dinero del negocio.",
+            "body": "En caja, el cobro debe ser rápido, claro y seguro. Un buen punto de venta permite al personal crear facturas y ver si se pagaron, pero no enviar fondos.\n\nPermisos mínimos\n\nLNbits distingue dos claves por wallet: la clave de administración, que permite crear facturas y también pagar, es decir, sacar fondos; y la clave de facturas o de lectura, que solo permite crear facturas y consultar su estado. Los dispositivos de caja y la tienda en línea deben usar únicamente la clave de facturas. La clave de administración la guarda la persona responsable de las finanzas, nunca la tableta del mostrador.\n\nLo mismo vale para cualquier proveedor: busca cuentas o permisos de empleado que permitan cobrar sin retirar.\n\nEl punto de venta de LNbits\n\nLa extensión TPoS de LNbits crea un punto de venta en el navegador: el personal escribe el monto, en dólares u otra moneda, y aparece la factura en QR; cuando el pago llega, la pantalla lo confirma. Admite propinas configurables. Se abre en una tableta o un teléfono sin exponer las claves de la wallet.\n\nEl flujo en caja\n\n1. El cajero registra la venta en el sistema habitual y elige pago con Lightning.\n2. Ingresa el monto en dólares en el punto de venta; aparece la factura con el monto en sats y su vencimiento.\n3. El cliente escanea y paga.\n4. El punto de venta muestra pago confirmado. Solo entonces se entrega el producto y se cierra la venta.\n5. Si la factura vence o el pago falla, se genera una nueva; nunca se acepta una captura del cliente.\n\nErrores frecuentes\n\nEl cliente paga desde una wallet sin saldo suficiente o sin ruta disponible: el pago falla y no se mueve dinero; se intenta de nuevo o se usa otro medio. El cliente paga dos veces la misma venta: si la factura ya fue pagada, una segunda factura sería otro cobro; el sistema debe mostrar claramente qué está pagado. El internet del local falla: ten un plan alternativo de cobro.\n\nCapacitación\n\nUn cajero bien entrenado reconoce un pago confirmado, sabe qué hacer ante un pago fallido o vencido y conoce la regla de no aceptar capturas. Una práctica breve con pagos pequeños de prueba antes de abrir al público evita errores frente a los clientes.\n\nEjemplo\n\nLas Brisas configura una tableta con TPoS vinculada a la wallet del negocio mediante la clave de facturas. El turno de la tarde recibe una capacitación de 20 minutos con tres pagos de prueba de 100 sats. Un cliente muestra una captura de un pago de hace una hora: el cajero explica amablemente que el pago debe verse en el punto de venta y genera una factura nueva.\n\nPráctica\n\nEscribe el procedimiento de cobro en caja de una página para el personal: pasos, qué hacer ante pago fallido, factura vencida, doble pago y falla de internet, y la regla sobre capturas. Indica qué clave usará cada dispositivo.\n\nSolución y comprobación\n\nEl procedimiento cabe en una página con frases cortas y una regla clara: solo se entrega cuando el sistema del negocio confirma el pago. Ningún dispositivo de caja tiene la clave de administración. Prueba el procedimiento con alguien que no haya cobrado nunca con Lightning: si se queda sin saber qué hacer en algún punto, falta un paso.",
+            "sources": [
+              {
+                "title": "LNbits: extensión TPoS de punto de venta",
+                "url": "https://github.com/lnbits/tpos"
+              },
+              {
+                "title": "LNbits: documentación",
+                "url": "https://docs.lnbits.org/"
+              },
+              {
+                "title": "LNbits: preguntas frecuentes",
+                "url": "https://docs.lnbits.org/guide/faq.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "BTC Sessions: herramientas de la wallet LNbits (inglés, apoyo opcional)",
+                "url": "https://www.youtube.com/watch?v=9cvxCL4ADE4"
+              }
+            ]
+          },
+          {
+            "title": "Liquidez para recibir",
+            "description": "Comprende la capacidad entrante y cómo obtenerla en un nodo propio.",
+            "outcome": "Planificar la liquidez de recepción de un negocio que opera su propio nodo.",
+            "activity": "design",
+            "preview": "Evitarás que un cliente no pueda pagarte por falta de capacidad entrante.",
+            "body": "Con un proveedor custodio o una wallet que usa un proveedor de servicios Lightning, la liquidez la resuelve el proveedor. Si el negocio opera su propio nodo, debe entender un concepto central: para recibir pagos necesita capacidad entrante.\n\nCapacidad entrante y saliente\n\nUn canal tiene una capacidad total repartida entre las dos partes. El saldo de tu lado es tu capacidad saliente: lo que puedes enviar. El saldo del otro lado es tu capacidad entrante: lo que puedes recibir. Cuando abres un canal con tus propios fondos, todo el saldo empieza de tu lado: puedes pagar, pero no recibir. Un comercio, que principalmente recibe, necesita lo contrario.\n\nCómo obtener capacidad entrante\n\nComprar canales a un proveedor de servicios Lightning: el proveedor abre un canal hacia tu nodo con fondos de su lado, a cambio de una comisión. Existen especificaciones abiertas para que las wallets y los nodos contraten esos servicios de forma estandarizada.\n\nGastar para recibir: si el negocio paga proveedores por Lightning, ese gasto mueve saldo al otro lado y libera capacidad entrante.\n\nIntercambios submarinos: herramientas que envían fondos de un canal hacia una dirección on-chain a cambio de una comisión, vaciando tu lado del canal sin cerrarlo.\n\nSplicing: la posibilidad de agregar o retirar fondos de un canal existente sin cerrarlo, cada vez más disponible en las implementaciones.\n\nDimensionar\n\nEstima cuánto recibirás entre una gestión de liquidez y la siguiente. Si la cafetería vende unos 150 dólares diarios por Lightning y retira los fondos una vez por semana, necesita al menos unos 1050 dólares de capacidad entrante, más un margen. Si retira a diario, bastaría bastante menos. La frecuencia de retiro y conversión se coordina con la liquidez.\n\nDisponibilidad del nodo\n\nUn nodo propio debe estar en línea para recibir pagos: si se apaga, los clientes no pueden pagar. Además, los canales necesitan que el nodo vigile la cadena para detectar intentos de cerrarlos con un estado antiguo. Esto exige un equipo confiable, energía de respaldo y supervisión. Es una de las razones por las que muchos comercios pequeños prefieren modelos gestionados.\n\nEjemplo\n\nUn restaurante con nodo propio abre la semana con 600 dólares de capacidad entrante. El jueves, un cliente intenta pagar una cuenta de 80 dólares y el pago falla: la capacidad entrante ya se agotó con las ventas de la semana. Solución inmediata: cobrar por otro medio. Solución de fondo: retirar fondos cada dos días con un intercambio submarino o contratar más capacidad entrante.\n\nPráctica\n\nPara un negocio con un volumen diario estimado, calcula la capacidad entrante necesaria con retiros diarios, cada tres días y semanales, con un margen del 30 %. Elige la combinación de frecuencia de retiro y método para obtener liquidez que mejor se ajusta.\n\nSolución y comprobación\n\nPara 150 dólares diarios con margen del 30 %: unos 195 dólares con retiros diarios, unos 585 cada tres días y unos 1365 semanales. La elección considera las comisiones de cada método y el trabajo de gestionarlo. Si tu negocio no tendrá personal técnico, la conclusión razonable puede ser un modelo gestionado.",
+            "sources": [
+              {
+                "title": "Especificaciones de proveedores de servicios Lightning",
+                "url": "https://github.com/BitcoinAndLightningLayerSpecs/lsp"
+              },
+              {
+                "title": "Bitcoin Optech: splicing",
+                "url": "https://bitcoinops.org/en/topics/splicing/"
+              },
+              {
+                "title": "Mastering the Lightning Network (texto abierto)",
+                "url": "https://github.com/lnbook/lnbook"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Bitcoin Desde Cero: qué es un canal de pago (español)",
+                "url": "https://www.youtube.com/watch?v=CdSJJb0niMk"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: cobrar en el día a día",
+              "questions": [
+                {
+                  "prompt": "Con el bitcoin a 100 000 dólares, ¿cuántos sats cuesta un café de 2.50 dólares?",
+                  "multiple": false,
+                  "options": [
+                    "250",
+                    "2500",
+                    "25 000",
+                    "250 000"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "2.50 ÷ 100 000 × 100 000 000 = 2500 sats."
+                },
+                {
+                  "prompt": "¿Por qué las facturas de venta llevan un vencimiento corto?",
+                  "multiple": false,
+                  "options": [
+                    "Para molestar al cliente.",
+                    "Para no quedar expuesto a cambios del tipo de cambio entre la emisión y el pago.",
+                    "Porque Lightning lo exige siempre.",
+                    "Para ahorrar comisiones."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Una factura vencida se reemplaza con el tipo de cambio actualizado."
+                },
+                {
+                  "prompt": "¿Qué clave de LNbits debe usar la tableta de caja?",
+                  "multiple": false,
+                  "options": [
+                    "La clave de administración.",
+                    "La clave de facturas o de lectura.",
+                    "Ninguna.",
+                    "La contraseña del servidor."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Permite crear facturas y consultar su estado sin sacar fondos."
+                },
+                {
+                  "prompt": "Abres un canal con tus fondos. ¿Por qué todavía no puedes recibir pagos por él?",
+                  "multiple": false,
+                  "options": [
+                    "Porque el canal no existe.",
+                    "Porque todo el saldo está de tu lado y no hay capacidad entrante.",
+                    "Porque falta una Lightning Address.",
+                    "Porque el canal es on-chain."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La capacidad entrante es el saldo del lado de la otra parte."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "3. Control financiero",
+        "description": "Concilia cada pago, gestiona la volatilidad y atiende devoluciones.",
+        "lessons": [
+          {
+            "title": "Conciliación diaria",
+            "description": "Vincula cada pago con una venta y detecta diferencias a tiempo.",
+            "outcome": "Conciliar los cobros Lightning con las ventas registradas al cierre de cada día.",
+            "activity": "execute",
+            "preview": "Cuadrarás la caja Lightning de un día de ventas.",
+            "body": "Conciliar es comprobar que cada venta registrada tiene su pago y que cada pago recibido corresponde a una venta. Sin conciliación, los errores y fraudes pasan desapercibidos hasta que la diferencia es grande.\n\nLa referencia de cada pago\n\nCada factura Lightning tiene un payment hash único. Registrarlo junto con la venta —en el sistema de caja, en la tienda en línea o en una hoja— permite emparejar ventas y pagos sin ambigüedad. La descripción de la factura puede llevar el número de venta, pero el identificador confiable es el payment hash.\n\nEl cierre diario\n\n1. Exporta del punto de venta o del proveedor la lista de pagos del día con hora, monto en sats, descripción y payment hash.\n2. Exporta las ventas pagadas con Lightning del sistema de caja.\n3. Empareja por payment hash o, si no se registró, por hora y monto.\n4. Revisa diferencias: ventas sin pago, pagos sin venta, montos distintos.\n5. Registra el total del día en sats y en dólares al tipo de cambio de cada venta.\n\nTipos de diferencias\n\nVenta sin pago: el producto se entregó sin confirmación; revisa con el personal y refuerza el procedimiento. Pago sin venta: un cliente pagó dos veces o se generó una factura de prueba; identifica al cliente si es posible y aplica la política de devoluciones. Monto distinto: factura emitida con un monto incorrecto; corrige el registro y analiza la causa.\n\nPagos idempotentes en la tienda en línea\n\nEn una tienda en línea, el sistema consulta el estado de la factura al proveedor o al nodo desde el servidor y marca el pedido como pagado una sola vez, aunque la confirmación se reciba varias veces. Es el mismo principio que usa BTC.EDU: una compra por factura, aunque el navegador consulte repetidamente. Si el comprador cierra la página después de pagar, un proceso periódico de conciliación revisa las facturas pendientes y completa los pedidos pagados.\n\nRegistros y respaldo\n\nConserva los registros diarios fuera del dispositivo de caja y respáldalos. Si el negocio cambia de proveedor o de sistema, los registros históricos deben seguir disponibles para la contabilidad.\n\nEjemplo\n\nCierre del viernes en Las Brisas: 23 ventas con Lightning en caja y 24 pagos en el punto de venta. El pago sobrante, de 2632 sats, tiene la misma hora que otra venta del mismo monto: un cliente pagó dos facturas. Al día siguiente regresa, se identifica con el comprobante de su wallet y se le devuelve el pago según la política.\n\nPráctica\n\nCon esta lista de pagos y ventas ficticias, haz la conciliación: pagos —A 2632 sats, B 7105, C 2632, D 18 947— y ventas —V1 2.50 dólares, V2 6.75 dólares, V3 18.00 dólares—, todas al tipo de cambio de 95 000 dólares. Identifica la diferencia y propón la acción.\n\nSolución y comprobación\n\nV1 corresponde a 2632 sats, V2 a 7105 y V3 a 18 947. Los pagos A y C tienen el mismo monto que V1: uno de ellos es un pago sin venta, probablemente un doble pago. La acción es identificar al cliente, por la hora o por el payment hash que muestre su wallet, y devolver el monto según la política. El total correcto del día es de 28 684 sats por ventas, más el excedente pendiente de devolución.",
+            "sources": [
+              {
+                "title": "LNbits: documentación",
+                "url": "https://docs.lnbits.org/"
+              },
+              {
+                "title": "BOLT 11: codificación de facturas Lightning",
+                "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Volatilidad y tesorería",
+            "description": "Define qué hacer con los fondos recibidos y cómo registrar su valor.",
+            "outcome": "Establecer una política de tesorería que limite el riesgo de cambio y de custodia.",
+            "activity": "design",
+            "preview": "Decidirás cuánto bitcoin conserva el negocio y cuánto convierte a dólares.",
+            "body": "Cuando el negocio recibe sats, mantiene un activo cuyo valor en dólares cambia. Esa exposición puede ser deseada —si el negocio quiere ahorrar en bitcoin— o un riesgo que quiere eliminar. Lo importante es que sea una decisión explícita, no un accidente.\n\nOpciones\n\nConvertir todo de inmediato: el proveedor o un servicio de cambio convierte cada pago a dólares. El negocio no asume volatilidad; paga comisiones de conversión.\n\nConvertir periódicamente: los fondos se acumulan y se convierten cada día o semana. La exposición es acotada en tiempo y monto.\n\nConservar un porcentaje: el negocio decide mantener, por ejemplo, el 10 % de lo recibido en bitcoin como ahorro, y convierte el resto. Requiere aceptar que ese ahorro puede valer menos en dólares en algunos periodos.\n\nLímites de custodia\n\nSi los fondos están con un proveedor custodio, el riesgo no es solo de precio: también de contraparte. Define un saldo máximo en custodia y retira o convierte lo que lo supere. Los fondos que el negocio decida conservar a largo plazo se trasladan a una wallet en autocustodia con respaldo probado, como enseña el curso de wallets y autocustodia.\n\nRegistro contable\n\nRegistra cada ingreso por su valor en dólares al momento de la venta. Cuando conviertes o cuando el valor cambia, pueden surgir diferencias de cambio con tratamiento contable y fiscal propio. Las reglas dependen del país y pueden cambiar: la política de tesorería se acuerda con el contador del negocio. No improvises tratamientos fiscales a partir de lo que se dice en redes sociales.\n\nResponsables y controles\n\nDefine quién decide las conversiones, quién tiene acceso a la clave de administración o a la cuenta del proveedor, y que los retiros grandes requieran la aprobación de dos personas. Registra cada conversión con fecha, monto en sats, tipo de cambio y dólares recibidos.\n\nEjemplo\n\nPolítica de Las Brisas para la prueba: convertir cada viernes todo lo recibido a dólares, salvo que el saldo en el proveedor supere los 100 dólares antes, en cuyo caso se convierte ese mismo día. La dueña aprueba cada conversión; la contadora recibe el registro mensual con ventas, conversiones y diferencias.\n\nPráctica\n\nEscribe la política de tesorería de tu negocio: porcentaje que se conserva, frecuencia de conversión, saldo máximo en custodia, dónde se guardan los fondos que se conservan, responsables, aprobaciones y registros que recibirá el contador.\n\nSolución y comprobación\n\nLa política es concreta y medible: porcentajes, montos y frecuencias definidos. Si decides conservar bitcoin, indica qué pérdida temporal en dólares es aceptable y cómo se protegen las claves. Incluye la indicación de validar el tratamiento contable con un profesional.",
+            "sources": [
+              {
+                "title": "Mastering the Lightning Network (texto abierto)",
+                "url": "https://github.com/lnbook/lnbook"
+              },
+              {
+                "title": "EFE en swissinfo: reforma de la Ley Bitcoin de El Salvador (2025)",
+                "url": "https://www.swissinfo.ch/spa/el-salvador-aprueba-reforma-a-la-ley-bitcoin-que-pone-fin-a-la-obligatoriedad-de-su-uso/88800809"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Devoluciones y disputas",
+            "description": "Diseña una política de devoluciones para pagos que no se pueden revertir.",
+            "outcome": "Atender devoluciones de forma justa, segura y documentada.",
+            "activity": "design",
+            "preview": "Resolverás el caso del cliente que pagó dos veces.",
+            "body": "Un pago Lightning liquidado no se puede revertir: no existen contracargos como en las tarjetas. Eso protege al comercio del fraude con contracargos, pero significa que las devoluciones dependen de que el negocio envíe un pago nuevo al cliente. Necesitas una política clara antes de que ocurra el primer caso.\n\nQué cubre la política\n\nCuándo procede una devolución: pago duplicado, producto no entregado, error de monto, producto defectuoso según las reglas habituales del negocio.\n\nEn qué valor se devuelve: en dólares al valor de la venta, que suele ser lo más justo para un negocio que fija sus precios en dólares, o en los sats recibidos. Si el precio del bitcoin cambió, ambas opciones dan resultados distintos; la política lo decide de antemano y lo comunica.\n\nCómo se devuelve: el cliente genera una factura desde su wallet por el monto acordado y la entrega al negocio; el responsable la verifica y la paga desde la wallet del negocio. Alternativamente, efectivo u otro medio si el cliente lo prefiere.\n\nQuién autoriza: devolver requiere la clave de administración o permisos de pago, por eso no lo hace el cajero sino la persona responsable.\n\nComprobar la identidad del pago\n\nPara devolver un pago duplicado, el cliente muestra en su wallet el detalle del pago: monto, hora y, si la wallet lo permite, el payment hash, que se compara con el registro del negocio. Esto evita devolver pagos que nunca se recibieron.\n\nRegistro\n\nCada devolución se registra con fecha, venta original, payment hash del pago original, monto devuelto en sats y dólares, factura del cliente pagada y quién autorizó. Aparece en la conciliación del día en que se realiza.\n\nDisputas sin contracargo\n\nComo no hay un intermediario que resuelva disputas, la confianza depende del negocio: responder rápido, documentar y cumplir la política. Las normas de protección al consumidor siguen aplicando a la relación comercial aunque el medio de pago sea distinto.\n\nEjemplo\n\nEl cliente que pagó dos veces en Las Brisas regresa al día siguiente. Su wallet muestra dos pagos de 2632 sats a la misma hora. La responsable compara con el registro, confirma el duplicado y, según la política, devuelve 2.50 dólares en sats al tipo de cambio actual: el cliente genera una factura por ese monto y ella la paga. La devolución queda registrada.\n\nPráctica\n\nRedacta la política de devoluciones de tu negocio para pagos Lightning y resuelve tres casos: pago duplicado, pedido en línea no entregado y cliente que exige que se le devuelvan más sats porque el bitcoin subió.\n\nSolución y comprobación\n\nLa política fija el valor de devolución, el procedimiento con factura del cliente, quién autoriza y cómo se registra. En el tercer caso, la respuesta se basa en la política publicada: si devuelves en dólares al valor de la venta, el cliente recibe el equivalente en sats al tipo de cambio del día de la devolución. Explicar la regla antes de la compra evita la mayoría de las disputas.",
+            "sources": [
+              {
+                "title": "BOLT 11: codificación de facturas Lightning",
+                "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+              },
+              {
+                "title": "LNbits: documentación",
+                "url": "https://docs.lnbits.org/"
+              }
+            ],
+            "videos": [],
+            "quiz": {
+              "title": "Evaluación: control financiero",
+              "questions": [
+                {
+                  "prompt": "¿Qué identificador permite emparejar con certeza un pago con su venta?",
+                  "multiple": false,
+                  "options": [
+                    "El monto.",
+                    "El payment hash de la factura.",
+                    "La hora aproximada.",
+                    "El nombre del cliente."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Es único para cada factura."
+                },
+                {
+                  "prompt": "En la tienda en línea, ¿qué evita marcar dos veces un pedido como pagado?",
+                  "multiple": false,
+                  "options": [
+                    "Confiar en el navegador.",
+                    "Consultar el estado desde el servidor y registrar una sola compra por factura.",
+                    "Pedir una captura al cliente.",
+                    "Generar dos facturas."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La operación es idempotente aunque la confirmación se reciba varias veces."
+                },
+                {
+                  "prompt": "¿Para qué sirve un saldo máximo en custodia?",
+                  "multiple": false,
+                  "options": [
+                    "Para pagar menos impuestos.",
+                    "Para limitar el riesgo de contraparte del proveedor.",
+                    "Para recibir más rápido.",
+                    "Para evitar la conciliación."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Lo que supera el límite se retira o se convierte."
+                },
+                {
+                  "prompt": "¿Cómo se devuelve normalmente un pago Lightning?",
+                  "multiple": false,
+                  "options": [
+                    "Con un contracargo.",
+                    "El cliente genera una factura y el responsable la paga desde la wallet del negocio.",
+                    "El cajero revierte el pago.",
+                    "El proveedor lo cancela automáticamente."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Los pagos liquidados no se revierten; se hace un pago nuevo."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "4. Seguridad e integración",
+        "description": "Protege las claves, integra la tienda en línea y planifica la adopción.",
+        "lessons": [
+          {
+            "title": "Seguridad operativa",
+            "description": "Protege claves, respaldos, cuentas y dispositivos del sistema de cobro.",
+            "outcome": "Aplicar controles de seguridad proporcionales al modelo de custodia elegido.",
+            "activity": "design",
+            "preview": "Reducirás los riesgos de robo interno, externo y pérdida accidental.",
+            "body": "Los fondos recibidos por Lightning son tan reales como el efectivo de la caja, y los riesgos son parecidos: robo externo, robo interno y pérdida por accidente. Los controles dependen del modelo de custodia.\n\nCon un proveedor custodio\n\nActiva la verificación en dos pasos en la cuenta, preferiblemente con una aplicación o una llave de seguridad. Usa cuentas o permisos separados para el personal. Revisa los dispositivos autorizados y los registros de actividad. Limita el saldo en custodia, como define tu política de tesorería.\n\nCon wallet propia o infraestructura propia\n\nRespaldo de la wallet: las palabras de recuperación o el respaldo del nodo, guardados fuera de línea, en un lugar seguro y probados. En Lightning hay un detalle adicional: el estado de los canales cambia con cada pago. Los nodos ofrecen respaldos estáticos de canales, que permiten recuperar los fondos pidiendo a las contrapartes que cierren los canales; no restauran el estado completo, pero evitan perder los fondos. Mantén ese respaldo actualizado cada vez que se abre o cierra un canal y guárdalo fuera del servidor.\n\nNunca restaures una copia antigua de la base de datos de canales en funcionamiento: publicar un estado antiguo se interpreta como intento de fraude y la contraparte puede quedarse con los fondos del canal.\n\nSeparación de claves\n\nLas claves de administración y las credenciales del servidor las tiene solo la persona responsable. Los dispositivos de caja y la tienda en línea usan claves de facturas. Si una clave se expone, por ejemplo en una captura de pantalla o en un repositorio de código, se revoca y se reemplaza de inmediato.\n\nRiesgos internos\n\nDoble control para retiros y conversiones grandes. Conciliación diaria por una persona distinta de quien cobra. Registros de actividad revisados periódicamente. Estos controles protegen también a los empleados honestos: dejan claro qué pasó cuando hay una diferencia.\n\nIngeniería social\n\nLos atacantes se hacen pasar por soporte del proveedor, del banco o de la propia dueña para pedir códigos, claves o pagos urgentes. Ningún soporte legítimo pide palabras de recuperación ni claves de administración. Cualquier solicitud de pago urgente se confirma por un canal independiente.\n\nPlan ante incidentes\n\nSi se pierde un dispositivo de caja, se revoca su acceso. Si se sospecha que una clave de administración se filtró, se mueven los fondos a una wallet nueva y se reemplazan las credenciales. El curso de respuesta a incidentes desarrolla este proceso.\n\nEjemplo\n\nControles de Las Brisas: cuenta del proveedor con verificación en dos pasos en el teléfono de la dueña; tableta de caja con permisos solo de cobro; conciliación diaria hecha por la administradora y no por el cajero; conversiones aprobadas por la dueña; nunca se comparten códigos por teléfono o mensajes.\n\nPráctica\n\nEscribe la matriz de seguridad de tu sistema de cobro: activos, quién tiene acceso, cómo se protege cada uno, respaldos, controles internos y qué hacer si se pierde o se filtra. Adáptala a tu modelo de custodia.\n\nSolución y comprobación\n\nLa matriz cubre al menos la cuenta o wallet principal, las claves de administración y de facturas, los dispositivos de caja, los respaldos y los registros. Para infraestructura propia incluye el respaldo estático de canales y la prohibición de restaurar estados antiguos. Revisa que ninguna persona pueda cobrar, conciliar y retirar sin otro control.",
+            "sources": [
+              {
+                "title": "Lightning Labs: recuperación ante desastres en LND",
+                "url": "https://docs.lightning.engineering/lightning-network-tools/lnd/disaster-recovery"
+              },
+              {
+                "title": "LNbits: preguntas frecuentes",
+                "url": "https://docs.lnbits.org/guide/faq.html"
+              },
+              {
+                "title": "Mastering the Lightning Network (texto abierto)",
+                "url": "https://github.com/lnbook/lnbook"
+              }
+            ],
+            "videos": []
+          },
+          {
+            "title": "Integrar Lightning en la tienda en línea",
+            "description": "Crea facturas desde el servidor, verifica pagos y completa pedidos de forma confiable.",
+            "outcome": "Diseñar la integración de cobros Lightning en una tienda en línea con verificación en el servidor.",
+            "activity": "design",
+            "preview": "Diseñarás el flujo de pago de la tienda en línea de la cafetería.",
+            "body": "En una tienda en línea, el cobro ocurre sin personal: el sistema debe crear la factura, mostrarla, detectar el pago y entregar el producto o confirmar el pedido. Los principios son los mismos que BTC.EDU aplica a sus cursos.\n\nEl flujo\n\n1. El cliente confirma su carrito. El servidor calcula el total en dólares y lo convierte a sats con la fuente de tipo de cambio.\n2. El servidor crea la factura con la API del proveedor o de LNbits usando la clave de facturas, y guarda en la base de datos el pedido con el payment hash, el monto, el tipo de cambio y el vencimiento.\n3. La página muestra el QR y el enlace lightning: para abrir la wallet del cliente.\n4. El servidor consulta periódicamente el estado de la factura, o recibe una notificación del proveedor, y cuando está pagada marca el pedido como pagado una sola vez.\n5. La página del cliente muestra la confirmación consultando a su propio servidor, nunca decidiendo por sí misma.\n\nLa API de LNbits\n\nEn LNbits, crear una factura es una solicitud POST a /api/v1/payments con out en false, el monto, una descripción y el vencimiento, autenticada con la clave de facturas en la cabecera X-Api-Key. La respuesta incluye el payment hash y la factura. Consultar el estado es una solicitud GET a /api/v1/payments seguida del payment hash. Esta es la forma en que BTC.EDU crea y verifica las facturas de sus compras.\n\nReglas de diseño\n\nEl navegador nunca decide si se pagó: cualquier dato que envíe puede ser alterado. Solo el servidor, consultando al proveedor, marca un pedido como pagado.\n\nLa clave nunca llega al navegador: la factura se crea en el servidor.\n\nIdempotencia: si la confirmación llega dos veces, el pedido se procesa una vez. Una restricción única en la base de datos por payment hash es una forma sencilla de garantizarlo.\n\nRecuperación: si el cliente cierra la página después de pagar, un proceso periódico de conciliación revisa los pedidos pendientes y completa los pagados.\n\nVencimiento: una factura vencida no se reutiliza; el cliente genera una nueva con el precio actualizado.\n\nIncertidumbre: si el proveedor no responde, no se asume que el pago falló ni que se completó; se reintenta la consulta.\n\nEjemplo\n\nPedido en línea de Las Brisas: un paquete de café de 9.00 dólares. El servidor crea una factura de 9474 sats al tipo de cambio de 95 000 dólares, con vencimiento de 15 minutos, y guarda el pedido. El cliente paga y cierra la página. Dos minutos después, la conciliación encuentra la factura pagada, marca el pedido y envía el correo de confirmación.\n\nPráctica\n\nDibuja el diagrama de secuencia del pago en la tienda en línea con navegador, servidor, base de datos, proveedor y proceso de conciliación. Indica qué datos se guardan en cada paso y cómo se evita el doble procesamiento.\n\nSolución y comprobación\n\nEl diagrama muestra que solo el servidor habla con el proveedor y conoce la clave, que el pedido guarda el payment hash desde la creación y que la marca de pagado se aplica con una restricción única o una transacción que impide repetirla. Incluye el camino del cliente que cierra la página y el de la factura vencida.",
+            "sources": [
+              {
+                "title": "LNbits: documentación",
+                "url": "https://docs.lnbits.org/"
+              },
+              {
+                "title": "BOLT 11: codificación de facturas Lightning",
+                "url": "https://github.com/lightning/bolts/blob/master/11-payment-encoding.md"
+              }
+            ],
+            "videos": [
+              {
+                "title": "BTC Sessions: herramientas de la wallet LNbits (inglés, apoyo opcional)",
+                "url": "https://www.youtube.com/watch?v=9cvxCL4ADE4"
+              }
+            ]
+          },
+          {
+            "title": "Proyecto: plan de adopción de cobros Lightning",
+            "description": "Integra decisiones, procedimientos y controles en un plan para un negocio real o ficticio.",
+            "outcome": "Entregar un plan de adopción listo para ejecutar una prueba de tres meses.",
+            "activity": "design",
+            "preview": "Integrarás el curso en un plan que un negocio puede poner en marcha.",
+            "body": "En este proyecto prepararás el plan completo para que un negocio empiece a cobrar con Lightning durante una prueba de tres meses. Puede ser el negocio de tu familia, uno donde trabajes o la cafetería Las Brisas.\n\nContenido del plan\n\n1. Diagnóstico y objetivo: por qué aceptar Lightning y el objetivo medible de la prueba.\n2. Modelo de custodia: elección justificada y reglas de riesgo.\n3. Solicitudes de pago: qué tipo se usa en caja, tienda en línea y propinas.\n4. Precios: fuente de tipo de cambio, vencimiento, redondeo, márgenes o descuentos declarados.\n5. Procedimiento de caja: la página para el personal y el plan de capacitación.\n6. Liquidez: si aplica, capacidad entrante necesaria y método para obtenerla.\n7. Conciliación diaria: datos, responsable y procedimiento de diferencias.\n8. Tesorería: conversión, saldo máximo en custodia, autocustodia de lo que se conserva y registros para el contador.\n9. Devoluciones: política, procedimiento y registro.\n10. Seguridad: matriz de accesos, respaldos y controles internos.\n11. Tienda en línea: diagrama de integración, si aplica.\n12. Evaluación: indicadores que se medirán cada mes y criterio para continuar, ajustar o abandonar.\n\nIndicadores\n\nParticipación de Lightning en las ventas. Tiempo promedio de cobro comparado con tarjeta. Pagos fallidos o vencidos sobre el total. Diferencias encontradas en la conciliación. Costo total: comisiones, conversiones, tiempo del personal. Opinión de los clientes que lo usan.\n\nSer honesto con los resultados\n\nUn plan profesional define desde el inicio qué resultado haría recomendable no continuar. Si al tercer mes casi ningún cliente usa Lightning y la operación genera errores, abandonar o pausar es una decisión válida. Si funciona, el plan indica qué cambiaría al crecer, por ejemplo pasar de un proveedor custodio a infraestructura propia.\n\nEjemplo\n\nCriterio de evaluación de Las Brisas: continuar si Lightning alcanza al menos el 3 % de las ventas y no hay diferencias de conciliación sin resolver; ajustar si la participación está entre el 1 % y el 3 %; pausar si es menor del 1 % o si se producen pérdidas por errores operativos.\n\nPráctica\n\nElabora el plan de adopción con las doce secciones. Pide a la persona dueña o responsable del negocio que lo revise y anota sus preguntas y objeciones.\n\nSolución y comprobación\n\nEl plan es ejecutable: cada sección tiene responsables, cifras y procedimientos concretos. Las preguntas de la persona responsable revelan los puntos débiles; incorpora las respuestas al plan. No incluyas claves, palabras de recuperación ni datos personales de clientes.",
+            "sources": [
+              {
+                "title": "Mastering the Lightning Network (texto abierto)",
+                "url": "https://github.com/lnbook/lnbook"
+              },
+              {
+                "title": "LNbits: documentación",
+                "url": "https://docs.lnbits.org/"
+              },
+              {
+                "title": "EFE en swissinfo: reforma de la Ley Bitcoin de El Salvador (2025)",
+                "url": "https://www.swissinfo.ch/spa/el-salvador-aprueba-reforma-a-la-ley-bitcoin-que-pone-fin-a-la-obligatoriedad-de-su-uso/88800809"
+              }
+            ],
+            "videos": [
+              {
+                "title": "BTC en Español: cómo funciona Lightning Network (español)",
+                "url": "https://www.youtube.com/watch?v=ycL7Mc6b1gA"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación final: seguridad e integración",
+              "questions": [
+                {
+                  "prompt": "¿Por qué nunca se restaura una copia antigua de la base de datos de canales en funcionamiento?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es lenta.",
+                    "Porque publicar un estado antiguo se interpreta como fraude y la contraparte puede quedarse con los fondos.",
+                    "Porque borra las facturas.",
+                    "Porque cambia la dirección del nodo."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Se usan respaldos estáticos de canales para recuperar fondos de forma segura."
+                },
+                {
+                  "prompt": "En la tienda en línea, ¿quién decide que un pedido está pagado?",
+                  "multiple": false,
+                  "options": [
+                    "El navegador del cliente.",
+                    "El servidor, consultando al proveedor o al nodo.",
+                    "El cliente con una captura.",
+                    "El correo de confirmación."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Cualquier dato del navegador puede ser alterado."
+                },
+                {
+                  "prompt": "¿Qué asegura que un pedido no se procese dos veces si la confirmación llega repetida?",
+                  "multiple": false,
+                  "options": [
+                    "Pedir al cliente que no recargue.",
+                    "Una restricción única por payment hash o una transacción que impide repetir la marca de pagado.",
+                    "Usar facturas sin vencimiento.",
+                    "Enviar dos correos."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La operación debe ser idempotente."
+                },
+                {
+                  "prompt": "¿Qué debe incluir un plan de adopción profesional respecto de los resultados?",
+                  "multiple": false,
+                  "options": [
+                    "Solo los beneficios.",
+                    "Indicadores y un criterio explícito para continuar, ajustar o abandonar.",
+                    "Una promesa de ganancias.",
+                    "La predicción del precio del bitcoin."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Definir de antemano qué resultado haría recomendable no continuar."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: plan de adopción de cobros Lightning",
+              "instructions": "Entrega el plan de adopción con las doce secciones de la lección para un negocio real o ficticio, con cifras, responsables, procedimientos, indicadores y criterio de evaluación, y las observaciones de la persona responsable del negocio si fue posible revisarlo. No incluyas claves, palabras de recuperación ni datos de clientes. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Decisiones justificadas",
+                  "description": "El modelo de custodia, el tipo de solicitud de pago y la política de precios se justifican por el contexto del negocio."
+                },
+                {
+                  "label": "Operación clara",
+                  "description": "El procedimiento de caja, la conciliación y las devoluciones pueden seguirse sin ayuda y verifican cada pago en el sistema propio."
+                },
+                {
+                  "label": "Riesgos controlados",
+                  "description": "Tesorería, límites de custodia, permisos mínimos, respaldos y controles internos están definidos."
+                },
+                {
+                  "label": "Evaluación honesta",
+                  "description": "Indicadores mensuales y un criterio explícito para continuar, ajustar o pausar la prueba."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
