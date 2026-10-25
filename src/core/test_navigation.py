@@ -34,7 +34,7 @@ class ContextNavigationTests(SimpleTestCase):
 
     def test_public_navigation_never_offers_private_destinations(self):
         data = self.navigation("tutorials")
-        self.assertEqual([x["name"] for x in data["sidebar_links"]], ["courses", "tutorials", "resources", "learning-paths", "creators"])
+        self.assertEqual([x["name"] for x in data["sidebar_links"]], ["courses", "tutorials", "resources", "learning-paths", "membership", "creators"])
         self.assertEqual(data["sidebar_local_links"], [])
         self.assertEqual(data["sidebar_secondary_links"], [])
         self.assertEqual(data["section_navigation_links"], [])
@@ -48,7 +48,7 @@ class ContextNavigationTests(SimpleTestCase):
         cases = [("workspace", None), ("invoice-detail", ["00000000-0000-0000-0000-000000000001"]),
                  ("community-thread", [1]), ("member-profile", [1]), ("student-profile", None),
                  ("question-create", [1]), ("notifications", None), ("version-lesson", [1, 3, 7])]
-        expected = ["courses", "tutorials", "resources", "learning-paths", "workspace", "purchases", "community-spaces"]
+        expected = ["courses", "tutorials", "resources", "learning-paths", "membership", "workspace", "purchases", "community-spaces"]
         for name, args in cases:
             with self.subTest(route=name):
                 self.assertEqual([x["name"] for x in self.navigation(name, args, "student")["sidebar_links"]], expected)

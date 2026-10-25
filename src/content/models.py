@@ -115,6 +115,8 @@ class Course(Publication):
     level = models.CharField("nivel", max_length=12, choices=CourseLevel, blank=True)
     estimated_minutes = models.PositiveIntegerField("duración estimada en minutos", null=True, blank=True)
     current_version = models.ForeignKey("CourseVersion", on_delete=models.PROTECT, null=True, blank=True, related_name="+", editable=False)
+    membership = models.BooleanField("incluido en la membresía", default=False, db_default=False,
+                                     help_text="Con una membresía vigente se abren las lecciones de pago de la versión publicada.")
 
     def save(self, *args, **kwargs):
         if not self._state.adding:

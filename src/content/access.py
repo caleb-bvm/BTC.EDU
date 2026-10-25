@@ -23,7 +23,7 @@ def content_access(user, resource):
         decision = content_access(user, resource.lesson)
         if not decision.allowed:
             return decision
-        if decision.reason == "creator_preview" or resource.resource.access_type == AccessType.FREE:
+        if decision.reason in ("creator_preview", "membership") or resource.resource.access_type == AccessType.FREE:
             return decision
         if owns_revision(user, resource.resource_id):
             return AccessDecision(True, "purchase")
@@ -38,6 +38,8 @@ def content_access(user, resource):
             return AccessDecision(False, "unpublished")
         if owns_revision(user, resource.content_id):
             return AccessDecision(True, "purchase")
+        if resource.content.access_type == AccessType.PAID and membership_covers(user, version):
+            return AccessDecision(True, "membership")
         if course.current_version_id != version.pk or course.status == PublicationStatus.ARCHIVED:
             if resource.content.access_type == AccessType.FREE and enrolled(user, version):
                 return AccessDecision(True, "enrolled_free")
@@ -76,3 +78,8 @@ def owns_revision(user, resource_id):
         return False
     from commerce.models import Entitlement
     return Entitlement.objects.active().filter(buyer=user, resource_id=resource_id).exists()
+
+
+def membership_covers(user, version):
+    from commerce.membership import course_in_membership, membership_until
+    return course_in_membership(version) and membership_until(user) is not None

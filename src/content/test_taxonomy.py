@@ -127,7 +127,9 @@ class TaxonomyMigrationTests(TransactionTestCase):
                 migration.reorganize_categories(current, editor)
             self.assertEqual(list(TopicModel.objects.values().order_by("pk")), before_repeat)
             for name, rows in snapshots.items():
-                self.assertEqual(list(current.get_model("content", name).objects.values().order_by("pk")), rows)
+                # Fields added by later migrations are outside the preserved history.
+                stored = current.get_model("content", name).objects.values(*rows[0]).order_by("pk")
+                self.assertEqual(list(stored), rows)
 
             MigrationExecutor(connection).migrate(previous)
             old = MigrationExecutor(connection).loader.project_state(previous).apps

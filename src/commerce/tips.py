@@ -3,11 +3,12 @@ from datetime import timedelta
 
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
-from django.db.models import Count, F, Sum
+from django.db.models import Count, Sum
 from django.urls import reverse
 from django.utils import timezone
 
-from .gateway import LNbitsGateway, ProviderUnavailable
+from .gateway import LNbitsGateway
+from .lightning import emit_payment
 from .models import Tip
 from .services import require_student, reserve_writer
 
@@ -40,35 +41,8 @@ def create_tip(actor, creator, amount, message="", lesson=None):
                               lesson=lesson, version=lesson.chapter.version if lesson else None, expires_at=now + timedelta(minutes=15))
 
 
-@transaction.atomic
-def claim_tip_emission(tip_id):
-    # Writing first serializes concurrent requests before the state is read.
-    Tip.objects.filter(pk=tip_id).update(issue_state=F("issue_state"))
-    tip = Tip.objects.get(pk=tip_id)
-    if tip.status != "pending" or tip.expires_at <= timezone.now() or tip.issue_state != "new":
-        return tip, False
-    claimed = Tip.objects.filter(pk=tip.pk, issue_state="new").update(issue_state="requested")
-    tip.refresh_from_db()
-    return tip, bool(claimed)
-
-
 def emit_tip(tip, gateway):
-    tip, claimed = claim_tip_emission(tip.pk)
-    if claimed:
-        try:
-            result = gateway.create(tip)
-        except ProviderUnavailable:
-            Tip.objects.filter(pk=tip.pk, issue_state="requested").update(issue_state="unknown")
-            raise
-    elif tip.issue_state in ("requested", "unknown"):
-        result = gateway.recover(tip)
-        if result is None:
-            raise ProviderUnavailable("Estamos comprobando la propina. Actualiza su estado para continuar.")
-    else:
-        return tip
-    Tip.objects.filter(pk=tip.pk, payment_hash__isnull=True).update(payment_hash=result.payment_hash, payment_request=result.payment_request, issue_state="ready")
-    tip.refresh_from_db()
-    return tip
+    return emit_payment(tip, gateway, "Estamos comprobando la propina. Actualiza su estado para continuar.")
 
 
 @transaction.atomic

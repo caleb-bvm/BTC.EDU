@@ -1,0 +1,49 @@
+{% extends 'academy.html' %}
+{% block title %}Membresía · BTC.EDU{% endblock %}
+{% block academy_content %}
+<section class="learning-page commerce-page membership-page">
+  <header class="page-heading"><div><p class="eyebrow">MEMBRESÍA</p><h1>Todos los cursos de la membresía con un solo pago.</h1><p>Estudia las lecciones de pago de {{ course_count }} curso{{ course_count|pluralize }} mientras tu periodo esté vigente.</p></div></header>
+  <div class="commerce-grid">
+    <section class="commerce-panel membership-terms" aria-labelledby="membership-terms-heading">
+      <h2 id="membership-terms-heading">Cómo funciona</h2>
+      <ol class="membership-steps">
+        <li><strong>Paga tu periodo con Lightning.</strong> El acceso empieza en cuanto se confirma el pago.</li>
+        <li><strong>Abre cualquier curso de la membresía.</strong> Incluye sus lecciones, materiales y evaluaciones de la versión publicada.</li>
+        <li><strong>Renueva cuando quieras.</strong> El nuevo periodo empieza al terminar el actual. No hay cobros automáticos.</li>
+      </ol>
+      <p class="small-note">Tu avance y tus certificados se conservan al terminar el periodo. Las lecciones que compres por separado siguen siendo tuyas.</p>
+    </section>
+    <aside class="commerce-panel purchase-summary membership-plans" aria-label="Planes de membresía">
+      {% if until %}<p class="purchase-status purchase-status--paid" role="status">Activa hasta el {{ until|date:'d/m/Y' }}</p>{% endif %}
+      {% for plan in plans %}
+        <div class="membership-plan">
+          <h2>{{ plan.name }}</h2>
+          <p class="offer-price">{{ plan.amount_sats }} <small>sats</small></p>
+          <p class="membership-plan-period">{{ plan.days }} días de acceso</p>
+          {% if plan.description %}<p class="small-note">{{ plan.description }}</p>{% endif %}
+          {% if student %}
+            <form method="post" action="{% url 'membership-join' %}" data-payment-form data-pending-label="Preparando el pago…">{% csrf_token %}<input type="hidden" name="plan" value="{{ plan.pk }}"><button class="btn btn-accent" type="submit">{% if until %}Renovar{% else %}Hacerme miembro{% endif %} →</button></form>
+          {% elif not user.is_authenticated %}
+            <a class="btn btn-accent" href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">Entrar para unirme →</a>
+          {% else %}
+            <p class="small-note">La membresía está disponible para cuentas de estudiante.</p>
+          {% endif %}
+        </div>
+      {% empty %}
+        <p>La membresía no está disponible en este momento.</p>
+      {% endfor %}
+    </aside>
+  </div>
+  {% if history %}
+  <section class="learning-section membership-history" aria-labelledby="membership-history-heading">
+    <h2 id="membership-history-heading">Tus pagos de membresía</h2>
+    <div class="purchase-list">{% for payment in history %}<article class="purchase-card"><div class="purchase-card-main"><span class="access-badge">{{ payment.get_status_display }}</span><h3><a href="{% url 'membership-payment' payment.pk %}">{{ payment.plan.name }} · {{ payment.amount_sats }} sats</a></h3><p>{% if payment.starts_at %}Del {{ payment.starts_at|date:'d/m/Y' }} al {{ payment.ends_at|date:'d/m/Y' }}{% else %}{{ payment.created_at|date:'d/m/Y H:i' }}{% endif %}</p></div></article>{% endfor %}</div>
+  </section>
+  {% endif %}
+  <section class="learning-section" aria-labelledby="membership-courses-heading">
+    <h2 id="membership-courses-heading">Cursos incluidos</h2>
+    {% for heading, group_cards in groups %}<section class="topic-section"><div class="topic-heading"><h3>{{ heading }}</h3><span class="mono">{{ group_cards|length|stringformat:'02d' }} / CURSOS</span></div><div class="academy-card-grid">{% for card in group_cards %}{% include 'core/_card.html' %}{% endfor %}</div></section>
+    {% empty %}<p class="small-note">Todavía no hay cursos en la membresía.</p>{% endfor %}
+  </section>
+</section>
+{% endblock %}

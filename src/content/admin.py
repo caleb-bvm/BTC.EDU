@@ -33,8 +33,8 @@ class LessonInline(admin.TabularInline):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("title", "creator", "status", "updated_at")
-    list_filter = ("status", "kind", "topic__category", "topic", "level")
+    list_display = ("title", "creator", "status", "membership", "updated_at")
+    list_filter = ("status", "kind", "membership", "topic__category", "topic", "level")
     search_fields = ("title", "creator__email")
     autocomplete_fields = ("creator",)
     readonly_fields = ("created_at", "updated_at", "current_version")

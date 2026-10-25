@@ -7,9 +7,10 @@ CATALOG_MENU = [
     ("courses", "Cursos", "book"), ("tutorials", "Tutoriales", "steps"),
     ("resources", "Recursos", "file"), ("learning-paths", "Rutas", "route"),
 ]
+MEMBERSHIP_LINK = ("membership", "Membresía", "ticket")
 CATALOG_DESTINATIONS = {"cursos": "courses", "tutoriales": "tutorials", "recursos": "resources"}
 STUDENT_MENU = [
-    *CATALOG_MENU, ("workspace", "Mi aprendizaje", "book"),
+    *CATALOG_MENU, MEMBERSHIP_LINK, ("workspace", "Mi aprendizaje", "book"),
     ("purchases", "Compras", "bag"), ("community-spaces", "Comunidad", "people"),
 ]
 CREATOR_MENU = [
@@ -69,6 +70,8 @@ def contextual_navigation(request):
         selected = "certificates" if route.startswith("certificate-") or route == "certificates" else "student-questions" if route.startswith("student-question") or route == "question-create" else "student-practices" if route.startswith("student-practice") else "workspace"
     elif route in {"learning-paths", "learning-path"}:
         selected, primary = "learning-paths", "learning-paths"
+    elif route == "membership" or route.startswith("membership-"):
+        selected, primary = "membership", "membership"
     elif route in {"course-detail", "course-version", "lesson-detail", "version-lesson", "course-gallery"}:
         # Enrollment is already available in the rendered course context. The
         # shared navigation template uses it to highlight Mi aprendizaje without
@@ -117,7 +120,7 @@ def contextual_navigation(request):
     elif signed_in:
         entries = STUDENT_MENU
     else:
-        entries = [*CATALOG_MENU, ("creators", "Enseñar", "people")]
+        entries = [*CATALOG_MENU, MEMBERSHIP_LINK, ("creators", "Enseñar", "people")]
     section_entries = SECTION_MENUS.get(context, [])
     if context == "learning" and not (route.startswith(("student-question", "student-practice")) or route == "question-create"):
         section_entries = []

@@ -40,7 +40,7 @@ def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, 
         })
     topic_groups = [{'name': name, 'topics': options} for name, options in sorted(grouped_topics.items())]
     level_options = [(value, label) for value, label in CourseLevel.choices if value in facets['levels'] or value == level]
-    access_options = [(value, label) for value, label in (('gratis', 'Con contenido gratis'), ('pago', 'Con contenido de pago'))
+    access_options = [(value, label) for value, label in (('gratis', 'Con contenido gratis'), ('pago', 'Con contenido de pago'), ('membresia', 'Incluido en la membresía'))
                       if value in facets['access'] or value == access]
     format_options = [(value, label) for value, label in format_labels.items()
                       if value != 'todos' and (value in facets['formats'] or value == kind)]

@@ -70,7 +70,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
     if category not in ('todos', *allowed):
         category = 'todos'
     access = params.get('acceso', 'todos')
-    if access not in ('todos', 'gratis', 'pago'):
+    if access not in ('todos', 'gratis', 'pago', 'membresia'):
         access = 'todos'
     level = params.get('nivel', '')
     if level not in CourseLevel.values:
@@ -135,7 +135,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
             items = items.filter(**{topic_field: selected_topic.pk}) if selected_topic else items.none()
         # Las opciones siguen disponibles al aplicar nivel, acceso o formato.
         # Solo se leen metadatos públicos; los cuerpos de las revisiones quedan fuera.
-        facet_fields = (topic_field, 'public_level', 'free_count', 'paid_count') if model == Course else (
+        facet_fields = (topic_field, 'public_level', 'free_count', 'paid_count', 'membership') if model == Course else (
             (topic_field,) if model == ExternalReference else (topic_field, 'public_access'))
         for row in items.values(*facet_fields):
             facets['scope_count'] += 1
@@ -148,6 +148,8 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                     facets['access'].add('gratis')
                 if row['paid_count']:
                     facets['access'].add('pago')
+                if row['membership'] and row['paid_count']:
+                    facets['access'].add('membresia')
             elif model != ExternalReference:
                 facets['access'].add('gratis' if row['public_access'] == AccessType.FREE else 'pago')
         if category != 'todos' and category != kind:
@@ -161,6 +163,10 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                 items = items.filter(free_count__gt=0)
             elif access == 'pago':
                 items = items.filter(paid_count__gt=0)
+            elif access == 'membresia':
+                items = items.filter(membership=True, paid_count__gt=0)
+        elif access == 'membresia':
+            continue
         elif model == ExternalReference:
             if access != 'todos':
                 continue
@@ -212,7 +218,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                     item.topic = item.revision.topic
                 url = reverse('resource-detail', args=[kind, item.pk])
             creator = item.source_name if model == ExternalReference else public_creator_name(item.creator)
-            cards.append({'item': item, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})
+            cards.append({'item': item, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'membership': bool(summary and item.membership and item.paid_count), 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})
     cards.sort(key=lambda card: (card['item'].title.casefold(), card['category'], card['item'].pk))
     from commerce.models import Offer
     course_ids = [card['item'].current_version_id for card in cards if card['summary'] and card['item'].current_version_id]

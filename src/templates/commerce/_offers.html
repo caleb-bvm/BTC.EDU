@@ -1,8 +1,9 @@
-{% if offers %}
+{% if offers or membership %}
 <section class="learning-section contextual-offers" aria-label="Opciones de acceso">
   <h2>{% if lesson_context %}Elige cómo abrir esta lección{% else %}Opciones de acceso{% endif %}</h2>
   <p class="small-note">{% if lesson_context %}Estas opciones incluyen la lección que elegiste. Revisa lo que recibe tu compra.{% else %}Elige lo que necesitas y revisa el contenido incluido antes de comprar.{% endif %}</p>
   <div class="contextual-offer-list">
+    {% if membership %}{% include 'commerce/_membership_option.html' %}{% endif %}
     {% if compact and offers|length > 6 %}
       {% for offer in offers %}{% if offer.kind == 'course' %}{% include 'commerce/_offer_option.html' %}{% endif %}{% endfor %}
       <details class="course-unit-offers"><summary>Comprar capítulos o lecciones</summary><div class="contextual-offer-list">{% for offer in offers %}{% if offer.kind != 'course' %}{% include 'commerce/_offer_option.html' %}{% endif %}{% endfor %}</div></details>

@@ -6,6 +6,7 @@ from django.db import close_old_connections
 from django.utils import timezone
 
 from commerce.gateway import ProviderUnavailable
+from commerce.membership import check_membership, payments_to_reconcile
 from commerce.models import Invoice
 from commerce.services import reconcile
 
@@ -54,6 +55,17 @@ class Command(BaseCommand):
                 # Also rotate invoices with no hash or a failed provider request.
                 # Otherwise a full batch of never-issued invoices can starve payments.
                 Invoice.objects.filter(pk=invoice.pk).update(last_checked_at=timezone.now())
+        memberships = members_unknown = 0
+        for payment in payments_to_reconcile(limit):
+            try:
+                check_membership(payment)
+                memberships += 1
+            except ProviderUnavailable:
+                members_unknown += 1
+            except ValidationError:
+                invalid += 1
+                self.stderr.write(f"Membresía {payment.pk}: confirmación inválida; requiere revisión.")
         stamp = timezone.localtime().isoformat(timespec="seconds")
-        self.stdout.write(f"{stamp} · Facturas conciliadas: {checked}; sin respuesta confirmada: {unknown}; inválidas: {invalid}.")
+        self.stdout.write(f"{stamp} · Facturas conciliadas: {checked}; sin respuesta confirmada: {unknown}; inválidas: {invalid}. "
+                          f"Pagos de membresía revisados: {memberships}; sin respuesta: {members_unknown}.")
         self.stdout.flush()

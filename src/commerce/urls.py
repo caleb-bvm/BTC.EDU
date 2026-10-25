@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import cart_views, feature_views, views
+from . import cart_views, feature_views, membership_views, views
 
 urlpatterns = [
     path("carrito/", cart_views.cart_detail, name="cart"),
@@ -28,4 +28,10 @@ urlpatterns = [
     path("propinas/<uuid:pk>/qr/", feature_views.tip_qr, name="tip-qr"),
     path("propinas/<uuid:pk>/estado/", feature_views.tip_status, name="tip-status"),
     path("propinas/<uuid:pk>/comprobar/", feature_views.tip_action, name="tip-action"),
+    path("membresia/", membership_views.membership, name="membership"),
+    path("membresia/unirme/", membership_views.membership_join, name="membership-join"),
+    path("membresia/pagos/<uuid:pk>/", membership_views.membership_payment, name="membership-payment"),
+    path("membresia/pagos/<uuid:pk>/qr/", membership_views.membership_payment_qr, name="membership-payment-qr"),
+    path("membresia/pagos/<uuid:pk>/estado/", membership_views.membership_payment_status, name="membership-payment-status"),
+    path("membresia/pagos/<uuid:pk>/comprobar/", membership_views.membership_payment_action, name="membership-payment-action"),
 ]

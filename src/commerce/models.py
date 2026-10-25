@@ -353,6 +353,65 @@ class Tip(LightningPayment):
         return super().save(*args, **kwargs)
 
 
+
+class MembershipPlan(models.Model):
+    """A platform plan: paid periods open the paid lessons of courses marked for membership."""
+    name = models.CharField("nombre", max_length=100)
+    description = models.CharField("descripción", max_length=300, blank=True)
+    amount_sats = models.PositiveIntegerField("precio en sats")
+    days = models.PositiveSmallIntegerField("días de acceso")
+    active = models.BooleanField("disponible", default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("amount_sats", "pk")
+        verbose_name = "plan de membresía"
+        verbose_name_plural = "planes de membresía"
+        constraints = [models.CheckConstraint(condition=models.Q(amount_sats__gte=1, amount_sats__lte=1000000), name="membership_plan_price_bounds"),
+                       models.CheckConstraint(condition=models.Q(days__gte=1, days__lte=366), name="membership_plan_days_bounds")]
+
+    def __str__(self):
+        return f"{self.name} · {self.amount_sats} sats"
+
+    def save(self, *args, **kwargs):
+        if not self._state.adding:
+            original = type(self).objects.get(pk=self.pk)
+            if (self.amount_sats, self.days) != (original.amount_sats, original.days):
+                raise ValidationError("Crea otro plan para cambiar el precio o la duración.")
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        raise ValidationError("Desactiva el plan; se conserva su historial.")
+
+
+class MembershipPayment(LightningPayment):
+    member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="membership_payments")
+    plan = models.ForeignKey(MembershipPlan, on_delete=models.PROTECT, related_name="payments")
+    days = models.PositiveSmallIntegerField()
+    # The period is fixed when the payment is confirmed; a renewal starts where the previous one ends.
+    starts_at = models.DateTimeField(null=True, blank=True)
+    ends_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ("-created_at",)
+        verbose_name = "pago de membresía"
+        verbose_name_plural = "pagos de membresía"
+        constraints = [models.CheckConstraint(condition=(models.Q(status="paid", paid_at__isnull=False, starts_at__isnull=False, ends_at__isnull=False)
+                                                         | (~models.Q(status="paid") & models.Q(starts_at__isnull=True, ends_at__isnull=True))), name="membership_period_when_paid")]
+
+    @property
+    def memo(self):
+        return f"BTC.EDU membresía {self.pk}"
+
+    def save(self, *args, **kwargs):
+        if not self._state.adding:
+            original = type(self).objects.get(pk=self.pk)
+            if any(getattr(self, field) != getattr(original, field) for field in ("member_id", "plan_id", "amount_sats", "days", "expires_at")):
+                raise ValidationError("El pago conserva su plan, importe y duración.")
+        return super().save(*args, **kwargs)
+
+
 class Refund(models.Model):
     class Status(models.TextChoices):
         REQUESTED = "requested", "Solicitada"

@@ -114,3 +114,19 @@
 /* Grouped receipts keep each educator's content and price readable. */
 .order-content-list{display:flex;flex-direction:column;gap:18px}.order-content-item{border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}.order-content-heading{display:flex;justify-content:space-between;align-items:start;gap:20px}.order-content-heading>div{min-width:0}.order-content-heading>strong{white-space:nowrap}.order-content-heading h3{font-size:22px;margin-bottom:8px}.purchase-actions{display:flex;flex-direction:column;gap:12px}.purchase-actions form{margin:0}.purchase-actions .btn{width:100%}.purchase-actions [data-cart-feedback]{margin:12px 0 0}.header-cart{flex-shrink:0}
 @media(max-width:640px){.order-content-item{padding:14px}.order-content-heading{flex-direction:column;gap:8px}.order-content-heading h3{font-size:21px}.app-header .public-navigation{gap:8px}.app-header .public-navigation .btn{padding-inline:10px}}
+
+/* Membership: steps with display numbers, plans in the summary panel and a marked option among offers. */
+.membership-steps {list-style: none; counter-reset: membership-step; padding: 0; margin: 20px 0 0; display: grid; gap: 18px;}
+.membership-steps li {counter-increment: membership-step; display: grid; grid-template-columns: 44px 1fr; gap: 4px 14px; line-height: 1.6;}
+.membership-steps li::before {content: counter(membership-step, decimal-leading-zero); grid-row: span 2; font: 900 26px/1 var(--font-display);}
+.membership-steps strong {display: block;}
+.membership-plan + .membership-plan {border-top: 1px solid var(--line); margin-top: 24px; padding-top: 24px;}
+.membership-plans .purchase-status {margin-bottom: 20px;}
+.membership-plan-period {font: 12px/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; margin: -8px 0 20px;}
+.contextual-offer--membership {border-color: var(--ink);}
+.contextual-offer--membership .mono::before {content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); margin-right: 8px; vertical-align: 1px;}
+.membership-page .topic-section h3 {margin: 0;}
+/* The course aside is narrow: options stack their price under the description. */
+.course-access .contextual-offer {flex-direction: column; align-items: stretch; gap: 12px;}
+.course-access .contextual-offer-price {text-align: left;}
+.course-access .contextual-offer-cta {max-width: none;}

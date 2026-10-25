@@ -10,6 +10,8 @@ from .models import (
     EntitlementSource,
     Gift,
     Invoice,
+    MembershipPayment,
+    MembershipPlan,
     Offer,
     OfferItem,
     Order,
@@ -106,6 +108,29 @@ class GiftAdmin(HistoryAdmin):
 class TipAdmin(HistoryAdmin):
     list_display = ("id", "sender", "creator", "amount_sats", "status", "created_at")
     list_filter = ("status",)
+    exclude = ("payment_request",)
+
+    def get_readonly_fields(self, request, obj=None):
+        return tuple(field for field in super().get_readonly_fields(request, obj) if field != "payment_request")
+
+
+@admin.register(MembershipPlan)
+class MembershipPlanAdmin(admin.ModelAdmin):
+    list_display = ("name", "amount_sats", "days", "active", "created_at")
+    list_filter = ("active",)
+
+    def get_readonly_fields(self, request, obj=None):
+        # Price and length stay fixed once created; another plan replaces them.
+        return ("amount_sats", "days", "created_at") if obj else ("created_at",)
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(MembershipPayment)
+class MembershipPaymentAdmin(HistoryAdmin):
+    list_display = ("id", "member", "plan", "amount_sats", "status", "starts_at", "ends_at")
+    list_filter = ("status", "plan")
     exclude = ("payment_request",)
 
     def get_readonly_fields(self, request, obj=None):

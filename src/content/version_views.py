@@ -69,6 +69,8 @@ def course_version_detail(request, course_pk, number):
     journey = course_learning_context(request.user, course, version)
     from commerce.pricing import annotate_upgrades
     offers = annotate_upgrades(request.user, version_offers(version))
+    from commerce.membership import membership_offer
+    membership = membership_offer(request.user, version)
     if not preview:
         offer_views(request, offers)
     from learning.models import VersionCertificatePolicy
@@ -83,7 +85,7 @@ def course_version_detail(request, course_pk, number):
                  "my_review": CourseReview.objects.filter(course=version.course, student=request.user).first() if request.user.is_authenticated else None,
                  "gallery_count": gallery_items(version.course).count(),
                  "course_paths": [step.path for step in PathCourse.objects.filter(course=version.course, path__published=True).select_related("path")]}
-    return render(request, "content/course.html", {"course": course, **community, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": public_creator_name(version.course.creator), "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": offers, "version": version, "has_purchase": version_owned(request.user, version), "certificate_policy": policy, "certificate_lessons": required_lessons, **journey, **bookmark_context(request.user, course_version=version)})
+    return render(request, "content/course.html", {"course": course, **community, "active": "tutorials" if course.kind == "tutorial" else "courses", "summary": summary, "preview": preview, "first_lesson": first, "creator_name": public_creator_name(version.course.creator), "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "offers": offers, "membership": membership, "version": version, "has_purchase": version_owned(request.user, version), "certificate_policy": policy, "certificate_lessons": required_lessons, **journey, **bookmark_context(request.user, course_version=version)})
 
 
 def attachment_cards(request, attachments):
@@ -136,10 +138,12 @@ def version_lesson_detail(request, course_pk, number, lesson_pk):
         from core.telemetry import content_opened
         content_opened(request, record.content, version)
     offers = lesson_offers(request.user, record) if not decision.allowed else []
+    from commerce.membership import membership_offer
+    membership = membership_offer(request.user, version) if not decision.allowed and record.content.access_type == "paid" else None
     if offers and not preview:
         from core.telemetry import offer_views
         offer_views(request, offers)
-    return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "reading_sections": reading_sections(body), "allowed": decision.allowed, "preview": preview, "version": version, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments, "offers": offers, "purchase_return": record.pk, "lesson_context": True, **learning, **journey, **discussion}, status=200 if decision.allowed else 403)
+    return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "reading_sections": reading_sections(body), "allowed": decision.allowed, "preview": preview, "version": version, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments, "offers": offers, "membership": membership, "purchase_return": record.pk, "lesson_context": True, **learning, **journey, **discussion}, status=200 if decision.allowed else 403)
 
 
 @require_safe

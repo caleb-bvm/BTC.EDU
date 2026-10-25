@@ -19,12 +19,12 @@
       <div class="academy-card-offer">
         <p class="academy-card-label">{{ card.price_label|default:'Precio' }}</p>
         <p class="academy-card-figure"><strong>{{ card.price }} sats</strong></p>
-        {% if card.access_label != 'Lecciones de pago' and card.access_label != 'De pago' %}<p class="academy-card-access">{{ card.access_label }}</p>{% endif %}
+        {% if card.membership %}<p class="academy-card-access">Incluido en la membresía</p>{% elif card.access_label != 'Lecciones de pago' and card.access_label != 'De pago' %}<p class="academy-card-access">{{ card.access_label }}</p>{% endif %}
       </div>
       {% else %}
       <div class="academy-card-offer">
         <p class="academy-card-label">Acceso</p>
-        {% if card.access_label == 'Gratis' %}<p class="academy-card-figure"><strong>Gratis</strong></p>{% else %}<p class="academy-card-access">{{ card.access_label }}</p>{% endif %}
+        {% if card.membership %}<p class="academy-card-figure"><strong>Membresía</strong></p>{% if card.summary.free_count %}<p class="academy-card-access">Con lecciones gratis</p>{% endif %}{% elif card.access_label == 'Gratis' %}<p class="academy-card-figure"><strong>Gratis</strong></p>{% else %}<p class="academy-card-access">{{ card.access_label }}</p>{% endif %}
       </div>
       {% endif %}
       <span class="academy-card-go" aria-hidden="true">→</span>
