@@ -10,7 +10,13 @@ from django.views.decorators.http import require_GET
 
 from content.catalog import catalog_context
 
-from .navigation import discovery_section
+from .navigation import CATALOG_DESTINATIONS, discovery_section
+
+SECTION_INTROS = {
+    "cursos": "Un recorrido completo, a tu ritmo.",
+    "tutoriales": "Guías breves para resolver una tarea concreta.",
+    "recursos": "Videos, materiales y fuentes para consultar cuando los necesites.",
+}
 
 
 def discovery_links(context, request):
@@ -64,7 +70,7 @@ def filter_navigation(context):
         "q": f'«{context["query"]}»' if context["query"] else "",
         "nivel": dict(context["levels"]).get(context["level_filter"], ""),
         "acceso": {"gratis": "Con contenido gratis", "pago": "Con contenido de pago"}.get(context["access_filter"], ""),
-        "tipo": context["categories"].get(context["category"], "") if context["category"] != "todos" else "",
+        "tipo": context["categories"].get(context["category"], "") if context["category"] != "todos" and context.get("section") != "recursos" else "",
     }
     chips = []
     for key, label in labels.items():
@@ -74,6 +80,44 @@ def filter_navigation(context):
         chips.append({"label": label, "url": context["catalog_url"] + ("?" + urlencode(remaining) if remaining else "")})
     context["active_filter_chips"] = chips
     return context
+
+
+def tutorial_categories(context):
+    """Accesos directos de Tutoriales: solo categorías con publicaciones y la búsqueda actual."""
+    params = dict(parse_qsl(context["filter_query"]))
+    for name in ("categoria", "tema", "vista"):
+        params.pop(name, None)
+    url = context["catalog_url"]
+    links = [{"name": "Todas", "count": context["catalog_total"], "current": not context["category_filter"],
+              "url": url + ("?" + urlencode(params) if params else "")}]
+    for card in context["category_cards"]:
+        if card["count"] or card["slug"] == context["category_filter"]:
+            links.append({"name": card["name"], "count": card["count"], "current": card["slug"] == context["category_filter"],
+                          "url": url + "?" + urlencode({**params, "categoria": card["slug"]})})
+    context["tutorial_categories"] = links if len(links) > 2 or context["category_filter"] else []
+    return context
+
+
+def section_catalog(request, section, catalog_url, **extra):
+    """Cursos parte del índice de categorías; Tutoriales y Recursos muestran directamente su contenido."""
+    context = {"section": section, "catalog_url": catalog_url, **extra,
+               **discovery_links(catalog_context(request.GET, section, browse_categories=section == "cursos"), request)}
+    category_navigation(context)
+    if section == "tutoriales":
+        # La categoría elegida es navegación: limpiar solo retira búsqueda, nivel y acceso.
+        tutorial_categories(context)
+        context["show_clear_filters"] = bool(context["active_filter_chips"])
+        if not context["selected_category"] or context["category_missing"]:
+            context["clear_filters_url"] = context["category_index_url"]
+    elif section == "recursos":
+        # Limpiar conserva la pestaña de formato.
+        params = {"seccion": context["explore_section"]} if context.get("explore_section") else {}
+        if context["category"] != "todos":
+            params["tipo"] = context["category"]
+        context["show_clear_filters"] = context["has_search_filters"]
+        context["clear_filters_url"] = catalog_url + ("?" + urlencode(params) if params else "")
+    template = "core/_catalog.html" if request.headers.get("HX-Request") == "true" else "core/explore.html"
+    return render(request, template, context)
 
 
 def home(request):
@@ -86,24 +130,16 @@ def home(request):
 def explore(request):
     section = discovery_section(request.GET)
     labels = {"cursos": "Cursos", "tutoriales": "Tutoriales", "recursos": "Recursos"}
-    context = {"active": "explore", "section": section, "section_label": labels[section],
-               "page_title": labels[section], "page_intro": {"cursos": "Un recorrido completo, a tu ritmo.", "tutoriales": "Guías para resolver una tarea, paso a paso.", "recursos": "Videos, materiales y fuentes para seguir explorando."}[section],
-               "catalog_url": reverse("explore"), "explore_section": section,
-               **discovery_links(catalog_context(request.GET, section, browse_categories=True), request)}
-    category_navigation(context)
-    template = "core/_catalog.html" if request.headers.get("HX-Request") == "true" else "core/explore.html"
-    return render(request, template, context)
+    return section_catalog(request, section, reverse("explore"), active="explore", section_label=labels[section],
+                           page_title=labels[section], page_intro=SECTION_INTROS[section], explore_section=section)
 
 
 @require_GET
 def academy_catalog(request, section):
-    titles = {"cursos": ("Cursos", "Cursos", "Un recorrido completo, a tu ritmo."), "tutoriales": ("Tutoriales", "Tutoriales", "Guías para resolver una tarea, paso a paso."), "recursos": ("Recursos", "Recursos", "Videos, materiales y fuentes para seguir explorando.")}
-    label, title, intro = titles[section]
-    names = {"cursos": "courses", "tutoriales": "tutorials", "recursos": "resources"}
-    context = {"active": names[section], "section": section, "section_label": label, "page_title": title, "page_intro": intro, "catalog_url": reverse(names[section]), **discovery_links(catalog_context(request.GET, section, browse_categories=True), request)}
-    category_navigation(context)
-    template = "core/_catalog.html" if request.headers.get("HX-Request") == "true" else "core/explore.html"
-    return render(request, template, context)
+    label = {"cursos": "Cursos", "tutoriales": "Tutoriales", "recursos": "Recursos"}[section]
+    name = CATALOG_DESTINATIONS[section]
+    return section_catalog(request, section, reverse(name), active=name, section_label=label,
+                           page_title=label, page_intro=SECTION_INTROS[section])
 
 
 @require_GET

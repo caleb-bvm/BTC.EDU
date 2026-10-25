@@ -186,7 +186,7 @@ class CatalogHierarchyTests(TestCase):
     def test_explore_preserves_section_when_drilling_into_category_and_subcategory(self):
         response = self.client.get(reverse("explore"), {"seccion": "tutoriales", "categoria": "infraestructura"})
         self.assertContains(response, 'href="/explorar/?seccion=tutoriales&amp;categoria=infraestructura&amp;tema=redes"')
-        self.assertContains(response, 'href="/explorar/?seccion=tutoriales">← Categorías')
+        self.assertContains(response, 'href="/explorar/?seccion=tutoriales">Todas')
         response = self.client.get(
             reverse("explore"), {"seccion": "tutoriales", "categoria": "infraestructura", "tema": "redes"},
         )

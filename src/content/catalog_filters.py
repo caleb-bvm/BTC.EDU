@@ -46,12 +46,13 @@ def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, 
                       if value != 'todos' and (value in facets['formats'] or value == kind)]
 
     contextual_parent = bool(browse_categories and selected_category and not category_missing)
+    # Tutoriales elige la categoría con accesos directos y Recursos el formato con pestañas.
     controls = {
-        'show_category': not contextual_parent and bool(len(category_options) > 1 or category_slug),
+        'show_category': section != 'tutoriales' and not contextual_parent and bool(len(category_options) > 1 or category_slug),
         'show_topic': (not contextual_parent or unknown_topic) and bool(len(facets['topics']) > 1 or topic_slug),
         'show_level': bool(len(level_options) > 1 or level),
         'show_access': bool(len(access_options) > 1 or access != 'todos'),
-        'show_format': bool(len(format_options) > 1 or kind != 'todos'),
+        'show_format': section != 'recursos' and bool(len(format_options) > 1 or kind != 'todos'),
     }
     active_count = sum((
         bool(category_slug and controls['show_category']),

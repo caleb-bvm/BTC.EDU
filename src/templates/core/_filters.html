@@ -3,6 +3,7 @@
   {% if category_browsing %}<input type="hidden" name="vista" value="todos">{% endif %}
   {% if category_filter and not catalog_filters.show_category %}<input type="hidden" name="categoria" value="{{ category_filter }}">{% endif %}
   {% if topic_filter and not catalog_filters.show_topic %}<input type="hidden" name="tema" value="{{ topic_filter }}">{% endif %}
+  {% if category != 'todos' and not catalog_filters.show_format %}<input type="hidden" name="tipo" value="{{ category }}">{% endif %}
   <div class="catalog-toolbar">
     <div class="filter-search"><label class="visually-hidden" for="catalog-query">{{ catalog_filters.search_label }}</label><div class="search-control"><span aria-hidden="true">{% include '_fa_icon.html' with name='search' icon_class='catalog-search-icon' only %}</span><input class="form-control" id="catalog-query" type="search" name="q" value="{{ query }}" maxlength="200" placeholder="{{ catalog_filters.search_placeholder }}"></div></div>
     <button class="btn btn-dark filter-submit" type="submit">Buscar</button>

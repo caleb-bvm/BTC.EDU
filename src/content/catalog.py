@@ -1,4 +1,5 @@
 from collections import Counter
+from urllib.parse import urlsplit
 
 from django.core.paginator import Paginator
 from django.db.models import Case, Count, F, Prefetch, Q, When
@@ -101,6 +102,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
     catalog_items = []
     topic_counts = Counter()
     facets = {'topics': set(), 'levels': set(), 'access': set(), 'formats': set(), 'scope_count': 0}
+    format_counts = Counter()
     for kind, model, label in (
         ('cursos', Course, 'Curso'), ('tutoriales', Course, 'Tutorial'),
         ('videos', Video, 'Video'), ('materiales', Material, 'Material'),
@@ -141,6 +143,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
             facets['scope_count'] += 1
             facets['topics'].add(row[topic_field])
             facets['formats'].add(kind)
+            format_counts[kind] += 1
             if model == Course:
                 if row['public_level']:
                     facets['levels'].add(row['public_level'])
@@ -218,7 +221,8 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                     item.topic = item.revision.topic
                 url = reverse('resource-detail', args=[kind, item.pk])
             creator = item.source_name if model == ExternalReference else public_creator_name(item.creator)
-            cards.append({'item': item, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'membership': bool(summary and item.membership and item.paid_count), 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})
+            domain = (urlsplit(item.source_url).hostname or '').removeprefix('www.') if model == ExternalReference else ''
+            cards.append({'item': item, 'domain': domain, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'membership': bool(summary and item.membership and item.paid_count), 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})
     cards.sort(key=lambda card: (card['item'].title.casefold(), card['category'], card['item'].pk))
     from commerce.models import Offer
     course_ids = [card['item'].current_version_id for card in cards if card['summary'] and card['item'].current_version_id]
@@ -249,6 +253,15 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
         type_params = link_params.copy()
         type_params['tipo'] = value
         type_links.append((value, label, type_params.urlencode() if hasattr(type_params, 'urlencode') else ''))
+    # Recursos se recorre por formato: cada pestaña indica cuántas publicaciones hay en la búsqueda actual.
+    format_tabs = [{'value': value, 'label': label, 'query': query, 'current': value == category,
+                    'count': facets['scope_count'] if value == 'todos' else format_counts[value]}
+                   for value, label, query in type_links
+                   if value == 'todos' or format_counts[value] or value == category]
+    if len(format_tabs) < 3 and category == 'todos':
+        format_tabs = []
+    format_groups = [(kind, categories[kind], [card for card in page.object_list if card['category'] == kind])
+                     for kind in ('videos', 'materiales', 'referencias')]
     groups = {}
     for card in page.object_list:
         heading = card['item'].topic.name if card['item'].topic else 'Por descubrir'
@@ -265,7 +278,8 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
         'filtered': filtered,
         'show_clear_filters': filtered and (category_missing or topic_missing or not browse_categories or not selected_category or bool(query or access != 'todos' or level or category != 'todos')),
         'has_search_filters': bool(query or access != 'todos' or topic_slug or category_slug or level),
-        'type_links': type_links,
+        'type_links': type_links, 'format_tabs': format_tabs,
+        'format_groups': [group for group in format_groups if group[2]],
         'topic_missing': topic_missing,
         'show_level': section in (None, 'cursos', 'tutoriales'),
         'category_browsing': browse_categories, 'show_categories': show_categories,

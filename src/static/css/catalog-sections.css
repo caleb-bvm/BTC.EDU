@@ -1,0 +1,65 @@
+/* Cada sección del catálogo tiene su propia forma de recorrerse:
+   Cursos por categorías ilustradas, Tutoriales como lista de tareas y Recursos como biblioteca por formato. */
+
+/* Tutoriales */
+.tutorial-categories{margin:0 0 24px}
+.tutorial-categories ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.tutorial-categories a{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--ui-surface);font-size:13px;white-space:nowrap;text-decoration:none}
+.tutorial-categories a span{font:12px var(--font-mono);color:var(--muted)}
+.tutorial-categories a:hover{border-color:var(--ink)}
+.tutorial-categories a[aria-current]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.tutorial-categories a[aria-current] span{color:inherit}
+.tutorial-list{border-top:1px solid var(--line)}
+.tutorial-item{display:grid;grid-template-columns:84px minmax(0,1fr) auto;gap:24px;align-items:start;padding:22px 4px;border-bottom:1px solid var(--line)}
+.tutorial-time{display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1;margin:0;border:1px solid var(--line-strong);border-radius:var(--ui-radius);background:var(--ui-muted-surface)}
+.tutorial-time strong{font:600 28px/1 var(--font-mono)}
+.tutorial-time span:not(.visually-hidden){margin-top:6px;font:11px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tutorial-meta{margin:0 0 6px;font:11px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.academy .tutorial-item h3{margin:0 0 8px;font-size:22px;line-height:1.3}
+.tutorial-item h3 a{text-decoration:none}
+.tutorial-item h3 a:hover{text-decoration:underline}
+.tutorial-copy>p:not(.tutorial-meta){margin:0;font-size:14px;line-height:1.6;color:var(--muted)}
+.tutorial-copy .tutorial-author{margin-top:8px;font-size:13px}
+.tutorial-facts{display:flex;flex-direction:column;align-items:flex-end;gap:6px;min-width:120px;margin:0;padding:0;list-style:none;font-size:13px;color:var(--muted);text-align:right}
+.tutorial-facts strong{color:var(--ink)}
+
+/* Recursos */
+.format-tabs{margin:0 0 24px}
+.format-tabs ul{display:flex;flex-wrap:wrap;margin:0;padding:0;list-style:none;box-shadow:inset 0 -1px var(--line)}
+.format-tabs a{display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:10px 18px;border-bottom:2px solid transparent;color:var(--muted);font-size:14px;white-space:nowrap;text-decoration:none}
+.format-tabs a span{font:12px var(--font-mono)}
+.format-tabs a:hover{color:var(--ink)}
+.format-tabs a[aria-current]{border-bottom-color:var(--ink);color:var(--ink);font-weight:600}
+.resource-group+.resource-group{margin-top:44px}
+.resource-meta{margin:0 0 4px;font:11px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);overflow-wrap:anywhere}
+.resource-author,.resource-access{margin:0;font-size:13px;color:var(--muted)}
+.resource-access strong{color:var(--ink)}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px 22px;margin:0;padding:0;list-style:none}
+.video-tile-cover{position:relative;display:block;margin-bottom:14px;overflow:hidden;border:1px solid var(--line);border-radius:var(--ui-radius)}
+.video-tile-cover .content-image{object-fit:cover}
+.video-tile-play{position:absolute;left:12px;bottom:12px;display:grid;place-items:center;width:40px;height:40px;padding-left:3px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:14px}
+.academy .video-tile h3{margin:0 0 6px;font-size:18px;line-height:1.35}
+.video-tile h3 a,.resource-row h3 a{text-decoration:none}
+.video-tile h3 a:hover,.resource-row h3 a:hover{text-decoration:underline}
+.video-tile .resource-author{margin-bottom:4px}
+.resource-list{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:var(--ui-radius);background:var(--ui-surface)}
+.resource-list>li+li{border-top:1px solid var(--line)}
+.resource-row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:18px;align-items:center;padding:16px 18px}
+.resource-row-mark{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--line-strong);border-radius:var(--ui-radius);background:var(--ui-muted-surface);font-size:18px}
+.academy .resource-row h3{margin:0 0 4px;font-size:17px;line-height:1.35}
+.resource-row div>p:not(.resource-meta):not(.resource-author){margin:0 0 4px;font-size:13px;line-height:1.55;color:var(--muted)}
+.resource-row .resource-access{text-align:right;white-space:nowrap}
+
+@media(max-width:640px){
+  .tutorial-item{grid-template-columns:60px minmax(0,1fr);gap:14px;padding:20px 0}
+  .tutorial-time strong{font-size:21px}
+  .tutorial-time span:not(.visually-hidden){font-size:9px}
+  .academy .tutorial-item h3{font-size:19px}
+  .tutorial-facts{grid-column:2;flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 14px;min-width:0;text-align:left}
+  .format-tabs a{padding-inline:14px}
+  .tutorial-categories ul,.format-tabs ul{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .video-grid{grid-template-columns:1fr}
+  .resource-row{grid-template-columns:36px minmax(0,1fr);gap:12px;padding:14px}
+  .resource-row-mark{width:36px;height:36px}
+  .resource-row .resource-access{grid-column:2;text-align:left;white-space:normal}
+}

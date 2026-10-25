@@ -49,11 +49,15 @@ class AcademyDiscoveryTests(TestCase):
             ("tutorials", self.tutorial.title, (self.course.title, self.reference.title)),
             ("resources", self.reference.title, (self.course.title, self.tutorial.title)),
         ):
+            # Solo Cursos parte del índice de categorías; Tutoriales y Recursos muestran su contenido.
             response = self.client.get(reverse(name))
-            self.assertTrue(response.context["show_categories"])
-            self.assertContains(response, "Elige una categoría")
-            self.assertNotContains(response, visible)
-            response = self.client.get(reverse(name), {"vista": "todos"})
+            self.assertEqual(response.context["show_categories"], name == "courses")
+            if name == "courses":
+                self.assertContains(response, "Elige una categoría")
+                self.assertNotContains(response, visible)
+                response = self.client.get(reverse(name), {"vista": "todos"})
+            else:
+                self.assertNotContains(response, "Elige una categoría")
             label = {"courses": "Cursos", "tutorials": "Tutoriales", "resources": "Recursos"}[name]
             self.assertContains(response, f"<h1>{label}</h1>", html=True)
             self.assertContains(response, f"<title>{label} · BTC.EDU</title>", html=True)
@@ -68,8 +72,8 @@ class AcademyDiscoveryTests(TestCase):
             self.assertNotContains(response, "CUERPO QUE NO ES METADATO")
             self.assertNotContains(response, self.creator.email)
         empty = self.client.get(reverse("explore"), {"seccion": "recursos", "q": "sin coincidencias"})
-        self.assertContains(empty, f'href="{reverse("explore")}?seccion=recursos&amp;vista=todos">Ver todo el catálogo')
-        self.assertContains(empty, f'href="{reverse("explore")}?seccion=recursos&amp;vista=todos">Limpiar filtros')
+        self.assertContains(empty, f'href="{reverse("explore")}?seccion=recursos">Ver todo el catálogo')
+        self.assertContains(empty, f'href="{reverse("explore")}?seccion=recursos">Limpiar filtros')
 
     def test_topic_level_search_and_access_are_combinable(self):
         url = reverse("courses")
@@ -143,10 +147,15 @@ class AcademyDiscoveryTests(TestCase):
             model.objects.create(creator=self.creator, title="Sin publicar", topic=self.topic)
         response = self.client.get(reverse("resources"))
         self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}["bitcoin"], 3)
-        self.assertContains(response, "3 recursos")
+        tabs = {tab["value"]: tab["count"] for tab in response.context["format_tabs"]}
+        self.assertEqual(tabs, {"todos": 3, "videos": 1, "materiales": 1, "referencias": 1})
+        self.assertEqual([kind for kind, _, _ in response.context["format_groups"]], ["videos", "materiales", "referencias"])
+        self.assertContains(response, 'aria-label="Formatos de recursos"')
         filtered = self.client.get(reverse("resources"), {"tema": self.topic.slug, "tipo": "videos"})
         self.assertEqual(filtered.context["result_count"], 1)
         self.assertEqual(filtered.context["cards"][0]["kind"], "Video")
+        self.assertContains(filtered, 'aria-current="page">Videos')
+        self.assertContains(filtered, '<input type="hidden" name="tipo" value="videos">', html=True)
 
     def test_resource_category_uses_revision_topic_instead_of_draft(self):
         draft_topic = Topic.objects.create(name="Tema sin publicar", slug="pendiente")
@@ -173,18 +182,21 @@ class AcademyDiscoveryTests(TestCase):
         response = self.client.get(reverse("resources"))
         self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, category_counts({"bitcoin": 0}))
         self.assertEqual(response.context["catalog_total"], 0)
-        self.assertContains(response, "0 recursos")
+        self.assertContains(response, "Un lugar para seguir descubriendo.")
+        self.assertNotContains(response, 'role="search"')
+        self.assertEqual(response.context["format_tabs"], [])
         self.assertNotContains(response, self.course.title)
         self.assertNotContains(response, self.tutorial.title)
 
     def test_search_htmx_and_legacy_links_preserve_category_navigation(self):
-        response = self.client.get(reverse("explore"), {"seccion": "tutoriales"})
-        self.assertContains(response, 'href="/explorar/?seccion=tutoriales&amp;categoria=bitcoin"')
+        response = self.client.get(reverse("explore"), {"seccion": "tutoriales", "categoria": "bitcoin"})
+        self.assertContains(response, 'href="/explorar/?seccion=tutoriales&amp;categoria=bitcoin" aria-current="page"')
+        self.assertContains(response, 'href="/explorar/?seccion=tutoriales">Todas')
         response = self.client.get(reverse("explore"), {"seccion": "tutoriales", "tema": "seguridad", "q": "wallet"}, HTTP_HX_REQUEST="true")
         self.assertFalse(response.context["show_categories"])
         self.assertContains(response, self.tutorial.title)
         self.assertContains(response, 'href="/explorar/?seccion=tutoriales&amp;tema=seguridad">Limpiar filtros')
-        self.assertContains(response, 'href="/explorar/?seccion=tutoriales">← Categorías')
+        self.assertContains(response, 'href="/explorar/?seccion=tutoriales&amp;q=wallet">Todas')
         self.assertNotContains(response, "<html")
         search = self.client.get(reverse("courses"), {"q": "cero"})
         self.assertFalse(search.context["show_categories"])

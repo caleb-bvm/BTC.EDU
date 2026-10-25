@@ -1,0 +1,24 @@
+<section class="resource-group" aria-labelledby="resource-group-{{ kind }}">
+  {% if category == 'todos' %}<div class="topic-heading"><h2 id="resource-group-{{ kind }}">{{ label }}</h2><span class="mono">{{ group_cards|length|stringformat:'02d' }} / {{ label|upper }}</span></div>{% else %}<h2 class="visually-hidden" id="resource-group-{{ kind }}">{{ label }}</h2>{% endif %}
+  {% if kind == 'videos' %}<ul class="video-grid">{% for card in group_cards %}<li>
+    <article class="video-tile">
+      <a class="video-tile-cover" href="{{ card.url }}" tabindex="-1" aria-hidden="true">{% include '_content_image.html' with kind=card.category topic_slug=card.item.topic.slug only %}<span class="video-tile-play">▶</span></a>
+      <p class="resource-meta">{% if card.item.topic %}{{ card.item.topic.name }}{% else %}Video{% endif %}</p>
+      <h3><a href="{{ card.url }}">{{ card.item.title }}</a></h3>
+      <p class="resource-author">Por {% include 'creators/_author_link.html' with person=card.item.creator author_name=card.creator %}</p>
+      <p class="resource-access">{% if card.price %}<strong>{{ card.price }} sats</strong>{% else %}{{ card.access_label }}{% endif %}{% if not card.item.revision_id %} · Reproducción pendiente{% endif %}</p>
+    </article>
+  </li>{% endfor %}</ul>
+  {% else %}<ul class="resource-list">{% for card in group_cards %}<li>
+    <article class="resource-row">
+      <span class="resource-row-mark" aria-hidden="true">{% if kind == 'referencias' %}↗{% else %}↓{% endif %}</span>
+      <div>
+        <p class="resource-meta">{% if kind == 'referencias' %}{{ card.domain|default:card.creator }}{% elif card.item.topic %}{{ card.item.topic.name }}{% else %}Material{% endif %}</p>
+        <h3><a href="{{ card.url }}">{{ card.item.title }}</a></h3>
+        {% if card.item.description %}<p>{{ card.item.description|truncatechars:140 }}</p>{% endif %}
+        <p class="resource-author">{% if kind == 'referencias' %}Fuente: {{ card.creator }}{% else %}Por {% include 'creators/_author_link.html' with person=card.item.creator author_name=card.creator %}{% endif %}</p>
+      </div>
+      <p class="resource-access">{% if card.price %}<strong>{{ card.price }} sats</strong>{% elif kind == 'referencias' %}Sitio externo{% else %}{{ card.access_label }}{% endif %}{% if kind == 'materiales' and not card.item.revision_id %}<br>Descarga pendiente{% endif %}</p>
+    </article>
+  </li>{% endfor %}</ul>{% endif %}
+</section>

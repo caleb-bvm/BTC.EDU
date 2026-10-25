@@ -184,7 +184,10 @@ class AdaptiveCatalogFilterTests(TestCase):
         self.assertEqual(self.values(facets["access"]), {"gratis", "pago"})
         self.assertFalse(facets["show_level"])
         self.assertFalse(FilterMarkup(response).named("nivel"))
-        self.assertEqual(facets["active_count"], 2)
+        # El formato se elige con pestañas, fuera del panel de filtros.
+        self.assertFalse(facets["show_format"])
+        self.assertEqual(facets["active_count"], 1)
+        self.assertEqual([tab["value"] for tab in response.context["format_tabs"] if tab["current"]], ["materiales"])
 
     def test_selected_unavailable_refinements_remain_visible_and_clearable(self):
         response = self.client.get(reverse("courses"), {"categoria": "bitcoin", "tema": "seguridad", "nivel": "advanced", "acceso": "pago"})
@@ -212,8 +215,8 @@ class AdaptiveCatalogFilterTests(TestCase):
         self.assertEqual(response.context["result_count"], 0)
         self.assertEqual(facets["scope_count"], 1)
         self.assertEqual(self.values(facets["formats"]), {"videos", "materiales"})
-        self.assertTrue(facets["show_format"])
-        self.assertEqual(facets["active_count"], 1)
+        tabs = {tab["value"]: (tab["count"], tab["current"]) for tab in response.context["format_tabs"]}
+        self.assertEqual(tabs, {"todos": (1, False), "videos": (1, False), "materiales": (0, True)})
 
     def test_empty_category_keeps_search_and_context_without_empty_filter_controls(self):
         response = self.client.get(reverse("courses"), {"categoria": "creacion"})
