@@ -68,7 +68,7 @@ La ventaja a construir dependerá de materiales útiles, revisión por especiali
 
 Comenzamos con colecciones pequeñas en varias áreas y un mismo criterio de calidad. Creación y Tecnología ya tienen cursos originales publicados localmente; su demanda y sus resultados educativos siguen por evaluar. Cada área necesita revisión independiente, mantenimiento y prácticas comprobadas con participantes antes de ampliar su oferta.
 
-El descubrimiento debería ayudar a encontrar una tarea y su nivel, además de un tema. Por ejemplo, «organizar datos en una hoja de cálculo» expresa una necesidad concreta. Las rutas de varios cursos ya ordenan recorridos hacia un objetivo, como «De cero a Lightning», con progreso conjunto y una credencial propia. La búsqueda orientada a resultados sigue requiriendo diseño propio.
+El descubrimiento debería ayudar a encontrar una tarea y su nivel, además de un tema. Por ejemplo, «organizar datos en una hoja de cálculo» expresa una necesidad concreta. Las rutas de varios cursos ya ordenan recorridos hacia un objetivo, como «Backend con Python», con progreso conjunto y una credencial propia. La búsqueda orientada a resultados sigue requiriendo diseño propio.
 
 La primera captación puede probarse con creadores que ya tengan materiales y una audiencia, junto con comunidades educativas. Esto permitiría evaluar una colección concreta sin depender de un catálogo masivo. No hemos contactado aliados ni estimado el costo de adquisición.
 
@@ -354,7 +354,7 @@ Solo opinan quienes compraron contenido de pago del curso o lo completaron. Cada
 
 Con permiso explícito del estudiante, una práctica aprobada aparece en la galería del curso con su solución escrita y su enlace; los adjuntos siguen privados y puede retirarla cuando quiera.
 
-La administración publica rutas con cursos ordenados. Cada paso muestra si está sin empezar, en curso, completado o certificado. Al completar todos, el estudiante obtiene una credencial con huella SHA-256 que incluye los certificados de cada curso o, si un curso no ofrece certificado, su finalización. La verificación pública es opcional.
+BTC.EDU y los educadores publican rutas con cursos en un orden recomendado; los educadores solo con sus cursos. El estudiante puede empezar por cualquier paso y saltar los opcionales. Cada paso muestra si está sin empezar, en curso, completado o certificado, y la ruta sugiere el siguiente. Los cursos se compran por separado o en un paquete que descuenta un porcentaje a cada curso que aún falta, sin cobrar los gratuitos, los de membresía ni los ya comprados. Al completar los cursos obligatorios, el estudiante obtiene una credencial con huella SHA-256 que incluye los certificados de cada curso o, si un curso no ofrece certificado, su finalización. La verificación pública es opcional. Hay seis rutas editoriales con un descuento de 15 %, sin validar con compradores ([rutas de aprendizaje](investigacion-y-requisitos.md#rutas-de-aprendizaje)).
 
 ### Uso sin conexión
 

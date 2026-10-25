@@ -527,7 +527,7 @@ La fuente local de LNbits confirma que `Payment.time` nace al crear el registro 
 | Implementada | Completar conjuntos | Crédito por compras propias dentro del paquete, con las reglas de [evitar compras duplicadas](#evitar-compras-duplicadas). Su comprensión sigue por observar. |
 | Próxima ampliación | Descubrimiento por necesidad | Mejorar búsqueda y filtros por tarea, nivel, formato, duración y acceso; indicar su alcance de precio. Probarlos con el catálogo disponible antes de aumentar opciones. |
 | Implementada | Escaparate del educador | El perfil existente reúne sus publicaciones con búsqueda, filtros y fichas. Ventas distingue transacciones e importes de sus líneas. Compradores, inscritos y alumnos con evaluación siguen siendo grupos distintos. |
-| Implementada | Reseñas verificadas y rutas | Solo opinan quienes compraron o completaron el curso; se muestran base, versión, alias y respuesta del educador, con ocultación administrativa. Las rutas editoriales ordenan cursos. Las recomendaciones personalizadas siguen pendientes; no se generan estrellas, testimonios ni ventas ficticios. |
+| Implementada | Reseñas verificadas y rutas | Solo opinan quienes compraron o completaron el curso; se muestran base, versión, alias y respuesta del educador, con ocultación administrativa. Las rutas de BTC.EDU y de los educadores ordenan cursos y pueden venderse como paquete con descuento ([rutas de aprendizaje](#rutas-de-aprendizaje)). Las recomendaciones personalizadas siguen pendientes; no se generan estrellas, testimonios ni ventas ficticios. |
 | Implementada | Cupones y regalos | Cupones del educador con vencimiento, límite de usos y alcance; regalos con enlace de canje de un solo uso. Su necesidad y sostenibilidad siguen por observar. |
 | Posterior | Recuperación por correo | Los recordatorios deben respetar preferencias y entrega de correo comprobada. Membresías, otros pagos y cuenta unificada para aprender/enseñar necesitan diseño propio. |
 
@@ -564,7 +564,7 @@ El 23 de octubre de 2026 el usuario compartió una comparación de BTC.EDU con U
 | Reseñas verificadas | Implementada | Compra de pago o curso completado; una por curso, editable, con respuesta del educador |
 | Cupones | Implementada | Del educador, por porcentaje o sats, con vencimiento, límite y alcance |
 | Galería de proyectos | Implementada | Prácticas aprobadas con permiso explícito; adjuntos privados |
-| Rutas de varios cursos | Implementada | Editoriales desde administración; credencial con huella SHA-256 |
+| Rutas de varios cursos | Implementada | Editoriales y de educadores, pasos opcionales, paquete con descuento y credencial con huella SHA-256 |
 | Aplicación instalable y lectura sin conexión | Implementada | Solo lecciones guardadas por el estudiante; se borran al cambiar de cuenta |
 | Entrar con Lightning (LNURL-auth) | Pendiente | La wallet debe alcanzar un dominio público con HTTPS; no es demostrable en local |
 | Pago por minuto | Pendiente | Necesita medición de reproducción y pagos recurrentes |
@@ -2057,6 +2057,24 @@ Las lecciones de pago de los cursos de pago y freemium cuestan 1,5 veces su part
 Cada curso enlaza entre cuatro y ocho videos externos insertables, con el título y el canal de origen. Comprobamos la inserción con el servicio oEmbed de YouTube y reemplazamos los que la tenían desactivada; preferimos videos en español y marcamos como apoyo opcional el único en inglés. Los videos complementan las lecciones; ninguna depende de ellos. Las portadas son quince ilustraciones SVG propias, una por subcategoría, que no requieren créditos ni peticiones a terceros.
 
 Ejecutamos los ejemplos de código antes de publicarlos: consultas en SQLite, análisis con pandas, ejemplos de seguridad con Flask, una API de FastAPI con sus pruebas, contenedores con Docker y un nodo Bitcoin Core en regtest. Esa ejecución corrigió afirmaciones concretas, como el reinicio de systemd tras una señal, la conversión de mayúsculas acentuadas en SQLite y el intervalo del halving en regtest. Los ejercicios de Blender y Figma no se ejecutaron. Comprobamos también los enlaces de las fuentes. Ninguno de los cursos tiene revisión de especialistas ni se ha probado con alumnos.
+
+<a id="rutas-de-aprendizaje"></a>
+
+### Rutas de aprendizaje
+
+El 25 de octubre de 2026, con 25 cursos publicados, consideramos que el catálogo bastaba para organizar recorridos y no añadimos cursos. Cargamos seis rutas editoriales con las agrupaciones que aprobó el usuario: Bitcoin y Lightning, Desarrollo con Lightning, Backend con Python, Análisis de datos, Ciberseguridad e Infraestructura. Tienen entre cuatro y seis cursos y un curso puede estar en varias rutas.
+
+El usuario definió cuatro condiciones: la ruta es un sendero recomendado que no bloquea pasos, los cursos se compran por separado o en un paquete con descuento, pueden crear rutas BTC.EDU y los educadores, y hay pasos opcionales. Las resolvimos así:
+
+- Un paso opcional no cuenta para el porcentaje ni para la credencial; si se completa, figura en la evidencia marcado como opcional. Marcamos como opcionales los cursos que amplían el objetivo sin ser imprescindibles, como el nodo Bitcoin Core o Docker en Backend con Python.
+- El siguiente paso sugerido es el curso en progreso o, si no lo hay, el primero pendiente después del último completado. Saltar un paso no retiene la sugerencia.
+- El paquete es un pedido con una línea por curso que el estudiante aún no tiene. Cada línea descuenta el porcentaje de la ruta sobre lo que queda tras el crédito por compras anteriores y conserva al menos 1 sat, de modo que cada educador asume el descuento de sus propios cursos. No incluye cursos gratuitos, de membresía ni comprados, exige al menos dos cursos por comprar y no se combina con cupones. El servidor recalcula el precio y un cambio de cursos o de descuento invalida la revisión.
+- Un educador solo incluye sus cursos publicados, elige un descuento entre 0 y 50 % y necesita dos cursos con uno obligatorio para publicar. Publica sin revisión administrativa, porque la ruta solo reordena cursos ya revisados; la administración puede retirarla.
+- Las rutas editoriales se crean desde administración o con `load_learning_paths` y pueden combinar cursos de cualquier educador. Hoy solo usan cursos de las cuentas de BTC.EDU; antes de incluir en un paquete cursos de otros educadores necesitamos su acuerdo, porque el descuento reduce su ingreso.
+
+El descuento de las rutas editoriales es de 15 %, una hipótesis sin validar. Las rutas de Python, datos, ciberseguridad e infraestructura cuestan entre 6630 y 7140 sats en paquete, frente a 7800–8400 por separado. Las dos de Lightning tienen paquetes pequeños, de 2652 y 306 sats, porque la mayoría de sus cursos editoriales son gratuitos. Cinco rutas incluyen un curso de membresía; la ruta lo indica y el paquete no lo cobra.
+
+Falta comprobar con participantes si se entienden el paquete, los pasos opcionales y la diferencia con la membresía, y si el descuento influye en la compra. Detectamos brechas para rutas futuras: ningún curso es avanzado, Desarrollo web tiene un solo curso y Diseño y creación digital no forma todavía un recorrido.
 
 ### Ejemplos históricos de programación
 

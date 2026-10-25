@@ -20,6 +20,8 @@ Añadí colecciones dentro de Guardados y prácticas con entregas privadas, crit
 
 Después de comparar BTC.EDU con otras plataformas de cursos, añadí crédito para completar un curso pagando la diferencia, cupones, regalos, propinas, reembolsos por Lightning, sello de certificados con OpenTimestamps, reseñas verificadas, galería de proyectos, rutas de varios cursos y lectura sin conexión. Las probé técnicamente; ninguna está validada con participantes. Dejé pendientes la entrada con Lightning, el pago por minuto, las liquidaciones, la IA y otros idiomas. [Registro](#23-de-octubre-de-2026).
 
+Con los 25 cursos publiqué seis rutas de aprendizaje: Bitcoin y Lightning, Desarrollo con Lightning, Backend con Python, Análisis de datos, Ciberseguridad e Infraestructura. Son senderos recomendados con pasos opcionales que se pueden saltar; los cursos se compran por separado o en un paquete con 15 % de descuento. Los educadores también pueden crear rutas con sus cursos. [Registro](#rutas-2026-10-25).
+
 <a id="guia-local-anterior"></a>
 
 ## Cómo trabajo en local
@@ -184,7 +186,7 @@ El sello de certificados está desactivado por defecto porque envía la huella a
 ./.venv/Scripts/python.exe manage.py stamp_certificates --limit 50
 ```
 
-Creo rutas desde Administración → Rutas de aprendizaje, eligiendo cursos y su orden. Modero reseñas y proyectos de la galería desde Administración con las acciones de ocultar y mostrar.
+Creo rutas editoriales desde Administración → Rutas de aprendizaje, con cursos, orden, pasos opcionales, nota de cada paso y descuento del paquete. Las seis rutas iniciales se cargan desde `src` con `./.venv/Scripts/python.exe manage.py load_learning_paths`; repetirlo no modifica las rutas que ya existen. Los educadores crean las suyas en Contenido → Rutas. Modero reseñas y proyectos de la galería desde Administración con las acciones de ocultar y mostrar.
 
 Configuro la membresía desde Administración → Planes de membresía, con nombre, precio en sats y días de acceso. Para cambiar el precio desactivo el plan y creo otro. Marco los cursos incluidos con «Incluido en la membresía» en Administración → Cursos. Los estudiantes pagan desde Membresía, en el menú principal; `reconcile_payments` también revisa sus pagos pendientes y los vencidos del último día.
 
@@ -248,6 +250,8 @@ Cuando activo el sello, guardo una prueba OpenTimestamps del archivo de datos. C
 
 La membresía es un plan de la plataforma: abre las lecciones de pago de la versión vigente de los cursos marcados mientras haya un periodo pagado. No se renueva sola; cada periodo se paga con una factura y empieza al terminar el anterior. Al vencer, conservo compras, avance y certificados.
 
+Una ruta no bloquea pasos: el estudiante empieza donde quiera y los opcionales no cuentan para la credencial. Su paquete es un pedido normal con una línea por curso que falta; cada línea descuenta el porcentaje de la ruta y conserva al menos 1 sat, así que cada educador asume el descuento de sus cursos. No cobra cursos gratuitos, de membresía ni comprados, necesita dos cursos por comprar y no admite cupones. Los educadores solo usan sus cursos publicados y publican sin revisión; las rutas editoriales pueden combinar cursos de cualquier educador, pero hoy solo usan cursos de BTC.EDU.
+
 Un regalo no concede acceso a quien paga ni bloquea sus compras; su enlace se canjea una vez. Las propinas no compran contenido, aceptan un pago observado tarde y se registran por educador sin liquidación. Los cupones pertenecen al educador, se aplican después del crédito y cuentan pedidos pagados o pendientes para su límite.
 
 Un reembolso termina solo el acceso que concedía esa compra; conservo la compra, la evidencia y el avance, y una compra nueva restablece el acceso. Limito la solicitud a siete días, sin certificado ni crédito posterior con ese contenido, y pido una factura por el importe exacto. Si el pago queda incierto, mantengo el acceso hasta conciliarlo.
@@ -267,6 +271,8 @@ Uso el alias del estudiante en la comunidad y comparto su presentación solo si 
 ### Interfaz y métricas
 
 Uso un lenguaje industrial monocromo: negro, blanco y grises neutros, con el naranja `#FF6A13` solo en la acción principal, el paso actual, un estado vivo y el punto de la marca. Sobre blanco el naranja es relleno con texto negro, nunca texto. Doto, de matriz de puntos, va en la marca, cifras, precios y números de paso; Inter Tight en títulos, lectura y controles; Space Mono en etiquetas. Las tres fuentes se sirven desde `src/static/fonts` con licencia OFL. Los botones son píldoras, las tarjetas tienen 20 px de radio y líneas de 1 px, y el foco es un contorno del color del texto. Los errores conservan su rojo funcional. Presento los precios como cantidad y sats. Explico FakeWallet y regtest durante la documentación o presentación; la interfaz evita banners técnicos y comprueba el pago en silencio, salvo errores que requieren una acción.
+
+Las rutas usan un sendero de nodos numerados en Doto: negro al completar, discontinuo si el paso es opcional y naranja solo en el paso sugerido de una ruta empezada. Antes de empezar, el naranja queda para «Comprar la ruta». En móvil, el avance y el paquete aparecen antes del sendero.
 
 En el catálogo y en el perfil del educador, toda la tarjeta lleva a la ficha, salvo el enlace del autor. Muestra el tipo sobre la portada, nivel, lecciones y duración en una línea, y un pie con el precio, el acceso gratuito o, si ya estudio el curso, mi avance con el precio pendiente.
 
@@ -291,6 +297,8 @@ Necesito preparar pequeñas colecciones en otras áreas con revisión especializ
 Necesito ensayar el recorrido de creador y estudiante sobre la base comprobada, incluida la compra desde ZEUS y el acceso posterior. También debo revisar el catálogo con una persona experta, ampliar las evaluaciones y comprobar comprensión y duración con alumnos. Los precios de 120 sats por curso y 50 sats por lección siguen siendo hipótesis. Repetiré la revisión integrada al incorporar nuevas entregas.
 
 Antes de abrir al público necesito correo con entrega comprobada, límites de abuso, despliegue con HTTPS, respaldo y restauración ensayados, supervisión de pagos y atención de incidencias. Debo definir responsables de revisión y moderación, conservación de datos y presupuesto de almacenamiento y transferencia. Las pruebas locales de concurrencia no miden capacidad para tráfico público y las revisiones visuales no constituyen una auditoría completa de accesibilidad.
+
+El descuento de 15 % de las rutas es una hipótesis. Antes de incluir cursos de otros educadores en una ruta editorial con paquete necesito su acuerdo. Para nuevas rutas faltan cursos avanzados, más cursos de desarrollo web y un recorrido de diseño y creación digital.
 
 Mantengo como ampliaciones pendientes los planes de membresía propios de cada educador y el reparto de ingresos de la membresía, corrección de credenciales, eventos educativos y reproducción más detallada. También quedan mejoras del editor, cuotas, tratamiento de archivos huérfanos y producción audiovisual. Tengo instrumentos de validación preparados, pero no sesiones ejecutadas ni resultados comerciales o educativos que pueda atribuirles.
 
@@ -653,3 +661,11 @@ Ejecuté los ejemplos antes de publicarlos: SQLite, pandas 3.1, Flask, FastAPI c
 Respaldé la base en `src/.local/backups/before-complete-courses-20261025-104055-257719.sqlite3` y cargué los quince cursos. La base local tiene 25 cursos y 252 lecciones, seis cursos de membresía y un plan activo; el perfil editorial pasó a llamarse «BTC.EDU · Colecciones».
 
 En la revisión visual, la ficha de un curso de membresía decía «Gratis + lecciones de pago», aunque la tarjeta decía «Membresía». Ahora dice «Incluido en la membresía» y lo añadí a la prueba de membresía. Pasaron las 574 pruebas con `--parallel 4` y Ruff. Revisé las tarjetas de las seis categorías, una lección gratuita con video, una lección bloqueada con la opción de membresía y la ficha del curso de membresía en escritorio, y a 375 px una lección con código, sin desbordamiento horizontal. No recorrí el pago de la membresía con una cuenta en el navegador ni revisé con lector de pantalla. Ningún curso tiene revisión de especialistas.
+
+<a id="rutas-2026-10-25"></a>
+
+Sobre `7b153cc` convertí las rutas en senderos recomendados con compra en paquete. Decidimos no añadir cursos todavía: con los 25 publicados armé las seis rutas que aprobé, con entre cuatro y seis cursos, una nota por paso y un curso opcional en cada una. `learning.0015_path_creators_bundles_optional_steps` añade a la ruta el educador (vacío en las editoriales) y el descuento del paquete, de 0 a 50 %, y a cada paso la marca de opcional. `commerce.0007_orderline_path` vincula cada línea de pedido con la ruta que aplicó el descuento. El paquete reutiliza la revisión firmada, el pedido y la factura del carrito; su firma queda ligada a la ruta y el título de la factura es «Ruta · nombre». La credencial se emite al completar los obligatorios y el progreso sugiere el curso en curso o el primero pendiente después del último completado.
+
+Rediseñé la lista y la ficha de la ruta con el lenguaje monocromo y añadí Contenido → Rutas en el estudio del educador, con un formulario para elegir, numerar y marcar como opcionales sus cursos publicados. La ficha de la ruta muestra cómo se abre cada curso: precio, gratis, membresía o «Ya es tuyo».
+
+Respaldé la base en `src/.local/platform-before-paths-20261025.sqlite3`, apliqué las dos migraciones y cargué las rutas con `load_learning_paths`; repetirlo añadió 0. Pasaron 582 pruebas, ocho nuevas de rutas y paquetes. Actualicé la prueba de navegación por el nuevo enlace del estudio y la de migración de conversaciones, que retrocedía `learning` sin retroceder la nueva migración de `commerce` que depende de ella. Ruff y `makemigrations --check` pasaron. Revisé la lista y la ficha en escritorio claro, y la lista, la ficha y la revisión del paquete a 375 px en oscuro, sin desbordamiento horizontal. No recorrí con una cuenta en el navegador la compra del paquete, una ruta empezada ni el formulario del educador; las pruebas cubren esos casos. Tampoco revisé con lector de pantalla.
