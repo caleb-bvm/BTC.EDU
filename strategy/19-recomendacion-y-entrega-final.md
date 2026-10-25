@@ -120,7 +120,7 @@ Esta comparación es nuestra interpretación. Los modelos pueden combinarse: fre
 
 Patreon admite compras únicas y membresías; Codecademy ofrece acceso gratuito y planes pagados. Son referencias de coexistencia, sin demostrar preferencia por nuestra oferta. [Patreon](https://www.patreon.com/policy/legal), [Codecademy](https://www.codecademy.com/pricing).
 
-La hipótesis principal sigue siendo contenido gratuito y muestras junto con compras individuales. La membresía se evaluará para un uso frecuente. No proponemos incorporar publicidad por esta comparación.
+La hipótesis principal sigue siendo contenido gratuito y muestras junto con compras individuales. Para demostrar que las modalidades conviven implementamos una membresía de la plataforma con renovación manual: un pago Lightning abre por 30 días las lecciones de pago de los cursos incluidos, sin afectar las compras individuales. Su demanda frente a la compra por unidades sigue sin validar. No proponemos incorporar publicidad por esta comparación.
 
 ### Costos
 
@@ -409,7 +409,7 @@ La integración de conversaciones en lecciones pasó 57 pruebas de lecciones, co
 
 ### Organización y próximos pasos
 
-Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, instalación de la conciliación como servicio y procedimientos para operación pública. Las membresías permanecen como ampliación pendiente; la comunidad por versión ya permite conversar y moderar con historial. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
+Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, instalación de la conciliación como servicio y procedimientos para operación pública. La membresía con renovación manual ya está implementada; la comunidad por versión permite conversar y moderar con historial. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
 
 La verificación de correo, las preferencias de avisos y la solicitud de revisar una suspensión de cuenta ya tienen recorridos implementados. La entrega real de correo y sus procedimientos deben comprobarse antes de operar públicamente. Marcar respuestas como solución y las apelaciones sobre moderación de conversaciones permanecen como ampliaciones por diseñar y verificar.
 
@@ -417,7 +417,7 @@ La verificación de correo, las preferencias de avisos y la solicitud de revisar
 
 Queremos una experiencia en la que el alumno encuentre contenido pertinente, comprenda la compra y pueda continuar aprendiendo. El creador debe preparar, publicar y mantener sus materiales sin perjudicar el acceso existente.
 
-Las evaluaciones y certificados conservan requisitos y resultados por versión. Las preguntas y notificaciones ya permiten acompañar al alumno; los paneles ofrecen indicadores con fuentes y denominadores explícitos. La comunidad por versión incorpora conversación y moderación; las membresías renovadas manualmente quedan como ampliación por desarrollar y verificar.
+Las evaluaciones y certificados conservan requisitos y resultados por versión. Las preguntas y notificaciones ya permiten acompañar al alumno; los paneles ofrecen indicadores con fuentes y denominadores explícitos. La comunidad por versión incorpora conversación y moderación. La membresía de renovación manual abre los cursos incluidos mientras el periodo pagado esté vigente; planes de educadores y reparto de ingresos siguen pendientes.
 
 Necesitamos analítica que explique consulta, pago, uso y regreso sin confundir actividad con aprendizaje. También un presupuesto que considere consumo gratuito, acceso permanente, archivos históricos, correo, respaldos, supervisión y soporte.
 
