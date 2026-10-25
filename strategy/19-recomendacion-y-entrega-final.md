@@ -34,7 +34,7 @@ Estas dificultades son hipótesis de trabajo. Falta comprobar con usuarios su fr
 
 ### A quién queremos servir
 
-El enfoque confirmado es educación de distintas áreas desde el inicio. El catálogo local reúne Bitcoin, Tecnología y Creación: a la primera colección de Bitcoin y Lightning añadimos recorridos de fotografía, video, desarrollo web y Python. El público inicial por investigar son estudiantes, personas que trabajan y autodidactas que necesitan aplicar un conocimiento concreto: resolver un ejercicio, preparar un archivo, utilizar una herramienta o completar una tarea. El Salvador es el contexto inicial de investigación, sin atribuir a su población una preferencia por Bitcoin o una disposición a pagar que no hemos medido.
+El enfoque confirmado es educación de distintas áreas desde el inicio. El catálogo local se organiza en seis categorías tecnológicas: a la primera colección de Bitcoin y Lightning añadimos recorridos de fotografía, video, desarrollo web y Python. El público inicial por investigar son estudiantes, personas que trabajan y autodidactas que necesitan aplicar un conocimiento concreto: resolver un ejercicio, preparar un archivo, utilizar una herramienta o completar una tarea. El Salvador es el contexto inicial de investigación, sin atribuir a su población una preferencia por Bitcoin o una disposición a pagar que no hemos medido.
 
 Para el creador, buscamos facilitar la publicación de conocimientos que tengan utilidad por separado, conservando su relación con cursos, prácticas y alumnos. Su beneficio dependerá del esfuerzo editorial, la remuneración y la atención requerida. Todavía no hemos documentado actividad de creadores externos ni condiciones de liquidación comprobadas.
 
@@ -194,7 +194,7 @@ Facilitar la preparación y revisión del contenido, medir la compra y el uso me
 
 ### Producto
 
-La plataforma se orienta a educación de distintas áreas desde el inicio, unidas por aprendizaje práctico y compras por unidades útiles. El catálogo local reúne diez cursos y 72 lecciones en Bitcoin, Tecnología y Creación. Bitcoin y Lightning cubre fundamentos, wallets y autocustodia, facturas, laboratorio con LNbits y acceso a contenido mediante micropagos; Creación y Tecnología añaden cuatro cursos de pago (fotografía, edición de video, desarrollo web y Python). Ampliar a otras áreas requiere contenidos y revisión propios; el contenido gratuito, las muestras y las unidades de compra deben responder a necesidades educativas reconocibles.
+La plataforma se orienta a educación de distintas áreas desde el inicio, unidas por aprendizaje práctico y compras por unidades útiles. El catálogo local reúne diez cursos y 72 lecciones en Bitcoin y Lightning, Desarrollo de software y Diseño y creación digital. Bitcoin y Lightning cubre fundamentos, wallets y autocustodia, facturas, laboratorio con LNbits y acceso a contenido mediante micropagos; Creación y Tecnología añaden cuatro cursos de pago (fotografía, edición de video, desarrollo web y Python). Ampliar a otras áreas requiere contenidos y revisión propios; el contenido gratuito, las muestras y las unidades de compra deben responder a necesidades educativas reconocibles.
 
 ### Experiencia
 
@@ -250,16 +250,16 @@ Cada curso incluye una pregunta final y un certificado condicionado a completar 
 
 La carga conserva versiones publicadas, registra decisiones de publicación y ofertas, crea un respaldo local y evita duplicar cursos al repetirse. Comprobamos el catálogo, sus fichas y las 24 lecciones por HTTP en una copia de la base, incluida la protección del texto de pago. La revisión educativa externa y la comprobación del nuevo catálogo con personas siguen pendientes.
 
-### Creación y Tecnología
+### Desarrollo de software y creación digital
 
 El 15 de octubre de 2026 incorporamos cuatro cursos originales completos de autoestudio. Cada uno tiene cuatro capítulos, doce lecciones desarrolladas, ejercicios con solución, cuatro evaluaciones de cuatro preguntas y un proyecto final con criterios. Las duraciones incluyen práctica y son estimadas.
 
 | Categoría | Curso | Duración estimada | Curso completo |
 |---|---|---|---|
-| Creación | Fotografía con celular: de la captura a una serie visual | 6 horas | 1800 sats |
-| Creación | Edición de video con Shotcut: del guion a la publicación | 8 horas | 2400 sats |
-| Tecnología | Desarrollo web: crea y publica un sitio accesible | 10 horas | 3000 sats |
-| Tecnología | Python práctico: automatiza reportes con CSV | 10 horas | 3000 sats |
+| Diseño y creación digital | Fotografía con celular: de la captura a una serie visual | 6 horas | 1800 sats |
+| Diseño y creación digital | Edición de video con Shotcut: del guion a la publicación | 8 horas | 2400 sats |
+| Desarrollo de software | Desarrollo web: crea y publica un sitio accesible | 10 horas | 3000 sats |
+| Desarrollo de software | Python práctico: automatiza reportes con CSV | 10 horas | 3000 sats |
 
 Todas sus lecciones requieren compra. Antes de pagar se muestran objetivos, requisitos, temario y una muestra breve; el desarrollo, las soluciones y los complementos de la lección permanecen protegidos. Ofrecemos lecciones, capítulos y curso completo con su inventario preciso. Los importes son decisiones editoriales iniciales, sin validación comercial.
 
@@ -475,7 +475,7 @@ La bitácora y los anexos reunirán las evidencias de desarrollo, instrumentos y
 
 ## Navegación y tareas
 
-Al entrar a Cursos, Tutoriales o Recursos se elige entre Bitcoin, Tecnología y Creación; Inicio también presenta las categorías de cursos. Cada categoría reúne subcategorías: los temas anteriores, como Lightning y Desarrollo Lightning, quedan dentro de Bitcoin. Tecnología incorpora áreas como hardware, redes, desarrollo web y móvil; Creación reúne herramientas Adobe, fotografía y creación de contenido, entre otras. Las tarjetas muestran imagen, nombre y cantidad de publicaciones del catálogo elegido. Dentro de una categoría se ofrecen las subcategorías con publicaciones; al elegir una, «Cambiar subcategoría» permite volver a las opciones. Una categoría vacía mantiene accesibles sus áreas mediante «Ver subcategorías». Su incorporación no implica cursos nuevos publicados ni demanda comprobada.
+Al entrar a Cursos, Tutoriales o Recursos se elige entre seis categorías tecnológicas: Bitcoin y Lightning, Desarrollo de software, Datos e inteligencia artificial, Ciberseguridad, Infraestructura y nube, y Diseño y creación digital; Inicio también presenta las categorías de cursos. Cada categoría reúne subcategorías: los temas anteriores, como Lightning y Desarrollo Lightning, quedan dentro de Bitcoin y Lightning. Las áreas que agrupaba Tecnología son ahora categorías propias y suman subcategorías como APIs y backend, Análisis de datos, Hacking ético o Computación en la nube. Las tarjetas muestran imagen, nombre y cantidad de publicaciones del catálogo elegido. Dentro de una categoría se ofrecen las subcategorías con publicaciones; al elegir una, «Cambiar subcategoría» permite volver a las opciones. Una categoría vacía mantiene accesibles sus áreas mediante «Ver subcategorías». Su incorporación no implica cursos nuevos publicados ni demanda comprobada.
 
 La búsqueda directa, «Ver todos», los filtros y el regreso desde una ficha conservan la selección. Los conteos respetan el tema de la versión o revisión publicada, sin adelantar cambios del borrador ni mezclar Cursos, Tutoriales y Recursos. El contenido sin tema permanece en «Por descubrir». Las ilustraciones están integradas; la carga de imágenes personalizadas sigue pendiente. La ampliación pasó 73 pruebas focalizadas, una prueba adicional de compatibilidad del importador y una revisión de escritorio en modo oscuro; la migración local mantuvo los conteos de contenido y los identificadores anteriores. La [organización y sus límites](investigacion-y-requisitos.md#categorias-del-catalogo) distinguen este cambio técnico de la validación pendiente con participantes.
 

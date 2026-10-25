@@ -285,13 +285,18 @@ Las cuentas de estudiante y educador siguen siendo independientes. Entrar en otr
 
 ### Categorías del catálogo
 
-La organización vigente tiene dos niveles: categoría y subcategoría. Bitcoin agrupa los temas del catálogo anterior; Tecnología y Creación amplían las áreas disponibles para publicar sin añadir cursos de ejemplo. Cada sección muestra tarjetas con nombre, ilustración local y cantidad total de contenidos publicados; Inicio también presenta las categorías de cursos. Las categorías se muestran incluso con cero publicaciones y explican que aún no hay contenido. Dentro de una categoría, la navegación ofrece las subcategorías con publicaciones; después de elegir una se despliega desde «Cambiar subcategoría». Una categoría completamente vacía conserva todas sus subcategorías configuradas bajo «Ver subcategorías», con su cantidad. Los conteos corresponden únicamente a Cursos, Tutoriales o Recursos según la sección, se calculan antes de paginar y usan el tema de la versión o revisión publicada; los cambios del borrador no alteran ese resultado. El contenido sin tema se encuentra en «Por descubrir».
+La organización vigente tiene dos niveles: categoría y subcategoría. Desde el 24 de octubre hay seis categorías, todas del área tecnológica. Las áreas que antes reunía Tecnología pasaron a ser categorías propias, porque una sola tarjeta agrupaba nueve áreas distintas y no permitía mostrar cursos de cada modalidad por área. Bitcoin y Lightning conserva los temas del catálogo anterior; Diseño y creación digital conserva las áreas de Creación. Cada sección muestra tarjetas con nombre, ilustración local y cantidad total de contenidos publicados; Inicio también presenta las categorías de cursos. Las categorías se muestran incluso con cero publicaciones y explican que aún no hay contenido. Dentro de una categoría, la navegación ofrece las subcategorías con publicaciones; después de elegir una se despliega desde «Cambiar subcategoría». Una categoría completamente vacía conserva todas sus subcategorías configuradas bajo «Ver subcategorías», con su cantidad. Los conteos corresponden únicamente a Cursos, Tutoriales o Recursos según la sección, se calculan antes de paginar y usan el tema de la versión o revisión publicada; los cambios del borrador no alteran ese resultado. El contenido sin tema se encuentra en «Por descubrir».
 
-| Categoría | Subcategorías iniciales |
+| Categoría | Subcategorías |
 |---|---|
-| Bitcoin | Fundamentos de Bitcoin, Lightning, Seguridad y autocustodia, Desarrollo Lightning |
-| Tecnología | Hardware de PC, Redes, Desarrollo web, Desarrollo móvil, Programación, Bases de datos, Linux y sistemas, Ciberseguridad, Inteligencia artificial |
-| Creación | Adobe Premiere Pro, Adobe Photoshop, Adobe Lightroom, Fotografía, Creación de contenido, Diseño UI/UX, Modelado y animación 3D |
+| Bitcoin y Lightning | Fundamentos de Bitcoin, Lightning, Seguridad y autocustodia, Desarrollo Lightning, Nodos y minería |
+| Desarrollo de software | Programación, Desarrollo web, Desarrollo móvil, APIs y backend, Git y colaboración, Pruebas y calidad |
+| Datos e inteligencia artificial | Bases de datos, Análisis de datos, Aprendizaje automático, Inteligencia artificial |
+| Ciberseguridad | Fundamentos de ciberseguridad, Seguridad de aplicaciones, Hacking ético, Respuesta a incidentes |
+| Infraestructura y nube | Hardware de PC, Redes, Linux y sistemas, Computación en la nube, DevOps y contenedores |
+| Diseño y creación digital | Diseño UI/UX, Adobe Photoshop, Adobe Lightroom, Adobe Premiere Pro, Fotografía, Creación de contenido, Modelado y animación 3D |
+
+Las subcategorías anteriores conservan su identificador, de modo que los enlaces por `tema` siguen funcionando. La migración `content.0009_technology_categories` solo reemplaza nombres y descripciones que seguían con su valor inicial y retira Tecnología cuando ya no le quedan subcategorías. Las cuatro categorías nuevas tienen ilustración propia. Este cambio organiza el catálogo; los cursos de cada categoría y modalidad se añaden por separado.
 
 El filtro `categoria` reúne las publicaciones de sus subcategorías y `tema` acota una de ellas. Los enlaces anteriores que solo incluyen `tema` conservan su destino. La búsqueda, los demás filtros y el retorno desde una ficha mantienen la selección; no se mezclan publicaciones de otra sección. El educador elige la subcategoría en un selector agrupado por categoría. La administración conserva descripciones e ilustraciones integradas, con imagen por defecto cuando corresponde; la carga de imágenes personalizadas sigue pendiente.
 
