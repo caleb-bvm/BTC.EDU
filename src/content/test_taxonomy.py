@@ -11,6 +11,7 @@ from creators.forms import CourseForm, MaterialForm, ResourceForm
 
 from .management.commands.load_editorial_catalog import editorial_topic
 from .models import Category, Topic
+from .testing import CATEGORY_SLUGS
 
 
 class TaxonomyFormTests(TestCase):
@@ -18,9 +19,9 @@ class TaxonomyFormTests(TestCase):
     def setUpTestData(cls):
         cls.actor = get_user_model().objects.create_user("taxonomy@forms.invalid", account_type="creator")
         cls.bitcoin, _ = Category.objects.get_or_create(slug="bitcoin", defaults={"name": "Bitcoin"})
-        cls.technology, _ = Category.objects.get_or_create(slug="tecnologia", defaults={"name": "Tecnología"})
+        cls.infrastructure = Category.objects.get(slug="infraestructura")
         cls.foundation, _ = Topic.objects.get_or_create(slug="bitcoin", defaults={"name": "Fundamentos de Bitcoin", "category": cls.bitcoin})
-        cls.networks, _ = Topic.objects.get_or_create(slug="redes", defaults={"name": "Redes", "category": cls.technology})
+        cls.networks, _ = Topic.objects.get_or_create(slug="redes", defaults={"name": "Redes", "category": cls.infrastructure})
         cls.custom = Topic.objects.create(name="Tema propio", slug="tema-propio")
 
     def test_course_and_resource_choices_group_subcategories_and_validate_the_topic(self):
@@ -28,12 +29,12 @@ class TaxonomyFormTests(TestCase):
             with self.subTest(form=type(form).__name__):
                 field = form.fields["topic"]
                 self.assertEqual(field.label, "Subcategoría")
-                self.assertIn('<optgroup label="Bitcoin">', str(form["topic"]))
-                self.assertIn('<optgroup label="Tecnología">', str(form["topic"]))
+                self.assertIn('<optgroup label="Bitcoin y Lightning">', str(form["topic"]))
+                self.assertIn('<optgroup label="Infraestructura y nube">', str(form["topic"]))
                 self.assertIn('<optgroup label="Otros temas">', str(form["topic"]))
                 groups = dict(list(field.choices)[1:])
-                self.assertIn((self.foundation.pk, self.foundation.name), groups["Bitcoin"])
-                self.assertIn((self.networks.pk, self.networks.name), groups["Tecnología"])
+                self.assertIn((self.foundation.pk, self.foundation.name), groups["Bitcoin y Lightning"])
+                self.assertIn((self.networks.pk, self.networks.name), groups["Infraestructura y nube"])
                 self.assertIn((self.custom.pk, self.custom.name), groups["Otros temas"])
                 self.assertEqual(field.clean(str(self.networks.pk)), self.networks)
                 self.assertIsNone(field.clean(""))
@@ -52,7 +53,7 @@ class TaxonomyFormTests(TestCase):
     def test_category_delete_is_protected_and_image_defaults_cover_new_categories(self):
         with self.assertRaises(ProtectedError):
             self.bitcoin.delete()
-        for slug in ("bitcoin", "tecnologia", "creacion"):
+        for slug in CATEGORY_SLUGS:
             self.assertEqual(Category(slug=slug).category_image, f"images/categories/{slug}.svg")
         self.assertEqual(Category(slug="otra").category_image, "images/categories/general.svg")
         self.assertEqual(Category(slug="otra", artwork="desarrollo").category_image, "images/categories/desarrollo.svg")
@@ -61,16 +62,16 @@ class TaxonomyFormTests(TestCase):
 class TaxonomyEditorialImportTests(TestCase):
     def test_import_reuses_a_recognized_name_with_a_custom_slug_and_preserves_its_category(self):
         bitcoin = Category.objects.get(slug="bitcoin")
-        technology = Category.objects.get(slug="tecnologia")
+        infrastructure = Category.objects.get(slug="infraestructura")
         original = Topic.objects.get(slug="bitcoin")
         original.slug = "mis-bitcoin"
-        original.category = technology
+        original.category = infrastructure
         original.save(update_fields=["slug", "category"])
         item = {"slug": "bitcoin", "topic": "Bitcoin"}
         count = Topic.objects.count()
 
         imported = editorial_topic(item, bitcoin)
-        self.assertEqual((imported.pk, imported.slug, imported.category_id), (original.pk, "mis-bitcoin", technology.pk))
+        self.assertEqual((imported.pk, imported.slug, imported.category_id), (original.pk, "mis-bitcoin", infrastructure.pk))
         self.assertEqual(Topic.objects.count(), count)
         self.assertFalse(Topic.objects.filter(slug="bitcoin").exists())
 
@@ -106,23 +107,24 @@ class TaxonomyMigrationTests(TransactionTestCase):
             current = MigrationExecutor(connection).loader.project_state(latest).apps
             CategoryModel = current.get_model("content", "Category")
             TopicModel = current.get_model("content", "Topic")
-            self.assertEqual(set(CategoryModel.objects.values_list("slug", flat=True)), {"bitcoin", "tecnologia", "creacion"})
+            self.assertEqual(set(CategoryModel.objects.values_list("slug", flat=True)), set(CATEGORY_SLUGS))
             self.assertEqual(TopicModel.objects.get(pk=bitcoin.pk).name, "Fundamentos de Bitcoin")
             self.assertEqual(TopicModel.objects.get(pk=security.pk).name, "Seguridad y autocustodia")
             self.assertEqual(TopicModel.objects.get(pk=bitcoin.pk).description, "Descripción propia")
             self.assertEqual(TopicModel.objects.get(pk=bitcoin.pk).artwork, "lightning")
             self.assertEqual(TopicModel.objects.get(pk=networks.pk).slug, "mis-redes")
-            self.assertEqual(TopicModel.objects.get(pk=networks.pk).category.slug, "tecnologia")
+            self.assertEqual(TopicModel.objects.get(pk=networks.pk).category.slug, "infraestructura")
             self.assertIsNone(TopicModel.objects.get(pk=custom.pk).category_id)
-            self.assertEqual(TopicModel.objects.filter(category__slug="bitcoin").count(), 4)
-            self.assertEqual(TopicModel.objects.filter(category__slug="tecnologia").count(), 9)
-            self.assertEqual(TopicModel.objects.filter(category__slug="creacion").count(), 7)
+            self.assertEqual(
+                {slug: TopicModel.objects.filter(category__slug=slug).count() for slug in CATEGORY_SLUGS},
+                {"bitcoin": 5, "desarrollo-software": 6, "datos-ia": 4, "ciberseguridad": 4, "infraestructura": 5, "creacion": 7},
+            )
             self.assertEqual(current.get_model("content", "CourseVersion").objects.get(pk=version.pk).topic_id, bitcoin.pk)
             self.assertEqual(current.get_model("content", "ResourceVersion").objects.get(pk=revision.pk).topic_id, security.pk)
             before_repeat = list(TopicModel.objects.values().order_by("pk"))
-            migration = importlib.import_module("content.migrations.0008_category_hierarchy")
+            migration = importlib.import_module("content.migrations.0009_technology_categories")
             with connection.schema_editor() as editor:
-                migration.populate_categories(current, editor)
+                migration.reorganize_categories(current, editor)
             self.assertEqual(list(TopicModel.objects.values().order_by("pk")), before_repeat)
             for name, rows in snapshots.items():
                 self.assertEqual(list(current.get_model("content", name).objects.values().order_by("pk")), rows)

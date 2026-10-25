@@ -106,7 +106,7 @@ class AdaptiveCatalogFilterTests(TestCase):
         response = self.client.get(reverse("courses"), {"vista": "todos"})
         facets = self.facets(response)
         self.assertEqual(facets["scope_count"], 3)
-        self.assertEqual({entry["value"] for entry in facets["categories"]}, {"bitcoin", "tecnologia"})
+        self.assertEqual({entry["value"] for entry in facets["categories"]}, {"bitcoin", "infraestructura"})
         self.assertEqual(self.topic_values(facets), {"seguridad", "lightning", "hardware-pc"})
         self.assertEqual(self.values(facets["levels"]), {"beginner", "intermediate", "advanced"})
         self.assertEqual(self.values(facets["access"]), {"gratis", "pago"})
@@ -136,7 +136,7 @@ class AdaptiveCatalogFilterTests(TestCase):
         markup = FilterMarkup(response)
         self.assert_hidden_context(markup, "categoria", "bitcoin")
         self.assertFalse(any("options" in field for field in markup.named("tema")))
-        self.assertContains(response, 'aria-label="Subcategorías de Bitcoin"')
+        self.assertContains(response, 'aria-label="Subcategorías de Bitcoin y Lightning"')
         self.assertTrue(markup.details)
 
     def test_child_context_stays_hidden_when_only_one_choice_is_available(self):
@@ -220,7 +220,7 @@ class AdaptiveCatalogFilterTests(TestCase):
         facets = self.facets(response)
         self.assertEqual(facets["scope_count"], 0)
         self.assertFalse(facets["has_controls"])
-        self.assertEqual(facets["categories"], [{"value": "creacion", "label": "Creación"}])
+        self.assertEqual(facets["categories"], [{"value": "creacion", "label": "Diseño y creación digital"}])
         self.assertFalse(facets["show_category"])
         self.assertEqual(facets["topic_groups"], [])
         markup = FilterMarkup(response)
@@ -254,7 +254,7 @@ class AdaptiveCatalogFilterTests(TestCase):
         self.assertEqual(facets["scope_count"], 1)
         self.assertEqual(self.values(facets["access"]), {"pago"})
         self.assertEqual(self.topic_values(facets), {"hardware-pc"})
-        self.assertEqual({entry["value"] for entry in facets["categories"]}, {"tecnologia"})
+        self.assertEqual({entry["value"] for entry in facets["categories"]}, {"infraestructura"})
         self.assertNotContains(response, "OTRO_METADATO_PRIVADO")
 
     def test_selector_keeps_relevant_filters_and_native_form_submission(self):
@@ -275,7 +275,7 @@ class AdaptiveCatalogFilterTests(TestCase):
         facets = self.facets(response)
         self.assertEqual(facets["scope_count"], 6)
         self.assertEqual(self.values(facets["formats"]), {"cursos", "tutoriales", "videos", "materiales"})
-        self.assertEqual({entry["value"] for entry in facets["categories"]}, {"bitcoin", "tecnologia"})
+        self.assertEqual({entry["value"] for entry in facets["categories"]}, {"bitcoin", "infraestructura"})
         self.assertNotContains(response, "Curso ajeno")
         self.assertNotContains(response, self.reference.title)
 
@@ -295,7 +295,7 @@ class AdaptiveCatalogFilterTests(TestCase):
     def test_facet_scope_is_calculated_before_pagination(self):
         for number in range(13):
             self.make_course(f"Redes {number:02}", self.networks, CourseLevel.BEGINNER)
-        params = {"categoria": "tecnologia", "tema": "redes", "q": "Redes", "pagina": 2}
+        params = {"categoria": "infraestructura", "tema": "redes", "q": "Redes", "pagina": 2}
         response = self.client.get(reverse("courses"), params)
         facets = self.facets(response)
         self.assertEqual(facets["scope_count"], 13)

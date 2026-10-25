@@ -92,7 +92,7 @@ class CompleteCoursesTests(TestCase):
         self.assertEqual(Submission.objects.filter(course__in=self.courses(), status="approved").count(), 4)
 
     def test_every_lesson_is_locked_before_purchase_and_photos_are_visible(self):
-        self.assertEqual(set(self.courses().values_list("topic__category__slug", flat=True)), {"creacion", "tecnologia"})
+        self.assertEqual(set(self.courses().values_list("topic__category__slug", flat=True)), {"creacion", "desarrollo-software"})
         for course in self.courses():
             response = self.client.get(reverse("course-detail", args=[course.pk]))
             self.assertEqual(response.status_code, 200)

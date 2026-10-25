@@ -6,7 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
-from content.testing import EDUCATION_FIXTURE
+from content.testing import EDUCATION_FIXTURE, category_counts
 from media.models import Asset
 
 from .catalog import UNCATEGORIZED_TOPIC
@@ -112,7 +112,7 @@ class AcademyDiscoveryTests(TestCase):
         Lesson.objects.create(**EDUCATION_FIXTURE, chapter=self.course.chapters.first(), position=2, title="Otra lección", status=PublicationStatus.PUBLISHED)
         response = self.client.get(reverse("courses"))
         self.assertEqual(response.context["catalog_total"], 16)
-        self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, {"bitcoin": 16, "tecnologia": 0, "creacion": 0})
+        self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, category_counts({"bitcoin": 16}))
         self.assertContains(response, "16 cursos")
         self.assertNotContains(response, "Vacía")
         self.assertEqual(response.context["all_cards"], [])
@@ -134,7 +134,7 @@ class AcademyDiscoveryTests(TestCase):
         Course.objects.filter(pk=self.course.pk).update(current_version=version, topic=draft_topic, kind=CourseKind.TUTORIAL)
         for name, count in (("courses", 1), ("tutorials", 1)):
             response = self.client.get(reverse(name))
-            self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, {"bitcoin": count, "tecnologia": 0, "creacion": 0})
+            self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, category_counts({"bitcoin": count}))
             self.assertNotContains(response, draft_topic.name)
 
     def test_resource_categories_combine_formats_and_skip_unpublished_items(self):
@@ -156,7 +156,7 @@ class AcademyDiscoveryTests(TestCase):
             revision = ResourceVersion.objects.create(creator=self.creator, resource_key=material.resource_key, kind="material", title=material.title, topic=self.topic, access_type=AccessType.FREE, asset=asset)
         Material.objects.filter(pk=material.pk).update(revision=revision)
         response = self.client.get(reverse("resources"))
-        self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, {"bitcoin": 2, "tecnologia": 0, "creacion": 0})
+        self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, category_counts({"bitcoin": 2}))
         self.assertNotContains(response, draft_topic.name)
 
     def test_uncategorized_publications_remain_discoverable(self):
@@ -171,7 +171,7 @@ class AcademyDiscoveryTests(TestCase):
     def test_empty_sections_keep_the_configured_categories_without_other_sections_counts(self):
         self.reference.delete()
         response = self.client.get(reverse("resources"))
-        self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, {"bitcoin": 0, "tecnologia": 0, "creacion": 0})
+        self.assertEqual({card["slug"]: card["count"] for card in response.context["category_cards"]}, category_counts({"bitcoin": 0}))
         self.assertEqual(response.context["catalog_total"], 0)
         self.assertContains(response, "0 recursos")
         self.assertNotContains(response, self.course.title)

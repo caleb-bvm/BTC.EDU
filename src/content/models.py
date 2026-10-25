@@ -35,20 +35,26 @@ TOPIC_ARTWORK_CHOICES = (
     ("seguridad", "Seguridad"), ("desarrollo", "Desarrollo"), ("general", "Aprendizaje"),
 )
 
+CATEGORY_ARTWORK_CHOICES = (
+    ("tecnologia", "Tecnología"), ("creacion", "Creación"),
+    ("desarrollo-software", "Desarrollo de software"), ("datos-ia", "Datos e inteligencia artificial"),
+    ("ciberseguridad", "Ciberseguridad"), ("infraestructura", "Infraestructura y nube"),
+)
+
 
 class Category(models.Model):
     name = models.CharField("nombre", max_length=100, unique=True)
     slug = models.SlugField("identificador", unique=True)
     description = models.CharField("descripción de la categoría", max_length=200, blank=True)
     artwork = models.CharField("imagen de la categoría", max_length=20, blank=True, choices=(
-        *TOPIC_ARTWORK_CHOICES, ("tecnologia", "Tecnología"), ("creacion", "Creación"),
+        *TOPIC_ARTWORK_CHOICES, *CATEGORY_ARTWORK_CHOICES,
     ), help_text="En blanco, se elige según la categoría; las categorías nuevas usan la imagen de aprendizaje.")
 
     @property
     def category_image(self):
-        artwork = self.artwork or {
-            "bitcoin": "bitcoin", "tecnologia": "tecnologia", "creacion": "creacion",
-        }.get(self.slug, "general")
+        artwork = self.artwork or (
+            self.slug if self.slug in dict(CATEGORY_ARTWORK_CHOICES) or self.slug == "bitcoin" else "general"
+        )
         return f"images/categories/{artwork}.svg"
 
     class Meta:
