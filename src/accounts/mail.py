@@ -34,8 +34,8 @@ def deliver_mail(pk):
             return False
         mail = AccountMail.objects.select_related("user", "action").get(pk=pk)
         from .security import state_digest
-        if (mail.expires_at and mail.expires_at <= now or mail.action and mail.action.consumed_at
-                or mail.state_digest and mail.state_digest != state_digest(mail.user)):
+        if ((mail.expires_at and mail.expires_at <= now) or (mail.action and mail.action.consumed_at)
+                or (mail.state_digest and mail.state_digest != state_digest(mail.user))):
             AccountMail.objects.filter(pk=pk).update(status="cancelled", body="")
             return False
     try:

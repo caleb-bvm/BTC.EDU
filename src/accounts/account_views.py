@@ -1,3 +1,7 @@
+"""Account settings shared by students and creators.
+
+The same views serve both spaces with creator=True.
+"""
 from functools import wraps
 from urllib.parse import urlencode
 from uuid import UUID
@@ -53,6 +57,10 @@ from .throttling import AccessThrottled, allow
 
 
 def account_required(view):
+    """Require an active account of the space being visited.
+
+    Forms sent from another account in the same browser are rejected.
+    """
     @never_cache
     @wraps(view)
     def wrapped(request, *args, creator=False, **kwargs):
@@ -72,6 +80,7 @@ def account_required(view):
 
 
 def account_context(request, creator, tab="home", **extra):
+    """Common template context for the account pages."""
     prefix = "creator" if creator else "student"
     tabs = [("home", "Resumen", "account"), ("photo", "Foto", "account-photo"),
             ("profile", "Perfil", "application" if creator else "profile"),
@@ -86,6 +95,7 @@ def account_context(request, creator, tab="home", **extra):
 
 
 def account_render(request, creator, tab="home", **extra):
+    """Render the account settings page with the given tab."""
     return render(request, "accounts/settings.html", account_context(request, creator, tab, **extra))
 
 
@@ -103,7 +113,7 @@ def overview(request, creator=False):
 def photo(request, creator=False):
     form = PhotoForm(request.POST if request.method == "POST" else None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
-        if form.cleaned_data.get("photo") or form.cleaned_data["remove_photo"] and request.user.avatar:
+        if form.cleaned_data.get("photo") or (form.cleaned_data["remove_photo"] and request.user.avatar):
             update_avatar(request.user, form.cleaned_data.get("photo"), form.cleaned_data["remove_photo"])
             AccountEvent.objects.create(user=request.user, kind="photo_updated")
             messages.success(request, "Foto de perfil actualizada.")
@@ -130,6 +140,7 @@ def avatar(request, pk, token):
 @never_cache
 @require_GET
 def session_context(request):
+    """Current account id and CSRF token, so open tabs can detect an account switch."""
     if not request.user.is_authenticated:
         return JsonResponse({"error": "session_expired"}, status=401)
     return JsonResponse({"account_id": str(request.user.pk), "account_type": request.user.account_type, "csrf_token": get_token(request)})
@@ -193,7 +204,7 @@ def verify(request, creator=False):
 def email_confirm(request, token):
     action, error, form, done = None, "", None, False
     try:
-        action, stage = resolve_action(token)
+        action, _stage = resolve_action(token)
         if action.purpose == "restore":
             form = SetPasswordForm(action.user, request.POST if request.method == "POST" else None)
         if request.method == "POST" and (form is None or form.is_valid()):
@@ -316,5 +327,6 @@ def restore(request):
 @account_required
 @require_GET
 def switch(request, creator=False):
+    """Explain how to open the other space; student and creator accounts stay separate."""
     target = "student" if creator else "creator"
     return account_render(request, creator, "switch", target_space="estudiante" if creator else "creador", target_login=reverse("login" if creator else "creator-login"), target_type=target)

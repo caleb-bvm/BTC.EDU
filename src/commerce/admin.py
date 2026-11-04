@@ -1,3 +1,4 @@
+"""Administration of offers, invoices, coupons, gifts, tips, membership and refunds."""
 from django.contrib import admin, messages
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.urls import reverse

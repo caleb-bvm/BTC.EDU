@@ -1,3 +1,4 @@
+/* Lesson progress: save position and completion with the enrollment revision, update progress meters and offer a retry or reload when saving fails. */
 (() => {
   'use strict';
   // A shared conversation or material remains reachable from its direct link.

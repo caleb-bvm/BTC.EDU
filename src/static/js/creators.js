@@ -1,3 +1,4 @@
+/* Studio uploads: send files with progress feedback and keep the form when the upload fails. */
 document.querySelectorAll('[data-upload-form]').forEach(form => {
   if (!window.XMLHttpRequest || !window.FormData) return;
   form.addEventListener('submit', async event => {

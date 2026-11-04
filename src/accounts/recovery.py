@@ -1,3 +1,4 @@
+"""Password reset scoped to one account type, with rate limiting."""
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -83,6 +84,7 @@ class ScopedResetConfirmView(PasswordResetConfirmView):
 
 
 def recovery_patterns(creator=False):
+    """URL patterns for the reset flow of the student or creator space."""
     name = "creator" if creator else "student"
     context = {
         "auth_base": "creators/auth_base.html" if creator else "_auth_base.html",

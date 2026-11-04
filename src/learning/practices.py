@@ -121,7 +121,7 @@ def key_value(value):
     try:
         return uuid.UUID(str(value))
     except (ValueError, TypeError, AttributeError):
-        raise ValidationError("Recarga el formulario para volver a enviar.")
+        raise ValidationError("Recarga el formulario para volver a enviar.") from None
 
 
 def submit_delivery(actor, practice_id, body, project_url, attachment, request_key, previous_id):

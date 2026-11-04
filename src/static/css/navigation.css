@@ -22,7 +22,7 @@ html{scroll-padding-top:calc(var(--academy-nav-offset) + 16px)}
 .catalog-heading{flex-wrap:wrap}
 .catalog-heading .catalog-compare{display:inline-flex;align-items:center;min-height:44px;font-size:14px}
 .auth-page{width:100%;max-width:1280px;margin-inline:auto;padding:70px 40px}
-.academy .reader-outline,.assessment-question-map,.cart-summary,.commerce-page .purchase-summary{top:calc(var(--academy-nav-offset) + 24px)}
+.academy .reader-outline,.cart-summary,.commerce-page .purchase-summary{top:calc(var(--academy-nav-offset) + 24px)}
 @media(min-width:1101px){.academy .reader-outline{max-height:calc(100dvh - var(--academy-nav-offset) - 48px)}}
 .nav-open{overflow:hidden}
 .js-ready .nav-open .academy-sidebar{display:flex;position:fixed;inset:var(--academy-nav-offset) auto auto 0;z-index:80;width:min(320px,calc(100vw - 32px));height:calc(100dvh - var(--academy-nav-offset));min-height:0;max-height:calc(100dvh - var(--academy-nav-offset));padding:16px 12px;border-right:1px solid var(--line)}

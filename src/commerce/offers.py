@@ -1,3 +1,4 @@
+"""Offer creation, review and archiving."""
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
@@ -16,6 +17,7 @@ from .models import Offer, OfferItem
 
 @transaction.atomic
 def create_offer(actor, target, title, amount):
+    """Create a draft offer for a published target owned by the creator."""
     require_creator(actor)
     get_user_model().objects.filter(pk=actor.pk).update(email=F("email"))
     require_creator(actor)
@@ -31,6 +33,7 @@ def create_offer(actor, target, title, amount):
 
 
 def validate_inventory(offer):
+    """Reject an offer whose items no longer match its target."""
     target = offer.course_version_id if offer.kind == "course" else offer.chapter_id if offer.kind == "chapter" else offer.lesson_id if offer.kind == "lesson" else offer.resource_id
     fields, resources = target_inventory(offer.kind, target, offer.creator)
     if fields["course_version"] != offer.course_version or set(offer.items.values_list("resource_id", flat=True)) != {item.pk for item in resources}:
@@ -39,6 +42,7 @@ def validate_inventory(offer):
 
 @transaction.atomic
 def submit_offer(actor, offer):
+    """Send a draft offer to review."""
     require_creator(actor)
     Offer.objects.filter(pk=offer.pk).update(status=F("status"))
     offer.refresh_from_db()
@@ -55,6 +59,7 @@ def submit_offer(actor, offer):
 
 
 def missing_individuals(offer):
+    """Paid items of the offer that cannot also be bought individually."""
     paid = set(offer.items.filter(resource__access_type="paid").values_list("resource_id", flat=True))
     covered = set()
     for individual in individual_offers(paid):
@@ -65,6 +70,7 @@ def missing_individuals(offer):
 
 @transaction.atomic
 def review_offer(actor, offer, approve, feedback=""):
+    """Approve or reject an offer under review."""
     if not actor.is_authenticated or not actor.is_active or not actor.is_staff or not actor.has_perm("commerce.change_offer"):
         raise PermissionDenied
     Offer.objects.filter(pk=offer.pk).update(status=F("status"))
@@ -91,6 +97,7 @@ def review_offer(actor, offer, approve, feedback=""):
 
 @transaction.atomic
 def archive_offer(actor, offer):
+    """Stop selling an offer; past purchases keep their rights."""
     Offer.objects.filter(pk=offer.pk).update(status=F("status"))
     offer.refresh_from_db()
     if actor.pk == offer.creator_id:

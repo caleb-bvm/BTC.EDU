@@ -141,5 +141,5 @@ def contextual_navigation(request):
         "navigation_cart_current": route.startswith("cart"),
         "navigation_creator": creator, "navigation_creator_ready": ready,
         "navigation_learning_url": reverse(destination),
-        "navigation_signin_url": reverse("creator-login") if route == "creators" or route.startswith("creator-") and route != "creator-public-profile" else reverse("login") + "?" + urlencode({"next": requested_next or (reverse("workspace") if context == "auth" else request.get_full_path())}),
+        "navigation_signin_url": reverse("creator-login") if route == "creators" or (route.startswith("creator-") and route != "creator-public-profile") else reverse("login") + "?" + urlencode({"next": requested_next or (reverse("workspace") if context == "auth" else request.get_full_path())}),
     }

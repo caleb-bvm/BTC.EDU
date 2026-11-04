@@ -1,3 +1,4 @@
+/* Quiz editor and attempts: edit questions, autosave answers with retries, flag questions and filter the results review. */
 document.querySelectorAll('[data-quiz-editor]').forEach((editor) => {
   const button = editor.querySelector('[data-add-question]');
   const total = editor.querySelector('[name="questions-TOTAL_FORMS"]');

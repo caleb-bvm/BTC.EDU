@@ -1,3 +1,4 @@
+"""Course, lesson, resource and reference pages."""
 from urllib.parse import urlsplit
 
 from django.db.models import F, Prefetch
@@ -28,10 +29,12 @@ from .reading import video_embed
 
 
 def is_owner(user, course):
+    """True when the user is the active creator of the course."""
     return user.is_authenticated and user.is_active and user.pk == course.creator_id
 
 
 def return_path(request, default):
+    """Safe local return URL from ?volver, or the default route."""
     destination = request.GET.get("volver", "")
     if destination.startswith("/") and not destination.startswith("//") and url_has_allowed_host_and_scheme(destination, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
         return destination
@@ -39,6 +42,7 @@ def return_path(request, default):
 
 
 def load_course(user, pk):
+    """Load a published course, or a draft for its creator, with its visible chapters."""
     course = get_object_or_404(Course.objects.select_related("creator", "topic"), pk=pk)
     preview = is_owner(user, course)
     if course.status != PublicationStatus.PUBLISHED and not preview:

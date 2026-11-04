@@ -1,3 +1,4 @@
+"""Creator learning path editor."""
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db.models import Count

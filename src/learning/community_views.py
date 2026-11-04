@@ -1,3 +1,4 @@
+"""Course community spaces, threads, reports and moderation."""
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -33,6 +34,7 @@ from .models import (
 
 
 def layout(user):
+    """Base template for the viewer's space."""
     return "creators/base.html" if user.account_type == "creator" else "academy.html"
 
 

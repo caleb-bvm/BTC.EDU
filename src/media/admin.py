@@ -1,3 +1,4 @@
+"""Read-only administration of private assets."""
 from django.contrib import admin
 
 from .models import Asset

@@ -1,3 +1,4 @@
+"""Remove unreferenced avatar files older than a day and the content of expired account mail."""
 import re
 from datetime import timedelta
 

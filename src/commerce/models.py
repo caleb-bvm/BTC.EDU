@@ -1,3 +1,7 @@
+"""Commerce records: offers, carts, orders, invoices, rights and Lightning payments.
+
+Purchases, entitlements and evidence are append-only.
+"""
 import uuid
 
 from django.conf import settings
@@ -8,6 +12,7 @@ from content.immutability import FrozenQuerySet, FrozenRecord
 
 
 class Offer(models.Model):
+    """A priced package of frozen resource revisions, reviewed before it is sold."""
     class Status(models.TextChoices):
         DRAFT = "draft", "Borrador"
         PENDING = "pending", "En revisión"
@@ -55,6 +60,7 @@ class Offer(models.Model):
 
 
 class OfferItem(FrozenRecord):
+    """One resource revision included in an offer."""
     offer = models.ForeignKey(Offer, on_delete=models.PROTECT, related_name="items")
     resource = models.ForeignKey("content.ResourceVersion", on_delete=models.PROTECT)
 
@@ -67,6 +73,7 @@ class OfferItem(FrozenRecord):
 
 
 class Cart(models.Model):
+    """Selection of offers for an account or a visitor; revision changes on every edit."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     buyer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True,
                                 related_name="commerce_cart")
@@ -76,6 +83,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
+    """One offer in a cart, optionally with the lesson to return to after paying."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
     offer = models.ForeignKey(Offer, on_delete=models.PROTECT, related_name="cart_items")
@@ -89,6 +97,7 @@ class CartItem(models.Model):
 
 
 class Order(FrozenRecord):
+    """Sealed snapshot of what was priced and signed at checkout."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="commerce_orders")
     title = models.CharField(max_length=200)
@@ -111,6 +120,7 @@ class Order(FrozenRecord):
 
 
 class OrderLine(FrozenRecord):
+    """One offer of an order with its final price, credit and discount."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name="lines")
     offer = models.ForeignKey(Offer, on_delete=models.PROTECT, related_name="order_lines")
@@ -158,6 +168,7 @@ class OrderLine(FrozenRecord):
 
 
 class Invoice(models.Model):
+    """Lightning invoice for a single offer or an order, with its provider and incident state."""
     class Status(models.TextChoices):
         PENDING = "pending", "Pendiente"
         PAID = "paid", "Pagada"
@@ -204,11 +215,13 @@ class Invoice(models.Model):
 
 
 class Purchase(FrozenRecord):
+    """Confirmed payment of an invoice."""
     invoice = models.OneToOneField(Invoice, on_delete=models.PROTECT, related_name="purchase")
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class EntitlementQuerySet(FrozenQuerySet):
+    """Queryset of rights with a filter for those still active."""
     def active(self):
         """A right ends only when every purchase that granted it was refunded."""
         sources = EntitlementSource.objects.filter(entitlement=models.OuterRef("pk"))
@@ -217,6 +230,7 @@ class EntitlementQuerySet(FrozenQuerySet):
 
 
 class Entitlement(FrozenRecord):
+    """A student's right to one resource revision."""
     objects = EntitlementQuerySet.as_manager()
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     resource = models.ForeignKey("content.ResourceVersion", on_delete=models.PROTECT)
@@ -227,6 +241,7 @@ class Entitlement(FrozenRecord):
 
 
 class EntitlementSource(FrozenRecord):
+    """Purchase that granted an entitlement; a right can have several."""
     entitlement = models.ForeignKey(Entitlement, on_delete=models.PROTECT)
     purchase = models.ForeignKey(Purchase, on_delete=models.PROTECT)
 
@@ -235,6 +250,7 @@ class EntitlementSource(FrozenRecord):
 
 
 class PaymentEvidence(FrozenRecord):
+    """What the provider reported when a payment was observed, and how it was resolved."""
     invoice = models.OneToOneField(Invoice, on_delete=models.PROTECT, related_name="evidence")
     payment_hash = models.CharField(max_length=64, unique=True)
     amount_msat = models.BigIntegerField()
@@ -243,6 +259,7 @@ class PaymentEvidence(FrozenRecord):
 
 
 class CommerceEvent(FrozenRecord):
+    """Append-only timeline of an invoice."""
     invoice = models.ForeignKey(Invoice, on_delete=models.PROTECT, related_name="events")
     kind = models.CharField(max_length=40)
     message = models.CharField(max_length=250)
@@ -253,6 +270,7 @@ class CommerceEvent(FrozenRecord):
 
 
 class Coupon(models.Model):
+    """Educator discount code, by percentage or fixed sats."""
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="coupons")
     code = models.CharField("código", max_length=24, unique=True)
     percent_off = models.PositiveSmallIntegerField("porcentaje de descuento", null=True, blank=True)
@@ -301,6 +319,7 @@ class Coupon(models.Model):
 
 
 class Gift(models.Model):
+    """Paid order whose content is granted to whoever redeems its token."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     purchase = models.OneToOneField(Purchase, on_delete=models.PROTECT, related_name="gift")
     order = models.OneToOneField(Order, on_delete=models.PROTECT, related_name="gift_card")
@@ -337,6 +356,7 @@ class LightningPayment(models.Model):
 
 
 class Tip(LightningPayment):
+    """Voluntary Lightning payment from a student to an educator."""
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="tips_sent")
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="tips_received")
     version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT, null=True, blank=True, related_name="tips")
@@ -392,6 +412,7 @@ class MembershipPlan(models.Model):
 
 
 class MembershipPayment(LightningPayment):
+    """Payment for one membership period."""
     member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="membership_payments")
     plan = models.ForeignKey(MembershipPlan, on_delete=models.PROTECT, related_name="payments")
     days = models.PositiveSmallIntegerField()
@@ -419,6 +440,7 @@ class MembershipPayment(LightningPayment):
 
 
 class Refund(models.Model):
+    """Refund request for a paid invoice and its Lightning payout."""
     class Status(models.TextChoices):
         REQUESTED = "requested", "Solicitada"
         PAYING = "paying", "Pago en curso"

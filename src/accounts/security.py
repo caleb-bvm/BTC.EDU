@@ -1,3 +1,7 @@
+"""Signed email actions, password changes, session revocation and account closure.
+
+Email actions verify an address, change it or restore a closed account.
+"""
 import hashlib
 from datetime import timedelta
 
@@ -17,20 +21,30 @@ from .models import AccountEmailAction, AccountEvent, AccountSession
 
 
 def state_digest(user):
+    """Hash of the account fields that must not change before confirming.
+
+    An email action is rejected if any of them changed after it was requested.
+    """
     value = f"{user.pk}|{user.account_type}|{user.email}|{user.password}|{user.is_active}|{user.closed_at}|{user.session_revision}"
     return hashlib.sha256(value.encode()).hexdigest()
 
 
 def action_token(action, stage="new"):
+    """Signed token for an email action and the confirmation stage."""
     return signing.dumps({"id": str(action.pk), "stage": stage}, salt="accounts.email-action", compress=True)
 
 
 def action_url(request, action, stage="new"):
+    """Absolute confirmation link for an email action."""
     return request.build_absolute_uri(reverse("account-email-confirm", args=[action_token(action, stage)]))
 
 
 @transaction.atomic
 def request_email_action(request, user, purpose, new_email="", destination=""):
+    """Create an email action, replace older pending ones and queue the confirmation mail.
+
+    An email change needs confirmation from both the old and the new address.
+    """
     User = get_user_model()
     User.objects.filter(pk=user.pk).update(profile_public=F("profile_public"))
     user.refresh_from_db()
@@ -72,6 +86,7 @@ def request_email_action(request, user, purpose, new_email="", destination=""):
 
 
 def resolve_action(token):
+    """Load a pending action from its token; returns (action, stage)."""
     try:
         data = signing.loads(token, salt="accounts.email-action", max_age=settings.ACCOUNT_EMAIL_TOKEN_TIMEOUT)
         action = AccountEmailAction.objects.select_related("user").get(pk=data["id"], consumed_at__isnull=True)
@@ -87,6 +102,7 @@ def resolve_action(token):
 
 @transaction.atomic
 def confirm_action(token, new_password=None):
+    """Apply a confirmed email action if the account did not change since it was requested."""
     # Reserve the SQLite writer before reading: two confirmations must not
     # both begin from a read snapshot that cannot safely become a write.
     try:
@@ -129,6 +145,7 @@ def confirm_action(token, new_password=None):
 
 
 def revoke_sessions(user, except_key=None):
+    """End every tracked session of the user, optionally keeping one session key."""
     from django.contrib.sessions.models import Session
     sessions = AccountSession.objects.filter(user=user, ended_at__isnull=True)
     if except_key:
@@ -139,6 +156,10 @@ def revoke_sessions(user, except_key=None):
 
 @transaction.atomic
 def change_password(actor, old_password, new_password):
+    """Change the password after checking the current one.
+
+    Fails if the account changed since the session started.
+    """
     User = get_user_model()
     User.objects.filter(pk=actor.pk).update(profile_public=F("profile_public"))
     current = User.objects.get(pk=actor.pk)
@@ -154,6 +175,11 @@ def change_password(actor, old_password, new_password):
 
 @transaction.atomic
 def close_account(user):
+    """Deactivate the account.
+
+    Remove its avatar, hide shared certificates, cancel pending email actions and end all sessions.
+    It can be restored by email.
+    """
     from .avatars import update_avatar
     User = get_user_model()
     User.objects.filter(pk=user.pk).update(profile_public=F("profile_public"))

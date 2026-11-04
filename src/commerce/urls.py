@@ -1,3 +1,4 @@
+"""Cart, checkout, invoice, gift, tip, refund and membership routes."""
 from django.urls import path
 
 from . import cart_views, feature_views, membership_views, views

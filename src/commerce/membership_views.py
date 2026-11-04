@@ -1,3 +1,4 @@
+"""Membership plan page and membership payment views."""
 from io import BytesIO
 
 import qrcode

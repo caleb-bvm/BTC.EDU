@@ -1,3 +1,4 @@
+"""Quizzes: freezing, attempts, server-side grading and extra attempts."""
 from datetime import timedelta
 from decimal import ROUND_HALF_UP, Decimal
 
@@ -16,6 +17,7 @@ RULE_FIELDS = ("title", "pass_mark", "max_attempts", "wait_minutes", "required",
 
 
 def freeze_quiz(source_lesson, published_lesson):
+    """Copy an enabled quiz draft into the published lesson."""
     draft = QuizDraft.objects.filter(lesson=source_lesson, enabled=True).first()
     if draft:
         draft.full_clean()
@@ -23,6 +25,7 @@ def freeze_quiz(source_lesson, published_lesson):
 
 
 def quiz_status(enrollment, quiz):
+    """Attempts, remaining allowance and waiting time for a student and quiz."""
     attempts = QuizAttempt.objects.filter(enrollment=enrollment, quiz=quiz)
     allowance = quiz.max_attempts + ExtraQuizAttempt.objects.filter(enrollment=enrollment, quiz=quiz).count()
     last = attempts.filter(submitted_at__isnull=False).order_by("-number").first()
@@ -33,6 +36,7 @@ def quiz_status(enrollment, quiz):
 
 
 def authorized_enrollment(actor, enrollment_id, quiz):
+    """Enrollment of the student for this quiz, requiring access to its lesson."""
     require_student(actor)
     enrollment = Enrollment.objects.select_related("version__course").filter(pk=enrollment_id, student=actor, version_id=quiz.lesson.chapter.version_id).first()
     if not enrollment or not content_access(actor, quiz.lesson).allowed:
@@ -42,6 +46,7 @@ def authorized_enrollment(actor, enrollment_id, quiz):
 
 @transaction.atomic
 def start_attempt(actor, enrollment_id, quiz_id):
+    """Start a new attempt when allowance and waiting time permit, or resume the open one."""
     require_student(actor)
     # Reserve the writer before reads on SQLite; select_for_update covers row-locking databases.
     if not Enrollment.objects.filter(pk=enrollment_id, student=actor).update(revision=F("revision")):
@@ -61,6 +66,7 @@ def start_attempt(actor, enrollment_id, quiz_id):
 
 
 def normalize_answers(quiz, answers, complete):
+    """Validate selected option indexes; a submission must answer every question."""
     if not isinstance(answers, dict) or set(answers) - {str(index) for index in range(len(quiz.questions))}:
         raise ValidationError("Las respuestas no corresponden a esta evaluación.")
     cleaned = {}
@@ -76,6 +82,7 @@ def normalize_answers(quiz, answers, complete):
 
 @transaction.atomic
 def save_attempt(actor, attempt_id, answers, revision, submit=False):
+    """Save answers with an optimistic revision and grade them on the server when submitted."""
     require_student(actor)
     if type(revision) is not int or revision < 0:
         raise ValidationError("La revisión del intento no es válida.")
@@ -105,6 +112,7 @@ def save_attempt(actor, attempt_id, answers, revision, submit=False):
 
 @transaction.atomic
 def grant_attempt(actor, enrollment_id, quiz_id, allowance_before, reason):
+    """Let the course creator grant one extra attempt, with a reason."""
     if not actor.is_authenticated or not actor.is_active or actor.account_type != "creator":
         raise PermissionDenied
     if type(allowance_before) is not int or not isinstance(reason, str) or not reason.strip() or len(reason.strip()) > 500:

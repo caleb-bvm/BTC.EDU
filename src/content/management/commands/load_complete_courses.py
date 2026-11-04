@@ -112,12 +112,12 @@ def publish_collection(catalog):
             level=item["level"], estimated_minutes=item["minutes"],
         )
         lessons = []
-        for chapter_position, data in enumerate(item["chapters"], 1):
+        for chapter_position, chapter_data in enumerate(item["chapters"], 1):
             chapter = Chapter.objects.create(
-                course=course, title=data["title"], description=data["description"],
+                course=course, title=chapter_data["title"], description=chapter_data["description"],
                 position=chapter_position, status="published",
             )
-            for position, data in enumerate(data["lessons"], 1):
+            for position, data in enumerate(chapter_data["lessons"], 1):
                 lesson = Lesson.objects.create(
                     chapter=chapter, position=position, title=data["title"], description=data["description"],
                     learning_outcome=data["outcome"], requirements=item["requirements"],

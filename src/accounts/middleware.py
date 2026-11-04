@@ -1,3 +1,4 @@
+"""Track account sessions and keep suspended creators inside their account pages."""
 from datetime import timedelta
 
 from django.http import HttpResponseForbidden
@@ -8,6 +9,7 @@ from .models import AccountSession
 
 
 class AccountSessionMiddleware:
+    """Record a minimal session list per account and enforce account switching rules."""
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -26,6 +28,10 @@ class AccountSessionMiddleware:
         return self.get_response(request)
 
     def process_view(self, request, view_func, view_args, view_kwargs):
+        """Reject forms from another account and restrict suspended creators.
+
+        A suspended creator can only reach account, support and application pages.
+        """
         if request.user.is_authenticated and request.method == "POST" and request.POST.get("account_id", str(request.user.pk)) != str(request.user.pk):
             return render(request, "accounts/session_changed.html", status=403)
         if not request.user.is_authenticated or request.user.account_type != "creator":

@@ -1,3 +1,4 @@
+"""Certificate policies, completion status, issuing and revocation."""
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
@@ -21,6 +22,10 @@ from .support import notify
 
 
 def freeze_certificate_policy(course, version):
+    """Copy the enabled certificate draft into the version.
+
+    Required lessons are mapped to their frozen lesson ids.
+    """
     draft = CertificateDraft.objects.filter(course=course, enabled=True).first()
     if not draft:
         return
@@ -33,6 +38,7 @@ def freeze_certificate_policy(course, version):
 
 
 def completion_status(enrollment):
+    """What the student has completed and what is still required for the certificate."""
     policy = VersionCertificatePolicy.objects.filter(version=enrollment.version).first()
     certificate = Certificate.objects.filter(enrollment=enrollment).select_related("revocation").first()
     if not policy:
@@ -58,6 +64,10 @@ def completion_status(enrollment):
 
 @transaction.atomic
 def issue_certificate(actor, enrollment_id, student_name):
+    """Issue the certificate once every requirement is met, storing the completion evidence.
+
+    A repeated request returns the existing certificate.
+    """
     require_student(actor)
     if not Enrollment.objects.filter(pk=enrollment_id, student=actor).update(revision=F("revision")):
         raise PermissionDenied
@@ -87,6 +97,10 @@ def issue_certificate(actor, enrollment_id, student_name):
 
 @transaction.atomic
 def revoke_certificate(actor, certificate_id, reason):
+    """Record a revocation with its reason and notify the student.
+
+    The certificate itself is never modified.
+    """
     if not actor.is_authenticated or not actor.is_active or not actor.is_staff or not actor.has_perm("learning.add_certificaterevocation"):
         raise PermissionDenied
     reason = reason.strip()

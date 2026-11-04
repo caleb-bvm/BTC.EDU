@@ -1,3 +1,4 @@
+# Prepara uv, Python 3.12, las dependencias, src/.env y las migraciones de la plataforma.
 $ErrorActionPreference = 'Stop'
 $srcRoot = Split-Path $PSScriptRoot -Parent
 Push-Location $srcRoot

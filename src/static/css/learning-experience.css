@@ -212,8 +212,6 @@
 .first-course{padding:50px 28px}
 .first-course .empty-symbol{margin:0 auto 26px}
 .academy .first-course h2{font-size:31px;letter-spacing:-.7px}
-.workspace-account-actions{display:flex;align-items:center;gap:24px;margin-top:28px}
-.workspace-account-actions .btn{font-size:12px;padding:9px 16px}
 /* Responsive order matches reading order; the outline is available before the text. */
 @media(max-width:1200px){.academy .course-experience .course-layout{grid-template-columns:minmax(0,1fr) 290px;gap:28px}.academy .lesson-experience .lesson-layout{gap:28px;grid-template-columns:230px minmax(0,1fr)}.learning-stats>div{padding:20px;gap:12px}.learning-stats strong{font-size:24px}}
 @media(max-width:1100px){.academy .lesson-experience .lesson-layout{grid-template-columns:1fr;gap:24px}.academy .reader-outline{position:static;max-height:none;grid-row:auto}.reader-outline>summary{border-bottom:0}.reader-outline[open]>summary{border-bottom:1px solid var(--line)}.outline-content{padding:18px 20px}.reader-outline .curriculum-list a{padding:14px 12px}.reader-outline .lesson-state{margin:0 0 0 auto}.reader-outline .learning-meter{max-width:450px;padding:16px 6px}.reader-outline .meter-label{flex-wrap:nowrap}.academy .lesson-experience .lesson-reader{grid-row:auto;max-width:720px}.reader-toolbar{margin-bottom:22px}}

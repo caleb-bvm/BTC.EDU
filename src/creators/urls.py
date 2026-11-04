@@ -1,3 +1,4 @@
+"""Creator studio routes."""
 from django.urls import path
 
 from accounts.recovery import recovery_patterns

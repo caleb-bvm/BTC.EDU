@@ -1,3 +1,4 @@
+"""Stream private media files with range support after the caller has authorized access."""
 import re
 from pathlib import Path
 

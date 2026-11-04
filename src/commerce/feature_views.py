@@ -1,3 +1,4 @@
+"""Views for coupons, gifts, tips and refunds."""
 from datetime import timedelta
 from io import BytesIO
 from urllib.parse import urlencode

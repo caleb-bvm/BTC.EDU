@@ -1,3 +1,7 @@
+"""Freeze drafts into immutable versions.
+
+Creators prepare a version for review; only staff with change permission publish it.
+"""
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F, Max
@@ -19,16 +23,19 @@ from .models import (
 
 
 def authorize_publisher(actor):
+    """Only active staff with the content change permission may publish."""
     if not actor.is_authenticated or not actor.is_active or not actor.is_staff or not actor.has_perm("content.change_course"):
         raise PermissionDenied("La publicación requiere revisión administrativa.")
 
 
 def next_revision(key):
+    """Next revision number for a resource key."""
     return (ResourceVersion.objects.filter(resource_key=key).aggregate(value=Max("number"))["value"] or 0) + 1
 
 
 @transaction.atomic
 def prepare_resource(resource, actor):
+    """Freeze a video or material draft into a new ResourceVersion."""
     if not actor.is_authenticated or not actor.is_active or not (
         actor.pk == resource.creator_id or (actor.is_staff and actor.has_perm(f"content.change_{resource._meta.model_name}"))
     ):
@@ -55,6 +62,7 @@ def prepare_resource(resource, actor):
 
 @transaction.atomic
 def publish_resource(resource, actor):
+    """Freeze a resource and make that revision the published one."""
     original = resource
     if not actor.is_authenticated or not actor.is_active or not actor.is_staff or not actor.has_perm(f"content.change_{resource._meta.model_name}"):
         raise PermissionDenied
@@ -67,6 +75,11 @@ def publish_resource(resource, actor):
 
 @transaction.atomic
 def prepare_course(course, actor):
+    """Freeze the published chapters and lessons of a course into a sealed CourseVersion.
+
+    Reuses the latest lesson text revision when unchanged, and freezes quizzes, practices,
+    attachments and the certificate policy.
+    """
     if not actor.is_authenticated or not actor.is_active or not (
         actor.pk == course.creator_id or (actor.is_staff and actor.has_perm("content.change_course"))
     ):
@@ -122,6 +135,7 @@ def prepare_course(course, actor):
 
 @transaction.atomic
 def publish_course(course, actor):
+    """Freeze a course and make that version the current published one."""
     original = course
     authorize_publisher(actor)
     version = prepare_course(course, actor)

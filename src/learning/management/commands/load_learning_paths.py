@@ -1,3 +1,4 @@
+"""Publish the editorial learning paths without changing existing ones."""
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 

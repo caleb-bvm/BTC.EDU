@@ -1,8 +1,10 @@
+"""Append-only records: published versions, purchases and evidence are never updated or deleted."""
 from django.core.exceptions import ValidationError
 from django.db import models
 
 
 class FrozenQuerySet(models.QuerySet):
+    """Queryset that refuses bulk updates, deletes and bulk inserts."""
     def update(self, **kwargs):
         raise ValidationError("Las revisiones se conservan. Crea una nueva versión.")
 
@@ -14,6 +16,7 @@ class FrozenQuerySet(models.QuerySet):
 
 
 class FrozenRecord(models.Model):
+    """Abstract model that can be created once, validated, and never changed afterwards."""
     objects = FrozenQuerySet.as_manager()
 
     class Meta:

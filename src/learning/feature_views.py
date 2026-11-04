@@ -1,3 +1,4 @@
+"""Course reviews, practice gallery, learning paths and certificate timestamps."""
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
@@ -26,6 +27,7 @@ from .timestamps import describe, stamp_certificate
 
 
 def public_course(pk):
+    """Published course with a current version, or 404."""
     course = get_object_or_404(Course.objects.select_related("creator", "current_version"), pk=pk)
     if course.status != PublicationStatus.PUBLISHED or not course.current_version_id:
         raise Http404

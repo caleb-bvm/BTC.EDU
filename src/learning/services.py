@@ -1,3 +1,4 @@
+"""Enrollment and lesson progress for students."""
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
@@ -12,10 +13,12 @@ from .models import Enrollment, LessonProgress
 
 
 def enrolled(user, version):
+    """True when an active student is enrolled in the version."""
     return user.is_authenticated and user.is_active and user.account_type == "student" and Enrollment.objects.filter(student=user, version=version).exists()
 
 
 def can_visit_version(user, version):
+    """A published version can be visited when it is current, owned or already enrolled."""
     if not version.published_at:
         return False
     return public_version(version) or version_owned(user, version) or enrolled(user, version)
@@ -23,6 +26,7 @@ def can_visit_version(user, version):
 
 @transaction.atomic
 def enroll(actor, version):
+    """Enroll a student in a visible version; enrolling never unlocks paid lessons."""
     require_student(actor)
     reserve_writer(actor.pk)
     actor.refresh_from_db()
@@ -37,11 +41,17 @@ def enroll(actor, version):
 
 
 class StaleProgress(ValidationError):
+    """Raised when the progress revision changed since the page was loaded."""
     pass
 
 
 @transaction.atomic
 def save_progress(actor, enrollment_id, lesson_id, expected_revision, action):
+    """Save the reading position or completion of an accessible lesson.
+
+    Uses an optimistic revision so two tabs never overwrite each other, and requires passing a
+    mandatory quiz before completion.
+    """
     require_student(actor)
     if type(expected_revision) is not int or expected_revision < 0 or action not in ("position", "complete", "incomplete"):
         raise ValidationError("El avance enviado no es válido.")

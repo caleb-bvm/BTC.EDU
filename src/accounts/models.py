@@ -1,3 +1,4 @@
+"""Accounts: independent student, creator and admin identities and their security records."""
 import uuid
 
 from django.conf import settings
@@ -9,6 +10,7 @@ from content.immutability import FrozenRecord
 
 
 class UserManager(BaseUserManager):
+    """Manager that looks users up by email and account type."""
     use_in_migrations = True
 
     def get_by_natural_key(self, email, account_type="admin"):
@@ -106,6 +108,7 @@ class User(AbstractUser):
 
 
 class AccountEmailAction(models.Model):
+    """Pending email confirmation (verify, change or restore) bound to the account state."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     purpose = models.CharField(max_length=20, choices=(("verify", "Verificar correo"), ("change", "Cambiar correo"), ("restore", "Reactivar cuenta")))
@@ -121,6 +124,7 @@ class AccountEmailAction(models.Model):
 
 
 class AccountMail(models.Model):
+    """Outgoing account mail stored before delivery so it can be retried."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     recipient = models.EmailField()
@@ -137,6 +141,7 @@ class AccountMail(models.Model):
 
 
 class AccountSession(models.Model):
+    """Minimal list of open sessions per account, without IPs or user agents."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     session_key = models.CharField(max_length=40, unique=True)
@@ -147,6 +152,7 @@ class AccountSession(models.Model):
 
 
 class AccountEvent(FrozenRecord):
+    """Append-only security history of an account."""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     kind = models.CharField(max_length=40, choices=(
         ("photo_updated", "Foto de perfil actualizada"), ("password_changed", "Contraseña actualizada"),
@@ -164,12 +170,14 @@ class AccountEvent(FrozenRecord):
 
 
 class AccessAttempt(models.Model):
+    """Rate-limit counter keyed by an HMAC of the attempt scope."""
     key = models.CharField(max_length=64, primary_key=True)
     window_started_at = models.DateTimeField()
     count = models.PositiveIntegerField(default=0)
 
 
 class AccountSupportRequest(models.Model):
+    """Support or suspension appeal sent from the account pages."""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     kind = models.CharField(max_length=20, choices=(("appeal", "Revisar suspensión"), ("access", "Acceso a mi cuenta"), ("other", "Otra consulta")))
     body = models.TextField(max_length=2000)
@@ -189,6 +197,7 @@ class AccountSupportRequest(models.Model):
 
 
 class SupportEvent(FrozenRecord):
+    """Append-only history of a support request."""
     request = models.ForeignKey(AccountSupportRequest, on_delete=models.PROTECT, related_name="history")
     status = models.CharField(max_length=10)
     response = models.TextField(blank=True)

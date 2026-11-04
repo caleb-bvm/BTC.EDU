@@ -1,3 +1,4 @@
+"""Read-only administration of activity events."""
 from django.contrib import admin
 
 from commerce.admin import HistoryAdmin

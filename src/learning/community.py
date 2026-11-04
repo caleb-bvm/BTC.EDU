@@ -73,9 +73,8 @@ def post_message(actor, version, body, key, parent_id=None, lesson_id=None):
             raise ValidationError("Este envío ya fue utilizado. Recarga el formulario.")
         return previous
     access(actor, version, writing=True)
-    if parent is not None:
-        if parent.hidden or parent.closed:
-            raise ValidationError("Esta conversación no admite respuestas.")
+    if parent is not None and (parent.hidden or parent.closed):
+        raise ValidationError("Esta conversación no admite respuestas.")
     since = timezone.now() - timedelta(hours=1)
     if CommunityPost.objects.filter(author=actor, created_at__gte=since).count() >= 30:
         raise ValidationError("Has enviado muchos mensajes. Espera antes de escribir de nuevo.")

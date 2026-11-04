@@ -133,7 +133,7 @@ class EducationalUnitTests(TestCase):
     def test_legacy_profile_renders_without_invented_information(self):
         resource = self.material()
         revision = publish_resource(resource, self.reviewer)
-        ResourceVersion._base_manager.filter(pk=revision.pk).update(**{field: "" for field in EDUCATION_FIELDS})
+        ResourceVersion._base_manager.filter(pk=revision.pk).update(**dict.fromkeys(EDUCATION_FIELDS, ""))
         response = Client().get(reverse("resource-detail", args=["materiales", resource.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Sobre esta unidad")

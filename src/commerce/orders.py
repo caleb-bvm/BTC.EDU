@@ -22,12 +22,14 @@ QUOTE_SALT = "commerce.order.review.v1"
 
 
 def inventory_for(offer):
+    """Frozen inventory rows for an offer, ordered by resource id."""
     return [{"resource_id": item.resource_id, "title": item.resource.title, "kind": item.resource.kind,
              "paid": item.resource.access_type == "paid"}
             for item in offer.items.select_related("resource").order_by("resource_id")]
 
 
 def inventory_union(lines):
+    """Merge line inventories, rejecting the same resource with different snapshots."""
     units = {}
     for line in lines:
         for item in line["inventory"]:
@@ -38,6 +40,7 @@ def inventory_union(lines):
 
 
 def canonical_lines(lines):
+    """Stable, serializable representation of quote lines used for the fingerprint."""
     rows = []
     for line in lines:
         row = {"offer_id": line["offer_id"], "creator_id": line["creator_id"], "title": line["title"],
@@ -56,11 +59,17 @@ def canonical_lines(lines):
 
 
 def fingerprint_for(lines, gift=False):
+    """SHA-256 of the canonical lines; any change in price, content or destination changes it."""
     value = {"gift": True, "lines": canonical_lines(lines)} if gift else canonical_lines(lines)
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
 
 
 def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code="", gift=False, path=None):
+    """Price a selection on the server and list every conflict that blocks checkout.
+
+    Applies upgrade credit, path bundle discounts or a coupon, and detects owned content, overlaps
+    inside the selection and pending invoices. Never writes to the database.
+    """
     from .pricing import (
         bundle_discount,
         coupon_applies,
@@ -158,6 +167,7 @@ def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code
 
 
 def sign_quote(actor, quote, mode):
+    """Attach a signed token and request key to a quote that can be paid."""
     if quote["can_checkout"] and actor.is_authenticated and actor.is_active and actor.account_type == "student":
         key = str(uuid.uuid4())
         payload = {"buyer_id": actor.pk, "cart_id": quote["cart_id"], "cart_revision": quote["cart_revision"],
@@ -170,11 +180,13 @@ def sign_quote(actor, quote, mode):
 
 
 def cart_selection(cart):
+    """Selection entries for every item in a cart, in insertion order."""
     return [{"offer_id": item.offer_id, "return_lesson_id": item.return_lesson_id, "cart_item_key": str(item.pk)}
             for item in cart.items.order_by("created_at", "pk")]
 
 
 def quote_order(actor, cart, coupon_code=""):
+    """Signed quote for the buyer's own cart."""
     require_student(actor)
     cart = Cart.objects.get(pk=cart.pk)
     if cart.buyer_id != actor.pk:
@@ -183,11 +195,17 @@ def quote_order(actor, cart, coupon_code=""):
 
 
 def quote_direct_order(actor, offer_id, return_lesson_id=None, coupon_code="", gift=False):
+    """Signed quote for buying one offer directly, optionally as a gift."""
     quote = quote_selection(actor, [{"offer_id": offer_id, "return_lesson_id": return_lesson_id}], coupon_code=coupon_code, gift=gift)
     return sign_quote(actor, quote, "direct")
 
 
 def load_quote(actor, token, request_key, mode):
+    """Verify a signed quote.
+
+    Returns (payload, existing_invoice): a repeated request key returns the invoice already created,
+    and an expired token is rejected only for new orders.
+    """
     try:
         payload = signing.loads(token, salt=QUOTE_SALT)
         key = uuid.UUID(payload["request_key"])
@@ -210,6 +228,7 @@ def load_quote(actor, token, request_key, mode):
 
 
 def create_reserved_order(actor, quote, key, cart=None, activity_session=None, gift_message="", title=""):
+    """Create a sealed order with its lines and a 15-minute invoice for the total."""
     if not quote["can_checkout"]:
         raise ValidationError([item["message"] for item in quote["conflicts"]])
     inventory = inventory_union(quote["lines"])
@@ -244,6 +263,10 @@ def create_reserved_order(actor, quote, key, cart=None, activity_session=None, g
 
 @transaction.atomic
 def reserve_order(actor, cart, token, request_key=None, activity_session=None):
+    """Turn a signed cart quote into a reserved order.
+
+    The cart is priced again, and any change since the buyer reviewed it is rejected.
+    """
     require_student(actor)
     reserve_writer(actor.pk)
     actor.refresh_from_db()
@@ -266,6 +289,11 @@ def reserve_order(actor, cart, token, request_key=None, activity_session=None):
 
 @transaction.atomic
 def reserve_direct_order(actor, offer_id, return_lesson_id=None, request_key=None, token=None, activity_session=None, gift_message=""):
+    """Reserve an order for a single offer.
+
+    With a token the signed review must still match; without one the request key keeps the call
+    idempotent.
+    """
     require_student(actor)
     reserve_writer(actor.pk)
     actor.refresh_from_db()
@@ -305,6 +333,7 @@ def reserve_direct_order(actor, offer_id, return_lesson_id=None, request_key=Non
 
 
 def order_snapshot_valid(invoice):
+    """True when the order still matches what was signed; any malformed data counts as invalid."""
     try:
         return _order_snapshot_valid(invoice)
     except (ValidationError, KeyError, TypeError, ValueError):
@@ -312,6 +341,10 @@ def order_snapshot_valid(invoice):
 
 
 def _order_snapshot_valid(invoice):
+    """Rebuild the order fingerprint from its frozen lines.
+
+    Also compares totals, positions, inventory and offer terms.
+    """
     order = invoice.order
     lines = list(order.lines.select_related("offer", "course_version"))
     values = [{"inventory": line.inventory} for line in lines]

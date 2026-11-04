@@ -1,3 +1,4 @@
+"""Administration of community posts, certificates, paths, reviews and the practice gallery."""
 from django.contrib import admin
 
 from commerce.admin import HistoryAdmin

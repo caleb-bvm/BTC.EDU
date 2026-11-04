@@ -107,7 +107,7 @@ def course_has_changes(course):
             draft_quiz = getattr(lesson, "quiz_draft", None)
             published_quiz = getattr(record, "quiz", None)
             enabled = bool(draft_quiz and draft_quiz.enabled)
-            if enabled != bool(published_quiz) or enabled and any(getattr(draft_quiz, name) != getattr(published_quiz, name) for name in QUIZ_FIELDS):
+            if enabled != bool(published_quiz) or (enabled and any(getattr(draft_quiz, name) != getattr(published_quiz, name) for name in QUIZ_FIELDS)):
                 return True
     policy = getattr(version, "certificate_policy", None)
     draft = CertificateDraft.objects.filter(course=course).first()

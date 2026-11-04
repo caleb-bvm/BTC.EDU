@@ -1,3 +1,4 @@
+"""Learning path editor form."""
 from django import forms
 
 from .models import LearningPath

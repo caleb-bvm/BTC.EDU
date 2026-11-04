@@ -29,7 +29,7 @@ label{font-size:14px;line-height:1.5}input[type=checkbox],input[type=radio]{acce
 .academy-workbench{background:var(--paper)}.academy-page{padding:32px 36px 48px;max-width:1480px}
 .academy h1,.page-heading h1,.studio-heading h1,.learning-page h1{font-size:clamp(30px,3.2vw,44px);line-height:1.15;margin-bottom:12px}
 .page-heading{padding-bottom:24px}.page-heading p:not(.eyebrow){font-size:15px;line-height:1.6}.page-registration,.tabs-code,.results-caption{display:none}
-.academy-tabs,.account-tabs,.course-page-nav,.studio-course-nav{gap:22px;min-height:48px;padding:0 36px;border-bottom:1px solid var(--line);background:var(--paper)}
+.academy-tabs,.account-tabs,.studio-course-nav{gap:22px;min-height:48px;padding:0 36px;border-bottom:1px solid var(--line);background:var(--paper)}
 .academy-tabs a,.section-tab{font-size:14px;min-height:48px;padding:14px 0}.academy-footer{font-size:12px;color:var(--muted);margin:0 36px;min-height:0;padding:20px 0;border-color:var(--line)}
 .academy-filters{padding:18px;background:var(--ui-surface);border-radius:var(--card-radius);gap:14px;margin-bottom:18px}.academy-filters label{font-size:13px}.academy-filters:before{display:none}
 .catalog-results-bar{font-size:14px}.catalog-results-bar a{display:inline-flex;align-items:center;min-height:44px}.academy-card-grid{gap:22px;grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -72,8 +72,8 @@ label{font-size:14px;line-height:1.5}input[type=checkbox],input[type=radio]{acce
 @media(prefers-reduced-motion:reduce){.academy-card,.academy-card-go{transition:none}}
 .access-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);color:var(--ink);font:11px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 11px;border-radius:999px;background:transparent}
 .card-price{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0;padding-top:14px;border-top:1px solid var(--line)}.card-price span{font:11px/1.4 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.card-price strong,.sats-amount{font-family:var(--font-display);font-weight:900;letter-spacing:0;line-height:.9;color:var(--ink);white-space:nowrap}.card-price strong{font-size:28px}
-.card-price strong small,.sats-amount small{font:400 12px/1 var(--font-mono);letter-spacing:.04em;color:var(--muted);margin-left:4px}
+.card-price strong{font-family:var(--font-display);font-size:28px;font-weight:900;letter-spacing:0;line-height:.9;color:var(--ink);white-space:nowrap}
+.card-price strong small{font:400 12px/1 var(--font-mono);letter-spacing:.04em;color:var(--muted);margin-left:4px}
 .card-open{display:inline-flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;min-height:44px;text-decoration:none;border-top:1px solid var(--line);padding-top:14px;font-size:14px}
 .topic-heading{margin-bottom:18px}.topic-heading h2{font-size:25px}.topic-heading .mono{font-size:11px}
 .commerce-panel,.account-panel,.studio-panel,.assessment-panel,.community-panel,.question-card,.member-card,.metric-card{background:var(--ui-surface);border-color:var(--line);border-radius:var(--card-radius)}

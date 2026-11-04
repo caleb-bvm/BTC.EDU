@@ -1,3 +1,4 @@
+# Descarga y prepara LNbits 1.6.2 (commit fijado) en .local/lnbits con FakeWallet.
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
 Push-Location $projectRoot

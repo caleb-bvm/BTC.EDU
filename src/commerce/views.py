@@ -1,3 +1,4 @@
+"""Creator offers, offer pages, single-offer checkout and invoice pages."""
 from functools import wraps
 from io import BytesIO
 from urllib.parse import urlencode
@@ -55,6 +56,7 @@ INVOICE_RELATIONS = ("offer__course_version__course", "offer__resource", "offer_
 
 
 def invoice_queryset():
+    """Invoices with the relations their pages need."""
     lines = OrderLine.objects.select_related(
         "creator__creator_profile", "offer__course_version__course", "offer__resource",
         "offer__lesson__content", "offer__lesson__chapter__version__course",
@@ -64,6 +66,7 @@ def invoice_queryset():
 
 
 def student_required(view):
+    """Require a student account; other accounts are sent to the student login."""
     @login_required
     @never_cache
     @wraps(view)

@@ -1,3 +1,4 @@
+# Inicia LNbits conectado al nodo LND de regtest en Polar.
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
 $pythonPath = Join-Path $projectRoot '.local/lnbits/.venv/Scripts/python.exe'

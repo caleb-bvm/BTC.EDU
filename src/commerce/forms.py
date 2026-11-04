@@ -1,3 +1,4 @@
+"""Forms for offers, coupons, tips and refunds."""
 from django import forms
 
 from .catalog import target_choices

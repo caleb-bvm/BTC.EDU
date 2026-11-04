@@ -1,3 +1,4 @@
+"""Public catalog: course trees, summaries, filters and the cards shown in each section."""
 from collections import Counter
 from urllib.parse import urlsplit
 
@@ -25,6 +26,7 @@ from .models import (
 
 
 def course_tree(preview=False):
+    """Chapters with their lessons, including drafts only for the creator preview."""
     chapters = Chapter.objects.order_by('position', 'pk')
     lessons = Lesson.objects.defer('body').order_by('position', 'pk')
     if not preview:
@@ -34,6 +36,7 @@ def course_tree(preview=False):
 
 
 def access_label(free, paid):
+    """Label for a course given its free and paid lesson counts."""
     if free and paid:
         return 'Gratis + lecciones de pago'
     if paid:
@@ -42,6 +45,7 @@ def access_label(free, paid):
 
 
 def course_summary(course):
+    """Lesson counts, duration and access label for a course card."""
     lessons = [lesson for chapter in course.visible_chapters for lesson in chapter.visible_lessons]
     free = sum(lesson.access_type == AccessType.FREE for lesson in lessons)
     paid = len(lessons) - free
@@ -49,6 +53,7 @@ def course_summary(course):
 
 
 def published_courses():
+    """Published courses with a current version."""
     visible = Q(chapters__status=PublicationStatus.PUBLISHED, chapters__lessons__status=PublicationStatus.PUBLISHED)
     return Course.objects.filter(status=PublicationStatus.PUBLISHED).select_related('creator__creator_profile', 'topic', 'current_version__topic').defer('objective', 'requirements', 'current_version__objective', 'current_version__requirements').annotate(
         public_title=Coalesce('current_version__title', 'title'), public_description=Coalesce('current_version__description', 'description'),
@@ -63,6 +68,7 @@ UNCATEGORIZED_TOPIC = "~sin-categoria"
 
 
 def catalog_context(params, section=None, creator=None, browse_categories=False):
+    """Filtered cards, facets and filter chips for a catalog section."""
     categories = {'todos': 'Todo', 'cursos': 'Cursos', 'tutoriales': 'Tutoriales', 'videos': 'Videos', 'materiales': 'Materiales', 'referencias': 'Enlaces externos'}
     allowed = {'cursos': ('cursos',), 'tutoriales': ('tutoriales',), 'recursos': ('videos', 'materiales', 'referencias')}.get(section, tuple(categories)[1:])
     if creator is not None:
@@ -155,7 +161,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                     facets['access'].add('membresia')
             elif model != ExternalReference:
                 facets['access'].add('gratis' if row['public_access'] == AccessType.FREE else 'pago')
-        if category != 'todos' and category != kind:
+        if category not in ('todos', kind):
             continue
         if level:
             if model != Course:

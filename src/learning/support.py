@@ -1,3 +1,4 @@
+"""Lesson questions between students and creators, and notifications."""
 from datetime import timedelta
 from uuid import UUID
 
@@ -26,19 +27,22 @@ def questions_with_activity(queryset):
 
 
 def awaiting_creator_questions(queryset):
+    """Questions whose last message is from the student."""
     from django.db.models import F, Q
     return questions_with_activity(queryset).filter(Q(last_author_id__isnull=True) | Q(last_author_id=F("enrollment__student_id")))
 
 
 def notify(recipient, event_key, title, url):
+    """Create a notification once per event key, respecting the recipient's preferences."""
     from accounts.models import User
     category = "questions" if event_key.startswith(("question:", "reply:")) else "community" if event_key.startswith(("community-reply:", "community-lesson:")) else "service"
-    if category == "questions" and not User.objects.filter(pk=recipient.pk, notify_questions=True).exists() or category == "community" and not User.objects.filter(pk=recipient.pk, notify_community=True).exists():
+    if (category == "questions" and not User.objects.filter(pk=recipient.pk, notify_questions=True).exists()) or (category == "community" and not User.objects.filter(pk=recipient.pk, notify_community=True).exists()):
         return None
     return Notification.objects.get_or_create(event_key=event_key, defaults={"recipient": recipient, "title": title[:200], "url": url, "category": category})[0]
 
 
 def valid_message(body, request_key):
+    """Validate a message body and its request key; returns (body, key)."""
     if not isinstance(body, str) or not body.strip() or len(body.strip()) > 2000:
         raise ValidationError("Escribe un mensaje de hasta 2000 caracteres.")
     try:
@@ -49,6 +53,7 @@ def valid_message(body, request_key):
 
 
 def rate_limit(actor):
+    """Allow at most 30 questions and replies per hour."""
     since = timezone.now() - timedelta(hours=1)
     count = LessonQuestion.objects.filter(enrollment__student=actor, created_at__gte=since).count()
     count += QuestionReply.objects.filter(author=actor, created_at__gte=since).count()
@@ -57,6 +62,10 @@ def rate_limit(actor):
 
 
 def question_access(actor, question, writing=False):
+    """Only the student and the course creator may read a question.
+
+    Writing requires lesson access.
+    """
     if not actor.is_authenticated or not actor.is_active:
         raise PermissionDenied
     if actor.pk == question.enrollment.student_id:
@@ -71,6 +80,7 @@ def question_access(actor, question, writing=False):
 
 @transaction.atomic
 def post_question(actor, lesson_id, body, request_key):
+    """Create a lesson question; a repeated request key returns the same question."""
     require_student(actor)
     body, key = valid_message(body, request_key)
     reserve_writer(actor.pk)
@@ -93,6 +103,7 @@ def post_question(actor, lesson_id, body, request_key):
 
 @transaction.atomic
 def reply_question(actor, question_id, body, request_key):
+    """Reply to a lesson question; a repeated request key returns the same reply."""
     if not actor.is_authenticated or not actor.is_active:
         raise PermissionDenied
     body, key = valid_message(body, request_key)

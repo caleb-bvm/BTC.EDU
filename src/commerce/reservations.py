@@ -6,10 +6,15 @@ from .models import Invoice
 
 
 def payment_resources(invoice):
+    """Paid resource ids an invoice would grant."""
     return {item["resource_id"] for item in invoice.inventory if item.get("paid")}
 
 
 def needs_reservation(invoice, now=None):
+    """True while an invoice may still be paid or needs review.
+
+    While it does, its content cannot be bought again.
+    """
     now = now or timezone.now()
     if invoice.status == "paid":
         return False
@@ -25,6 +30,7 @@ def needs_reservation(invoice, now=None):
 
 
 def overlapping_invoice(actor, resource_ids, exclude=None):
+    """First unpaid invoice of the buyer that still reserves any of the given resources."""
     resources = set(resource_ids)
     if not resources:
         return None
@@ -37,6 +43,7 @@ def overlapping_invoice(actor, resource_ids, exclude=None):
 
 
 def require_unreserved(actor, resource_ids, exclude=None):
+    """Raise if another invoice of the buyer still reserves part of the selection."""
     invoice = overlapping_invoice(actor, resource_ids, exclude)
     if invoice:
         raise ValidationError("Hay un pago pendiente o en revisión para parte de esta selección. Consulta esa factura antes de preparar otro pago.", code="pending_overlap")

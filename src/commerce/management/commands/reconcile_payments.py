@@ -1,3 +1,4 @@
+"""Reconcile pending invoices with LNbits, once or continuously with --watch."""
 import time
 
 from django.core.exceptions import ValidationError

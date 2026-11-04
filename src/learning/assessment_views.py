@@ -1,3 +1,4 @@
+"""Quiz editor, quiz pages, attempts and results."""
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db import transaction

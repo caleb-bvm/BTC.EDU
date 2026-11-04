@@ -1,3 +1,4 @@
+"""Certificate and lesson question forms."""
 from uuid import uuid4
 
 from django import forms

@@ -1,3 +1,4 @@
+"""Creator applications and their review."""
 from django.conf import settings
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
@@ -13,6 +14,7 @@ from .models import CreatorApplicationEvent, CreatorProfile
 
 @transaction.atomic
 def save_application(actor, values, expected_revision=None):
+    """Create or update the creator's application, with an optimistic revision check."""
     User.objects.filter(pk=actor.pk).update(profile_public=F("profile_public"))
     actor.refresh_from_db()
     if not actor.is_active or actor.account_type != "creator":
@@ -36,6 +38,10 @@ def save_application(actor, values, expected_revision=None):
 
 @transaction.atomic
 def review_application(profile, actor, status, feedback, expected_revision=None):
+    """Record an administrator's decision on a creator application.
+
+    Uses an optimistic revision check so two reviewers never overwrite each other.
+    """
     if not actor.is_active or not actor.is_staff or not actor.has_perm("creators.change_creatorprofile"):
         raise PermissionDenied
     CreatorProfile.objects.filter(pk=profile.pk).update(updated_at=F("updated_at"))

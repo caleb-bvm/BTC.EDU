@@ -1,3 +1,4 @@
+"""Login, registration and profile forms for student and creator accounts."""
 from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model

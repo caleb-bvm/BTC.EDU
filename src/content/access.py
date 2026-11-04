@@ -1,3 +1,4 @@
+"""The single access rule used by pages, JSON endpoints and file delivery."""
 from dataclasses import dataclass
 
 from .models import (
@@ -13,12 +14,15 @@ from .models import (
 
 @dataclass(frozen=True)
 class AccessDecision:
+    """Result of an access check; reason explains why it was allowed or denied."""
     allowed: bool
     reason: str
 
 
 def content_access(user, resource):
     """One authorization rule for HTML, JSON, files and frozen purchases."""
+    # A file attached to a published lesson: the lesson must be open, and a paid
+    # file also needs its own purchase unless the creator or membership opened it.
     if isinstance(resource, VersionAttachment):
         decision = content_access(user, resource.lesson)
         if not decision.allowed:
@@ -28,6 +32,8 @@ def content_access(user, resource):
         if owns_revision(user, resource.resource_id):
             return AccessDecision(True, "purchase")
         return AccessDecision(False, "purchase_required")
+    # A lesson of a frozen version: purchases and membership apply here. Older or
+    # archived versions stay readable only for what the student already has.
     if isinstance(resource, VersionLesson):
         version = resource.chapter.version
         course = version.course
@@ -45,6 +51,7 @@ def content_access(user, resource):
                 return AccessDecision(True, "enrolled_free")
             return AccessDecision(False, "purchase_required")
         return AccessDecision(resource.content.access_type == AccessType.FREE, "free" if resource.content.access_type == AccessType.FREE else "purchase_required")
+    # Drafts and standalone resources: every parent must be published.
     if isinstance(resource, Lesson):
         chapter = resource.chapter
         course = chapter.course
@@ -74,6 +81,7 @@ def content_access(user, resource):
 
 
 def owns_revision(user, resource_id):
+    """True when an active student holds an active entitlement to this resource revision."""
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return False
     from commerce.models import Entitlement
@@ -81,5 +89,6 @@ def owns_revision(user, resource_id):
 
 
 def membership_covers(user, version):
+    """True when the course is part of the membership and the student's membership is current."""
     from commerce.membership import course_in_membership, membership_until
     return course_in_membership(version) and membership_until(user) is not None

@@ -1,3 +1,4 @@
+"""Anonymous product activity used for analytics."""
 import uuid
 
 from django.conf import settings
@@ -7,6 +8,7 @@ from content.immutability import FrozenRecord
 
 
 class ActivityEvent(FrozenRecord):
+    """One recorded view or commerce action, tied to a random session id."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     event_key = models.CharField(max_length=100, unique=True, null=True, blank=True)
     kind = models.CharField(max_length=40, db_index=True)

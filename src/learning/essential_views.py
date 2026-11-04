@@ -1,3 +1,4 @@
+"""Certificates, lesson questions and notifications."""
 from functools import wraps
 from hmac import compare_digest
 
@@ -39,6 +40,7 @@ from .support import post_question, question_access, reply_question
 
 
 def account_required(view):
+    """Require an active student or creator account."""
     @login_required
     @never_cache
     @wraps(view)

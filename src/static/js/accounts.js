@@ -1,3 +1,4 @@
+/* Account settings: forms that detect an account switch in another tab, inline errors, avatar crop preview and profile preview. */
 window.btcAccountContext = async form => {
   const identity = form.querySelector('[name="account_id"]');
   if (!identity) return null;

@@ -1,3 +1,7 @@
+"""Learning records.
+
+Enrollments, progress, saved items, practices, quizzes, certificates, community, reviews and paths.
+"""
 import uuid
 
 from django.conf import settings
@@ -12,6 +16,7 @@ from .quizzes import validate_questions
 
 
 class Enrollment(models.Model):
+    """A student studying one course version; revision protects progress updates."""
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -27,6 +32,7 @@ class Enrollment(models.Model):
 
 
 class LessonProgress(models.Model):
+    """A lesson marked as completed in an enrollment."""
     enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT, related_name="completed_lessons")
     lesson = models.ForeignKey("content.VersionLesson", on_delete=models.PROTECT)
     completed_at = models.DateTimeField(auto_now_add=True)
@@ -36,6 +42,7 @@ class LessonProgress(models.Model):
 
 
 class SavedItem(models.Model):
+    """Course, resource or reference saved by a student."""
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     resource = models.ForeignKey("content.ResourceVersion", on_delete=models.PROTECT, null=True, blank=True)
     reference = models.ForeignKey("content.ExternalReference", on_delete=models.PROTECT, null=True, blank=True)
@@ -57,6 +64,7 @@ class SavedItem(models.Model):
 
 
 class SavedCollection(models.Model):
+    """Named group of saved items."""
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     normalized_name = models.CharField(max_length=180)
@@ -68,6 +76,7 @@ class SavedCollection(models.Model):
 
 
 class PracticeRules(models.Model):
+    """Abstract practice assignment: instructions and criteria."""
     title = models.CharField("Título", max_length=200)
     instructions = models.TextField("Qué debe entregar el estudiante", max_length=10000)
     criteria = models.JSONField(default=list)
@@ -85,12 +94,14 @@ class PracticeRules(models.Model):
 
 
 class PracticeDraft(PracticeRules):
+    """Editable practice attached to a lesson draft."""
     lesson = models.OneToOneField("content.Lesson", on_delete=models.CASCADE, related_name="practice_draft")
     enabled = models.BooleanField("Incluir práctica en la próxima versión", default=True)
     revision = models.PositiveIntegerField(default=0)
 
 
 class VersionPractice(FrozenRecord, PracticeRules):
+    """Practice frozen in a published lesson."""
     lesson = models.OneToOneField("content.VersionLesson", on_delete=models.PROTECT, related_name="practice")
 
     def clean(self):
@@ -100,17 +111,20 @@ class VersionPractice(FrozenRecord, PracticeRules):
 
 
 class PracticeIntake(models.Model):
+    """Whether a published practice currently accepts deliveries."""
     practice = models.OneToOneField(VersionPractice, on_delete=models.PROTECT, related_name="intake")
     accepting = models.BooleanField(default=True)
     revision = models.PositiveIntegerField(default=0)
 
 
 def practice_upload_path(instance, filename):
+    """Random private path for a practice delivery file."""
     from pathlib import PurePath
     return f"practice-deliveries/{uuid.uuid4().hex}{PurePath(filename).suffix.lower()}"
 
 
 class PracticeDelivery(FrozenRecord):
+    """A student's submitted practice."""
     enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT, related_name="practice_deliveries")
     practice = models.ForeignKey(VersionPractice, on_delete=models.PROTECT, related_name="deliveries")
     number = models.PositiveIntegerField()
@@ -153,6 +167,7 @@ class PracticeDelivery(FrozenRecord):
 
 
 class PracticeReview(FrozenRecord):
+    """Educator feedback on a delivery."""
     delivery = models.OneToOneField(PracticeDelivery, on_delete=models.PROTECT, related_name="review")
     educator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     outcome = models.CharField(max_length=10, choices=(("accepted", "Aprobar entrega"), ("changes", "Solicitar cambios")))
@@ -174,6 +189,7 @@ class PracticeReview(FrozenRecord):
 
 
 class QuizRules(models.Model):
+    """Abstract quiz settings: pass mark, attempts, waiting time and questions."""
     title = models.CharField("título", max_length=200)
     pass_mark = models.PositiveSmallIntegerField("nota mínima", default=70, validators=[MaxValueValidator(100)])
     max_attempts = models.PositiveSmallIntegerField("intentos permitidos", default=3, validators=[MinValueValidator(1), MaxValueValidator(10)])
@@ -187,6 +203,7 @@ class QuizRules(models.Model):
 
 
 class QuizDraft(QuizRules):
+    """Editable quiz attached to a lesson draft."""
     lesson = models.OneToOneField("content.Lesson", on_delete=models.CASCADE, related_name="quiz_draft")
     enabled = models.BooleanField("Incluir evaluación en la próxima versión", default=True)
     revision = models.PositiveIntegerField(default=0)
@@ -197,6 +214,7 @@ class QuizDraft(QuizRules):
 
 
 class VersionQuiz(FrozenRecord, QuizRules):
+    """Quiz frozen in a published lesson."""
     lesson = models.OneToOneField("content.VersionLesson", on_delete=models.PROTECT, related_name="quiz")
 
     def clean(self):
@@ -206,6 +224,7 @@ class VersionQuiz(FrozenRecord, QuizRules):
 
 
 class QuizAttempt(models.Model):
+    """One attempt at a quiz, graded on the server."""
     enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT, related_name="quiz_attempts")
     quiz = models.ForeignKey(VersionQuiz, on_delete=models.PROTECT, related_name="attempts")
     number = models.PositiveIntegerField()
@@ -225,6 +244,7 @@ class QuizAttempt(models.Model):
 
 
 class ExtraQuizAttempt(FrozenRecord):
+    """Extra attempt granted by the creator."""
     enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT)
     quiz = models.ForeignKey(VersionQuiz, on_delete=models.PROTECT)
     granted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -238,6 +258,7 @@ class ExtraQuizAttempt(FrozenRecord):
 
 
 class CertificateDraft(models.Model):
+    """Certificate settings and required lessons for a course draft."""
     course = models.OneToOneField("content.Course", on_delete=models.CASCADE, related_name="certificate_draft")
     enabled = models.BooleanField("Ofrecer certificado de finalización", default=False)
     required_lessons = models.ManyToManyField("content.Lesson", blank=True)
@@ -245,6 +266,7 @@ class CertificateDraft(models.Model):
 
 
 class VersionCertificatePolicy(FrozenRecord):
+    """Certificate requirements frozen with a course version."""
     version = models.OneToOneField("content.CourseVersion", on_delete=models.PROTECT, related_name="certificate_policy")
     required_lesson_ids = models.JSONField(default=list)
 
@@ -258,6 +280,7 @@ class VersionCertificatePolicy(FrozenRecord):
 
 
 class Certificate(FrozenRecord):
+    """Immutable completion certificate with its evidence and fingerprint."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     enrollment = models.OneToOneField(Enrollment, on_delete=models.PROTECT, related_name="certificate")
     student_name = models.CharField(max_length=150)
@@ -275,11 +298,13 @@ class Certificate(FrozenRecord):
 
 
 class CertificateSharing(models.Model):
+    """Whether a certificate is publicly verifiable."""
     certificate = models.OneToOneField(Certificate, on_delete=models.PROTECT, related_name="sharing")
     public = models.BooleanField(default=False)
 
 
 class CertificateRevocation(FrozenRecord):
+    """Revocation of a certificate and its reason."""
     certificate = models.OneToOneField(Certificate, on_delete=models.PROTECT, related_name="revocation")
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     reason = models.CharField(max_length=500)
@@ -287,6 +312,7 @@ class CertificateRevocation(FrozenRecord):
 
 
 class LessonQuestion(FrozenRecord):
+    """Private question from a student to the course creator."""
     enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT, related_name="questions")
     lesson = models.ForeignKey("content.VersionLesson", on_delete=models.PROTECT)
     body = models.TextField(max_length=2000)
@@ -298,6 +324,7 @@ class LessonQuestion(FrozenRecord):
 
 
 class QuestionReply(FrozenRecord):
+    """Reply in a lesson question thread."""
     question = models.ForeignKey(LessonQuestion, on_delete=models.PROTECT, related_name="replies")
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     body = models.TextField(max_length=2000)
@@ -310,6 +337,7 @@ class QuestionReply(FrozenRecord):
 
 
 class Notification(models.Model):
+    """In-app notification, unique per event key."""
     recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="notifications")
     event_key = models.CharField(max_length=100, unique=True)
     title = models.CharField(max_length=200)
@@ -323,6 +351,7 @@ class Notification(models.Model):
 
 
 class CommunityPost(FrozenRecord):
+    """Post or reply in a course version community."""
     version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT)
     lesson = models.ForeignKey("content.VersionLesson", on_delete=models.PROTECT, null=True, blank=True, related_name="community_posts")
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -346,6 +375,7 @@ class CommunityPost(FrozenRecord):
 
 
 class CommunitySubscription(models.Model):
+    """User following a community thread."""
     thread = models.ForeignKey(CommunityPost, on_delete=models.CASCADE, related_name="subscriptions")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -354,6 +384,7 @@ class CommunitySubscription(models.Model):
 
 
 class CommunityReport(FrozenRecord):
+    """Report of a community post."""
     post = models.ForeignKey(CommunityPost, on_delete=models.PROTECT, related_name="reports")
     reporter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     reason = models.CharField(max_length=500)
@@ -365,6 +396,7 @@ class CommunityReport(FrozenRecord):
 
 
 class CommunitySuspension(models.Model):
+    """Student suspended from a course community."""
     version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT)
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     active = models.BooleanField(default=True)
@@ -374,6 +406,7 @@ class CommunitySuspension(models.Model):
 
 
 class CommunityDecision(FrozenRecord):
+    """Append-only moderation decision."""
     version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT)
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     post = models.ForeignKey(CommunityPost, null=True, blank=True, on_delete=models.PROTECT)
@@ -394,6 +427,7 @@ class CertificateTimestamp(models.Model):
 
 
 class CourseReview(models.Model):
+    """Student rating and comment for a course."""
     class Basis(models.TextChoices):
         PURCHASE = "purchase", "Compra verificada"
         COMPLETED = "completed", "Curso completado"
@@ -436,6 +470,7 @@ BUNDLE_MAX_PERCENT = 50
 
 
 class LearningPath(models.Model):
+    """Ordered set of courses with an optional bundle discount."""
     # Without an educator the path is editorial: BTC.EDU may combine published courses from anyone.
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True,
                                 related_name="learning_paths", verbose_name="educador")
@@ -465,6 +500,7 @@ class LearningPath(models.Model):
 
 
 class PathCourse(models.Model):
+    """One course in a path, required or optional."""
     path = models.ForeignKey(LearningPath, on_delete=models.CASCADE, related_name="steps")
     course = models.ForeignKey("content.Course", on_delete=models.PROTECT, related_name="path_steps", verbose_name="curso o tutorial")
     position = models.PositiveIntegerField("orden", default=1)

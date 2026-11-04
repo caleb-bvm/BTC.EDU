@@ -1,3 +1,4 @@
+"""Creator profiles, application history and content submissions."""
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
@@ -6,6 +7,7 @@ from content.immutability import FrozenRecord
 
 
 class CreatorProfile(models.Model):
+    """Creator application and public profile; only approved creators can publish."""
     class Status(models.TextChoices):
         PENDING = "pending", "Solicitud pendiente"
         APPROVED = "approved", "Aprobado"
@@ -29,6 +31,7 @@ class CreatorProfile(models.Model):
 
 
 class CreatorApplicationEvent(FrozenRecord):
+    """Append-only history of an application."""
     profile = models.ForeignKey(CreatorProfile, on_delete=models.PROTECT, related_name="history")
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     previous_status = models.CharField(max_length=12, blank=True)
@@ -42,6 +45,7 @@ class CreatorApplicationEvent(FrozenRecord):
 
 
 class Submission(models.Model):
+    """Request to publish a course or resource, holding the frozen copy under review."""
     class Status(models.TextChoices):
         PENDING = "pending", "En revisión"
         APPROVED = "approved", "Publicado"

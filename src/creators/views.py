@@ -1,3 +1,4 @@
+"""Creator studio: application, dashboard, editors, files, review and previews."""
 from functools import wraps
 
 from django.contrib import messages
@@ -52,6 +53,7 @@ from .services import decide, require_creator, require_reviewer, submit
 
 
 def creator_required(view):
+    """Require an approved creator account."""
     @login_required(login_url="creator-login")
     @never_cache
     @wraps(view)
@@ -67,6 +69,7 @@ def creator_required(view):
 
 
 def resource_model(kind):
+    """Model for a resource kind in the URL, or 404."""
     model = {"videos": Video, "materiales": Material}.get(kind)
     if model is None:
         raise Http404
@@ -74,12 +77,14 @@ def resource_model(kind):
 
 
 def saved_redirect(request, destination, **kwargs):
+    """JSON redirect for the editor script, or a normal redirect."""
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
         return JsonResponse({"redirect": reverse(destination, kwargs=kwargs)} if not destination.startswith("/") else {"redirect": destination})
     return redirect(destination, **kwargs)
 
 
 def editor_return(request):
+    """Safe return URL inside the studio, or an empty string."""
     back = request.POST.get("volver") or request.GET.get("volver", "")
     if back.startswith(reverse("creator-dashboard")) and not back.startswith("//") and url_has_allowed_host_and_scheme(back, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
         return back
@@ -147,6 +152,7 @@ def content_list(request):
 
 
 def save_form(request, form, title, back, extra=None):
+    """Save an editor form and render it again with errors when needed."""
     if request.method == "POST" and form.is_valid():
         try:
             with transaction.atomic():
@@ -281,6 +287,7 @@ def send(request, kind, pk):
 
 
 def review_access(request, pk):
+    """Load a submission for its creator or a reviewer; returns (submission, is_reviewer)."""
     submission = get_object_or_404(Submission.objects.select_related("creator", "course__creator", "video", "material", "course_version", "resource_version__asset", "resource_version__subtitles"), pk=pk)
     if submission.creator_id == request.user.pk:
         require_creator(request.user)
@@ -353,6 +360,7 @@ def public_profile(request, pk):
 
 
 def protect_legacy(course):
+    """Block editing of a published course that has no frozen version yet."""
     if course.status == PublicationStatus.PUBLISHED and not course.current_version_id:
         raise PermissionDenied("El administrador debe publicar una versión del curso anterior antes de habilitar su edición.")
 

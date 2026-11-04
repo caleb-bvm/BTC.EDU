@@ -1,3 +1,4 @@
+/* Service worker: precache the offline page, serve static files from cache and saved lessons when there is no connection. */
 "use strict";
 
 // Keep in sync with core/pwa.py; bumping VERSION drops old shell and static caches.

@@ -1,3 +1,4 @@
+"""Private uploaded assets with validated type, size and SHA-256."""
 import hashlib
 import uuid
 from pathlib import PurePosixPath
@@ -12,10 +13,12 @@ from .storage import private_storage
 
 
 def private_name(instance, filename):
+    """Random storage name under assets/ that keeps only the lowercase extension."""
     return f"assets/{uuid.uuid4().hex}{PurePosixPath(filename).suffix.lower()}"
 
 
 def validate_mp4_boxes(upload):
+    """Check that an MP4 upload has a valid top-level box structure."""
     offset, boxes = 0, set()
     while offset < upload.size:
         upload.seek(offset)
@@ -40,6 +43,10 @@ def validate_mp4_boxes(upload):
 
 
 def inspect_upload(upload):
+    """Validate size and content and return the asset kind and MIME type.
+
+    The extension must match the bytes.
+    """
     extension = PurePosixPath(upload.name.replace("\\", "/")).suffix.lower()
     if not upload.size or upload.size > settings.CONTENT_MAX_UPLOAD_BYTES:
         raise ValidationError("El archivo está vacío o supera el límite de carga.")
@@ -78,6 +85,7 @@ def inspect_upload(upload):
 
 
 class Asset(FrozenRecord):
+    """Immutable private file with its detected kind, MIME type, size and SHA-256."""
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name="propietario")
     file = models.FileField("archivo privado", storage=private_storage, upload_to=private_name)
     original_name = models.CharField(max_length=200, editable=False)

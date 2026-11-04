@@ -1,3 +1,4 @@
+"""Saved items and collections views."""
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect, render

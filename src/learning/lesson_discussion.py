@@ -29,7 +29,7 @@ def submit(request, version, lesson):
     try:
         parent_id = int(parent_id) if parent_id else None
     except ValueError:
-        raise PermissionDenied
+        raise PermissionDenied from None
     form = MessageForm(request.POST, auto_id=f"lesson-reply-{parent_id}-%s" if parent_id else "lesson-comment-%s")
     post = None
     if form.is_valid():

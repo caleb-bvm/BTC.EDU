@@ -1,3 +1,4 @@
+"""Pages and files of a specific course version."""
 from django.core.exceptions import PermissionDenied
 from django.db.models import Prefetch
 from django.http import Http404, HttpResponse
@@ -23,6 +24,7 @@ from .models import (
 
 
 def load_version(user, course_pk, number):
+    """Load a version the user may visit; returns (version, is_owner)."""
     version = get_object_or_404(CourseVersion.objects.select_related("course__creator__creator_profile", "topic"), course_id=course_pk, number=number, sealed=True)
     owner = user.is_authenticated and user.is_active and user.pk == version.course.creator_id
     from learning.services import can_visit_version
@@ -89,6 +91,7 @@ def course_version_detail(request, course_pk, number):
 
 
 def attachment_cards(request, attachments):
+    """Presentation data for lesson attachments, with links only when access is allowed."""
     cards = []
     for attachment in attachments:
         resource = attachment.resource

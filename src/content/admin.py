@@ -1,3 +1,4 @@
+"""Administration of courses, chapters, lessons, resources, categories and topics."""
 from django.contrib import admin, messages
 from django.core.exceptions import ValidationError
 

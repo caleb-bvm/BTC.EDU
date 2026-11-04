@@ -1,3 +1,4 @@
+"""Home, catalog sections, creator directory, student workspace and health check."""
 from urllib.parse import parse_qsl, urlencode
 
 from django.contrib.auth.decorators import login_required
@@ -37,6 +38,7 @@ def discovery_links(context, request):
 
 
 def category_navigation(context):
+    """Add category navigation to a catalog context."""
     params = {"seccion": context["explore_section"]} if context.get("explore_section") else {}
     url = context["catalog_url"]
     context["category_index_url"] = url + ("?" + urlencode(params) if params else "")
@@ -63,6 +65,7 @@ def category_navigation(context):
 
 
 def filter_navigation(context):
+    """Add filter navigation to a catalog context."""
     params = dict(parse_qsl(context["filter_query"]))
     if context.get("category_browsing"):
         params["vista"] = "todos"
@@ -144,6 +147,7 @@ def academy_catalog(request, section):
 
 @require_GET
 def course_selector(request):
+    """Course selector grouped by level."""
     context = discovery_links(catalog_context(request.GET, "cursos"), request)
     cards = context["all_cards"]
     selected = next((card for card in cards if str(card["item"].pk) == request.GET.get("curso")), None)
@@ -180,6 +184,7 @@ def workspace(request):
 
 
 def health(request):
+    """Return 200 when the database answers, 503 otherwise."""
     try:
         with connection.cursor() as cursor:
             cursor.execute("SELECT 1")

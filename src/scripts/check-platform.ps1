@@ -1,3 +1,4 @@
+# Comprobaciones completas: configuración, migraciones, pruebas, Ruff y concurrencia.
 $ErrorActionPreference = 'Stop'
 $srcRoot = Split-Path $PSScriptRoot -Parent
 $env:PYTHONUTF8 = '1'

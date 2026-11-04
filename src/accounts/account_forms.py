@@ -1,3 +1,7 @@
+"""Forms for the account settings pages.
+
+Photo, email, password, preferences, support and restore.
+"""
 import uuid
 
 from django import forms

@@ -1,3 +1,4 @@
+# Inicia solo la plataforma Django en http://127.0.0.1:8000/, sin pagos.
 $ErrorActionPreference = 'Stop'
 $srcRoot = Split-Path $PSScriptRoot -Parent
 $env:UV_CACHE_DIR = Join-Path $srcRoot '.local/uv-cache'

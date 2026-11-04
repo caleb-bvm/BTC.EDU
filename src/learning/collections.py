@@ -1,3 +1,4 @@
+"""Named collections for organizing saved items."""
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 
@@ -7,6 +8,7 @@ from .models import SavedCollection, SavedItem
 
 
 def locked_student(actor):
+    """Lock the student's writer and confirm the account can still save."""
     require_student(actor)
     reserve_writer(actor.pk)
     actor.refresh_from_db()
@@ -15,6 +17,7 @@ def locked_student(actor):
 
 @transaction.atomic
 def change_collection(actor, action, name="", pk=None):
+    """Create, rename or delete a collection."""
     locked_student(actor)
     collection = None
     if pk is not None:
@@ -40,6 +43,7 @@ def change_collection(actor, action, name="", pk=None):
 
 @transaction.atomic
 def organize_item(actor, item_id, collection_ids):
+    """Set the collections a saved item belongs to."""
     locked_student(actor)
     item = SavedItem.objects.select_for_update().filter(pk=item_id, student=actor).first()
     if not item:
@@ -47,7 +51,7 @@ def organize_item(actor, item_id, collection_ids):
     try:
         ids = {int(pk) for pk in collection_ids}
     except (ValueError, TypeError):
-        raise ValidationError("Selecciona tus colecciones de nuevo.")
+        raise ValidationError("Selecciona tus colecciones de nuevo.") from None
     collections = list(SavedCollection.objects.filter(student=actor, pk__in=ids))
     if len(collections) != len(ids):
         raise PermissionDenied

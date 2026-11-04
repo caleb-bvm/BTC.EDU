@@ -1,7 +1,9 @@
+"""Personal data export for the account settings page."""
 from django.utils import timezone
 
 
 def account_data(user):
+    """Collect the user's own records into a JSON-serializable dictionary."""
     from commerce.models import Invoice
     from creators.models import Submission
     from learning.models import (

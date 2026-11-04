@@ -1,3 +1,8 @@
+"""Content drafts and their frozen versions.
+
+Creators edit Course, Chapter, Lesson, Video and Material; publication freezes them into
+CourseVersion, VersionChapter, VersionLesson and ResourceVersion, which never change.
+"""
 import uuid
 
 from django.conf import settings
@@ -9,22 +14,26 @@ from .immutability import FrozenRecord
 
 
 class PublicationStatus(models.TextChoices):
+    """Status of a draft in the catalog."""
     DRAFT = "draft", "Borrador"
     PUBLISHED = "published", "Publicado"
     ARCHIVED = "archived", "Retirado del catálogo"
 
 
 class AccessType(models.TextChoices):
+    """Whether a unit is free or paid."""
     FREE = "free", "Gratis"
     PAID = "paid", "De pago"
 
 
 class CourseKind(models.TextChoices):
+    """A course or a shorter tutorial."""
     COURSE = "course", "Curso"
     TUTORIAL = "tutorial", "Tutorial"
 
 
 class CourseLevel(models.TextChoices):
+    """Difficulty level of a course."""
     BEGINNER = "beginner", "Principiante"
     INTERMEDIATE = "intermediate", "Intermedio"
     ADVANCED = "advanced", "Avanzado"
@@ -43,6 +52,7 @@ CATEGORY_ARTWORK_CHOICES = (
 
 
 class Category(models.Model):
+    """Top-level catalog category."""
     name = models.CharField("nombre", max_length=100, unique=True)
     slug = models.SlugField("identificador", unique=True)
     description = models.CharField("descripción de la categoría", max_length=200, blank=True)
@@ -67,6 +77,7 @@ class Category(models.Model):
 
 
 class Topic(models.Model):
+    """Subcategory inside a category."""
     name = models.CharField("nombre", max_length=100, unique=True)
     slug = models.SlugField("identificador", unique=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, blank=True, related_name="topics", verbose_name="categoría")
@@ -92,6 +103,7 @@ class Topic(models.Model):
 
 
 class Publication(models.Model):
+    """Abstract base for editable content with title, description and status."""
     title = models.CharField("título", max_length=200)
     description = models.TextField("descripción", blank=True)
     status = models.CharField("estado", max_length=12, choices=PublicationStatus, default=PublicationStatus.DRAFT)
@@ -107,6 +119,7 @@ class Publication(models.Model):
 
 
 class Course(Publication):
+    """Editable course draft; current_version points to what students see."""
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="courses", verbose_name="creador")
     objective = models.TextField("objetivo", blank=True)
     requirements = models.TextField("requisitos", blank=True)
@@ -130,6 +143,7 @@ class Course(Publication):
 
 
 class Chapter(Publication):
+    """Ordered group of lessons in a course draft."""
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="chapters", verbose_name="curso")
     position = models.PositiveIntegerField("orden", default=1)
 
@@ -141,6 +155,7 @@ class Chapter(Publication):
 
 
 class EducationalUnit(models.Model):
+    """Abstract fields that describe what a unit teaches and how it is studied."""
     learning_outcome = models.TextField("qué aprenderá el alumno", blank=True, help_text="Describe un resultado concreto que esta unidad permite conseguir.")
     requirements = models.TextField("antes de empezar", blank=True, help_text="Indica conocimientos, herramientas y contenidos previos; si no se necesitan, dilo.")
     activity_kind = models.CharField("qué hará el alumno", max_length=12, blank=True, choices=(("understand", "Comprender"), ("design", "Diseñar"), ("execute", "Realizar una práctica")))
@@ -152,6 +167,7 @@ class EducationalUnit(models.Model):
 
 
 class Lesson(Publication, EducationalUnit):
+    """Editable lesson draft with text, access type and attachments."""
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name="lessons", verbose_name="capítulo")
     position = models.PositiveIntegerField("orden", default=1)
     access_type = models.CharField("acceso", max_length=8, choices=AccessType, default=AccessType.FREE)
@@ -166,6 +182,7 @@ class Lesson(Publication, EducationalUnit):
 
 
 class StandaloneResource(Publication, EducationalUnit):
+    """Abstract base for videos and materials published on their own."""
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name="creador")
     access_type = models.CharField("acceso", max_length=8, choices=AccessType, default=AccessType.FREE)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="tema")
@@ -185,6 +202,7 @@ class StandaloneResource(Publication, EducationalUnit):
 
 
 class Video(StandaloneResource):
+    """Video resource: an MP4 upload or an external YouTube link."""
     # Un video externo se reproduce con el reproductor de privacidad mejorada de YouTube,
     # conserva el crédito de su autor y no se vende.
     video_url = models.URLField("video de YouTube", max_length=200, blank=True, validators=[URLValidator(schemes=["https"])],
@@ -198,6 +216,7 @@ class Video(StandaloneResource):
 
 
 class Material(StandaloneResource):
+    """Downloadable document resource."""
     class Meta(StandaloneResource.Meta):
         abstract = False
         verbose_name = "material"
@@ -205,6 +224,7 @@ class Material(StandaloneResource):
 
 
 class ExternalReference(Publication):
+    """Link to an external source shown in the resources catalog."""
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="tema")
     source_name = models.CharField("fuente", max_length=160)
     source_url = models.URLField("enlace a la fuente", max_length=500, validators=[URLValidator(schemes=["http", "https"])])
@@ -216,6 +236,7 @@ class ExternalReference(Publication):
 
 
 class ResourceVersion(FrozenRecord, EducationalUnit):
+    """Frozen revision of a lesson text, video or material; this is what is sold."""
     resource_key = models.UUIDField(default=uuid.uuid4)
     number = models.PositiveIntegerField(default=1)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -255,6 +276,7 @@ class ResourceVersion(FrozenRecord, EducationalUnit):
 
 
 class CourseVersion(FrozenRecord):
+    """Frozen, sealed copy of a course as it was published."""
     course = models.ForeignKey(Course, on_delete=models.PROTECT, related_name="versions")
     number = models.PositiveIntegerField()
     title = models.CharField(max_length=200)
@@ -284,6 +306,7 @@ class CourseVersion(FrozenRecord):
 
 
 class VersionChapter(FrozenRecord):
+    """Chapter of a course version."""
     version = models.ForeignKey(CourseVersion, on_delete=models.PROTECT, related_name="chapters")
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
@@ -299,6 +322,7 @@ class VersionChapter(FrozenRecord):
 
 
 class VersionLesson(FrozenRecord):
+    """Lesson of a course version, pointing to its frozen text revision."""
     chapter = models.ForeignKey(VersionChapter, on_delete=models.PROTECT, related_name="lessons")
     source_lesson_id = models.PositiveBigIntegerField()
     position = models.PositiveIntegerField()
@@ -315,6 +339,7 @@ class VersionLesson(FrozenRecord):
 
 
 class LessonResource(models.Model):
+    """Resource revision attached to a lesson draft."""
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="attachments")
     resource = models.ForeignKey(ResourceVersion, on_delete=models.PROTECT, verbose_name="revisión de recurso")
     position = models.PositiveIntegerField(default=1)
@@ -329,6 +354,7 @@ class LessonResource(models.Model):
 
 
 class VersionAttachment(FrozenRecord):
+    """Resource revision attached to a published lesson."""
     lesson = models.ForeignKey(VersionLesson, on_delete=models.PROTECT, related_name="attachments")
     resource = models.ForeignKey(ResourceVersion, on_delete=models.PROTECT, related_name="+")
     position = models.PositiveIntegerField()

@@ -1,3 +1,4 @@
+"""PDF rendering of certificates."""
 from io import BytesIO
 from xml.sax.saxutils import escape
 
@@ -10,6 +11,7 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 
 
 def render_certificate(certificate):
+    """Return the certificate as PDF bytes."""
     output = BytesIO()
     page = landscape(A4)
     document = SimpleDocTemplate(output, pagesize=page, leftMargin=25 * mm, rightMargin=25 * mm,

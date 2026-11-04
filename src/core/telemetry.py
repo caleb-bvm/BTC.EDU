@@ -1,3 +1,4 @@
+"""Record product activity for analytics without tracking identifiers."""
 import logging
 from hashlib import sha256
 from uuid import uuid4
@@ -10,17 +11,20 @@ logger = logging.getLogger(__name__)
 
 
 def session_id(request):
+    """Random activity id stored in the session."""
     if "activity_session" not in request.session:
         request.session["activity_session"] = str(uuid4())
     return request.session["activity_session"]
 
 
 def audience(request):
+    """Only visitors and students are measured; creators and staff are excluded."""
     user = request.user
     return not user.is_authenticated or (user.is_active and user.account_type == "student" and not user.is_staff)
 
 
 def record_activity(request, kind, **fields):
+    """Store an activity event for GET requests; failures never block the page."""
     if not audience(request) or request.method != "GET":
         return
     try:
@@ -31,6 +35,7 @@ def record_activity(request, kind, **fields):
 
 
 def offer_views(request, offers):
+    """Record that offers were shown."""
     for offer in offers:
         record_activity(request, "offer_viewed", offer=offer, creator_id=offer.creator_id, version_id=offer.course_version_id)
 
@@ -53,6 +58,7 @@ def record_commerce_action(request, kind, object_key, offer=None, invoice=None):
 
 
 def content_opened(request, resource, version=None):
+    """Record that a resource or lesson was opened."""
     from content.access import owns_revision
     if owns_revision(request.user, resource.pk):
         kind = "purchased_content_opened"

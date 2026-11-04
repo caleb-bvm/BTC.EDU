@@ -1,3 +1,4 @@
+/* Offline saved lessons: register the service worker and add or remove pages from the per-account saved cache. */
 "use strict";
 
 (() => {

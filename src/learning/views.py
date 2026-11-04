@@ -1,3 +1,4 @@
+"""Enrollment, library, progress updates and purchased resources."""
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
@@ -122,6 +123,7 @@ def library(request):
 
 
 def lesson_learning_context(user, version, record):
+    """Enrollment, progress and navigation data for a lesson page."""
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return {}
     enrollment = Enrollment.objects.filter(student=user, version=version).first()

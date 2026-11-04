@@ -1,3 +1,4 @@
+"""Saved courses, resources and references for students."""
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.validators import URLValidator
 from django.db import transaction
@@ -37,6 +38,7 @@ def course_target(user, version):
 
 @transaction.atomic
 def save_item(actor, kind, pk, action):
+    """Save or remove an item from the student's saved list."""
     require_student(actor)
     User.objects.filter(pk=actor.pk).update(profile_public=F("profile_public"))
     actor.refresh_from_db()

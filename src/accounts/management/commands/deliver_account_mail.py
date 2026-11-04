@@ -1,3 +1,4 @@
+"""Deliver pending account mail; --watch keeps retrying until stopped."""
 import time
 from datetime import timedelta
 

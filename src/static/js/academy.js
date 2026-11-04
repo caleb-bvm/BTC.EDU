@@ -1,3 +1,4 @@
+/* Catalog and reader navigation: filter bar, topic choices scoped to the category, mobile menu with focus trap, catalog tabs and silent payment polling. */
 (() => {
   let catalogFocus = null;
   let catalogRefinementsOpen = false;

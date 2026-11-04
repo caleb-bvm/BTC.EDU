@@ -1,3 +1,4 @@
+"""Cart, checkout review and order reservation views. Prices always come from a server quote."""
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -33,11 +34,13 @@ from .services import ensure_emitted, require_student
 
 
 def _role(request):
+    """Only students and visitors may use the cart."""
     if request.user.is_authenticated:
         require_student(request.user)
 
 
 def _quote(request, cart, coupon_code=""):
+    """Server quote for the cart; only a logged-in student's quote is signed for checkout."""
     from .orders import quote_order, quote_selection
     if cart is None:
         quote = quote_selection(request.user, [])
@@ -51,6 +54,7 @@ def _quote(request, cart, coupon_code=""):
 
 
 def _context(request, cart, coupon_code=""):
+    """Template context for the cart page."""
     pending = pending_guest_cart(request)
     return {"selection": _quote(request, cart, coupon_code), "cart": cart, "undo": undo_selection(request, cart),
             "pending_items": ordered_items(pending) if pending else [], "capacity": MAX_ITEMS,
@@ -65,6 +69,7 @@ def cart_detail(request):
 
 
 def _changed_response(request, message, status=200):
+    """JSON for the cart script, or a redirect with a message for plain forms."""
     destination = student_destination(request, request.POST.get("next", "")) or reverse("cart")
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
         return JsonResponse({"ok": status < 400, "message": message, "redirect": destination,
@@ -169,6 +174,7 @@ def cart_merge(request):
 
 
 def _verified(request, destination):
+    """Redirect to email verification when buying requires a verified address."""
     if settings.ACCOUNT_REQUIRE_VERIFIED_EMAIL and not request.user.email_verified_at:
         request.session["account_verify_destination"] = destination
         messages.info(request, "Confirma tu correo antes de comprar para conservar una vía de recuperación.")
@@ -177,6 +183,10 @@ def _verified(request, destination):
 
 
 def _payment(invoice):
+    """Ask the provider for the payment request.
+
+    Returns (invoice, message) and keeps the invoice on failure.
+    """
     try:
         ensure_emitted(invoice)
     except ProviderUnavailable:

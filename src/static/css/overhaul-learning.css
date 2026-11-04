@@ -133,7 +133,6 @@
 .certificate-data-download{margin-bottom:24px}
 .certificate-detail .commerce-panel a{overflow-wrap:anywhere}
 .credential-verification.commerce-panel{padding:0;margin-top:24px}
-.assessment-scoring-detail{margin-top:22px}
 .assessment-success h2{font-size:22px}
 @media(max-width:1200px){.learning-workspace .resume-feature{grid-template-columns:115px minmax(0,1fr);gap:18px}.learning-workspace .resume-action{grid-column:2;justify-self:start;align-self:center;min-width:190px}.learning-workspace .resume-art{grid-row:1/3}.learning-workspace .resume-copy .resume-next{margin-bottom:14px}}
 @media(max-width:980px){.course-experience>.course-preparation{grid-template-columns:1fr 1fr}}

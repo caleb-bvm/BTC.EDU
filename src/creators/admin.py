@@ -1,3 +1,4 @@
+"""Administration of creator applications and content submissions."""
 from django import forms
 from django.conf import settings
 from django.contrib import admin, messages

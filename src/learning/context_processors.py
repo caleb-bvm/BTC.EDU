@@ -1,3 +1,4 @@
+"""Unread notification count for every template."""
 from .models import Notification
 
 

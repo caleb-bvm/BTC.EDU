@@ -1,3 +1,4 @@
+"""Submit content to review and record the reviewer's decision."""
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
@@ -11,12 +12,14 @@ from .models import CreatorProfile, Submission
 
 
 def require_creator(actor):
+    """Only active, approved creator accounts may use the studio."""
     if not actor.is_authenticated or not actor.is_active or actor.account_type != "creator" or not CreatorProfile.objects.filter(user=actor, status=CreatorProfile.Status.APPROVED).exists():
         raise PermissionDenied("Necesitas la aprobación como creador.")
 
 
 @transaction.atomic
 def submit(item, actor):
+    """Freeze the item and open a submission for review."""
     require_creator(actor)
     if item.creator_id != actor.pk:
         raise PermissionDenied
@@ -36,12 +39,17 @@ def submit(item, actor):
 
 
 def require_reviewer(actor):
+    """Only active staff may review submissions."""
     if not actor.is_authenticated or not actor.is_active or not actor.is_staff or not actor.has_perm("creators.change_submission"):
         raise PermissionDenied
 
 
 @transaction.atomic
 def decide(submission, actor, approve, feedback=""):
+    """Approve (publish the frozen copy) or reject a pending submission.
+
+    A rejection needs feedback.
+    """
     require_reviewer(actor)
     Submission.objects.filter(pk=submission.pk).update(status=F("status"))
     # Never overwrite a previous decision: the writer lock is reserved above by

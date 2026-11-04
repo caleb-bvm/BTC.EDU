@@ -1,3 +1,8 @@
+"""Invoice lifecycle: reserve, emit with LNbits, settle and reconcile.
+
+Database transactions never wrap a provider request; every provider call happens between atomic
+steps so a lost response can be recovered instead of duplicated.
+"""
 import secrets
 from datetime import timedelta
 
@@ -22,22 +27,30 @@ from .models import (
 
 
 def require_student(actor):
+    """Reject anyone who is not an active student account."""
     if not actor.is_authenticated or not actor.is_active or actor.account_type != "student":
         raise PermissionDenied("Entra con tu cuenta de estudiante.")
 
 
 def reserve_writer(buyer_id):
+    """Take the SQLite write lock for this buyer before any business read."""
     # First statement inside atomic is a write. SQLite serializes competing writers
     # before any business read; select_for_update would not lock SQLite rows.
     get_user_model().objects.filter(pk=buyer_id).update(email=F("email"))
 
 
 def event(invoice, kind, message):
+    """Record one commerce event per invoice and kind; repeated calls are no-ops."""
     CommerceEvent.objects.get_or_create(invoice=invoice, kind=kind, defaults={"message": message})
 
 
 @transaction.atomic
 def reserve_invoice(actor, offer_id, activity_session=None, return_lesson_id=None):
+    """Reserve a 15-minute invoice for a single offer, or return the buyer's pending one.
+
+    Expires stale invoices, refuses unavailable, owned or already reserved content, and freezes the
+    offer inventory so later edits never change what is being paid for.
+    """
     require_student(actor)
     reserve_writer(actor.pk)
     actor.refresh_from_db()
@@ -75,6 +88,10 @@ def reserve_invoice(actor, offer_id, activity_session=None, return_lesson_id=Non
 
 @transaction.atomic
 def claim_emission(invoice_id):
+    """Atomically mark a fresh invoice as requested; returns (invoice, claimed).
+
+    Only the caller that claims it may ask the provider for a new payment request.
+    """
     Invoice.objects.filter(pk=invoice_id).update(issue_state=F("issue_state"))
     invoice = Invoice.objects.get(pk=invoice_id)
     if invoice.status != "pending" or invoice.expires_at <= timezone.now() or invoice.issue_state != "new":
@@ -85,6 +102,11 @@ def claim_emission(invoice_id):
 
 
 def ensure_emitted(invoice, gateway=None):
+    """Make sure the invoice has a provider payment request.
+
+    A new invoice is created once; if the outcome was lost, the original emission is recovered by
+    external id instead of creating another one.
+    """
     own_gateway = gateway is None
     gateway = gateway or LNbitsGateway()
     try:
@@ -111,6 +133,12 @@ def ensure_emitted(invoice, gateway=None):
 
 @transaction.atomic
 def settle(invoice_id, provider_status, observed_at=None):
+    """Apply a provider status to an invoice exactly once.
+
+    Compares hash, amount, deadline, order snapshot and prior ownership. On success it creates the
+    purchase, entitlements and enrollments (or a gift) in one transaction; any mismatch is stored as
+    evidence for administrative reconciliation and grants nothing.
+    """
     # Never hold a database transaction while making a provider request.
     now = observed_at or timezone.now()
     Invoice.objects.filter(pk=invoice_id).update(last_checked_at=now)
@@ -137,6 +165,7 @@ def settle(invoice_id, provider_status, observed_at=None):
     except (KeyError, TypeError):
         paid_ids, snapshot_valid = set(), False
     gift = bool(invoice.order_id and invoice.order.gift)
+    # The first failing check names the incident; only "accepted" grants anything.
     reason = ("amount_mismatch" if provider_status.amount_msat != invoice.amount_sats * 1000
               else ("payment_time_unknown" if invoice.order_id else "late_payment") if invoice.expires_at <= now or invoice.status == "expired"
               else "closed_invoice" if invoice.status != "pending"
@@ -182,6 +211,7 @@ def settle(invoice_id, provider_status, observed_at=None):
 
 
 def reconcile(invoice, gateway=None):
+    """Expire if due, then ask the provider for the current status and settle it."""
     expire_invoice(invoice.pk)
     own_gateway = gateway is None
     gateway = gateway or LNbitsGateway()
@@ -200,6 +230,7 @@ def reconcile(invoice, gateway=None):
 
 @transaction.atomic
 def expire_invoice(invoice_id):
+    """Mark a pending invoice as expired once its deadline passed."""
     changed = Invoice.objects.filter(pk=invoice_id, status="pending", expires_at__lte=timezone.now()).update(status="expired")
     if changed:
         invoice = Invoice.objects.get(pk=invoice_id)
@@ -207,6 +238,10 @@ def expire_invoice(invoice_id):
 
 
 def simulate_payment(actor, invoice, gateway=None):
+    """Pay an invoice from the FakeWallet payer.
+
+    Checks the status first so a retry never pays twice.
+    """
     require_student(actor)
     invoice.refresh_from_db()
     if invoice.buyer_id != actor.pk:

@@ -1,9 +1,11 @@
+"""URL patterns for the account settings pages."""
 from django.urls import path
 
 from . import account_views as views
 
 
 def settings_patterns(creator=False):
+    """Settings routes for the student space or, with creator=True, the creator space."""
     prefix, name = ("cuenta/", "creator") if creator else ("ajustes/", "student")
     options = {"creator": creator}
     return [

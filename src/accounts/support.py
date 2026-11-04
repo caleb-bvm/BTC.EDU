@@ -1,3 +1,4 @@
+"""Administrative review of account support requests."""
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
@@ -9,6 +10,7 @@ from .models import AccountSupportRequest, SupportEvent
 
 @transaction.atomic
 def review_support(item, actor, status, response):
+    """Update a support request status and response, recording the change in its history."""
     if not actor.is_active or not actor.is_staff or not actor.has_perm("accounts.change_accountsupportrequest"):
         raise PermissionDenied
     AccountSupportRequest.objects.filter(pk=item.pk).update(status=F("status"))

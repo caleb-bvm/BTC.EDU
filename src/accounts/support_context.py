@@ -13,7 +13,7 @@ def verified_support_context(user, values):
     resource_id = values.get("recurso", "").strip()
     if not invoice_id and not resource_id:
         return None
-    if not user.is_authenticated or not user.is_active or user.account_type != "student" or invoice_id and resource_id:
+    if not user.is_authenticated or not user.is_active or user.account_type != "student" or (invoice_id and resource_id):
         raise Http404
     if invoice_id:
         try:

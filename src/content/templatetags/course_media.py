@@ -1,3 +1,4 @@
+"""Template tags that pick cover images for courses, tutorials and resources."""
 from django import template
 from django.templatetags.static import static
 
@@ -22,6 +23,7 @@ ILLUSTRATIONS = {
 
 @register.simple_tag
 def content_cover(topic_slug="", kind="", resource=None):
+    """Static path of the cover image for a topic, kind or resource."""
     if resource or kind in ("video", "material", "videos", "materiales"):
         filename = "cover-stack.svg"
     elif topic_slug in PHOTOS:
@@ -39,4 +41,5 @@ def content_cover(topic_slug="", kind="", resource=None):
 
 @register.simple_tag
 def course_photo(topic_slug=""):
+    """Photo metadata for a topic, or None."""
     return PHOTOS.get(topic_slug)

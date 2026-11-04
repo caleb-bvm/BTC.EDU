@@ -1,9 +1,11 @@
+"""System checks for the account mail configuration."""
 from django.conf import settings
 from django.core.checks import Tags, Warning, register
 
 
 @register(Tags.security, deploy=True)
 def account_delivery_configuration(app_configs, **kwargs):
+    """Warn when account mail uses a local backend or an unverified SMTP sender."""
     issues = []
     if settings.EMAIL_BACKEND != "django.core.mail.backends.smtp.EmailBackend":
         issues.append(Warning("El correo de cuenta utiliza un backend local; no confirma entrega a un buzón real.", id="accounts.W001"))

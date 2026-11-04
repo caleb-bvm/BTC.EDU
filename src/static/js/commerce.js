@@ -1,3 +1,4 @@
+/* Payment forms: disable every submit button (including the phone total bar) while the request is sent. */
 "use strict";
 
 const paymentForms = document.querySelectorAll("[data-payment-form]");

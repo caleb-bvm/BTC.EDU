@@ -1,3 +1,4 @@
+"""Analytics panels for creators and administrators."""
 from datetime import timedelta
 
 from django.contrib import admin
@@ -14,6 +15,7 @@ from .analytics import PeriodForm, dashboard_data
 
 
 def panel(request, creator=None):
+    """Render the analytics panel for the selected period."""
     today = timezone.localdate()
     form = PeriodForm(request.GET if request.GET else {"start": today - timedelta(days=29), "end": today})
     data = dashboard_data(form.cleaned_data["start"], form.cleaned_data["end"], creator) if form.is_valid() else None

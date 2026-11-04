@@ -1,3 +1,4 @@
+"""Practice editor, delivery and review forms."""
 from django import forms
 
 from .models import PracticeReview

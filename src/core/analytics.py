@@ -1,3 +1,4 @@
+"""Aggregated funnel metrics for administrators and creators."""
 from datetime import datetime, time, timedelta
 
 from django import forms
@@ -18,6 +19,7 @@ from .models import ActivityEvent
 
 
 class PeriodForm(forms.Form):
+    """Date range for the analytics panels."""
     start = forms.DateField(label="Desde", widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
     end = forms.DateField(label="Hasta", widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
 
@@ -29,10 +31,15 @@ class PeriodForm(forms.Form):
 
 
 def ratio(numerator, denominator):
+    """Numerator, denominator and percentage; the percentage is None without a denominator."""
     return {"numerator": numerator, "denominator": denominator, "percent": round(100 * numerator / denominator, 1) if denominator else None}
 
 
 def dashboard_data(start, end, creator=None):
+    """Funnel metrics for a period.
+
+    Activity, invoices, purchases and enrollments, optionally limited to one creator.
+    """
     tz = timezone.get_current_timezone()
     lower = timezone.make_aware(datetime.combine(start, time.min), tz)
     upper = timezone.make_aware(datetime.combine(end + timedelta(days=1), time.min), tz)

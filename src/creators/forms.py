@@ -1,3 +1,4 @@
+"""Studio forms for courses, chapters, lessons, resources, uploads and review decisions."""
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Q
@@ -18,12 +19,14 @@ from .models import CreatorProfile
 
 
 def education_widgets(form):
+    """Use text areas for the educational description fields."""
     for field in EDUCATION_FIELDS:
         if field != "activity_kind":
             form.fields[field].widget = forms.Textarea(attrs={"rows": 3})
 
 
 def group_topic_choices(form):
+    """Group the topic choices by category."""
     field = form.fields["topic"]
     field.label = "Subcategoría"
     field.queryset = Topic.objects.select_related("category").order_by("category__name", "name", "pk")

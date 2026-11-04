@@ -1,3 +1,4 @@
+"""Practice editor, student deliveries, educator inbox and reviews."""
 import uuid
 
 from django.contrib import messages
@@ -159,7 +160,7 @@ def attachment(request, pk):
     try:
         file = delivery.attachment.open("rb")
     except (OSError, ValueError):
-        raise Http404("El archivo no está disponible.")
+        raise Http404("El archivo no está disponible.") from None
     response = FileResponse(file, as_attachment=True, filename=delivery.attachment_name, content_type="application/octet-stream")
     response["X-Content-Type-Options"] = "nosniff"
     response["Content-Security-Policy"] = "sandbox; default-src 'none'"

@@ -1,3 +1,4 @@
+"""Learning routes: library, progress, quizzes, practices, certificates, community and paths."""
 from django.urls import path
 
 from . import (

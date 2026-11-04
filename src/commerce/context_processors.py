@@ -1,3 +1,4 @@
+"""Cart badge count for every template."""
 from .cart import cart_summary
 
 

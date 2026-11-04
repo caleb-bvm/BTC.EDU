@@ -1,3 +1,7 @@
+"""Commercial view of the catalog.
+
+What is publicly sellable, what a student owns, and which offers unlock a given lesson or version.
+"""
 from django.db.models import F, Q
 
 from content.models import (
@@ -14,10 +18,12 @@ from .models import Entitlement, Offer
 
 
 def public_version(version):
+    """True for the sealed, published, current version of a published course."""
     return version.sealed and bool(version.published_at) and version.course.status == "published" and version.course.current_version_id == version.pk
 
 
 def public_resource(resource):
+    """True when a revision is live on its own or inside the current course version."""
     return (Video.objects.filter(revision=resource, status="published").exists()
             or Material.objects.filter(revision=resource, status="published").exists()
             or VersionAttachment.objects.filter(resource=resource, lesson__chapter__version__sealed=True,
@@ -26,6 +32,10 @@ def public_resource(resource):
 
 
 def available(offer):
+    """True when an offer can be sold.
+
+    It must be active, its creator approved and active, and its target public.
+    """
     if offer.status != Offer.Status.ACTIVE or not offer.creator.is_active:
         return False
     from creators.models import CreatorProfile
@@ -35,6 +45,10 @@ def available(offer):
 
 
 def target_choices(actor, course=None, resource=None):
+    """Published targets a creator can put on sale.
+
+    Whole course, chapters, paid lessons and paid files.
+    """
     if resource is not None:
         revision = resource.revision
         if resource.creator_id != actor.pk or not revision or revision.access_type != "paid" or not public_resource(revision):
@@ -69,6 +83,7 @@ def target_choices(actor, course=None, resource=None):
 
 
 def target_inventory(kind, pk, actor):
+    """Resolve an offer target into its model fields and the resource revisions it sells."""
     from django.core.exceptions import PermissionDenied, ValidationError
     models = {"course": CourseVersion, "chapter": VersionChapter, "lesson": VersionLesson, "resource": ResourceVersion}
     if kind not in models:
@@ -100,34 +115,40 @@ def target_inventory(kind, pk, actor):
 
 
 def owned_ids(user, resource_ids):
+    """Resource ids from the given set that the student holds an active entitlement for."""
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return set()
     return set(Entitlement.objects.active().filter(buyer=user, resource_id__in=resource_ids).values_list("resource_id", flat=True))
 
 
 def ownership(user, offer):
+    """'owned', 'partial' or 'none' for the paid items of an offer."""
     paid = set(offer.items.filter(resource__access_type="paid").values_list("resource_id", flat=True))
     owned = owned_ids(user, paid)
     return "owned" if paid and owned == paid else "partial" if owned else "none"
 
 
 def individual_offers(resource_ids):
+    """Active single-lesson or single-resource offers that include any of the given resources."""
     return Offer.objects.filter(status="active").filter(Q(kind="lesson", lesson__content_id__in=resource_ids) | Q(kind="resource", resource_id__in=resource_ids)).select_related("creator", "course_version__course", "resource", "lesson__content")
 
 
 def missing_alternatives(user, offer):
+    """Available individual offers that cover what the student still lacks from an offer."""
     paid = set(offer.items.filter(resource__access_type="paid").values_list("resource_id", flat=True))
     missing = paid - owned_ids(user, paid)
     return [alternative for alternative in individual_offers(missing) if available(alternative)]
 
 
 def version_owned(user, version):
+    """True when the student owns any lesson text or attachment of the version."""
     if not user.is_authenticated or not user.is_active or user.account_type != "student":
         return False
     return Entitlement.objects.active().filter(buyer=user).filter(Q(resource__in=ResourceVersion.objects.filter(pk__in=VersionLesson.objects.filter(chapter__version=version).values("content_id"))) | Q(resource__in=ResourceVersion.objects.filter(pk__in=VersionAttachment.objects.filter(lesson__chapter__version=version).values("resource_id")))).exists()
 
 
 def version_offers(version):
+    """Available offers for a course version."""
     offers = Offer.objects.filter(course_version=version, status="active").select_related("creator", "course_version__course").prefetch_related("items__resource")
     return [offer for offer in offers if available(offer)]
 

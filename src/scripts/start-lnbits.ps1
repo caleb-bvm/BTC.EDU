@@ -1,3 +1,4 @@
+# Inicia LNbits con FakeWallet en http://127.0.0.1:5000/.
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
 $lnbitsRoot = Join-Path $projectRoot '.local/lnbits'
@@ -5,7 +6,7 @@ $uvPath = Join-Path $projectRoot '.local/tools/uv.exe'
 $env:UV_CACHE_DIR = Join-Path $projectRoot '.local/uv-cache'
 $env:UV_PYTHON_INSTALL_DIR = Join-Path $projectRoot '.local/python'
 $env:PYTHONUTF8 = '1'
-if (-not (Test-Path $uvPath)) { throw 'Falta uv local. Consulta docs/lnbits-local.md.' }
+if (-not (Test-Path $uvPath)) { throw 'Falta uv local. Ejecuta primero scripts/setup-lnbits.ps1.' }
 Push-Location $lnbitsRoot
 try {
     # El lanzador oficial exige uvloop, que no funciona en Windows.
