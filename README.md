@@ -11,22 +11,7 @@ Plataforma educativa con micropagos Lightning: cursos, lecciones, tutoriales y r
 [![Lightning](https://img.shields.io/badge/Lightning-Network-792EE5?logo=lightning&logoColor=white)](https://lightning.network/)
 [![LNbits](https://img.shields.io/badge/LNbits-1.6.2-FF1EE6)](https://lnbits.com/)
 [![Polar](https://img.shields.io/badge/Polar-regtest-F7931A?logo=bitcoin&logoColor=white)](https://lightningpolar.com/)
-[![ZEUS](https://img.shields.io/badge/ZEUS-wallet-0B0B0B)](https://zeusln.com/)
-<br>
-[![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
-[![Ruff](https://img.shields.io/badge/lint-Ruff-D7FF64?logo=ruff&logoColor=black)](https://docs.astral.sh/ruff/)
-[![uv](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=white)](https://docs.astral.sh/uv/)
-[![Pruebas](https://img.shields.io/badge/pruebas-597-2EA44F)](src/README.md#comprobaciones)
-[![Idiomas](https://img.shields.io/badge/idiomas-ES%20%7C%20EN-FF6A00)](src/README.md#lógica-principal)
 [![CUBO+](https://img.shields.io/badge/CUBO%2B-El%20Salvador-0047AB)](docs/)
-
-🇸🇻 [Español](#qué-es) · 🇺🇸 [English](#in-english)
-
-<img src="src/docs/evidence/compra-zeus-regtest-2026-11-03.webp" alt="Compra confirmada en BTC.EDU después de pagar desde ZEUS" width="820">
-
-<sub>Curso de 3 600 sats pagado desde ZEUS en un teléfono, a través de Polar y LNbits en regtest.</sub>
-
 </div>
 
 ---
@@ -97,15 +82,3 @@ El script descarga `uv`, Python 3.12, las dependencias y LNbits dentro de `src/.
 | 🗂️ | [Índice de strategy](strategy/README.md) | Requisitos, investigación, producto, arquitectura, catálogo y validación |
 | 🛠️ | [Guía técnica](src/README.md) | Instalación, arquitectura, lógica de compra y comprobaciones |
 | 📓 | [Operación y bitácora](src/docs/operacion-y-bitacora.md) | Operación local, decisiones, pendientes e historial por día |
-
-## Estado y límites
-
-Funciona en local con LNbits sobre FakeWallet o sobre una red regtest de Polar: **no mueve fondos reales**. No tiene todavía despliegue público con HTTPS, correo con entrega comprobada ni liquidación automática a educadores. La propuesta, los precios y la utilidad educativa aún no se han validado con participantes; las pruebas técnicas no equivalen a esa validación.
-
----
-
-## In English
-
-**BTC.EDU** is a learning platform with Lightning micropayments. Educators publish courses, lessons, tutorials and resources priced in sats; students pay a Lightning invoice for a single lesson, a full course or a bundle, and the server grants permanent access once the payment is confirmed. It includes progress tracking, assessments, certificates with SHA-256 fingerprints, community threads, memberships, coupons, gifts, tips and refunds, with the interface in Spanish and English (`/en/`).
-
-Built with Django 5.2 and LNbits, tested locally against FakeWallet and a Polar regtest network paid from ZEUS. No real funds are moved. Created for the *Micropayments for Content* challenge at CUBO+, El Salvador. Run `./dev.ps1` from the repository root and see the [technical guide](src/README.md) for details; the project documentation is in Spanish.
