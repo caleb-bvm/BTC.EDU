@@ -554,6 +554,69 @@ La investigación muestra alternativas comparables y costos que debemos consider
 
 Mantendremos las conclusiones comerciales como provisionales hasta reunir esa evidencia.
 
+<a id="manual-de-uso"></a>
+
+## Manual de uso
+
+Esta guía describe los recorridos de la versión actual. La plataforma funciona en `http://127.0.0.1:8000/` y la administración en `/admin/`; la instalación está en el [README técnico](../src/README.md). Los pagos usan FakeWallet o una red regtest, sin fondos reales.
+
+### Estudiantes
+
+**Crear la cuenta.** En Entrar, elige Crear cuenta de estudiante. Confirma el correo con el enlace que recibes; algunas opciones, como el perfil público, lo requieren. La cuenta de estudiante es independiente de una cuenta de educador, aunque uses el mismo correo.
+
+**Encontrar contenido.** El menú reúne Cursos, Tutoriales, Recursos y Rutas. Cursos se organiza por categorías; Tutoriales muestra la duración y los pasos; Recursos se ordena por formato: videos, materiales y enlaces. La ficha de cada curso indica qué lecciones son gratuitas, cuáles son de pago y si el curso está incluido en la membresía. Con Empezar gratis abres las lecciones gratuitas sin pagar.
+
+**Comprar.**
+
+1. En una oferta, elige Comprar ahora para una sola unidad o Añadir al carrito para reunir varias.
+2. En el carrito revisa el total. Si tienes un cupón, escríbelo y pulsa Aplicar.
+3. Pulsa Preparar pago. A partir de ese momento la factura tiene 15 minutos para pagarse.
+4. Escanea el QR con tu wallet o pulsa Copiar factura y pégala en ella. Con FakeWallet, el botón Pagar completa el pago de prueba.
+5. La página detecta el pago y abre el contenido. Si ya pagaste y sigue pendiente, pulsa Actualizar estado del pago antes de volver a pagar.
+
+Si compraste antes una parte de un curso, el precio del curso completo descuenta lo que ya tienes. Una ruta puede comprarse como paquete con descuento. Regalar genera un enlace que la otra persona canjea en su cuenta.
+
+**Aprender.** Mi aprendizaje muestra tus cursos y el siguiente paso de cada uno. Al terminar una lección, pulsa Marcar lección completada. Si la lección tiene una evaluación obligatoria, apruébala con Entregar intento; la corrección se hace en el servidor y el número de intentos puede estar limitado. Las prácticas se envían con Revisar y entregar, como texto, enlace o archivo, y el educador las aprueba o pide cambios. Con Enviar pregunta consultas al educador en privado; los comentarios de la lección son visibles para los demás inscritos.
+
+**Certificados.** Cuando cumplas los requisitos del curso, confirma tu nombre y pulsa Emitir certificado. Puedes descargar el PDF y activar la verificación pública para compartirla. Comprobar huella compara los datos del certificado con su huella SHA-256.
+
+**Membresía.** En Membresía pagas 5 000 sats por 30 días de acceso a las lecciones de pago de los cursos incluidos. No se renueva sola: al vencer, pagas otro periodo si quieres continuar. Conservas tus compras, tu avance y tus certificados.
+
+**Compras y reembolsos.** Compras → Historial de compras reúne tus facturas. Durante siete días puedes pedir un reembolso con Solicitar reembolso, si no emitiste un certificado con ese contenido. Administración revisa la solicitud y, si la aprueba, te paga a una factura que tú generas por el importe exacto. Compras → Propinas registra los aportes que enviaste a educadores.
+
+**Sin conexión.** Guardar sin conexión conserva una lección en el navegador de tu cuenta. Se borra al cerrar sesión.
+
+### Educadores
+
+**Solicitar acceso.** Elige Crear cuenta de educador y completa tu perfil. Administración revisa la solicitud; hasta que la apruebe no puedes crear ni publicar contenido.
+
+**Crear contenido.** En Contenido → Crear contenido eliges un curso, un video o un material. En el editor del curso organizas capítulos y lecciones, marcas qué lecciones son gratuitas y añades evaluaciones y prácticas. Guardar borrador conserva el trabajo sin publicarlo. Los archivos admitidos son MP4, PDF, TXT y WebVTT.
+
+**Publicar.** Enviar a revisión congela una copia. Si necesitas corregirla antes de la decisión, usa Retirar envío para corregir. Cuando administración aprueba, esa copia se publica como una versión. Los cambios posteriores generan otra versión y no alteran lo que tus estudiantes compraron.
+
+**Vender.** En Ventas → Ofertas y precios, Preparar oferta fija el precio en sats de un curso, capítulo, lección o material; administración aprueba la oferta antes de que aparezca. En Cupones creas descuentos con límite de usos. Actividad muestra tus ventas y Propinas los aportes recibidos. La plataforma todavía no liquida ingresos a los educadores.
+
+**Rutas.** En Contenido → Rutas eliges tus cursos publicados, los ordenas, marcas los opcionales y defines el descuento del paquete.
+
+**Atender a los estudiantes.** En Alumnos → Preguntas respondes las consultas privadas. Evaluaciones muestra los resultados y permite conceder intentos adicionales con un motivo. Entregas ordena las prácticas por antigüedad: marcas los criterios cumplidos, escribes la retroalimentación y apruebas o pides cambios. Pausar recepción detiene nuevas entregas mientras atiendes la cola. En Comunidad moderas las conversaciones de tus cursos.
+
+### Administración
+
+La administración usa el panel de Django en `/admin/`. Algunas secciones conservan su nombre en inglés.
+
+| Tarea | Dónde |
+|---|---|
+| Aprobar o rechazar educadores | Creator profiles: cambia el estado y escribe la retroalimentación |
+| Revisar y publicar contenido | Submissions: Revisar composición y, después, la acción Aprobar y publicar la composición enviada |
+| Aprobar o retirar precios | Offers: Aprobar ofertas revisadas o Retirar ofertas sin eliminar compras |
+| Decidir reembolsos | Refunds: abre la página de decisión y pulsa Registrar decisión |
+| Revisar incidencias de pago | Invoices y Payment evidences: pagos tardíos, importes distintos o pagos duplicados |
+| Moderar la comunidad | Community reports, con Ocultar por moderación y Mostrar de nuevo |
+| Membresía y rutas | Planes de membresía, Rutas de aprendizaje y la casilla Incluido en la membresía de cada curso |
+| Indicadores | `/administracion/estadisticas/` |
+
+La conciliación revisa las facturas pendientes aunque nadie tenga la página abierta. Se inicia desde `src` con `./.venv/Scripts/python.exe manage.py reconcile_payments --watch --interval 30 --limit 100`. Una incidencia de pago nunca concede acceso por sí sola: queda registrada con su evidencia para que administración la resuelva.
+
 ## Referencias
 
 Las fuentes externas se enlazan junto a las afirmaciones que sustentan. Los precios y condiciones de la investigación de costos conservan la consulta del 5 de octubre de 2026; las tarifas de operación y sostenibilidad se consultaron el 3 de noviembre de 2026. Todas deben revisarse antes de contratar. La comparación de posicionamiento se amplió el 13 de octubre de 2026 con documentación oficial de las plataformas, sin compras ni pruebas de sus recorridos. El detalle y las hipótesis están en [posicionamiento y validación](investigacion-y-requisitos.md#posicionamiento-y-validacion).
