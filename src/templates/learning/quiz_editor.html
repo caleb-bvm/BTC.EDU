@@ -1,18 +1,18 @@
 {% extends 'creators/base.html' %}{% load static %}
-{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/assessments.css' %}?v=design-20261024"><script src="{% static 'js/quizzes.js' %}?v=overhaul-20261014" defer></script>{% endblock %}
-{% block title %}Evaluación de {{ lesson.title }} · BTC.EDU{% endblock %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/assessments.css' %}?v=design-20261024"><script src="{% static 'js/quizzes.js' %}?v=i18n-20261103" defer></script>{% endblock %}
+{% block title %}{% blocktranslate with title=lesson.title|tr %}Evaluación de {{ title }} · BTC.EDU{% endblocktranslate %}{% endblock %}
 {% block studio_content %}<section class="assessment-page assessment-editor">
-<a class="assessment-back" href="{% url 'creator-course' lesson.chapter.course_id %}?seccion=evaluaciones">← Volver al curso</a>
-<header class="assessment-heading"><p class="eyebrow">Prepara la evaluación</p><h1>{{ lesson.title }}</h1><p>Configura las reglas y construye las preguntas. Se publicarán con la próxima versión del curso, después de la revisión.</p></header>
+<a class="assessment-back" href="{% url 'creator-course' lesson.chapter.course_id %}?seccion=evaluaciones">{% translate "← Volver al curso" %}</a>
+<header class="assessment-heading"><p class="eyebrow">{% translate "Prepara la evaluación" %}</p><h1>{{ lesson.title|tr }}</h1><p>{% translate "Configura las reglas y construye las preguntas. Se publicarán con la próxima versión del curso, después de la revisión." %}</p></header>
 {% include 'creators/_course_navigation.html' %}
 <form method="post" data-quiz-editor data-dirty-form><input type="hidden" name="account_id" value="{{ user.pk }}">{% csrf_token %}{{ form.revision }}{{ form.revision.errors }}{{ form.non_field_errors }}
-<section class="assessment-panel"><h2>Reglas de la evaluación</h2><div class="assessment-settings">
+<section class="assessment-panel"><h2>{% translate "Reglas de la evaluación" %}</h2><div class="assessment-settings">
 {% for field in form %}{% if not field.is_hidden %}<div class="studio-field {% if field.name == 'title' or field.name == 'enabled' or field.name == 'required' %}assessment-wide{% endif %}">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endif %}{% endfor %}
 </div></section>
-<div class="assessment-section-heading"><h2>Preguntas</h2><span>De 1 a 20 · Todas tienen el mismo peso</span></div>
-<p class="assessment-small">Abre una pregunta para editarla. En selección múltiple, el alumno deberá elegir todas las opciones correctas y ninguna incorrecta. Para quitar una pregunta, marca «Eliminar» y guarda.</p>
+<div class="assessment-section-heading"><h2>{% translate "Preguntas" %}</h2><span>{% translate "De 1 a 20 · Todas tienen el mismo peso" %}</span></div>
+<p class="assessment-small">{% translate "Abre una pregunta para editarla. En selección múltiple, el alumno deberá elegir todas las opciones correctas y ninguna incorrecta. Para quitar una pregunta, marca «Eliminar» y guarda." %}</p>
 {{ questions.management_form }}{{ questions.non_form_errors }}
 <div data-question-list>{% for question in questions %}{% include 'learning/_quiz_editor_question.html' with number=forloop.counter expanded=forloop.first %}{% endfor %}</div>
 <template data-question-template>{% include 'learning/_quiz_editor_question.html' with question=questions.empty_form number='＋' expanded=True %}</template>
-<div class="assessment-editor-actions"><div class="assessment-actions"><button class="btn btn-outline-dark" type="button" data-add-question hidden>＋ Añadir pregunta</button><button class="btn btn-dark" type="submit">Guardar evaluación →</button></div><p class="assessment-small">Guardar conserva el borrador. Vuelve al curso para enviarlo a revisión. Sin JavaScript puedes guardar y añadir otra pregunta al volver.</p><p class="studio-save" role="status">Sin cambios pendientes</p><p role="status" data-question-status></p></div>
+<div class="assessment-editor-actions"><div class="assessment-actions"><button class="btn btn-outline-dark" type="button" data-add-question hidden>{% translate "＋ Añadir pregunta" %}</button><button class="btn btn-dark" type="submit">{% translate "Guardar evaluación →" %}</button></div><p class="assessment-small">{% translate "Guardar conserva el borrador. Vuelve al curso para enviarlo a revisión. Sin JavaScript puedes guardar y añadir otra pregunta al volver." %}</p><p class="studio-save" role="status">{% translate "Sin cambios pendientes" %}</p><p role="status" data-question-status></p></div>
 </form></section>{% endblock %}

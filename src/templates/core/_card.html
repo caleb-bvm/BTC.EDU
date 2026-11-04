@@ -2,29 +2,29 @@
 <article class="academy-card{% if card.learning %} is-enrolled{% if card.learning.total and card.learning.done == card.learning.total %} is-complete{% endif %}{% endif %}">
   <a class="academy-card-cover" href="{{ card.url }}" tabindex="-1" aria-hidden="true">{% include '_content_image.html' with kind=card.category topic_slug=card.item.topic.slug only %}<span class="academy-card-kind">{{ card.kind }}</span></a>
   <div class="academy-card-body">
-    <p class="academy-card-meta">{% if card.item.level %}<span>{{ card.item.get_level_display }}</span>{% endif %}{% if card.summary %}<span>{{ card.summary.lesson_count }} lecciones</span>{% endif %}{% if card.item.estimated_minutes %}<span>~{{ card.item.estimated_minutes }} min</span>{% endif %}{% if not card.item.level and not card.summary and not card.item.estimated_minutes %}<span>{{ card.kind }}</span>{% endif %}</p>
-    <h3><a href="{{ card.url }}">{{ card.item.title }}</a></h3>
-    <p class="academy-card-summary">{{ card.item.description|truncatechars:120|default:'Conoce el contenido y elige tu siguiente paso.' }}</p>
-    <p class="academy-card-author">{% if card.item.creator.has_public_profile %}{% include 'accounts/_avatar.html' with person=card.item.creator avatar_class='account-card-avatar' %}{% endif %}<span>{% if card.category == 'referencias' %}Fuente: {{ card.creator }}{% else %}Por {% include 'creators/_author_link.html' with person=card.item.creator author_name=card.creator %}{% endif %}</span></p>
-    {% if not card.summary and card.category != 'referencias' and not card.item.revision_id %}<p class="academy-card-note">Ficha informativa · {% if card.category == 'videos' %}reproducción{% else %}descarga{% endif %} pendiente</p>{% endif %}
+    <p class="academy-card-meta">{% if card.item.level %}<span>{{ card.item.get_level_display }}</span>{% endif %}{% if card.summary %}<span>{% blocktranslate with lesson_count=card.summary.lesson_count %}{{ lesson_count }} lecciones{% endblocktranslate %}</span>{% endif %}{% if card.item.estimated_minutes %}<span>~{{ card.item.estimated_minutes }} min</span>{% endif %}{% if not card.item.level and not card.summary and not card.item.estimated_minutes %}<span>{{ card.kind }}</span>{% endif %}</p>
+    <h3><a href="{{ card.url }}">{{ card.item.title|tr }}</a></h3>
+    <p class="academy-card-summary">{{ card.item.description|tr|truncatechars:120|default:_('Conoce el contenido y elige tu siguiente paso.') }}</p>
+    <p class="academy-card-author">{% if card.item.creator.has_public_profile %}{% include 'accounts/_avatar.html' with person=card.item.creator avatar_class='account-card-avatar' %}{% endif %}<span>{% if card.category == 'referencias' %}{% blocktranslate with creator=card.creator %}Fuente: {{ creator }}{% endblocktranslate %}{% else %}{% translate "Por" %} {% include 'creators/_author_link.html' with person=card.item.creator author_name=card.creator %}{% endif %}</span></p>
+    {% if not card.summary and card.category != 'referencias' and not card.item.revision_id %}<p class="academy-card-note">{% translate "Ficha informativa ·" %} {% if card.category == 'videos' %}{% translate "reproducción" %}{% else %}{% translate "descarga" %}{% endif %} {% translate "pendiente" %}</p>{% endif %}
     <div class="academy-card-foot">
       {% if card.learning %}
       <div class="academy-card-progress">
-        <p class="academy-card-label">{{ card.learning.done }} de {{ card.learning.total }} completadas</p>
+        <p class="academy-card-label">{% blocktranslate with done=card.learning.done total=card.learning.total %}{{ done }} de {{ total }} completadas{% endblocktranslate %}</p>
         <p class="academy-card-figure"><strong>{{ card.learning.percentage }}</strong><small>%</small></p>
-        <progress value="{{ card.learning.done }}" max="{{ card.learning.total|default:1 }}" aria-label="Progreso de {{ card.item.title }}"></progress>
-        {% if card.price and card.learning.done != card.learning.total %}<p class="academy-card-access">{{ card.price_label|default:'Precio' }} · <strong>{{ card.price }} sats</strong></p>{% endif %}
+        <progress value="{{ card.learning.done }}" max="{{ card.learning.total|default:1 }}" aria-label="{% blocktranslate with title=card.item.title|tr %}Progreso de {{ title }}{% endblocktranslate %}"></progress>
+        {% if card.price and card.learning.done != card.learning.total %}<p class="academy-card-access">{{ card.price_label|default:_('Precio') }} · <strong>{{ card.price }} sats</strong></p>{% endif %}
       </div>
       {% elif card.price %}
       <div class="academy-card-offer">
-        <p class="academy-card-label">{{ card.price_label|default:'Precio' }}</p>
+        <p class="academy-card-label">{{ card.price_label|default:_('Precio') }}</p>
         <p class="academy-card-figure"><strong>{{ card.price }} sats</strong></p>
-        {% if card.membership %}<p class="academy-card-access">Incluido en la membresía</p>{% elif card.access_label != 'Lecciones de pago' and card.access_label != 'De pago' %}<p class="academy-card-access">{{ card.access_label }}</p>{% endif %}
+        {% if card.membership %}<p class="academy-card-access">{% translate "Incluido en la membresía" %}</p>{% elif card.access_label != _('Lecciones de pago') and card.access_label != _('De pago') %}<p class="academy-card-access">{{ card.access_label }}</p>{% endif %}
       </div>
       {% else %}
       <div class="academy-card-offer">
-        <p class="academy-card-label">Acceso</p>
-        {% if card.membership %}<p class="academy-card-figure"><strong>Membresía</strong></p>{% if card.summary.free_count %}<p class="academy-card-access">Con lecciones gratis</p>{% endif %}{% elif card.access_label == 'Gratis' %}<p class="academy-card-figure"><strong>Gratis</strong></p>{% else %}<p class="academy-card-access">{{ card.access_label }}</p>{% endif %}
+        <p class="academy-card-label">{% translate "Acceso" %}</p>
+        {% if card.membership %}<p class="academy-card-figure"><strong>{% translate "Membresía" %}</strong></p>{% if card.summary.free_count %}<p class="academy-card-access">{% translate "Con lecciones gratis" %}</p>{% endif %}{% elif card.access_label == _('Gratis') %}<p class="academy-card-figure"><strong>{% translate "Gratis" %}</strong></p>{% else %}<p class="academy-card-access">{{ card.access_label }}</p>{% endif %}
       </div>
       {% endif %}
       <span class="academy-card-go" aria-hidden="true">→</span>

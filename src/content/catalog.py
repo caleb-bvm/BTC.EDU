@@ -6,6 +6,9 @@ from django.core.paginator import Paginator
 from django.db.models import Case, Count, F, Prefetch, Q, When
 from django.db.models.functions import Coalesce
 from django.urls import reverse
+from django.utils.translation import gettext
+
+from core.content_translation import translate_content
 
 from .catalog_filters import build_catalog_filters
 from .identity import public_creator_name
@@ -38,10 +41,10 @@ def course_tree(preview=False):
 def access_label(free, paid):
     """Label for a course given its free and paid lesson counts."""
     if free and paid:
-        return 'Gratis + lecciones de pago'
+        return gettext('Gratis + lecciones de pago')
     if paid:
-        return 'Lecciones de pago'
-    return 'Gratis' if free else 'Temario en preparación'
+        return gettext('Lecciones de pago')
+    return gettext('Gratis') if free else gettext('Temario en preparación')
 
 
 def course_summary(course):
@@ -69,7 +72,7 @@ UNCATEGORIZED_TOPIC = "~sin-categoria"
 
 def catalog_context(params, section=None, creator=None, browse_categories=False):
     """Filtered cards, facets and filter chips for a catalog section."""
-    categories = {'todos': 'Todo', 'cursos': 'Cursos', 'tutoriales': 'Tutoriales', 'videos': 'Videos', 'materiales': 'Materiales', 'referencias': 'Enlaces externos'}
+    categories = {'todos': gettext('Todo'), 'cursos': gettext('Cursos'), 'tutoriales': gettext('Tutoriales'), 'videos': gettext('Videos'), 'materiales': gettext('Materiales'), 'referencias': gettext('Enlaces externos')}
     allowed = {'cursos': ('cursos',), 'tutoriales': ('tutoriales',), 'recursos': ('videos', 'materiales', 'referencias')}.get(section, tuple(categories)[1:])
     if creator is not None:
         allowed = tuple(kind for kind in allowed if kind != 'referencias')
@@ -110,9 +113,9 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
     facets = {'topics': set(), 'levels': set(), 'access': set(), 'formats': set(), 'scope_count': 0}
     format_counts = Counter()
     for kind, model, label in (
-        ('cursos', Course, 'Curso'), ('tutoriales', Course, 'Tutorial'),
-        ('videos', Video, 'Video'), ('materiales', Material, 'Material'),
-        ('referencias', ExternalReference, 'Enlace externo'),
+        ('cursos', Course, gettext('Curso')), ('tutoriales', Course, gettext('Tutorial')),
+        ('videos', Video, gettext('Video')), ('materiales', Material, gettext('Material')),
+        ('referencias', ExternalReference, gettext('Enlace externo')),
     ):
         if kind not in allowed:
             continue
@@ -193,8 +196,8 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                        'topics': [topic for topic in topics if topic.category_id == item.pk]}
                       for item in parent_categories]
     if uncategorized_count:
-        category_cards.append({'name': 'Por descubrir', 'slug': UNCATEGORIZED_TOPIC,
-                               'description': 'Contenido que todavía no tiene una categoría asignada.',
+        category_cards.append({'name': gettext('Por descubrir'), 'slug': UNCATEGORIZED_TOPIC,
+                               'description': gettext('Contenido que todavía no tiene una categoría asignada.'),
                                'image': 'images/categories/general.svg', 'count': uncategorized_count,
                                'topics': [topic for topic in topics if topic.category_id is None]})
     selected_category = next((card for card in category_cards if card['slug'] == category_slug), None)
@@ -228,7 +231,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                 url = reverse('resource-detail', args=[kind, item.pk])
             creator = item.source_name if model == ExternalReference else public_creator_name(item.creator)
             domain = (urlsplit(item.source_url).hostname or '').removeprefix('www.') if model == ExternalReference else ''
-            cards.append({'item': item, 'domain': domain, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'membership': bool(summary and item.membership and item.paid_count), 'access_label': summary['access_label'] if summary else 'Fuente externa' if model == ExternalReference else item.get_access_type_display()})
+            cards.append({'item': item, 'domain': domain, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'membership': bool(summary and item.membership and item.paid_count), 'access_label': summary['access_label'] if summary else gettext('Fuente externa') if model == ExternalReference else item.get_access_type_display()})
     cards.sort(key=lambda card: (card['item'].title.casefold(), card['category'], card['item'].pk))
     from commerce.models import Offer
     course_ids = [card['item'].current_version_id for card in cards if card['summary'] and card['item'].current_version_id]
@@ -247,7 +250,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
     for card in cards:
         key = ('course', card['item'].current_version_id) if card['summary'] else ('resource', getattr(card['item'], 'revision_id', None))
         card['price'] = prices.get(key)
-        card['price_label'] = {'course': f"{card['kind']} completo", 'chapter': 'Capítulo', 'lesson': 'Lección individual'}.get(price_kinds.get(key), '')
+        card['price_label'] = {'course': gettext('Tutorial completo') if card['category'] == 'tutoriales' else gettext('Curso completo'), 'chapter': gettext('Capítulo'), 'lesson': gettext('Lección individual')}.get(price_kinds.get(key), '')
     link_params = params.copy()
     link_params.pop('pagina', None)
     link_params.pop('curso', None)
@@ -270,7 +273,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                      for kind in ('videos', 'materiales', 'referencias')]
     groups = {}
     for card in page.object_list:
-        heading = card['item'].topic.name if card['item'].topic else 'Por descubrir'
+        heading = translate_content(card['item'].topic.name) if card['item'].topic else gettext('Por descubrir')
         groups.setdefault(heading, []).append(card)
     return {
         'category': category, 'categories': {key: value for key, value in categories.items() if key == 'todos' or key in allowed},

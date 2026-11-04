@@ -2,19 +2,20 @@
 from uuid import uuid4
 
 from django import forms
+from django.utils.translation import gettext, gettext_lazy
 
 from content.models import Lesson
 
 
 class CertificateFingerprintForm(forms.Form):
-    sha256 = forms.RegexField(r"\A[0-9a-fA-F]{64}\Z", label="Huella SHA-256 del certificado", max_length=64,
-                             error_messages={"invalid": "Introduce los 64 caracteres hexadecimales de la huella."},
+    sha256 = forms.RegexField(r"\A[0-9a-fA-F]{64}\Z", label=gettext_lazy("Huella SHA-256 del certificado"), max_length=64,
+                             error_messages={"invalid": gettext_lazy("Introduce los 64 caracteres hexadecimales de la huella.")},
                              widget=forms.TextInput(attrs={"autocomplete": "off", "spellcheck": "false", "maxlength": 64, "class": "fingerprint-input"}))
 
 
 class CertificatePolicyForm(forms.Form):
-    enabled = forms.BooleanField(label="Ofrecer certificado de finalización", required=False)
-    required_lessons = forms.ModelMultipleChoiceField(label="Lecciones obligatorias", queryset=Lesson.objects.none(), required=False, widget=forms.CheckboxSelectMultiple)
+    enabled = forms.BooleanField(label=gettext_lazy("Ofrecer certificado de finalización"), required=False)
+    required_lessons = forms.ModelMultipleChoiceField(label=gettext_lazy("Lecciones obligatorias"), queryset=Lesson.objects.none(), required=False, widget=forms.CheckboxSelectMultiple)
     revision = forms.IntegerField(min_value=0, widget=forms.HiddenInput)
 
     def __init__(self, *args, course, **kwargs):
@@ -24,17 +25,17 @@ class CertificatePolicyForm(forms.Form):
     def clean(self):
         values = super().clean()
         if values.get("enabled") and not values.get("required_lessons"):
-            self.add_error("required_lessons", "Selecciona al menos una lección obligatoria.")
+            self.add_error("required_lessons", gettext("Selecciona al menos una lección obligatoria."))
         return values
 
 
 class CertificateNameForm(forms.Form):
-    student_name = forms.CharField(label="Nombre que aparecerá en el certificado", max_length=150)
-    confirm_name = forms.BooleanField(label="Confirmo que este nombre es correcto. El certificado emitido conservará este nombre.")
+    student_name = forms.CharField(label=gettext_lazy("Nombre que aparecerá en el certificado"), max_length=150)
+    confirm_name = forms.BooleanField(label=gettext_lazy("Confirmo que este nombre es correcto. El certificado emitido conservará este nombre."))
 
 
 class MessageForm(forms.Form):
-    body = forms.CharField(label="Tu mensaje", max_length=2000, widget=forms.Textarea(attrs={"rows": 5}))
+    body = forms.CharField(label=gettext_lazy("Tu mensaje"), max_length=2000, widget=forms.Textarea(attrs={"rows": 5}))
     request_key = forms.UUIDField(widget=forms.HiddenInput)
 
     def __init__(self, *args, **kwargs):

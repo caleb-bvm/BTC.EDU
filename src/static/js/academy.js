@@ -94,7 +94,7 @@
       restoreBackground();
       document.body.classList.toggle('nav-open', open);
       toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Cerrar menú principal' : 'Abrir menú principal');
+      toggle.setAttribute('aria-label', open ? btcT('Cerrar menú principal') : btcT('Abrir menú principal'));
       backdrop.hidden = !open;
       if (open) {
         navigation.setAttribute('role', 'dialog');
@@ -149,7 +149,7 @@
       error.setAttribute('role', 'alert');
       event.detail.target.prepend(error);
     }
-    error.textContent = 'No pudimos actualizar el catálogo. Tus filtros siguen aquí; vuelve a intentarlo.';
+    error.textContent = btcT('No pudimos actualizar el catálogo. Tus filtros siguen aquí; vuelve a intentarlo.');
   });
   document.addEventListener('htmx:sendError', (event) => {
     const catalog = document.getElementById('catalog');
@@ -162,7 +162,7 @@
       error.setAttribute('role', 'alert');
       catalog.prepend(error);
     }
-    error.textContent = 'Se perdió la conexión. Conservamos tus filtros; vuelve a buscar cuando recuperes conexión.';
+    error.textContent = btcT('Se perdió la conexión. Conservamos tus filtros; vuelve a buscar cuando recuperes conexión.');
   });
 })();
 const paymentStatus = document.querySelector('[data-invoice-status]');
@@ -181,7 +181,7 @@ if (paymentStatus) {
         return;
       }
     } catch {
-      paymentStatus.textContent = 'No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo.';
+      paymentStatus.textContent = btcT('No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo.');
       paymentStatus.hidden = false;
       return;
     }

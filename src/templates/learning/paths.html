@@ -1,11 +1,11 @@
 {% extends 'academy.html' %}
-{% block title %}Rutas · BTC.EDU{% endblock %}
+{% block title %}{% translate "Rutas · BTC.EDU" %}{% endblock %}
 {% block academy_content %}
 <section class="learning-page paths-page">
-  <header class="page-heading"><div><p class="eyebrow">Rutas</p><h1>Rutas de aprendizaje.</h1><p>Cursos ordenados hacia un objetivo. Sigue el orden recomendado o salta los pasos que ya dominas.</p></div></header>
+  <header class="page-heading"><div><p class="eyebrow">{% translate "Rutas" %}</p><h1>{% translate "Rutas de aprendizaje." %}</h1><p>{% translate "Cursos ordenados hacia un objetivo. Sigue el orden recomendado o salta los pasos que ya dominas." %}</p></div></header>
   {% if editorial or educators %}
-    {% if editorial %}<section class="path-group" aria-labelledby="paths-editorial"><h2 id="paths-editorial" class="path-group-title">De BTC.EDU<span>{{ editorial|length }}</span></h2><div class="path-grid">{% for entry in editorial %}{% include 'learning/_path_card.html' %}{% endfor %}</div></section>{% endif %}
-    {% if educators %}<section class="path-group" aria-labelledby="paths-educators"><h2 id="paths-educators" class="path-group-title">De educadores<span>{{ educators|length }}</span></h2><div class="path-grid">{% for entry in educators %}{% include 'learning/_path_card.html' %}{% endfor %}</div></section>{% endif %}
-  {% else %}<div class="commerce-empty"><h2>Todavía no hay rutas publicadas.</h2><a class="btn btn-outline-dark" href="{% url 'courses' %}">Explorar cursos →</a></div>{% endif %}
+    {% if editorial %}<section class="path-group" aria-labelledby="paths-editorial"><h2 id="paths-editorial" class="path-group-title">{% translate "De BTC.EDU" %}<span>{{ editorial|length }}</span></h2><div class="path-grid">{% for entry in editorial %}{% include 'learning/_path_card.html' %}{% endfor %}</div></section>{% endif %}
+    {% if educators %}<section class="path-group" aria-labelledby="paths-educators"><h2 id="paths-educators" class="path-group-title">{% translate "De educadores" %}<span>{{ educators|length }}</span></h2><div class="path-grid">{% for entry in educators %}{% include 'learning/_path_card.html' %}{% endfor %}</div></section>{% endif %}
+  {% else %}<div class="commerce-empty"><h2>{% translate "Todavía no hay rutas publicadas." %}</h2><a class="btn btn-outline-dark" href="{% url 'courses' %}">{% translate "Explorar cursos →" %}</a></div>{% endif %}
 </section>
 {% endblock %}

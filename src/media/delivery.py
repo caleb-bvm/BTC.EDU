@@ -5,6 +5,7 @@ from pathlib import Path
 from django.conf import settings
 from django.http import Http404, HttpResponse, StreamingHttpResponse
 from django.utils.http import content_disposition_header
+from django.utils.translation import gettext
 
 
 def file_response(request, asset, download=False):
@@ -13,9 +14,9 @@ def file_response(request, asset, download=False):
     try:
         path = Path(asset.file.path).resolve()
         if not path.is_relative_to(root) or not path.is_file() or path.stat().st_size != asset.size:
-            raise Http404("El archivo no está disponible. Contacta al creador.")
+            raise Http404(gettext("El archivo no está disponible. Contacta al creador."))
     except (OSError, ValueError) as exc:
-        raise Http404("El archivo no está disponible.") from exc
+        raise Http404(gettext("El archivo no está disponible.")) from exc
     size = asset.size
     etag = f'"{asset.sha256}"'
     start, end, status = 0, size - 1, 200
@@ -50,7 +51,7 @@ def file_response(request, asset, download=False):
         try:
             handle = path.open("rb")
         except OSError as exc:
-            raise Http404("El archivo no está disponible.") from exc
+            raise Http404(gettext("El archivo no está disponible.")) from exc
 
         def chunks():
             with handle:

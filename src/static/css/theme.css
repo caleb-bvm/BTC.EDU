@@ -19,3 +19,7 @@ html[data-theme=dark] .form-error{background:#442725;color:#ffb5af}
 
 html[data-theme=dark] :is(.lesson-video,.studio-media video){background:#000}
 
+
+/* Language switch: a compact pill beside the theme toggle. */
+.language-switch{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);font:11px/1.4 var(--font-mono);letter-spacing:.1em;text-decoration:none;flex-shrink:0}
+.language-switch:hover,.language-switch:focus-visible{border-color:var(--ink);color:var(--ink)}

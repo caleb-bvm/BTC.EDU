@@ -1,10 +1,10 @@
 {% if reviewer %}
-<nav class="academy-navigation primary-navigation" aria-label="Revisión editorial"><a href="{% url 'admin:creators_submission_changelist' %}">Revisión editorial</a></nav>
+<nav class="academy-navigation primary-navigation" aria-label="{% translate "Revisión editorial" %}"><a href="{% url 'admin:creators_submission_changelist' %}">{% translate "Revisión editorial" %}</a></nav>
 {% else %}
-<nav class="academy-navigation primary-navigation" aria-label="Navegación principal">
+<nav class="academy-navigation primary-navigation" aria-label="{% translate "Navegación principal" %}">
   {% for link in sidebar_links %}
     {% include '_navigation_link.html' %}
   {% endfor %}
 </nav>
-{% if sidebar_secondary_links %}<nav class="academy-navigation secondary-navigation" aria-label="Academia">{% for link in sidebar_secondary_links %}{% include '_navigation_link.html' %}{% endfor %}</nav>{% endif %}
+{% if sidebar_secondary_links %}<nav class="academy-navigation secondary-navigation" aria-label="{% translate "Academia" %}">{% for link in sidebar_secondary_links %}{% include '_navigation_link.html' %}{% endfor %}</nav>{% endif %}
 {% endif %}

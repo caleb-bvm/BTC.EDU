@@ -573,7 +573,8 @@ El 23 de octubre de 2026 el usuario compartió una comparación de BTC.EDU con U
 | Entrar con Lightning (LNURL-auth) | Pendiente | La wallet debe alcanzar un dominio público con HTTPS; no es demostrable en local |
 | Pago por minuto | Pendiente | Necesita medición de reproducción y pagos recurrentes |
 | Pagos a educadores | Pendiente | Requiere comisión, reparto y liquidación definidos |
-| Asistente de IA e idiomas | Pendiente | Costo, proveedor y traducción completa de la interfaz por decidir |
+| Asistente de IA | Pendiente | Costo y proveedor por decidir |
+| Inglés | Parcial | Interfaz y fichas del catálogo traducidas; faltan cuerpos de lecciones, tutoriales y evaluaciones, y revisión por hablantes nativos |
 | Pase con créditos | Hipótesis | Contradice la tesis de micropagos del reto |
 
 Los reembolsos revocan solo el acceso que concedía la compra reembolsada: un derecho con otra fuente vigente se conserva y una compra nueva lo restablece. Un pago de reembolso con resultado incierto queda por conciliar sin retirar el acceso. Las propinas aceptan un pago observado tarde porque no conceden acceso. La galería y las reseñas muestran el alias público. Estas decisiones son técnicas y provisionales; plazo de reembolso, uso de cupones y utilidad de reseñas, rutas y lectura sin conexión deben observarse con participantes. [Comprobaciones](../src/docs/operacion-y-bitacora.md#23-de-octubre-de-2026).
@@ -1342,7 +1343,7 @@ Las cuatro capturas suministradas muestran: catálogo por temas con tarjetas y f
 
 Tomamos de la referencia la organización, jerarquía y continuidad de navegación. Conservamos la dirección visual de BTC.EDU: blanco, negro, un único acento naranja, tipografía legible e identidad industrial. No se copian marcas ni ilustraciones de la referencia.
 
-El nombre BTC.EDU no cambia automáticamente el público o los temas ya propuestos en el documento 01. La temática editorial definitiva debe validarse; la organización vigente distingue Bitcoin, Tecnología y Creación como categorías y conserva sus subcategorías como datos del catálogo. Se inicia en español. La traducción completa es posterior y requiere traducir también los contenidos, no solo añadir un selector de idioma.
+El nombre BTC.EDU no cambia automáticamente el público o los temas ya propuestos en el documento 01. La temática editorial definitiva debe validarse; la organización vigente distingue Bitcoin, Tecnología y Creación como categorías y conserva sus subcategorías como datos del catálogo. Se inicia en español. Desde el 3 de noviembre de 2026 la interfaz y las fichas del catálogo propio también están en inglés; la traducción completa todavía requiere traducir los cuerpos de lecciones, tutoriales y evaluaciones, no solo la interfaz.
 
 ### 2. Alcance y orden
 

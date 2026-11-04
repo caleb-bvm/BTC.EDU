@@ -30,11 +30,11 @@ document.querySelectorAll("[data-copy-payment]").forEach((button) => {
     if (!input || !status) return;
     try {
       await navigator.clipboard.writeText(input.value);
-      status.textContent = "Factura copiada.";
+      status.textContent = btcT("Factura copiada.");
     } catch {
       input.focus();
       input.select();
-      status.textContent = "Seleccionamos la factura. Usa la opción de copiar de tu dispositivo.";
+      status.textContent = btcT("Seleccionamos la factura. Usa la opción de copiar de tu dispositivo.");
     }
     status.hidden = false;
   });

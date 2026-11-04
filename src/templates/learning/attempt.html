@@ -1,84 +1,84 @@
 {% extends 'academy.html' %}{% load static %}
-{% block title %}Intento {{ attempt.number }} · BTC.EDU{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/quiz.css' %}?v=quiz-20261024-4"><script src="{% static 'js/quizzes.js' %}?v=quiz-20261024-4" defer></script>{% endblock %}
+{% block title %}{% blocktranslate with number=attempt.number %}Intento {{ number }} · BTC.EDU{% endblocktranslate %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/quiz.css' %}?v=quiz-20261024-4"><script src="{% static 'js/quizzes.js' %}?v=i18n-20261103" defer></script>{% endblock %}
 {% block academy_content %}{% url 'version-lesson' attempt.enrollment.version.course_id attempt.enrollment.version.number attempt.quiz.lesson_id as lesson_url %}
 <section class="quiz-page{% if not attempt.submitted_at %} quiz-run{% endif %}">
-<a class="quiz-back" href="{% url 'quiz-detail' attempt.quiz_id %}">← Evaluación e intentos</a>
-<header class="quiz-hero is-compact"><p class="quiz-eyebrow">Intento {{ attempt.number }} · Versión {{ attempt.enrollment.version.number }}</p><h1>{{ attempt.quiz.title }}</h1></header>
+<a class="quiz-back" href="{% url 'quiz-detail' attempt.quiz_id %}">{% translate "← Evaluación e intentos" %}</a>
+<header class="quiz-hero is-compact"><p class="quiz-eyebrow">{% blocktranslate with number=attempt.number number2=attempt.enrollment.version.number %}Intento {{ number }} · Versión {{ number2 }}{% endblocktranslate %}</p><h1>{{ attempt.quiz.title|tr }}</h1></header>
 
 {% if attempt.submitted_at %}
 <section class="quiz-result{% if attempt.passed %} is-passed{% endif %}" aria-labelledby="result-title">
   <div class="quiz-result-score">
-    <p class="quiz-label">Tu nota</p>
+    <p class="quiz-label">{% translate "Tu nota" %}</p>
     <p class="quiz-score"><strong>{{ attempt.score_label }}</strong><small>/100</small></p>
     <span class="quiz-cells is-large" aria-hidden="true">{% for cell in score_cells %}<i class="{% if cell.filled %}is-filled{% endif %}{% if cell.threshold %} is-threshold{% endif %}"></i>{% endfor %}</span>
-    <p class="quiz-note">La marca indica la nota mínima: {{ attempt.quiz.pass_mark }}.</p>
+    <p class="quiz-note">{% blocktranslate with pass_mark=attempt.quiz.pass_mark %}La marca indica la nota mínima: {{ pass_mark }}.{% endblocktranslate %}</p>
   </div>
   <div class="quiz-result-copy">
-    <span class="quiz-state{% if attempt.passed %} is-passed{% endif %}">{% if attempt.passed %}Aprobada{% else %}No aprobada{% endif %}</span>
-    <h2 id="result-title">{% if attempt.passed %}Evaluación aprobada{% else %}Evaluación no aprobada{% endif %}</h2>
-    <p>{{ attempt.correct_count }} de {{ attempt.quiz.questions|length }} preguntas correctas.{% if not attempt.passed %} Necesitas {{ attempt.quiz.pass_mark }} de 100 para aprobar.{% endif %}</p>
+    <span class="quiz-state{% if attempt.passed %} is-passed{% endif %}">{% if attempt.passed %}{% translate "Aprobada" %}{% else %}{% translate "No aprobada" %}{% endif %}</span>
+    <h2 id="result-title">{% if attempt.passed %}{% translate "Evaluación aprobada" %}{% else %}{% translate "Evaluación no aprobada" %}{% endif %}</h2>
+    <p>{% blocktranslate with correct_count=attempt.correct_count questions=attempt.quiz.questions|length %}{{ correct_count }} de {{ questions }} preguntas correctas.{% endblocktranslate %}{% if not attempt.passed %} {% blocktranslate with pass_mark=attempt.quiz.pass_mark %}Necesitas {{ pass_mark }} de 100 para aprobar.{% endblocktranslate %}{% endif %}</p>
     <dl class="quiz-result-facts">
-      <div><dt>Intento</dt><dd>{{ attempt.number }} de {{ allowance }}</dd></div>
-      <div><dt>Respecto al anterior</dt><dd>{% if score_change %}{{ score_change }}{% else %}Primer intento{% endif %}</dd></div>
-      <div><dt>Mejor nota</dt><dd>{{ best_score }}</dd></div>
-      <div><dt>Entregado</dt><dd>{{ attempt.submitted_at|date:'d/m/Y · H:i' }}</dd></div>
+      <div><dt>{% translate "Intento" %}</dt><dd>{% blocktranslate with number=attempt.number allowance=allowance %}{{ number }} de {{ allowance }}{% endblocktranslate %}</dd></div>
+      <div><dt>{% translate "Respecto al anterior" %}</dt><dd>{% if score_change %}{{ score_change }}{% else %}{% translate "Primer intento" %}{% endif %}</dd></div>
+      <div><dt>{% translate "Mejor nota" %}</dt><dd>{{ best_score }}</dd></div>
+      <div><dt>{% translate "Entregado" %}</dt><dd>{{ attempt.submitted_at|date:'d/m/Y · H:i' }}</dd></div>
     </dl>
   </div>
 </section>
-{% if passed_quiz and not lesson_completed %}<p class="quiz-callout is-passed">Tu aprobación está guardada. Falta marcar la lección como completada para registrar ese paso en tu recorrido.</p>{% endif %}
+{% if passed_quiz and not lesson_completed %}<p class="quiz-callout is-passed">{% translate "Tu aprobación está guardada. Falta marcar la lección como completada para registrar ese paso en tu recorrido." %}</p>{% endif %}
 <div class="quiz-result-actions">
-  <a class="btn btn-dark" href="{{ lesson_url }}#lesson-finish">{% if passed_quiz and not lesson_completed %}Volver y completar lección →{% elif lesson_completed %}Volver a la lección →{% else %}Repasar la lección →{% endif %}</a>
-  {% if active_attempt %}<a class="btn btn-outline-dark" href="{% url 'quiz-attempt' active_attempt.pk %}">Continuar intento {{ active_attempt.number }} →</a>
-  {% elif remaining and not waiting %}<form method="post" action="{% url 'quiz-start' attempt.quiz_id %}">{% csrf_token %}<button class="btn btn-outline-dark" type="submit">{% if passed_quiz %}Practicar otra vez{% else %}Intentar de nuevo{% endif %} →</button></form>
-  {% elif remaining and waiting %}<p class="quiz-note">Podrás empezar otro intento el {{ ready_at|date:'d/m/Y' }} a las {{ ready_at|date:'H:i' }}.</p>{% endif %}
-  <a class="quiz-text-link" href="{% url 'quiz-detail' attempt.quiz_id %}">Ver todos tus intentos</a>
-  {% if not passed_quiz and not remaining and not active_attempt %}<a class="quiz-text-link" href="{% url 'question-create' attempt.quiz.lesson_id %}">Solicitar ayuda al educador</a>{% endif %}
+  <a class="btn btn-dark" href="{{ lesson_url }}#lesson-finish">{% if passed_quiz and not lesson_completed %}{% translate "Volver y completar lección →" %}{% elif lesson_completed %}{% translate "Volver a la lección →" %}{% else %}{% translate "Repasar la lección →" %}{% endif %}</a>
+  {% if active_attempt %}<a class="btn btn-outline-dark" href="{% url 'quiz-attempt' active_attempt.pk %}">{% blocktranslate with number=active_attempt.number %}Continuar intento {{ number }} →{% endblocktranslate %}</a>
+  {% elif remaining and not waiting %}<form method="post" action="{% url 'quiz-start' attempt.quiz_id %}">{% csrf_token %}<button class="btn btn-outline-dark" type="submit">{% if passed_quiz %}{% translate "Practicar otra vez" %}{% else %}{% translate "Intentar de nuevo" %}{% endif %} →</button></form>
+  {% elif remaining and waiting %}<p class="quiz-note">{% blocktranslate with ready_at=ready_at|date:'d/m/Y' ready_at2=ready_at|date:'H:i' %}Podrás empezar otro intento el {{ ready_at }} a las {{ ready_at2 }}.{% endblocktranslate %}</p>{% endif %}
+  <a class="quiz-text-link" href="{% url 'quiz-detail' attempt.quiz_id %}">{% translate "Ver todos tus intentos" %}</a>
+  {% if not passed_quiz and not remaining and not active_attempt %}<a class="quiz-text-link" href="{% url 'question-create' attempt.quiz.lesson_id %}">{% translate "Solicitar ayuda al educador" %}</a>{% endif %}
 </div>
 
 <section class="quiz-review" aria-labelledby="review-title" data-quiz-review>
-  <div class="quiz-section-heading"><h2 id="review-title">Revisa tus respuestas</h2>
-    {% if solutions_visible %}<div class="quiz-filter" role="group" aria-label="Filtrar preguntas" data-review-filters hidden><button type="button" aria-pressed="true" data-review-filter="all">Todas <span>{{ review|length }}</span></button><button type="button" aria-pressed="false" data-review-filter="pending"{% if not review_pending %} disabled{% endif %}>Por repasar <span>{{ review_pending }}</span></button><button type="button" aria-pressed="false" data-review-filter="correct">Correctas <span>{{ attempt.correct_count }}</span></button></div>{% else %}<span>{{ review|length }} preguntas</span>{% endif %}
+  <div class="quiz-section-heading"><h2 id="review-title">{% translate "Revisa tus respuestas" %}</h2>
+    {% if solutions_visible %}<div class="quiz-filter" role="group" aria-label="{% translate "Filtrar preguntas" %}" data-review-filters hidden><button type="button" aria-pressed="true" data-review-filter="all">{% translate "Todas" %} <span>{{ review|length }}</span></button><button type="button" aria-pressed="false" data-review-filter="pending"{% if not review_pending %} disabled{% endif %}>{% translate "Por repasar" %} <span>{{ review_pending }}</span></button><button type="button" aria-pressed="false" data-review-filter="correct">{% translate "Correctas" %} <span>{{ attempt.correct_count }}</span></button></div>{% else %}<span>{% blocktranslate with review=review|length %}{{ review }} preguntas{% endblocktranslate %}</span>{% endif %}
   </div>
-  {% if not solutions_visible %}<p class="quiz-callout">Las soluciones y explicaciones se mostrarán en un intento aprobado. Aquí puedes consultar las respuestas que entregaste.</p>{% endif %}
+  {% if not solutions_visible %}<p class="quiz-callout">{% translate "Las soluciones y explicaciones se mostrarán en un intento aprobado. Aquí puedes consultar las respuestas que entregaste." %}</p>{% endif %}
   {% for row in review %}<article class="quiz-review-item{% if solutions_visible %}{% if row.correct %} is-correct{% else %} is-pending{% endif %}{% endif %}" data-review-item="{% if solutions_visible %}{% if row.correct %}correct{% else %}pending{% endif %}{% endif %}">
-    <header><span class="quiz-number" aria-hidden="true">{{ forloop.counter|stringformat:'02d' }}</span><h3><span class="visually-hidden">Pregunta {{ forloop.counter }}. </span>{{ row.prompt }}</h3>{% if solutions_visible %}<span class="quiz-chip{% if row.correct %} is-passed{% else %} is-pending{% endif %}">{% if row.correct %}Correcta{% else %}Por repasar{% endif %}</span>{% endif %}</header>
-    <ol class="quiz-review-options">{% for option in row.options %}<li class="{% if option.selected %}is-selected{% endif %}{% if option.correct %} is-correct{% endif %}"><span>{{ option.label }}</span>{% if option.selected or option.correct %}<span class="quiz-option-tags">{% if option.selected %}<em>Tu respuesta</em>{% endif %}{% if option.correct %}<em class="is-correct">Correcta</em>{% endif %}</span>{% endif %}</li>{% endfor %}</ol>
-    {% if not row.selected %}<p class="quiz-note">Sin respuesta.</p>{% endif %}
-    {% if solutions_visible and row.explanation %}<div class="quiz-explanation"><h4>Por qué</h4><p>{{ row.explanation|linebreaksbr }}</p></div>{% endif %}
+    <header><span class="quiz-number" aria-hidden="true">{{ forloop.counter|stringformat:'02d' }}</span><h3><span class="visually-hidden">{% blocktranslate with counter=forloop.counter %}Pregunta {{ counter }}.{% endblocktranslate %} </span>{{ row.prompt }}</h3>{% if solutions_visible %}<span class="quiz-chip{% if row.correct %} is-passed{% else %} is-pending{% endif %}">{% if row.correct %}{% translate "Correcta" %}{% else %}{% translate "Por repasar" %}{% endif %}</span>{% endif %}</header>
+    <ol class="quiz-review-options">{% for option in row.options %}<li class="{% if option.selected %}is-selected{% endif %}{% if option.correct %} is-correct{% endif %}"><span>{{ option.label }}</span>{% if option.selected or option.correct %}<span class="quiz-option-tags">{% if option.selected %}<em>{% translate "Tu respuesta" %}</em>{% endif %}{% if option.correct %}<em class="is-correct">{% translate "Correcta" %}</em>{% endif %}</span>{% endif %}</li>{% endfor %}</ol>
+    {% if not row.selected %}<p class="quiz-note">{% translate "Sin respuesta." %}</p>{% endif %}
+    {% if solutions_visible and row.explanation %}<div class="quiz-explanation"><h4>{% translate "Por qué" %}</h4><p>{{ row.explanation|linebreaksbr }}</p></div>{% endif %}
   </article>{% endfor %}
-  <details class="quiz-shortcuts quiz-scoring"><summary>Cómo se calcula la nota</summary><p>Cada pregunta tiene el mismo peso. Una pregunta de varias respuestas solo cuenta si eliges todas las correctas y ninguna incorrecta. La aprobación usa la puntuación exacta; la nota mostrada se redondea a dos decimales.</p></details>
+  <details class="quiz-shortcuts quiz-scoring"><summary>{% translate "Cómo se calcula la nota" %}</summary><p>{% translate "Cada pregunta tiene el mismo peso. Una pregunta de varias respuestas solo cuenta si eliges todas las correctas y ninguna incorrecta. La aprobación usa la puntuación exacta; la nota mostrada se redondea a dos decimales." %}</p></details>
 </section>
 
 {% else %}
 <form method="post" class="quiz-form" data-quiz-attempt>{% csrf_token %}{{ form.revision }}
-{% if form.errors %}<div class="quiz-callout is-error" role="alert" tabindex="-1" data-attempt-errors><h2>Revisa el intento</h2>{{ form.non_field_errors }}{{ form.revision.errors }}<p>Tus respuestas permanecen en el formulario. Corrige lo indicado antes de continuar.</p></div>{% endif %}
-<div class="quiz-callout is-error" role="alert" tabindex="-1" data-save-error hidden><h2>No pudimos guardar tus respuestas</h2><p data-save-error-text></p><div class="quiz-actions"><button class="btn btn-dark" type="button" data-save-retry>Reintentar</button><a class="quiz-text-link" href="">Recargar el intento</a></div></div>
+{% if form.errors %}<div class="quiz-callout is-error" role="alert" tabindex="-1" data-attempt-errors><h2>{% translate "Revisa el intento" %}</h2>{{ form.non_field_errors }}{{ form.revision.errors }}<p>{% translate "Tus respuestas permanecen en el formulario. Corrige lo indicado antes de continuar." %}</p></div>{% endif %}
+<div class="quiz-callout is-error" role="alert" tabindex="-1" data-save-error hidden><h2>{% translate "No pudimos guardar tus respuestas" %}</h2><p data-save-error-text></p><div class="quiz-actions"><button class="btn btn-dark" type="button" data-save-retry>{% translate "Reintentar" %}</button><a class="quiz-text-link" href="">{% translate "Recargar el intento" %}</a></div></div>
 <div class="quiz-toolbar" data-quiz-toolbar hidden><p class="quiz-toolbar-count" data-quiz-progress role="status"></p><span class="quiz-track" data-quiz-track aria-hidden="true"></span><p class="quiz-save" data-save-status aria-live="polite"></p></div>
 <div class="quiz-run-layout">
   <aside class="quiz-panel quiz-map" data-quiz-map hidden>
-    <p class="quiz-label">Preguntas</p>
-    <nav class="quiz-map-grid" aria-label="Ir a una pregunta" data-question-navigation></nav>
-    <ul class="quiz-legend" aria-hidden="true"><li><i class="is-answered"></i>Respondida</li><li><i class="is-flagged"></i>Marcada</li><li><i class="is-current"></i>Actual</li></ul>
-    <button class="btn btn-outline-dark" type="button" data-open-review>Revisar y entregar</button>
-    <details class="quiz-shortcuts"><summary>Atajos de teclado</summary><dl><div><dt><kbd>1</kbd>–<kbd>6</kbd></dt><dd>Elegir una opción</dd></div><div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Anterior o siguiente</dd></div><div><dt><kbd>M</kbd></dt><dd>Marcar para revisar</dd></div></dl></details>
+    <p class="quiz-label">{% translate "Preguntas" %}</p>
+    <nav class="quiz-map-grid" aria-label="{% translate "Ir a una pregunta" %}" data-question-navigation></nav>
+    <ul class="quiz-legend" aria-hidden="true"><li><i class="is-answered"></i>{% translate "Respondida" %}</li><li><i class="is-flagged"></i>{% translate "Marcada" %}</li><li><i class="is-current"></i>{% translate "Actual" %}</li></ul>
+    <button class="btn btn-outline-dark" type="button" data-open-review>{% translate "Revisar y entregar" %}</button>
+    <details class="quiz-shortcuts"><summary>{% translate "Atajos de teclado" %}</summary><dl><div><dt><kbd>1</kbd>–<kbd>6</kbd></dt><dd>{% translate "Elegir una opción" %}</dd></div><div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>{% translate "Anterior o siguiente" %}</dd></div><div><dt><kbd>{% translate "M" %}</kbd></dt><dd>{% translate "Marcar para revisar" %}</dd></div></dl></details>
   </aside>
   <div class="quiz-question-area">
     {% for field in form.visible_fields %}<fieldset class="quiz-question" data-quiz-question aria-describedby="hint-{{ field.auto_id }}">
-      <legend tabindex="-1"><span class="quiz-question-caption">Pregunta {{ forloop.counter }} de {{ attempt.quiz.questions|length }}<span class="quiz-flag-tag" data-flag-tag hidden>Marcada</span></span>{{ field.label }}</legend>
+      <legend tabindex="-1"><span class="quiz-question-caption">{% blocktranslate with counter=forloop.counter questions=attempt.quiz.questions|length %}Pregunta {{ counter }} de {{ questions }}{% endblocktranslate %}<span class="quiz-flag-tag" data-flag-tag hidden>{% translate "Marcada" %}</span></span>{{ field.label }}</legend>
       <p class="quiz-hint" id="hint-{{ field.auto_id }}">{{ field.help_text }}</p>
       <div class="quiz-options{% if field.field.widget.input_type == 'checkbox' %} is-multiple{% endif %}">{{ field }}</div>{{ field.errors }}
     </fieldset>{% endfor %}
     <section class="quiz-panel quiz-submit" data-submit-review hidden tabindex="-1" aria-labelledby="submit-title">
-      <p class="quiz-label">Último paso</p><h2 id="submit-title">Revisa antes de entregar.</h2>
-      <dl class="quiz-submit-stats"><div><dt>Respondidas</dt><dd data-count-answered></dd></div><div><dt>Sin responder</dt><dd data-count-pending></dd></div><div><dt>Marcadas</dt><dd data-count-flagged></dd></div></dl>
+      <p class="quiz-label">{% translate "Último paso" %}</p><h2 id="submit-title">{% translate "Revisa antes de entregar." %}</h2>
+      <dl class="quiz-submit-stats"><div><dt>{% translate "Respondidas" %}</dt><dd data-count-answered></dd></div><div><dt>{% translate "Sin responder" %}</dt><dd data-count-pending></dd></div><div><dt>{% translate "Marcadas" %}</dt><dd data-count-flagged></dd></div></dl>
       <p data-submit-summary></p>
       <div class="quiz-summary" data-answer-summary></div>
-      <p class="quiz-note">Al entregar, este intento se cierra y las respuestas ya no se pueden modificar.</p>
-      <div class="quiz-actions"><button class="btn btn-outline-dark" type="button" data-back-to-questions>Volver a las preguntas</button><button class="btn btn-accent" type="submit" name="action" value="submit" data-confirm-submit>Entregar intento →</button></div>
+      <p class="quiz-note">{% translate "Al entregar, este intento se cierra y las respuestas ya no se pueden modificar." %}</p>
+      <div class="quiz-actions"><button class="btn btn-outline-dark" type="button" data-back-to-questions>{% translate "Volver a las preguntas" %}</button><button class="btn btn-accent" type="submit" name="action" value="submit" data-confirm-submit>{% translate "Entregar intento →" %}</button></div>
     </section>
-    <div class="quiz-step-actions" data-step-actions hidden><button class="btn btn-outline-dark" type="button" data-previous-question>← Anterior</button><button class="quiz-flag" type="button" aria-pressed="false" data-flag-question>Marcar para revisar</button><button class="btn btn-dark" type="button" data-next-question>Siguiente →</button></div>
-    <div class="quiz-save-bar" data-save-bar><p>Guarda tus respuestas antes de salir.</p><div class="quiz-actions"><button class="btn btn-outline-dark" type="submit" name="action" value="save">Guardar respuestas</button><button class="btn btn-dark" type="submit" name="action" value="submit">Entregar intento</button></div></div>
+    <div class="quiz-step-actions" data-step-actions hidden><button class="btn btn-outline-dark" type="button" data-previous-question>{% translate "← Anterior" %}</button><button class="quiz-flag" type="button" aria-pressed="false" data-flag-question>{% translate "Marcar para revisar" %}</button><button class="btn btn-dark" type="button" data-next-question>{% translate "Siguiente →" %}</button></div>
+    <div class="quiz-save-bar" data-save-bar><p>{% translate "Guarda tus respuestas antes de salir." %}</p><div class="quiz-actions"><button class="btn btn-outline-dark" type="submit" name="action" value="save">{% translate "Guardar respuestas" %}</button><button class="btn btn-dark" type="submit" name="action" value="submit">{% translate "Entregar intento" %}</button></div></div>
   </div>
 </div>
 </form>{% endif %}

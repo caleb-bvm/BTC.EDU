@@ -12,6 +12,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -70,14 +71,14 @@ def certificate_policy_edit(request, course_pk):
                     raise PermissionDenied
                 current, _ = CertificateDraft.objects.get_or_create(course=course)
                 if current.revision != form.cleaned_data["revision"]:
-                    raise ValidationError("Hay un borrador más reciente. Recarga antes de guardar.")
+                    raise ValidationError(gettext("Hay un borrador más reciente. Recarga antes de guardar."))
                 from content.models import Lesson
                 selected_ids = [item.pk for item in form.cleaned_data["required_lessons"]]
                 selected = list(Lesson.objects.select_related("chapter").filter(pk__in=selected_ids))
                 if len(selected) != len(selected_ids):
-                    raise ValidationError("Las lecciones seleccionadas cambiaron. Recarga el temario.")
+                    raise ValidationError(gettext("Las lecciones seleccionadas cambiaron. Recarga el temario."))
                 if any(item.chapter.course_id != course.pk or item.status != "published" or item.chapter.status != "published" for item in selected):
-                    raise ValidationError("Las lecciones seleccionadas cambiaron. Recarga el temario.")
+                    raise ValidationError(gettext("Las lecciones seleccionadas cambiaron. Recarga el temario."))
                 current.enabled = form.cleaned_data["enabled"]
                 current.revision += 1
                 current.save()
@@ -85,7 +86,7 @@ def certificate_policy_edit(request, course_pk):
         except ValidationError as exc:
             form.add_error(None, exc)
         else:
-            messages.success(request, "Requisitos guardados. Envía el curso a revisión para publicarlos.")
+            messages.success(request, gettext("Requisitos guardados. Envía el curso a revisión para publicarlos."))
             return redirect("creator-certificate-policy", course_pk=course.pk)
     return render(request, "learning/certificate_policy.html", {"form": form, "course": course})
 
@@ -134,7 +135,7 @@ def certificate_detail(request, pk):
 def certificate_share(request, pk):
     certificate = get_object_or_404(Certificate, pk=pk, enrollment__student=request.user)
     if request.POST.get("public") not in ("yes", "no"):
-        return HttpResponse("Elige una opción de compartición.", status=400)
+        return HttpResponse(gettext("Elige una opción de compartición."), status=400)
     CertificateSharing.objects.filter(certificate=certificate).update(public=request.POST["public"] == "yes")
     return redirect("certificate-detail", pk=pk)
 
@@ -156,7 +157,7 @@ def certificate_verify(request, pk):
 
 def certificate_data_response(certificate):
     if not certificate_intact(certificate):
-        return HttpResponse("No se pudo comprobar la integridad del certificado.", status=409)
+        return HttpResponse(gettext("No se pudo comprobar la integridad del certificado."), status=409)
     response = HttpResponse(certificate_bytes(certificate), content_type="application/json; charset=utf-8")
     response["Content-Disposition"] = f'attachment; filename="certificado-{certificate.pk}.json"'
     response["X-Robots-Tag"] = "noindex, nofollow"
@@ -186,7 +187,7 @@ def certificate_pdf(request, pk):
     if hasattr(certificate, "revocation"):
         raise Http404
     if not certificate_intact(certificate):
-        return HttpResponse("No se pudo comprobar la integridad del certificado.", status=409)
+        return HttpResponse(gettext("No se pudo comprobar la integridad del certificado."), status=409)
     from .certificate_pdf import render_certificate
     response = HttpResponse(render_certificate(certificate), content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="certificado-{certificate.pk}.pdf"'

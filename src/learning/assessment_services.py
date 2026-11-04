@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from commerce.services import require_student
 from content.access import content_access
@@ -40,7 +41,7 @@ def authorized_enrollment(actor, enrollment_id, quiz):
     require_student(actor)
     enrollment = Enrollment.objects.select_related("version__course").filter(pk=enrollment_id, student=actor, version_id=quiz.lesson.chapter.version_id).first()
     if not enrollment or not content_access(actor, quiz.lesson).allowed:
-        raise PermissionDenied("La evaluación requiere inscripción y acceso a esta lección.")
+        raise PermissionDenied(gettext("La evaluación requiere inscripción y acceso a esta lección."))
     return enrollment
 
 
@@ -59,23 +60,23 @@ def start_attempt(actor, enrollment_id, quiz_id):
     if status["active_attempt"]:
         return status["active_attempt"]
     if not status["remaining"]:
-        raise ValidationError("Has utilizado los intentos disponibles. Puedes solicitar otro al creador.")
+        raise ValidationError(gettext("Has utilizado los intentos disponibles. Puedes solicitar otro al creador."))
     if status["waiting"]:
-        raise ValidationError("Aún no termina la espera indicada entre intentos.")
+        raise ValidationError(gettext("Aún no termina la espera indicada entre intentos."))
     return QuizAttempt.objects.create(enrollment=enrollment, quiz=quiz, number=status["attempts"].count() + 1)
 
 
 def normalize_answers(quiz, answers, complete):
     """Validate selected option indexes; a submission must answer every question."""
     if not isinstance(answers, dict) or set(answers) - {str(index) for index in range(len(quiz.questions))}:
-        raise ValidationError("Las respuestas no corresponden a esta evaluación.")
+        raise ValidationError(gettext("Las respuestas no corresponden a esta evaluación."))
     cleaned = {}
     for index, question in enumerate(quiz.questions):
         selections = answers.get(str(index), [])
         if not isinstance(selections, list) or any(type(option) is not int or not 0 <= option < len(question["options"]) for option in selections) or len(set(selections)) != len(selections) or (not question["multiple"] and len(selections) > 1):
-            raise ValidationError("Selecciona opciones válidas, sin repetirlas.")
+            raise ValidationError(gettext("Selecciona opciones válidas, sin repetirlas."))
         if complete and not selections:
-            raise ValidationError("Responde todas las preguntas antes de entregar. Puedes guardar y continuar después.")
+            raise ValidationError(gettext("Responde todas las preguntas antes de entregar. Puedes guardar y continuar después."))
         cleaned[str(index)] = sorted(selections)
     return cleaned
 
@@ -85,7 +86,7 @@ def save_attempt(actor, attempt_id, answers, revision, submit=False):
     """Save answers with an optimistic revision and grade them on the server when submitted."""
     require_student(actor)
     if type(revision) is not int or revision < 0:
-        raise ValidationError("La revisión del intento no es válida.")
+        raise ValidationError(gettext("La revisión del intento no es válida."))
     if not QuizAttempt.objects.filter(pk=attempt_id, enrollment__student=actor).update(revision=F("revision")):
         raise PermissionDenied
     attempt = QuizAttempt.objects.select_for_update().select_related("quiz__lesson__content", "quiz__lesson__chapter__version__course", "enrollment").get(pk=attempt_id)
@@ -94,9 +95,9 @@ def save_attempt(actor, attempt_id, answers, revision, submit=False):
     if attempt.submitted_at:
         if submit:
             return attempt
-        raise ValidationError("El intento ya fue entregado; su resultado se conserva.")
+        raise ValidationError(gettext("El intento ya fue entregado; su resultado se conserva."))
     if revision != attempt.revision:
-        raise ValidationError("Hay respuestas guardadas desde otra sesión. Recarga el intento antes de continuar.")
+        raise ValidationError(gettext("Hay respuestas guardadas desde otra sesión. Recarga el intento antes de continuar."))
     attempt.answers = normalize_answers(attempt.quiz, answers, submit)
     attempt.revision += 1
     if submit:
@@ -116,7 +117,7 @@ def grant_attempt(actor, enrollment_id, quiz_id, allowance_before, reason):
     if not actor.is_authenticated or not actor.is_active or actor.account_type != "creator":
         raise PermissionDenied
     if type(allowance_before) is not int or not isinstance(reason, str) or not reason.strip() or len(reason.strip()) > 500:
-        raise ValidationError("Indica un motivo de hasta 500 caracteres.")
+        raise ValidationError(gettext("Indica un motivo de hasta 500 caracteres."))
     Enrollment.objects.filter(pk=enrollment_id).update(revision=F("revision"))
     enrollment = Enrollment.objects.select_for_update().get(pk=enrollment_id)
     actor.refresh_from_db()
@@ -129,10 +130,10 @@ def grant_attempt(actor, enrollment_id, quiz_id, allowance_before, reason):
         return existing
     status = quiz_status(enrollment, quiz)
     if status["allowance"] != allowance_before or status["remaining"] or status["active_attempt"]:
-        raise ValidationError("Solo puedes conceder otro intento cuando el alumno haya agotado los disponibles. Recarga los resultados.")
+        raise ValidationError(gettext("Solo puedes conceder otro intento cuando el alumno haya agotado los disponibles. Recarga los resultados."))
     grant = ExtraQuizAttempt.objects.create(enrollment=enrollment, quiz=quiz, granted_by=actor, reason=reason.strip(), allowance_before=allowance_before)
     from django.urls import reverse
 
     from .support import notify
-    notify(enrollment.student, f"grant:{grant.pk}", "Tienes otro intento autorizado", reverse("quiz-detail", args=[quiz.pk]))
+    notify(enrollment.student, f"grant:{grant.pk}", gettext("Tienes otro intento autorizado"), reverse("quiz-detail", args=[quiz.pk]))
     return grant

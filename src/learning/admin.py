@@ -1,5 +1,6 @@
 """Administration of community posts, certificates, paths, reviews and the practice gallery."""
 from django.contrib import admin
+from django.utils.translation import gettext, gettext_lazy
 
 from commerce.admin import HistoryAdmin
 
@@ -46,7 +47,7 @@ admin.site.register(CommunitySuspension, HistoryAdmin)
 class CommunityPostAdmin(HistoryAdmin):
     list_display = ("id", "version", "created_at", "hidden", "closed", "moderation_link")
 
-    @admin.display(description="Moderación")
+    @admin.display(description=gettext_lazy("Moderación"))
     def moderation_link(self, obj):
         from django.urls import reverse
         from django.utils.html import format_html
@@ -57,13 +58,13 @@ class CommunityPostAdmin(HistoryAdmin):
 class CertificateAdmin(HistoryAdmin):
     list_display = ("course_title", "student_name", "issued_at", "revoke_link")
 
-    @admin.display(description="Estado")
+    @admin.display(description=gettext_lazy("Estado"))
     def revoke_link(self, obj):
         from django.urls import reverse
         from django.utils.html import format_html
         if hasattr(obj, "revocation"):
-            return "Revocado"
-        return format_html('<a href="{}">Revisar revocación</a>', reverse("certificate-revoke", args=[obj.pk]))
+            return gettext("Revocado")
+        return format_html(gettext('<a href="{}">Revisar revocación</a>'), reverse("certificate-revoke", args=[obj.pk]))
 
 
 admin.site.register(PathCompletion, HistoryAdmin)
@@ -96,11 +97,11 @@ class LearningPathAdmin(admin.ModelAdmin):
 class ModeratedAdmin(HistoryAdmin):
     actions = ("hide", "show")
 
-    @admin.action(description="Ocultar por moderación", permissions=["change"])
+    @admin.action(description=gettext_lazy("Ocultar por moderación"), permissions=["change"])
     def hide(self, request, queryset):
         queryset.update(hidden=True)
 
-    @admin.action(description="Mostrar de nuevo", permissions=["change"])
+    @admin.action(description=gettext_lazy("Mostrar de nuevo"), permissions=["change"])
     def show(self, request, queryset):
         queryset.update(hidden=False)
 

@@ -32,7 +32,7 @@
 
   const setButton = (button, saved) => {
     button.setAttribute("aria-pressed", saved ? "true" : "false");
-    button.textContent = saved ? "Disponible sin conexión ✓" : "Guardar sin conexión";
+    button.textContent = saved ? btcT("Disponible sin conexión ✓") : btcT("Guardar sin conexión");
   };
 
   const initButtons = async () => {
@@ -62,7 +62,7 @@
           await writeIndex(state.cache, state.index);
           setButton(button, !saved);
         } catch {
-          button.textContent = "No se pudo guardar. Inténtalo con conexión.";
+          button.textContent = btcT("No se pudo guardar. Inténtalo con conexión.");
         } finally {
           button.disabled = false;
         }

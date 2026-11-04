@@ -296,6 +296,8 @@ BTC.EDU dispone de cuentas independientes, aprobación de creadores, edición y 
 
 La revisión comparativa con otras plataformas del 23 de octubre de 2026 añadió crédito por compras anteriores, cupones, regalos, propinas al educador, reembolsos por Lightning, sello de certificados con OpenTimestamps, reseñas verificadas, galería de proyectos, rutas de varios cursos y lectura sin conexión como aplicación instalable. Son funciones implementadas y probadas técnicamente; ninguna está validada con participantes.
 
+La plataforma está disponible en español e inglés. El español sigue siendo el idioma de origen; el inglés vive bajo `/en/` y se elige con el botón ES/EN de la cabecera. Están traducidos la interfaz completa y los títulos, descripciones, objetivos y resultados del catálogo propio. Los cuerpos de lecciones y tutoriales y las preguntas de evaluación siguen en español; en las páginas en inglés se marcan como texto en español. La traducción es nuestra y no ha sido revisada por hablantes nativos ni probada con participantes de habla inglesa.
+
 ### Apariencia
 
 La interfaz ofrece modo claro y oscuro desde la cabecera. En la primera visita utiliza la preferencia del sistema; al elegir un modo, conserva esa elección en el navegador para las siguientes visitas. La apariencia se aplica a la academia, la lectura, las compras, los perfiles y el espacio de creadores. Esta preferencia es local al navegador y no se sincroniza con la cuenta.
@@ -538,7 +540,7 @@ Observar la interfaz implementada con estudiantes y educadores nuevos mediante t
 
 Consolidar una selección pequeña de unidades en varias áreas, con resultados y requisitos explícitos. Revisar sus prácticas con especialistas y comparar su utilidad con las alternativas gratuitas y pagadas que ya usa el público. Probar si el crédito por compras anteriores se entiende y si cambia la decisión de completar un conjunto.
 
-Quedan fuera de esta etapa la entrada con Lightning (LNURL-auth), que exige un dominio público con HTTPS para que la wallet responda; el pago por minuto de video y audio; la liquidación automática a educadores; el asistente de IA; otros idiomas y un pase con créditos, que contradice la tesis de micropagos y queda como hipótesis.
+Quedan fuera de esta etapa la entrada con Lightning (LNURL-auth), que exige un dominio público con HTTPS para que la wallet responda; el pago por minuto de video y audio; la liquidación automática a educadores; el asistente de IA; la traducción de los cuerpos de lecciones, tutoriales y evaluaciones, y un pase con créditos, que contradice la tesis de micropagos y queda como hipótesis.
 
 Preparar reclutamiento y consentimiento; ejecutar entrevistas y tareas con la versión identificada; analizar dificultades y objeciones; comprobar los cambios relevantes.
 
@@ -558,7 +560,7 @@ Mantendremos las conclusiones comerciales como provisionales hasta reunir esa ev
 
 ## Manual de uso
 
-Esta guía describe los recorridos de la versión actual. La plataforma funciona en `http://127.0.0.1:8000/` y la administración en `/admin/`; la instalación está en el [README técnico](../src/README.md). Los pagos usan FakeWallet o una red regtest, sin fondos reales.
+Esta guía describe los recorridos de la versión actual. La plataforma funciona en `http://127.0.0.1:8000/` y la administración en `/admin/`; la instalación está en el [README técnico](../src/README.md). Los pagos usan FakeWallet o una red regtest, sin fondos reales. El botón ES/EN de la cabecera cambia entre español e inglés y conserva la página; en inglés, las lecciones se leen en español.
 
 ### Estudiantes
 

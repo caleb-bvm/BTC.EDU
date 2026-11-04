@@ -1,14 +1,14 @@
 <article class="tutorial-item">
-  <p class="tutorial-time">{% if card.item.estimated_minutes %}<span class="visually-hidden">Duración aproximada: </span><strong>{{ card.item.estimated_minutes }}</strong> <span>min</span>{% else %}<strong>{{ card.summary.lesson_count }}</strong> <span>paso{{ card.summary.lesson_count|pluralize:'s' }}</span>{% endif %}</p>
+  <p class="tutorial-time">{% if card.item.estimated_minutes %}<span class="visually-hidden">{% translate "Duración aproximada:" %} </span><strong>{{ card.item.estimated_minutes }}</strong> <span>min</span>{% else %}<strong>{{ card.summary.lesson_count }}</strong> <span>{% blocktranslate count counter=card.summary.lesson_count|default:0 %}paso{% plural %}pasos{% endblocktranslate %}</span>{% endif %}</p>
   <div class="tutorial-copy">
-    <p class="tutorial-meta">{% if card.item.topic %}{{ card.item.topic }}{% else %}Tutorial{% endif %}{% if card.item.level %} · {{ card.item.get_level_display }}{% endif %}</p>
-    <h3><a href="{{ card.url }}">{{ card.item.title }}</a></h3>
-    {% if card.item.description %}<p>{{ card.item.description|truncatechars:140 }}</p>{% endif %}
-    <p class="tutorial-author">Por {% include 'creators/_author_link.html' with person=card.item.creator author_name=card.creator %}</p>
+    <p class="tutorial-meta">{% if card.item.topic %}{{ card.item.topic|tr }}{% else %}{% translate "Tutorial" %}{% endif %}{% if card.item.level %} · {{ card.item.get_level_display }}{% endif %}</p>
+    <h3><a href="{{ card.url }}">{{ card.item.title|tr }}</a></h3>
+    {% if card.item.description %}<p>{{ card.item.description|tr|truncatechars:140 }}</p>{% endif %}
+    <p class="tutorial-author">{% translate "Por" %} {% include 'creators/_author_link.html' with person=card.item.creator author_name=card.creator %}</p>
   </div>
   <ul class="tutorial-facts">
-    {% if card.item.estimated_minutes %}<li>{{ card.summary.lesson_count }} paso{{ card.summary.lesson_count|pluralize:'s' }}</li>{% endif %}
-    {% if card.learning %}<li>{{ card.learning.done }} de {{ card.learning.total }} completados</li>{% endif %}
-    <li>{% if card.price %}{% if card.price_label %}{{ card.price_label }} · {% endif %}<strong>{{ card.price }} sats</strong>{% elif card.membership %}Membresía{% else %}{{ card.access_label }}{% endif %}</li>
+    {% if card.item.estimated_minutes %}<li>{% blocktranslate count counter=card.summary.lesson_count|default:0 %}{{ counter }} paso{% plural %}{{ counter }} pasos{% endblocktranslate %}</li>{% endif %}
+    {% if card.learning %}<li>{% blocktranslate with done=card.learning.done total=card.learning.total %}{{ done }} de {{ total }} completados{% endblocktranslate %}</li>{% endif %}
+    <li>{% if card.price %}{% if card.price_label %}{{ card.price_label }} · {% endif %}<strong>{{ card.price }} sats</strong>{% elif card.membership %}{% translate "Membresía" %}{% else %}{{ card.access_label }}{% endif %}</li>
   </ul>
 </article>

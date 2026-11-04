@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -34,7 +35,7 @@ def edit(request, lesson_pk):
     lesson = get_object_or_404(Lesson.objects.select_related("chapter__course"), pk=lesson_pk, chapter__course__creator=request.user)
     protect_legacy(lesson.chapter.course)
     draft = PracticeDraft.objects.filter(lesson=lesson).first()
-    initial = {field: getattr(draft, field) for field in ("enabled", "title", "instructions", "review_days", "revision")} if draft else {"enabled": True, "title": f"Práctica: {lesson.title}"[:200], "revision": 0}
+    initial = {field: getattr(draft, field) for field in ("enabled", "title", "instructions", "review_days", "revision")} if draft else {"enabled": True, "title": (gettext('Práctica: %(title)s') % {"title": lesson.title})[:200], "revision": 0}
     initial["criteria_text"] = "\n".join(draft.criteria) if draft else ""
     form = PracticeForm(request.POST if request.method == "POST" else None, initial=initial)
     if request.method == "POST" and form.is_valid():
@@ -44,7 +45,7 @@ def edit(request, lesson_pk):
         except ValidationError as exc:
             form.add_error(None, " ".join(exc.messages))
         else:
-            messages.success(request, "Práctica guardada. Envía el curso a revisión para publicarla.")
+            messages.success(request, gettext("Práctica guardada. Envía el curso a revisión para publicarla."))
             return redirect("creator-practice", lesson_pk=lesson.pk)
     from creators.presentation import course_sections
     return render(request, "learning/practice_editor.html", {"form": form, "lesson": lesson, "course_sections": course_sections(lesson.chapter.course, "evaluaciones"), "active": "creator-content"})
@@ -80,7 +81,7 @@ def detail(request, pk):
         except ValidationError as exc:
             form.add_error(None, " ".join(exc.messages))
         else:
-            messages.success(request, "Entrega enviada al educador. Te avisaremos aquí cuando la revise.")
+            messages.success(request, gettext("Entrega enviada al educador. Te avisaremos aquí cuando la revise."))
             return redirect("student-practice", pk=practice.pk)
     return render(request, "learning/practice.html", {"practice": practice, "last": last, "history": history, "form": form, "can_submit": can_submit, "accepting": accepting, "allowed": allowed, "active": "workspace"})
 
@@ -124,7 +125,7 @@ def delivery_review(request, pk):
         except ValidationError as exc:
             form.add_error(None, " ".join(exc.messages))
         else:
-            messages.success(request, "Revisión enviada al estudiante.")
+            messages.success(request, gettext("Revisión enviada al estudiante."))
             return redirect("creator-practice-delivery", pk=delivery.pk)
     return render(request, "learning/practice_review.html", {"delivery": delivery, "practice": practice, "history": history, "review": review, "form": form, "active": "creator-questions"})
 
@@ -139,9 +140,9 @@ def intake(request, pk):
             raise ValueError
         set_intake(request.user, pk, request.POST["action"] == "open", revision)
     except (ValidationError, ValueError) as exc:
-        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "Recarga antes de cambiar la recepción.")
+        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Recarga antes de cambiar la recepción."))
     else:
-        messages.success(request, "Recepción actualizada. Las entregas recibidas siguen disponibles para revisión.")
+        messages.success(request, gettext("Recepción actualizada. Las entregas recibidas siguen disponibles para revisión."))
     return redirect("creator-practices")
 
 
@@ -160,7 +161,7 @@ def attachment(request, pk):
     try:
         file = delivery.attachment.open("rb")
     except (OSError, ValueError):
-        raise Http404("El archivo no está disponible.") from None
+        raise Http404(gettext("El archivo no está disponible.")) from None
     response = FileResponse(file, as_attachment=True, filename=delivery.attachment_name, content_type="application/octet-stream")
     response["X-Content-Type-Options"] = "nosniff"
     response["Content-Security-Policy"] = "sandbox; default-src 'none'"

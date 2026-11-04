@@ -1,55 +1,55 @@
 {% extends 'academy.html' %}{% load static %}
-{% block title %}{{ quiz.title }} · BTC.EDU{% endblock %}
+{% block title %}{% blocktranslate with title=quiz.title|tr %}{{ title }} · BTC.EDU{% endblocktranslate %}{% endblock %}
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/quiz.css' %}?v=quiz-20261024-4">{% endblock %}
 {% block academy_content %}{% url 'version-lesson' enrollment.version.course_id enrollment.version.number quiz.lesson_id as lesson_url %}
 <section class="quiz-page">
-  <a class="quiz-back" href="{{ lesson_url }}">← Volver a la lección</a>
+  <a class="quiz-back" href="{{ lesson_url }}">{% translate "← Volver a la lección" %}</a>
   <header class="quiz-hero">
-    <p class="quiz-eyebrow">Evaluación · {{ quiz.lesson.content.title }}</p>
-    <h1>{{ quiz.title }}</h1>
-    <p class="quiz-hero-meta"><span class="quiz-state{% if passed_quiz %} is-passed{% elif active_attempt %} is-live{% endif %}">{% if passed_quiz %}Aprobada{% elif active_attempt %}En curso{% elif attempts and not remaining %}Sin intentos{% elif attempts %}Por aprobar{% else %}Por empezar{% endif %}</span><span>{% if quiz.required %}Obligatoria para completar la lección{% else %}Opcional para completar la lección{% endif %} · Versión {{ enrollment.version.number }}</span></p>
+    <p class="quiz-eyebrow">{% blocktranslate with title=quiz.lesson.content.title|tr %}Evaluación · {{ title }}{% endblocktranslate %}</p>
+    <h1>{{ quiz.title|tr }}</h1>
+    <p class="quiz-hero-meta"><span class="quiz-state{% if passed_quiz %} is-passed{% elif active_attempt %} is-live{% endif %}">{% if passed_quiz %}{% translate "Aprobada" %}{% elif active_attempt %}{% translate "En curso" %}{% elif attempts and not remaining %}{% translate "Sin intentos" %}{% elif attempts %}{% translate "Por aprobar" %}{% else %}{% translate "Por empezar" %}{% endif %}</span><span>{% if quiz.required %}{% translate "Obligatoria para completar la lección" %}{% else %}{% translate "Opcional para completar la lección" %}{% endif %} {% blocktranslate with number=enrollment.version.number %}· Versión {{ number }}{% endblocktranslate %}</span></p>
   </header>
 
-  {% if passed_quiz %}<section class="quiz-callout is-passed" aria-labelledby="quiz-passed-heading"><div><h2 id="quiz-passed-heading">Evaluación aprobada</h2><p>{% if lesson_completed %}Esta lección también está completada. Puedes volver para repasar o seguir con el curso.{% else %}Tu aprobación está guardada. Vuelve a la lección y márcala como completada para registrar tu avance.{% endif %}</p></div><a class="btn btn-dark" href="{{ lesson_url }}#lesson-finish">{% if lesson_completed %}Volver a la lección{% else %}Volver y completar lección{% endif %} →</a></section>{% endif %}
+  {% if passed_quiz %}<section class="quiz-callout is-passed" aria-labelledby="quiz-passed-heading"><div><h2 id="quiz-passed-heading">{% translate "Evaluación aprobada" %}</h2><p>{% if lesson_completed %}{% translate "Esta lección también está completada. Puedes volver para repasar o seguir con el curso." %}{% else %}{% translate "Tu aprobación está guardada. Vuelve a la lección y márcala como completada para registrar tu avance." %}{% endif %}</p></div><a class="btn btn-dark" href="{{ lesson_url }}#lesson-finish">{% if lesson_completed %}{% translate "Volver a la lección" %}{% else %}{% translate "Volver y completar lección" %}{% endif %} →</a></section>{% endif %}
 
   <dl class="quiz-stats">
-    <div><dt>Preguntas</dt><dd>{{ quiz.questions|length }}</dd></div>
-    <div><dt>Nota mínima</dt><dd>{{ quiz.pass_mark }}<small>/100</small></dd></div>
-    <div><dt>Intentos disponibles</dt><dd>{{ remaining }}<small>/{{ allowance }}</small></dd></div>
-    <div><dt>Mejor nota</dt><dd>{% if best_attempt %}{{ best_attempt.score_label }}<small>/100</small>{% else %}—{% endif %}</dd></div>
+    <div><dt>{% translate "Preguntas" %}</dt><dd>{{ quiz.questions|length }}</dd></div>
+    <div><dt>{% translate "Nota mínima" %}</dt><dd>{{ quiz.pass_mark }}<small>/100</small></dd></div>
+    <div><dt>{% translate "Intentos disponibles" %}</dt><dd>{{ remaining }}<small>/{{ allowance }}</small></dd></div>
+    <div><dt>{% translate "Mejor nota" %}</dt><dd>{% if best_attempt %}{{ best_attempt.score_label }}<small>/100</small>{% else %}—{% endif %}</dd></div>
   </dl>
 
   <div class="quiz-overview">
     <section class="quiz-panel quiz-howto" aria-labelledby="howto-title">
-      <h2 id="howto-title">Cómo funciona</h2>
+      <h2 id="howto-title">{% translate "Cómo funciona" %}</h2>
       <ol class="quiz-steps">
-        <li><h3>Responde a tu ritmo</h3><p>No hay límite de tiempo. Cada pregunta tiene el mismo peso; si admite varias respuestas, elige todas las correctas y ninguna incorrecta.</p></li>
-        <li><h3>Tu avance se guarda solo</h3><p>Cada respuesta se guarda al elegirla. Puedes salir y retomar el mismo intento sin consumir otro.</p></li>
-        <li><h3>Marca lo que quieras revisar</h3><p>Señala las preguntas dudosas. Antes de entregar verás cuáles marcaste y cuáles faltan.</p></li>
-        <li><h3>Aprende de cada intento</h3><p>{% if quiz.feedback == 'submitted' %}Al entregar verás qué respondiste bien, la solución y su explicación.{% else %}Al entregar verás tu nota; las soluciones y explicaciones aparecen cuando apruebas.{% endif %}</p></li>
+        <li><h3>{% translate "Responde a tu ritmo" %}</h3><p>{% translate "No hay límite de tiempo. Cada pregunta tiene el mismo peso; si admite varias respuestas, elige todas las correctas y ninguna incorrecta." %}</p></li>
+        <li><h3>{% translate "Tu avance se guarda solo" %}</h3><p>{% translate "Cada respuesta se guarda al elegirla. Puedes salir y retomar el mismo intento sin consumir otro." %}</p></li>
+        <li><h3>{% translate "Marca lo que quieras revisar" %}</h3><p>{% translate "Señala las preguntas dudosas. Antes de entregar verás cuáles marcaste y cuáles faltan." %}</p></li>
+        <li><h3>{% translate "Aprende de cada intento" %}</h3><p>{% if quiz.feedback == 'submitted' %}{% translate "Al entregar verás qué respondiste bien, la solución y su explicación." %}{% else %}{% translate "Al entregar verás tu nota; las soluciones y explicaciones aparecen cuando apruebas." %}{% endif %}</p></li>
       </ol>
-      <details class="quiz-shortcuts"><summary>Atajos de teclado</summary><dl><div><dt><kbd>1</kbd>–<kbd>6</kbd></dt><dd>Elegir una opción</dd></div><div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Pregunta anterior o siguiente</dd></div><div><dt><kbd>M</kbd></dt><dd>Marcar para revisar</dd></div></dl></details>
+      <details class="quiz-shortcuts"><summary>{% translate "Atajos de teclado" %}</summary><dl><div><dt><kbd>1</kbd>–<kbd>6</kbd></dt><dd>{% translate "Elegir una opción" %}</dd></div><div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>{% translate "Pregunta anterior o siguiente" %}</dd></div><div><dt><kbd>{% translate "M" %}</kbd></dt><dd>{% translate "Marcar para revisar" %}</dd></div></dl></details>
     </section>
 
     <aside class="quiz-panel quiz-start" aria-labelledby="start-title">
-      <p class="quiz-label">Tu siguiente paso</p>
-      <h2 id="start-title">{% if active_attempt %}Continúa donde lo dejaste.{% elif passed_quiz %}Puedes volver a practicar.{% elif attempts %}Inténtalo de nuevo.{% else %}¿Listo para empezar?{% endif %}</h2>
-      {% if active_attempt %}<p>El intento {{ active_attempt.number }} sigue abierto. Retomarlo no consume otro intento.</p><a class="btn btn-accent" href="{% url 'quiz-attempt' active_attempt.pk %}">Continuar intento →</a>
-      {% elif remaining and not waiting %}<p>Empezar abre el intento {{ attempts|length|add:1 }} de {{ allowance }}.</p><form method="post" action="{% url 'quiz-start' quiz.pk %}">{% csrf_token %}<button class="btn {% if passed_quiz %}btn-outline-dark{% else %}btn-accent{% endif %}" type="submit">{% if attempts %}Empezar otro intento{% else %}Empezar evaluación{% endif %} →</button></form>
-      {% elif waiting and remaining %}<p class="quiz-wait">Podrás empezar otro intento el {{ ready_at|date:'d/m/Y' }} a las {{ ready_at|date:'H:i' }} (El Salvador).</p><a class="btn btn-outline-dark" href="{{ lesson_url }}">Repasar la lección →</a>
-      {% else %}<p class="quiz-wait">{% if passed_quiz %}Completaste los intentos disponibles. Tu aprobación se conserva.{% else %}Agotaste tus intentos. El educador puede autorizar otro para que continúes.{% endif %}</p>{% if not passed_quiz %}<a class="btn btn-outline-dark" href="{% url 'question-create' quiz.lesson_id %}">Solicitar ayuda al educador</a>{% endif %}{% endif %}
-      <p class="quiz-note">{% if quiz.wait_minutes %}Espera entre intentos: {{ quiz.wait_minutes }} minutos desde la última entrega.{% else %}Sin espera entre intentos.{% endif %}</p>
+      <p class="quiz-label">{% translate "Tu siguiente paso" %}</p>
+      <h2 id="start-title">{% if active_attempt %}{% translate "Continúa donde lo dejaste." %}{% elif passed_quiz %}{% translate "Puedes volver a practicar." %}{% elif attempts %}{% translate "Inténtalo de nuevo." %}{% else %}{% translate "¿Listo para empezar?" %}{% endif %}</h2>
+      {% if active_attempt %}<p>{% blocktranslate with number=active_attempt.number %}El intento {{ number }} sigue abierto. Retomarlo no consume otro intento.{% endblocktranslate %}</p><a class="btn btn-accent" href="{% url 'quiz-attempt' active_attempt.pk %}">{% translate "Continuar intento →" %}</a>
+      {% elif remaining and not waiting %}<p>{% blocktranslate with attempts=attempts|length|add:1 allowance=allowance %}Empezar abre el intento {{ attempts }} de {{ allowance }}.{% endblocktranslate %}</p><form method="post" action="{% url 'quiz-start' quiz.pk %}">{% csrf_token %}<button class="btn {% if passed_quiz %}btn-outline-dark{% else %}btn-accent{% endif %}" type="submit">{% if attempts %}{% translate "Empezar otro intento" %}{% else %}{% translate "Empezar evaluación" %}{% endif %} →</button></form>
+      {% elif waiting and remaining %}<p class="quiz-wait">{% blocktranslate with ready_at=ready_at|date:'d/m/Y' ready_at2=ready_at|date:'H:i' %}Podrás empezar otro intento el {{ ready_at }} a las {{ ready_at2 }} (El Salvador).{% endblocktranslate %}</p><a class="btn btn-outline-dark" href="{{ lesson_url }}">{% translate "Repasar la lección →" %}</a>
+      {% else %}<p class="quiz-wait">{% if passed_quiz %}{% translate "Completaste los intentos disponibles. Tu aprobación se conserva." %}{% else %}{% translate "Agotaste tus intentos. El educador puede autorizar otro para que continúes." %}{% endif %}</p>{% if not passed_quiz %}<a class="btn btn-outline-dark" href="{% url 'question-create' quiz.lesson_id %}">{% translate "Solicitar ayuda al educador" %}</a>{% endif %}{% endif %}
+      <p class="quiz-note">{% if quiz.wait_minutes %}{% blocktranslate with wait_minutes=quiz.wait_minutes %}Espera entre intentos: {{ wait_minutes }} minutos desde la última entrega.{% endblocktranslate %}{% else %}{% translate "Sin espera entre intentos." %}{% endif %}</p>
     </aside>
   </div>
 
   <section class="quiz-history" aria-labelledby="history-title">
-    <div class="quiz-section-heading"><h2 id="history-title">Tus intentos</h2>{% if attempts %}<span>{{ attempts|length }} de {{ allowance }}</span>{% endif %}</div>
+    <div class="quiz-section-heading"><h2 id="history-title">{% translate "Tus intentos" %}</h2>{% if attempts %}<span>{% blocktranslate with attempts=attempts|length allowance=allowance %}{{ attempts }} de {{ allowance }}{% endblocktranslate %}</span>{% endif %}</div>
     {% for attempt in attempts %}<a class="quiz-attempt-row{% if attempt == best_attempt %} is-best{% endif %}" href="{% url 'quiz-attempt' attempt.pk %}">
       <span class="quiz-attempt-number" aria-hidden="true">{{ attempt.number|stringformat:'02d' }}</span>
-      <span class="quiz-attempt-copy"><strong>Intento {{ attempt.number }}{% if attempt == best_attempt and attempts|length > 1 %} · Mejor nota{% endif %}</strong><small>{% if attempt.submitted_at %}Entregado el {{ attempt.submitted_at|date:'d/m/Y · H:i' }}{% else %}Abierto · Puedes continuarlo{% endif %}</small></span>
-      {% if attempt.submitted_at %}<span class="quiz-cells" aria-hidden="true">{% for cell in attempt.cells %}<i class="{% if cell.filled %}is-filled{% endif %}{% if cell.threshold %} is-threshold{% endif %}"></i>{% endfor %}</span><span class="quiz-attempt-score"><strong>{{ attempt.score_label }}</strong><small>/100</small></span><span class="quiz-chip{% if attempt.passed %} is-passed{% endif %}">{% if attempt.passed %}Aprobado{% else %}No aprobado{% endif %}</span>
-      {% else %}<span class="quiz-chip is-live">En curso</span>{% endif %}
+      <span class="quiz-attempt-copy"><strong>{% blocktranslate with number=attempt.number %}Intento {{ number }}{% endblocktranslate %}{% if attempt == best_attempt and attempts|length > 1 %} {% translate "· Mejor nota" %}{% endif %}</strong><small>{% if attempt.submitted_at %}{% blocktranslate with submitted_at=attempt.submitted_at|date:'d/m/Y · H:i' %}Entregado el {{ submitted_at }}{% endblocktranslate %}{% else %}{% translate "Abierto · Puedes continuarlo" %}{% endif %}</small></span>
+      {% if attempt.submitted_at %}<span class="quiz-cells" aria-hidden="true">{% for cell in attempt.cells %}<i class="{% if cell.filled %}is-filled{% endif %}{% if cell.threshold %} is-threshold{% endif %}"></i>{% endfor %}</span><span class="quiz-attempt-score"><strong>{{ attempt.score_label }}</strong><small>/100</small></span><span class="quiz-chip{% if attempt.passed %} is-passed{% endif %}">{% if attempt.passed %}{% translate "Aprobado" %}{% else %}{% translate "No aprobado" %}{% endif %}</span>
+      {% else %}<span class="quiz-chip is-live">{% translate "En curso" %}</span>{% endif %}
       <span class="quiz-attempt-go" aria-hidden="true">→</span>
-    </a>{% empty %}<div class="quiz-empty"><h3>Tu primer intento empieza aquí.</h3><p>Cuando empieces, podrás retomarlo y consultar tus resultados desde este espacio.</p></div>{% endfor %}
+    </a>{% empty %}<div class="quiz-empty"><h3>{% translate "Tu primer intento empieza aquí." %}</h3><p>{% translate "Cuando empieces, podrás retomarlo y consultar tus resultados desde este espacio." %}</p></div>{% endfor %}
   </section>
 </section>{% endblock %}

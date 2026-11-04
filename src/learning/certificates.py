@@ -3,6 +3,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
 from django.urls import reverse
+from django.utils.translation import gettext
 
 from commerce.services import require_student
 from content.models import VersionLesson
@@ -33,7 +34,7 @@ def freeze_certificate_policy(course, version):
     lessons = list(version.chapters.values_list("lessons__pk", "lessons__source_lesson_id"))
     included = {source for _, source in lessons}
     if not source_ids or not source_ids.issubset(included):
-        raise ValidationError("Selecciona al menos una lección obligatoria incluida en la publicación para el certificado.")
+        raise ValidationError(gettext("Selecciona al menos una lección obligatoria incluida en la publicación para el certificado."))
     VersionCertificatePolicy.objects.create(version=version, required_lesson_ids=[pk for pk, source in lessons if source in source_ids])
 
 
@@ -79,11 +80,11 @@ def issue_certificate(actor, enrollment_id, student_name):
         return existing
     name = student_name.strip() if isinstance(student_name, str) else ""
     if not name or len(name) > 150 or any(ord(char) < 32 for char in name):
-        raise ValidationError("Indica el nombre que aparecerá en tu certificado, hasta 150 caracteres.")
+        raise ValidationError(gettext("Indica el nombre que aparecerá en tu certificado, hasta 150 caracteres."))
     version = enrollment.version
     status = completion_status(enrollment)
     if not version.sealed or not version.published_at or not status["eligible"]:
-        raise ValidationError("Completa las lecciones requeridas y aprueba las evaluaciones obligatorias de esta versión.")
+        raise ValidationError(gettext("Completa las lecciones requeridas y aprueba las evaluaciones obligatorias de esta versión."))
     policy = version.certificate_policy
     completions = LessonProgress.objects.filter(enrollment=enrollment, lesson_id__in=policy.required_lesson_ids)
     attempts = QuizAttempt.objects.filter(enrollment=enrollment, quiz__required=True, quiz__lesson__chapter__version=version, passed=True, submitted_at__isnull=False).order_by("number", "pk")
@@ -91,7 +92,7 @@ def issue_certificate(actor, enrollment_id, student_name):
                 "assessments": [{"quiz": item.quiz_id, "attempt": item.pk, "score": str(item.score)} for item in attempts]}
     certificate = Certificate.objects.create(enrollment=enrollment, student_name=name, course_title=version.title, creator_name=version.creator_name, evidence=evidence)
     CertificateSharing.objects.create(certificate=certificate)
-    notify(actor, f"certificate:{certificate.pk}", "Tu certificado está disponible", reverse("certificate-detail", args=[certificate.pk]))
+    notify(actor, f"certificate:{certificate.pk}", gettext("Tu certificado está disponible"), reverse("certificate-detail", args=[certificate.pk]))
     return certificate
 
 
@@ -105,10 +106,10 @@ def revoke_certificate(actor, certificate_id, reason):
         raise PermissionDenied
     reason = reason.strip()
     if not reason or len(reason) > 500:
-        raise ValidationError("Indica un motivo de hasta 500 caracteres.")
+        raise ValidationError(gettext("Indica un motivo de hasta 500 caracteres."))
     # Serialize with other revocations without modifying the immutable credential.
     CertificateSharing.objects.filter(certificate_id=certificate_id).update(public=F("public"))
     certificate = Certificate.objects.select_related("enrollment__student").get(pk=certificate_id)
     revocation, _ = CertificateRevocation.objects.get_or_create(certificate=certificate, defaults={"actor": actor, "reason": reason})
-    notify(certificate.enrollment.student, f"revoked:{certificate.pk}", "Revisa el estado de tu certificado", reverse("certificate-detail", args=[certificate.pk]))
+    notify(certificate.enrollment.student, f"revoked:{certificate.pk}", gettext("Revisa el estado de tu certificado"), reverse("certificate-detail", args=[certificate.pk]))
     return revocation

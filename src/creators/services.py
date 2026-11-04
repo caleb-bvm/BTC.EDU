@@ -3,6 +3,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from content.education import validate_snapshot
 from content.models import Course, CourseVersion, Material, PublicationStatus, Video
@@ -14,7 +15,7 @@ from .models import CreatorProfile, Submission
 def require_creator(actor):
     """Only active, approved creator accounts may use the studio."""
     if not actor.is_authenticated or not actor.is_active or actor.account_type != "creator" or not CreatorProfile.objects.filter(user=actor, status=CreatorProfile.Status.APPROVED).exists():
-        raise PermissionDenied("Necesitas la aprobación como creador.")
+        raise PermissionDenied(gettext("Necesitas la aprobación como creador."))
 
 
 @transaction.atomic
@@ -31,9 +32,9 @@ def submit(item, actor):
     if item.creator_id != actor.pk:
         raise PermissionDenied
     if Submission.objects.filter(**{field: item}, status=Submission.Status.PENDING).exists():
-        raise ValidationError("Ya hay una versión en revisión. Retira el envío antes de reenviar.")
+        raise ValidationError(gettext("Ya hay una versión en revisión. Retira el envío antes de reenviar."))
     if not item.title.strip() or not item.description.strip():
-        raise ValidationError("Completa el título y la descripción antes de enviar.")
+        raise ValidationError(gettext("Completa el título y la descripción antes de enviar."))
     snapshot = prepare_course(item, actor) if field == "course" else prepare_resource(item, actor)
     return Submission.objects.create(creator=actor, **{field: item}, **{"course_version" if field == "course" else "resource_version": snapshot})
 
@@ -56,9 +57,9 @@ def decide(submission, actor, approve, feedback=""):
     # updating a neutral field instead of changing the status.
     submission.refresh_from_db()
     if submission.status != Submission.Status.PENDING:
-        raise ValidationError("Este envío ya fue resuelto.")
+        raise ValidationError(gettext("Este envío ya fue resuelto."))
     if not approve and not feedback.strip():
-        raise ValidationError("Explica qué debe corregir el creador.")
+        raise ValidationError(gettext("Explica qué debe corregir el creador."))
     require_creator(submission.creator)
     if approve:
         item = submission.course or submission.video or submission.material
@@ -67,12 +68,12 @@ def decide(submission, actor, approve, feedback=""):
             raise PermissionDenied
         snapshot_owner = submission.course_version.course.creator_id if submission.course_id else submission.resource_version.creator_id
         if item.creator_id != submission.creator_id or snapshot_owner != submission.creator_id:
-            raise ValidationError("El propietario del contenido cambió; revisa el envío.")
+            raise ValidationError(gettext("El propietario del contenido cambió; revisa el envío."))
         validate_snapshot(submission.snapshot)
         pointer = "current_version" if submission.course_id else "revision"
         current = getattr(item, pointer)
         if current and current.number >= submission.snapshot.number:
-            raise ValidationError("Ya existe una publicación posterior. Solicita un nuevo envío para revisar los cambios.")
+            raise ValidationError(gettext("Ya existe una publicación posterior. Solicita un nuevo envío para revisar los cambios."))
         type(item).objects.filter(pk=item.pk).update(**{pointer: submission.snapshot, "status": PublicationStatus.PUBLISHED})
         if submission.course_id:
             CourseVersion._base_manager.filter(pk=submission.course_version_id).update(published_at=timezone.now())
@@ -84,5 +85,5 @@ def decide(submission, actor, approve, feedback=""):
     from django.urls import reverse
 
     from learning.support import notify
-    notify(submission.creator, f"submission:{submission.pk}", "Tu revisión editorial tiene una decisión", reverse("creator-review", args=[submission.pk]))
+    notify(submission.creator, f"submission:{submission.pk}", gettext("Tu revisión editorial tiene una decisión"), reverse("creator-review", args=[submission.pk]))
     return submission

@@ -3,6 +3,7 @@ import uuid
 
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.utils.translation import gettext
 
 from .catalog import available, ownership, public_version
 from .models import Offer
@@ -53,7 +54,7 @@ def bundle_quote(actor, path, rows=None):
     quote["path"] = path
     if not path.published or not path.bundle_percent or len(selection) < BUNDLE_MIN_COURSES:
         quote["conflicts"].append({"code": "bundle_unavailable", "offer_id": None, "cart_item_key": None, "invoice_id": None,
-                                   "message": "Este paquete no está disponible. Puedes comprar cada curso por separado."})
+                                   "message": gettext("Este paquete no está disponible. Puedes comprar cada curso por separado.")})
         quote["can_checkout"] = False
     return sign_quote(actor, quote, f"path:{path.pk}")
 
@@ -69,6 +70,6 @@ def reserve_path_order(actor, path, token, request_key=None, activity_session=No
         return existing
     quote = bundle_quote(actor, path)
     if quote["fingerprint"] != payload.get("fingerprint"):
-        raise ValidationError("Los cursos de la ruta o su precio cambiaron. Revisa el paquete antes de pagar.")
+        raise ValidationError(gettext("Los cursos de la ruta o su precio cambiaron. Revisa el paquete antes de pagar."))
     return create_reserved_order(actor, quote, uuid.UUID(payload["request_key"]), activity_session=activity_session,
-                                 title=f"Ruta · {path.title}")
+                                 title=(gettext('Ruta · %(title)s') % {"title": path.title}))

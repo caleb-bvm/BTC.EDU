@@ -1,5 +1,6 @@
 """Task-oriented presentation of a creator's editable work, without publication writes."""
 from django.urls import reverse
+from django.utils.translation import gettext
 
 from content.education import EDUCATION_FIELDS
 from content.models import Course, Material, VersionLesson, Video
@@ -17,36 +18,36 @@ def course_sections(course, selected="informacion"):
         return []
     home = reverse("creator-course", args=[course.pk])
     return [{"key": key, "label": label, "url": url, "active": selected == key} for key, label, url in (
-        ("informacion", "Información", home + "?seccion=informacion"),
-        ("temario", "Temario", home + "?seccion=temario"),
-        ("evaluaciones", "Evaluaciones", home + "?seccion=evaluaciones"),
-        ("certificado", "Certificado", reverse("creator-certificate-policy", args=[course.pk])),
-        ("publicacion", "Publicación", home + "?seccion=publicacion"),
-        ("precio", "Acceso y precio", home + "?seccion=precio"),
+        ("informacion", gettext("Información"), home + "?seccion=informacion"),
+        ("temario", gettext("Temario"), home + "?seccion=temario"),
+        ("evaluaciones", gettext("Evaluaciones"), home + "?seccion=evaluaciones"),
+        ("certificado", gettext("Certificado"), reverse("creator-certificate-policy", args=[course.pk])),
+        ("publicacion", gettext("Publicación"), home + "?seccion=publicacion"),
+        ("precio", gettext("Acceso y precio"), home + "?seccion=precio"),
     )]
 
 
 def form_groups(form):
     if form.__class__.__name__ == "LessonForm":
         groups = (
-            ("Sobre la lección", ("title", "description")),
-            ("Aprendizaje y acompañamiento", EDUCATION_FIELDS),
-            ("Contenido", ("body",)),
-            ("Videos y materiales", ("resources",)),
-            ("Acceso y ubicación", ("access_type", "position", "status")),
+            (gettext("Sobre la lección"), ("title", "description")),
+            (gettext("Aprendizaje y acompañamiento"), EDUCATION_FIELDS),
+            (gettext("Contenido"), ("body",)),
+            (gettext("Videos y materiales"), ("resources",)),
+            (gettext("Acceso y ubicación"), ("access_type", "position", "status")),
         )
     elif form.__class__.__name__ in ("ResourceForm", "MaterialForm"):
         groups = (
-            ("Sobre el recurso", ("title", "description", "topic")),
-            ("Aprendizaje y acompañamiento", EDUCATION_FIELDS),
-            ("Archivo y accesibilidad", ("new_file", "pending_asset", "new_subtitles", "pending_subtitles", "transcript")),
-            ("Acceso", ("access_type",)),
+            (gettext("Sobre el recurso"), ("title", "description", "topic")),
+            (gettext("Aprendizaje y acompañamiento"), EDUCATION_FIELDS),
+            (gettext("Archivo y accesibilidad"), ("new_file", "pending_asset", "new_subtitles", "pending_subtitles", "transcript")),
+            (gettext("Acceso"), ("access_type",)),
         )
     elif form.__class__.__name__ == "CourseForm":
         groups = (
-            ("Presentación", ("title", "kind", "description")),
-            ("Resultado y requisitos", ("objective", "requirements")),
-            ("Descubrimiento", ("topic", "level", "estimated_minutes")),
+            (gettext("Presentación"), ("title", "kind", "description")),
+            (gettext("Resultado y requisitos"), ("objective", "requirements")),
+            (gettext("Descubrimiento"), ("topic", "level", "estimated_minutes")),
         )
     else:
         return []
@@ -58,29 +59,29 @@ def course_requirements(course):
     checks = []
     home = reverse("creator-course", args=[course.pk])
     info_ok = bool(course.title.strip() and course.description.strip())
-    checks.append({"label": "Título y descripción", "ready": info_ok, "url": home + "?seccion=informacion", "action": "Completar información"})
+    checks.append({"label": gettext("Título y descripción"), "ready": info_ok, "url": home + "?seccion=informacion", "action": gettext("Completar información")})
     chapters = list(course.chapters.all())
     included = [chapter for chapter in chapters if chapter.status == "published"]
     lessons = [lesson for chapter in included for lesson in chapter.lessons.all() if lesson.status == "published"]
     structure_ok = bool(included) and all(any(lesson.status == "published" for lesson in chapter.lessons.all()) for chapter in included)
-    checks.append({"label": "Capítulos con lecciones incluidas", "ready": structure_ok, "url": home + "?seccion=temario", "action": "Organizar temario"})
+    checks.append({"label": gettext("Capítulos con lecciones incluidas"), "ready": structure_ok, "url": home + "?seccion=temario", "action": gettext("Organizar temario")})
     for lesson in lessons:
-        checks.append({"label": lesson.title + ": contenido y ficha educativa", "ready": bool(lesson.body.strip()) and all(getattr(lesson, name).strip() for name in EDUCATION_FIELDS), "url": reverse("creator-lesson", args=[lesson.chapter_id, lesson.pk]), "action": "Completar lección"})
+        checks.append({"label": lesson.title + gettext(": contenido y ficha educativa"), "ready": bool(lesson.body.strip()) and all(getattr(lesson, name).strip() for name in EDUCATION_FIELDS), "url": reverse("creator-lesson", args=[lesson.chapter_id, lesson.pk]), "action": gettext("Completar lección")})
         quiz = getattr(lesson, "quiz_draft", None)
         if quiz and quiz.enabled:
-            checks.append({"label": lesson.title + ": evaluación", "ready": bool(quiz.questions), "url": reverse("creator-quiz", args=[lesson.pk]), "action": "Revisar evaluación"})
+            checks.append({"label": lesson.title + gettext(": evaluación"), "ready": bool(quiz.questions), "url": reverse("creator-quiz", args=[lesson.pk]), "action": gettext("Revisar evaluación")})
     certificate = CertificateDraft.objects.filter(course=course).first()
     if certificate and certificate.enabled:
         required = list(certificate.required_lessons.select_related("chapter"))
-        checks.append({"label": "Lecciones requeridas para el certificado", "ready": bool(required) and all(lesson.status == "published" and lesson.chapter.status == "published" for lesson in required), "url": reverse("creator-certificate-policy", args=[course.pk]), "action": "Ajustar certificado"})
+        checks.append({"label": gettext("Lecciones requeridas para el certificado"), "ready": bool(required) and all(lesson.status == "published" and lesson.chapter.status == "published" for lesson in required), "url": reverse("creator-certificate-policy", args=[course.pk]), "action": gettext("Ajustar certificado")})
     return checks
 
 
 def resource_requirements(item):
     return [
-        {"label": "Título y descripción", "ready": bool(item.title.strip() and item.description.strip()), "url": "#id_title", "action": "Completar información"},
-        {"label": "Resultado, requisitos, muestra y acompañamiento", "ready": all(getattr(item, field).strip() for field in EDUCATION_FIELDS), "url": "#id_learning_outcome", "action": "Completar ficha"},
-        {"label": "Archivo seleccionado", "ready": bool(item.pending_asset_id), "url": "#id_new_file", "action": "Seleccionar archivo"},
+        {"label": gettext("Título y descripción"), "ready": bool(item.title.strip() and item.description.strip()), "url": "#id_title", "action": gettext("Completar información")},
+        {"label": gettext("Resultado, requisitos, muestra y acompañamiento"), "ready": all(getattr(item, field).strip() for field in EDUCATION_FIELDS), "url": "#id_learning_outcome", "action": gettext("Completar ficha")},
+        {"label": gettext("Archivo seleccionado"), "ready": bool(item.pending_asset_id), "url": "#id_new_file", "action": gettext("Seleccionar archivo")},
     ]
 
 
@@ -141,7 +142,7 @@ def content_cards(actor):
                 fields = ("title", "description", *EDUCATION_FIELDS, "topic_id", "access_type")
                 changed = not snapshot or any(getattr(item, name) != getattr(snapshot, name) for name in fields) or item.transcript != snapshot.body or item.pending_asset_id != snapshot.asset_id or item.pending_subtitles_id != snapshot.subtitles_id
                 url = reverse("creator-resource", args=["videos" if kind == "video" else "materiales", item.pk])
-                label = "Video" if kind == "video" else "Material"
+                label = gettext("Video") if kind == "video" else gettext("Material")
             state = "review" if submission and submission.status == "pending" else "changes" if submission and submission.status == "changes" else "draft" if changed else "published"
             cards.append({"item": item, "kind": item.kind if kind == "course" else kind, "type_label": label, "snapshot": snapshot, "changed": changed, "submission": submission, "state": state, "url": url, "updated_at": item.updated_at})
     return sorted(cards, key=lambda card: (card["updated_at"], card["item"].pk), reverse=True)

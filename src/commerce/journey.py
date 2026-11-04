@@ -2,6 +2,7 @@
 from urllib.parse import urlencode
 
 from django.urls import reverse
+from django.utils.translation import gettext
 
 from content.access import content_access, owns_revision
 from content.models import VersionLesson
@@ -50,29 +51,29 @@ def destination(user, offer, lesson=None, inventory=None):
     lesson = lesson or (offer.lesson if offer.lesson_id else None)
     if (lesson and lesson.chapter.version_id == offer.course_version_id
             and lesson.content_id in included and content_access(user, lesson).allowed):
-        return {"url": lesson_url(lesson), "label": "Abrir lección", "title": lesson.content.title}
+        return {"url": lesson_url(lesson), "label": gettext("Abrir lección"), "title": lesson.content.title}
     if offer.resource_id and offer.resource_id in included and owns_revision(user, offer.resource_id):
-        return {"url": reverse("purchased-resource", args=[offer.resource_id]), "label": "Abrir recurso", "title": offer.resource.title}
+        return {"url": reverse("purchased-resource", args=[offer.resource_id]), "label": gettext("Abrir recurso"), "title": offer.resource.title}
     if offer.course_version_id:
         from learning.services import can_visit_version
         version = offer.course_version
         if version.sealed and version.course.status in ("published", "archived") and can_visit_version(user, version):
-            return {"url": reverse("course-version", args=[version.course_id, version.number]), "label": "Abrir contenido", "title": version.title}
-    return {"url": reverse("workspace"), "label": "Ir a mi aprendizaje", "title": "Mi aprendizaje"}
+            return {"url": reverse("course-version", args=[version.course_id, version.number]), "label": gettext("Abrir contenido"), "title": version.title}
+    return {"url": reverse("workspace"), "label": gettext("Ir a mi aprendizaje"), "title": gettext("Mi aprendizaje")}
 
 
 def invoice_destination(invoice, user):
     if invoice.order_id and invoice.order.gift:
         gift = getattr(invoice.order, "gift_card", None) if invoice.status == "paid" else None
         if gift:
-            return {"url": reverse("gift-detail", args=[gift.token]), "label": "Ver enlace del regalo", "title": invoice.order.title}
-        return {"url": reverse("purchases"), "label": "Ver mis compras", "title": "Mis compras"}
+            return {"url": reverse("gift-detail", args=[gift.token]), "label": gettext("Ver enlace del regalo"), "title": invoice.order.title}
+        return {"url": reverse("purchases"), "label": gettext("Ver mis compras"), "title": gettext("Mis compras")}
     if invoice.order_id:
         lines = list(invoice.order.lines.all())
         if len(lines) == 1:
             line = lines[0]
             return destination(user, line.offer, line.return_lesson, line.inventory)
-        return {"url": reverse("workspace"), "label": "Ir a mi aprendizaje", "title": "Mi aprendizaje"}
+        return {"url": reverse("workspace"), "label": gettext("Ir a mi aprendizaje"), "title": gettext("Mi aprendizaje")}
     return destination(user, invoice.offer, invoice.return_lesson, invoice.inventory)
 
 
@@ -84,14 +85,14 @@ def order_content(invoice, user):
         target = destination(user, line.offer, line.return_lesson, line.inventory)
         scope = line.offer.get_kind_display()
         if line.offer.kind == "course" and line.course_version_id:
-            scope = "Tutorial completo" if line.course_version.kind == "tutorial" else "Curso completo"
+            scope = gettext("Tutorial completo") if line.course_version.kind == "tutorial" else gettext("Curso completo")
         elif line.offer.kind == "lesson":
-            scope = "Texto de la lección"
+            scope = gettext("Texto de la lección")
         elif line.offer.kind == "resource" and line.offer.resource_id:
-            scope = "Video" if line.offer.resource.kind == "video" else "Material"
+            scope = gettext("Video") if line.offer.resource.kind == "video" else gettext("Material")
         rows.append({"line": line, "destination": target, "creator": line.creator,
                      "scope": scope,
-                     "creator_label": getattr(getattr(line.creator, "creator_profile", None), "display_name", "") or "Educador"})
+                     "creator_label": getattr(getattr(line.creator, "creator_profile", None), "display_name", "") or gettext("Educador")})
     return rows
 
 

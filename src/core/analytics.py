@@ -4,6 +4,7 @@ from datetime import datetime, time, timedelta
 from django import forms
 from django.db.models import Avg, Count, DurationField, ExpressionWrapper, F, Q, Sum
 from django.utils import timezone
+from django.utils.translation import gettext, gettext_lazy
 
 from commerce.models import Entitlement, Invoice, OrderLine, Purchase
 from content.models import CourseVersion, VersionLesson
@@ -20,13 +21,13 @@ from .models import ActivityEvent
 
 class PeriodForm(forms.Form):
     """Date range for the analytics panels."""
-    start = forms.DateField(label="Desde", widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
-    end = forms.DateField(label="Hasta", widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
+    start = forms.DateField(label=gettext_lazy("Desde"), widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
+    end = forms.DateField(label=gettext_lazy("Hasta"), widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
 
     def clean(self):
         values = super().clean()
         if "start" in values and "end" in values and (values["start"] > values["end"] or (values["end"] - values["start"]).days > 366):
-            raise forms.ValidationError("Elige un intervalo ordenado de hasta 366 días.")
+            raise forms.ValidationError(gettext("Elige un intervalo ordenado de hasta 366 días."))
         return values
 
 

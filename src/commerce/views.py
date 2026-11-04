@@ -15,6 +15,7 @@ from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -122,7 +123,7 @@ def creator_offers(request):
         except ValidationError as exc:
             form.add_error(None, exc)
         else:
-            messages.success(request, "Oferta preparada. Comprueba lo incluido y envíala a revisión.")
+            messages.success(request, gettext("Oferta preparada. Comprueba lo incluido y envíala a revisión."))
             return redirect("creator-offer", pk=offer.pk)
     offers = Offer.objects.filter(creator=request.user).select_related("course_version__course", "resource")
     if course:
@@ -147,12 +148,12 @@ def creator_offer(request, pk):
         try:
             if request.POST.get("action") == "submit":
                 submit_offer(request.user, offer)
-                messages.success(request, "Oferta enviada a revisión.")
+                messages.success(request, gettext("Oferta enviada a revisión."))
             elif request.POST.get("action") == "archive":
                 archive_offer(request.user, offer)
-                messages.success(request, "Oferta retirada. Las compras anteriores se conservan.")
+                messages.success(request, gettext("Oferta retirada. Las compras anteriores se conservan."))
             else:
-                messages.error(request, "Elige una acción disponible.")
+                messages.error(request, gettext("Elige una acción disponible."))
         except ValidationError as exc:
             messages.error(request, " ".join(exc.messages))
         return redirect("creator-offer", pk=pk)
@@ -183,7 +184,7 @@ def offer_review(request, pk):
         except ValidationError as exc:
             form.add_error(None, exc)
         else:
-            messages.success(request, "Decisión registrada.")
+            messages.success(request, gettext("Decisión registrada."))
             return redirect("offer-review", pk=pk)
     return render(request, "commerce/review.html", {"offer": offer, "form": form, "items": offer.items.select_related("resource"), "reviewer": True})
 
@@ -218,7 +219,7 @@ def checkout(request, pk):
     review_url = offer_url(offer, chosen_lesson)
     if settings.ACCOUNT_REQUIRE_VERIFIED_EMAIL and not request.user.email_verified_at:
         request.session["account_verify_destination"] = review_url
-        messages.info(request, "Confirma tu correo antes de comprar para conservar una vía de recuperación.")
+        messages.info(request, gettext("Confirma tu correo antes de comprar para conservar una vía de recuperación."))
         return redirect("student-account-security")
     try:
         from core.telemetry import session_id
@@ -229,7 +230,7 @@ def checkout(request, pk):
     try:
         ensure_emitted(invoice)
     except ProviderUnavailable:
-        messages.warning(request, "No pudimos preparar el pago. Actualiza el estado de esta misma factura para continuar.")
+        messages.warning(request, gettext("No pudimos preparar el pago. Actualiza el estado de esta misma factura para continuar."))
     return redirect("invoice-detail", pk=invoice.pk)
 
 
@@ -242,7 +243,7 @@ def invoice_detail(request, pk):
             invoice = reconcile(invoice)
         except ProviderUnavailable:
             invoice.refresh_from_db()
-            messages.warning(request, "No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo.")
+            messages.warning(request, gettext("No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo."))
     blocked = invoice_access_conflict(invoice, request.user)
     next_destination = invoice_destination(invoice, request.user)
     lines = order_content(invoice, request.user)
@@ -315,7 +316,7 @@ def invoice_status(request, pk):
     try:
         invoice = reconcile(invoice)
     except ProviderUnavailable:
-        return JsonResponse({"error": "No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo."}, status=503)
+        return JsonResponse({"error": gettext("No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo.")}, status=503)
     return JsonResponse({"status": invoice.status, "incident": invoice.incident})
 
 
@@ -326,14 +327,14 @@ def invoice_action(request, pk):
     try:
         if request.POST.get("action") in ("pay", "simulate"):
             if settings.COMMERCE_PAYMENT_MODE != "fake":
-                raise ProviderUnavailable("Abre el pago o escanea el QR para pagar. Después, actualiza el estado de esta misma factura.")
+                raise ProviderUnavailable(gettext("Abre el pago o escanea el QR para pagar. Después, actualiza el estado de esta misma factura."))
             invoice = simulate_payment(request.user, invoice)
         else:
             invoice = reconcile(invoice)
         if invoice.status == "paid":
-            messages.success(request, "Compra confirmada. Tu contenido ya está disponible.")
+            messages.success(request, gettext("Compra confirmada. Tu contenido ya está disponible."))
     except (ProviderUnavailable, ValidationError) as exc:
-        messages.warning(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "No pudimos comprobar el pago. Actualiza esta misma factura antes de volver a pagar.")
+        messages.warning(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("No pudimos comprobar el pago. Actualiza esta misma factura antes de volver a pagar."))
     return redirect("invoice-detail", pk=pk)
 
 
@@ -345,9 +346,9 @@ def purchases(request):
     for invoice_id in invoices.filter(status="pending", expires_at__lte=timezone.now()).values_list("pk", flat=True):
         expire_invoice(invoice_id)
     counts = {item["status"]: item["total"] for item in invoices.values("status").annotate(total=Count("pk"))}
-    filters = [("all", "Todas", sum(counts.values())), ("paid", "Confirmadas", counts.get("paid", 0)),
-               ("pending", "Pendientes", counts.get("pending", 0)),
-               ("closed", "Sin completar", counts.get("expired", 0) + counts.get("failed", 0))]
+    filters = [("all", gettext("Todas"), sum(counts.values())), ("paid", gettext("Confirmadas"), counts.get("paid", 0)),
+               ("pending", gettext("Pendientes"), counts.get("pending", 0)),
+               ("closed", gettext("Sin completar"), counts.get("expired", 0) + counts.get("failed", 0))]
     selected = request.GET.get("estado", "all")
     if selected not in {key for key, _, _ in filters}:
         selected = "all"

@@ -2,34 +2,35 @@
 from urllib.parse import urlencode
 
 from django.urls import reverse
+from django.utils.translation import gettext, gettext_lazy
 
 CATALOG_MENU = [
-    ("courses", "Cursos", "book"), ("tutorials", "Tutoriales", "steps"),
-    ("resources", "Recursos", "file"), ("learning-paths", "Rutas", "route"),
+    ("courses", gettext_lazy("Cursos"), "book"), ("tutorials", gettext_lazy("Tutoriales"), "steps"),
+    ("resources", gettext_lazy("Recursos"), "file"), ("learning-paths", gettext_lazy("Rutas"), "route"),
 ]
-MEMBERSHIP_LINK = ("membership", "Membresía", "ticket")
+MEMBERSHIP_LINK = ("membership", gettext_lazy("Membresía"), "ticket")
 CATALOG_DESTINATIONS = {"cursos": "courses", "tutoriales": "tutorials", "recursos": "resources"}
 STUDENT_MENU = [
-    *CATALOG_MENU, MEMBERSHIP_LINK, ("workspace", "Mi aprendizaje", "book"),
-    ("purchases", "Compras", "bag"), ("community-spaces", "Comunidad", "people"),
+    *CATALOG_MENU, MEMBERSHIP_LINK, ("workspace", gettext_lazy("Mi aprendizaje"), "book"),
+    ("purchases", gettext_lazy("Compras"), "bag"), ("community-spaces", gettext_lazy("Comunidad"), "people"),
 ]
 CREATOR_MENU = [
-    ("creator-dashboard", "Mi estudio", "home"), ("creator-content", "Contenido", "file"),
-    ("creator-questions", "Alumnos", "people"), ("community-spaces", "Comunidad", "chat"),
-    ("creator-analytics", "Ventas", "chart"),
+    ("creator-dashboard", gettext_lazy("Mi estudio"), "home"), ("creator-content", gettext_lazy("Contenido"), "file"),
+    ("creator-questions", gettext_lazy("Alumnos"), "people"), ("community-spaces", gettext_lazy("Comunidad"), "chat"),
+    ("creator-analytics", gettext_lazy("Ventas"), "chart"),
 ]
 SECTION_MENUS = {
-    "learning": [("workspace", "Mi aprendizaje"), ("student-questions", "Mis preguntas"), ("student-practices", "Prácticas")],
-    "payments": [("purchases", "Historial de compras"), ("cart", "Carrito"), ("student-tips", "Propinas")],
-    "community": [("community-spaces", "Comunidades de cursos"), ("members", "Personas")],
-    "studio": [("creator-content", "Todo el contenido"), ("creator-paths", "Rutas"), ("creator-files", "Biblioteca de archivos")],
-    "teaching": [("creator-questions", "Preguntas"), ("creator-results", "Evaluaciones"), ("creator-practices", "Entregas")],
-    "sales": [("creator-analytics", "Actividad"), ("creator-offers", "Ofertas y precios"), ("creator-coupons", "Cupones"), ("creator-tips", "Propinas")],
+    "learning": [("workspace", gettext_lazy("Mi aprendizaje")), ("student-questions", gettext_lazy("Mis preguntas")), ("student-practices", gettext_lazy("Prácticas"))],
+    "payments": [("purchases", gettext_lazy("Historial de compras")), ("cart", gettext_lazy("Carrito")), ("student-tips", gettext_lazy("Propinas"))],
+    "community": [("community-spaces", gettext_lazy("Comunidades de cursos")), ("members", gettext_lazy("Personas"))],
+    "studio": [("creator-content", gettext_lazy("Todo el contenido")), ("creator-paths", gettext_lazy("Rutas")), ("creator-files", gettext_lazy("Biblioteca de archivos"))],
+    "teaching": [("creator-questions", gettext_lazy("Preguntas")), ("creator-results", gettext_lazy("Evaluaciones")), ("creator-practices", gettext_lazy("Entregas"))],
+    "sales": [("creator-analytics", gettext_lazy("Actividad")), ("creator-offers", gettext_lazy("Ofertas y precios")), ("creator-coupons", gettext_lazy("Cupones")), ("creator-tips", gettext_lazy("Propinas"))],
 }
 SECTION_LABELS = {
-    "learning": "Secciones de Mi aprendizaje", "payments": "Secciones de Compras",
-    "community": "Secciones de Comunidad", "studio": "Secciones de Contenido",
-    "teaching": "Secciones de Alumnos", "sales": "Secciones de Ventas",
+    "learning": gettext_lazy("Secciones de Mi aprendizaje"), "payments": gettext_lazy("Secciones de Compras"),
+    "community": gettext_lazy("Secciones de Comunidad"), "studio": gettext_lazy("Secciones de Contenido"),
+    "teaching": gettext_lazy("Secciones de Alumnos"), "sales": gettext_lazy("Secciones de Ventas"),
 }
 
 
@@ -114,13 +115,13 @@ def contextual_navigation(request):
     if ready:
         entries = CREATOR_MENU
     elif creator:
-        entries = [("creator-application", "Estado de mi cuenta", "file")]
+        entries = [("creator-application", gettext("Estado de mi cuenta"), "file")]
         primary = "creator-application" if route == "creator-application" else primary
         context = "creator-account" if context in {"studio", "teaching", "sales"} else context
     elif signed_in:
         entries = STUDENT_MENU
     else:
-        entries = [*CATALOG_MENU, MEMBERSHIP_LINK, ("creators", "Enseñar", "people")]
+        entries = [*CATALOG_MENU, MEMBERSHIP_LINK, ("creators", gettext("Enseñar"), "people")]
     section_entries = SECTION_MENUS.get(context, [])
     if context == "learning" and not (route.startswith(("student-question", "student-practice")) or route == "question-create"):
         section_entries = []
@@ -129,12 +130,12 @@ def contextual_navigation(request):
     if creator and not ready:
         section_entries = []
     return {
-        "sidebar_context": context, "sidebar_title": "Mi estudio" if creator else "BTC.EDU",
+        "sidebar_context": context, "sidebar_title": gettext("Mi estudio") if creator else "BTC.EDU",
         "sidebar_links": links(entries, primary), "sidebar_switches": [],
         "sidebar_secondary_links": links(CATALOG_MENU, primary) if creator and status != "suspended" else [],
         "sidebar_local_links": [],
         "section_navigation_links": links(section_entries, selected),
-        "section_navigation_label": SECTION_LABELS.get(context, "Secciones"),
+        "section_navigation_label": str(SECTION_LABELS.get(context, gettext("Secciones"))),
         "navigation_account_url": reverse(account), "navigation_home_url": reverse(destination),
         "navigation_account_current": context in {"account", "creator-account"} and route != "creator-application",
         "navigation_notifications_current": context == "notifications",

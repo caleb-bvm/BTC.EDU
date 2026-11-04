@@ -10,6 +10,7 @@ from django.db import transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -93,7 +94,7 @@ def cart_add(request, pk):
     if changed:
         from core.telemetry import record_commerce_action
         record_commerce_action(request, "cart_added", str(item.pk), offer=offer)
-    return _changed_response(request, "Añadido al carrito. Puedes seguir explorando." if changed else "Esta opción ya está en tu carrito.")
+    return _changed_response(request, gettext("Añadido al carrito. Puedes seguir explorando.") if changed else gettext("Esta opción ya está en tu carrito."))
 
 
 @never_cache
@@ -111,7 +112,7 @@ def cart_remove(request, pk):
     else:
         removed["key"] = str(uuid4())
         request.session[UNDO_KEY] = removed
-        messages.success(request, "Artículo retirado del carrito.")
+        messages.success(request, gettext("Artículo retirado del carrito."))
     return redirect("cart")
 
 
@@ -122,15 +123,15 @@ def cart_undo(request):
     cart = get_cart(request)
     snapshot = undo_selection(request, cart)
     if not snapshot or request.POST.get("key") != snapshot.get("key"):
-        messages.error(request, "No hay un artículo retirado que puedas restaurar en este carrito.")
+        messages.error(request, gettext("No hay un artículo retirado que puedas restaurar en este carrito."))
         return redirect("cart")
     try:
         add_item(request.user, cart, snapshot["offer_id"], snapshot.get("return_lesson_id"), restore=True)
     except (ValidationError, Offer.DoesNotExist) as exc:
-        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "Esta opción ya no se puede recuperar.")
+        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Esta opción ya no se puede recuperar."))
     else:
         request.session.pop(UNDO_KEY, None)
-        messages.success(request, "Artículo restaurado. Revisa la selección antes de continuar.")
+        messages.success(request, gettext("Artículo restaurado. Revisa la selección antes de continuar."))
     return redirect("cart")
 
 
@@ -152,9 +153,9 @@ def cart_save(request, pk):
             save_item(request.user, kind, target, "save")
             remove_item(request.user, cart, item.pk)
     except (ValidationError, PermissionDenied) as exc:
-        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "Este contenido no se puede guardar ahora. Tu selección sigue en el carrito.")
+        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Este contenido no se puede guardar ahora. Tu selección sigue en el carrito."))
     else:
-        messages.success(request, "Guardado para después en Mi aprendizaje.")
+        messages.success(request, gettext("Guardado para después en Mi aprendizaje."))
     return redirect("cart")
 
 
@@ -169,7 +170,7 @@ def cart_merge(request):
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
     else:
-        messages.success(request, "Selección incorporada. Los artículos restantes se conservan." if pending else "Selección incorporada a tu carrito.")
+        messages.success(request, gettext("Selección incorporada. Los artículos restantes se conservan.") if pending else gettext("Selección incorporada a tu carrito."))
     return redirect("cart")
 
 
@@ -177,7 +178,7 @@ def _verified(request, destination):
     """Redirect to email verification when buying requires a verified address."""
     if settings.ACCOUNT_REQUIRE_VERIFIED_EMAIL and not request.user.email_verified_at:
         request.session["account_verify_destination"] = destination
-        messages.info(request, "Confirma tu correo antes de comprar para conservar una vía de recuperación.")
+        messages.info(request, gettext("Confirma tu correo antes de comprar para conservar una vía de recuperación."))
         return redirect("student-account-security")
     return None
 
@@ -191,7 +192,7 @@ def _payment(invoice):
         ensure_emitted(invoice)
     except ProviderUnavailable:
         # The reserved order is retained; retry the same invoice rather than recreate it.
-        messages_text = "No pudimos preparar el pago. Actualiza esta misma factura para continuar."
+        messages_text = gettext("No pudimos preparar el pago. Actualiza esta misma factura para continuar.")
         return invoice, messages_text
     return invoice, ""
 
@@ -204,7 +205,7 @@ def cart_checkout(request):
     require_student(request.user)
     cart = get_cart(request)
     if cart is None:
-        messages.info(request, "Elige contenido para preparar tu compra.")
+        messages.info(request, gettext("Elige contenido para preparar tu compra."))
         return redirect("cart")
     error = ""
     coupon_code = (request.POST if request.method == "POST" else request.GET).get("cupon", "")
@@ -287,7 +288,7 @@ def direct_checkout(request, pk):
             return verification
         try:
             if not request.POST.get("token"):
-                raise ValidationError("Revisa el precio y lo incluido antes de preparar el pago.")
+                raise ValidationError(gettext("Revisa el precio y lo incluido antes de preparar el pago."))
             from core.telemetry import session_id
             invoice = reserve_direct_order(request.user, offer.pk, return_lesson_id=value,
                                            request_key=request.POST.get("request_key"), token=request.POST.get("token", ""),

@@ -7,6 +7,7 @@ import uuid
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.translation import gettext, gettext_lazy
 
 from content.immutability import FrozenQuerySet, FrozenRecord
 
@@ -14,20 +15,20 @@ from content.immutability import FrozenQuerySet, FrozenRecord
 class Offer(models.Model):
     """A priced package of frozen resource revisions, reviewed before it is sold."""
     class Status(models.TextChoices):
-        DRAFT = "draft", "Borrador"
-        PENDING = "pending", "En revisión"
-        ACTIVE = "active", "Disponible"
-        ARCHIVED = "archived", "Retirada"
+        DRAFT = "draft", gettext_lazy("Borrador")
+        PENDING = "pending", gettext_lazy("En revisión")
+        ACTIVE = "active", gettext_lazy("Disponible")
+        ARCHIVED = "archived", gettext_lazy("Retirada")
 
     class Kind(models.TextChoices):
-        COURSE = "course", "Curso o tutorial"
-        CHAPTER = "chapter", "Capítulo"
-        LESSON = "lesson", "Texto de lección"
-        RESOURCE = "resource", "Video o material"
+        COURSE = "course", gettext_lazy("Curso o tutorial")
+        CHAPTER = "chapter", gettext_lazy("Capítulo")
+        LESSON = "lesson", gettext_lazy("Texto de lección")
+        RESOURCE = "resource", gettext_lazy("Video o material")
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    title = models.CharField("nombre de la oferta", max_length=200)
-    amount_sats = models.PositiveIntegerField("precio en sats de prueba")
+    title = models.CharField(gettext_lazy("nombre de la oferta"), max_length=200)
+    amount_sats = models.PositiveIntegerField(gettext_lazy("precio en sats de prueba"))
     kind = models.CharField(max_length=12, choices=Kind)
     logical_key = models.CharField(max_length=64, default="", editable=False)
     course_version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT, null=True, blank=True)
@@ -51,12 +52,12 @@ class Offer(models.Model):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
             if any(getattr(self, field) != getattr(original, field) for field in ("creator_id", "title", "amount_sats", "kind", "logical_key", "course_version_id", "chapter_id", "lesson_id", "resource_id")):
-                raise ValidationError("Crea otra oferta para cambiar el precio o lo incluido.")
+                raise ValidationError(gettext("Crea otra oferta para cambiar el precio o lo incluido."))
         self.full_clean()
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        raise ValidationError("Retira la oferta; se conserva su historial.")
+        raise ValidationError(gettext("Retira la oferta; se conserva su historial."))
 
 
 class OfferItem(FrozenRecord):
@@ -69,7 +70,7 @@ class OfferItem(FrozenRecord):
 
     def clean(self):
         if self.offer.status != Offer.Status.DRAFT or self.resource.creator_id != self.offer.creator_id:
-            raise ValidationError("Solo se puede componer un borrador con recursos propios.")
+            raise ValidationError(gettext("Solo se puede componer un borrador con recursos propios."))
 
 
 class Cart(models.Model):
@@ -149,37 +150,37 @@ class OrderLine(FrozenRecord):
 
     def clean(self):
         if self.order.sealed or self.creator_id != self.offer.creator_id:
-            raise ValidationError("El pedido solo se compone antes de confirmar su selección, con el educador de cada oferta.")
+            raise ValidationError(gettext("El pedido solo se compone antes de confirmar su selección, con el educador de cada oferta."))
         if self.amount_sats + self.credit_sats + self.discount_sats != self.offer.amount_sats or self.course_version_id != self.offer.course_version_id:
-            raise ValidationError("La línea debe conservar el precio y la versión de su oferta.")
+            raise ValidationError(gettext("La línea debe conservar el precio y la versión de su oferta."))
         if self.coupon_id and self.path_id:
-            raise ValidationError("Un artículo admite un cupón o el paquete de una ruta, no ambos.")
+            raise ValidationError(gettext("Un artículo admite un cupón o el paquete de una ruta, no ambos."))
         if bool(self.discount_sats) != bool(self.coupon_id or self.path_id) or (self.coupon_id and self.coupon.creator_id != self.creator_id):
-            raise ValidationError("Un descuento requiere un cupón del educador de la oferta o el paquete de una ruta.")
+            raise ValidationError(gettext("Un descuento requiere un cupón del educador de la oferta o el paquete de una ruta."))
         if self.path_id and (self.offer.kind != "course" or not self.path.steps.filter(course_id=self.course_version.course_id).exists()):
-            raise ValidationError("El paquete solo descuenta cursos completos de su ruta.")
+            raise ValidationError(gettext("El paquete solo descuenta cursos completos de su ruta."))
         resources = {item.resource_id for item in self.offer.items.all()}
         included = {item["resource_id"] for item in self.inventory}
         # A credited line completes a package and keeps only the components still missing.
         if (not included or not included < resources) if self.credit_sats else included != resources:
-            raise ValidationError("La línea debe conservar todo el inventario de su oferta.")
+            raise ValidationError(gettext("La línea debe conservar todo el inventario de su oferta."))
         if self.return_lesson_id and (self.return_lesson.chapter.version_id != self.course_version_id or self.return_lesson.content_id not in resources):
-            raise ValidationError("El destino elegido debe formar parte de la oferta.")
+            raise ValidationError(gettext("El destino elegido debe formar parte de la oferta."))
 
 
 class Invoice(models.Model):
     """Lightning invoice for a single offer or an order, with its provider and incident state."""
     class Status(models.TextChoices):
-        PENDING = "pending", "Pendiente"
-        PAID = "paid", "Pagada"
-        EXPIRED = "expired", "Vencida"
-        FAILED = "failed", "No completada"
+        PENDING = "pending", gettext_lazy("Pendiente")
+        PAID = "paid", gettext_lazy("Pagada")
+        EXPIRED = "expired", gettext_lazy("Vencida")
+        FAILED = "failed", gettext_lazy("No completada")
 
     class Issue(models.TextChoices):
-        NEW = "new", "Sin emitir"
-        REQUESTED = "requested", "Emisión solicitada"
-        READY = "ready", "Emitida"
-        UNKNOWN = "unknown", "Por conciliar"
+        NEW = "new", gettext_lazy("Sin emitir")
+        REQUESTED = "requested", gettext_lazy("Emisión solicitada")
+        READY = "ready", gettext_lazy("Emitida")
+        UNKNOWN = "unknown", gettext_lazy("Por conciliar")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -210,7 +211,7 @@ class Invoice(models.Model):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
             if any(getattr(self, field) != getattr(original, field) for field in ("buyer_id", "offer_id", "order_id", "logical_key", "title", "amount_sats", "inventory", "expires_at")):
-                raise ValidationError("La factura conserva el precio y contenido originales.")
+                raise ValidationError(gettext("La factura conserva el precio y contenido originales."))
         return super().save(*args, **kwargs)
 
 
@@ -272,11 +273,11 @@ class CommerceEvent(FrozenRecord):
 class Coupon(models.Model):
     """Educator discount code, by percentage or fixed sats."""
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="coupons")
-    code = models.CharField("código", max_length=24, unique=True)
-    percent_off = models.PositiveSmallIntegerField("porcentaje de descuento", null=True, blank=True)
-    amount_off_sats = models.PositiveIntegerField("descuento en sats", null=True, blank=True)
+    code = models.CharField(gettext_lazy("código"), max_length=24, unique=True)
+    percent_off = models.PositiveSmallIntegerField(gettext_lazy("porcentaje de descuento"), null=True, blank=True)
+    amount_off_sats = models.PositiveIntegerField(gettext_lazy("descuento en sats"), null=True, blank=True)
     course = models.ForeignKey("content.Course", on_delete=models.PROTECT, null=True, blank=True, related_name="coupons",
-                               verbose_name="curso o tutorial")
+                               verbose_name=gettext_lazy("curso o tutorial"))
     starts_at = models.DateTimeField("desde")
     expires_at = models.DateTimeField("vence")
     max_uses = models.PositiveIntegerField("usos disponibles")
@@ -298,20 +299,20 @@ class Coupon(models.Model):
 
     def clean(self):
         if self.course_id and self.course.creator_id != self.creator_id:
-            raise ValidationError("El cupón solo puede aplicarse a tu propio contenido.")
+            raise ValidationError(gettext("El cupón solo puede aplicarse a tu propio contenido."))
         if self.expires_at and self.starts_at and self.expires_at <= self.starts_at:
-            raise ValidationError("La fecha de vencimiento debe ser posterior al inicio.")
+            raise ValidationError(gettext("La fecha de vencimiento debe ser posterior al inicio."))
 
     def save(self, *args, **kwargs):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
             if any(getattr(self, field) != getattr(original, field) for field in ("creator_id", "code", "percent_off", "amount_off_sats", "course_id", "starts_at", "expires_at", "max_uses")):
-                raise ValidationError("Desactiva el cupón y crea otro para cambiar sus condiciones.")
+                raise ValidationError(gettext("Desactiva el cupón y crea otro para cambiar sus condiciones."))
         self.full_clean()
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        raise ValidationError("Desactiva el cupón; se conserva su historial.")
+        raise ValidationError(gettext("Desactiva el cupón; se conserva su historial."))
 
     @property
     def label(self):
@@ -336,10 +337,10 @@ class Gift(models.Model):
 class LightningPayment(models.Model):
     """A payment that grants no content; amount and recipient never change."""
     class Status(models.TextChoices):
-        PENDING = "pending", "Pendiente"
-        PAID = "paid", "Pagada"
-        EXPIRED = "expired", "Vencida"
-        FAILED = "failed", "No completada"
+        PENDING = "pending", gettext_lazy("Pendiente")
+        PAID = "paid", gettext_lazy("Pagada")
+        EXPIRED = "expired", gettext_lazy("Vencida")
+        FAILED = "failed", gettext_lazy("No completada")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     amount_sats = models.PositiveIntegerField()
@@ -369,13 +370,13 @@ class Tip(LightningPayment):
 
     @property
     def memo(self):
-        return f"BTC.EDU propina {self.pk}"
+        return (gettext('BTC.EDU propina %(pk)s') % {"pk": self.pk})
 
     def save(self, *args, **kwargs):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
             if any(getattr(self, field) != getattr(original, field) for field in ("sender_id", "creator_id", "amount_sats", "message", "expires_at")):
-                raise ValidationError("La propina conserva su importe, destinatario y mensaje.")
+                raise ValidationError(gettext("La propina conserva su importe, destinatario y mensaje."))
         return super().save(*args, **kwargs)
 
 
@@ -383,16 +384,16 @@ class Tip(LightningPayment):
 class MembershipPlan(models.Model):
     """A platform plan: paid periods open the paid lessons of courses marked for membership."""
     name = models.CharField("nombre", max_length=100)
-    description = models.CharField("descripción", max_length=300, blank=True)
-    amount_sats = models.PositiveIntegerField("precio en sats")
-    days = models.PositiveSmallIntegerField("días de acceso")
+    description = models.CharField(gettext_lazy("descripción"), max_length=300, blank=True)
+    amount_sats = models.PositiveIntegerField(gettext_lazy("precio en sats"))
+    days = models.PositiveSmallIntegerField(gettext_lazy("días de acceso"))
     active = models.BooleanField("disponible", default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ("amount_sats", "pk")
-        verbose_name = "plan de membresía"
-        verbose_name_plural = "planes de membresía"
+        verbose_name = gettext_lazy("plan de membresía")
+        verbose_name_plural = gettext_lazy("planes de membresía")
         constraints = [models.CheckConstraint(condition=models.Q(amount_sats__gte=1, amount_sats__lte=1000000), name="membership_plan_price_bounds"),
                        models.CheckConstraint(condition=models.Q(days__gte=1, days__lte=366), name="membership_plan_days_bounds")]
 
@@ -403,12 +404,12 @@ class MembershipPlan(models.Model):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
             if (self.amount_sats, self.days) != (original.amount_sats, original.days):
-                raise ValidationError("Crea otro plan para cambiar el precio o la duración.")
+                raise ValidationError(gettext("Crea otro plan para cambiar el precio o la duración."))
         self.full_clean()
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        raise ValidationError("Desactiva el plan; se conserva su historial.")
+        raise ValidationError(gettext("Desactiva el plan; se conserva su historial."))
 
 
 class MembershipPayment(LightningPayment):
@@ -422,31 +423,31 @@ class MembershipPayment(LightningPayment):
 
     class Meta:
         ordering = ("-created_at",)
-        verbose_name = "pago de membresía"
-        verbose_name_plural = "pagos de membresía"
+        verbose_name = gettext_lazy("pago de membresía")
+        verbose_name_plural = gettext_lazy("pagos de membresía")
         constraints = [models.CheckConstraint(condition=(models.Q(status="paid", paid_at__isnull=False, starts_at__isnull=False, ends_at__isnull=False)
                                                          | (~models.Q(status="paid") & models.Q(starts_at__isnull=True, ends_at__isnull=True))), name="membership_period_when_paid")]
 
     @property
     def memo(self):
-        return f"BTC.EDU membresía {self.pk}"
+        return (gettext('BTC.EDU membresía %(pk)s') % {"pk": self.pk})
 
     def save(self, *args, **kwargs):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
             if any(getattr(self, field) != getattr(original, field) for field in ("member_id", "plan_id", "amount_sats", "days", "expires_at")):
-                raise ValidationError("El pago conserva su plan, importe y duración.")
+                raise ValidationError(gettext("El pago conserva su plan, importe y duración."))
         return super().save(*args, **kwargs)
 
 
 class Refund(models.Model):
     """Refund request for a paid invoice and its Lightning payout."""
     class Status(models.TextChoices):
-        REQUESTED = "requested", "Solicitada"
-        PAYING = "paying", "Pago en curso"
-        REFUNDED = "refunded", "Reembolsada"
-        REJECTED = "rejected", "Rechazada"
-        REVIEW = "review", "Por conciliar"
+        REQUESTED = "requested", gettext_lazy("Solicitada")
+        PAYING = "paying", gettext_lazy("Pago en curso")
+        REFUNDED = "refunded", gettext_lazy("Reembolsada")
+        REJECTED = "rejected", gettext_lazy("Rechazada")
+        REVIEW = "review", gettext_lazy("Por conciliar")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     invoice = models.OneToOneField(Invoice, on_delete=models.PROTECT, related_name="refund")
@@ -464,11 +465,11 @@ class Refund(models.Model):
 
     class Meta:
         ordering = ("-created_at",)
-        permissions = [("decide_refund", "Aprobar o rechazar reembolsos")]
+        permissions = [("decide_refund", gettext_lazy("Aprobar o rechazar reembolsos"))]
 
     def save(self, *args, **kwargs):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
             if any(getattr(self, field) != getattr(original, field) for field in ("invoice_id", "buyer_id", "amount_sats", "reason", "payment_request")):
-                raise ValidationError("La solicitud conserva su factura, importe y destino.")
+                raise ValidationError(gettext("La solicitud conserva su factura, importe y destino."))
         return super().save(*args, **kwargs)

@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext, gettext_lazy
 
 from content.immutability import FrozenRecord
 
@@ -77,10 +78,10 @@ class SavedCollection(models.Model):
 
 class PracticeRules(models.Model):
     """Abstract practice assignment: instructions and criteria."""
-    title = models.CharField("Título", max_length=200)
-    instructions = models.TextField("Qué debe entregar el estudiante", max_length=10000)
+    title = models.CharField(gettext_lazy("Título"), max_length=200)
+    instructions = models.TextField(gettext_lazy("Qué debe entregar el estudiante"), max_length=10000)
     criteria = models.JSONField(default=list)
-    review_days = models.PositiveSmallIntegerField("Plazo previsto de revisión (días naturales)", default=7, validators=[MinValueValidator(1), MaxValueValidator(30)])
+    review_days = models.PositiveSmallIntegerField(gettext_lazy("Plazo previsto de revisión (días naturales)"), default=7, validators=[MinValueValidator(1), MaxValueValidator(30)])
 
     class Meta:
         abstract = True
@@ -88,15 +89,15 @@ class PracticeRules(models.Model):
     def clean(self):
         super().clean()
         if not self.title.strip() or not self.instructions.strip():
-            raise ValidationError("Completa el título y las instrucciones de la práctica.")
+            raise ValidationError(gettext("Completa el título y las instrucciones de la práctica."))
         if not isinstance(self.criteria, list) or not 1 <= len(self.criteria) <= 12 or any(not isinstance(c, str) or not c.strip() or len(c) > 300 for c in self.criteria):
-            raise ValidationError("Define entre 1 y 12 criterios claros, de hasta 300 caracteres cada uno.")
+            raise ValidationError(gettext("Define entre 1 y 12 criterios claros, de hasta 300 caracteres cada uno."))
 
 
 class PracticeDraft(PracticeRules):
     """Editable practice attached to a lesson draft."""
     lesson = models.OneToOneField("content.Lesson", on_delete=models.CASCADE, related_name="practice_draft")
-    enabled = models.BooleanField("Incluir práctica en la próxima versión", default=True)
+    enabled = models.BooleanField(gettext_lazy("Incluir práctica en la próxima versión"), default=True)
     revision = models.PositiveIntegerField(default=0)
 
 
@@ -107,7 +108,7 @@ class VersionPractice(FrozenRecord, PracticeRules):
     def clean(self):
         super().clean()
         if self.lesson.chapter.version.sealed:
-            raise ValidationError("No se pueden añadir prácticas a una versión sellada.")
+            raise ValidationError(gettext("No se pueden añadir prácticas a una versión sellada."))
 
 
 class PracticeIntake(models.Model):
@@ -148,9 +149,9 @@ class PracticeDelivery(FrozenRecord):
     def clean(self):
         super().clean()
         if self.enrollment.version_id != self.practice.lesson.chapter.version_id:
-            raise ValidationError("La entrega no corresponde a esta inscripción.")
+            raise ValidationError(gettext("La entrega no corresponde a esta inscripción."))
         if not (self.body.strip() or self.project_url or self.attachment):
-            raise ValidationError("Añade una solución, un enlace o un archivo.")
+            raise ValidationError(gettext("Añade una solución, un enlace o un archivo."))
 
     @property
     def state(self):
@@ -159,7 +160,7 @@ class PracticeDelivery(FrozenRecord):
 
     @property
     def state_label(self):
-        return {"pending": "En revisión", "changes": "Cambios solicitados", "accepted": "Aprobada"}[self.state]
+        return {"pending": gettext("En revisión"), "changes": gettext("Cambios solicitados"), "accepted": gettext("Aprobada")}[self.state]
 
     @property
     def overdue(self):
@@ -170,7 +171,7 @@ class PracticeReview(FrozenRecord):
     """Educator feedback on a delivery."""
     delivery = models.OneToOneField(PracticeDelivery, on_delete=models.PROTECT, related_name="review")
     educator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    outcome = models.CharField(max_length=10, choices=(("accepted", "Aprobar entrega"), ("changes", "Solicitar cambios")))
+    outcome = models.CharField(max_length=10, choices=(("accepted", gettext_lazy("Aprobar entrega")), ("changes", gettext_lazy("Solicitar cambios"))))
     feedback = models.TextField(max_length=5000)
     met_criteria = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
@@ -178,24 +179,24 @@ class PracticeReview(FrozenRecord):
     def clean(self):
         super().clean()
         if self.educator_id != self.delivery.practice.lesson.chapter.version.course.creator_id:
-            raise ValidationError("Solo el educador de esta práctica puede revisarla.")
+            raise ValidationError(gettext("Solo el educador de esta práctica puede revisarla."))
         criteria = self.delivery.practice.criteria
         if not isinstance(self.met_criteria, list) or any(type(i) is not int or i < 0 or i >= len(criteria) for i in self.met_criteria) or len(set(self.met_criteria)) != len(self.met_criteria):
-            raise ValidationError("Revisa los criterios seleccionados.")
+            raise ValidationError(gettext("Revisa los criterios seleccionados."))
         if not self.feedback.strip():
-            raise ValidationError("Explica el resultado y el siguiente paso para el estudiante.")
+            raise ValidationError(gettext("Explica el resultado y el siguiente paso para el estudiante."))
         if self.outcome == "accepted" and set(self.met_criteria) != set(range(len(criteria))):
-            raise ValidationError("Para aprobar, la entrega debe cumplir todos los criterios.")
+            raise ValidationError(gettext("Para aprobar, la entrega debe cumplir todos los criterios."))
 
 
 class QuizRules(models.Model):
     """Abstract quiz settings: pass mark, attempts, waiting time and questions."""
-    title = models.CharField("título", max_length=200)
-    pass_mark = models.PositiveSmallIntegerField("nota mínima", default=70, validators=[MaxValueValidator(100)])
+    title = models.CharField(gettext_lazy("título"), max_length=200)
+    pass_mark = models.PositiveSmallIntegerField(gettext_lazy("nota mínima"), default=70, validators=[MaxValueValidator(100)])
     max_attempts = models.PositiveSmallIntegerField("intentos permitidos", default=3, validators=[MinValueValidator(1), MaxValueValidator(10)])
     wait_minutes = models.PositiveIntegerField("espera entre intentos (minutos)", default=0, validators=[MaxValueValidator(10080)])
-    required = models.BooleanField("Exigir aprobación para completar la lección", default=True)
-    feedback = models.CharField("mostrar soluciones", max_length=12, default="submitted", choices=(("submitted", "Al entregar cada intento"), ("passed", "Solo al aprobar")))
+    required = models.BooleanField(gettext_lazy("Exigir aprobación para completar la lección"), default=True)
+    feedback = models.CharField("mostrar soluciones", max_length=12, default="submitted", choices=(("submitted", gettext_lazy("Al entregar cada intento")), ("passed", gettext_lazy("Solo al aprobar"))))
     questions = models.JSONField(default=list, blank=True)
 
     class Meta:
@@ -205,7 +206,7 @@ class QuizRules(models.Model):
 class QuizDraft(QuizRules):
     """Editable quiz attached to a lesson draft."""
     lesson = models.OneToOneField("content.Lesson", on_delete=models.CASCADE, related_name="quiz_draft")
-    enabled = models.BooleanField("Incluir evaluación en la próxima versión", default=True)
+    enabled = models.BooleanField(gettext_lazy("Incluir evaluación en la próxima versión"), default=True)
     revision = models.PositiveIntegerField(default=0)
 
     def clean(self):
@@ -219,7 +220,7 @@ class VersionQuiz(FrozenRecord, QuizRules):
 
     def clean(self):
         if self.lesson.chapter.version.sealed:
-            raise ValidationError("No se pueden añadir evaluaciones a una versión sellada.")
+            raise ValidationError(gettext("No se pueden añadir evaluaciones a una versión sellada."))
         validate_questions(self.questions)
 
 
@@ -260,7 +261,7 @@ class ExtraQuizAttempt(FrozenRecord):
 class CertificateDraft(models.Model):
     """Certificate settings and required lessons for a course draft."""
     course = models.OneToOneField("content.Course", on_delete=models.CASCADE, related_name="certificate_draft")
-    enabled = models.BooleanField("Ofrecer certificado de finalización", default=False)
+    enabled = models.BooleanField(gettext_lazy("Ofrecer certificado de finalización"), default=False)
     required_lessons = models.ManyToManyField("content.Lesson", blank=True)
     revision = models.PositiveIntegerField(default=0)
 
@@ -276,7 +277,7 @@ class VersionCertificatePolicy(FrozenRecord):
         if (self.version.sealed or not isinstance(ids, list) or not ids
                 or any(type(value) is not int for value in ids) or len(ids) != len(set(ids))
                 or VersionLesson.objects.filter(chapter__version=self.version, pk__in=ids).count() != len(ids)):
-            raise ValidationError("El certificado requiere lecciones incluidas en esta versión sin sellar.")
+            raise ValidationError(gettext("El certificado requiere lecciones incluidas en esta versión sin sellar."))
 
 
 class Certificate(FrozenRecord):
@@ -344,7 +345,7 @@ class Notification(models.Model):
     url = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
     read_at = models.DateTimeField(null=True, blank=True)
-    category = models.CharField(max_length=12, default="service", choices=(("service", "Cuenta y revisiones"), ("questions", "Preguntas"), ("community", "Comunidad")))
+    category = models.CharField(max_length=12, default="service", choices=(("service", gettext_lazy("Cuenta y revisiones")), ("questions", gettext_lazy("Preguntas")), ("community", gettext_lazy("Comunidad"))))
 
     class Meta:
         ordering = ("-created_at", "-pk")
@@ -364,13 +365,13 @@ class CommunityPost(FrozenRecord):
 
     def clean(self):
         if self.lesson_id and self.lesson.chapter.version_id != self.version_id:
-            raise ValidationError("La conversación debe pertenecer a una lección de esta versión.")
+            raise ValidationError(gettext("La conversación debe pertenecer a una lección de esta versión."))
         if self.parent_id and (self.parent.parent_id or self.parent.version_id != self.version_id or self.parent.lesson_id != self.lesson_id):
-            raise ValidationError("La respuesta debe conservar la versión y lección de su conversación.")
+            raise ValidationError(gettext("La respuesta debe conservar la versión y lección de su conversación."))
 
     class Meta:
         ordering = ("created_at", "pk")
-        permissions = [("moderate_community", "Moderar comunidades de todos los cursos")]
+        permissions = [("moderate_community", gettext_lazy("Moderar comunidades de todos los cursos"))]
         constraints = [models.UniqueConstraint(fields=("author", "request_key"), name="unique_community_post_request")]
 
 
@@ -411,7 +412,7 @@ class CommunityDecision(FrozenRecord):
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     post = models.ForeignKey(CommunityPost, null=True, blank=True, on_delete=models.PROTECT)
     student = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name="community_decisions")
-    action = models.CharField(max_length=12, choices=(("hide", "Ocultar"), ("show", "Mostrar"), ("close", "Cerrar"), ("open", "Reabrir"), ("dismiss", "Descartar reportes"), ("suspend", "Suspender escritura"), ("restore", "Restablecer escritura")))
+    action = models.CharField(max_length=12, choices=(("hide", gettext_lazy("Ocultar")), ("show", gettext_lazy("Mostrar")), ("close", gettext_lazy("Cerrar")), ("open", gettext_lazy("Reabrir")), ("dismiss", gettext_lazy("Descartar reportes")), ("suspend", gettext_lazy("Suspender escritura")), ("restore", gettext_lazy("Restablecer escritura"))))
     reason = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -429,17 +430,17 @@ class CertificateTimestamp(models.Model):
 class CourseReview(models.Model):
     """Student rating and comment for a course."""
     class Basis(models.TextChoices):
-        PURCHASE = "purchase", "Compra verificada"
-        COMPLETED = "completed", "Curso completado"
+        PURCHASE = "purchase", gettext_lazy("Compra verificada")
+        COMPLETED = "completed", gettext_lazy("Curso completado")
 
     course = models.ForeignKey("content.Course", on_delete=models.PROTECT, related_name="reviews")
     version = models.ForeignKey("content.CourseVersion", on_delete=models.PROTECT, related_name="reviews")
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="course_reviews")
-    rating = models.PositiveSmallIntegerField("valoración", validators=[MinValueValidator(1), MaxValueValidator(5)])
-    body = models.TextField("reseña", max_length=2000, blank=True)
+    rating = models.PositiveSmallIntegerField(gettext_lazy("valoración"), validators=[MinValueValidator(1), MaxValueValidator(5)])
+    body = models.TextField(gettext_lazy("reseña"), max_length=2000, blank=True)
     basis = models.CharField(max_length=12, choices=Basis)
-    hidden = models.BooleanField("oculta por moderación", default=False)
-    reply = models.TextField("respuesta del educador", max_length=1000, blank=True)
+    hidden = models.BooleanField(gettext_lazy("oculta por moderación"), default=False)
+    reply = models.TextField(gettext_lazy("respuesta del educador"), max_length=1000, blank=True)
     replied_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -451,19 +452,19 @@ class CourseReview(models.Model):
 
     def clean(self):
         if self.version_id and self.course_id and self.version.course_id != self.course_id:
-            raise ValidationError("La reseña debe corresponder a una versión del curso.")
+            raise ValidationError(gettext("La reseña debe corresponder a una versión del curso."))
 
 
 class PracticeShowcase(models.Model):
     """A student's explicit permission to show an approved practice in the course gallery."""
     delivery = models.OneToOneField(PracticeDelivery, on_delete=models.PROTECT, related_name="showcase")
     public = models.BooleanField(default=True)
-    hidden = models.BooleanField("oculta por moderación", default=False)
+    hidden = models.BooleanField(gettext_lazy("oculta por moderación"), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def clean(self):
         if self.delivery_id and self.delivery.state != "accepted":
-            raise ValidationError("Solo se pueden mostrar prácticas aprobadas.")
+            raise ValidationError(gettext("Solo se pueden mostrar prácticas aprobadas."))
 
 
 BUNDLE_MAX_PERCENT = 50
@@ -474,20 +475,20 @@ class LearningPath(models.Model):
     # Without an educator the path is editorial: BTC.EDU may combine published courses from anyone.
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True,
                                 related_name="learning_paths", verbose_name="educador")
-    title = models.CharField("título", max_length=200)
+    title = models.CharField(gettext_lazy("título"), max_length=200)
     slug = models.SlugField("identificador", unique=True)
     summary = models.CharField("resumen", max_length=240)
-    description = models.TextField("descripción", blank=True)
+    description = models.TextField(gettext_lazy("descripción"), blank=True)
     published = models.BooleanField("publicada", default=False)
     position = models.PositiveIntegerField("orden", default=1)
-    bundle_percent = models.PositiveSmallIntegerField("descuento del paquete (%)", default=0, validators=[MaxValueValidator(BUNDLE_MAX_PERCENT)],
-                                                      help_text="Con 0, los cursos se compran solo por separado.")
+    bundle_percent = models.PositiveSmallIntegerField(gettext_lazy("descuento del paquete (%)"), default=0, validators=[MaxValueValidator(BUNDLE_MAX_PERCENT)],
+                                                      help_text=gettext_lazy("Con 0, los cursos se compran solo por separado."))
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ("position", "pk")
-        verbose_name = "ruta de aprendizaje"
-        verbose_name_plural = "rutas de aprendizaje"
+        verbose_name = gettext_lazy("ruta de aprendizaje")
+        verbose_name_plural = gettext_lazy("rutas de aprendizaje")
         constraints = [models.CheckConstraint(condition=models.Q(bundle_percent__lte=BUNDLE_MAX_PERCENT), name="path_bundle_percent_bounds")]
 
     def __str__(self):
@@ -502,16 +503,16 @@ class LearningPath(models.Model):
 class PathCourse(models.Model):
     """One course in a path, required or optional."""
     path = models.ForeignKey(LearningPath, on_delete=models.CASCADE, related_name="steps")
-    course = models.ForeignKey("content.Course", on_delete=models.PROTECT, related_name="path_steps", verbose_name="curso o tutorial")
+    course = models.ForeignKey("content.Course", on_delete=models.PROTECT, related_name="path_steps", verbose_name=gettext_lazy("curso o tutorial"))
     position = models.PositiveIntegerField("orden", default=1)
-    note = models.CharField("por qué en este paso", max_length=240, blank=True)
+    note = models.CharField(gettext_lazy("por qué en este paso"), max_length=240, blank=True)
     # The path is a recommended trail: an optional step never blocks the credential.
     optional = models.BooleanField("opcional", default=False)
 
     class Meta:
         ordering = ("position", "pk")
-        verbose_name = "paso de la ruta"
-        verbose_name_plural = "pasos de la ruta"
+        verbose_name = gettext_lazy("paso de la ruta")
+        verbose_name_plural = gettext_lazy("pasos de la ruta")
         constraints = [models.UniqueConstraint(fields=("path", "course"), name="unique_path_course"),
                        models.UniqueConstraint(fields=("path", "position"), name="unique_path_position")]
 
@@ -538,8 +539,8 @@ class PathCompletion(models.Model):
         else:
             original = type(self).objects.get(pk=self.pk)
             if any(getattr(self, name) != getattr(original, name) for name in ("path_id", "student_id", "student_name", "path_title", "evidence", "issued_at", "fingerprint")):
-                raise ValidationError("La credencial conserva sus datos de emisión.")
+                raise ValidationError(gettext("La credencial conserva sus datos de emisión."))
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        raise ValidationError("Las credenciales no se eliminan.")
+        raise ValidationError(gettext("Las credenciales no se eliminan."))

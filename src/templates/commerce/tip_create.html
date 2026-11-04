@@ -1,19 +1,19 @@
 {% extends 'academy.html' %}
-{% block title %}Apoyar a {{ creator_name }} · BTC.EDU{% endblock %}
+{% block title %}{% blocktranslate with creator_name=creator_name %}Apoyar a {{ creator_name }} · BTC.EDU{% endblocktranslate %}{% endblock %}
 {% block academy_content %}
 <section class="learning-page commerce-page">
-  <header class="page-heading"><div><p class="eyebrow">PROPINA</p><h1>Agradece con sats.</h1><p>Envía una propina a {{ creator_name }}{% if lesson %} por «{{ lesson.content.title }}»{% endif %}. No compra contenido ni cambia tu acceso.</p></div></header>
+  <header class="page-heading"><div><p class="eyebrow">{% translate "PROPINA" %}</p><h1>{% translate "Agradece con sats." %}</h1><p>{% blocktranslate with creator_name=creator_name %}Envía una propina a {{ creator_name }}{% endblocktranslate %}{% if lesson %} {% blocktranslate with title=lesson.content.title|tr %}por «{{ title }}»{% endblocktranslate %}{% endif %}{% translate ". No compra contenido ni cambia tu acceso." %}</p></div></header>
   <div class="commerce-grid">
     <section class="commerce-panel">
       {% if form.non_field_errors %}<div class="form-errors" role="alert">{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>{% endif %}
       <form method="post" class="tip-form" data-payment-form data-pending-label="Preparando pago…">{% csrf_token %}
         {% if lesson %}<input type="hidden" name="leccion" value="{{ lesson.pk }}">{% else %}<input type="hidden" name="creador" value="{{ creator.pk }}">{% endif %}
-        <fieldset class="tip-presets"><legend>Importe</legend>{% for preset in presets %}<button type="button" class="btn btn-outline-dark" data-tip-preset="{{ preset }}">{{ preset }} sats</button>{% endfor %}</fieldset>
+        <fieldset class="tip-presets"><legend>{% translate "Importe" %}</legend>{% for preset in presets %}<button type="button" class="btn btn-outline-dark" data-tip-preset="{{ preset }}">{{ preset }} sats</button>{% endfor %}</fieldset>
         {{ form.as_p }}
-        <button class="btn btn-dark" type="submit">Preparar propina →</button>
+        <button class="btn btn-dark" type="submit">{% translate "Preparar propina →" %}</button>
       </form>
     </section>
-    <aside class="commerce-panel purchase-summary"><h2>Cómo funciona</h2><p>Preparamos una factura Lightning por el importe elegido. El educador recibe un aviso cuando se confirma el pago y puede leer tu mensaje.</p><p class="small-note">Las propinas no se reembolsan.</p></aside>
+    <aside class="commerce-panel purchase-summary"><h2>{% translate "Cómo funciona" %}</h2><p>{% translate "Preparamos una factura Lightning por el importe elegido. El educador recibe un aviso cuando se confirma el pago y puede leer tu mensaje." %}</p><p class="small-note">{% translate "Las propinas no se reembolsan." %}</p></aside>
   </div>
 </section>
 {% endblock %}

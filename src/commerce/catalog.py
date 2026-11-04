@@ -3,6 +3,7 @@
 What is publicly sellable, what a student owns, and which offers unlock a given lesson or version.
 """
 from django.db.models import F, Q
+from django.utils.translation import gettext
 
 from content.models import (
     CourseVersion,
@@ -13,6 +14,7 @@ from content.models import (
     VersionLesson,
     Video,
 )
+from core.content_translation import translate_content
 
 from .models import Entitlement, Offer
 
@@ -53,7 +55,7 @@ def target_choices(actor, course=None, resource=None):
         revision = resource.revision
         if resource.creator_id != actor.pk or not revision or revision.access_type != "paid" or not public_resource(revision):
             return []
-        return [(f"resource:{revision.pk}", f"{revision.title} · revisión {revision.number} · {revision.get_kind_display()}")]
+        return [(f"resource:{revision.pk}", gettext("%(title)s · revisión %(number)s · %(kind)s") % {"title": translate_content(revision.title), "number": revision.number, "kind": revision.get_kind_display()})]
     versions = CourseVersion.objects.filter(course__creator=actor, sealed=True, course__status="published", pk=F("course__current_version_id"))
     if course is not None:
         versions = versions.filter(course=course)
@@ -65,20 +67,20 @@ def target_choices(actor, course=None, resource=None):
             for lesson in chapter.lessons.all()
         )}
         if paid_chapters:
-            label = "tutorial completo" if version.kind == "tutorial" else "curso completo"
-            choices.append((f"course:{version.pk}", f"{version.title} · v{version.number} · {label}"))
+            label = gettext("tutorial completo") if version.kind == "tutorial" else gettext("curso completo")
+            choices.append((f"course:{version.pk}", f"{translate_content(version.title)} · v{version.number} · {label}"))
         for chapter in chapters:
             if chapter.pk in paid_chapters:
-                choices.append((f"chapter:{chapter.pk}", f"{version.title} / {chapter.title} · capítulo"))
+                choices.append((f"chapter:{chapter.pk}", gettext("%(course)s / %(chapter)s · capítulo") % {"course": translate_content(version.title), "chapter": translate_content(chapter.title)}))
             for lesson in chapter.lessons.all():
                 if lesson.content.access_type == "paid":
-                    choices.append((f"lesson:{lesson.pk}", f"{version.title} / {lesson.content.title} · texto de lección"))
+                    choices.append((f"lesson:{lesson.pk}", gettext("%(course)s / %(lesson)s · texto de lección") % {"course": translate_content(version.title), "lesson": translate_content(lesson.content.title)}))
     resources = ResourceVersion.objects.filter(creator=actor, access_type="paid").exclude(kind="text")
     if course is not None:
         resources = resources.filter(pk__in=VersionAttachment.objects.filter(lesson__chapter__version__in=versions).values("resource_id"))
     for resource in resources:
         if public_resource(resource):
-            choices.append((f"resource:{resource.pk}", f"{resource.title} · revisión {resource.number} · {resource.get_kind_display()}"))
+            choices.append((f"resource:{resource.pk}", gettext("%(title)s · revisión %(number)s · %(kind)s") % {"title": translate_content(resource.title), "number": resource.number, "kind": resource.get_kind_display()}))
     return choices
 
 
@@ -87,14 +89,14 @@ def target_inventory(kind, pk, actor):
     from django.core.exceptions import PermissionDenied, ValidationError
     models = {"course": CourseVersion, "chapter": VersionChapter, "lesson": VersionLesson, "resource": ResourceVersion}
     if kind not in models:
-        raise ValidationError("Elige contenido publicado.")
+        raise ValidationError(gettext("Elige contenido publicado."))
     target = models[kind].objects.get(pk=pk)
     version = target if kind == "course" else target.version if kind == "chapter" else target.chapter.version if kind == "lesson" else None
     owner = version.course.creator_id if version else target.creator_id
     if owner != actor.pk:
         raise PermissionDenied
     if not (public_version(version) if version else public_resource(target)):
-        raise ValidationError("Publica primero esa versión del contenido.")
+        raise ValidationError(gettext("Publica primero esa versión del contenido."))
     resources = {}
     if kind == "resource":
         resources[target.pk] = target
@@ -107,7 +109,7 @@ def target_inventory(kind, pk, actor):
                 if kind != "lesson" or attachment.resource.access_type == "free":
                     resources[attachment.resource_id] = attachment.resource
     if not any(resource.access_type == "paid" for resource in resources.values()):
-        raise ValidationError("Este contenido es gratuito; no necesita una oferta.")
+        raise ValidationError(gettext("Este contenido es gratuito; no necesita una oferta."))
     fields = {"course_version": version, "kind": kind}
     if kind != "course":
         fields[kind] = target

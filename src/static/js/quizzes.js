@@ -6,7 +6,7 @@ document.querySelectorAll('[data-quiz-editor]').forEach((editor) => {
   button.addEventListener('click', () => {
     const index = Number(total.value);
     if (index >= 20) {
-      editor.querySelector('[data-question-status]').textContent = 'El máximo es 20 preguntas. Puedes editar o eliminar las existentes.';
+      editor.querySelector('[data-question-status]').textContent = btcT('El máximo es 20 preguntas. Puedes editar o eliminar las existentes.');
       return;
     }
     const wrapper = document.createElement('div');
@@ -86,9 +86,9 @@ document.querySelectorAll('[data-quiz-attempt]').forEach((form) => {
     });
     const marked = flags.has(current);
     flag.setAttribute('aria-pressed', String(marked));
-    flag.textContent = marked ? 'Marcada para revisar' : 'Marcar para revisar';
+    flag.textContent = marked ? btcT('Marcada para revisar') : btcT('Marcar para revisar');
     previous.disabled = current === 0;
-    next.textContent = current === questions.length - 1 ? 'Revisar y entregar →' : 'Siguiente →';
+    next.textContent = current === questions.length - 1 ? btcT('Revisar y entregar →') : btcT('Siguiente →');
     confirm.disabled = count !== questions.length;
   }
   function show(index, focus = true) {
@@ -111,7 +111,7 @@ document.querySelectorAll('[data-quiz-attempt]').forEach((form) => {
     form.querySelector('[data-count-flagged]').textContent = String(flags.size);
     form.querySelector('[data-submit-summary]').textContent = pending
       ? 'Responde ' + (pending === 1 ? 'la pregunta pendiente' : 'las ' + pending + ' preguntas pendientes') + ' para entregar.'
-      : flags.size ? 'Respondiste todo. Revisa las preguntas marcadas si quieres cambiar algo.' : 'Respondiste todas las preguntas. Puedes cambiar cualquier respuesta o entregar el intento.';
+      : flags.size ? btcT('Respondiste todo. Revisa las preguntas marcadas si quieres cambiar algo.') : btcT('Respondiste todas las preguntas. Puedes cambiar cualquier respuesta o entregar el intento.');
     const summary = form.querySelector('[data-answer-summary]');
     summary.replaceChildren();
     questions.forEach((question, index) => {
@@ -124,7 +124,7 @@ document.querySelectorAll('[data-quiz-attempt]').forEach((form) => {
       const title = document.createElement('h3');
       title.textContent = prompt(question);
       const answers = document.createElement('p');
-      answers.textContent = labels(question).join('\n') || 'Sin responder';
+      answers.textContent = labels(question).join('\n') || btcT('Sin responder');
       copy.append(title, answers);
       if (flags.has(index)) {
         const tag = document.createElement('span');
@@ -153,7 +153,7 @@ document.querySelectorAll('[data-quiz-attempt]').forEach((form) => {
   // Answers save in the background; the page speaks only when a save needs the student.
   function setStatus(text) { saveStatus.textContent = text; }
   function fail(text, retry) {
-    setStatus('Sin guardar');
+    setStatus(btcT('Sin guardar'));
     saveError.querySelector('[data-save-error-text]').textContent = text;
     saveError.querySelector('[data-save-retry]').hidden = !retry;
     saveError.hidden = false;
@@ -173,7 +173,7 @@ document.querySelectorAll('[data-quiz-attempt]').forEach((form) => {
         if (!response.ok) {
           dirty = true;
           // A stale revision needs a reload; other server errors may pass on a retry.
-          fail((data.errors || []).join(' ') || 'Recarga el intento para recuperar las respuestas guardadas.', response.status !== 409);
+          fail((data.errors || []).join(' ') || btcT('Recarga el intento para recuperar las respuestas guardadas.'), response.status !== 409);
           return false;
         }
         revision.value = data.revision;
@@ -183,7 +183,7 @@ document.querySelectorAll('[data-quiz-attempt]').forEach((form) => {
       })
       .catch(() => {
         dirty = true;
-        fail('Revisa tu conexión. Tus respuestas siguen en esta página.', true);
+        fail(btcT('Revisa tu conexión. Tus respuestas siguen en esta página.'), true);
         return false;
       })
       .finally(() => { saving = null; });
@@ -199,7 +199,7 @@ document.querySelectorAll('[data-quiz-attempt]').forEach((form) => {
   }
   function schedule() {
     dirty = true;
-    setStatus('Cambios sin guardar');
+    setStatus(btcT('Cambios sin guardar'));
     clearTimeout(timer);
     timer = setTimeout(save, 700);
   }
@@ -283,7 +283,7 @@ document.querySelectorAll('[data-quiz-editor]').forEach((editor) => {
   editor.addEventListener('input', (event) => {
     if (!event.target.name?.endsWith('-prompt')) return;
     const title = event.target.closest('details')?.querySelector('[data-question-title]');
-    if (title) title.textContent = event.target.value.trim() || 'Nueva pregunta';
+    if (title) title.textContent = event.target.value.trim() || btcT('Nueva pregunta');
   });
   editor.addEventListener('invalid', (event) => {
     const section = event.target.closest('details');

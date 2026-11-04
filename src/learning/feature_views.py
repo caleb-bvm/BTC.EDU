@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -49,9 +50,9 @@ def review_save(request, course_pk):
     try:
         save_review(request.user, course, rating, request.POST.get("body", ""))
     except (ValidationError, PermissionDenied) as exc:
-        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "Solo pueden opinar quienes compraron o completaron este curso.")
+        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Solo pueden opinar quienes compraron o completaron este curso."))
     else:
-        messages.success(request, "Gracias. Tu reseña ya es visible en el curso.")
+        messages.success(request, gettext("Gracias. Tu reseña ya es visible en el curso."))
     return redirect(course_url(course) + "#course-reviews")
 
 
@@ -64,7 +65,7 @@ def review_reply(request, pk):
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
     else:
-        messages.success(request, "Respuesta publicada.")
+        messages.success(request, gettext("Respuesta publicada."))
     return redirect(course_url(review.course) + "#course-reviews" if review.course.current_version_id else "creator-dashboard")
 
 
@@ -86,7 +87,7 @@ def showcase_toggle(request, pk):
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
         return redirect("student-practices")
-    messages.success(request, "Tu práctica aparece en la galería del curso." if showcase.public else "Tu práctica ya no aparece en la galería.")
+    messages.success(request, gettext("Tu práctica aparece en la galería del curso.") if showcase.public else gettext("Tu práctica ya no aparece en la galería."))
     return redirect("student-practice", pk=showcase.delivery.practice_id)
 
 
@@ -191,9 +192,9 @@ def certificate_public_proof(request, pk):
 def certificate_stamp(request, pk):
     certificate = get_object_or_404(Certificate.objects.select_related("enrollment__version"), pk=pk, enrollment__student=request.user)
     if stamp_certificate(certificate) is None and not CertificateTimestamp.objects.filter(certificate=certificate).exists():
-        messages.warning(request, "No pudimos solicitar el sello ahora. Inténtalo más tarde.")
+        messages.warning(request, gettext("No pudimos solicitar el sello ahora. Inténtalo más tarde."))
     else:
-        messages.success(request, "Sello solicitado. La confirmación en Bitcoin suele tardar algunas horas.")
+        messages.success(request, gettext("Sello solicitado. La confirmación en Bitcoin suele tardar algunas horas."))
     return redirect("certificate-detail", pk=pk)
 
 

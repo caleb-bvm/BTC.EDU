@@ -1,6 +1,7 @@
 """Named collections for organizing saved items."""
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
+from django.utils.translation import gettext
 
 from commerce.services import require_student, reserve_writer
 
@@ -28,12 +29,12 @@ def change_collection(actor, action, name="", pk=None):
         collection.delete()
         return None
     if action not in ("create", "rename") or (action == "rename" and not collection):
-        raise ValidationError("La acción no es válida.")
+        raise ValidationError(gettext("La acción no es válida."))
     name = " ".join(name.split())
     if not name or len(name) > 60:
-        raise ValidationError("Usa un nombre de entre 1 y 60 caracteres.")
+        raise ValidationError(gettext("Usa un nombre de entre 1 y 60 caracteres."))
     if SavedCollection.objects.filter(student=actor, normalized_name=name.casefold()).exclude(pk=pk).exists():
-        raise ValidationError("Ya tienes una colección con ese nombre.")
+        raise ValidationError(gettext("Ya tienes una colección con ese nombre."))
     collection = collection or SavedCollection(student=actor)
     collection.name, collection.normalized_name = name, name.casefold()
     collection.full_clean()
@@ -51,7 +52,7 @@ def organize_item(actor, item_id, collection_ids):
     try:
         ids = {int(pk) for pk in collection_ids}
     except (ValueError, TypeError):
-        raise ValidationError("Selecciona tus colecciones de nuevo.") from None
+        raise ValidationError(gettext("Selecciona tus colecciones de nuevo.")) from None
     collections = list(SavedCollection.objects.filter(student=actor, pk__in=ids))
     if len(collections) != len(ids):
         raise PermissionDenied

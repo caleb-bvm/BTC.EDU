@@ -6,6 +6,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from commerce.services import reserve_writer
 from content.access import content_access
@@ -44,9 +45,9 @@ def access(actor, version, writing=False):
             require_creator(actor)
         return
     if actor.account_type != "student" or not Enrollment.objects.filter(student=actor, version=version).exists():
-        raise PermissionDenied("Inscríbete en esta versión para entrar a su comunidad.")
+        raise PermissionDenied(gettext("Inscríbete en esta versión para entrar a su comunidad."))
     if writing and CommunitySuspension.objects.filter(version=version, student=actor, active=True).exists():
-        raise PermissionDenied("Tu participación está suspendida. Puedes seguir leyendo y estudiando.")
+        raise PermissionDenied(gettext("Tu participación está suspendida. Puedes seguir leyendo y estudiando."))
 
 
 @transaction.atomic
@@ -60,24 +61,24 @@ def post_message(actor, version, body, key, parent_id=None, lesson_id=None):
     if parent_id is not None:
         parent = CommunityPost.objects.filter(pk=parent_id, version=version, parent__isnull=True).first()
         if not parent or (lesson_id is not None and lesson_id != parent.lesson_id):
-            raise ValidationError("Selecciona una conversación de esta lección.")
+            raise ValidationError(gettext("Selecciona una conversación de esta lección."))
         lesson_id = parent.lesson_id
     if lesson_id is not None:
         lesson = VersionLesson.objects.select_related("content", "chapter__version__course").filter(pk=lesson_id, chapter__version=version).first()
         if lesson is None:
-            raise ValidationError("Selecciona una lección de esta versión.")
+            raise ValidationError(gettext("Selecciona una lección de esta versión."))
         lesson_access(actor, version, lesson)
     previous = CommunityPost.objects.filter(author=actor, request_key=key).first()
     if previous:
         if previous.body != body or previous.version_id != version.pk or previous.parent_id != parent_id or previous.lesson_id != lesson_id:
-            raise ValidationError("Este envío ya fue utilizado. Recarga el formulario.")
+            raise ValidationError(gettext("Este envío ya fue utilizado. Recarga el formulario."))
         return previous
     access(actor, version, writing=True)
     if parent is not None and (parent.hidden or parent.closed):
-        raise ValidationError("Esta conversación no admite respuestas.")
+        raise ValidationError(gettext("Esta conversación no admite respuestas."))
     since = timezone.now() - timedelta(hours=1)
     if CommunityPost.objects.filter(author=actor, created_at__gte=since).count() >= 30:
-        raise ValidationError("Has enviado muchos mensajes. Espera antes de escribir de nuevo.")
+        raise ValidationError(gettext("Has enviado muchos mensajes. Espera antes de escribir de nuevo."))
     post = CommunityPost.objects.create(version=version, lesson_id=lesson_id, author=actor, body=body, request_key=key, parent_id=parent_id)
     if parent_id:
         recipients = {parent.author_id: parent.author}
@@ -92,7 +93,7 @@ def post_message(actor, version, body, key, parent_id=None, lesson_id=None):
             except PermissionDenied:
                 continue
             key = f"community-reply:{post.pk}" if recipient.pk == parent.author_id else f"community-reply:{post.pk}:{recipient.pk}"
-            notify(recipient, key, "Una conversación tiene una respuesta", reverse("community-thread", args=[parent.pk]))
+            notify(recipient, key, gettext("Una conversación tiene una respuesta"), reverse("community-thread", args=[parent.pk]))
     elif lesson_id and version.course.creator_id != actor.pk:
         creator = version.course.creator
         try:
@@ -101,14 +102,14 @@ def post_message(actor, version, body, key, parent_id=None, lesson_id=None):
         except PermissionDenied:
             pass
         else:
-            notify(creator, f"community-lesson:{post.pk}", "Un nuevo comentario en una lección", reverse("community-thread", args=[post.pk]))
+            notify(creator, f"community-lesson:{post.pk}", gettext("Un nuevo comentario en una lección"), reverse("community-thread", args=[post.pk]))
     return post
 
 
 def lesson_access(actor, version, lesson):
     """Course community membership never unlocks a lesson's discussion."""
     if lesson.chapter.version_id != version.pk or (not moderator(actor, version) and not content_access(actor, lesson).allowed):
-        raise PermissionDenied("Necesitas acceso a esta lección para consultar su conversación.")
+        raise PermissionDenied(gettext("Necesitas acceso a esta lección para consultar su conversación."))
 
 
 def post_access(actor, post):
@@ -147,7 +148,7 @@ def follow_thread(actor, post_id, following):
 
 def reason_text(reason):
     if not isinstance(reason, str) or not reason.strip() or len(reason.strip()) > 500:
-        raise ValidationError("Escribe un motivo de hasta 500 caracteres.")
+        raise ValidationError(gettext("Escribe un motivo de hasta 500 caracteres."))
     return reason.strip()
 
 
@@ -162,12 +163,12 @@ def report_message(actor, post_id, reason):
     if previous:
         return previous
     if post.hidden or (post.parent_id and post.parent.hidden):
-        raise ValidationError("El mensaje ya está oculto.")
+        raise ValidationError(gettext("El mensaje ya está oculto."))
     if CommunityReport.objects.filter(reporter=actor, created_at__gte=timezone.now() - timedelta(hours=1)).count() >= 30:
-        raise ValidationError("Has enviado muchos reportes. Espera antes de enviar otro.")
+        raise ValidationError(gettext("Has enviado muchos reportes. Espera antes de enviar otro."))
     report = CommunityReport.objects.create(post=post, reporter=actor, reason=reason)
     if post.version.course.creator_id:
-        notify(post.version.course.creator, f"community-report:{report.pk}", "Un reporte requiere revisión", reverse("community-moderation", args=[post.version_id]))
+        notify(post.version.course.creator, f"community-report:{report.pk}", gettext("Un reporte requiere revisión"), reverse("community-moderation", args=[post.version_id]))
     return report
 
 
@@ -187,7 +188,7 @@ def moderate(actor, version, action, reason, post_id=None, student_id=None):
     if action in ("hide", "show", "close", "open", "dismiss"):
         post = CommunityPost.objects.filter(pk=post_id, version=version).first()
         if not post or (action in ("close", "open") and post.parent_id):
-            raise ValidationError("Selecciona una conversación válida de este espacio.")
+            raise ValidationError(gettext("Selecciona una conversación válida de este espacio."))
         if action == "dismiss":
             changed = CommunityReport._base_manager.filter(post=post, resolved=False).update(resolved=True)
         else:
@@ -199,7 +200,7 @@ def moderate(actor, version, action, reason, post_id=None, student_id=None):
             return None
     elif action in ("suspend", "restore"):
         if not Enrollment.objects.filter(version=version, student_id=student_id).exists():
-            raise ValidationError("Selecciona un alumno inscrito en este espacio.")
+            raise ValidationError(gettext("Selecciona un alumno inscrito en este espacio."))
         suspension, created = CommunitySuspension.objects.get_or_create(version=version, student_id=student_id, defaults={"active": action == "suspend"})
         value = action == "suspend"
         if not created and suspension.active == value:
@@ -208,11 +209,11 @@ def moderate(actor, version, action, reason, post_id=None, student_id=None):
             return None
         CommunitySuspension.objects.filter(pk=suspension.pk).update(active=value)
     else:
-        raise ValidationError("La acción de moderación no es válida.")
+        raise ValidationError(gettext("La acción de moderación no es válida."))
     decision = CommunityDecision.objects.create(version=version, actor=actor, post=post, student_id=student_id if action in ("suspend", "restore") else None, action=action, reason=reason)
     recipient_id = student_id if action in ("suspend", "restore") else post.author_id if action in ("hide", "show") else None
     if recipient_id and recipient_id != actor.pk:
         from django.contrib.auth import get_user_model
-        titles = {"hide": "Tu mensaje se ocultó en la comunidad", "show": "Tu mensaje vuelve a estar visible", "suspend": "Tu escritura se suspendió en una comunidad", "restore": "Puedes volver a escribir en la comunidad"}
+        titles = {"hide": gettext("Tu mensaje se ocultó en la comunidad"), "show": gettext("Tu mensaje vuelve a estar visible"), "suspend": gettext("Tu escritura se suspendió en una comunidad"), "restore": gettext("Puedes volver a escribir en la comunidad")}
         notify(get_user_model().objects.get(pk=recipient_id), f"community-decision:{decision.pk}", titles[action], reverse("community-space", args=[version.pk]))
     return decision

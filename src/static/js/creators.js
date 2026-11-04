@@ -8,11 +8,11 @@ document.querySelectorAll('[data-upload-form]').forEach(form => {
     const progress = form.querySelector('progress');
     const xhr = new XMLHttpRequest();
     button.disabled = true; progress.hidden = false;
-    status.textContent = 'Cargando archivo…';
+    status.textContent = btcT('Cargando archivo…');
     try {
       if (window.btcAccountContext) await window.btcAccountContext(form);
     } catch {
-      status.textContent = 'La sesión o cuenta cambió. Entra con esta cuenta en otra pestaña y reintenta; el archivo sigue seleccionado.';
+      status.textContent = btcT('La sesión o cuenta cambió. Entra con esta cuenta en otra pestaña y reintenta; el archivo sigue seleccionado.');
       button.disabled = false; progress.hidden = true; return;
     }
     xhr.open('POST', form.action || window.location.href);
@@ -30,13 +30,13 @@ document.querySelectorAll('[data-upload-form]').forEach(form => {
         form.querySelector('.studio-error')?.remove();
         form.prepend(errors);
         errors.scrollIntoView({block:'center'});
-        status.textContent = 'Corrige el archivo y vuelve a intentarlo';
+        status.textContent = btcT('Corrige el archivo y vuelve a intentarlo');
       } else {
-        status.textContent = /\/(?:cuenta|crear)\/entrar\//.test(xhr.responseURL) ? 'Tu sesión venció. Abre Entrar en otra pestaña y reintenta; el archivo sigue seleccionado.' : 'No se pudo guardar. Conservamos tu selección para reintentar.';
+        status.textContent = /\/(?:cuenta|crear)\/entrar\//.test(xhr.responseURL) ? btcT('Tu sesión venció. Abre Entrar en otra pestaña y reintenta; el archivo sigue seleccionado.') : btcT('No se pudo guardar. Conservamos tu selección para reintentar.');
       }
       button.disabled = false;
     });
-    xhr.addEventListener('error', () => { status.textContent = 'Se perdió la conexión. Reintenta con el archivo seleccionado.'; button.disabled = false; });
+    xhr.addEventListener('error', () => { status.textContent = btcT('Se perdió la conexión. Reintenta con el archivo seleccionado.'); button.disabled = false; });
     xhr.send(new FormData(form));
   });
 });

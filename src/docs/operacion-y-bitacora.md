@@ -22,6 +22,8 @@ Después de comparar BTC.EDU con otras plataformas de cursos, añadí crédito p
 
 Con los 25 cursos publiqué seis rutas de aprendizaje: Bitcoin y Lightning, Desarrollo con Lightning, Backend con Python, Análisis de datos, Ciberseguridad e Infraestructura. Son senderos recomendados con pasos opcionales que se pueden saltar; los cursos se compran por separado o en un paquete con 15 % de descuento. Los educadores también pueden crear rutas con sus cursos. [Registro](#rutas-2026-10-25).
 
+BTC.EDU ya se puede usar en español e inglés. El español sigue sin prefijo y el inglés está bajo `/en/`; el botón ES/EN de la cabecera cambia de idioma en la misma página. Traduje la interfaz y las fichas del catálogo propio, pero los cuerpos de las lecciones y las preguntas siguen en español. [Registro](#ingles-2026-11-03).
+
 <a id="guia-local-anterior"></a>
 
 ## Cómo trabajo en local
@@ -280,6 +282,10 @@ Uso el alias del estudiante en la comunidad y comparto su presentación solo si 
 
 <a id="componentes-visuales"></a>
 
+### Idiomas
+
+Mantengo el español como idioma de origen y uso el sistema de traducción de Django, con el inglés bajo `/en/` para que cada página tenga su propia dirección. Separo la interfaz (`locale/en/LC_MESSAGES/django.po`) del catálogo propio (`content.po`): traduzco títulos, descripciones, objetivos y resultados por su texto publicado, y lo que escribe un educador se muestra como lo escribió. No traduzco las direcciones ni guardo campos por idioma en la base, para no tocar las versiones congeladas. Escribí la extracción y compilación en Python porque el entorno no trae gettext, y versiono los `.mo`.
+
 ### Interfaz y métricas
 
 Uso un lenguaje industrial monocromo: negro, blanco y grises neutros, con el naranja `#FF6A13` solo en la acción principal, el paso actual, un estado vivo y el punto de la marca. Sobre blanco el naranja es relleno con texto negro, nunca texto. Doto, de matriz de puntos, va en la marca, cifras, precios y números de paso; Inter Tight en títulos, lectura y controles; Space Mono en etiquetas. Las tres fuentes se sirven desde `src/static/fonts` con licencia OFL. Los botones son píldoras, las tarjetas tienen 20 px de radio y líneas de 1 px, y el foco es un contorno del color del texto. Los errores conservan su rojo funcional. Presento los precios como cantidad y sats. Explico FakeWallet y regtest durante la documentación o presentación; la interfaz evita banners técnicos y comprueba el pago en silencio, salvo errores que requieren una acción.
@@ -302,13 +308,15 @@ Me falta comprobar con participantes si los nombres, la jerarquía y las imágen
 
 Necesito observar con participantes el carrito, checkout y recuperación implementados, y si el crédito para completar un conjunto se entiende. Conservé la compra de una unidad y separé pedido, factura, líneas y derechos, con reservas para evitar solapamientos. Los reembolsos con aprobación administrativa ya funcionan, pero su plazo y condiciones necesitan revisión legal; la remuneración y la liquidación siguen pendientes. Resolver automáticamente un pago observado tarde necesita evidencia fiable adicional del proveedor.
 
-Dejé fuera de esta etapa la entrada con Lightning, porque la wallet debe alcanzar un dominio público con HTTPS, el pago por minuto, la liquidación automática a educadores, el asistente de IA, otros idiomas y el pase con créditos. Todavía no ensayé el sello contra calendarios reales, los reembolsos con una wallet ni la instalación en un teléfono.
+Dejé fuera de esta etapa la entrada con Lightning, porque la wallet debe alcanzar un dominio público con HTTPS, el pago por minuto, la liquidación automática a educadores, el asistente de IA y el pase con créditos. Todavía no ensayé el sello contra calendarios reales, los reembolsos con una wallet ni la instalación en un teléfono.
 
 Necesito observar tareas sobre la interfaz ya implementada con estudiantes y educadores nuevos, medir ayuda, errores y finalización, y contrastar los hallazgos con el diagnóstico anterior. Completaré la revisión de accesibilidad con tecnologías de asistencia. La comprobación técnica y visual no permite afirmar todavía que el rediseño sea intuitivo para todo el público.
 
 Necesito preparar pequeñas colecciones en otras áreas con revisión especializada, comprobar si las unidades aportan frente a alternativas gratuitas y observar la comprensión del pago con personas que tengan distinta experiencia. También debo evaluar el nombre BTC.EDU, el paso de una unidad a un conjunto y un presupuesto que cubra remuneración, revisión, entrega y soporte. Las comisiones, liquidaciones y alianzas siguen sin definir o ejecutar.
 
 Necesito ensayar el recorrido de creador y estudiante sobre la base comprobada, incluida la compra desde ZEUS y el acceso posterior. También debo revisar el catálogo con una persona experta, ampliar las evaluaciones y comprobar comprensión y duración con alumnos. Los precios de 120 sats por curso y 50 sats por lección siguen siendo hipótesis. Repetiré la revisión integrada al incorporar nuevas entregas.
+
+En inglés me falta traducir los cuerpos de lecciones y tutoriales, las preguntas de las evaluaciones y los PDF, y que una persona nativa revise la traducción. Los avisos y facturas guardan el texto del idioma en que se crearon. No he probado la versión en inglés con participantes.
 
 Antes de abrir al público necesito correo con entrega comprobada, límites de abuso, despliegue con HTTPS, respaldo y restauración ensayados, supervisión de pagos y atención de incidencias. Debo definir responsables de revisión y moderación, conservación de datos y presupuesto de almacenamiento y transferencia. Las pruebas locales de concurrencia no miden capacidad para tráfico público y las revisiones visuales no constituyen una auditoría completa de accesibilidad.
 
@@ -733,3 +741,13 @@ Reescribí el [Google Doc de BTC.EDU](https://docs.google.com/document/d/1b4Qj0I
 Sobre `ed6301c` revisé el código para retirar lo que ya no se usa y documentarlo. Quité las fuentes NType82, que ya no se cargaban desde el cambio a Doto e Inter Tight, y los guiones `migrate-overhaul.py` y `migrate-commercial.py`, que solo servían para aplicar una vez `commerce.0003` y `commerce.0004`; siguen en el historial de Git. Retiré de los estilos nueve clases que ninguna plantilla ni script usa, corregí en `start-lnbits.ps1` un mensaje que remitía a una guía inexistente y apliqué correcciones menores de Ruff: una variable de bucle que se reutilizaba en `load_complete_courses`, excepciones encadenadas y condiciones agrupadas. Conservé la compra directa de una oferta (`ofertas/<id>/comprar/`): la interfaz ya no la enlaza, pero las pruebas y las facturas existentes dependen de ella. Tampoco unifiqué la apertura del cliente de LNbits, porque las pruebas la sustituyen en cada módulo.
 
 Añadí docstrings en inglés, como los comentarios existentes, a los 86 módulos que no tenían, a los modelos y a las funciones de pago, pedidos, acceso, publicación, aprendizaje, certificados y seguridad; además, una cabecera a los archivos de JavaScript y PowerShell que no la tenían. No cambié comportamiento. Pasaron `manage.py check`, `makemigrations --check`, Ruff, la compilación de todos los módulos y los tres verificadores de Node de carrito, progreso y formularios. De las 587 pruebas pasaron 586. La que falló, en `learning.test_paths`, buscaba «20&nbsp;%» en una plantilla que otro trabajo estaba modificando en la misma copia; sin ese cambio pasaron las 8 pruebas de rutas. No ejecuté los controles de concurrencia ni revisé la interfaz en el navegador.
+
+<a id="ingles-2026-11-03"></a>
+
+Preparé BTC.EDU en inglés en la rama `feat/bilingue-es-en`, sobre `0767fb4`. Activé `LocaleMiddleware`, dejé las páginas en `i18n_patterns` con el español sin prefijo y los archivos, el JSON de sesión, el manifiesto y el `sw.js` fuera del prefijo. Cambié `LOGIN_URL` y las redirecciones a nombres de ruta y adapté las comprobaciones de destino de `accounts` para aceptar `/en/`. Añadí el botón ES/EN, `lang` y `hreflang` en cada página; los enlaces de idioma usan solo la ruta, porque al principio repetían `?volver=` en la página y una prueba de seguridad lo detectó.
+
+Marqué 157 plantillas con un script que lee los tokens de Django y el estado del HTML, unas 1 040 cadenas de Python y 68 mensajes de JavaScript, y convertí los plurales españoles a `blocktranslate count`. Revisé a mano lo que no era texto: un modelo en `ForeignKey`, el `SELECT 1` de salud, la cabecera `Bearer`, tres rutas de URL, nombres de fotógrafos y clases CSS. Traduje 2 867 textos de interfaz y 2 065 del catálogo. `translations status` no reporta faltantes ni marcadores ajenos.
+
+Pasaron 597 pruebas, incluidas diez nuevas en `core/test_i18n.py`, Ruff, `manage.py check` y la revisión de migraciones. Recorrí 220 páginas en inglés con un rastreador local como visitante, estudiante y educador y corregí lo que seguía en español; quedan textos de educadores, avisos guardados y facturas creadas en español. En el navegador comprobé el cambio de idioma, una ficha, una lección con su cuerpo marcado como español y la consola sin errores. Una persona nativa no ha revisado la traducción.
+
+Después uní `feat/bilingue-es-en` a `main`. Los conflictos venían de la limpieza de `7ce718d`: conservé sus docstrings y los `from None` junto con las cadenas marcadas para traducir. Al extraer los textos de nuevo solo cambiaron las referencias de línea de los `.po`; siguen traducidos todos. `check-platform.ps1` pasó completo: 597 pruebas, Ruff, `manage.py check`, migraciones y controles de concurrencia.

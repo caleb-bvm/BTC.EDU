@@ -7,6 +7,7 @@ from django.db.models import Count, Max, Q
 from django.db.models.functions import Coalesce
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -138,7 +139,7 @@ def subscription(request, pk):
     get_object_or_404(CommunityPost, pk=pk, parent__isnull=True)
     following = request.POST.get("following")
     if following not in ("yes", "no"):
-        return HttpResponseBadRequest("Selecciona una acción válida.")
+        return HttpResponseBadRequest(gettext("Selecciona una acción válida."))
     follow_thread(request.user, pk, following == "yes")
     destination = lesson_return(request, pk)
     if destination:
@@ -157,7 +158,7 @@ def report(request, pk):
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
     else:
-        messages.success(request, "Reporte recibido. El equipo de moderación lo revisará.")
+        messages.success(request, gettext("Reporte recibido. El equipo de moderación lo revisará."))
     destination = lesson_return(request, post.pk)
     return redirect(destination) if destination else redirect("community-thread", pk=post.parent_id or post.pk)
 
@@ -181,9 +182,9 @@ def decision(request, version_pk):
         student_id = int(request.POST["student"]) if request.POST.get("student") else None
         moderate(request.user, version, request.POST.get("action"), request.POST.get("reason", ""), post_id, student_id)
     except (ValueError, ValidationError) as exc:
-        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "Selecciona un destino válido.")
+        messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Selecciona un destino válido."))
     else:
-        messages.success(request, "Decisión guardada.")
+        messages.success(request, gettext("Decisión guardada."))
     return redirect("community-moderation", version_pk=version.pk)
 
 

@@ -1,0 +1,1 @@
+{% language_options as languages %}{% for option in languages %}{% if not option.current %}<a class="language-switch" href="{{ option.url }}" hreflang="{{ option.code }}" lang="{{ option.code }}" aria-label="{% if option.code == 'en' %}Read BTC.EDU in English{% else %}Ver BTC.EDU en español{% endif %}">{{ option.code|upper }}</a>{% endif %}{% endfor %}

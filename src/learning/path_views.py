@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext
 from django.views.decorators.http import require_http_methods
 
 from creators.views import creator_required
@@ -34,7 +35,7 @@ def creator_path_edit(request, pk=None):
             except ValidationError as exc:
                 errors = exc.messages
             else:
-                messages.success(request, "Ruta publicada." if path.published else "Ruta guardada como borrador.")
+                messages.success(request, gettext("Ruta publicada.") if path.published else gettext("Ruta guardada como borrador."))
                 return redirect("creator-path", pk=path.pk)
         rows = {item["course"].pk: {**item, "position": index} for index, item in enumerate(steps, 1)}
     else:

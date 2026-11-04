@@ -1,15 +1,15 @@
 {% extends 'base.html' %}{% load static %}
 {% block content %}
 <section class="hero shell">
-  <div class="hero-copy"><p class="eyebrow">Aprende a tu ritmo</p>
-    <h1>Tu próximo paso<br>empieza aquí<span class="accent-dot">.</span></h1>
-    <p class="hero-description">Cursos, tutoriales y recursos. Elige lo que quieres aprender.</p>
-    <div class="hero-actions"><a class="btn btn-accent btn-lg" href="{% url 'explore' %}">Explorar contenido <span aria-hidden="true">→</span></a><a class="btn btn-outline-dark btn-lg" href="{% url 'creators' %}">Quiero enseñar</a></div>
+  <div class="hero-copy"><p class="eyebrow">{% translate "Aprende a tu ritmo" %}</p>
+    <h1>{% translate "Tu próximo paso" %}<br>{% translate "empieza aquí" %}<span class="accent-dot">.</span></h1>
+    <p class="hero-description">{% translate "Cursos, tutoriales y recursos. Elige lo que quieres aprender." %}</p>
+    <div class="hero-actions"><a class="btn btn-accent btn-lg" href="{% url 'explore' %}">{% translate "Explorar contenido" %} <span aria-hidden="true">→</span></a><a class="btn btn-outline-dark btn-lg" href="{% url 'creators' %}">{% translate "Quiero enseñar" %}</a></div>
     <div class="hero-index" aria-hidden="true"><span>01</span><span>02</span><span>03</span></div>
   </div>
-  <div class="hero-art"><img src="{% static 'images/industrial-hero.png' %}" alt="" width="1536" height="1024" fetchpriority="high"><div class="art-rail" aria-hidden="true"><span>＋</span><p>APRENDE<br>CREA<br>COMPARTE<br>AVANZA</p><span class="rail-bottom">BTC.EDU</span><span>＋</span></div></div>
+  <div class="hero-art"><img src="{% static 'images/industrial-hero.png' %}" alt="" width="1536" height="1024" fetchpriority="high"><div class="art-rail" aria-hidden="true"><span>＋</span><p>{% translate "APRENDE" %}<br>{% translate "CREA" %}<br>{% translate "COMPARTE" %}<br>{% translate "AVANZA" %}</p><span class="rail-bottom">BTC.EDU</span><span>＋</span></div></div>
 </section>
-<section class="catalog-section" aria-label="Cursos por categoría"><div class="shell">
+<section class="catalog-section" aria-label="{% translate "Cursos por categoría" %}"><div class="shell">
   {% include 'core/_catalog.html' %}
 </div></section>
 {% endblock %}

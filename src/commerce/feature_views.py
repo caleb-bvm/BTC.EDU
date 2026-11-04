@@ -17,6 +17,7 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -48,7 +49,7 @@ def creator_coupons(request):
     if request.method == "POST" and request.POST.get("action") == "deactivate":
         coupon = get_object_or_404(Coupon, pk=request.POST.get("coupon"), creator=request.user)
         Coupon.objects.filter(pk=coupon.pk).update(active=False)
-        messages.success(request, f"Cupón {coupon.code} desactivado. Los pedidos anteriores conservan su precio.")
+        messages.success(request, (gettext('Cupón %(code)s desactivado. Los pedidos anteriores conservan su precio.') % {"code": coupon.code}))
         return redirect("creator-coupons")
     if request.method == "POST" and form.is_valid():
         data = form.cleaned_data
@@ -60,9 +61,9 @@ def creator_coupons(request):
                                   amount_off_sats=data["value"] if data["kind"] == "amount" else None,
                                   starts_at=data["starts_at"], expires_at=data["expires_at"], max_uses=data["max_uses"])
         except (ValidationError, IntegrityError):
-            form.add_error("code", "Ese código ya existe. Elige otro.")
+            form.add_error("code", gettext("Ese código ya existe. Elige otro."))
         else:
-            messages.success(request, "Cupón creado. Compártelo con tus estudiantes.")
+            messages.success(request, gettext("Cupón creado. Compártelo con tus estudiantes."))
             return redirect("creator-coupons")
     return render(request, "commerce/creator_coupons.html", {"form": form, "rows": coupon_rows(request.user)})
 
@@ -79,9 +80,9 @@ def gift_detail(request, token):
         try:
             redeem_gift(request.user, token)
         except (ValidationError, PermissionDenied) as exc:
-            messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "Entra con tu cuenta de estudiante para canjear el regalo.")
+            messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Entra con tu cuenta de estudiante para canjear el regalo."))
         else:
-            messages.success(request, "Regalo canjeado. El contenido ya está en Mi aprendizaje.")
+            messages.success(request, gettext("Regalo canjeado. El contenido ya está en Mi aprendizaje."))
             return redirect("workspace")
         return redirect("gift-detail", token=token)
     is_buyer = request.user.is_authenticated and request.user.pk == gift.order.buyer_id
@@ -128,16 +129,16 @@ def tip_create(request):
         try:
             tip = create_tip(request.user, creator, form.cleaned_data["amount"], form.cleaned_data["message"], lesson)
         except (ValidationError, PermissionDenied) as exc:
-            form.add_error(None, " ".join(exc.messages) if isinstance(exc, ValidationError) else "Este educador no puede recibir propinas ahora.")
+            form.add_error(None, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Este educador no puede recibir propinas ahora."))
         else:
             try:
                 check_tip(tip)
             except ProviderUnavailable:
-                messages.warning(request, "No pudimos preparar el pago. Actualiza el estado de esta misma propina.")
+                messages.warning(request, gettext("No pudimos preparar el pago. Actualiza el estado de esta misma propina."))
             return redirect("tip-detail", pk=tip.pk)
     profile = getattr(creator, "creator_profile", None)
     return render(request, "commerce/tip_create.html", {"form": form, "creator": creator, "lesson": lesson,
-                                                       "creator_name": profile.display_name if profile else "Educador",
+                                                       "creator_name": profile.display_name if profile else gettext("Educador"),
                                                        "presets": TIP_PRESETS, "active": "purchases"})
 
 
@@ -150,7 +151,7 @@ def tip_detail(request, pk):
             tip = check_tip(tip)
         except ProviderUnavailable:
             tip.refresh_from_db()
-            messages.warning(request, "No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo.")
+            messages.warning(request, gettext("No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo."))
     lesson_link = ""
     if tip.lesson_id:
         from .journey import lesson_url
@@ -167,7 +168,7 @@ def tip_status(request, pk):
     try:
         tip = check_tip(tip)
     except ProviderUnavailable:
-        return JsonResponse({"error": "No pudimos comprobar el pago."}, status=503)
+        return JsonResponse({"error": gettext("No pudimos comprobar el pago.")}, status=503)
     return JsonResponse({"status": tip.status, "incident": ""})
 
 
@@ -195,9 +196,9 @@ def tip_action(request, pk):
             raise ProviderUnavailable
         tip = check_tip(tip, simulate=simulate)
         if tip.status == "paid":
-            messages.success(request, "Gracias. Tu propina llegó al educador.")
+            messages.success(request, gettext("Gracias. Tu propina llegó al educador."))
     except ProviderUnavailable:
-        messages.warning(request, "No pudimos comprobar el pago. Actualiza esta misma propina antes de volver a pagar.")
+        messages.warning(request, gettext("No pudimos comprobar el pago. Actualiza esta misma propina antes de volver a pagar."))
     return redirect("tip-detail", pk=pk)
 
 
@@ -230,7 +231,7 @@ def refund_request(request, pk):
         except ValidationError as exc:
             form.add_error(None, " ".join(exc.messages))
         else:
-            messages.success(request, "Recibimos tu solicitud. Te avisaremos cuando la revisemos.")
+            messages.success(request, gettext("Recibimos tu solicitud. Te avisaremos cuando la revisemos."))
             return redirect("invoice-detail", pk=pk)
     return render(request, "commerce/refund_request.html", {"invoice": invoice, "form": form, "active": "purchases",
                                                            "refund_days": settings.COMMERCE_REFUND_DAYS})
@@ -251,12 +252,12 @@ def refund_review(request, pk):
             elif data["decision"] == "approve":
                 refund = approve_refund(request.user, refund, data.get("note", ""))
                 if refund.status == "review":
-                    messages.warning(request, "No pudimos confirmar el pago. Revisa la wallet antes de volver a intentarlo.")
+                    messages.warning(request, gettext("No pudimos confirmar el pago. Revisa la wallet antes de volver a intentarlo."))
             else:
                 reject_refund(request.user, refund, data["note"])
         except ValidationError as exc:
             form.add_error(None, " ".join(exc.messages))
         else:
-            messages.success(request, "Decisión registrada.")
+            messages.success(request, gettext("Decisión registrada."))
             return redirect("refund-review", pk=pk)
     return render(request, "commerce/refund_review.html", {"refund": refund, "form": form, "reviewer": True})

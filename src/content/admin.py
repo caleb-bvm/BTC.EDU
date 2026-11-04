@@ -1,6 +1,7 @@
 """Administration of courses, chapters, lessons, resources, categories and topics."""
 from django.contrib import admin, messages
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext, gettext_lazy
 
 from .models import (
     Category,
@@ -42,7 +43,7 @@ class CourseAdmin(admin.ModelAdmin):
     inlines = (ChapterInline,)
     actions = ("publish_version",)
 
-    @admin.action(description="Publicar una nueva versión del curso")
+    @admin.action(description=gettext_lazy("Publicar una nueva versión del curso"))
     def publish_version(self, request, queryset):
         for course in queryset:
             try:
@@ -50,7 +51,7 @@ class CourseAdmin(admin.ModelAdmin):
             except ValidationError as exc:
                 self.message_user(request, f"{course.title}: {'; '.join(exc.messages)}", level=messages.ERROR)
             else:
-                self.message_user(request, f"{version} publicada. Las versiones anteriores se conservan.")
+                self.message_user(request, (gettext('%(version)s publicada. Las versiones anteriores se conservan.') % {"version": version}))
 
 
 @admin.register(Chapter)
@@ -87,7 +88,7 @@ class ResourceAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "updated_at", "revision")
     actions = ("publish_revision",)
 
-    @admin.action(description="Validar archivo y publicar una nueva revisión")
+    @admin.action(description=gettext_lazy("Validar archivo y publicar una nueva revisión"))
     def publish_revision(self, request, queryset):
         for resource in queryset:
             try:

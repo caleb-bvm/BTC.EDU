@@ -11,6 +11,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from .catalog import available, ownership
 from .gateway import LNbitsGateway, ProviderUnavailable
@@ -29,7 +30,7 @@ from .models import (
 def require_student(actor):
     """Reject anyone who is not an active student account."""
     if not actor.is_authenticated or not actor.is_active or actor.account_type != "student":
-        raise PermissionDenied("Entra con tu cuenta de estudiante.")
+        raise PermissionDenied(gettext("Entra con tu cuenta de estudiante."))
 
 
 def reserve_writer(buyer_id):
@@ -59,15 +60,15 @@ def reserve_invoice(actor, offer_id, activity_session=None, return_lesson_id=Non
     now = timezone.now()
     for old in Invoice.objects.filter(buyer=actor, logical_key=offer.logical_key, status="pending", expires_at__lte=now):
         Invoice.objects.filter(pk=old.pk, status="pending").update(status="expired")
-        event(old, "expired", "La factura venció sin conceder acceso nuevo.")
+        event(old, "expired", gettext("La factura venció sin conceder acceso nuevo."))
     if not available(offer):
-        raise ValidationError("Esta oferta ya no está disponible.")
+        raise ValidationError(gettext("Esta oferta ya no está disponible."))
     if ownership(actor, offer) != "none":
-        raise ValidationError("Ya tienes contenido de esta oferta. Abre lo adquirido o compra únicamente los componentes que faltan.")
+        raise ValidationError(gettext("Ya tienes contenido de esta oferta. Abre lo adquirido o compra únicamente los componentes que faltan."))
     from .journey import return_lesson
     chosen_lesson = return_lesson(offer, return_lesson_id)
     if return_lesson_id and chosen_lesson is None:
-        raise ValidationError("La lección elegida no forma parte de esta oferta. Revisa lo incluido antes de continuar.")
+        raise ValidationError(gettext("La lección elegida no forma parte de esta oferta. Revisa lo incluido antes de continuar."))
     pending = Invoice.objects.filter(buyer=actor, logical_key=offer.logical_key, status="pending").first()
     if pending:
         if chosen_lesson:
@@ -78,7 +79,7 @@ def reserve_invoice(actor, offer_id, activity_session=None, return_lesson_id=Non
     from .reservations import require_unreserved
     require_unreserved(actor, {item["resource_id"] for item in inventory if item["paid"]})
     invoice = Invoice.objects.create(buyer=actor, offer=offer, logical_key=offer.logical_key, title=offer.title, amount_sats=offer.amount_sats, inventory=inventory, return_lesson=chosen_lesson, expires_at=now + timedelta(minutes=15))
-    event(invoice, "reserved", "Factura reservada por 15 minutos.")
+    event(invoice, "reserved", gettext("Factura reservada por 15 minutos."))
     if activity_session and not actor.is_staff:
         from core.models import ActivityEvent
         ActivityEvent.objects.create(event_key=f"invoice:{invoice.pk}", kind="invoice_created", session_id=activity_session,
@@ -120,7 +121,7 @@ def ensure_emitted(invoice, gateway=None):
         elif invoice.issue_state in ("requested", "unknown"):
             result = gateway.recover(invoice)
             if result is None:
-                raise ProviderUnavailable("Estamos comprobando la factura. Actualiza su estado para continuar.")
+                raise ProviderUnavailable(gettext("Estamos comprobando la factura. Actualiza su estado para continuar."))
         else:
             return invoice
         Invoice.objects.filter(pk=invoice.pk, payment_hash__isnull=True).update(payment_hash=result.payment_hash, payment_request=result.payment_request, issue_state="ready", incident="")
@@ -144,16 +145,16 @@ def settle(invoice_id, provider_status, observed_at=None):
     Invoice.objects.filter(pk=invoice_id).update(last_checked_at=now)
     invoice = Invoice.objects.select_related("buyer", "offer__course_version", "order").get(pk=invoice_id)
     if provider_status.payment_hash != invoice.payment_hash:
-        raise ValidationError("La confirmación pertenece a otra factura.")
+        raise ValidationError(gettext("La confirmación pertenece a otra factura."))
     if invoice.status == "paid":
         return invoice
     if not provider_status.paid:
         if invoice.status == "pending" and invoice.expires_at <= now:
             Invoice.objects.filter(pk=invoice.pk).update(status="expired")
-            event(invoice, "expired", "La factura venció sin conceder acceso nuevo.")
+            event(invoice, "expired", gettext("La factura venció sin conceder acceso nuevo."))
         elif invoice.status == "pending" and provider_status.failed:
             Invoice.objects.filter(pk=invoice.pk).update(status="failed", incident="provider_failed")
-            event(invoice, "failed", "No se pudo completar el pago.")
+            event(invoice, "failed", gettext("No se pudo completar el pago."))
         invoice.refresh_from_db()
         return invoice
     if PaymentEvidence.objects.filter(invoice=invoice).exists():
@@ -176,20 +177,20 @@ def settle(invoice_id, provider_status, observed_at=None):
     PaymentEvidence.objects.create(invoice=invoice, payment_hash=invoice.payment_hash, amount_msat=provider_status.amount_msat, observed_at=now, resolution=reason)
     if reason != "accepted":
         Invoice.objects.filter(pk=invoice.pk).update(status="expired" if reason in ("late_payment", "payment_time_unknown") else "failed", incident=reason)
-        event(invoice, "incident", "Pago observado; requiere conciliación administrativa: " + reason)
+        event(invoice, "incident", gettext("Pago observado; requiere conciliación administrativa: ") + reason)
     elif gift:
         # The buyer receives a redemption link; access is granted to whoever redeems it.
         purchase = Purchase.objects.create(invoice=invoice)
         Gift.objects.create(purchase=purchase, order=invoice.order, token=secrets.token_urlsafe(24))
         Invoice.objects.filter(pk=invoice.pk).update(status="paid", incident="")
-        event(invoice, "paid", "Tu regalo está listo. Comparte el enlace de canje con quien lo recibirá.")
+        event(invoice, "paid", gettext("Tu regalo está listo. Comparte el enlace de canje con quien lo recibirá."))
     else:
         purchase = Purchase.objects.create(invoice=invoice)
         for item in {item["resource_id"]: item for item in invoice.inventory}.values():
             right, _ = Entitlement.objects.get_or_create(buyer=invoice.buyer, resource_id=item["resource_id"])
             EntitlementSource.objects.create(entitlement=right, purchase=purchase)
         Invoice.objects.filter(pk=invoice.pk).update(status="paid", incident="")
-        event(invoice, "paid", "Tu compra está confirmada. El contenido adquirido permanece en tu biblioteca.")
+        event(invoice, "paid", gettext("Tu compra está confirmada. El contenido adquirido permanece en tu biblioteca."))
         versions = {invoice.offer.course_version_id} if invoice.offer_id and invoice.offer.course_version_id else set()
         if invoice.order_id:
             versions |= set(invoice.order.lines.exclude(course_version=None).values_list("course_version_id", flat=True))
@@ -234,7 +235,7 @@ def expire_invoice(invoice_id):
     changed = Invoice.objects.filter(pk=invoice_id, status="pending", expires_at__lte=timezone.now()).update(status="expired")
     if changed:
         invoice = Invoice.objects.get(pk=invoice_id)
-        event(invoice, "expired", "La factura venció sin conceder acceso nuevo.")
+        event(invoice, "expired", gettext("La factura venció sin conceder acceso nuevo."))
 
 
 def simulate_payment(actor, invoice, gateway=None):
@@ -247,7 +248,7 @@ def simulate_payment(actor, invoice, gateway=None):
     if invoice.buyer_id != actor.pk:
         raise PermissionDenied
     if invoice.status != "pending" or invoice.expires_at <= timezone.now():
-        raise ValidationError("Esta factura ya terminó o venció. Revisa su estado antes de continuar.")
+        raise ValidationError(gettext("Esta factura ya terminó o venció. Revisa su estado antes de continuar."))
     own_gateway = gateway is None
     gateway = gateway or LNbitsGateway()
     try:
@@ -259,7 +260,7 @@ def simulate_payment(actor, invoice, gateway=None):
         paid_ids = {item["resource_id"] for item in invoice.inventory if item["paid"]}
         gift = bool(invoice.order_id and invoice.order.gift)
         if not gift and Entitlement.objects.active().filter(buyer=actor, resource_id__in=paid_ids).exists():
-            raise ValidationError("Ya adquiriste contenido de esta factura. Abre tu biblioteca o compra solo los componentes que faltan.")
+            raise ValidationError(gettext("Ya adquiriste contenido de esta factura. Abre tu biblioteca o compra solo los componentes que faltan."))
         gateway.simulate(invoice)
         return reconcile(invoice, gateway)
     finally:
