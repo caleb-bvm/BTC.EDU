@@ -1,20 +1,20 @@
 <header class="academy-header app-header">
   <div class="app-header-brand">
-    {% if not public_header %}<button class="nav-toggle js-only icon-button" type="button" aria-label="Abrir menú principal" aria-expanded="false" aria-controls="academy-navigation"><svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="nav-toggle-label">Menú</span></button>{% endif %}
-    <a class="brand" href="{% if reviewer %}{% url 'admin:index' %}{% else %}{{ navigation_home_url|default:'/' }}{% endif %}" aria-label="BTC.EDU, inicio"><span class="brand-wordmark" aria-hidden="true">BTC.EDU<span class="brand-signal">.</span></span></a>
+    {% if not public_header %}<button class="nav-toggle js-only icon-button" type="button" aria-label="{% translate "Abrir menú principal" %}" aria-expanded="false" aria-controls="academy-navigation"><svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span class="nav-toggle-label">{% translate "Menú" %}</span></button>{% endif %}
+    <a class="brand" href="{% if reviewer %}{% url 'admin:index' %}{% else %}{{ navigation_home_url|default:'/' }}{% endif %}" aria-label="{% translate "BTC.EDU, inicio" %}"><span class="brand-wordmark" aria-hidden="true">BTC.EDU<span class="brand-signal">.</span></span></a>
   </div>
   <div class="academy-header-actions">
-    {% include '_theme_toggle.html' %}
+    {% include '_language_switch.html' %}{% include '_theme_toggle.html' %}
     {% if not user.is_authenticated or user.account_type == 'student' %}
-      <a class="header-cart icon-button" href="{% url 'cart' %}" data-cart-link{% if navigation_cart_current %} aria-current="page"{% endif %} aria-label="Carrito{% if cart_count %}, {{ cart_count }} artículo{{ cart_count|pluralize:'s' }}{% endif %}">{% include '_icon.html' with name='cart' %}<span class="notification-badge" data-cart-count aria-hidden="true"{% if not cart_count %} hidden{% endif %}>{{ cart_count|default:0 }}</span></a>
+      <a class="header-cart icon-button" href="{% url 'cart' %}" data-cart-link{% if navigation_cart_current %} aria-current="page"{% endif %} aria-label="{% translate "Carrito" %}{% if cart_count %}{% blocktranslate count counter=cart_count|default:0 %}, {{ counter }} artículo{% plural %}, {{ counter }} artículos{% endblocktranslate %}{% endif %}">{% include '_icon.html' with name='cart' %}<span class="notification-badge" data-cart-count aria-hidden="true"{% if not cart_count %} hidden{% endif %}>{{ cart_count|default:0 }}</span></a>
     {% endif %}
-    {% if reviewer %}<a class="btn btn-outline-dark" href="{% url 'admin:index' %}">Administración</a>
+    {% if reviewer %}<a class="btn btn-outline-dark" href="{% url 'admin:index' %}">{% translate "Administración" %}</a>
     {% elif user.is_authenticated %}
-      <a class="header-notifications icon-button" href="{% url 'notifications' %}"{% if navigation_notifications_current %} aria-current="page"{% endif %} aria-label="Notificaciones{% if notification_unread_count %}, {{ notification_unread_count }} sin leer{% endif %}">{% include '_icon.html' with name='bell' %}{% if notification_unread_count %}<span class="notification-badge" aria-hidden="true">{{ notification_unread_count }}</span>{% endif %}</a>
-      <a class="account-header-photo icon-button" href="{{ navigation_account_url }}"{% if navigation_account_current %} aria-current="page"{% endif %} aria-label="Mi cuenta de {% if navigation_creator %}educador{% else %}estudiante{% endif %}">{% include 'accounts/_avatar.html' with person=user avatar_class='account-header-avatar' %}</a>
-      {% if public_header %}<a class="btn btn-dark header-workspace" href="{{ navigation_learning_url }}">{% if navigation_creator %}Mi estudio{% else %}Mi aprendizaje{% endif %} ↗</a>{% endif %}
+      <a class="header-notifications icon-button" href="{% url 'notifications' %}"{% if navigation_notifications_current %} aria-current="page"{% endif %} aria-label="{% translate "Notificaciones" %}{% if notification_unread_count %}{% blocktranslate with notification_unread_count=notification_unread_count %}, {{ notification_unread_count }} sin leer{% endblocktranslate %}{% endif %}">{% include '_icon.html' with name='bell' %}{% if notification_unread_count %}<span class="notification-badge" aria-hidden="true">{{ notification_unread_count }}</span>{% endif %}</a>
+      <a class="account-header-photo icon-button" href="{{ navigation_account_url }}"{% if navigation_account_current %} aria-current="page"{% endif %} aria-label="{% translate "Mi cuenta de" %} {% if navigation_creator %}{% translate "educador" %}{% else %}{% translate "estudiante" %}{% endif %}">{% include 'accounts/_avatar.html' with person=user avatar_class='account-header-avatar' %}</a>
+      {% if public_header %}<a class="btn btn-dark header-workspace" href="{{ navigation_learning_url }}">{% if navigation_creator %}{% translate "Mi estudio" %}{% else %}{% translate "Mi aprendizaje" %}{% endif %} ↗</a>{% endif %}
     {% else %}
-      <nav class="public-navigation" aria-label="{% if public_header %}Navegación principal{% else %}Acceso{% endif %}">{% if public_header %}<a href="{% url 'explore' %}">Explorar</a><a href="{% url 'creators' %}">Enseñar</a>{% endif %}<a class="btn btn-dark" href="{{ navigation_signin_url }}">Entrar</a></nav>
+      <nav class="public-navigation" aria-label="{% if public_header %}{% translate "Navegación principal" %}{% else %}{% translate "Acceso" %}{% endif %}">{% if public_header %}<a href="{% url 'explore' %}">{% translate "Explorar" %}</a><a href="{% url 'creators' %}">{% translate "Enseñar" %}</a>{% endif %}<a class="btn btn-dark" href="{{ navigation_signin_url }}">{% translate "Entrar" %}</a></nav>
     {% endif %}
   </div>
 </header>

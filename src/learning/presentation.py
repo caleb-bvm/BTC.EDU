@@ -1,5 +1,6 @@
 """Read-only learning navigation shared by the course and personal library."""
 from django.urls import reverse
+from django.utils.translation import gettext
 
 from content.access import content_access
 
@@ -31,14 +32,14 @@ def library_journey(user, enrollment):
     first = continuation(lessons, completed, enrollment.last_lesson_id,
                          {lesson.pk for lesson in lessons if content_access(user, lesson).allowed})
     enrollment.is_complete = bool(lessons and len(completed) == len(lessons))
-    enrollment.open_label = "Ver opciones de acceso" if not first else "Repasar" if enrollment.is_complete else "Continuar" if enrollment.last_lesson_id or completed else "Empezar"
+    enrollment.open_label = gettext("Ver opciones de acceso") if not first else gettext("Repasar") if enrollment.is_complete else gettext("Continuar") if enrollment.last_lesson_id or completed else gettext("Empezar")
     enrollment.open_url = reverse("version-lesson", args=[version.course_id, version.number, first.pk]) if first else reverse("course-version", args=[version.course_id, version.number])
     enrollment.lesson_count = len(lessons)
     enrollment.completed_count = len(completed)
     enrollment.percentage = round(len(completed) * 100 / len(lessons)) if lessons else 0
     enrollment.retired = version.course.status == "archived" or version.course.current_version_id != version.pk
-    enrollment.next_title = first.content.title if first else "Revisa las opciones de acceso"
-    enrollment.state_label = "Completado" if enrollment.is_complete else "En curso" if enrollment.last_lesson_id or completed else "Por empezar"
+    enrollment.next_title = first.content.title if first else gettext("Revisa las opciones de acceso")
+    enrollment.state_label = gettext("Completado") if enrollment.is_complete else gettext("En curso") if enrollment.last_lesson_id or completed else gettext("Por empezar")
     enrollment.can_continue = bool(first and not enrollment.is_complete)
     enrollment.needs_access = bool(lessons and not first and not enrollment.is_complete)
     enrollment.remaining_count = len(lessons) - len(completed)
@@ -65,7 +66,7 @@ def course_learning_context(user, course, version=None, current_id=None):
         lesson.learning_current = record.pk == current_id
         lesson.learning_quiz = record.pk in quizzes
         lesson.learning_required_quiz = quizzes.get(record.pk, False)
-        lesson.learning_state = "Completada" if lesson.learning_completed else "Por estudiar" if lesson.learning_allowed else "Requiere acceso"
+        lesson.learning_state = gettext("Completada") if lesson.learning_completed else gettext("Por estudiar") if lesson.learning_allowed else gettext("Requiere acceso")
         if lesson.learning_allowed:
             accessible.add(record.pk)
     for chapter in course.visible_chapters:
@@ -75,11 +76,15 @@ def course_learning_context(user, course, version=None, current_id=None):
     total = len(lessons)
     done = sum(item.learning_completed for item in lessons)
     all_done = bool(total and done == total)
-    content_kind = "tutorial" if (version.kind if version else course.kind) == "tutorial" else "curso"
-    action = "Repasar" if all_done else "Continuar" if enrollment and (done or enrollment.last_lesson_id) else "Empezar"
-    label = f"{action} {content_kind}"
+    tutorial = (version.kind if version else course.kind) == "tutorial"
+    if all_done:
+        label = gettext("Repasar tutorial") if tutorial else gettext("Repasar curso")
+    elif enrollment and (done or enrollment.last_lesson_id):
+        label = gettext("Continuar tutorial") if tutorial else gettext("Continuar curso")
+    else:
+        label = gettext("Empezar tutorial") if tutorial else gettext("Empezar curso")
     if not target:
-        label = "Ver opciones de acceso"
+        label = gettext("Ver opciones de acceso")
     return {"journey": {"enrollment": enrollment, "target": target, "label": label,
                          "completed": done, "total": total, "percentage": round(done * 100 / total) if total else 0,
                          "all_done": all_done, "locked": total - len(accessible)},

@@ -11,9 +11,9 @@
     let dirty = false, saving = false, revision = 0;
     let status = form.querySelector('.studio-save,[data-save-status],.form-save-status');
     if (!status) { status = document.createElement('p'); status.className = 'form-save-status'; form.append(status); }
-    status.setAttribute('role','status'); status.textContent ||= 'Sin cambios pendientes';
+    status.setAttribute('role','status'); status.textContent ||= btcT('Sin cambios pendientes');
     forms.add({dirty: () => dirty, connected: () => form.isConnected});
-    const changed = () => { dirty = true; revision++; status.textContent = 'Cambios sin guardar'; };
+    const changed = () => { dirty = true; revision++; status.textContent = btcT('Cambios sin guardar'); };
     form.addEventListener('input',changed); form.addEventListener('change',changed);
     const reveal = target => {
       for (let parent = target.parentElement; parent && parent !== form; parent = parent.parentElement) if (parent.tagName === 'DETAILS') parent.open = true;
@@ -24,7 +24,7 @@
       form.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
       const summary = document.createElement('div'); summary.className = 'form-save-error';
       summary.setAttribute('role','alert'); summary.tabIndex = -1;
-      const title = document.createElement('p'); title.textContent = 'Revisa los campos indicados. Tus cambios siguen aquí.';
+      const title = document.createElement('p'); title.textContent = btcT('Revisa los campos indicados. Tus cambios siguen aquí.');
       const list = document.createElement('ul'); summary.append(title,list);
       const linked = new Set();
       if (page) page.querySelectorAll('details').forEach(section => {
@@ -60,7 +60,7 @@
         if ([...linked].some(key => key.endsWith(':' + text))) return;
         const item = document.createElement('li'); item.textContent = text; list.append(item);
       });
-      form.prepend(summary); summary.focus(); status.textContent = 'Corrige los campos y vuelve a guardar.';
+      form.prepend(summary); summary.focus(); status.textContent = btcT('Corrige los campos y vuelve a guardar.');
     }
     form.addEventListener('submit',async event => {
       if (event.defaultPrevented || !form.checkValidity()) return;
@@ -74,7 +74,7 @@
       button?.setAttribute('aria-busy','true'); status.textContent = 'Guardando…';
       const complete = destination => {
         if (new URL(destination,location.href).origin !== location.origin) throw new Error('save');
-        if (revision !== sentRevision) { dirty = true; status.textContent = 'La versión enviada se guardó. Tus cambios posteriores siguen aquí; revisa el borrador antes de volver a guardar.'; return; }
+        if (revision !== sentRevision) { dirty = true; status.textContent = btcT('La versión enviada se guardó. Tus cambios posteriores siguen aquí; revisa el borrador antes de volver a guardar.'); return; }
         dirty = false; location.assign(destination);
       };
       try {
@@ -95,8 +95,8 @@
         complete(response.url);
       } catch (error) {
         status.textContent = error.message === 'session' || error.message === 'account-session-changed'
-          ? 'Tu sesión o cuenta cambió. Entra en otra pestaña y reintenta; tus cambios siguen aquí.'
-          : 'No pudimos confirmar el guardado. Tus cambios siguen aquí; vuelve a intentarlo.';
+          ? btcT('Tu sesión o cuenta cambió. Entra en otra pestaña y reintenta; tus cambios siguen aquí.')
+          : btcT('No pudimos confirmar el guardado. Tus cambios siguen aquí; vuelve a intentarlo.');
       } finally {
         saving = false; controls.forEach(({el,disabled}) => { el.disabled = disabled; });
         button?.removeAttribute('aria-busy');

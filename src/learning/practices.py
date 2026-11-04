@@ -10,6 +10,7 @@ from django.db import transaction
 from django.db.models import F
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext
 from PIL import Image
 
 from commerce.services import require_student, reserve_writer
@@ -52,7 +53,7 @@ def save_practice(actor, lesson_id, values, revision):
     protect_legacy(lesson.chapter.course)
     draft = PracticeDraft.objects.filter(lesson=lesson).first()
     if (draft.revision if draft else 0) != revision:
-        raise ValidationError("Hay cambios más recientes. Recarga antes de guardar.")
+        raise ValidationError(gettext("Hay cambios más recientes. Recarga antes de guardar."))
     draft = draft or PracticeDraft(lesson=lesson)
     for field in (*PRACTICE_FIELDS, "enabled"):
         setattr(draft, field, values[field])
@@ -67,7 +68,7 @@ def validate_attachment(upload):
     if not upload:
         return None
     if not 0 < upload.size <= MAX_ATTACHMENT_BYTES:
-        raise ValidationError("El archivo debe pesar entre 1 byte y 10 MB.")
+        raise ValidationError(gettext("El archivo debe pesar entre 1 byte y 10 MB."))
     name = PurePath(upload.name.replace("\\", "/")).name
     suffix = PurePath(name).suffix.lower()
     header = upload.read(16)
@@ -90,11 +91,11 @@ def validate_attachment(upload):
     finally:
         upload.seek(0)
     if not valid:
-        raise ValidationError("Adjunta un PDF, ZIP, TXT en UTF-8, PNG o JPG válido (máximo 10 MB).")
+        raise ValidationError(gettext("Adjunta un PDF, ZIP, TXT en UTF-8, PNG o JPG válido (máximo 10 MB)."))
     if any(ord(char) < 32 or ord(char) == 127 for char in name):
-        raise ValidationError("El nombre del archivo contiene caracteres no válidos.")
+        raise ValidationError(gettext("El nombre del archivo contiene caracteres no válidos."))
     if len(name) > 200:
-        raise ValidationError("Acorta el nombre del archivo a 200 caracteres.")
+        raise ValidationError(gettext("Acorta el nombre del archivo a 200 caracteres."))
     return name
 
 
@@ -102,7 +103,7 @@ def student_practice(actor, practice):
     require_student(actor)
     enrollment = Enrollment.objects.filter(student=actor, version=practice.lesson.chapter.version).first()
     if not enrollment:
-        raise PermissionDenied("Inscríbete en esta versión para entregar la práctica.")
+        raise PermissionDenied(gettext("Inscríbete en esta versión para entregar la práctica."))
     return enrollment
 
 
@@ -121,7 +122,7 @@ def key_value(value):
     try:
         return uuid.UUID(str(value))
     except (ValueError, TypeError, AttributeError):
-        raise ValidationError("Recarga el formulario para volver a enviar.")
+        raise ValidationError(gettext("Recarga el formulario para volver a enviar."))
 
 
 def submit_delivery(actor, practice_id, body, project_url, attachment, request_key, previous_id):
@@ -136,7 +137,7 @@ def submit_delivery(actor, practice_id, body, project_url, attachment, request_k
         attachment_hash = digest.hexdigest()
         attachment.seek(0)
     if project_url and not project_url.lower().startswith(("https://", "http://")):
-        raise ValidationError("Usa un enlace HTTP o HTTPS para el proyecto.")
+        raise ValidationError(gettext("Usa un enlace HTTP o HTTPS para el proyecto."))
     stored_file = None
     try:
         with transaction.atomic():
@@ -151,17 +152,17 @@ def submit_delivery(actor, practice_id, body, project_url, attachment, request_k
             existing = PracticeDelivery.objects.filter(enrollment=enrollment, request_key=key).first()
             if existing:
                 if existing.practice_id != practice.pk or existing.body != body.strip() or existing.project_url != project_url.strip() or existing.attachment_sha256 != attachment_hash or existing.attachment_name != (attachment_name or ""):
-                    raise ValidationError("Este formulario ya se utilizó para otra entrega. Recarga para consultar la solución registrada.")
+                    raise ValidationError(gettext("Este formulario ya se utilizó para otra entrega. Recarga para consultar la solución registrada."))
                 return existing
             if not content_access(actor, practice.lesson).allowed:
-                raise PermissionDenied("Necesitas acceso a esta lección para entregar.")
+                raise PermissionDenied(gettext("Necesitas acceso a esta lección para entregar."))
             if not practice_is_open(practice):
-                raise ValidationError("El educador ha pausado la recepción. Puedes consultar tus entregas anteriores.")
+                raise ValidationError(gettext("El educador ha pausado la recepción. Puedes consultar tus entregas anteriores."))
             last = PracticeDelivery.objects.filter(enrollment=enrollment, practice=practice).select_related("review").order_by("-number").first()
             if (last.pk if last else 0) != previous_id:
-                raise ValidationError("Ya hay una entrega más reciente. Recarga para consultarla.")
+                raise ValidationError(gettext("Ya hay una entrega más reciente. Recarga para consultarla."))
             if last and last.state != "changes":
-                raise ValidationError("Espera la revisión del educador antes de volver a entregar." if last.state == "pending" else "Esta práctica ya está aprobada.")
+                raise ValidationError(gettext("Espera la revisión del educador antes de volver a entregar.") if last.state == "pending" else gettext("Esta práctica ya está aprobada."))
             now = timezone.now()
             delivery = PracticeDelivery(enrollment=enrollment, practice=practice, number=last.number + 1 if last else 1,
                 request_key=key, body=body.strip(), project_url=project_url.strip(), submitted_at=now,
@@ -175,7 +176,7 @@ def submit_delivery(actor, practice_id, body, project_url, attachment, request_k
                 stored_file = (delivery.attachment.storage, delivery.attachment.name)
             delivery.save()
             notify(practice.lesson.chapter.version.course.creator, f"practice-delivery:{delivery.pk}",
-                f"Nueva entrega: {practice.title}", reverse("creator-practice-delivery", args=[delivery.pk]))
+                (gettext('Nueva entrega: %(title)s') % {"title": practice.title}), reverse("creator-practice-delivery", args=[delivery.pk]))
             return delivery
     except BaseException:
         if stored_file:
@@ -196,10 +197,10 @@ def review_delivery(actor, delivery_id, outcome, feedback, met_criteria):
     if existing:
         if all(getattr(existing, field) == value for field, value in values.items()):
             return existing
-        raise ValidationError("Esta entrega ya tiene una revisión. Consulta su historial.")
+        raise ValidationError(gettext("Esta entrega ya tiene una revisión. Consulta su historial."))
     review = PracticeReview(delivery=delivery, educator=actor, **values)
     review.save()
-    notify(delivery.enrollment.student, f"practice-review:{review.pk}", f"Práctica revisada: {delivery.practice.title}",
+    notify(delivery.enrollment.student, f"practice-review:{review.pk}", (gettext('Práctica revisada: %(title)s') % {"title": delivery.practice.title}),
         reverse("student-practice", args=[delivery.practice_id]))
     return review
 
@@ -215,7 +216,7 @@ def set_intake(actor, practice_id, accepting, revision):
     Course.objects.select_for_update().get(pk=practice.lesson.chapter.version.course_id)
     intake, _ = PracticeIntake.objects.get_or_create(practice=practice)
     if intake.revision != revision:
-        raise ValidationError("La recepción cambió desde otra ventana. Recarga la página.")
+        raise ValidationError(gettext("La recepción cambió desde otra ventana. Recarga la página."))
     intake.accepting, intake.revision = accepting, revision + 1
     intake.save()
 

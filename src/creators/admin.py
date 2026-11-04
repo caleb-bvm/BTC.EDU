@@ -4,6 +4,7 @@ from django.contrib import admin, messages
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext, gettext_lazy
 
 from .application_service import review_application
 from .models import CreatorApplicationEvent, CreatorProfile, Submission
@@ -24,9 +25,9 @@ class ApplicationReviewForm(forms.ModelForm):
     def clean(self):
         data = super().clean()
         if data.get("status") in ("changes", "suspended") and not data.get("feedback", "").strip():
-            self.add_error("feedback", "Explica el motivo de la decisión.")
+            self.add_error("feedback", gettext("Explica el motivo de la decisión."))
         if data.get("status") == "approved" and settings.ACCOUNT_REQUIRE_VERIFIED_EMAIL and not self.instance.user.email_verified_at:
-            self.add_error("status", "El creador debe confirmar su correo antes de aprobar su cuenta.")
+            self.add_error("status", gettext("El creador debe confirmar su correo antes de aprobar su cuenta."))
         if self.instance.pk:
             from django.db.models import F
             # The admin change form runs inside a transaction; reserve the writer
@@ -34,7 +35,7 @@ class ApplicationReviewForm(forms.ModelForm):
             CreatorProfile.objects.filter(pk=self.instance.pk).update(updated_at=F("updated_at"))
             current = CreatorProfile.objects.get(pk=self.instance.pk)
             if current.review_revision != data.get("expected_revision"):
-                raise forms.ValidationError("La solicitud cambió. Recarga antes de registrar la decisión.")
+                raise forms.ValidationError(gettext("La solicitud cambió. Recarga antes de registrar la decisión."))
         return data
 
 
@@ -75,9 +76,9 @@ class SubmissionAdmin(admin.ModelAdmin):
     readonly_fields = ("creator", "course", "video", "material", "course_version", "resource_version", "status", "feedback", "created_at", "reviewed_by", "reviewed_at", "review_link")
     actions = ("approve",)
 
-    @admin.display(description="Revisar composición")
+    @admin.display(description=gettext_lazy("Revisar composición"))
     def review_link(self, obj):
-        return format_html('<a href="{}">Abrir revisión y observaciones</a>', reverse("creator-review", args=[obj.pk]))
+        return format_html(gettext('<a href="{}">Abrir revisión y observaciones</a>'), reverse("creator-review", args=[obj.pk]))
 
     def has_add_permission(self, request):
         return False
@@ -85,7 +86,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
-    @admin.action(description="Aprobar y publicar la composición enviada")
+    @admin.action(description=gettext_lazy("Aprobar y publicar la composición enviada"))
     def approve(self, request, queryset):
         for submission in queryset:
             try:
@@ -93,4 +94,4 @@ class SubmissionAdmin(admin.ModelAdmin):
             except ValidationError as exc:
                 self.message_user(request, " ".join(exc.messages), messages.ERROR)
             else:
-                self.message_user(request, "Composición revisada publicada.")
+                self.message_user(request, gettext("Composición revisada publicada."))

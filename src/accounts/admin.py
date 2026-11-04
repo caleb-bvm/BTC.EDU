@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.utils.translation import gettext, gettext_lazy
 
 from .models import AccountEvent, AccountMail, AccountSupportRequest, SupportEvent, User
 from .support import review_support
@@ -14,10 +15,10 @@ class PlatformUserAdmin(UserAdmin):
     search_fields = ("email",)
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Perfil", {"fields": ("first_name", "last_name", "account_type")}),
-        ("Presentación pública", {"fields": ("display_name", "bio", "interests", "learning_goal", "website", "profile_public", "avatar")}),
-        ("Permisos", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
-        ("Fechas", {"fields": ("last_login", "date_joined", "email_verified_at", "closed_at")}),
+        (gettext_lazy("Perfil"), {"fields": ("first_name", "last_name", "account_type")}),
+        (gettext_lazy("Presentación pública"), {"fields": ("display_name", "bio", "interests", "learning_goal", "website", "profile_public", "avatar")}),
+        (gettext_lazy("Permisos"), {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
+        (gettext_lazy("Fechas"), {"fields": ("last_login", "date_joined", "email_verified_at", "closed_at")}),
     )
     add_fieldsets = ((None, {"classes": ("wide",), "fields": ("email", "account_type", "password1", "password2")}),)
 
@@ -44,7 +45,7 @@ class SupportReviewForm(forms.ModelForm):
     def clean(self):
         data = super().clean()
         if data.get("status") == "resolved" and not data.get("response", "").strip():
-            self.add_error("response", "Escribe una respuesta antes de cerrar la consulta.")
+            self.add_error("response", gettext("Escribe una respuesta antes de cerrar la consulta."))
         return data
 
 

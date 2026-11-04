@@ -6,6 +6,7 @@ from django.db import DatabaseError, connection
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_GET
 
 from content.catalog import catalog_context
@@ -13,9 +14,9 @@ from content.catalog import catalog_context
 from .navigation import CATALOG_DESTINATIONS, discovery_section
 
 SECTION_INTROS = {
-    "cursos": "Un recorrido completo, a tu ritmo.",
-    "tutoriales": "Guías breves para resolver una tarea concreta.",
-    "recursos": "Videos, materiales y fuentes para consultar cuando los necesites.",
+    "cursos": gettext_lazy("Un recorrido completo, a tu ritmo."),
+    "tutoriales": gettext_lazy("Guías breves para resolver una tarea concreta."),
+    "recursos": gettext_lazy("Videos, materiales y fuentes para consultar cuando los necesites."),
 }
 
 
@@ -56,7 +57,7 @@ def category_navigation(context):
     if context["selected_category"] and context["category_filter"] == context["uncategorized_topic"] and (
         (context["unassigned_count"] and context["subcategory_cards"]) or context["topic_filter"] == context["uncategorized_topic"]
     ):
-        context["subcategory_cards"].append({"name": "Sin subcategoría", "slug": context["uncategorized_topic"], "count": context["unassigned_count"]})
+        context["subcategory_cards"].append({"name": gettext("Sin subcategoría"), "slug": context["uncategorized_topic"], "count": context["unassigned_count"]})
     for card in context["subcategory_cards"]:
         card["url"] = url + "?" + urlencode({**params, **subcategory_params, "categoria": context["category_filter"], "tema": card["slug"]})
     return filter_navigation(context)
@@ -69,7 +70,7 @@ def filter_navigation(context):
     labels = {
         "q": f'«{context["query"]}»' if context["query"] else "",
         "nivel": dict(context["levels"]).get(context["level_filter"], ""),
-        "acceso": {"gratis": "Con contenido gratis", "pago": "Con contenido de pago"}.get(context["access_filter"], ""),
+        "acceso": {"gratis": gettext("Con contenido gratis"), "pago": gettext("Con contenido de pago")}.get(context["access_filter"], ""),
         "tipo": context["categories"].get(context["category"], "") if context["category"] != "todos" and context.get("section") != "recursos" else "",
     }
     chips = []
@@ -88,7 +89,7 @@ def tutorial_categories(context):
     for name in ("categoria", "tema", "vista"):
         params.pop(name, None)
     url = context["catalog_url"]
-    links = [{"name": "Todas", "count": context["catalog_total"], "current": not context["category_filter"],
+    links = [{"name": gettext("Todas"), "count": context["catalog_total"], "current": not context["category_filter"],
               "url": url + ("?" + urlencode(params) if params else "")}]
     for card in context["category_cards"]:
         if card["count"] or card["slug"] == context["category_filter"]:
@@ -122,21 +123,21 @@ def section_catalog(request, section, catalog_url, **extra):
 
 def home(request):
     context = {"active": "home", "catalog_url": reverse("explore"), "section": "cursos",
-               "section_label": "Cursos", "explore_section": "cursos",
+               "section_label": gettext("Cursos"), "explore_section": "cursos",
                **catalog_context({}, "cursos", browse_categories=True)}
     return render(request, "core/home.html", category_navigation(context))
 
 
 def explore(request):
     section = discovery_section(request.GET)
-    labels = {"cursos": "Cursos", "tutoriales": "Tutoriales", "recursos": "Recursos"}
+    labels = {"cursos": gettext("Cursos"), "tutoriales": gettext("Tutoriales"), "recursos": gettext("Recursos")}
     return section_catalog(request, section, reverse("explore"), active="explore", section_label=labels[section],
                            page_title=labels[section], page_intro=SECTION_INTROS[section], explore_section=section)
 
 
 @require_GET
 def academy_catalog(request, section):
-    label = {"cursos": "Cursos", "tutoriales": "Tutoriales", "recursos": "Recursos"}[section]
+    label = {"cursos": gettext("Cursos"), "tutoriales": gettext("Tutoriales"), "recursos": gettext("Recursos")}[section]
     name = CATALOG_DESTINATIONS[section]
     return section_catalog(request, section, reverse(name), active=name, section_label=label,
                            page_title=label, page_intro=SECTION_INTROS[section])
@@ -152,7 +153,7 @@ def course_selector(request):
         level_groups.setdefault(card["item"].get_level_display() or "Nivel por definir", []).append(card)
     ordered_groups = [(label, level_groups[label]) for _, label in context["levels"] if label in level_groups]
     if "Nivel por definir" in level_groups:
-        ordered_groups.append(("Nivel por definir", level_groups["Nivel por definir"]))
+        ordered_groups.append((gettext("Nivel por definir"), level_groups["Nivel por definir"]))
     topic_links = []
     for topic in context["topics"]:
         topic_params = request.GET.copy()

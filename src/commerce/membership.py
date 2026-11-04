@@ -6,6 +6,7 @@ from django.db import transaction
 from django.db.models import Max, Min, Q
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from .gateway import LNbitsGateway
 from .lightning import emit_payment
@@ -52,7 +53,7 @@ def create_membership_payment(actor, plan):
     reserve_writer(actor.pk)
     plan = available_plans().filter(pk=plan.pk).first()
     if plan is None:
-        raise ValidationError("Este plan ya no está disponible.")
+        raise ValidationError(gettext("Este plan ya no está disponible."))
     now = timezone.now()
     open_payments = MembershipPayment.objects.filter(member=actor, status="pending", expires_at__gt=now)
     # Pressing the button again reuses the open invoice instead of issuing another one.
@@ -60,13 +61,13 @@ def create_membership_payment(actor, plan):
     if existing:
         return existing
     if open_payments.count() >= MAX_OPEN_PAYMENTS:
-        raise ValidationError("Tienes varios pagos de membresía pendientes. Paga o deja vencer alguno antes de preparar otro.")
+        raise ValidationError(gettext("Tienes varios pagos de membresía pendientes. Paga o deja vencer alguno antes de preparar otro."))
     return MembershipPayment.objects.create(member=actor, plan=plan, amount_sats=plan.amount_sats, days=plan.days,
                                             expires_at=now + timedelta(minutes=15))
 
 
 def emit_membership(payment, gateway):
-    return emit_payment(payment, gateway, "Estamos comprobando el pago de tu membresía. Actualiza su estado para continuar.")
+    return emit_payment(payment, gateway, gettext("Estamos comprobando el pago de tu membresía. Actualiza su estado para continuar."))
 
 
 def settle_membership(payment_id, provider_status):
@@ -76,7 +77,7 @@ def settle_membership(payment_id, provider_status):
         reserve_writer(member_id)
         payment = MembershipPayment.objects.select_related("member").get(pk=payment_id)
         if provider_status.payment_hash != payment.payment_hash:
-            raise ValidationError("La confirmación pertenece a otro pago.")
+            raise ValidationError(gettext("La confirmación pertenece a otro pago."))
         if payment.status == "paid":
             return payment
         now = timezone.now()
@@ -89,7 +90,7 @@ def settle_membership(payment_id, provider_status):
                 status="paid", paid_at=now, starts_at=starts_at, ends_at=ends_at)
             from learning.support import notify
             notify(payment.member, f"membership:{payment.pk}",
-                   f"Tu membresía está activa hasta el {timezone.localtime(ends_at):%d/%m/%Y}.", reverse("membership"))
+                   (gettext('Tu membresía está activa hasta el %(localtime)s.') % {"localtime": f"{timezone.localtime(ends_at):%d/%m/%Y}"}), reverse("membership"))
         elif payment.status == "pending" and payment.expires_at <= now:
             MembershipPayment.objects.filter(pk=payment.pk, status="pending").update(status="expired")
         elif payment.status == "pending" and provider_status.failed:

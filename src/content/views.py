@@ -5,6 +5,7 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_safe
 
@@ -177,7 +178,7 @@ def resource_detail(request, kind, pk):
         {
             "active": "resources",
             "resource": resource,
-            "kind": "Video" if kind == "videos" else "Material",
+            "kind": gettext("Video") if kind == "videos" else gettext("Material"),
             "allowed": decision.allowed, "file_url": file_url, "subtitle_url": subtitles_url,
             "offers": offers,
             "asset": asset,
@@ -245,7 +246,7 @@ def resource_file(request, kind, pk, number, part):
     if not decision.allowed:
         if decision.reason == "unpublished":
             raise Http404
-        return HttpResponse("Este contenido requiere una compra.", status=403)
+        return HttpResponse(gettext("Este contenido requiere una compra."), status=403)
     asset = revision.asset if part == "archivo" else revision.subtitles if part == "subtitulos" else None
     if asset is None:
         raise Http404

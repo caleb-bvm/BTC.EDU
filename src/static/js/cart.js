@@ -12,7 +12,7 @@
       if (busy) return;
       busy = true;
       const previous = button?.textContent;
-      if (button) { button.disabled = true; button.textContent = 'Añadiendo…'; }
+      if (button) { button.disabled = true; button.textContent = btcT('Añadiendo…'); }
       form.setAttribute('aria-busy', 'true');
       try {
         if (window.btcAccountContext) await window.btcAccountContext(form);
@@ -22,17 +22,17 @@
           headers: {'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json'}});
         if (response.redirected || !response.headers.get('Content-Type')?.includes('application/json')) throw new Error('session');
         const result = await response.json();
-        if (!response.ok || !result.ok) throw new Error(result.message || 'No pudimos añadir esta selección. Revisa la opción y vuelve a intentar.');
+        if (!response.ok || !result.ok) throw new Error(result.message || btcT('No pudimos añadir esta selección. Revisa la opción y vuelve a intentar.'));
         document.querySelectorAll('[data-cart-count]').forEach(count => { count.textContent = String(result.cart_count); count.hidden = result.cart_count <= 0; });
-        document.querySelectorAll('[data-cart-link]').forEach(link => { link.setAttribute('aria-label', 'Carrito, ' + result.cart_count + (result.cart_count === 1 ? ' artículo' : ' artículos')); });
+        document.querySelectorAll('[data-cart-link]').forEach(link => { link.setAttribute('aria-label', btcT('Carrito, ') + result.cart_count + (result.cart_count === 1 ? btcT(' artículo') : btcT(' artículos'))); });
         if (feedback) { feedback.hidden = false; feedback.setAttribute('role', 'status'); feedback.textContent = result.message; }
       } catch (error) {
         if (feedback) {
           feedback.hidden = false;
           feedback.setAttribute('role', 'alert');
           feedback.textContent = error.message === 'session' || error.message === 'account-session-changed'
-            ? 'La sesión cambió. Revisa tu cuenta en otra pestaña y vuelve a intentar.'
-            : error instanceof TypeError ? 'No pudimos conectar. Conservamos tu selección; vuelve a intentar añadirla.'
+            ? btcT('La sesión cambió. Revisa tu cuenta en otra pestaña y vuelve a intentar.')
+            : error instanceof TypeError ? btcT('No pudimos conectar. Conservamos tu selección; vuelve a intentar añadirla.')
             : error.message;
         }
       } finally {

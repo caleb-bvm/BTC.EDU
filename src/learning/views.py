@@ -5,6 +5,7 @@ from django.db.models import Count, F, Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.http import require_GET, require_POST, require_safe
 
 from commerce.models import Entitlement
@@ -27,7 +28,7 @@ def enrollment_create(request, version_pk):
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
     else:
-        messages.success(request, "Curso añadido a Mi aprendizaje. La inscripción conserva esta versión y no compra los contenidos de pago.")
+        messages.success(request, gettext("Curso añadido a Mi aprendizaje. La inscripción conserva esta versión y no compra los contenidos de pago."))
         if request.POST.get("start") == "1":
             lessons = list(VersionLesson.objects.filter(chapter__version=version).select_related("content", "chapter__version__course").order_by("chapter__position", "chapter__pk", "position", "pk"))
             target = continuation(lessons, set(enrollment.completed_lessons.values_list("lesson_id", flat=True)), enrollment.last_lesson_id,
@@ -148,7 +149,7 @@ def progress_update(request, pk):
         lesson_id, revision = int(request.POST.get("lesson", "")), int(request.POST.get("revision", ""))
         enrollment = save_progress(request.user, enrollment.pk, lesson_id, revision, request.POST.get("action", ""))
     except (ValueError, ValidationError) as exc:
-        message = " ".join(exc.messages) if isinstance(exc, ValidationError) else "El avance enviado no es válido."
+        message = " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("El avance enviado no es válido.")
         if wants_json:
             return JsonResponse({"saved": False, "message": message}, status=409 if isinstance(exc, StaleProgress) else 400)
         messages.error(request, message)
@@ -158,8 +159,8 @@ def progress_update(request, pk):
     if wants_json:
         return JsonResponse({"saved": True, "revision": enrollment.revision, "completed": completed, "total": total,
                              "is_completed": enrollment.completed_lessons.filter(lesson_id=lesson_id).exists(),
-                             "message": "Lección completada y avance guardado." if request.POST.get("action") == "complete" else "Lección pendiente y avance guardado." if request.POST.get("action") == "incomplete" else "Tu punto de continuación quedó guardado."})
-    messages.success(request, "Avance guardado.")
+                             "message": gettext("Lección completada y avance guardado.") if request.POST.get("action") == "complete" else gettext("Lección pendiente y avance guardado.") if request.POST.get("action") == "incomplete" else gettext("Tu punto de continuación quedó guardado.")})
+    messages.success(request, gettext("Avance guardado."))
     return redirect("version-lesson", course_pk=enrollment.version.course_id, number=enrollment.version.number, lesson_pk=lesson_id)
 
 

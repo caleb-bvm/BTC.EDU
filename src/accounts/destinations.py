@@ -1,6 +1,8 @@
 """Return student accounts to the learning page that requested authentication."""
 from django.utils.http import url_has_allowed_host_and_scheme
 
+from core.content_translation import without_language_prefix
+
 STUDENT_PATHS = (
     "/explorar/", "/mi-espacio/", "/cuenta/perfil/", "/cursos/",
     "/tutoriales/", "/recursos/", "/referencias/", "/lecciones/",
@@ -15,4 +17,5 @@ def student_destination(request, destination):
     ):
         return ""
     # Relative, known student destinations only; administration and studio stay separate.
-    return destination if destination == "/" or destination.startswith(STUDENT_PATHS) else ""
+    path = without_language_prefix(destination)
+    return destination if path == "/" or path.startswith(STUDENT_PATHS) else ""

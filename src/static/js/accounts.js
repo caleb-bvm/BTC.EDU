@@ -11,7 +11,7 @@ window.btcAccountContext = async form => {
 document.querySelectorAll('[data-account-form]').forEach(form => {
   let dirty = false;
   const status = form.querySelector('[data-account-save]');
-  form.addEventListener('input', () => { dirty = true; if (status) status.textContent = 'Cambios sin guardar'; });
+  form.addEventListener('input', () => { dirty = true; if (status) status.textContent = btcT('Cambios sin guardar'); });
   form.addEventListener('submit', async event => {
     if (!form.checkValidity()) return;
     if (form.hasAttribute('data-account-native') || !window.fetch) { dirty = false; return; }
@@ -23,7 +23,7 @@ document.querySelectorAll('[data-account-form]').forEach(form => {
       await window.btcAccountContext(form);
       const response = await fetch(form.action || window.location.href, {method:'POST',body:new FormData(form),credentials:'same-origin',headers:{'X-Requested-With':'XMLHttpRequest'}});
       if (!response.ok || /\/(?:cuenta|crear)\/entrar\//.test(response.url)) {
-        if (status) status.textContent = response.status === 403 ? 'La sesión o cuenta cambió. Vuelve a entrar y reintenta; tus cambios siguen aquí.' : 'No se pudo guardar. Conservamos tus cambios para reintentar.';
+        if (status) status.textContent = response.status === 403 ? btcT('La sesión o cuenta cambió. Vuelve a entrar y reintenta; tus cambios siguen aquí.') : btcT('No se pudo guardar. Conservamos tus cambios para reintentar.');
         return;
       }
       if (response.headers.get('Content-Type')?.includes('application/json')) {
@@ -35,7 +35,7 @@ document.querySelectorAll('[data-account-form]').forEach(form => {
       const page = new DOMParser().parseFromString(await response.text(), 'text/html');
       const errors = page.querySelector('.account-errors');
       if (!errors) {
-        if (status) status.textContent = 'No pudimos confirmar el guardado. Tus cambios siguen aquí; recarga tu cuenta en otra pestaña para comprobarlo.';
+        if (status) status.textContent = btcT('No pudimos confirmar el guardado. Tus cambios siguen aquí; recarga tu cuenta en otra pestaña para comprobarlo.');
         return;
       }
       form.querySelector('.account-errors')?.remove();
@@ -53,9 +53,9 @@ document.querySelectorAll('[data-account-form]').forEach(form => {
         }
       });
       errors.focus();
-      if (status) status.textContent = 'Corrige los campos indicados y vuelve a guardar.';
+      if (status) status.textContent = btcT('Corrige los campos indicados y vuelve a guardar.');
     } catch (error) {
-      if (status) status.textContent = error.message === 'account-session-changed' ? 'La sesión o cuenta cambió. Entra con esta cuenta en otra pestaña y vuelve a guardar; tus cambios siguen aquí.' : 'Se perdió la conexión. Tus cambios siguen aquí; vuelve a intentarlo cuando regrese.';
+      if (status) status.textContent = error.message === 'account-session-changed' ? btcT('La sesión o cuenta cambió. Entra con esta cuenta en otra pestaña y vuelve a guardar; tus cambios siguen aquí.') : btcT('Se perdió la conexión. Tus cambios siguen aquí; vuelve a intentarlo cuando regrese.');
     } finally {
       if (button) { button.disabled = false; button.removeAttribute('aria-busy'); }
     }
@@ -80,7 +80,7 @@ document.querySelectorAll('[data-avatar-form]').forEach(form => {
     const file = input.files?.[0];
     if (!file) return;
     if (file.size > 3 * 1024 * 1024 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-      status.textContent = 'Elige una foto JPG, PNG o WebP de hasta 3 MB.';
+      status.textContent = btcT('Elige una foto JPG, PNG o WebP de hasta 3 MB.');
       input.value = '';
       return;
     }
@@ -94,10 +94,10 @@ document.querySelectorAll('[data-avatar-form]').forEach(form => {
       controls.hidden = false;
       form.querySelector('[name="remove_photo"]')?.removeAttribute('checked');
       const remove = form.querySelector('[name="remove_photo"]'); if (remove) remove.checked = false;
-      status.textContent = 'Ajusta la posición y el acercamiento. La vista previa muestra el recorte que se guardará.';
+      status.textContent = btcT('Ajusta la posición y el acercamiento. La vista previa muestra el recorte que se guardará.');
       updateCrop();
     };
-    photo.onerror = () => { status.textContent = 'No pudimos leer la foto. Elige otro archivo.'; input.value = ''; };
+    photo.onerror = () => { status.textContent = btcT('No pudimos leer la foto. Elige otro archivo.'); input.value = ''; };
     photo.src = url;
   });
   controls.addEventListener('input', updateCrop);

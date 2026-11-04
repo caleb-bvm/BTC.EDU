@@ -23,7 +23,7 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware", "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.locale.LocaleMiddleware", "django.middleware.common.CommonMiddleware", "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware", "django.contrib.messages.middleware.MessageMiddleware",
     "accounts.middleware.AccountSessionMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -39,7 +39,10 @@ TEMPLATES = [{
         "core.navigation.contextual_navigation",
         "learning.context_processors.notification_count",
         "commerce.context_processors.cart_context",
-    ]},
+        "core.js_text.js_text",
+    ],
+    # Every template can translate the interface and BTC.EDU's catalog without {% load %}.
+    "builtins": ["django.templatetags.i18n", "core.templatetags.content_i18n"]},
 }]
 WSGI_APPLICATION = "platform_config.wsgi.application"
 AUTH_USER_MODEL = "accounts.User"
@@ -58,7 +61,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
+# Spanish is the source language and keeps unprefixed URLs; English lives under /en/.
 LANGUAGE_CODE = "es"
+LANGUAGES = [("es", "Español"), ("en", "English")]
+LOCALE_PATHS = [BASE_DIR / "locale"]
 TIME_ZONE = "America/El_Salvador"
 USE_I18N = True
 USE_TZ = True
@@ -69,9 +75,10 @@ STATIC_ROOT = BASE_DIR / ".local/staticfiles"
 MEDIA_ROOT = BASE_DIR / ".local/private-media"
 CONTENT_MAX_UPLOAD_BYTES = 256 * 1024 * 1024
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-LOGIN_URL = "/cuenta/entrar/"
-LOGIN_REDIRECT_URL = "/mi-espacio/"
-LOGOUT_REDIRECT_URL = "/"
+# URL names keep the visitor's language after signing in or out.
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "workspace"
+LOGOUT_REDIRECT_URL = "home"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" if DEBUG else "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_BACKEND = os.getenv("DJANGO_EMAIL_BACKEND", EMAIL_BACKEND)
 EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")

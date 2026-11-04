@@ -6,6 +6,7 @@ from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
 from django.utils.crypto import salted_hmac
+from django.utils.translation import gettext
 
 from .models import AccessAttempt
 
@@ -41,4 +42,4 @@ def consume(request, account_type, purpose, email=""):
 
 def allow(request, account_type, purpose, email=""):
     if consume(request, account_type, purpose, email) is False:
-        raise AccessThrottled("Has realizado varios intentos. Espera unos minutos y vuelve a intentarlo.")
+        raise AccessThrottled(gettext("Has realizado varios intentos. Espera unos minutos y vuelve a intentarlo."))

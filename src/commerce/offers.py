@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
+from django.utils.translation import gettext
 
 from creators.services import require_creator
 
@@ -23,7 +24,7 @@ def create_offer(actor, target, title, amount):
         kind, pk = target.split(":")
         fields, resources = target_inventory(kind, int(pk), actor)
     except (ValueError, KeyError):
-        raise ValidationError("Elige contenido publicado.") from None
+        raise ValidationError(gettext("Elige contenido publicado.")) from None
     offer = Offer.objects.create(creator=actor, title=title.strip(), amount_sats=amount, logical_key=f"{kind}:{int(pk)}", **fields)
     for resource in resources:
         OfferItem.objects.create(offer=offer, resource=resource)
@@ -34,7 +35,7 @@ def validate_inventory(offer):
     target = offer.course_version_id if offer.kind == "course" else offer.chapter_id if offer.kind == "chapter" else offer.lesson_id if offer.kind == "lesson" else offer.resource_id
     fields, resources = target_inventory(offer.kind, target, offer.creator)
     if fields["course_version"] != offer.course_version or set(offer.items.values_list("resource_id", flat=True)) != {item.pk for item in resources}:
-        raise ValidationError("La composición de la oferta no corresponde al contenido.")
+        raise ValidationError(gettext("La composición de la oferta no corresponde al contenido."))
 
 
 @transaction.atomic
@@ -46,7 +47,7 @@ def submit_offer(actor, offer):
     if offer.creator_id != actor.pk:
         raise PermissionDenied
     if offer.status != "draft":
-        raise ValidationError("Solo puedes enviar una oferta en borrador.")
+        raise ValidationError(gettext("Solo puedes enviar una oferta en borrador."))
     validate_inventory(offer)
     offer.status = "pending"
     offer.feedback = ""
@@ -70,16 +71,16 @@ def review_offer(actor, offer, approve, feedback=""):
     Offer.objects.filter(pk=offer.pk).update(status=F("status"))
     offer.refresh_from_db()
     if offer.status != "pending":
-        raise ValidationError("La oferta ya fue revisada o retirada.")
+        raise ValidationError(gettext("La oferta ya fue revisada o retirada."))
     if approve:
         require_creator(offer.creator)
         validate_inventory(offer)
         if offer.kind in ("course", "chapter"):
             missing = missing_individuals(offer)
             if missing:
-                raise ValidationError("Publica primero ofertas individuales para: " + ", ".join(item.resource.title for item in missing))
+                raise ValidationError(gettext("Publica primero ofertas individuales para: ") + ", ".join(item.resource.title for item in missing))
     elif not feedback.strip():
-        raise ValidationError("Indica qué debe corregirse.")
+        raise ValidationError(gettext("Indica qué debe corregirse."))
     offer.status = "active" if approve else "draft"
     if approve:
         Offer.objects.filter(logical_key=offer.logical_key, status="active").exclude(pk=offer.pk).update(status="archived")

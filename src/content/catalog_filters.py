@@ -1,5 +1,9 @@
 """Opciones de búsqueda derivadas del contenido público del contexto actual."""
 
+from django.utils.translation import gettext
+
+from core.content_translation import translate_content
+
 from .models import CourseLevel
 
 
@@ -13,34 +17,34 @@ def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, 
         topic = topic_by_id.get(topic_id)
         available_categories.add(topic.category.slug if topic and topic.category_id else uncategorized)
     category_options = [
-        {'value': card['slug'], 'label': card['name']}
+        {'value': card['slug'], 'label': translate_content(card['name'])}
         for card in category_cards if card['slug'] in available_categories or card['slug'] == category_slug
     ]
     if category_slug and not any(option['value'] == category_slug for option in category_options):
-        category_options.append({'value': category_slug, 'label': 'Categoría no disponible'})
+        category_options.append({'value': category_slug, 'label': gettext('Categoría no disponible')})
 
     grouped_topics = {}
     for topic in all_topics:
         if topic.pk not in facets['topics'] and topic.slug != topic_slug:
             continue
-        name = topic.category.name if topic.category_id else 'Por descubrir'
+        name = translate_content(topic.category.name) if topic.category_id else gettext('Por descubrir')
         grouped_topics.setdefault(name, []).append({
-            'value': topic.slug, 'label': topic.name,
+            'value': topic.slug, 'label': translate_content(topic.name),
             'category': topic.category.slug if topic.category_id else uncategorized,
         })
     if None in facets['topics'] or topic_slug == uncategorized:
         grouped_topics.setdefault('Por descubrir', []).append({
-            'value': uncategorized, 'label': 'Sin subcategoría', 'category': uncategorized,
+            'value': uncategorized, 'label': gettext('Sin subcategoría'), 'category': uncategorized,
         })
     unknown_topic = bool(topic_slug and topic_slug != uncategorized and selected_topic is None)
     if unknown_topic:
-        name = selected_category['name'] if selected_category else 'Otros temas'
+        name = translate_content(selected_category['name']) if selected_category else gettext('Otros temas')
         grouped_topics.setdefault(name, []).append({
-            'value': topic_slug, 'label': 'Subcategoría no disponible', 'category': category_slug,
+            'value': topic_slug, 'label': gettext('Subcategoría no disponible'), 'category': category_slug,
         })
     topic_groups = [{'name': name, 'topics': options} for name, options in sorted(grouped_topics.items())]
     level_options = [(value, label) for value, label in CourseLevel.choices if value in facets['levels'] or value == level]
-    access_options = [(value, label) for value, label in (('gratis', 'Con contenido gratis'), ('pago', 'Con contenido de pago'), ('membresia', 'Incluido en la membresía'))
+    access_options = [(value, label) for value, label in (('gratis', gettext('Con contenido gratis')), ('pago', gettext('Con contenido de pago')), ('membresia', gettext('Incluido en la membresía')))
                       if value in facets['access'] or value == access]
     format_options = [(value, label) for value, label in format_labels.items()
                       if value != 'todos' and (value in facets['formats'] or value == kind)]
@@ -61,14 +65,14 @@ def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, 
         access != 'todos' and controls['show_access'],
         kind != 'todos' and controls['show_format'],
     ))
-    content_label = {'cursos': 'cursos', 'tutoriales': 'tutoriales', 'recursos': 'recursos'}.get(section, 'contenido')
-    context_name = selected_topic.name if selected_topic and not category_missing else (
-        selected_category['name'] if selected_category and not category_missing else '')
+    content_label = {'cursos': gettext('cursos'), 'tutoriales': gettext('tutoriales'), 'recursos': gettext('recursos')}.get(section, gettext('contenido'))
+    context_name = translate_content(selected_topic.name) if selected_topic and not category_missing else (
+        translate_content(selected_category['name']) if selected_category and not category_missing else '')
     if topic_slug == uncategorized and not category_missing:
-        context_name = 'Sin subcategoría'
+        context_name = gettext('Sin subcategoría')
     return {
-        'search_label': f'Buscar {content_label}',
-        'search_placeholder': f'Buscar {content_label}' + (f' en {context_name}' if context_name else ''),
+        'search_label': gettext('Buscar %(content)s') % {'content': content_label},
+        'search_placeholder': (gettext('Buscar %(content)s en %(context)s') % {'content': content_label, 'context': context_name}) if context_name else gettext('Buscar %(content)s') % {'content': content_label},
         'categories': category_options, 'topic_groups': topic_groups, 'levels': level_options,
         'access': access_options, 'formats': format_options,
         **controls, 'has_controls': any(controls.values()),

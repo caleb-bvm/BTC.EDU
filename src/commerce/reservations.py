@@ -1,6 +1,7 @@
 """Shared reservations for legacy invoices and grouped orders, without I/O."""
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from .models import Invoice
 
@@ -39,4 +40,4 @@ def overlapping_invoice(actor, resource_ids, exclude=None):
 def require_unreserved(actor, resource_ids, exclude=None):
     invoice = overlapping_invoice(actor, resource_ids, exclude)
     if invoice:
-        raise ValidationError("Hay un pago pendiente o en revisión para parte de esta selección. Consulta esa factura antes de preparar otro pago.", code="pending_overlap")
+        raise ValidationError(gettext("Hay un pago pendiente o en revisión para parte de esta selección. Consulta esa factura antes de preparar otro pago."), code="pending_overlap")

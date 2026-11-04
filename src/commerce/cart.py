@@ -4,6 +4,7 @@ from uuid import UUID
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F
+from django.utils.translation import gettext
 
 from .catalog import available, ownership
 from .journey import return_lesson
@@ -70,17 +71,17 @@ def add_item(actor, cart, offer_id, return_lesson_id=None, restore=False):
     offer = Offer.objects.select_related("creator", "course_version__course", "resource").get(pk=offer_id)
     chosen = return_lesson(offer, return_lesson_id)
     if return_lesson_id and not chosen:
-        raise ValidationError("La lección elegida no forma parte de esta opción de acceso.")
+        raise ValidationError(gettext("La lección elegida no forma parte de esta opción de acceso."))
     if not restore:
         if not available(offer):
-            raise ValidationError("Esta opción ya no está disponible. Revisa el contenido para elegir una opción actual.")
+            raise ValidationError(gettext("Esta opción ya no está disponible. Revisa el contenido para elegir una opción actual."))
         if ownership(actor, offer) != "none":
-            raise ValidationError("Ya tienes contenido de esta opción. Abre lo adquirido o elige los componentes que faltan.")
+            raise ValidationError(gettext("Ya tienes contenido de esta opción. Abre lo adquirido o elige los componentes que faltan."))
     current = cart.items.filter(offer=offer).first()
     if current and current.return_lesson_id == (chosen.pk if chosen else None):
         return current, False
     if not current and cart.items.count() >= MAX_ITEMS:
-        raise ValidationError("Tu carrito admite hasta 20 artículos. Retira alguno o guárdalo para después.")
+        raise ValidationError(gettext("Tu carrito admite hasta 20 artículos. Retira alguno o guárdalo para después."))
     # A changed origin is a new selection: a late payment must not delete it.
     if current:
         current.delete()
@@ -94,7 +95,7 @@ def remove_item(actor, cart, item_id):
     cart = _lock_cart(actor, cart)
     item = cart.items.select_related("offer").filter(pk=item_id).first()
     if item is None:
-        raise ValidationError("Este artículo ya no está en tu carrito. Revisa la selección actual.")
+        raise ValidationError(gettext("Este artículo ya no está en tu carrito. Revisa la selección actual."))
     removed = {"cart_id": str(cart.pk), "offer_id": item.offer_id, "return_lesson_id": item.return_lesson_id,
                "title": item.offer.title, "buyer_id": str(actor.pk) if actor.is_authenticated else ""}
     item.delete()
@@ -124,7 +125,7 @@ def _merge(actor, guest, selected=None):
     actor.refresh_from_db()
     require_student(actor)
     if not Cart.objects.filter(pk=guest.pk, buyer__isnull=True).update(revision=F("revision")):
-        raise ValidationError("La selección de visitante ya se incorporó o ya no está disponible.")
+        raise ValidationError(gettext("La selección de visitante ya se incorporó o ya no está disponible."))
     guest = Cart.objects.select_for_update().get(pk=guest.pk, buyer__isnull=True)
     own = Cart.objects.select_for_update().filter(buyer=actor).first()
     if own is None and selected is None:
@@ -137,7 +138,7 @@ def _merge(actor, guest, selected=None):
     if selected is not None:
         selected = {_uuid(key) for key in selected}
         if None in selected or not selected or not selected.issubset({item.pk for item in items}):
-            raise ValidationError("Elige artículos de tu selección pendiente.")
+            raise ValidationError(gettext("Elige artículos de tu selección pendiente."))
         items = [item for item in items if item.pk in selected]
     existing = set(own.items.values_list("offer_id", flat=True))
     additional = sum(item.offer_id not in existing for item in items)
@@ -175,11 +176,11 @@ def merge_guest_cart(request):
     except (ValidationError, PermissionDenied):
         # Authentication must still finish; keep this visitor choice private.
         request.session[PENDING_KEY] = {"id": str(guest.pk), "buyer_id": str(request.user.pk)}
-        return ["Tu selección de visitante se conserva en esta sesión. Puedes revisarla desde el carrito."]
+        return [gettext("Tu selección de visitante se conserva en esta sesión. Puedes revisarla desde el carrito.")]
     request.session.pop(UNDO_KEY, None)
     if pending:
         request.session[PENDING_KEY] = {"id": str(guest.pk), "buyer_id": str(request.user.pk)}
-        return ["Tu carrito ya tiene varios artículos. La selección de visitante se conserva en esta sesión para que elijas cuáles incorporar."]
+        return [gettext("Tu carrito ya tiene varios artículos. La selección de visitante se conserva en esta sesión para que elijas cuáles incorporar.")]
     request.session.pop(PENDING_KEY, None)
     return []
 
@@ -187,10 +188,10 @@ def merge_guest_cart(request):
 def merge_pending_selection(request, selected):
     guest = pending_guest_cart(request)
     if not guest:
-        raise ValidationError("No hay una selección de visitante pendiente para esta cuenta.")
+        raise ValidationError(gettext("No hay una selección de visitante pendiente para esta cuenta."))
     _, pending = _merge(request.user, guest, selected)
     if pending and all(guest.items.filter(pk=key).exists() for key in selected if _uuid(key)):
-        raise ValidationError("No hay espacio para esa selección. Tu carrito admite hasta 20 artículos; retira alguno antes de incorporar más.")
+        raise ValidationError(gettext("No hay espacio para esa selección. Tu carrito admite hasta 20 artículos; retira alguno antes de incorporar más."))
     if not pending:
         request.session.pop(PENDING_KEY, None)
     return pending
@@ -221,13 +222,13 @@ def decorate_quote(user, quote):
     quote["eligible_total_sats"] = sum(line["amount_sats"] for line in quote.get("lines", []) if line["eligible"])
     for line in quote.get("lines", []):
         offer = line["offer"]
-        line["scope"] = ("Tutorial completo" if offer.course_version and offer.course_version.kind == "tutorial" else "Curso completo") if offer.kind == "course" else "Capítulo completo" if offer.kind == "chapter" else "Texto de la lección" if offer.kind == "lesson" else offer.resource.get_kind_display() if offer.resource else "Recurso"
-        line["creator_name"] = getattr(getattr(offer.creator, "creator_profile", None), "display_name", "") or "Educador"
+        line["scope"] = (gettext("Tutorial completo") if offer.course_version and offer.course_version.kind == "tutorial" else gettext("Curso completo")) if offer.kind == "course" else gettext("Capítulo completo") if offer.kind == "chapter" else gettext("Texto de la lección") if offer.kind == "lesson" else offer.resource.get_kind_display() if offer.resource else gettext("Recurso")
+        line["creator_name"] = getattr(getattr(offer.creator, "creator_profile", None), "display_name", "") or gettext("Educador")
         line["content_url"] = public_destination(offer)
         line["issues_display"] = [item for item in conflicts if item.get("offer_id") == offer.pk]
         line["details_url"] = offer_url(offer, line.get("return_lesson")) if available(offer) else ""
         line["save_kind"] = "curso" if offer.course_version_id else "recurso"
-        line["save_label"] = ("Guardar tutorial para después" if offer.course_version.kind == "tutorial" else "Guardar curso para después") if offer.course_version_id else "Guardar para después"
+        line["save_label"] = (gettext("Guardar tutorial para después") if offer.course_version.kind == "tutorial" else gettext("Guardar curso para después")) if offer.course_version_id else gettext("Guardar para después")
         if "owned" in line.get("issues", []):
             line["owned_destination"] = destination(user, offer, line.get("return_lesson"))
         if "partial" in line.get("issues", []):

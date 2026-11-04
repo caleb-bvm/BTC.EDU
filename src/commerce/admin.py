@@ -2,6 +2,7 @@ from django.contrib import admin, messages
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext, gettext_lazy
 
 from .models import (
     CommerceEvent,
@@ -44,17 +45,17 @@ class OfferAdmin(admin.ModelAdmin):
             except (ValidationError, PermissionDenied) as exc:
                 self.message_user(request, str(exc), messages.ERROR)
             else:
-                self.message_user(request, f"{offer.title}: decisión guardada.", messages.SUCCESS)
+                self.message_user(request, (gettext('%(title)s: decisión guardada.') % {"title": offer.title}), messages.SUCCESS)
 
-    @admin.action(description="Aprobar ofertas revisadas", permissions=["change"])
+    @admin.action(description=gettext_lazy("Aprobar ofertas revisadas"), permissions=["change"])
     def approve(self, request, queryset):
         self.act(request, queryset, lambda offer: review_offer(request.user, offer, True))
 
-    @admin.display(description="Revisión")
+    @admin.display(description=gettext_lazy("Revisión"))
     def review_link(self, obj):
         return format_html('<a href="{}">Revisar oferta</a>', reverse("offer-review", args=[obj.pk]))
 
-    @admin.action(description="Retirar ofertas sin eliminar compras", permissions=["change"])
+    @admin.action(description=gettext_lazy("Retirar ofertas sin eliminar compras"), permissions=["change"])
     def archive(self, request, queryset):
         self.act(request, queryset, lambda offer: archive_offer(request.user, offer))
 
@@ -90,7 +91,7 @@ class CouponAdmin(HistoryAdmin):
     list_filter = ("active",)
     actions = ("deactivate",)
 
-    @admin.action(description="Desactivar cupones", permissions=["change"])
+    @admin.action(description=gettext_lazy("Desactivar cupones"), permissions=["change"])
     def deactivate(self, request, queryset):
         queryset.update(active=False)
 
@@ -142,6 +143,6 @@ class RefundAdmin(HistoryAdmin):
     list_display = ("id", "buyer", "amount_sats", "status", "created_at", "review_link")
     list_filter = ("status",)
 
-    @admin.display(description="Revisión")
+    @admin.display(description=gettext_lazy("Revisión"))
     def review_link(self, obj):
         return format_html('<a href="{}">Revisar reembolso</a>', reverse("refund-review", args=[obj.pk]))

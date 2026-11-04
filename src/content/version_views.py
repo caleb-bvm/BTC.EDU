@@ -3,6 +3,7 @@ from django.db.models import Prefetch
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_safe
 
@@ -154,7 +155,7 @@ def attachment_file(request, pk, part):
     if not decision.allowed:
         if decision.reason == "unpublished":
             raise Http404
-        return HttpResponse("Este contenido requiere una compra.", status=403)
+        return HttpResponse(gettext("Este contenido requiere una compra."), status=403)
     asset = attachment.resource.asset if part == "archivo" else attachment.resource.subtitles if part == "subtitulos" else None
     if asset is None:
         raise Http404

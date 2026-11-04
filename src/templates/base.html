@@ -1,13 +1,16 @@
 {% load static %}
 <!doctype html>
-<html lang="es">
+{% get_current_language as LANGUAGE_CODE %}<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="{% static 'js/theme.js' %}"></script>
-  <meta name="description" content="BTC.EDU. Cursos, videos y materiales. Elige lo que quieres aprender.">
+  {% if js_text %}{{ js_text|json_script:"btc-text" }}{% endif %}
+  <script>window.btcT = (() => { const node = document.getElementById('btc-text'); const text = node ? JSON.parse(node.textContent) : {}; return message => text[message] || message; })();</script>
+  <script src="{% static 'js/theme.js' %}?v=i18n-20261103"></script>
+  <meta name="description" content="{% translate "BTC.EDU. Cursos, videos y materiales. Elige lo que quieres aprender." %}">
+  {% language_options as languages %}{% for option in languages %}<link rel="alternate" hreflang="{{ option.code }}" href="{{ request.scheme }}://{{ request.get_host }}{{ option.url }}">{% endfor %}
   {% if user.is_authenticated %}<meta name="btc-account-id" content="{{ user.pk }}">{% endif %}
   <meta name="htmx-config" content='{"historyRestoreAsHxRequest":false}'>
-  <title>{% block title %}BTC.EDU · Aprende a tu ritmo{% endblock %}</title>
+  <title>{% block title %}{% translate "BTC.EDU · Aprende a tu ritmo" %}{% endblock %}</title>
   <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
   <link rel="manifest" href="{% url 'pwa-manifest' %}">
   <link rel="apple-touch-icon" href="{% static 'images/icons/apple-touch-icon.png' %}">
@@ -21,7 +24,7 @@
   <link rel="stylesheet" href="{% static 'css/essential.css' %}?v=dark-20261012-2">
   <link rel="stylesheet" href="{% static 'css/learning-experience.css' %}?v=design-20261024-3">
   <link rel="stylesheet" href="{% static 'css/lesson-community.css' %}?v=lessons-20261012-1">
-  <link rel="stylesheet" href="{% static 'css/theme.css' %}?v=design-20261024">
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}?v=i18n-20261103">
   <link rel="stylesheet" href="{% static 'css/accounts.css' %}?v=accounts-20261014-1">
   <link rel="stylesheet" href="{% static 'css/overhaul.css' %}?v=design-20261024-3">
   <link rel="stylesheet" href="{% static 'css/overhaul-learning.css' %}?v=design-20261024-2">
@@ -34,18 +37,18 @@
   <link rel="stylesheet" href="{% static 'css/content-images.css' %}?v=courses-20261015-1">
   <link rel="stylesheet" href="{% static 'css/features.css' %}?v=paths-20261025">
   <link rel="stylesheet" href="{% static 'css/paths.css' %}?v=paths-20261025-2">
-  <script src="{% static 'js/forms.js' %}?v=20261014-1" defer></script>
+  <script src="{% static 'js/forms.js' %}?v=i18n-20261103" defer></script>
   <script src="{% static 'vendor/htmx.min.js' %}" defer></script>
-  <script src="{% static 'js/learning.js' %}?v=overhaul-20261014" defer></script>
-  <script src="{% static 'js/commerce.js' %}?v=checkout-20261025" defer></script>
-  <script src="{% static 'js/cart.js' %}?v=checkout-20261025" defer></script>
-  <script src="{% static 'js/academy.js' %}?v=filters-20261015-3" defer></script>
-  <script src="{% static 'js/accounts.js' %}?v=accounts-20261012-1" defer></script>
-  <script src="{% static 'js/offline.js' %}?v=features-20261023" defer></script>
+  <script src="{% static 'js/learning.js' %}?v=i18n-20261103" defer></script>
+  <script src="{% static 'js/commerce.js' %}?v=i18n-20261103" defer></script>
+  <script src="{% static 'js/cart.js' %}?v=i18n-20261103" defer></script>
+  <script src="{% static 'js/academy.js' %}?v=i18n-20261103" defer></script>
+  <script src="{% static 'js/accounts.js' %}?v=i18n-20261103" defer></script>
+  <script src="{% static 'js/offline.js' %}?v=i18n-20261103" defer></script>
 </head>
 <body class="{% block body_class %}{% endblock %}">
-<a class="skip-link" href="#main">Saltar al contenido</a>
+<a class="skip-link" href="#main">{% translate "Saltar al contenido" %}</a>
 {% block header %}{% include '_app_header.html' with public_header=True %}{% endblock %}
 <main id="main">{% block content %}{% endblock %}</main>
-{% block footer %}<footer class="site-footer shell"><span>BTC.EDU <span class="footer-dot">●</span> Conocimiento en libertad.</span><span>Aprende a tu ritmo.</span></footer>{% endblock %}
+{% block footer %}<footer class="site-footer shell"><span>BTC.EDU <span class="footer-dot">●</span> {% translate "Conocimiento en libertad." %}</span><span>{% translate "Aprende a tu ritmo." %}</span></footer>{% endblock %}
 </body></html>

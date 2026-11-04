@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import (
     require_GET,
@@ -106,7 +107,7 @@ def application(request):
         except ValidationError as exc:
             form.add_error(None, exc)
         else:
-            messages.success(request, "Perfil guardado." if profile.status == CreatorProfile.Status.APPROVED else "Solicitud enviada. Te avisaremos cuando tenga una decisión.")
+            messages.success(request, gettext("Perfil guardado.") if profile.status == CreatorProfile.Status.APPROVED else gettext("Solicitud enviada. Te avisaremos cuando tenga una decisión."))
             return saved_redirect(request, "creator-application")
     return render(request, "creators/application.html", {**context, "form": form})
 
@@ -156,9 +157,9 @@ def save_form(request, form, title, back, extra=None):
         except ValidationError as exc:
             form.add_error(None, exc)
         except IntegrityError:
-            form.add_error(None, "El orden cambió mientras editabas. Elige un número libre y reintenta.")
+            form.add_error(None, gettext("El orden cambió mientras editabas. Elige un número libre y reintenta."))
         else:
-            messages.success(request, "Cambios guardados en el borrador. La publicación vigente se conserva.")
+            messages.success(request, gettext("Cambios guardados en el borrador. La publicación vigente se conserva."))
             return saved_redirect(request, back)
     return render(request, "creators/form.html", {"form": form, "form_groups": form_groups(form), "page_title": title, "back": back, "active": "creator-content", **(extra or {})})
 
@@ -172,7 +173,7 @@ def course_edit(request, pk=None):
     form = CourseForm(request.POST if request.method == "POST" else None, instance=course, initial=initial)
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Información guardada. Continúa con el temario.")
+        messages.success(request, gettext("Información guardada. Continúa con el temario."))
         return saved_redirect(request, reverse("creator-course", args=[course.pk]) + "?seccion=temario")
     section = request.GET.get("seccion", "informacion")
     if section not in ("informacion", "temario", "evaluaciones", "publicacion", "precio"):
@@ -196,7 +197,7 @@ def chapter_edit(request, course_pk, pk=None):
     course = get_object_or_404(Course, pk=course_pk, creator=request.user)
     protect_legacy(course)
     chapter = get_object_or_404(Chapter, pk=pk, course=course) if pk else Chapter(course=course, status=PublicationStatus.PUBLISHED, position=(course.chapters.order_by("-position").values_list("position", flat=True).first() or 0) + 1)
-    return save_form(request, ChapterForm(request.POST if request.method == "POST" else None, instance=chapter), "Editar capítulo" if pk else "Nuevo capítulo", reverse("creator-course", args=[course.pk]) + "?seccion=temario", {"course": course, "course_sections": course_sections(course, "temario")})
+    return save_form(request, ChapterForm(request.POST if request.method == "POST" else None, instance=chapter), gettext("Editar capítulo") if pk else gettext("Nuevo capítulo"), reverse("creator-course", args=[course.pk]) + "?seccion=temario", {"course": course, "course_sections": course_sections(course, "temario")})
 
 
 @creator_required
@@ -215,11 +216,11 @@ def lesson_edit(request, chapter_pk, pk=None):
                     LessonResource.objects.create(lesson=lesson, resource=revision, position=position)
                 Course.objects.filter(pk=chapter.course_id).update(updated_at=timezone.now())
         except IntegrityError:
-            form.add_error(None, "El orden cambió mientras editabas. Elige un número libre y reintenta.")
+            form.add_error(None, gettext("El orden cambió mientras editabas. Elige un número libre y reintenta."))
         else:
-            messages.success(request, "Lección guardada en el borrador.")
+            messages.success(request, gettext("Lección guardada en el borrador."))
             return saved_redirect(request, reverse("creator-course", args=[chapter.course_id]) + "?seccion=temario")
-    return render(request, "creators/form.html", {"form": form, "form_groups": form_groups(form), "lesson": lesson, "course": chapter.course, "course_sections": course_sections(chapter.course, "temario"), "page_title": "Editar lección" if pk else "Nueva lección", "back": reverse("creator-course", args=[chapter.course_id]) + "?seccion=temario", "active": "creator-content"})
+    return render(request, "creators/form.html", {"form": form, "form_groups": form_groups(form), "lesson": lesson, "course": chapter.course, "course_sections": course_sections(chapter.course, "temario"), "page_title": gettext("Editar lección") if pk else gettext("Nueva lección"), "back": reverse("creator-course", args=[chapter.course_id]) + "?seccion=temario", "active": "creator-content"})
 
 
 @creator_required
@@ -228,14 +229,14 @@ def resource_edit(request, kind, pk=None):
     model = resource_model(kind)
     item = get_object_or_404(model, pk=pk, creator=request.user) if pk else model(creator=request.user)
     if item.status == PublicationStatus.PUBLISHED and not item.revision_id:
-        raise PermissionDenied("El administrador debe publicar una revisión del recurso anterior antes de habilitar su edición.")
+        raise PermissionDenied(gettext("El administrador debe publicar una revisión del recurso anterior antes de habilitar su edición."))
     form_type = ResourceForm if model is Video else MaterialForm
     form = form_type(request.POST if request.method == "POST" else None, request.FILES if request.method == "POST" else None, instance=item, actor=request.user)
     back = editor_return(request)
     if request.method == "POST" and form.is_valid():
         with transaction.atomic():
             form.save()
-        messages.success(request, "Recurso guardado. Puedes enviarlo a revisión.")
+        messages.success(request, gettext("Recurso guardado. Puedes enviarlo a revisión."))
         from urllib.parse import urlencode
         destination = reverse("creator-resource", args=[kind, item.pk]) + ("?" + urlencode({"volver": back}) if back else "")
         return saved_redirect(request, destination)
@@ -255,7 +256,7 @@ def files(request):
         except ValidationError as exc:
             form.add_error(None, exc)
         else:
-            messages.success(request, "Archivo validado y guardado en tu biblioteca privada.")
+            messages.success(request, gettext("Archivo validado y guardado en tu biblioteca privada."))
             return saved_redirect(request, back or "creator-files")
     return render(request, "creators/files.html", {"form": form, "back": back, "assets": Asset.objects.filter(creator=request.user).order_by("-pk"), "active": "creator-content"})
 
@@ -276,7 +277,7 @@ def send(request, kind, pk):
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
         return redirect("creator-course", pk=pk) if model is Course else redirect("creator-resource", kind=kind, pk=pk)
-    messages.success(request, "Versión enviada a revisión. Puedes seguir editando un nuevo borrador.")
+    messages.success(request, gettext("Versión enviada a revisión. Puedes seguir editando un nuevo borrador."))
     return redirect("creator-review", pk=submission.pk)
 
 
@@ -307,7 +308,7 @@ def review(request, pk):
             except ValidationError as exc:
                 form.add_error(None, exc)
             else:
-                messages.success(request, "Decisión registrada.")
+                messages.success(request, gettext("Decisión registrada."))
                 return redirect("creator-review", pk=pk)
     chapters = submission.course_version.chapters.prefetch_related("lessons__content", "lessons__attachments__resource__asset", "lessons__attachments__resource__subtitles") if submission.course_id else []
     return render(request, "creators/review.html", {"submission": submission, "snapshot": submission.snapshot, "chapters": chapters, "reviewer": reviewer, "form": form, "active": "studio"})
@@ -318,7 +319,7 @@ def review(request, pk):
 def withdraw(request, pk):
     submission = get_object_or_404(Submission, pk=pk, creator=request.user)
     changed = Submission.objects.filter(pk=submission.pk, status=Submission.Status.PENDING).update(status=Submission.Status.WITHDRAWN)
-    messages.info(request, "Envío retirado. Puedes preparar y enviar otra versión." if changed else "Este envío ya fue resuelto.")
+    messages.info(request, gettext("Envío retirado. Puedes preparar y enviar otra versión.") if changed else gettext("Este envío ya fue resuelto."))
     return redirect("creator-review", pk=pk)
 
 
@@ -354,7 +355,7 @@ def public_profile(request, pk):
 
 def protect_legacy(course):
     if course.status == PublicationStatus.PUBLISHED and not course.current_version_id:
-        raise PermissionDenied("El administrador debe publicar una versión del curso anterior antes de habilitar su edición.")
+        raise PermissionDenied(gettext("El administrador debe publicar una versión del curso anterior antes de habilitar su edición."))
 
 
 @creator_required
@@ -419,7 +420,7 @@ def reorder(request, kind, pk):
     course = item.course if model is Chapter else item.chapter.course
     protect_legacy(course)
     if request.POST.get("direction") not in ("up", "down"):
-        return JsonResponse({"error": "Elige subir o bajar."}, status=400)
+        return JsonResponse({"error": gettext("Elige subir o bajar.")}, status=400)
     with transaction.atomic():
         from django.db.models import Max
         Course.objects.filter(pk=course.pk).update(updated_at=timezone.now())
@@ -438,5 +439,5 @@ def reorder(request, kind, pk):
             model.objects.filter(pk=item.pk).update(position=temporary)
             model.objects.filter(pk=adjacent.pk).update(position=original)
             model.objects.filter(pk=item.pk).update(position=adjacent.position)
-            messages.success(request, "Orden del temario actualizado.")
+            messages.success(request, gettext("Orden del temario actualizado."))
     return redirect(reverse("creator-course", args=[course.pk]) + "?seccion=temario")

@@ -7,6 +7,7 @@ from django.db import transaction
 from django.db.models import Count, F, Max
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils.translation import gettext
 
 from commerce.services import require_student
 
@@ -127,12 +128,12 @@ def issue_path_credential(actor, path, student_name):
         return existing
     name = student_name.strip() if isinstance(student_name, str) else ""
     if not name or len(name) > 150 or any(ord(char) < 32 for char in name):
-        raise ValidationError("Indica el nombre que aparecerá en tu credencial, hasta 150 caracteres.")
+        raise ValidationError(gettext("Indica el nombre que aparecerá en tu credencial, hasta 150 caracteres."))
     if not path.published:
-        raise ValidationError("Esta ruta no está disponible.")
+        raise ValidationError(gettext("Esta ruta no está disponible."))
     progress = path_progress(actor, path)
     if not progress["eligible"]:
-        raise ValidationError("Completa los cursos obligatorios de la ruta para obtener la credencial.")
+        raise ValidationError(gettext("Completa los cursos obligatorios de la ruta para obtener la credencial."))
     evidence = []
     for item in progress["steps"]:
         if item["optional"] and item["state"] not in ("certified", "completed"):
@@ -147,7 +148,7 @@ def issue_path_credential(actor, path, student_name):
         if item["optional"]:
             evidence[-1]["optional"] = True
     completion = PathCompletion.objects.create(path=path, student=actor, student_name=name, path_title=path.title, evidence=evidence)
-    notify(actor, f"path:{completion.pk}", f"Completaste la ruta «{path.title}»", reverse("path-credential", args=[completion.pk]))
+    notify(actor, f"path:{completion.pk}", (gettext('Completaste la ruta «%(title)s»') % {"title": path.title}), reverse("path-credential", args=[completion.pk]))
     return completion
 
 
@@ -173,9 +174,9 @@ def save_creator_path(creator, path, fields, steps):
         raise PermissionDenied
     allowed = {course.pk for course in studio_courses(creator)}
     if any(item["course"].pk not in allowed for item in steps):
-        raise ValidationError("Elige solo tus cursos publicados.")
+        raise ValidationError(gettext("Elige solo tus cursos publicados."))
     if fields.get("published") and (len(steps) < 2 or all(item["optional"] for item in steps)):
-        raise ValidationError("Para publicar la ruta, incluye al menos dos cursos y uno obligatorio.")
+        raise ValidationError(gettext("Para publicar la ruta, incluye al menos dos cursos y uno obligatorio."))
     for name, value in fields.items():
         setattr(path, name, value)
     path.creator = creator

@@ -1,6 +1,7 @@
 """Server-side price adjustments: credit for earlier purchases and educator coupons."""
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from .catalog import owned_ids
 from .models import Coupon, Invoice, OrderLine
@@ -73,16 +74,16 @@ def find_coupon(code, buyer=None, now=None):
     now = now or timezone.now()
     coupon = Coupon.objects.select_related("creator", "course").filter(code=code).first()
     if coupon is None or not coupon.active or not coupon.creator.is_active:
-        return None, "Este cupón no existe o ya no está activo."
+        return None, gettext("Este cupón no existe o ya no está activo.")
     if coupon.starts_at > now:
-        return None, "Este cupón todavía no está disponible."
+        return None, gettext("Este cupón todavía no está disponible.")
     if coupon.expires_at <= now:
-        return None, "Este cupón venció."
+        return None, gettext("Este cupón venció.")
     if buyer is not None and buyer.is_authenticated and OrderLine.objects.filter(
             coupon=coupon, order__buyer=buyer, order__invoice__status="paid").exists():
-        return None, "Ya usaste este cupón en una compra anterior."
+        return None, gettext("Ya usaste este cupón en una compra anterior.")
     if coupon_uses(coupon, exclude_buyer=buyer if buyer is not None and buyer.is_authenticated else None) >= coupon.max_uses:
-        return None, "Este cupón ya alcanzó su límite de usos."
+        return None, gettext("Este cupón ya alcanzó su límite de usos.")
     return coupon, ""
 
 
@@ -118,8 +119,8 @@ def coupon_rows(creator):
     now = timezone.now()
     for coupon in creator_coupons(creator):
         uses = coupon_uses(coupon)
-        state = ("Desactivado" if not coupon.active else "Programado" if coupon.starts_at > now
-                 else "Vencido" if coupon.expires_at <= now else "Agotado" if uses >= coupon.max_uses else "Activo")
+        state = (gettext("Desactivado") if not coupon.active else gettext("Programado") if coupon.starts_at > now
+                 else gettext("Vencido") if coupon.expires_at <= now else gettext("Agotado") if uses >= coupon.max_uses else gettext("Activo"))
         rows.append({"coupon": coupon, "uses": uses, "state": state})
     return rows
 
@@ -127,4 +128,5 @@ def coupon_rows(creator):
 def coupon_scope_choices(creator):
     from content.models import Course
     courses = Course.objects.filter(creator=creator).filter(Q(status="published") | Q(current_version__isnull=False)).order_by("title")
-    return [("", "Todo mi contenido")] + [(str(course.pk), course.title) for course in courses]
+    from core.content_translation import translate_content
+    return [("", gettext("Todo mi contenido"))] + [(str(course.pk), translate_content(course.title)) for course in courses]

@@ -12,8 +12,11 @@ from django.db.models import F, Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods
+
+from core.content_translation import without_language_prefix
 
 from .destinations import student_destination
 from .forms import (
@@ -55,7 +58,7 @@ class CreatorLoginView(LoginView):
         destination = super().get_redirect_url()
         # Keep a safe destination in the form before the educator signs in.
         # Authorization is checked after login, when the target account is known.
-        if not destination.startswith("/crear/"):
+        if not without_language_prefix(destination).startswith("/crear/"):
             return ""
         if urlsplit(destination).path in (reverse("creator-login"), reverse("creator-signup")):
             return ""
@@ -108,7 +111,7 @@ def register(request, creator=False):
             with transaction.atomic():
                 user = form.save()
         except IntegrityError:
-            form.add_error("email", "Ya existe una cuenta con este correo en este espacio. Inicia sesión.")
+            form.add_error("email", gettext("Ya existe una cuenta con este correo en este espacio. Inicia sesión."))
         else:
             login(request, user, backend="accounts.backends.AccountBackend")
             if creator:
@@ -118,7 +121,7 @@ def register(request, creator=False):
                 for notice in merge_guest_cart(request):
                     messages.info(request, notice)
             request_email_action(request, user, "verify", destination=reverse("creator-application") if creator else next_url)
-            messages.success(request, "Cuenta de creador creada. Completa tu perfil para solicitar la aprobación." if creator else "Cuenta de estudiante creada.")
+            messages.success(request, gettext("Cuenta de creador creada. Completa tu perfil para solicitar la aprobación.") if creator else gettext("Cuenta de estudiante creada."))
             return redirect("creator-application" if creator else next_url or "workspace")
     return render(request, "creators/register.html" if creator else "registration/register.html", {"form": form, "creator_auth": creator, "next": next_url})
 
@@ -135,11 +138,11 @@ def student_profile(request):
             get_user_model().objects.filter(pk=request.user.pk).update(profile_public=F("profile_public"))
             member = get_user_model().objects.get(pk=request.user.pk)
             if not member.is_active or member.account_type != "student" or member.get_session_auth_hash() != request.user.get_session_auth_hash():
-                raise PermissionDenied("La cuenta cambió. Vuelve a entrar antes de guardar el perfil.")
+                raise PermissionDenied(gettext("La cuenta cambió. Vuelve a entrar antes de guardar el perfil."))
             for field in StudentProfileForm.Meta.fields:
                 setattr(member, field, form.cleaned_data[field])
             member.save(update_fields=StudentProfileForm.Meta.fields)
-        messages.success(request, "Perfil de estudiante guardado.")
+        messages.success(request, gettext("Perfil de estudiante guardado."))
         if request.headers.get("X-Requested-With") == "XMLHttpRequest":
             return JsonResponse({"redirect": reverse("student-profile")})
         return redirect("student-profile")

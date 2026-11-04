@@ -8,8 +8,11 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_POST
+
+from core.content_translation import translate_content
 
 from .gateway import ProviderUnavailable
 from .membership import (
@@ -30,7 +33,7 @@ def membership(request):
     groups = {}
     for card in cards:
         category = card["item"].topic.category if card["item"].topic else None
-        groups.setdefault(category.name if category else "Por descubrir", []).append(card)
+        groups.setdefault(translate_content(category.name) if category else gettext("Por descubrir"), []).append(card)
     student = request.user.is_authenticated and request.user.account_type == "student"
     history = MembershipPayment.objects.filter(member=request.user).select_related("plan")[:12] if student else []
     return render(request, "commerce/membership.html", {
@@ -47,12 +50,12 @@ def membership_join(request):
     try:
         payment = create_membership_payment(request.user, plan)
     except (ValidationError, PermissionDenied) as exc:
-        messages.warning(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else "Entra con tu cuenta de estudiante.")
+        messages.warning(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Entra con tu cuenta de estudiante."))
         return redirect("membership")
     try:
         check_membership(payment)
     except ProviderUnavailable:
-        messages.warning(request, "No pudimos preparar el pago. Actualiza el estado de este mismo pago.")
+        messages.warning(request, gettext("No pudimos preparar el pago. Actualiza el estado de este mismo pago."))
     return redirect("membership-payment", pk=payment.pk)
 
 
@@ -65,7 +68,7 @@ def membership_payment(request, pk):
             payment = check_membership(payment)
         except ProviderUnavailable:
             payment.refresh_from_db()
-            messages.warning(request, "No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo.")
+            messages.warning(request, gettext("No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo."))
     return render(request, "commerce/membership_payment.html", {
         "payment": payment, "active": "membership", "until": membership_until(request.user),
         "can_pay": payment.status == "pending" and payment.issue_state == "ready" and payment.expires_at > timezone.now(),
@@ -80,7 +83,7 @@ def membership_payment_status(request, pk):
     try:
         payment = check_membership(payment)
     except ProviderUnavailable:
-        return JsonResponse({"error": "No pudimos comprobar el pago."}, status=503)
+        return JsonResponse({"error": gettext("No pudimos comprobar el pago.")}, status=503)
     return JsonResponse({"status": payment.status, "incident": ""})
 
 
@@ -108,7 +111,7 @@ def membership_payment_action(request, pk):
             raise ProviderUnavailable
         payment = check_membership(payment, simulate=simulate)
         if payment.status == "paid":
-            messages.success(request, f"Tu membresía está activa hasta el {timezone.localtime(payment.ends_at):%d/%m/%Y}.")
+            messages.success(request, (gettext('Tu membresía está activa hasta el %(localtime)s.') % {"localtime": f"{timezone.localtime(payment.ends_at):%d/%m/%Y}"}))
     except ProviderUnavailable:
-        messages.warning(request, "No pudimos comprobar el pago. Actualiza este mismo pago antes de volver a pagar.")
+        messages.warning(request, gettext("No pudimos comprobar el pago. Actualiza este mismo pago antes de volver a pagar."))
     return redirect("membership-payment", pk=pk)

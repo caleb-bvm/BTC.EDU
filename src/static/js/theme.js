@@ -12,8 +12,8 @@
     document.querySelectorAll('[data-theme-toggle]').forEach(button => {
       button.hidden = false;
       button.setAttribute('aria-pressed', String(theme === 'dark'));
-      button.setAttribute('aria-label', theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro');
-      button.textContent = theme === 'dark' ? '☀ Claro' : '☾ Oscuro';
+      button.setAttribute('aria-label', theme === 'dark' ? btcT('Activar modo claro') : btcT('Activar modo oscuro'));
+      button.textContent = theme === 'dark' ? btcT('☀ Claro') : btcT('☾ Oscuro');
     });
   }
   const refresh = () => apply(preference || (system.matches ? 'dark' : 'light'));

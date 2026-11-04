@@ -1,1 +1,1 @@
-{% extends auth_base %}{% block title %}Recuperar acceso de {{ space_label }} · BTC.EDU{% endblock %}{% block auth_content %}{% include 'registration/_reset_request.html' %}{% endblock %}
+{% extends auth_base %}{% block title %}{% blocktranslate with space_label=space_label %}Recuperar acceso de {{ space_label }} · BTC.EDU{% endblocktranslate %}{% endblock %}{% block auth_content %}{% include 'registration/_reset_request.html' %}{% endblock %}

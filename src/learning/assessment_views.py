@@ -5,6 +5,7 @@ from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
 from commerce.views import student_required
@@ -28,7 +29,7 @@ from .models import Enrollment, ExtraQuizAttempt, QuizAttempt, QuizDraft, Versio
 def quiz_edit(request, lesson_pk):
     lesson = get_object_or_404(Lesson.objects.select_related("chapter__course"), pk=lesson_pk, chapter__course__creator=request.user)
     protect_legacy(lesson.chapter.course)
-    draft = QuizDraft.objects.filter(lesson=lesson).first() or QuizDraft(lesson=lesson, title=f"Evaluación: {lesson.title}"[:200])
+    draft = QuizDraft.objects.filter(lesson=lesson).first() or QuizDraft(lesson=lesson, title=(gettext('Evaluación: %(title)s') % {"title": lesson.title})[:200])
     form = QuizForm(request.POST if request.method == "POST" else None, instance=draft, initial={"revision": draft.revision})
     questions = QuestionFormSet(request.POST if request.method == "POST" else None, initial=[question_initial(question) for question in draft.questions], prefix="questions")
     if request.method == "POST":
@@ -46,7 +47,7 @@ def quiz_edit(request, lesson_pk):
                         raise PermissionDenied
                     current = QuizDraft.objects.filter(lesson=lesson).first()
                     if (current.revision if current else 0) != form.cleaned_data["revision"]:
-                        raise ValidationError("Hay un borrador más reciente. Recarga antes de guardar para conservarlo.")
+                        raise ValidationError(gettext("Hay un borrador más reciente. Recarga antes de guardar para conservarlo."))
                     draft = form.save(commit=False)
                     draft.questions = [item.cleaned_data["question"] for item in questions if item.cleaned_data and not item.cleaned_data.get("DELETE") and "question" in item.cleaned_data]
                     draft.revision = (current.revision if current else 0) + 1
@@ -57,7 +58,7 @@ def quiz_edit(request, lesson_pk):
             except ValidationError as exc:
                 form.add_error(None, " ".join(exc.messages))
             else:
-                messages.success(request, "Evaluación guardada en el borrador. Envía el curso a revisión para publicarla.")
+                messages.success(request, gettext("Evaluación guardada en el borrador. Envía el curso a revisión para publicarla."))
                 return redirect("creator-quiz", lesson_pk=lesson.pk)
     from creators.presentation import course_sections
     return render(request, "learning/quiz_editor.html", {"form": form, "questions": questions, "lesson": lesson, "course_sections": course_sections(lesson.chapter.course, "evaluaciones"), "active": "creator-content"})
@@ -119,7 +120,7 @@ def attempt_detail(request, pk):
     background = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     if request.method == "POST":
         if request.POST.get("action") not in ("save", "submit"):
-            form.add_error(None, "Elige guardar respuestas o entregar el intento.")
+            form.add_error(None, gettext("Elige guardar respuestas o entregar el intento."))
             response_status = 400
         elif form.is_valid():
             try:
@@ -130,7 +131,7 @@ def attempt_detail(request, pk):
             else:
                 if background:
                     return JsonResponse({"revision": saved.revision, "submitted": bool(saved.submitted_at)})
-                messages.success(request, "Intento entregado." if request.POST["action"] == "submit" else "Respuestas guardadas. Puedes continuar después.")
+                messages.success(request, gettext("Intento entregado.") if request.POST["action"] == "submit" else gettext("Respuestas guardadas. Puedes continuar después."))
                 return redirect("quiz-attempt", pk=pk)
         else:
             response_status = 400
@@ -157,7 +158,7 @@ def attempt_detail(request, pk):
         context.update(
             score_cells=score_cells(attempt.score, quiz.pass_mark, 20),
             previous_attempt=previous,
-            score_change=None if change is None else "Misma nota" if not change else ("+" if change > 0 else "−") + score_label(abs(change)),
+            score_change=None if change is None else gettext("Misma nota") if not change else ("+" if change > 0 else "−") + score_label(abs(change)),
             best_score=score_label(max(item.score for item in submitted)),
             review_pending=sum(not row["correct"] for row in review) if solutions_visible else 0,
         )
@@ -221,12 +222,12 @@ def quiz_grant(request, pk):
         allowance = int(request.POST.get("allowance", ""))
         grant_attempt(request.user, attempt.enrollment_id, attempt.quiz_id, allowance, request.POST.get("reason", ""))
     except (ValueError, ValidationError) as exc:
-        errors = exc.messages if isinstance(exc, ValidationError) else ["La solicitud no es válida."]
+        errors = exc.messages if isinstance(exc, ValidationError) else [gettext("La solicitud no es válida.")]
         if ajax:
             return JsonResponse({"errors": errors}, status=400)
         messages.error(request, " ".join(errors))
     else:
-        messages.success(request, "Otro intento autorizado. Se conservan las notas y la espera entre intentos.")
+        messages.success(request, gettext("Otro intento autorizado. Se conservan las notas y la espera entre intentos."))
         if ajax:
             return JsonResponse({"redirect": destination})
     return redirect(destination)

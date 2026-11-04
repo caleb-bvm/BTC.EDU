@@ -99,7 +99,7 @@ class LearningPathTests(TestCase):
         self.client.force_login(self.student)
         review = self.client.get(reverse("path-checkout", args=[self.path.slug]) + "?cupon=RUTA")
         self.assertNotContains(review, 'name="cupon"')
-        self.assertContains(review, "Paquete de la ruta · 20&nbsp;%")
+        self.assertContains(review, "Paquete de la ruta · 20 %")
         selection = review.context["selection"]
         response = self.client.post(reverse("path-checkout", args=[self.path.slug]), {"token": selection["token"], "request_key": selection["request_key"]})
         line = OrderLine.objects.first()

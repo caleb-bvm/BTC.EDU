@@ -8,6 +8,7 @@ from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from .catalog import available, ownership
 from .journey import return_lesson
@@ -32,7 +33,7 @@ def inventory_union(lines):
     for line in lines:
         for item in line["inventory"]:
             if item["resource_id"] in units and units[item["resource_id"]] != item:
-                raise ValidationError("La selección contiene revisiones incompatibles.")
+                raise ValidationError(gettext("La selección contiene revisiones incompatibles."))
             units[item["resource_id"]] = item
     return [units[key] for key in sorted(units)]
 
@@ -78,13 +79,13 @@ def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code
                           "cart_item_key": str(entry.get("cart_item_key")) if entry and entry.get("cart_item_key") else None,
                           "invoice_id": str(invoice.pk) if invoice else None})
     if not selection:
-        conflict("empty", "Añade contenido para preparar tu pedido.")
+        conflict("empty", gettext("Añade contenido para preparar tu pedido."))
     if len(selection) > MAX_ORDER_LINES:
-        conflict("limit", f"Puedes preparar hasta {MAX_ORDER_LINES} contenidos por pedido.")
+        conflict("limit", (gettext('Puedes preparar hasta %(MAX_ORDER_LINES)s contenidos por pedido.') % {"MAX_ORDER_LINES": MAX_ORDER_LINES}))
     student = actor.is_authenticated and actor.is_active and actor.account_type == "student"
     for entry in selection[:MAX_ORDER_LINES]:
         if not isinstance(entry, dict):
-            conflict("unavailable", "Revisa el contenido de la selección.")
+            conflict("unavailable", gettext("Revisa el contenido de la selección."))
             continue
         try:
             offer_id = int(entry.get("offer_id"))
@@ -92,10 +93,10 @@ def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code
                 raise ValueError
             offer = Offer.objects.select_related("creator", "course_version__course", "resource", "lesson__content").get(pk=offer_id)
         except (ValueError, TypeError, Offer.DoesNotExist):
-            conflict("unavailable", "Una oferta de tu selección ya no está disponible.", entry)
+            conflict("unavailable", gettext("Una oferta de tu selección ya no está disponible."), entry)
             continue
         if offer_id in seen_offers:
-            conflict("selection_overlap", "Esta oferta ya está incluida en la selección.", entry)
+            conflict("selection_overlap", gettext("Esta oferta ya está incluida en la selección."), entry)
             continue
         seen_offers.add(offer_id)
         units = inventory_for(offer)
@@ -104,7 +105,7 @@ def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code
         issues = []
         if not available(offer):
             issues.append("unavailable")
-            conflict("unavailable", "Esta oferta cambió o ya no está disponible. Revisa el contenido antes de continuar.", entry)
+            conflict("unavailable", gettext("Esta oferta cambió o ya no está disponible. Revisa el contenido antes de continuar."), entry)
         # A gift grants nothing to the buyer, so their own access never blocks it.
         state = "none" if gift else ownership(actor, offer)
         upgrade = upgrade_quote(actor, offer) if state == "partial" else None
@@ -114,21 +115,21 @@ def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code
             paid, amount, credit = upgrade["missing"], upgrade["amount_sats"], upgrade["credit_sats"]
         elif state != "none":
             issues.append(state if state == "owned" else "partial")
-            conflict(state if state == "owned" else "partial", "Ya tienes este contenido." if state == "owned" else "Ya tienes parte del contenido. Elige únicamente lo que falta.", entry)
+            conflict(state if state == "owned" else "partial", gettext("Ya tienes este contenido.") if state == "owned" else gettext("Ya tienes parte del contenido. Elige únicamente lo que falta."), entry)
         if entry.get("return_lesson_id") and not origin:
             issues.append("invalid_origin")
-            conflict("invalid_origin", "La lección elegida no forma parte de esta oferta.", entry)
+            conflict("invalid_origin", gettext("La lección elegida no forma parte de esta oferta."), entry)
         if not paid:
             issues.append("unavailable")
-            conflict("unavailable", "Este contenido no necesita una compra.", entry)
+            conflict("unavailable", gettext("Este contenido no necesita una compra."), entry)
         if paid & covered:
             issues.append("selection_overlap")
-            conflict("selection_overlap", "Hay contenido incluido en más de una oferta. Revisa las inclusiones para evitar comprarlo dos veces.", entry)
+            conflict("selection_overlap", gettext("Hay contenido incluido en más de una oferta. Revisa las inclusiones para evitar comprarlo dos veces."), entry)
         if student and not gift:
             reserved = overlapping_invoice(actor, paid)
             if reserved:
                 issues.append("pending_overlap")
-                conflict("pending_overlap", "Parte de esta selección tiene un pago pendiente o en revisión. Consulta esa factura antes de pagar otra vez.", entry, reserved)
+                conflict("pending_overlap", gettext("Parte de esta selección tiene un pago pendiente o en revisión. Consulta esa factura antes de pagar otra vez."), entry, reserved)
         bundled = path is not None and offer.kind == "course"
         discount = bundle_discount(path.bundle_percent, amount) if bundled else coupon_discount(coupon, amount) if coupon_applies(coupon, offer) else 0
         coupon_used |= bool(discount) and not bundled
@@ -143,10 +144,10 @@ def quote_selection(actor, selection, cart_revision=0, cart_id=None, coupon_code
                       "inventory": units, "return_lesson": origin, "return_lesson_id": origin.pk if origin else None,
                       "cart_item_key": key, "eligible": not issues, "issues": issues})
     if coupon and not coupon_used and not coupon_error:
-        coupon_error = "Este cupón no aplica al contenido elegido."
+        coupon_error = gettext("Este cupón no aplica al contenido elegido.")
     total = sum(line["amount_sats"] for line in lines)
     if total > MAX_ORDER_SATS or (lines and total <= 0):
-        conflict("limit", f"El total debe estar entre 1 y {MAX_ORDER_SATS} sats.")
+        conflict("limit", (gettext('El total debe estar entre 1 y %(MAX_ORDER_SATS)s sats.') % {"MAX_ORDER_SATS": MAX_ORDER_SATS}))
     fingerprint = fingerprint_for(lines, gift)
     return {"token": "", "fingerprint": fingerprint, "cart_revision": cart_revision, "cart_id": str(cart_id) if cart_id else None,
             "total_sats": total, "request_key": "", "lines": lines, "conflicts": conflicts,
@@ -194,18 +195,18 @@ def load_quote(actor, token, request_key, mode):
         if request_key is not None and uuid.UUID(str(request_key)) != key:
             raise ValueError
     except (signing.BadSignature, KeyError, ValueError, TypeError):
-        raise ValidationError("La revisión de compra no es válida. Revisa tu selección para continuar.") from None
+        raise ValidationError(gettext("La revisión de compra no es válida. Revisa tu selección para continuar.")) from None
     if payload.get("buyer_id") != actor.pk or payload.get("mode") != mode:
         raise PermissionDenied
     existing = Order.objects.filter(buyer=actor, request_key=key).first()
     if existing:
         if existing.fingerprint != payload.get("fingerprint") or str(existing.cart_id or "") != (payload.get("cart_id") or ""):
-            raise ValidationError("La solicitud corresponde a otra selección.")
+            raise ValidationError(gettext("La solicitud corresponde a otra selección."))
         return payload, existing.invoice
     try:
         signing.loads(token, salt=QUOTE_SALT, max_age=QUOTE_TTL)
     except signing.SignatureExpired:
-        raise ValidationError("La revisión de compra venció. Revisa el precio y el contenido para continuar.") from None
+        raise ValidationError(gettext("La revisión de compra venció. Revisa el precio y el contenido para continuar.")) from None
     return payload, None
 
 
@@ -217,8 +218,8 @@ def create_reserved_order(actor, quote, key, cart=None, activity_session=None, g
     if not gift:
         require_unreserved(actor, {item["resource_id"] for item in inventory if item["paid"]})
     line_count = len(quote["lines"])
-    label = "Regalo" if gift else "Pedido"
-    order = Order.objects.create(buyer=actor, title=title[:200] or f"{label} · {line_count} artículo{'s' if line_count != 1 else ''}",
+    label = gettext("Regalo") if gift else gettext("Pedido")
+    order = Order.objects.create(buyer=actor, title=title[:200] or (gettext('%(label)s · %(line_count)s artículo%(value)s') % {"label": label, "line_count": line_count, "value": "s" if line_count != 1 else ""}),
                                  amount_sats=quote["total_sats"], inventory=inventory, cart=cart, cart_revision=quote["cart_revision"],
                                  fingerprint=quote["fingerprint"], request_key=key, gift=gift,
                                  gift_message=" ".join(str(gift_message or "").split())[:280] if gift else "")
@@ -232,7 +233,7 @@ def create_reserved_order(actor, quote, key, cart=None, activity_session=None, g
     order.sealed = True
     invoice = Invoice.objects.create(buyer=actor, order=order, title=order.title, amount_sats=order.amount_sats,
                                      inventory=inventory, logical_key=f"order:{order.pk}", expires_at=timezone.now() + timedelta(minutes=15))
-    event(invoice, "reserved", "Factura del pedido reservada por 15 minutos.")
+    event(invoice, "reserved", gettext("Factura del pedido reservada por 15 minutos."))
     if activity_session and not actor.is_staff:
         from core.models import ActivityEvent
         for line in quote["lines"]:
@@ -250,17 +251,17 @@ def reserve_order(actor, cart, token, request_key=None, activity_session=None):
     require_student(actor)
     payload, existing = load_quote(actor, token, request_key, "cart")
     if str(cart.pk) != payload.get("cart_id"):
-        raise ValidationError("La solicitud corresponde a otro carrito.")
+        raise ValidationError(gettext("La solicitud corresponde a otro carrito."))
     if existing:
         return existing
     cart = Cart.objects.get(pk=cart.pk)
     if cart.buyer_id != actor.pk:
         raise PermissionDenied
     if cart.revision != payload.get("cart_revision"):
-        raise ValidationError("Tu carrito cambió. Revisa la selección actual antes de pagar.")
+        raise ValidationError(gettext("Tu carrito cambió. Revisa la selección actual antes de pagar."))
     quote = quote_selection(actor, cart_selection(cart), cart.revision, cart.pk, coupon_code=payload.get("coupon", ""))
     if quote["fingerprint"] != payload.get("fingerprint"):
-        raise ValidationError("Tu selección, precio o destino cambió. Revísala antes de pagar.")
+        raise ValidationError(gettext("Tu selección, precio o destino cambió. Revísala antes de pagar."))
     return create_reserved_order(actor, quote, uuid.UUID(payload["request_key"]), cart, activity_session)
 
 
@@ -276,12 +277,12 @@ def reserve_direct_order(actor, offer_id, return_lesson_id=None, request_key=Non
         if not 0 < offer_id <= 9223372036854775807 or (return_lesson_id is not None and not 0 < return_lesson_id <= 9223372036854775807):
             raise ValueError
     except (ValueError, TypeError):
-        raise ValidationError("El contenido o la lección elegida no es válido.") from None
+        raise ValidationError(gettext("El contenido o la lección elegida no es válido.")) from None
     if token:
         payload, existing = load_quote(actor, token, request_key, "direct")
         selection = [{"offer_id": int(offer_id), "return_lesson_id": int(return_lesson_id) if return_lesson_id else None, "cart_item_key": None}]
         if selection != payload.get("selection"):
-            raise ValidationError("La solicitud corresponde a otro contenido.")
+            raise ValidationError(gettext("La solicitud corresponde a otro contenido."))
         if existing:
             return existing
         key = uuid.UUID(payload["request_key"])
@@ -289,18 +290,18 @@ def reserve_direct_order(actor, offer_id, return_lesson_id=None, request_key=Non
         try:
             key = uuid.UUID(str(request_key)) if request_key else uuid.uuid4()
         except ValueError:
-            raise ValidationError("La solicitud de compra no es válida.") from None
+            raise ValidationError(gettext("La solicitud de compra no es válida.")) from None
         existing = Order.objects.filter(buyer=actor, request_key=key).first()
         if existing:
             line = existing.lines.first()
             if existing.lines.count() != 1 or line.offer_id != int(offer_id) or line.return_lesson_id != (int(return_lesson_id) if return_lesson_id else None):
-                raise ValidationError("La solicitud corresponde a otro contenido.")
+                raise ValidationError(gettext("La solicitud corresponde a otro contenido."))
             return existing.invoice
         payload = None
     quote = quote_selection(actor, [{"offer_id": offer_id, "return_lesson_id": return_lesson_id}],
                             coupon_code=payload.get("coupon", "") if payload else "", gift=bool(payload and payload.get("gift")))
     if payload and quote["fingerprint"] != payload.get("fingerprint"):
-        raise ValidationError("El contenido o su precio cambió. Revisa la compra antes de pagar.")
+        raise ValidationError(gettext("El contenido o su precio cambió. Revisa la compra antes de pagar."))
     return create_reserved_order(actor, quote, key, activity_session=activity_session, gift_message=gift_message)
 
 

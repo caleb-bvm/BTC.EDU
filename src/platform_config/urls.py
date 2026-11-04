@@ -1,5 +1,7 @@
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import include, path
+from django.utils.translation import gettext_lazy
 
 from accounts import account_views
 from accounts.views import (
@@ -28,11 +30,18 @@ from core.analytics_views import admin_analytics
 from creators.views import public_profile
 from learning import feature_views as learning_features
 
+# Language-neutral endpoints: files, JSON, the installable app and health checks.
 urlpatterns = [
     path("personas/<int:pk>/foto/<str:token>/", account_views.avatar, name="account-avatar"),
+    path("cuenta/contexto/", account_views.session_context, name="account-session-context"),
+    path("health/", views.health, name="health"),
+    path("manifest.webmanifest", pwa.manifest, name="pwa-manifest"),
+    path("sw.js", pwa.service_worker, name="pwa-service-worker"),
+]
+# Pages: Spanish without a prefix, English under /en/.
+urlpatterns += i18n_patterns(
     path("cuenta/confirmar/<str:token>/", account_views.email_confirm, name="account-email-confirm"),
     path("cuenta/reactivar/", account_views.restore, name="account-restore"),
-    path("cuenta/contexto/", account_views.session_context, name="account-session-context"),
     path("personas/", members, name="members"),
     path("personas/<int:pk>/", member_profile, name="member-profile"),
     path("administracion/estadisticas/", admin_analytics, name="admin-analytics"),
@@ -54,9 +63,6 @@ urlpatterns = [
     path("cuenta/perfil/", student_profile, name="student-profile"),
     path("cuenta/", include("accounts.urls")),
     path("cuenta/salir/", StudentLogoutView.as_view(), name="logout"),
-    path("health/", views.health, name="health"),
-    path("manifest.webmanifest", pwa.manifest, name="pwa-manifest"),
-    path("sw.js", pwa.service_worker, name="pwa-service-worker"),
     path("sin-conexion/", pwa.offline, name="offline"),
     path("lecciones/<int:pk>/contenido/", lesson_content, name="lesson-content"),
     path("cursos/<int:pk>/", course_detail, name="course-detail"),
@@ -70,6 +76,7 @@ urlpatterns = [
     path("lecciones/<int:pk>/", lesson_detail, name="lesson-detail"),
     path("recursos/<str:kind>/<int:pk>/", resource_detail, name="resource-detail"),
     path("admin/", admin.site.urls),
-]
-admin.site.site_header = "Administración de BTC.EDU"
+    prefix_default_language=False,
+)
+admin.site.site_header = gettext_lazy("Administración de BTC.EDU")
 admin.site.site_title = "BTC.EDU"

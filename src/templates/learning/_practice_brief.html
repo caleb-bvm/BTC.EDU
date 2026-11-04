@@ -1,7 +1,7 @@
-<section class="practice-brief" aria-label="Instrucciones de la práctica">
-  <h2>{{ practice.title }}</h2>
+<section class="practice-brief" aria-label="{% translate "Instrucciones de la práctica" %}">
+  <h2>{{ practice.title|tr }}</h2>
   <div>{{ practice.instructions|linebreaks }}</div>
-  <h3>Criterios de aprobación</h3>
+  <h3>{% translate "Criterios de aprobación" %}</h3>
   <ul>{% for criterion in practice.criteria %}<li>{{ criterion }}</li>{% endfor %}</ul>
-  {% if accepting != False %}<p class="account-help">Revisión prevista en {{ practice.review_days }} días naturales desde cada entrega. El educador comprobará estos criterios y te indicará si necesitas corregir.</p>{% else %}<p class="account-help">Puedes realizar el proyecto y contrastarlo con los criterios. La recepción de entregas está cerrada y no incluye revisión personal.</p>{% endif %}
+  {% if accepting != False %}<p class="account-help">{% blocktranslate with review_days=practice.review_days %}Revisión prevista en {{ review_days }} días naturales desde cada entrega. El educador comprobará estos criterios y te indicará si necesitas corregir.{% endblocktranslate %}</p>{% else %}<p class="account-help">{% translate "Puedes realizar el proyecto y contrastarlo con los criterios. La recepción de entregas está cerrada y no incluye revisión personal." %}</p>{% endif %}
 </section>

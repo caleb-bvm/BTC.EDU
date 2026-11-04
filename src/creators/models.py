@@ -1,20 +1,21 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.utils.translation import gettext_lazy
 
 from content.immutability import FrozenRecord
 
 
 class CreatorProfile(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "Solicitud pendiente"
-        APPROVED = "approved", "Aprobado"
-        CHANGES = "changes", "Cambios solicitados"
-        SUSPENDED = "suspended", "Suspendido"
+        PENDING = "pending", gettext_lazy("Solicitud pendiente")
+        APPROVED = "approved", gettext_lazy("Aprobado")
+        CHANGES = "changes", gettext_lazy("Cambios solicitados")
+        SUSPENDED = "suspended", gettext_lazy("Suspendido")
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="creator_profile")
-    display_name = models.CharField("nombre público", max_length=160)
-    bio = models.TextField("biografía")
+    display_name = models.CharField(gettext_lazy("nombre público"), max_length=160)
+    bio = models.TextField(gettext_lazy("biografía"))
     specialty = models.CharField("especialidad", max_length=200)
     website = models.URLField("sitio web", blank=True)
     status = models.CharField(max_length=12, choices=Status, default=Status.PENDING)
@@ -33,7 +34,7 @@ class CreatorApplicationEvent(FrozenRecord):
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     previous_status = models.CharField(max_length=12, blank=True)
     status = models.CharField(max_length=12, choices=CreatorProfile.Status)
-    kind = models.CharField(max_length=20, choices=(("submitted", "Solicitud enviada"), ("profile_updated", "Perfil actualizado"), ("decision", "Decisión de revisión")))
+    kind = models.CharField(max_length=20, choices=(("submitted", gettext_lazy("Solicitud enviada")), ("profile_updated", gettext_lazy("Perfil actualizado")), ("decision", gettext_lazy("Decisión de revisión"))))
     reason = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -43,10 +44,10 @@ class CreatorApplicationEvent(FrozenRecord):
 
 class Submission(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "En revisión"
-        APPROVED = "approved", "Publicado"
-        CHANGES = "changes", "Cambios solicitados"
-        WITHDRAWN = "withdrawn", "Retirado por el creador"
+        PENDING = "pending", gettext_lazy("En revisión")
+        APPROVED = "approved", gettext_lazy("Publicado")
+        CHANGES = "changes", gettext_lazy("Cambios solicitados")
+        WITHDRAWN = "withdrawn", gettext_lazy("Retirado por el creador")
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     course = models.ForeignKey("content.Course", on_delete=models.PROTECT, null=True, blank=True)

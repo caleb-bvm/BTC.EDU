@@ -1,26 +1,26 @@
 {% load static %}{% url 'course-version' enrollment.version.course_id enrollment.version.number as syllabus_url %}
-<article class="library-course{% if enrollment.is_complete %} is-complete{% elif enrollment.needs_access %} is-locked{% elif enrollment.state_label == 'Por empezar' %} is-new{% else %} is-active{% endif %}">
+<article class="library-course{% if enrollment.is_complete %} is-complete{% elif enrollment.needs_access %} is-locked{% elif enrollment.state_label == _('Por empezar') %} is-new{% else %} is-active{% endif %}">
   <a class="library-course-cover" href="{{ syllabus_url }}" tabindex="-1" aria-hidden="true">{% include '_content_image.html' with kind=enrollment.version.kind topic_slug=enrollment.version.topic.slug only %}</a>
   <div class="library-course-body">
     <header class="library-course-head">
-      <p class="library-course-topic">{{ enrollment.version.topic|default:enrollment.version.get_kind_display }}<span> · {% if enrollment.retired %}Versión conservada{% else %}Versión {{ enrollment.version.number }}{% endif %}</span></p>
+      <p class="library-course-topic">{{ enrollment.version.topic|tr|default:enrollment.version.get_kind_display }}<span> · {% if enrollment.retired %}{% translate "Versión conservada" %}{% else %}{% blocktranslate with number=enrollment.version.number %}Versión {{ number }}{% endblocktranslate %}{% endif %}</span></p>
       <span class="library-course-state">{{ enrollment.state_label }}</span>
     </header>
-    <h3><a href="{{ syllabus_url }}">{{ enrollment.version.title }}</a></h3>
-    <p class="library-course-summary">{{ enrollment.version.description|truncatechars:145 }}</p>
+    <h3><a href="{{ syllabus_url }}">{{ enrollment.version.title|tr }}</a></h3>
+    <p class="library-course-summary">{{ enrollment.version.description|tr|truncatechars:145 }}</p>
     <div class="library-course-progress">
-      <p class="library-course-figure">{% if enrollment.completed_count %}<strong>{{ enrollment.percentage }}</strong><small>%</small>{% else %}<strong>{{ enrollment.lesson_count }}</strong><small>{{ enrollment.lesson_count|pluralize:'lección,lecciones' }}</small>{% endif %}</p>
-      <p class="library-course-count">{{ enrollment.completed_count }}/{{ enrollment.lesson_count }}<span> completadas</span></p>
-      <div class="library-course-track" role="progressbar" aria-valuemin="0" aria-valuemax="{{ enrollment.lesson_count }}" aria-valuenow="{{ enrollment.completed_count }}" aria-valuetext="{{ enrollment.completed_count }} de {{ enrollment.lesson_count }} lecciones completadas" aria-label="Progreso de {{ enrollment.version.title }}">{% for done in enrollment.segments %}<span{% if done %} class="is-done"{% endif %}></span>{% endfor %}</div>
+      <p class="library-course-figure">{% if enrollment.completed_count %}<strong>{{ enrollment.percentage }}</strong><small>%</small>{% else %}<strong>{{ enrollment.lesson_count }}</strong><small>{% blocktranslate count counter=enrollment.lesson_count|default:0 %}lección{% plural %}lecciones{% endblocktranslate %}</small>{% endif %}</p>
+      <p class="library-course-count">{{ enrollment.completed_count }}/{{ enrollment.lesson_count }}<span> {% translate "completadas" %}</span></p>
+      <div class="library-course-track" role="progressbar" aria-valuemin="0" aria-valuemax="{{ enrollment.lesson_count }}" aria-valuenow="{{ enrollment.completed_count }}" aria-valuetext="{% blocktranslate with completed_count=enrollment.completed_count lesson_count=enrollment.lesson_count %}{{ completed_count }} de {{ lesson_count }} lecciones completadas{% endblocktranslate %}" aria-label="{% blocktranslate with title=enrollment.version.title|tr %}Progreso de {{ title }}{% endblocktranslate %}">{% for done in enrollment.segments %}<span{% if done %} class="is-done"{% endif %}></span>{% endfor %}</div>
     </div>
     <div class="library-course-next">
-      {% if enrollment.needs_access %}<p>{% include '_icon.html' with name='lock' %}Siguiente paso</p><strong>{% if enrollment.remaining_count == 1 %}Accede a la lección restante{% else %}Accede a las {{ enrollment.remaining_count }} lecciones restantes{% endif %}</strong>
-      {% else %}<p>{% if enrollment.is_complete %}Para repasar{% elif enrollment.completed_count or enrollment.state_label == 'En curso' %}Siguiente lección{% else %}Primera lección{% endif %}</p><strong>{{ enrollment.next_title }}</strong>{% endif %}
+      {% if enrollment.needs_access %}<p>{% include '_icon.html' with name='lock' %}{% translate "Siguiente paso" %}</p><strong>{% if enrollment.remaining_count == 1 %}{% translate "Accede a la lección restante" %}{% else %}{% blocktranslate with remaining_count=enrollment.remaining_count %}Accede a las {{ remaining_count }} lecciones restantes{% endblocktranslate %}{% endif %}</strong>
+      {% else %}<p>{% if enrollment.is_complete %}{% translate "Para repasar" %}{% elif enrollment.completed_count or enrollment.state_label == _('En curso') %}{% translate "Siguiente lección" %}{% else %}{% translate "Primera lección" %}{% endif %}</p><strong>{{ enrollment.next_title|tr }}</strong>{% endif %}
     </div>
     <a class="btn {% if enrollment.is_complete %}btn-outline-dark{% else %}btn-dark{% endif %} library-course-action" href="{{ enrollment.open_url }}">{{ enrollment.open_label }} <span aria-hidden="true">→</span></a>
     {% if not enrollment.needs_access or enrollment.certificate_status.enabled %}<footer class="library-course-links">
-      {% if not enrollment.needs_access %}<a href="{{ syllabus_url }}">Ver temario</a>{% endif %}
-      {% if enrollment.certificate_status.enabled %}<a class="library-course-certificate{% if enrollment.certificate_status.certificate or enrollment.certificate_status.eligible %} is-ready{% endif %}" href="{% url 'certificate-request' enrollment.pk %}">{% if enrollment.certificate_status.certificate %}Ver certificado{% elif enrollment.certificate_status.eligible %}Solicitar certificado{% else %}Requisitos del certificado{% endif %}</a>{% endif %}
+      {% if not enrollment.needs_access %}<a href="{{ syllabus_url }}">{% translate "Ver temario" %}</a>{% endif %}
+      {% if enrollment.certificate_status.enabled %}<a class="library-course-certificate{% if enrollment.certificate_status.certificate or enrollment.certificate_status.eligible %} is-ready{% endif %}" href="{% url 'certificate-request' enrollment.pk %}">{% if enrollment.certificate_status.certificate %}{% translate "Ver certificado" %}{% elif enrollment.certificate_status.eligible %}{% translate "Solicitar certificado" %}{% else %}{% translate "Requisitos del certificado" %}{% endif %}</a>{% endif %}
     </footer>{% endif %}
   </div>
 </article>

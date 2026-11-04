@@ -2,6 +2,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import F, Max
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from .education import education_values, validate_education
 from .identity import public_creator_name
@@ -20,7 +21,7 @@ from .models import (
 
 def authorize_publisher(actor):
     if not actor.is_authenticated or not actor.is_active or not actor.is_staff or not actor.has_perm("content.change_course"):
-        raise PermissionDenied("La publicación requiere revisión administrativa.")
+        raise PermissionDenied(gettext("La publicación requiere revisión administrativa."))
 
 
 def next_revision(key):
@@ -35,7 +36,7 @@ def prepare_resource(resource, actor):
         raise PermissionDenied
     model = type(resource)
     if model not in (Video, Material):
-        raise ValidationError("Formato de recurso no admitido.")
+        raise ValidationError(gettext("Formato de recurso no admitido."))
     # Reserve the SQLite writer before reading the mutable composition.
     model.objects.filter(pk=resource.pk).update(updated_at=F("updated_at"))
     resource = model.objects.select_related("pending_asset", "pending_subtitles", "topic").get(pk=resource.pk)
@@ -80,9 +81,9 @@ def prepare_course(course, actor):
     chapters = list(course.chapters.filter(status=PublicationStatus.PUBLISHED).prefetch_related("lessons__attachments__resource"))
     visible = [(chapter, list(chapter.lessons.filter(status=PublicationStatus.PUBLISHED).prefetch_related("attachments__resource"))) for chapter in chapters]
     if not visible or any(not lessons for _, lessons in visible):
-        raise ValidationError("Publica al menos un capítulo con lecciones; no se admiten capítulos vacíos.")
+        raise ValidationError(gettext("Publica al menos un capítulo con lecciones; no se admiten capítulos vacíos."))
     if any(not lesson.body.strip() for _, lessons in visible for lesson in lessons):
-        raise ValidationError("Cada lección publicada necesita texto, aunque incluya video o materiales.")
+        raise ValidationError(gettext("Cada lección publicada necesita texto, aunque incluya video o materiales."))
     for _, lessons in visible:
         for lesson in lessons:
             validate_education(lesson)

@@ -1,7 +1,7 @@
-<div class="reading-copy lesson-body">
+{% get_current_language as reading_language %}<div class="reading-copy lesson-body"{% if reading_language != "es" %} lang="es"{% endif %}>
 {% for section in reading_sections %}
-  {% if section.kind == 'solution' %}<details class="reading-solution"><summary>{{ section.title }} <span aria-hidden="true">＋</span></summary><div>{% include 'content/_reading_blocks.html' %}</div></details>
+  {% if section.kind == 'solution' %}<details class="reading-solution"><summary>{{ section.title|tr }} <span aria-hidden="true">＋</span></summary><div>{% include 'content/_reading_blocks.html' %}</div></details>
   {% elif section.kind == 'text' %}{% include 'content/_reading_blocks.html' %}
-  {% else %}<section class="reading-block reading-{{ section.kind }}"><h2>{{ section.title }}</h2>{% include 'content/_reading_blocks.html' %}{% if section.embed_url %}<details class="lesson-video"><summary>Reproducir video de apoyo</summary><iframe src="{{ section.embed_url }}" title="Video complementario de la lección" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe></details>{% endif %}</section>{% endif %}
-{% empty %}<p class="muted">Esta lección todavía no tiene texto.</p>{% endfor %}
+  {% else %}<section class="reading-block reading-{{ section.kind }}"><h2>{{ section.title|tr }}</h2>{% include 'content/_reading_blocks.html' %}{% if section.embed_url %}<details class="lesson-video"><summary>{% translate "Reproducir video de apoyo" %}</summary><iframe src="{{ section.embed_url }}" title="{% translate "Video complementario de la lección" %}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe></details>{% endif %}</section>{% endif %}
+{% empty %}<p class="muted">{% translate "Esta lección todavía no tiene texto." %}</p>{% endfor %}
 </div>

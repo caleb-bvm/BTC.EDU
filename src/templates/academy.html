@@ -3,16 +3,16 @@
 {% block header %}{% include '_app_header.html' %}{% endblock %}
 {% block content %}
 <div class="academy-layout">
-  <aside class="academy-sidebar" id="academy-navigation" aria-label="Menú de navegación" tabindex="-1">
-    <div class="sidebar-mobile-heading js-only"><span>Menú</span><button class="nav-close icon-button" type="button" aria-label="Cerrar menú"><span aria-hidden="true">×</span></button></div>
+  <aside class="academy-sidebar" id="academy-navigation" aria-label="{% translate "Menú de navegación" %}" tabindex="-1">
+    <div class="sidebar-mobile-heading js-only"><span>{% translate "Menú" %}</span><button class="nav-close icon-button" type="button" aria-label="{% translate "Cerrar menú" %}"><span aria-hidden="true">×</span></button></div>
     {% include '_context_navigation.html' %}
   </aside>
-  <button class="nav-backdrop" type="button" aria-label="Cerrar menú" tabindex="-1" hidden></button>
+  <button class="nav-backdrop" type="button" aria-label="{% translate "Cerrar menú" %}" tabindex="-1" hidden></button>
   <div class="academy-workbench">
     {% if not reviewer %}{% include '_section_navigation.html' %}{% endif %}
     {% block academy_tabs %}{% endblock %}
     <div class="academy-page">{% for message in messages %}<div class="notice" role="status" data-message-level="{{ message.tags }}">{{ message }}</div>{% endfor %}{% block academy_content %}{% endblock %}</div>
-    <footer class="academy-footer">{% block academy_footer %}<span class="mono">BTC.EDU</span><span>Aprende a tu ritmo.</span>{% endblock %}</footer>
+    <footer class="academy-footer">{% block academy_footer %}<span class="mono">BTC.EDU</span><span>{% translate "Aprende a tu ritmo." %}</span>{% endblock %}</footer>
   </div>
 </div>
 {% endblock %}

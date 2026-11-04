@@ -15,6 +15,7 @@ from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import (
     require_GET,
@@ -62,7 +63,7 @@ def account_required(view):
         if not request.user.is_active:
             raise PermissionDenied
         if request.method == "POST" and request.POST.get("account_id", str(request.user.pk)) != str(request.user.pk):
-            messages.error(request, "La cuenta activa cambió. Revisa el formulario antes de guardar.")
+            messages.error(request, gettext("La cuenta activa cambió. Revisa el formulario antes de guardar."))
             return redirect("creator-account" if creator else "student-account")
         response = view(request, *args, creator=creator, **kwargs)
         if request.headers.get("X-Requested-With") == "XMLHttpRequest" and response.status_code == 302:
@@ -73,10 +74,10 @@ def account_required(view):
 
 def account_context(request, creator, tab="home", **extra):
     prefix = "creator" if creator else "student"
-    tabs = [("home", "Resumen", "account"), ("photo", "Foto", "account-photo"),
-            ("profile", "Perfil", "application" if creator else "profile"),
-            ("security", "Acceso", "account-security"), ("preferences", "Avisos", "account-preferences"),
-            ("support", "Ayuda", "account-support")]
+    tabs = [("home", gettext("Resumen"), "account"), ("photo", gettext("Foto"), "account-photo"),
+            ("profile", gettext("Perfil"), "application" if creator else "profile"),
+            ("security", gettext("Acceso"), "account-security"), ("preferences", gettext("Avisos"), "account-preferences"),
+            ("support", gettext("Ayuda"), "account-support")]
     navigation = []
     for key, label, target in tabs:
         name = "creator-application" if target == "application" else "student-profile" if target == "profile" else f"{prefix}-{target}"
@@ -106,9 +107,9 @@ def photo(request, creator=False):
         if form.cleaned_data.get("photo") or form.cleaned_data["remove_photo"] and request.user.avatar:
             update_avatar(request.user, form.cleaned_data.get("photo"), form.cleaned_data["remove_photo"])
             AccountEvent.objects.create(user=request.user, kind="photo_updated")
-            messages.success(request, "Foto de perfil actualizada.")
+            messages.success(request, gettext("Foto de perfil actualizada."))
             return redirect(f"{'creator' if creator else 'student'}-account-photo")
-        form.add_error(None, "Elige una foto nueva antes de guardar.")
+        form.add_error(None, gettext("Elige una foto nueva antes de guardar."))
     return account_render(request, creator, "photo", form=form)
 
 
@@ -154,7 +155,7 @@ def password(request, creator=False):
         else:
             update_session_auth_hash(request, current)
             revoke_sessions(current, except_key=request.session.session_key)
-            messages.success(request, "Contraseña actualizada. Las otras sesiones de esta cuenta se cerraron.")
+            messages.success(request, gettext("Contraseña actualizada. Las otras sesiones de esta cuenta se cerraron."))
             return redirect(f"{'creator' if creator else 'student'}-account-security")
     return account_render(request, creator, "password", form=form)
 
@@ -170,7 +171,7 @@ def email(request, creator=False):
         except (ValidationError, AccessThrottled) as exc:
             form.add_error(None, " ".join(exc.messages) if isinstance(exc, ValidationError) else str(exc))
         else:
-            messages.success(request, "Confirma el cambio desde tu correo actual y el nuevo. El correo de tu cuenta se conserva hasta completar ambos pasos.")
+            messages.success(request, gettext("Confirma el cambio desde tu correo actual y el nuevo. El correo de tu cuenta se conserva hasta completar ambos pasos."))
             return redirect(f"{'creator' if creator else 'student'}-account-security")
     return account_render(request, creator, "email", form=form)
 
@@ -184,7 +185,7 @@ def verify(request, creator=False):
     except (ValidationError, AccessThrottled) as exc:
         messages.error(request, " ".join(exc.messages) if isinstance(exc, ValidationError) else str(exc))
     else:
-        messages.success(request, "Solicitamos el envío del enlace de confirmación a tu correo. Si no llega, puedes volver a solicitarlo.")
+        messages.success(request, gettext("Solicitamos el envío del enlace de confirmación a tu correo. Si no llega, puedes volver a solicitarlo."))
     return redirect(f"{'creator' if creator else 'student'}-account-security")
 
 
@@ -201,7 +202,7 @@ def email_confirm(request, token):
             if done and action.purpose == "change" and request.user.is_authenticated and request.user.pk == user.pk:
                 logout(request)
     except (ValidationError, IntegrityError) as exc:
-        error = " ".join(exc.messages) if isinstance(exc, ValidationError) else "Ese correo ya no está disponible. Solicita otro cambio."
+        error = " ".join(exc.messages) if isinstance(exc, ValidationError) else gettext("Ese correo ya no está disponible. Solicita otro cambio.")
     continue_url = ""
     if action:
         login_url = reverse("creator-login" if action.user.account_type == "creator" else "login")
@@ -218,7 +219,7 @@ def preferences(request, creator=False):
     if request.method == "POST" and form.is_valid():
         member = form.save(commit=False)
         member.save(update_fields=PreferencesForm.Meta.fields)
-        messages.success(request, "Preferencias de avisos guardadas.")
+        messages.success(request, gettext("Preferencias de avisos guardadas."))
         return redirect(f"{'creator' if creator else 'student'}-account-preferences")
     return account_render(request, creator, "preferences", form=form)
 
@@ -239,7 +240,7 @@ def sessions(request, creator=False):
         if session.session_key == request.session.session_key:
             logout(request)
             return redirect("creator-login" if creator else "login")
-        messages.success(request, "Sesión cerrada.")
+        messages.success(request, gettext("Sesión cerrada."))
         return redirect(f"{'creator' if creator else 'student'}-account-sessions")
     rows = AccountSession.objects.filter(user=request.user, ended_at__isnull=True, session_key__in=Session.objects.filter(expire_date__gt=timezone.now()).values_list("session_key", flat=True)).order_by("-last_seen_at")
     for row in rows:
@@ -260,13 +261,13 @@ def support(request, creator=False):
                 body = (context["body_prefix"] if context else "") + form.cleaned_data["body"]
                 item, created = AccountSupportRequest.objects.get_or_create(user=request.user, request_key=form.cleaned_data["request_key"], defaults={"kind": form.cleaned_data["kind"], "body": body})
                 if item.kind != form.cleaned_data["kind"] or item.body != body:
-                    raise ValidationError("Este envío ya fue utilizado. Recarga antes de enviar otro mensaje.")
+                    raise ValidationError(gettext("Este envío ya fue utilizado. Recarga antes de enviar otro mensaje."))
                 if created:
                     SupportEvent.objects.create(request=item, status="open", actor=request.user)
         except (IntegrityError, AccessThrottled, ValidationError) as exc:
-            form.add_error(None, "Ya tienes una solicitud de revisión de suspensión abierta." if isinstance(exc, IntegrityError) else " ".join(exc.messages) if isinstance(exc, ValidationError) else str(exc))
+            form.add_error(None, gettext("Ya tienes una solicitud de revisión de suspensión abierta.") if isinstance(exc, IntegrityError) else " ".join(exc.messages) if isinstance(exc, ValidationError) else str(exc))
         else:
-            messages.success(request, "Solicitud recibida. Puedes consultar su estado y las respuestas aquí.")
+            messages.success(request, gettext("Solicitud recibida. Puedes consultar su estado y las respuestas aquí."))
             return redirect(f"{'creator' if creator else 'student'}-account-support")
     return account_render(request, creator, "support", form=form, support_context=context, requests=Paginator(AccountSupportRequest.objects.filter(user=request.user).prefetch_related("history"), 10).get_page(request.GET.get("pagina")))
 

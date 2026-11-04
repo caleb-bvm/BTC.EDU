@@ -1,18 +1,19 @@
 from django import forms
 from django.forms import formset_factory
+from django.utils.translation import gettext, gettext_lazy
 
 from .models import QuizDraft
 from .quizzes import validate_questions
 
 
 class QuizForm(forms.Form):
-    enabled = forms.BooleanField(label="Incluir evaluación en la próxima versión", required=False)
-    title = forms.CharField(label="Título", max_length=200)
-    pass_mark = forms.IntegerField(label="Nota mínima", min_value=0, max_value=100)
-    max_attempts = forms.IntegerField(label="Intentos permitidos", min_value=1, max_value=10)
-    wait_minutes = forms.IntegerField(label="Espera entre intentos (minutos)", min_value=0, max_value=10080)
-    required = forms.BooleanField(label="Exigir aprobación para completar la lección", required=False)
-    feedback = forms.ChoiceField(label="Mostrar soluciones", choices=QuizDraft._meta.get_field("feedback").choices)
+    enabled = forms.BooleanField(label=gettext_lazy("Incluir evaluación en la próxima versión"), required=False)
+    title = forms.CharField(label=gettext_lazy("Título"), max_length=200)
+    pass_mark = forms.IntegerField(label=gettext_lazy("Nota mínima"), min_value=0, max_value=100)
+    max_attempts = forms.IntegerField(label=gettext_lazy("Intentos permitidos"), min_value=1, max_value=10)
+    wait_minutes = forms.IntegerField(label=gettext_lazy("Espera entre intentos (minutos)"), min_value=0, max_value=10080)
+    required = forms.BooleanField(label=gettext_lazy("Exigir aprobación para completar la lección"), required=False)
+    feedback = forms.ChoiceField(label=gettext_lazy("Mostrar soluciones"), choices=QuizDraft._meta.get_field("feedback").choices)
     revision = forms.IntegerField(min_value=0, widget=forms.HiddenInput)
 
     def __init__(self, *args, instance, **kwargs):
@@ -29,11 +30,11 @@ class QuizForm(forms.Form):
 
 
 class QuestionForm(forms.Form):
-    prompt = forms.CharField(label="Pregunta", max_length=2000, widget=forms.Textarea(attrs={"rows": 2}))
-    multiple = forms.BooleanField(label="Permitir varias respuestas", required=False)
-    options = forms.CharField(label="Opciones (una por línea)", widget=forms.Textarea(attrs={"rows": 4}), max_length=3005)
-    correct = forms.CharField(label="Números de las opciones correctas", help_text="Cuenta desde 1. Para varias respuestas, escribe por ejemplo 1,3.", max_length=20)
-    explanation = forms.CharField(label="Explicación", max_length=3000, required=False, widget=forms.Textarea(attrs={"rows": 2}))
+    prompt = forms.CharField(label=gettext_lazy("Pregunta"), max_length=2000, widget=forms.Textarea(attrs={"rows": 2}))
+    multiple = forms.BooleanField(label=gettext_lazy("Permitir varias respuestas"), required=False)
+    options = forms.CharField(label=gettext_lazy("Opciones (una por línea)"), widget=forms.Textarea(attrs={"rows": 4}), max_length=3005)
+    correct = forms.CharField(label=gettext_lazy("Números de las opciones correctas"), help_text=gettext_lazy("Cuenta desde 1. Para varias respuestas, escribe por ejemplo 1,3."), max_length=20)
+    explanation = forms.CharField(label=gettext_lazy("Explicación"), max_length=3000, required=False, widget=forms.Textarea(attrs={"rows": 2}))
 
     def clean(self):
         values = super().clean()
@@ -42,7 +43,7 @@ class QuestionForm(forms.Form):
         try:
             correct = [int(value.strip()) - 1 for value in values["correct"].split(",")]
         except ValueError:
-            self.add_error("correct", "Escribe números separados por comas, por ejemplo 1,3.")
+            self.add_error("correct", gettext("Escribe números separados por comas, por ejemplo 1,3."))
             return values
         question = {"prompt": values["prompt"], "multiple": values["multiple"], "options": [option.strip() for option in values["options"].splitlines()], "correct": correct, "explanation": values["explanation"]}
         try:
@@ -70,7 +71,7 @@ class AttemptForm(forms.Form):
             choices = [(str(option), label) for option, label in enumerate(question["options"])]
             field = forms.MultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple, required=False) if question["multiple"] else forms.ChoiceField(choices=choices, widget=forms.RadioSelect, required=False)
             field.label = question["prompt"]
-            field.help_text = "Selecciona todas las respuestas correctas." if question["multiple"] else "Elige una respuesta."
+            field.help_text = gettext("Selecciona todas las respuestas correctas.") if question["multiple"] else gettext("Elige una respuesta.")
             selected = [str(option) for option in answers.get(str(index), [])]
             field.initial = selected if question["multiple"] else selected[0] if selected else ""
             self.fields[f"question_{index}"] = field

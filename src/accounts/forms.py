@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.forms import AuthenticationForm, BaseUserCreationForm
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext, gettext_lazy
 
 from .throttling import AccessThrottled, allow
 
@@ -12,7 +13,7 @@ class AccountLoginForm(AuthenticationForm):
 
     def get_invalid_login_error(self):
         label = "creador" if self.account_type == "creator" else "estudiante"
-        return ValidationError(f"No pudimos iniciar sesión. Revisa las credenciales de tu cuenta de {label}.", code="invalid_login")
+        return ValidationError((gettext('No pudimos iniciar sesión. Revisa las credenciales de tu cuenta de %(label)s.') % {"label": label}), code="invalid_login")
 
     def clean(self):
         email = self.cleaned_data.get("username")
@@ -34,7 +35,7 @@ class CreatorLoginForm(AccountLoginForm):
 
 
 class AccountRegistrationForm(BaseUserCreationForm):
-    email = forms.EmailField(label="Correo electrónico", max_length=254)
+    email = forms.EmailField(label=gettext_lazy("Correo electrónico"), max_length=254)
     account_type = "student"
 
     class Meta:
@@ -45,13 +46,13 @@ class AccountRegistrationForm(BaseUserCreationForm):
         super().__init__(*args, **kwargs)
         self.instance.account_type = self.account_type
         self.fields["first_name"].required = True
-        self.fields["first_name"].label = "Nombre"
-        self.fields["last_name"].label = "Apellido"
+        self.fields["first_name"].label = gettext("Nombre")
+        self.fields["last_name"].label = gettext("Apellido")
 
     def clean_email(self):
         email = self.cleaned_data["email"].strip().lower()
         if self._meta.model.objects.filter(email__iexact=email, account_type=self.account_type).exists():
-            raise ValidationError("Ya existe una cuenta con este correo en este espacio. Inicia sesión.")
+            raise ValidationError(gettext("Ya existe una cuenta con este correo en este espacio. Inicia sesión."))
         return email
 
 
@@ -63,17 +64,17 @@ class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ("first_name", "last_name", "display_name", "bio", "interests", "learning_goal", "website", "profile_public")
-        labels = {"first_name": "Nombre", "last_name": "Apellido"}
+        labels = {"first_name": gettext_lazy("Nombre"), "last_name": gettext_lazy("Apellido")}
         widgets = {"bio": forms.Textarea(attrs={"rows": 4})}
         help_texts = {
-            "display_name": "Este nombre aparece en tus mensajes. Puedes usar un alias; si lo dejas vacío se muestra Participante.",
-            "profile_public": "Tu alias, foto, presentación, intereses y sitio web podrán verse sin iniciar sesión. Tu correo, compras, progreso y notas siguen privados. Ocultar el perfil no elimina tus mensajes.",
+            "display_name": gettext_lazy("Este nombre aparece en tus mensajes. Puedes usar un alias; si lo dejas vacío se muestra Participante."),
+            "profile_public": gettext_lazy("Tu alias, foto, presentación, intereses y sitio web podrán verse sin iniciar sesión. Tu correo, compras, progreso y notas siguen privados. Ocultar el perfil no elimina tus mensajes."),
         }
 
     def clean(self):
         data = super().clean()
         if data.get("profile_public") and not data.get("display_name"):
-            self.add_error("display_name", "Elige un nombre público para compartir tu perfil.")
+            self.add_error("display_name", gettext("Elige un nombre público para compartir tu perfil."))
         if data.get("profile_public") and settings.ACCOUNT_REQUIRE_VERIFIED_EMAIL and not self.instance.email_verified_at:
-            self.add_error("profile_public", "Confirma tu correo desde Acceso antes de compartir tu perfil.")
+            self.add_error("profile_public", gettext("Confirma tu correo desde Acceso antes de compartir tu perfil."))
         return data

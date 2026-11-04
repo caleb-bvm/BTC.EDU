@@ -6,6 +6,7 @@ from django.db import transaction
 from django.db.models import Count, Sum
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from .gateway import LNbitsGateway
 from .lightning import emit_payment
@@ -28,28 +29,28 @@ def create_tip(actor, creator, amount, message="", lesson=None):
     require_student(actor)
     reserve_writer(actor.pk)
     if not tip_recipient(creator) or creator.pk == actor.pk:
-        raise PermissionDenied("Este educador no puede recibir propinas ahora.")
+        raise PermissionDenied(gettext("Este educador no puede recibir propinas ahora."))
     if type(amount) is not int or not TIP_MIN <= amount <= TIP_MAX:
-        raise ValidationError(f"Elige un importe entre {TIP_MIN} y {TIP_MAX} sats.")
+        raise ValidationError((gettext('Elige un importe entre %(TIP_MIN)s y %(TIP_MAX)s sats.') % {"TIP_MIN": TIP_MIN, "TIP_MAX": TIP_MAX}))
     if lesson is not None and lesson.chapter.version.course.creator_id != creator.pk:
-        raise ValidationError("La lección no pertenece a este educador.")
+        raise ValidationError(gettext("La lección no pertenece a este educador."))
     now = timezone.now()
     open_tips = Tip.objects.filter(sender=actor, status="pending", expires_at__gt=now)
     if open_tips.count() >= MAX_OPEN_TIPS:
-        raise ValidationError("Tienes varias propinas pendientes. Paga o deja vencer alguna antes de preparar otra.")
+        raise ValidationError(gettext("Tienes varias propinas pendientes. Paga o deja vencer alguna antes de preparar otra."))
     return Tip.objects.create(sender=actor, creator=creator, amount_sats=amount, message=" ".join(str(message or "").split())[:280],
                               lesson=lesson, version=lesson.chapter.version if lesson else None, expires_at=now + timedelta(minutes=15))
 
 
 def emit_tip(tip, gateway):
-    return emit_payment(tip, gateway, "Estamos comprobando la propina. Actualiza su estado para continuar.")
+    return emit_payment(tip, gateway, gettext("Estamos comprobando la propina. Actualiza su estado para continuar."))
 
 
 @transaction.atomic
 def settle_tip(tip_id, provider_status):
     tip = Tip.objects.select_related("sender", "creator").get(pk=tip_id)
     if provider_status.payment_hash != tip.payment_hash:
-        raise ValidationError("La confirmación pertenece a otro pago.")
+        raise ValidationError(gettext("La confirmación pertenece a otro pago."))
     if tip.status == "paid":
         return tip
     now = timezone.now()
@@ -57,7 +58,7 @@ def settle_tip(tip_id, provider_status):
     if provider_status.paid and provider_status.amount_msat == tip.amount_sats * 1000:
         Tip.objects.filter(pk=tip.pk).exclude(status="paid").update(status="paid", paid_at=now)
         from learning.support import notify
-        notify(tip.creator, f"tip:{tip.pk}", f"Recibiste una propina de {tip.amount_sats} sats.", reverse("creator-tips"))
+        notify(tip.creator, f"tip:{tip.pk}", (gettext('Recibiste una propina de %(amount_sats)s sats.') % {"amount_sats": tip.amount_sats}), reverse("creator-tips"))
     elif tip.status == "pending" and tip.expires_at <= now:
         Tip.objects.filter(pk=tip.pk, status="pending").update(status="expired")
     elif tip.status == "pending" and provider_status.failed:

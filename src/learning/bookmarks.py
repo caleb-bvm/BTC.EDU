@@ -3,6 +3,7 @@ from django.core.validators import URLValidator
 from django.db import transaction
 from django.db.models import F
 from django.urls import reverse
+from django.utils.translation import gettext
 
 from accounts.models import User
 from commerce.models import Entitlement
@@ -42,7 +43,7 @@ def save_item(actor, kind, pk, action):
     actor.refresh_from_db()
     require_student(actor)
     if action not in ("save", "remove") or kind not in ("recurso", "referencia", "curso", "tutorial"):
-        raise ValidationError("Elige una acción disponible.")
+        raise ValidationError(gettext("Elige una acción disponible."))
     field = {"recurso": "resource", "referencia": "reference", "curso": "course_version", "tutorial": "course_version"}[kind]
     if action == "remove":
         SavedItem.objects.filter(student=actor, **{field + "_id": pk}).delete()
@@ -79,16 +80,16 @@ def saved_item_presentation(user, item):
     if item.course_version_id:
         version = item.course_version
         item.bookmark_kind, item.bookmark_target_pk = "tutorial" if version.kind == "tutorial" else "curso", version.pk
-        item.type_label = f"{version.get_kind_display()} · Versión {version.number}"
-        item.open_label = "Abrir tutorial" if version.kind == "tutorial" else "Abrir curso"
+        item.type_label = (gettext('%(get_kind_display)s · Versión %(number)s') % {"get_kind_display": version.get_kind_display(), "number": version.number})
+        item.open_label = gettext("Abrir tutorial") if version.kind == "tutorial" else gettext("Abrir curso")
         item.available = bool(course_target(user, version))
     elif item.resource_id:
         item.bookmark_kind, item.bookmark_target_pk = "recurso", item.resource_id
-        item.type_label = f"{item.resource.get_kind_display()} · Revisión {item.resource.number}"
-        item.open_label = "Abrir recurso"
+        item.type_label = (gettext('%(get_kind_display)s · Revisión %(number)s') % {"get_kind_display": item.resource.get_kind_display(), "number": item.resource.number})
+        item.open_label = gettext("Abrir recurso")
         item.available = bool(resource_target(user, item.resource))
     else:
         item.bookmark_kind, item.bookmark_target_pk = "referencia", item.reference_id
-        item.type_label, item.open_label = "Fuente externa", "Abrir referencia"
+        item.type_label, item.open_label = gettext("Fuente externa"), gettext("Abrir referencia")
         item.available = item.reference.status == "published"
     return item

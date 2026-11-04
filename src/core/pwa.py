@@ -3,6 +3,7 @@ from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.templatetags.static import static
+from django.utils.translation import gettext
 from django.views.decorators.http import require_GET
 
 
@@ -13,7 +14,7 @@ def manifest(request):
              {"src": static("images/icons/maskable-512.png"), "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]
     response = JsonResponse({
         "name": "BTC.EDU", "short_name": "BTC.EDU", "lang": "es",
-        "description": "Cursos, videos y materiales. Elige lo que quieres aprender.",
+        "description": gettext("Cursos, videos y materiales. Elige lo que quieres aprender."),
         "start_url": "/mi-espacio/", "scope": "/", "display": "standalone",
         "background_color": "#000000", "theme_color": "#000000", "icons": icons,
     }, content_type="application/manifest+json", json_dumps_params={"ensure_ascii": False})

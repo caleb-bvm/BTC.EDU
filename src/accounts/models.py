@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.db.models.functions import Lower
+from django.utils.translation import gettext, gettext_lazy
 
 from content.immutability import FrozenRecord
 
@@ -36,23 +37,23 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     """Identidades independientes por espacio; nunca se convierten al solicitar un rol."""
     class Type(models.TextChoices):
-        STUDENT = "student", "Estudiante"
-        CREATOR = "creator", "Creador"
-        ADMIN = "admin", "Administración"
+        STUDENT = "student", gettext_lazy("Estudiante")
+        CREATOR = "creator", gettext_lazy("Creador")
+        ADMIN = "admin", gettext_lazy("Administración")
 
     username = None
     email = models.EmailField("correo")
-    account_type = models.CharField("tipo de cuenta", max_length=12, choices=Type, default=Type.STUDENT)
-    display_name = models.CharField("nombre público o alias", max_length=80, blank=True)
+    account_type = models.CharField(gettext_lazy("tipo de cuenta"), max_length=12, choices=Type, default=Type.STUDENT)
+    display_name = models.CharField(gettext_lazy("nombre público o alias"), max_length=80, blank=True)
     bio = models.TextField("sobre ti", max_length=1000, blank=True)
-    interests = models.CharField("intereses de aprendizaje", max_length=200, blank=True)
+    interests = models.CharField(gettext_lazy("intereses de aprendizaje"), max_length=200, blank=True)
     website = models.URLField("sitio web", blank=True)
-    profile_public = models.BooleanField("Compartir mi perfil", default=False)
-    avatar = models.FileField("foto de perfil", upload_to="account-avatars/", blank=True)
+    profile_public = models.BooleanField(gettext_lazy("Compartir mi perfil"), default=False)
+    avatar = models.FileField(gettext_lazy("foto de perfil"), upload_to="account-avatars/", blank=True)
     email_verified_at = models.DateTimeField(null=True, blank=True)
-    notify_questions = models.BooleanField("Preguntas y respuestas", default=True)
-    notify_community = models.BooleanField("Conversaciones que sigo", default=True)
-    learning_goal = models.CharField("qué quieres aprender", max_length=200, blank=True)
+    notify_questions = models.BooleanField(gettext_lazy("Preguntas y respuestas"), default=True)
+    notify_community = models.BooleanField(gettext_lazy("Conversaciones que sigo"), default=True)
+    learning_goal = models.CharField(gettext_lazy("qué quieres aprender"), max_length=200, blank=True)
     closed_at = models.DateTimeField(null=True, blank=True)
     session_revision = models.PositiveIntegerField(default=0)
     USERNAME_FIELD = "email"
@@ -75,7 +76,7 @@ class User(AbstractUser):
             profile = getattr(self, "creator_profile", None)
             if profile and profile.status == "approved":
                 return profile.display_name
-        return self.display_name or "Participante"
+        return self.display_name or gettext("Participante")
 
     @property
     def has_public_profile(self):
@@ -108,7 +109,7 @@ class User(AbstractUser):
 class AccountEmailAction(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    purpose = models.CharField(max_length=20, choices=(("verify", "Verificar correo"), ("change", "Cambiar correo"), ("restore", "Reactivar cuenta")))
+    purpose = models.CharField(max_length=20, choices=(("verify", gettext_lazy("Verificar correo")), ("change", gettext_lazy("Cambiar correo")), ("restore", gettext_lazy("Reactivar cuenta"))))
     original_email = models.EmailField()
     new_email = models.EmailField(blank=True)
     destination = models.CharField(max_length=500, blank=True)
@@ -126,7 +127,7 @@ class AccountMail(models.Model):
     recipient = models.EmailField()
     subject = models.CharField(max_length=200)
     body = models.TextField()
-    status = models.CharField(max_length=10, default="pending", choices=(("pending", "Pendiente"), ("sent", "Enviado"), ("failed", "Reintentar"), ("cancelled", "Vencido o sustituido")))
+    status = models.CharField(max_length=10, default="pending", choices=(("pending", gettext_lazy("Pendiente")), ("sent", gettext_lazy("Enviado")), ("failed", gettext_lazy("Reintentar")), ("cancelled", gettext_lazy("Vencido o sustituido"))))
     action = models.ForeignKey(AccountEmailAction, on_delete=models.PROTECT, null=True, blank=True)
     state_digest = models.CharField(max_length=64, blank=True)
     expires_at = models.DateTimeField(null=True, blank=True)
@@ -149,12 +150,12 @@ class AccountSession(models.Model):
 class AccountEvent(FrozenRecord):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     kind = models.CharField(max_length=40, choices=(
-        ("photo_updated", "Foto de perfil actualizada"), ("password_changed", "Contraseña actualizada"),
-        ("email_verify_requested", "Confirmación de correo solicitada"), ("email_change_requested", "Cambio de correo solicitado"),
-        ("email_restore_requested", "Reactivación solicitada"), ("email_verified", "Correo confirmado"),
-        ("email_changed", "Correo actualizado"), ("session_ended", "Sesión cerrada"),
-        ("account_closed", "Cuenta desactivada"), ("account_restored", "Cuenta reactivada"),
-        ("account_exported", "Resumen de datos descargado"),
+        ("photo_updated", gettext_lazy("Foto de perfil actualizada")), ("password_changed", gettext_lazy("Contraseña actualizada")),
+        ("email_verify_requested", gettext_lazy("Confirmación de correo solicitada")), ("email_change_requested", gettext_lazy("Cambio de correo solicitado")),
+        ("email_restore_requested", gettext_lazy("Reactivación solicitada")), ("email_verified", gettext_lazy("Correo confirmado")),
+        ("email_changed", gettext_lazy("Correo actualizado")), ("session_ended", gettext_lazy("Sesión cerrada")),
+        ("account_closed", gettext_lazy("Cuenta desactivada")), ("account_restored", gettext_lazy("Cuenta reactivada")),
+        ("account_exported", gettext_lazy("Resumen de datos descargado")),
     ))
     detail = models.CharField(max_length=250, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -171,10 +172,10 @@ class AccessAttempt(models.Model):
 
 class AccountSupportRequest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    kind = models.CharField(max_length=20, choices=(("appeal", "Revisar suspensión"), ("access", "Acceso a mi cuenta"), ("other", "Otra consulta")))
+    kind = models.CharField(max_length=20, choices=(("appeal", gettext_lazy("Revisar suspensión")), ("access", gettext_lazy("Acceso a mi cuenta")), ("other", gettext_lazy("Otra consulta"))))
     body = models.TextField(max_length=2000)
     request_key = models.UUIDField(default=uuid.uuid4)
-    status = models.CharField(max_length=10, default="open", choices=(("open", "Recibida"), ("review", "En revisión"), ("resolved", "Respondida")))
+    status = models.CharField(max_length=10, default="open", choices=(("open", gettext_lazy("Recibida")), ("review", gettext_lazy("En revisión")), ("resolved", gettext_lazy("Respondida"))))
     response = models.TextField(max_length=2000, blank=True)
     reviewed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True, related_name="account_support_reviews")
     created_at = models.DateTimeField(auto_now_add=True)

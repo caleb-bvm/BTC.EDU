@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext
 from django.views.decorators.http import require_GET, require_POST
 
 from accounts.destinations import student_destination
@@ -22,7 +23,7 @@ def collection_change(request, pk=None):
         messages.error(request, " ".join(exc.messages))
         target = student_destination(request, request.POST.get("next", ""))
     else:
-        messages.success(request, "Colección guardada." if collection else "Colección eliminada. Tus guardados se conservan.")
+        messages.success(request, gettext("Colección guardada.") if collection else gettext("Colección eliminada. Tus guardados se conservan."))
         target = reverse("workspace") + "?seccion=guardados" + (f"&coleccion={collection.pk}" if collection else "")
     return redirect(target or reverse("workspace") + "?seccion=guardados")
 
@@ -38,7 +39,7 @@ def organize(request, pk):
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
     else:
-        messages.success(request, "Guardado organizado en tus colecciones.")
+        messages.success(request, gettext("Guardado organizado en tus colecciones."))
     return redirect(student_destination(request, request.POST.get("next", "")) or reverse("workspace") + "?seccion=guardados")
 
 
@@ -50,7 +51,7 @@ def toggle(request, kind, pk):
     except ValidationError as exc:
         messages.error(request, " ".join(exc.messages))
     else:
-        messages.success(request, "Contenido guardado en Mi aprendizaje." if request.POST.get("action") == "save" else "Guardado retirado. Tus compras se conservan.")
+        messages.success(request, gettext("Contenido guardado en Mi aprendizaje.") if request.POST.get("action") == "save" else gettext("Guardado retirado. Tus compras se conservan."))
     return redirect(student_destination(request, request.POST.get("next", "")) or "workspace")
 
 

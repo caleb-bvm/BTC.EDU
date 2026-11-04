@@ -1,6 +1,6 @@
 # BTC.EDU
 
-Plataforma educativa en español donde educadores publican cursos, tutoriales y recursos, y los estudiantes pagan con Lightning solo lo que necesitan: un curso, una lección o un paquete. El acceso se concede en el servidor cuando el proveedor confirma el pago. Funciona en local con LNbits sobre FakeWallet o sobre una red regtest de Polar; no mueve fondos reales.
+Plataforma educativa en español e inglés donde educadores publican cursos, tutoriales y recursos, y los estudiantes pagan con Lightning solo lo que necesitan: un curso, una lección o un paquete. El acceso se concede en el servidor cuando el proveedor confirma el pago. Funciona en local con LNbits sobre FakeWallet o sobre una red regtest de Polar; no mueve fondos reales.
 
 ## Requisitos
 
@@ -107,6 +107,13 @@ Una confirmación repetida no duplica compras ni derechos. `manage.py reconcile_
 
 **Acceso.** `content_access` en `content/access.py` decide para HTML, JSON y archivos. Concede acceso al creador en vista previa, al contenido gratuito publicado, a la revisión comprada o a la membresía vigente si el curso está incluido. Inscribirse no desbloquea lecciones de pago.
 
+**Idiomas.** El español es el idioma de origen y usa las direcciones sin prefijo; el inglés vive bajo `/en/` (`i18n_patterns` y `LocaleMiddleware`). El botón ES/EN de la cabecera lleva a la misma página en el otro idioma y cada página declara `lang` y sus alternativas `hreflang`. Hay dos catálogos en `locale/en/LC_MESSAGES/`:
+
+- `django.po`: la interfaz. Las plantillas usan `{% translate %}` y `{% blocktranslate %}` (con `count` para los plurales), el código Python `gettext` y `gettext_lazy`, y el JavaScript recibe sus mensajes con `btcT()` desde `core/js_text.py`.
+- `content.po`: títulos, descripciones, objetivos, requisitos y resultados del catálogo propio de BTC.EDU. El filtro `|tr` y `translate_content` buscan el texto publicado; lo que escribe un educador se muestra tal como lo escribió. Los cuerpos de las lecciones siguen en español y la página los marca con `lang="es"`.
+
+`manage.py translations extract` actualiza ambos `.po` desde plantillas, código y catálogos sin perder lo traducido; `translations compile` genera los `.mo` y `translations status` cuenta lo que falta. Se implementaron en Python porque el entorno no incluye las herramientas de GNU gettext; los `.mo` se versionan para que el servidor no las necesite.
+
 **Aprendizaje.** Las evaluaciones se corrigen en el servidor con preguntas y reglas por versión. El certificado se emite al cumplir los requisitos publicados; su huella SHA-256 permite comprobar los datos y, si se activa, OpenTimestamps sella la fecha en Bitcoin.
 
 ## Comprobaciones
@@ -119,6 +126,8 @@ Desde la raíz:
 
 Ejecuta `manage.py check`, comprueba que no falten migraciones, corre las pruebas de todas las aplicaciones, Ruff y los controles de concurrencia de comercio, evaluaciones, certificados, comunidad y cuentas. `src/scripts/preview-*.py` prepara datos temporales para recorrer cada parte sin tocar la base principal. Los resultados de cada entrega están en la [bitácora](docs/operacion-y-bitacora.md#bitácora).
 
+Tras cambiar textos, `manage.py translations extract`, traducir lo nuevo en `locale/en/LC_MESSAGES/*.po` y `manage.py translations compile`; `core/test_i18n.py` falla si un texto queda sin traducir o si los `.mo` no corresponden a los `.po`.
+
 ## Estructura
 
 ```text
@@ -126,6 +135,7 @@ src/
 ├── accounts/ content/ creators/ commerce/ learning/ media/ core/   aplicaciones Django
 ├── platform_config/   settings, urls y wsgi
 ├── templates/ static/  interfaz
+├── locale/             traducción al inglés de la interfaz y del catálogo
 ├── scripts/            arranque, preparación de pagos, verificadores y vistas previas
 ├── config/             plantillas de .env para la plataforma y LNbits
 ├── docs/               operación, bitácora y evidencias seleccionadas
@@ -134,7 +144,7 @@ src/
 
 ## Límites
 
-Es un entorno local: no tiene despliegue con HTTPS, correo con entrega comprobada, supervisión ni respaldo automatizado. Los pagos con FakeWallet y regtest no acreditan cobros reales. No hay liquidación automática a educadores. La propuesta, los precios y la utilidad educativa todavía no están validados con participantes.
+Es un entorno local: no tiene despliegue con HTTPS, correo con entrega comprobada, supervisión ni respaldo automatizado. Los pagos con FakeWallet y regtest no acreditan cobros reales. No hay liquidación automática a educadores. En inglés, los cuerpos de lecciones y tutoriales, las preguntas de evaluación y los textos guardados al crear avisos o facturas siguen en español. La propuesta, los precios y la utilidad educativa todavía no están validados con participantes.
 
 ## Documentación
 
