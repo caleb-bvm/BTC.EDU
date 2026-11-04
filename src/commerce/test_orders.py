@@ -7,6 +7,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
 from django.test import TestCase, override_settings
+from django.urls import reverse
 from django.utils import timezone
 
 from content.models import Chapter, Course, Lesson
@@ -153,15 +154,24 @@ class GroupedOrderTests(TestCase):
         self.assertEqual(Invoice.objects.count(), 1)
         self.assertEqual(Invoice.objects.get().pk, order_invoice.pk)
 
-    def test_unknown_emission_blocks_new_order_even_after_local_expiry(self):
+    def test_unknown_emission_blocks_until_expiry_and_then_allows_a_new_order(self):
         invoice = reserve_direct_order(self.student, self.individual.pk)
         with patch.object(self.gateway, "create", side_effect=ProviderUnavailable("unknown")):
             with self.assertRaises(ProviderUnavailable):
                 ensure_emitted(invoice, self.gateway)
-        Invoice.objects.filter(pk=invoice.pk).update(status="expired", expires_at=timezone.now() - timedelta(seconds=1))
         with self.assertRaises(ValidationError):
             reserve_direct_order(self.student, self.bundle.pk)
-        self.assertEqual(Invoice.objects.count(), 1)
+        Invoice.objects.filter(pk=invoice.pk).update(expires_at=timezone.now() - timedelta(seconds=1))
+        # The buyer never received a payment request, so the provider is not asked again.
+        with patch.object(self.gateway, "recover", side_effect=ProviderUnavailable("down")) as recover:
+            self.assertEqual(reconcile(invoice, self.gateway).status, "expired")
+            recover.assert_not_called()
+        self.client.force_login(self.student)
+        with patch("commerce.views.reconcile", side_effect=lambda invoice: reconcile(invoice, self.gateway)):
+            page = self.client.get(reverse("invoice-detail", args=[invoice.pk]))
+        self.assertContains(page, reverse("direct-checkout", args=[self.individual.pk]))
+        replacement = reserve_direct_order(self.student, self.bundle.pk)
+        self.assertNotEqual(invoice.pk, replacement.pk)
         self.assertFalse(Purchase.objects.exists())
 
     def test_expired_issued_requires_reconciliation_before_new_quote(self):

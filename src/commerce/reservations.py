@@ -20,7 +20,8 @@ def needs_reservation(invoice, now=None):
     if invoice.status == "paid":
         return False
     if invoice.issue_state in ("requested", "unknown"):
-        return True
+        # The buyer never received a payment request, so nothing can be paid once it expires.
+        return invoice.status == "pending" and invoice.expires_at > now
     if invoice.incident and invoice.incident not in ("emission_unknown", "provider_failed"):
         return True
     if invoice.status == "pending" and invoice.expires_at > now:

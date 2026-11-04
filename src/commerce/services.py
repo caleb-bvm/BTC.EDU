@@ -220,6 +220,9 @@ def reconcile(invoice, gateway=None):
         invoice.refresh_from_db()
         if invoice.status == "paid" or PaymentEvidence.objects.filter(invoice=invoice).exists():
             return invoice
+        if invoice.status != "pending" and not invoice.payment_hash:
+            # Closed before the buyer got a payment request: nothing to recover or check.
+            return invoice
         invoice = ensure_emitted(invoice, gateway)
         if not invoice.payment_hash:
             return invoice
