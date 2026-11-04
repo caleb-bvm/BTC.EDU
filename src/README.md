@@ -17,7 +17,7 @@ Desde la raíz del repositorio:
 ./dev.ps1
 ```
 
-El script prepara el entorno, crea `src/.env` con una clave propia, aplica las migraciones e inicia LNbits y Django. Para iniciar solo la plataforma, sin pagos, se usa `./dev-platform.ps1`. Si Windows bloquea los scripts: `powershell -ExecutionPolicy Bypass -File .\dev.ps1`.
+El script prepara el entorno, crea `src/.env` con una clave propia, aplica las migraciones e inicia LNbits y Django. Si `src/.local/commerce.env` indica `COMMERCE_PAYMENT_MODE=regtest`, también prepara la red Polar (con Docker y Polar abiertos) e inicia LNbits regtest en el puerto 5001. Para iniciar solo la plataforma, sin pagos, se usa `./dev-platform.ps1`. Si Windows bloquea los scripts: `powershell -ExecutionPolicy Bypass -File .\dev.ps1`.
 
 En otra terminal, con LNbits activo, se conecta el comercio a FakeWallet. Las claves quedan en `src/.local/commerce.env`, fuera de Git:
 

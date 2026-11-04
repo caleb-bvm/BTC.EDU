@@ -68,11 +68,13 @@ Atiendo las soluciones en Alumnos → Entregas, de la más antigua a la más rec
 
 ### Arranque
 
-Desde la raíz del proyecto, en PowerShell, inicio la plataforma y LNbits con FakeWallet:
+Desde la raíz del proyecto, en PowerShell, inicio todo con un solo comando:
 
 ```powershell
 ./dev.ps1
 ```
+
+El script lee `COMMERCE_PAYMENT_MODE` en `src/.local/commerce.env`. En `regtest` prepara la red Polar, inicia LNbits regtest en el puerto 5001 y después Django; sin ese archivo o en `fake`, inicia LNbits con FakeWallet en el 5000. Docker y Polar deben estar abiertos: el script inicia los contenedores detenidos de la red, pero no Docker Desktop.
 
 Si solo necesito la plataforma, uso:
 
@@ -80,7 +82,7 @@ Si solo necesito la plataforma, uso:
 ./dev-platform.ps1
 ```
 
-Abro Django en `http://127.0.0.1:8000/` y FakeWallet en `http://127.0.0.1:5000/`. Mantengo libres ambos puertos y detengo los procesos con Ctrl+C. La preparación conserva las bases y los archivos de configuración existentes; el primer arranque necesita internet y Git para descargar LNbits.
+Abro Django en `http://127.0.0.1:8000/` y LNbits en `http://127.0.0.1:5000/` o `:5001/`, según el modo. Mantengo libres esos puertos y detengo los procesos con Ctrl+C. La preparación conserva las bases y los archivos de configuración existentes; el primer arranque necesita internet y Git para descargar LNbits.
 
 También puedo preparar e iniciar cada servicio por separado, desde la raíz:
 
@@ -121,11 +123,14 @@ Mantengo FakeWallet como fuente de fondos en LNbits. Algunas opciones quedan gua
 
 ### Pagos con Polar y ZEUS
 
-Para trabajar en regtest, mantengo Docker y la red Polar activos. Desde `src`, inicio la instancia separada:
+Para trabajar en regtest, mantengo Docker y la red Polar activos. `./dev.ps1` lo prepara todo; si inicio los servicios por separado, desde `src` preparo la red y después la instancia separada:
 
 ```powershell
+./scripts/prepare-polar.ps1
 ./scripts/start-lnbits-regtest.ps1
 ```
+
+`prepare-polar.ps1` inicia los contenedores detenidos, reconecta alice con bob y mina un bloque si los nodos no están sincronizados. Lo necesito después de reiniciar Docker o Polar: el canal sigue abierto, pero queda inactivo sin la conexión entre los nodos y no se puede pagar.
 
 Uso LNbits en `http://127.0.0.1:5001/`, conectado mediante LndRestWallet al nodo bob en `https://127.0.0.1:8082`. El lanzador comprueba regtest, certificado TLS y macaroon. Puedo revisar la conexión sin iniciar el servicio con `--check-only` y ajustar el nodo con `--endpoint` y `--node-folder`.
 
@@ -751,3 +756,7 @@ Marqué 157 plantillas con un script que lee los tokens de Django y el estado de
 Pasaron 597 pruebas, incluidas diez nuevas en `core/test_i18n.py`, Ruff, `manage.py check` y la revisión de migraciones. Recorrí 220 páginas en inglés con un rastreador local como visitante, estudiante y educador y corregí lo que seguía en español; quedan textos de educadores, avisos guardados y facturas creadas en español. En el navegador comprobé el cambio de idioma, una ficha, una lección con su cuerpo marcado como español y la consola sin errores. Una persona nativa no ha revisado la traducción.
 
 Después uní `feat/bilingue-es-en` a `main`. Los conflictos venían de la limpieza de `7ce718d`: conservé sus docstrings y los `from None` junto con las cadenas marcadas para traducir. Al extraer los textos de nuevo solo cambiaron las referencias de línea de los `.po`; siguen traducidos todos. `check-platform.ps1` pasó completo: 597 pruebas, Ruff, `manage.py check`, migraciones y controles de concurrencia.
+
+<a id="arranque-regtest-2026-11-03"></a>
+
+El pago dejó de funcionar en regtest: el comercio mostraba «No pudimos preparar el pago» y «No pudimos comprobar el pago». Encontré dos causas. LNbits regtest no estaba iniciado en el puerto 5001 y, tras un reinicio de los contenedores de Polar, alice y bob habían perdido la conexión, de modo que el canal seguía abierto pero inactivo. Reconecté los nodos, miné un bloque e inicié LNbits; un pago de 10 sats de alice a bob se completó. Para no repetirlo, `dev.ps1` ahora lee el modo de `commerce.env` y, en regtest, ejecuta el nuevo `src/scripts/prepare-polar.ps1` antes de iniciar LNbits regtest y Django. También guardé los dos scripts con BOM para que Windows PowerShell 5.1 muestre bien las tildes. Lo probé con una copia en el puerto 8010: los tres servicios arrancaron, LNbits creó una factura `lnbcrt` y al detener Django se detuvo LNbits. No probé el modo FakeWallet tras el cambio; su recorrido es el mismo que antes.
