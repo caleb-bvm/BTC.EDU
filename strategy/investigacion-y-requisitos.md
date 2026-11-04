@@ -697,7 +697,7 @@ Conservar contenido gratuito y muestras junto con compras individuales como hip�
 
 Compras repetidas: probar biblioteca/continuación y descubrimiento pertinente, sin recompras. La regla provisional de compra conjunta parcialmente adquirida sigue vigente y debe observarse en sesiones. No introduce descuentos, fondos reales, publicidad, comisiones o cobros automáticos.
 
-Pendientes: participantes, aceptación de precios, producción autorizada de catálogo, disponibilidad de servicios y presupuesto operativo. Estas condiciones impiden una recomendación comercial definitiva.
+Pendientes: participantes, aceptación de precios, producción autorizada de catálogo, disponibilidad de servicios y presupuesto operativo. Estas condiciones impiden una recomendación comercial definitiva. Los escenarios de infraestructura y punto de equilibrio del 3 de noviembre están en [operación y sostenibilidad](19-recomendacion-y-entrega-final.md#operacion-y-sostenibilidad); no incluyen personas ni nodo Lightning.
 
 <a id="16-validacion-con-usuarios"></a>
 

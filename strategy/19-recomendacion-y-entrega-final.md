@@ -132,7 +132,7 @@ Lightning contempla comisiones y liquidez. La integración elegida necesitará s
 
 También debemos estimar consumo después de comprar. Cloudflare Stream ofrece una referencia de almacenamiento por minutos y entrega por reproducciones. Con sus tarifas, mil minutos almacenados y seis mil entregados al mes sumarían USD 11 por esos conceptos. No incluye toda la operación ni implica elegir ese servicio. [Cloudflare Stream](https://developers.cloudflare.com/stream/pricing/).
 
-El acceso permanente exige presupuestar entrega futura y conservación de versiones. La estimación completa de sostenibilidad sigue pendiente.
+El acceso permanente exige presupuestar entrega futura y conservación de versiones. Los escenarios de infraestructura y punto de equilibrio están en [operación y sostenibilidad](#operacion-y-sostenibilidad); el costo de las personas y del nodo Lightning sigue sin estimar.
 
 ### Muestras
 
@@ -230,7 +230,7 @@ Cada indicador necesita fuente, intervalo y denominador; si este es cero se most
 
 ### Operación
 
-El creador mantiene materiales propios; la administración revisa publicaciones y atiende incidencias. Business investiga necesidades y condiciones comerciales; Dev construye y verifica el sistema. La estimación deberá asignar responsables y recursos para revisión editorial, almacenamiento, respaldo/restauración, correo, conciliación y soporte. Las tarifas externas orientan escenarios, sin constituir un presupuesto completo ni ingresos previstos.
+El creador mantiene materiales propios; la administración revisa publicaciones y atiende incidencias. Business investiga necesidades y condiciones comerciales; Dev construye y verifica el sistema. Los responsables, la infraestructura, los costos, el mantenimiento y las etapas están en [operación y sostenibilidad](#operacion-y-sostenibilidad).
 
 ## Desarrollo
 
@@ -432,9 +432,77 @@ La integración de conversaciones en lecciones pasó 57 pruebas de lecciones, co
 
 ### Organización y próximos pasos
 
-Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar presupuesto, correo, instalación de la conciliación como servicio y procedimientos para operación pública. La membresía con renovación manual ya está implementada; la comunidad por versión permite conversar y moderar con historial. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
+Caleb continúa con Business y Dev. El requisito oficial de cuatro integrantes requiere aclaración con CUBO+. Las siguientes tareas son preparar contenido y derechos comprobados, manuales y demostración; ejecutar validación con personas y completar el presupuesto con el costo de las personas y del nodo, correo, instalación de la conciliación como servicio y procedimientos para operación pública. La membresía con renovación manual ya está implementada; la comunidad por versión permite conversar y moderar con historial. El estado actual se mantiene separado de la bitácora y de los resultados externos todavía inexistentes.
 
 La verificación de correo, las preferencias de avisos y la solicitud de revisar una suspensión de cuenta ya tienen recorridos implementados. La entrega real de correo y sus procedimientos deben comprobarse antes de operar públicamente. Marcar respuestas como solución y las apelaciones sobre moderación de conversaciones permanecen como ampliaciones por diseñar y verificar.
+
+<a id="operacion-y-sostenibilidad"></a>
+
+## Operación y sostenibilidad
+
+Esta sección describe cómo operaría BTC.EDU al salir del entorno local y cuánto costaría sostenerla. Las cifras son escenarios construidos con tarifas publicadas; no son un presupuesto contratado ni una previsión de ingresos.
+
+### Responsabilidades
+
+| Rol | Tareas | Herramientas implementadas |
+|---|---|---|
+| Administración y revisión editorial | Aprobar creadores, revisar cada versión antes de publicarla, moderar reportes, decidir reembolsos y resolver incidencias de pago | Administración de Django, revisión de versiones, bandeja de reportes, Reembolsos, evidencia de pagos |
+| Educadores | Preparar y actualizar sus cursos, responder preguntas privadas, revisar prácticas y moderar las conversaciones de sus cursos | Estudio del educador, versiones, Alumnos → Entregas, Ventas |
+| Operación técnica | Desplegar, actualizar dependencias, respaldar y restaurar, mantener el nodo Lightning y supervisar la conciliación | `check-platform.ps1`, `reconcile_payments --watch`, migraciones con respaldo previo |
+| Soporte | Atender a estudiantes con pagos vencidos, acceso o cuentas | Ayuda contextual, estado de factura, exportación de cuenta |
+
+Hoy una sola persona cubre Business y Dev. Un piloto público necesita, como mínimo, una persona responsable de la revisión editorial y otra de la operación técnica y los pagos, aunque sean dedicaciones parciales. El tiempo que exige cada rol todavía no está medido; lo registraremos durante el piloto.
+
+### Infraestructura y costos
+
+Antes de abrir al público hacen falta: un servidor con HTTPS, correo con entrega comprobada, respaldos fuera del servidor con restauración ensayada, un nodo Lightning con liquidez de entrada, la conciliación instalada como servicio supervisado y almacenamiento para los archivos privados. Los cursos actuales usan texto y videos externos de YouTube, por lo que un piloto puede empezar sin alojamiento de video propio.
+
+Tarifas consultadas el 3 de noviembre de 2026, en USD por mes:
+
+| Componente | Referencia | Piloto mínimo | Operación inicial |
+|---|---|---:|---:|
+| Servidor | [DigitalOcean](https://www.digitalocean.com/pricing/droplets) Basic: 2 GiB, 1 vCPU, 50 GiB, 2 000 GiB de transferencia | 12.00 | 12.00 |
+| Respaldo diario del servidor | DigitalOcean: 30 % del precio del servidor | 3.60 | 3.60 |
+| Copia externa de base y archivos | [Backblaze B2](https://www.backblaze.com/cloud-storage/pricing): USD 6.95 por TB; 10 GB gratuitos; 50 GB | 0.28 | 0.28 |
+| Correo | [Postmark](https://postmarkapp.com/pricing): 100 correos gratuitos o USD 15 por 10 000 | 0.00 | 15.00 |
+| Video propio | [Cloudflare Stream](https://developers.cloudflare.com/stream/pricing/): 1 000 minutos almacenados y 6 000 entregados | 0.00 | 11.00 |
+| **Total sin nodo ni personas** | | **15.88** | **41.88** |
+
+El nodo Lightning queda fuera del total. [Voltage](https://voltage.cloud/pricing) no publica una tarifa fija y pide cotización. La alternativa es operar LND propio, lo que exige un servidor mayor, conocimientos de operación y capital inmovilizado en canales para recibir pagos. Recibir en un nodo propio no cobra comisión al comercio, pero la liquidez tiene un costo de oportunidad y su gestión requiere tiempo. El dominio, la revisión legal y el tiempo de las personas tampoco están incluidos.
+
+### Ingresos y punto de equilibrio
+
+Los precios del catálogo son hipótesis: cursos de 120 a 3 600 sats (1 140 de promedio en la base local), lecciones de 50 a 450 sats y una membresía de 5 000 sats por 30 días. El MVP no cobra comisión a los educadores. Por eso calculamos dos casos: el contenido editorial de BTC.EDU, cuyas ventas quedan completas para la plataforma, y una comisión ilustrativa del 20 % sobre ventas de otros educadores. Como el precio de bitcoin varía, mostramos tres tipos de cambio supuestos, no cotizaciones.
+
+Ventas mensuales necesarias solo para cubrir la infraestructura:
+
+| 1 BTC en USD | Piloto mínimo, ventas propias | Operación inicial, ventas propias | Operación inicial, comisión del 20 % |
+|---:|---:|---:|---:|
+| 60 000 | 26 500 sats | 69 800 sats | 349 000 sats |
+| 80 000 | 19 800 sats | 52 300 sats | 261 700 sats |
+| 100 000 | 15 900 sats | 41 900 sats | 209 400 sats |
+
+Con 1 BTC a USD 80 000, la operación inicial necesita unas 11 membresías o 46 cursos de precio medio al mes si todo el contenido es propio. Con una comisión del 20 % sobre otros educadores, necesita alrededor de 230 cursos vendidos. Estas cifras no incluyen remuneración a educadores ni el tiempo de revisión, soporte y operación, que será el costo principal.
+
+La conclusión es que los precios actuales sirven para demostrar micropagos, pero no alcanzan para sostener una operación con personas remuneradas sin un volumen que todavía no hemos comprobado. Los precios, la comisión y el reparto de la membresía deben definirse con la validación de compradores y educadores.
+
+### Mantenimiento
+
+**Contenido.** Cada curso tiene un educador o el equipo editorial como responsable. Las correcciones se publican como una versión nueva y la revisión editorial conserva las compras y el avance anteriores. Proponemos revisar cada trimestre que los videos externos siguen permitiendo la inserción, que las fuentes responden y que los ejemplos siguen funcionando con las versiones de software citadas.
+
+**Software.** Django 5.2 es una versión LTS y las dependencias están fijadas en `uv.lock`. Cada actualización se prueba con `check-platform.ps1` antes de desplegarla, y cada migración se aplica después de respaldar la base.
+
+**Pagos.** `reconcile_payments` debe funcionar como servicio con reinicio automático y alertas. Administración revisa a diario las incidencias de pago y las solicitudes de reembolso, que el estudiante puede presentar durante siete días.
+
+**Datos.** Respaldo diario de la base y de los archivos privados, con una copia fuera del servidor y una restauración ensayada cada mes. Esta restauración todavía no se ha ensayado.
+
+### Etapas
+
+1. **Validación en local:** sesiones con estudiantes y educadores sobre la versión actual, con FakeWallet o regtest. Costo de infraestructura nulo.
+2. **Piloto público reducido:** un servidor, educadores invitados y pagos reales de importe bajo. Requiere HTTPS, correo, respaldos ensayados, nodo con liquidez, revisión legal de los reembolsos y acuerdos con los educadores.
+3. **Ampliación:** comisión y liquidación a educadores, reparto de la membresía, más categorías con revisores especializados y una base de datos para mayor concurrencia si el uso lo exige.
+
+Pasar de una etapa a la siguiente depende de la evidencia de la anterior, no de una fecha.
 
 ## A dónde queremos llegar
 
@@ -474,7 +542,7 @@ Quedan fuera de esta etapa la entrada con Lightning (LNURL-auth), que exige un d
 
 Preparar reclutamiento y consentimiento; ejecutar entrevistas y tareas con la versión identificada; analizar dificultades y objeciones; comprobar los cambios relevantes.
 
-Contrastar rangos de precio con costos y preparar escenarios de sostenibilidad. Preparar la demostración y los manuales de la entrega esencial; completar operación y especificaciones de las ampliaciones pendientes. Extender analítica solo cuando los nuevos eventos tengan reglas y utilidad definidas.
+Contrastar los rangos de precio que surjan de la validación con los [escenarios de sostenibilidad](#operacion-y-sostenibilidad), cotizar el nodo Lightning y estimar el tiempo de cada rol. Preparar la demostración y los manuales de la entrega esencial; completar operación y especificaciones de las ampliaciones pendientes. Extender analítica solo cuando los nuevos eventos tengan reglas y utilidad definidas.
 
 Actualizar el documento con cada entrega, vinculando decisiones y resultados a sus evidencias reales.
 
@@ -488,7 +556,7 @@ Mantendremos las conclusiones comerciales como provisionales hasta reunir esa ev
 
 ## Referencias
 
-Las fuentes externas se enlazan junto a las afirmaciones que sustentan. Los precios y condiciones de la investigación de costos conservan la consulta del 5 de octubre de 2026; deben revisarse antes de contratar. La comparación de posicionamiento se amplió el 13 de octubre de 2026 con documentación oficial de las plataformas, sin compras ni pruebas de sus recorridos. El detalle y las hipótesis están en [posicionamiento y validación](investigacion-y-requisitos.md#posicionamiento-y-validacion).
+Las fuentes externas se enlazan junto a las afirmaciones que sustentan. Los precios y condiciones de la investigación de costos conservan la consulta del 5 de octubre de 2026; las tarifas de operación y sostenibilidad se consultaron el 3 de noviembre de 2026. Todas deben revisarse antes de contratar. La comparación de posicionamiento se amplió el 13 de octubre de 2026 con documentación oficial de las plataformas, sin compras ni pruebas de sus recorridos. El detalle y las hipótesis están en [posicionamiento y validación](investigacion-y-requisitos.md#posicionamiento-y-validacion).
 
 Los documentos originales de CUBO+ definen el reto y la evaluación. La investigación funcional, las decisiones y los registros técnicos del proyecto conservan el detalle y los límites de cada entrega.
 
