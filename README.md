@@ -12,6 +12,7 @@ Plataforma educativa con micropagos Lightning: cursos, lecciones, tutoriales y r
 [![LNbits](https://img.shields.io/badge/LNbits-1.6.2-FF1EE6)](https://lnbits.com/)
 [![Polar](https://img.shields.io/badge/Polar-regtest-F7931A?logo=bitcoin&logoColor=white)](https://lightningpolar.com/)
 [![CUBO+](https://img.shields.io/badge/CUBO%2B-El%20Salvador-0047AB)](docs/)
+[![Google Docs](https://img.shields.io/badge/Google%20Docs-documentación-4285F4?logo=googledocs&logoColor=white)](https://docs.google.com/document/d/1b4Qj0IjLMwP3caenyG-pR5oVR80bLpuVj9lokPliby4/edit?usp=sharing)
 </div>
 
 ---
@@ -78,6 +79,7 @@ El script descarga `uv`, Python 3.12, las dependencias y LNbits dentro de `src/.
 
 | | Documento | Para qué |
 |---|---|---|
+| 📄 | [Documento en Google Docs](https://docs.google.com/document/d/1b4Qj0IjLMwP3caenyG-pR5oVR80bLpuVj9lokPliby4/edit?usp=sharing) | Documentación del proyecto con diagramas y tablas; solo lectura |
 | 📘 | [Informe](strategy/01-informe.md) | Idea, investigación, objetivos, desarrollo, logros y manual de uso |
 | 🗂️ | [Índice de strategy](strategy/README.md) | Requisitos, investigación, producto, arquitectura, catálogo y validación |
 | 🛠️ | [Guía técnica](src/README.md) | Instalación, arquitectura, lógica de compra y comprobaciones |
