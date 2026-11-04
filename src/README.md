@@ -149,6 +149,6 @@ Es un entorno local: no tiene despliegue con HTTPS, correo con entrega comprobad
 ## Documentación
 
 - [Informe principal](../strategy/01-informe.md): idea, investigación, producto, desarrollo y próximos pasos.
-- [Investigación y requisitos](../strategy/README.md): fuentes, costos, validación pendiente, criterios y decisiones.
+- [Índice de strategy](../strategy/README.md): requisitos, investigación, producto, arquitectura, catálogo, validación y decisiones, numerados en orden de lectura.
 - [Operación y bitácora](docs/operacion-y-bitacora.md): operación detallada, decisiones, pendientes y registro por día.
 - Originales de CUBO+ en `../docs`.
