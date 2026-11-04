@@ -623,7 +623,7 @@ Las fuentes externas se enlazan junto a las afirmaciones que sustentan. Los prec
 
 Los documentos originales de CUBO+ definen el reto y la evaluación. La investigación funcional, las decisiones y los registros técnicos del proyecto conservan el detalle y los límites de cada entrega.
 
-La bitácora y los anexos reunirán las evidencias de desarrollo, instrumentos y resultados reales. El enlace al Google Doc y la validación con participantes siguen pendientes de incorporar.
+La bitácora y los anexos reunirán las evidencias de desarrollo, instrumentos y resultados reales. La versión para Google Docs, con diagramas y tablas, está en [BTC.EDU](https://docs.google.com/document/d/1b4Qj0IjLMwP3caenyG-pR5oVR80bLpuVj9lokPliby4/edit). La validación con participantes sigue pendiente.
 
 
 
