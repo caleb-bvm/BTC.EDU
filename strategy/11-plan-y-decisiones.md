@@ -18,7 +18,7 @@ El objetivo anterior de cerrar desarrollo el 15 de octubre se debe revisar con e
 
 Construir según la [arquitectura vigente](05-arquitectura-de-producto.md#10-arquitectura-y-experiencia-btc-edu): primero modelo/versiones, estructura visual y descubrimiento (cursos, selector, tutoriales y recursos); cerrar cuenta, archivos protegidos, compras, inscripción y progreso básico; después panel de creador/revisión, evaluaciones/certificados, preguntas, comunidad y membresías. Accesibilidad y pruebas acompañan cada entrega. Eventos educativos después. Investigación, contenido y validación de Business avanzan en paralelo. El registro diario siguiente determina el avance vigente; el calendario y la disponibilidad todavía requieren revisión.
 
-Mentoría del 13 de octubre: demostrar el curso gratuito, una compra de contenido y protección en el servidor, junto al editor y las demás funciones que estén realmente terminadas. Revisar el plazo al completar la primera fase. Reservar los últimos días antes de la entrega para correcciones y evidencia.
+Mentoría del 13 de octubre: demostrar el curso gratuito, una compra de contenido y protección en el servidor, junto al editor y las demás funciones que estén realmente terminadas. Revisar el plazo al completar la primera fase. Reservar los últimos días antes de la entrega para correcciones y evidencia. Desde el 5 de noviembre, las sesiones con estudiantes y educadores quedan como la última etapa, después del desarrollo y la documentación pendientes.
 
 ### Estado verificado
 

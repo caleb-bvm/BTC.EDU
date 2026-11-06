@@ -110,7 +110,7 @@ Una confirmación repetida no duplica compras ni derechos. `manage.py reconcile_
 **Idiomas.** El español es el idioma de origen y usa las direcciones sin prefijo; el inglés vive bajo `/en/` (`i18n_patterns` y `LocaleMiddleware`). El botón ES/EN de la cabecera lleva a la misma página en el otro idioma y cada página declara `lang` y sus alternativas `hreflang`. Hay dos catálogos en `locale/en/LC_MESSAGES/`:
 
 - `django.po`: la interfaz. Las plantillas usan `{% translate %}` y `{% blocktranslate %}` (con `count` para los plurales), el código Python `gettext` y `gettext_lazy`, y el JavaScript recibe sus mensajes con `btcT()` desde `core/js_text.py`.
-- `content.po`: títulos, descripciones, objetivos, requisitos y resultados del catálogo propio de BTC.EDU. El filtro `|tr` y `translate_content` buscan el texto publicado; lo que escribe un educador se muestra tal como lo escribió. Los cuerpos de las lecciones siguen en español y la página los marca con `lang="es"`.
+- `content.po`: títulos, descripciones, objetivos, requisitos y resultados del catálogo propio de BTC.EDU. El filtro `|tr` y `translate_content` buscan el texto publicado; lo que escribe un educador se muestra tal como lo escribió. Los cursos no se traducen: cada uno se muestra en el idioma en que lo escribe su educador. Los cuerpos de las lecciones propias están en español y la página los marca con `lang="es"`.
 
 `manage.py translations extract` actualiza ambos `.po` desde plantillas, código y catálogos sin perder lo traducido; `translations compile` genera los `.mo` y `translations status` cuenta lo que falta. Se implementaron en Python porque el entorno no incluye las herramientas de GNU gettext; los `.mo` se versionan para que el servidor no las necesite.
 
@@ -144,7 +144,7 @@ src/
 
 ## Límites
 
-Es un entorno local: no tiene despliegue con HTTPS, correo con entrega comprobada, supervisión ni respaldo automatizado. Los pagos con FakeWallet y regtest no acreditan cobros reales. No hay liquidación automática a educadores. En inglés, los cuerpos de lecciones y tutoriales, las preguntas de evaluación y los textos guardados al crear avisos o facturas siguen en español. La propuesta, los precios y la utilidad educativa todavía no están validados con participantes.
+Es un entorno local: no tiene despliegue con HTTPS, correo con entrega comprobada, supervisión ni respaldo automatizado. Los pagos con FakeWallet y regtest no acreditan cobros reales. No hay liquidación automática a educadores. En inglés, los textos guardados al crear avisos o facturas conservan el idioma en que se crearon. La propuesta, los precios y la utilidad educativa todavía no están validados con participantes.
 
 ## Documentación
 

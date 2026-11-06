@@ -22,7 +22,7 @@ Después de comparar BTC.EDU con otras plataformas de cursos, añadí crédito p
 
 Con los 25 cursos publiqué seis rutas de aprendizaje: Bitcoin y Lightning, Desarrollo con Lightning, Backend con Python, Análisis de datos, Ciberseguridad e Infraestructura. Son senderos recomendados con pasos opcionales que se pueden saltar; los cursos se compran por separado o en un paquete con 15 % de descuento. Los educadores también pueden crear rutas con sus cursos. [Registro](#rutas-2026-10-25).
 
-BTC.EDU ya se puede usar en español e inglés. El español sigue sin prefijo y el inglés está bajo `/en/`; el botón ES/EN de la cabecera cambia de idioma en la misma página. Traduje la interfaz y las fichas del catálogo propio, pero los cuerpos de las lecciones y las preguntas siguen en español. [Registro](#ingles-2026-11-03).
+BTC.EDU ya se puede usar en español e inglés. El español sigue sin prefijo y el inglés está bajo `/en/`; el botón ES/EN de la cabecera cambia de idioma en la misma página. Traduje la interfaz y las fichas del catálogo propio. Los cursos se quedan en el idioma de su educador, porque espero educadores de otros países y no voy a traducir cada curso. [Registro](#ingles-2026-11-03), [decisión](#idioma-cursos-2026-11-05).
 
 <a id="guia-local-anterior"></a>
 
@@ -289,7 +289,7 @@ Uso el alias del estudiante en la comunidad y comparto su presentación solo si 
 
 ### Idiomas
 
-Mantengo el español como idioma de origen y uso el sistema de traducción de Django, con el inglés bajo `/en/` para que cada página tenga su propia dirección. Separo la interfaz (`locale/en/LC_MESSAGES/django.po`) del catálogo propio (`content.po`): traduzco títulos, descripciones, objetivos y resultados por su texto publicado, y lo que escribe un educador se muestra como lo escribió. No traduzco las direcciones ni guardo campos por idioma en la base, para no tocar las versiones congeladas. Escribí la extracción y compilación en Python porque el entorno no trae gettext, y versiono los `.mo`.
+Mantengo el español como idioma de origen y uso el sistema de traducción de Django, con el inglés bajo `/en/` para que cada página tenga su propia dirección. Separo la interfaz (`locale/en/LC_MESSAGES/django.po`) del catálogo propio (`content.po`): traduzco títulos, descripciones, objetivos y resultados por su texto publicado, y lo que escribe un educador se muestra como lo escribió. Solo la interfaz es bilingüe: cada curso queda en el idioma de su educador y no traduzco lecciones, tutoriales, evaluaciones ni PDF. No traduzco las direcciones ni guardo campos por idioma en la base, para no tocar las versiones congeladas. Escribí la extracción y compilación en Python porque el entorno no trae gettext, y versiono los `.mo`.
 
 ### Interfaz y métricas
 
@@ -311,6 +311,8 @@ Los paneles distinguen compras, permisos, inscripciones, finalización e intento
 
 Me falta comprobar con participantes si los nombres, la jerarquía y las imágenes de las categorías facilitan encontrar contenido. Ya hay cursos en cada categoría y modalidad, pero necesito que especialistas revisen su contenido, ejecutar los ejercicios de Blender y Figma, y contrastar su demanda y la comprensión de las tres modalidades. Por ahora uso ilustraciones integradas; la carga de portadas personalizadas sigue pendiente.
 
+Dejo las sesiones con estudiantes y educadores para el final, cuando el resto esté terminado; las validaciones con participantes de esta sección esperan a esa etapa.
+
 Necesito observar con participantes el carrito, checkout y recuperación implementados, y si el crédito para completar un conjunto se entiende. Conservé la compra de una unidad y separé pedido, factura, líneas y derechos, con reservas para evitar solapamientos. Los reembolsos con aprobación administrativa ya funcionan, pero su plazo y condiciones necesitan revisión legal; la remuneración y la liquidación siguen pendientes. Resolver automáticamente un pago observado tarde necesita evidencia fiable adicional del proveedor.
 
 Dejé fuera de esta etapa la entrada con Lightning, porque la wallet debe alcanzar un dominio público con HTTPS, el pago por minuto, la liquidación automática a educadores, el asistente de IA y el pase con créditos. Todavía no ensayé el sello contra calendarios reales, los reembolsos con una wallet ni la instalación en un teléfono.
@@ -321,7 +323,7 @@ Necesito preparar pequeñas colecciones en otras áreas con revisión especializ
 
 Necesito ensayar el recorrido completo de creador y estudiante sobre la base comprobada; la compra desde ZEUS y la confirmación ya funcionan en regtest. También debo revisar el catálogo con una persona experta, ampliar las evaluaciones y comprobar comprensión y duración con alumnos. Los precios de 120 sats por curso y 50 sats por lección siguen siendo hipótesis. Repetiré la revisión integrada al incorporar nuevas entregas.
 
-En inglés me falta traducir los cuerpos de lecciones y tutoriales, las preguntas de las evaluaciones y los PDF, y que una persona nativa revise la traducción. Los avisos y facturas guardan el texto del idioma en que se crearon. No he probado la versión en inglés con participantes.
+En inglés me falta que una persona nativa revise la traducción de la interfaz. Las lecciones marcan su texto y los subtítulos como español; cuando haya cursos en otros idiomas, cada curso necesitará declarar el suyo. Los avisos y facturas guardan el texto del idioma en que se crearon. No he probado la versión en inglés con participantes.
 
 Antes de abrir al público necesito correo con entrega comprobada, límites de abuso, despliegue con HTTPS, respaldo y restauración ensayados, supervisión de pagos y atención de incidencias. Debo definir responsables de revisión y moderación, conservación de datos y presupuesto de almacenamiento y transferencia. Las pruebas locales de concurrencia no miden capacidad para tráfico público y las revisiones visuales no constituyen una auditoría completa de accesibilidad.
 
@@ -768,3 +770,9 @@ Una consecuencia de esa caída: las facturas creadas mientras LNbits no respond�
 <a id="compra-zeus-2026-11-03"></a>
 
 Con el arranque corregido, compré desde ZEUS en el teléfono un curso completo dentro de BTC.EDU, en la interfaz en inglés: «Web application security: the OWASP Top 10:2025 in practice», 12 lecciones por 3 600 sats. ZEUS pagó desde alice la factura `lnbcrt` del checkout, el pago pasó por Polar hasta bob y LNbits regtest lo recibió. BTC.EDU mostró «Ready to learn.», el pago confirmado y el curso en My learning. En la base local la factura `6b42323e` quedó `paid` con su solicitud `lnbcrt`. Es la primera compra completa desde una wallet móvil dentro de la aplicación; antes solo había pagado a LNbits directamente. Conservo la [captura](evidence/compra-zeus-regtest-2026-11-03.webp). Son fondos de regtest; no acredita cobros reales ni la experiencia de pago de otras personas, y no abrí las lecciones después de la compra.
+
+### 5 de noviembre de 2026
+
+<a id="idioma-cursos-2026-11-05"></a>
+
+Decidí que solo la interfaz principal será bilingüe. BTC.EDU puede recibir educadores de cualquier país, así que cada curso se muestra en el idioma en que lo escribe su educador y no voy a traducir lecciones, tutoriales, evaluaciones ni PDF. Retiré esa traducción de los pendientes; queda la revisión nativa de la interfaz. También dejé las sesiones con estudiantes y educadores como la última etapa. No cambié código.
