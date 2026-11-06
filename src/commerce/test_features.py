@@ -398,3 +398,45 @@ class ConsumerClaimTests(FeatureFixture):
         self.assertEqual(data["refunds"][0].reason, "No era el nivel que buscaba")
         self.client.force_login(self.creator)
         self.assertContains(self.client.get(reverse("creator-analytics")), "Reembolsos y reclamos")
+
+
+@override_settings(LNBITS_REFUND_KEY="refund-key")
+class GiftRefundTests(FeatureFixture):
+    def test_unredeemed_gift_is_refundable_and_its_link_stops_working(self):
+        invoice = self.paid(self.direct(self.bundle, gift=True))
+        gift = Gift.objects.get()
+        self.assertEqual(refund_blocker(invoice, self.student), "")
+        refund = request_refund(self.student, invoice.pk, "", INVOICE_150)
+        self.assertEqual(refund.reason, "")
+        with self.assertRaises(ValidationError):
+            redeem_gift(self.other, gift.token)
+        reject_refund(self.admin, refund, "El regalo se puede canjear de nuevo.")
+        redeem_gift(self.other, gift.token)
+
+    def test_redeemed_gift_is_not_refundable(self):
+        invoice = self.paid(self.direct(self.bundle, gift=True))
+        redeem_gift(self.other, Gift.objects.get().token)
+        invoice = Invoice.objects.get(pk=invoice.pk)
+        self.assertIn("canjeado", refund_blocker(invoice, self.student))
+        self.assertIn("canjeado", refund_blocker(invoice, self.student, claim=True))
+
+    def test_withdrawal_needs_no_reason_but_a_claim_does(self):
+        invoice = self.pay(self.bundle)
+        response = self.client.post(reverse("refund-request", args=[invoice.pk]), {"reason": "", "payment_request": INVOICE_150})
+        self.assertRedirects(response, reverse("invoice-detail", args=[invoice.pk]), fetch_redirect_response=False)
+        self.client.force_login(self.admin)
+        self.assertContains(self.client.get(reverse("refund-review", args=[Refund.objects.get().pk])), "no requiere justificación")
+        from .refunds import valid_request
+        self.assertEqual(valid_request("", INVOICE_150, 150)[0], "")
+        with self.assertRaises(ValidationError):
+            valid_request("corto", INVOICE_150, 150, claim=True)
+
+    def test_admin_home_lists_open_requests_with_their_deadline(self):
+        invoice = self.pay(self.bundle)
+        refund = request_refund(self.student, invoice.pk, "", INVOICE_150)
+        self.client.force_login(self.admin)
+        response = self.client.get(reverse("admin:index"))
+        self.assertContains(response, "1 solicitud de reembolso por responder.")
+        self.assertContains(response, f"{refund.respond_by:%d/%m/%Y}")
+        approve_refund(self.admin, refund, "", PayingGateway())
+        self.assertNotContains(self.client.get(reverse("admin:index")), "por responder")

@@ -452,7 +452,7 @@ class MembershipPayment(LightningPayment):
 
 
 class Refund(models.Model):
-    """Refund request for a paid invoice and its Lightning payout."""
+    """Refund request for a paid invoice or membership period and its Lightning payout."""
     class Status(models.TextChoices):
         REQUESTED = "requested", gettext_lazy("Solicitada")
         PAYING = "paying", gettext_lazy("Pago en curso")
@@ -471,11 +471,12 @@ class Refund(models.Model):
     RESPONSE_DAYS = 15
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    invoice = models.OneToOneField(Invoice, on_delete=models.PROTECT, related_name="refund")
+    invoice = models.OneToOneField(Invoice, on_delete=models.PROTECT, related_name="refund", null=True, blank=True)
+    membership_payment = models.OneToOneField(MembershipPayment, on_delete=models.PROTECT, related_name="refund", null=True, blank=True)
     kind = models.CharField(gettext_lazy("tipo"), max_length=12, choices=Kind, default=Kind.WITHDRAWAL)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="refunds")
     amount_sats = models.PositiveIntegerField()
-    reason = models.TextField(max_length=1000)
+    reason = models.TextField(max_length=1000, blank=True)
     payment_request = models.TextField()
     status = models.CharField(max_length=12, choices=Status, default=Status.REQUESTED)
     decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True, related_name="refund_decisions")
@@ -488,13 +489,28 @@ class Refund(models.Model):
     class Meta:
         ordering = ("-created_at",)
         permissions = [("decide_refund", gettext_lazy("Aprobar o rechazar reembolsos"))]
+        constraints = [models.CheckConstraint(condition=models.Q(invoice__isnull=False, membership_payment__isnull=True)
+                                              | models.Q(invoice__isnull=True, membership_payment__isnull=False), name="refund_exactly_one_payment")]
 
     def save(self, *args, **kwargs):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
-            if any(getattr(self, field) != getattr(original, field) for field in ("invoice_id", "buyer_id", "kind", "amount_sats", "reason", "payment_request")):
+            if any(getattr(self, field) != getattr(original, field) for field in ("invoice_id", "membership_payment_id", "buyer_id", "kind", "amount_sats", "reason", "payment_request")):
                 raise ValidationError(gettext("La solicitud conserva su factura, importe y destino."))
         return super().save(*args, **kwargs)
+
+    @property
+    def title(self):
+        if self.invoice_id:
+            return self.invoice.title
+        return gettext("Membresía · %(plan)s") % {"plan": self.membership_payment.plan.name}
+
+    @property
+    def purchase_url(self):
+        from django.urls import reverse
+        if self.invoice_id:
+            return reverse("invoice-detail", args=[self.invoice_id])
+        return reverse("membership-payment", args=[self.membership_payment_id])
 
     @property
     def is_claim(self):

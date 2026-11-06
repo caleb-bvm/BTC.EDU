@@ -194,3 +194,27 @@ def health(request):
     except DatabaseError:
         return JsonResponse({"status": "unavailable"}, status=503)
     return JsonResponse({"status": "ok"})
+
+
+def legal_context(active):
+    from datetime import date
+
+    from django.conf import settings
+
+    from commerce.models import Refund
+    labels = {"name": gettext("Razón social"), "nit": gettext("NIT"), "address": gettext("Dirección"),
+              "phone": gettext("Teléfono"), "email": gettext("Correo")}
+    provider = [(labels[field], value) for field, value in settings.LEGAL_PROVIDER.items() if value]
+    return {"provider": provider, "effective": date.fromisoformat(settings.LEGAL_TERMS_EFFECTIVE), "legal_page": active,
+            "refund_days": settings.COMMERCE_REFUND_DAYS, "response_days": Refund.RESPONSE_DAYS}
+
+
+@require_GET
+def terms(request):
+    return render(request, "core/terms.html", legal_context("terms"))
+
+
+@require_GET
+def refund_policy(request):
+    return render(request, "core/refund_policy.html", legal_context("refunds"))
+

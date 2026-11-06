@@ -114,6 +114,10 @@ LNBITS_ADMIN_TOKEN = os.getenv("LNBITS_ADMIN_TOKEN") or _commerce_private.get("L
 # Admin key of the receiving wallet; without it refunds stay pending for manual review.
 LNBITS_REFUND_KEY = os.getenv("LNBITS_REFUND_KEY") or _commerce_private.get("LNBITS_REFUND_KEY", "")
 COMMERCE_REFUND_DAYS = 8
+# Seller identity shown on the terms page, as the consumer protection law requires (art. 21-A).
+LEGAL_PROVIDER = {field: os.getenv(f"LEGAL_PROVIDER_{field.upper()}", "") for field in ("name", "nit", "address", "phone", "email")}
+# Date from which the published terms and refund policy apply; change it with every new version.
+LEGAL_TERMS_EFFECTIVE = "2026-11-06"
 # Certificate fingerprints can be stamped in Bitcoin through public OpenTimestamps calendars.
 CERTIFICATE_TIMESTAMPS = os.getenv("CERTIFICATE_TIMESTAMPS", "false").lower() == "true" and not TESTING
 CERTIFICATE_OTS_CALENDARS = [url for url in os.getenv("CERTIFICATE_OTS_CALENDARS", "https://a.pool.opentimestamps.org,https://b.pool.opentimestamps.org").split(",") if url]

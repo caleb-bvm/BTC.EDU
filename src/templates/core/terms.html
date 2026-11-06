@@ -1,0 +1,62 @@
+{% extends 'academy.html' %}
+{% block title %}{% translate "Términos y condiciones · BTC.EDU" %}{% endblock %}
+{% block academy_content %}
+<article class="learning-page legal-page">
+  <header class="page-heading"><div><p class="eyebrow">{% translate "CONDICIONES" %}</p><h1>{% translate "Términos y condiciones" %}</h1><p>{% blocktranslate with effective=effective|date:'d/m/Y' %}Vigentes desde el {{ effective }}.{% endblocktranslate %} <a class="text-link" href="{% url 'refund-policy' %}">{% translate "Política de reembolsos →" %}</a></p></div></header>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Quién presta el servicio" %}</h2>
+    <p>{% translate "BTC.EDU vende el acceso a los cursos, tutoriales, recursos y membresías de esta plataforma y responde ante ti por cada compra." %}</p>
+    {% if provider %}<dl class="legal-provider">{% for label, value in provider %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>{% endif %}
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Tu cuenta" %}</h2>
+    <p>{% translate "Necesitas una cuenta de estudiante para comprar y guardar tu avance. Cuida tu contraseña. Desde Mi cuenta puedes descargar tus datos o desactivar la cuenta." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Qué compras" %}</h2>
+    <p>{% translate "Una compra individual te da acceso permanente a la versión del curso, capítulo, lección o recurso que adquiriste. Si el educador publica una versión nueva, conservas la tuya." %}</p>
+    <p>{% translate "La membresía abre las lecciones de pago de los cursos incluidos durante el periodo pagado. No se renueva sola: cada periodo es un pago nuevo." %}</p>
+    <p>{% translate "Si regalas contenido, el acceso es para quien canjea el enlace. Las propinas son voluntarias y no compran contenido." %}</p>
+    <p>{% translate "Antes de pagar ves cada línea del pedido, los descuentos y el total. La factura conserva ese detalle después del pago." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Precios y pago" %}</h2>
+    <p>{% translate "Los precios están en sats y se pagan con una factura Lightning que vence a los pocos minutos. El acceso se habilita al confirmarse el pago. Si un pago no se puede confirmar, conservamos su evidencia y lo resolvemos contigo desde la ayuda de tu cuenta." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Reembolsos" %}</h2>
+    <p>{% blocktranslate with refund_days=refund_days %}Tienes {{ refund_days }} días para pedir el reembolso de una compra y puedes reportar en cualquier momento un contenido que no funciona o no corresponde a lo ofrecido.{% endblocktranslate %} <a class="text-link" href="{% url 'refund-policy' %}">{% translate "Consulta la política completa." %}</a></p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Contenido y educadores" %}</h2>
+    <p>{% translate "Los educadores preparan el contenido y responden por su exactitud y por los derechos sobre sus materiales. BTC.EDU revisa cada versión antes de publicarla." %}</p>
+    <p>{% translate "Usa el contenido para tu aprendizaje; no lo redistribuyas sin permiso de su educador. Los certificados acreditan que completaste los requisitos de una versión y no son títulos oficiales." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Comunidad" %}</h2>
+    <p>{% translate "Las preguntas y comentarios deben respetar a las demás personas. Cuando se reporta un abuso podemos ocultar mensajes o suspender la escritura, con un motivo registrado." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Tus datos" %}</h2>
+    <p>{% translate "Usamos tus datos para darte acceso, procesar pagos y acompañar tu aprendizaje. No los compartimos con terceros ajenos a la compra sin tu autorización, salvo requerimiento de una autoridad competente. Conservamos la prueba de cada compra durante diez años." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Reclamos" %}</h2>
+    <p>{% translate "Escríbenos desde la ayuda de tu cuenta o a los datos de contacto indicados arriba. También puedes acudir a la Defensoría del Consumidor; nada en estos términos limita ese derecho." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Cambios" %}</h2>
+    <p>{% translate "Si cambiamos estos términos, publicaremos la nueva versión con su fecha y se aplicará a las compras posteriores. Lo que ya compraste conserva las condiciones con que lo compraste. Estos términos se rigen por las leyes de El Salvador." %}</p>
+  </section>
+</article>
+{% endblock %}

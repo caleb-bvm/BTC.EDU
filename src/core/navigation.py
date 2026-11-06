@@ -56,10 +56,10 @@ def contextual_navigation(request):
         selected = "members" if route == "member-profile" else "community-spaces" if route.startswith("community-") else route
     elif route in {"notifications", "notification-read", "notifications-read-all"}:
         context, selected, primary = "notifications", "notifications", ""
-    elif route in {"offer-detail", "checkout", "purchases", "direct-checkout", "path-checkout", "refund-request", "gift-detail", "student-tips"} or route.startswith(("invoice-", "cart", "tip-")):
+    elif route in {"offer-detail", "checkout", "purchases", "direct-checkout", "path-checkout", "refund-request", "refund-claim", "gift-detail", "student-tips"} or route.startswith(("invoice-", "cart", "tip-")):
         context, primary = "payments", "purchases"
         selected = ("cart" if route.startswith("cart") or route in {"direct-checkout", "path-checkout"} else "student-tips" if route == "student-tips" or route.startswith("tip-")
-                    else "purchases" if route in {"purchases", "refund-request", "gift-detail"} or route.startswith("invoice-") else "")
+                    else "purchases" if route in {"purchases", "refund-request", "refund-claim", "gift-detail"} or route.startswith("invoice-") else "")
     elif route == "student-profile" or route.startswith("student-account"):
         context, primary = "account", ""
         selected = "student-account-security" if route.endswith(("security", "password", "email", "sessions", "verify")) else "student-profile" if route == "student-profile" else "student-account"
@@ -80,7 +80,7 @@ def contextual_navigation(request):
         context, primary = "course", "courses"
     elif route == "creators":
         primary = "creators"
-    elif route == "creator-public-profile":
+    elif route in {"creator-public-profile", "terms", "refund-policy"}:
         context, selected, primary = "catalog", "", ""
     elif route.startswith("creator-") or route in {"offer-review", "refund-review"}:
         if route == "creator-application" or route.startswith("creator-account"):

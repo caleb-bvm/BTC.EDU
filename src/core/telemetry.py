@@ -59,11 +59,14 @@ def record_commerce_action(request, kind, object_key, offer=None, invoice=None):
 
 def content_opened(request, resource, version=None):
     """Record that a resource or lesson was opened."""
-    from content.access import owns_revision
+    from content.access import membership_covers, owns_revision
     if owns_revision(request.user, resource.pk):
         kind = "purchased_content_opened"
     elif resource.access_type == "free":
         kind = "free_content_opened"
+    elif version is not None and membership_covers(request.user, version):
+        # Opening included content uses the period and ends the right to withdraw from it.
+        kind = "membership_content_opened"
     else:
         return
     record_activity(request, kind, resource=resource, creator_id=resource.creator_id, version=version)

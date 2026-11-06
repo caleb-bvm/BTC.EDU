@@ -215,6 +215,12 @@ msgid_plural "%(counter)s resultados"
 msgstr[0] "%(counter)s result"
 msgstr[1] "%(counter)s results"
 
+#: templates/admin/index.html:1
+msgid "%(counter)s solicitud de reembolso por responder."
+msgid_plural "%(counter)s solicitudes de reembolso por responder."
+msgstr[0] "%(counter)s refund request awaiting an answer."
+msgstr[1] "%(counter)s refund requests awaiting an answer."
+
 #: commerce/catalog.py:74
 msgid "%(course)s / %(chapter)s · capítulo"
 msgstr "%(course)s / %(chapter)s · chapter"
@@ -559,6 +565,10 @@ msgstr "Open any membership course."
 msgid "Abre el pago o escanea el QR para pagar. Después, actualiza el estado de esta misma factura."
 msgstr "Open the payment or scan the QR code to pay. Then refresh the status of this same invoice."
 
+#: templates/core/refund_policy.html:24
+msgid "Abre la compra en tu historial de compras, o el pago en Membresía, y elige Solicitar reembolso o Reportar un problema con esta compra. Pega una factura Lightning de tu wallet por el importe exacto."
+msgstr "Open the purchase in your purchase history, or the payment in Membership, and choose Request a refund or Report a problem with this purchase. Paste a Lightning invoice from your wallet for the exact amount."
+
 #: templates/learning/_questions.html:4
 msgid "Abre una lección y usa «Preguntar al educador» para pedir ayuda de forma privada."
 msgstr "Open a lesson and use “Ask the educator” to get help privately."
@@ -807,7 +817,7 @@ msgstr "Administration"
 msgid "ADMINISTRACIÓN / REEMBOLSOS"
 msgstr "ADMINISTRATION / REFUNDS"
 
-#: platform_config/urls.py:82
+#: platform_config/urls.py:84
 msgid "Administración de BTC.EDU"
 msgstr "BTC.EDU administration"
 
@@ -891,6 +901,10 @@ msgstr "When you submit, the solution is recorded and you'll need to wait for th
 msgid "Al guardar volverás al editor para seleccionar el archivo."
 msgstr "After saving you'll return to the editor to select the file."
 
+#: templates/commerce/cart_checkout.html:17 templates/commerce/membership.html:25
+msgid "Al preparar el pago aceptas los <a href=\"%(terms_url)s\">términos</a>. Consulta la <a href=\"%(refunds_url)s\">política de reembolsos</a>."
+msgstr "By preparing the payment you accept the <a href=\"%(terms_url)s\">terms</a>. See the <a href=\"%(refunds_url)s\">refund policy</a>."
+
 #: templates/content/course.html:33 templates/learning/path.html:13
 msgid "Al terminar"
 msgstr "When you finish"
@@ -931,6 +945,10 @@ msgstr "before you start"
 msgid "Antes de enviar"
 msgstr "Before submitting"
 
+#: templates/core/terms.html:23
+msgid "Antes de pagar ves cada línea del pedido, los descuentos y el total. La factura conserva ese detalle después del pago."
+msgstr "Before paying you see each line of the order, the discounts and the total. The invoice keeps that detail after payment."
+
 #: templates/learning/practices.html:5
 msgid "Aparecerán cuando un educador las incluya en una versión de tus cursos."
 msgstr "They'll appear when an educator includes them in a version of your courses."
@@ -943,7 +961,7 @@ msgstr "Last name"
 msgid "Apertura tras adquirir acceso"
 msgstr "Opens once you get access"
 
-#: commerce/forms.py:40
+#: commerce/forms.py:41
 msgid "Aplica a"
 msgstr "Applies to"
 
@@ -1043,11 +1061,11 @@ msgstr "Approve submission"
 msgid "Aprobar envía el pago desde la wallet receptora. El acceso que solo concedía esta compra termina al confirmarse."
 msgstr "Approving sends the payment from the receiving wallet. Access granted only by this purchase ends once it's confirmed."
 
-#: commerce/models.py:490
+#: commerce/models.py:491
 msgid "Aprobar o rechazar reembolsos"
 msgstr "Approve or reject refunds"
 
-#: commerce/forms.py:23
+#: commerce/forms.py:24
 msgid "Aprobar oferta"
 msgstr "Approve offer"
 
@@ -1055,7 +1073,7 @@ msgstr "Approve offer"
 msgid "Aprobar ofertas revisadas"
 msgstr "Approve reviewed offers"
 
-#: commerce/forms.py:95
+#: commerce/forms.py:102
 msgid "Aprobar y pagar"
 msgstr "Approve and pay"
 
@@ -1371,6 +1389,10 @@ msgstr "BTC.EDU membership %(pk)s"
 msgid "BTC.EDU propina %(pk)s"
 msgstr "BTC.EDU tip %(pk)s"
 
+#: templates/core/terms.html:9
+msgid "BTC.EDU vende el acceso a los cursos, tutoriales, recursos y membresías de esta plataforma y responde ante ti por cada compra."
+msgstr "BTC.EDU sells access to the courses, tutorials, resources and memberships on this platform and is responsible to you for every purchase."
+
 #: templates/base.html:13
 msgid "BTC.EDU · Aprende a tu ritmo"
 msgstr "BTC.EDU · Learn at your own pace"
@@ -1507,6 +1529,10 @@ msgstr "Change subcategory"
 msgid "Cambio de correo solicitado"
 msgstr "Email change requested"
 
+#: templates/core/terms.html:58
+msgid "Cambios"
+msgstr "Changes"
+
 #: templates/creators/_content_card.html:1
 msgid "Cambios en preparación:"
 msgstr "Changes being prepared:"
@@ -1535,7 +1561,7 @@ msgstr "Redeem in my account →"
 msgid "Canjear regalo"
 msgstr "Redeem gift"
 
-#: commerce/forms.py:37
+#: commerce/forms.py:38
 msgid "Cantidad en sats"
 msgstr "Amount in sats"
 
@@ -1939,7 +1965,7 @@ msgstr "Buy chapters or lessons"
 msgid "Comprar la ruta"
 msgstr "Buy the path"
 
-#: templates/commerce/cart_checkout.html:18
+#: templates/commerce/cart_checkout.html:19
 msgid "Comprar para mí →"
 msgstr "Buy for myself →"
 
@@ -2039,7 +2065,7 @@ msgstr "Make sure the educator can open it. Don't include passwords or private k
 msgid "Comprueba también que el nombre, curso, educador, versión y fecha del documento coincidan con los que aparecen arriba."
 msgstr "Also check that the name, course, educator, version and date on the document match the ones shown above."
 
-#: core/navigation.py:15 core/navigation.py:19 learning/models.py:348 templates/accounts/_members.html:1 templates/learning/_community_spaces.html:1 templates/learning/_notifications.html:2
+#: core/navigation.py:15 core/navigation.py:19 learning/models.py:348 templates/accounts/_members.html:1 templates/core/terms.html:43 templates/learning/_community_spaces.html:1 templates/learning/_notifications.html:2
 msgid "Comunidad"
 msgstr "Community"
 
@@ -2110,6 +2136,14 @@ msgstr "With your %(credit_sats)s sats credit"
 #: content/models.py:142
 msgid "Con una membresía vigente se abren las lecciones de pago de la versión publicada."
 msgstr "An active membership opens the paid lessons of the published version."
+
+#: templates/core/refund_policy.html:5 templates/core/terms.html:5
+msgid "CONDICIONES"
+msgstr "TERMS"
+
+#: templates/academy.html:15 templates/base.html:53
+msgid "Condiciones"
+msgstr "Terms"
 
 #: templates/creators/course.html:7
 msgid "Configura evaluaciones y prácticas por lección. Define qué entregar, cómo se revisará y en qué plazo antes de publicar."
@@ -2293,6 +2327,10 @@ msgstr "Check this same request"
 msgid "Consulta la actividad de tus navegadores y cierra las sesiones que ya no necesitas."
 msgstr "See your browsers' activity and sign out of the sessions you no longer need."
 
+#: templates/core/terms.html:33
+msgid "Consulta la política completa."
+msgstr "Read the full policy."
+
 #: templates/content/lesson.html:33
 msgid "Consulta las instrucciones y los criterios para comprobar tu proyecto. La recepción de entregas está cerrada."
 msgstr "See the instructions and criteria to check your project. Submissions are closed."
@@ -2392,6 +2430,10 @@ msgstr "Published content"
 #: content/catalog.py:212
 msgid "Contenido que todavía no tiene una categoría asignada."
 msgstr "Content that doesn't have a category yet."
+
+#: templates/core/terms.html:37
+msgid "Contenido y educadores"
+msgstr "Content and educators"
 
 #: templates/creators/content.html:1
 msgid "Contenido · BTC.EDU"
@@ -2549,6 +2591,10 @@ msgstr "Fix"
 msgid "Corregir borrador →"
 msgstr "Fix draft →"
 
+#: core/views.py:206
+msgid "Correo"
+msgstr "Email"
+
 #: accounts/models.py:162
 msgid "Correo actualizado"
 msgstr "Email updated"
@@ -2605,7 +2651,7 @@ msgstr "Create sats discounts with an expiry date and usage limit for your cours
 msgid "Crea el primero con el formulario."
 msgstr "Create the first one with the form."
 
-#: commerce/forms.py:88
+#: commerce/forms.py:95
 msgid "Crea en tu wallet una factura por exactamente %(amount)s sats y pégala aquí."
 msgstr "Create an invoice in your wallet for exactly %(amount)s sats and paste it here."
 
@@ -2829,7 +2875,7 @@ msgstr "Counting from 1. For several answers, write for example 1,3."
 msgid "Cuenta desde cada entrega. El estudiante verá este plazo y los retrasos quedarán en tu bandeja."
 msgstr "Counted from each submission. The student will see this deadline and delays will appear in your inbox."
 
-#: commerce/forms.py:44
+#: commerce/forms.py:45
 msgid "Cuenta los pedidos pagados o pendientes que usan el cupón."
 msgstr "Counts the paid or pending orders that use the coupon."
 
@@ -2959,7 +3005,7 @@ msgstr "Tell us what happened"
 msgid "CÓDIGO"
 msgstr "CODE"
 
-#: commerce/forms.py:34
+#: commerce/forms.py:35
 msgid "Código"
 msgstr "Code"
 
@@ -2982,6 +3028,10 @@ msgstr "How to read the data"
 #: templates/learning/quiz_results.html:10
 msgid "Cómo interpretar una nota"
 msgstr "How to read a grade"
+
+#: templates/core/refund_policy.html:23
+msgid "Cómo pedirlo"
+msgstr "How to ask for it"
 
 #: templates/creators/dashboard.html:13
 msgid "Cómo preparar tu primera publicación"
@@ -3077,7 +3127,7 @@ msgstr "Paid"
 msgid "Decidida el %(decided_at)s"
 msgstr "Decided on %(decided_at)s"
 
-#: commerce/forms.py:23 commerce/forms.py:95 creators/forms.py:190 templates/commerce/review.html:3 templates/learning/_community_moderation.html:3
+#: commerce/forms.py:102 commerce/forms.py:24 creators/forms.py:190 templates/commerce/review.html:3 templates/learning/_community_moderation.html:3
 msgid "Decisión"
 msgstr "Decision"
 
@@ -3093,7 +3143,7 @@ msgstr "Editorial decision"
 msgid "Decisión guardada."
 msgstr "Decision saved."
 
-#: commerce/feature_views.py:262 commerce/views.py:191 creators/views.py:318
+#: commerce/feature_views.py:267 commerce/views.py:191 creators/views.py:318
 msgid "Decisión registrada."
 msgstr "Decision recorded."
 
@@ -3245,7 +3295,7 @@ msgstr "Dismiss reports"
 msgid "Descartar reportes del mensaje"
 msgstr "Dismiss the message's reports"
 
-#: commerce/forms.py:85
+#: commerce/forms.py:86
 msgid "Describe el problema"
 msgstr "Describe the problem"
 
@@ -3269,7 +3319,7 @@ msgstr "subcategory description"
 msgid "Descubrimiento"
 msgstr "Discovery"
 
-#: commerce/forms.py:38 templates/learning/path.html:48
+#: commerce/forms.py:39 templates/learning/path.html:48
 msgid "Descuento"
 msgstr "Discount"
 
@@ -3285,7 +3335,7 @@ msgstr "Bundle discount (%)"
 msgid "descuento en sats"
 msgstr "discount in sats"
 
-#: commerce/forms.py:41 core/analytics.py:24
+#: commerce/forms.py:42 core/analytics.py:24
 msgid "Desde"
 msgstr "From"
 
@@ -3321,6 +3371,10 @@ msgstr "Then you can add text lessons, with supporting videos and materials."
 msgid "Detalles preparados"
 msgstr "Details prepared"
 
+#: core/views.py:205
+msgid "Dirección"
+msgstr "Address"
+
 #: content/models.py:171
 msgid "Diseñar"
 msgstr "Design"
@@ -3348,6 +3402,10 @@ msgstr "Estimated duration"
 #: content/models.py:138
 msgid "duración estimada en minutos"
 msgstr "estimated duration in minutes"
+
+#: templates/core/refund_policy.html:12
+msgid "Durante %(refund_days)s días"
+msgstr "Within %(refund_days)s days"
 
 #: commerce/models.py:400
 msgid "días de acceso"
@@ -3425,7 +3483,7 @@ msgstr "Free or paid access is set per lesson. Offers set which content the stud
 msgid "El acceso permanente se añadirá a %(display_name)s."
 msgstr "Permanent access will be added to %(display_name)s."
 
-#: templates/commerce/cart_checkout.html:17
+#: templates/commerce/cart_checkout.html:18
 msgid "El acceso se añadirá a tu cuenta:"
 msgstr "Access will be added to your account:"
 
@@ -3527,7 +3585,7 @@ msgstr "The educator has paused submissions. You can check the history and come 
 msgid "El educador ha pausado la recepción. Puedes consultar tus entregas anteriores."
 msgstr "The educator has paused submissions. You can check your earlier submissions."
 
-#: templates/commerce/cart_checkout.html:19
+#: templates/commerce/cart_checkout.html:20
 msgid "El enlace del regalo aparecerá en esta compra cuando se confirme el pago."
 msgstr "The gift link will appear in this purchase once the payment is confirmed."
 
@@ -3615,7 +3673,7 @@ msgstr "The period may include incomplete sessions or purchases. Activity metric
 msgid "El plazo de pago terminó. Esta factura no activó acceso nuevo."
 msgstr "The payment window ended. This invoice didn't activate new access."
 
-#: commerce/refunds.py:43
+#: commerce/refunds.py:106 commerce/refunds.py:44
 msgid "El plazo de reembolso es de %(COMMERCE_REFUND_DAYS)s días desde la compra."
 msgstr "The refund window is %(COMMERCE_REFUND_DAYS)s days from the purchase."
 
@@ -3627,7 +3685,7 @@ msgstr "The expected deadline has passed; you can check your submission and wait
 msgid "El plazo se muestra al estudiante. Si necesitas ponerte al día, pausa la recepción desde la bandeja y continúa revisando las entregas recibidas. Los avisos llegan dentro de la plataforma."
 msgstr "The deadline is shown to the student. If you need to catch up, pause submissions from the inbox and keep reviewing the ones received. Notices arrive within the platform."
 
-#: commerce/forms.py:56
+#: commerce/forms.py:57
 msgid "El porcentaje máximo es 90 %."
 msgstr "The maximum percentage is 90%."
 
@@ -3783,7 +3841,7 @@ msgstr "Choose what content you offer and how much it costs. You can review what
 msgid "Elige qué necesita completar el estudiante en este recorrido."
 msgstr "Choose what the student needs to complete in this path."
 
-#: commerce/refunds.py:64
+#: commerce/refunds.py:117 commerce/refunds.py:65
 msgid "Elige qué problema tuvo la compra."
 msgstr "Choose what went wrong with the purchase."
 
@@ -3803,7 +3861,7 @@ msgstr "Choose to move up or down."
 msgid "Elige tu nombre público y explica qué puedes aportar. Tu nombre de cuenta y correo no aparecen en esta ficha."
 msgstr "Choose your public name and explain what you can contribute. Your account name and email don't appear on this profile."
 
-#: commerce/forms.py:16
+#: commerce/forms.py:17
 msgid "Elige un contenido publicado"
 msgstr "Choose published content"
 
@@ -3979,6 +4037,10 @@ msgstr "If left blank, it's chosen by topic; new topics use the learning image."
 msgid "En blanco, se elige según la categoría; las categorías nuevas usan la imagen de aprendizaje."
 msgstr "If left blank, it's chosen by category; new categories use the learning image."
 
+#: templates/core/refund_policy.html:19
+msgid "En cualquier momento puedes reportar que no pudiste acceder al contenido, que no corresponde a lo ofrecido, que tiene errores o archivos dañados, o que hubo un error en el cobro. Estos casos no dependen del plazo ni de tu avance."
+msgstr "At any time you can report that you could not access the content, that it does not match what was offered, that it has errors or damaged files, or that there was a billing error. These cases do not depend on the period or on your progress."
+
 #: learning/presentation.py:42 templates/core/workspace.html:29 templates/learning/_library_course.html:18 templates/learning/quiz.html:10 templates/learning/quiz.html:51 templates/learning/quiz_results.html:3 templates/learning/quiz_results.html:6
 msgid "En curso"
 msgstr "In progress"
@@ -4095,7 +4157,7 @@ msgstr "Sign in to the studio to prepare your content, review notes and maintain
 msgid "Entra con tu cuenta de estudiante para canjear el regalo."
 msgstr "Sign in with your student account to redeem the gift."
 
-#: commerce/membership_views.py:54 commerce/services.py:34
+#: commerce/membership_views.py:55 commerce/services.py:34
 msgid "Entra con tu cuenta de estudiante."
 msgstr "Sign in with your student account."
 
@@ -4179,7 +4241,7 @@ msgstr "Sign in to take part"
 msgid "Entrar para unirme →"
 msgstr "Sign in to join →"
 
-#: templates/commerce/cart_checkout.html:15 templates/commerce/cart_checkout.html:22
+#: templates/commerce/cart_checkout.html:15 templates/commerce/cart_checkout.html:23
 msgid "Entrar y continuar →"
 msgstr "Sign in and continue →"
 
@@ -4199,7 +4261,7 @@ msgstr "Sign in →"
 msgid "Entre 0 y 50. Con 0, cada curso se compra por separado."
 msgstr "Between 0 and 50. With 0, each course is bought separately."
 
-#: commerce/forms.py:35
+#: commerce/forms.py:36
 msgid "Entre 4 y 24 letras, números o guiones. Los estudiantes lo escriben al revisar su compra."
 msgstr "Between 4 and 24 letters, numbers or hyphens. Students enter it when reviewing their purchase."
 
@@ -4254,6 +4316,10 @@ msgstr "Sent"
 #: templates/commerce/invoice.html:26
 msgid "Enviamos %(amount_sats)s sats a tu wallet el %(refunded_at)s. El acceso de esta compra terminó; tu avance se conserva."
 msgstr "We sent %(amount_sats)s sats to your wallet on %(refunded_at)s. This purchase's access ended; your progress is kept."
+
+#: templates/commerce/membership_payment.html:31
+msgid "Enviamos %(amount_sats)s sats a tu wallet. Este periodo terminó."
+msgstr "We sent %(amount_sats)s sats to your wallet. This period has ended."
 
 #: templates/commerce/creator_offer.html:12 templates/creators/course.html:10
 msgid "Enviar a revisión →"
@@ -4358,6 +4424,10 @@ msgstr "Write a reply of up to 1000 characters."
 #: templates/learning/_community_moderation.html:5
 msgid "Escritura suspendida"
 msgstr "Posting suspended"
+
+#: templates/core/terms.html:54
+msgid "Escríbenos desde la ayuda de tu cuenta o a los datos de contacto indicados arriba. También puedes acudir a la Defensoría del Consumidor; nada en estos términos limita ese derecho."
+msgstr "Write to us from your account's help page or through the contact details above. You can also go to the Defensoría del Consumidor (consumer protection agency); nothing in these terms limits that right."
 
 #: accounts/security.py:133
 msgid "Ese correo ya no está disponible. Solicita otro cambio desde tu cuenta."
@@ -4595,7 +4665,7 @@ msgstr "This content can't be saved right now. Your selection is still in the ca
 msgid "Este contenido requiere una compra."
 msgstr "This content requires a purchase."
 
-#: commerce/refunds.py:55
+#: commerce/refunds.py:56
 msgid "Este contenido se reconoció como crédito en una compra posterior."
 msgstr "This content was credited toward a later purchase."
 
@@ -4715,9 +4785,13 @@ msgstr "This resource doesn't have a paid revision available to offer yet."
 msgid "Este regalo todavía no está disponible."
 msgstr "This gift is not available yet."
 
-#: commerce/gifts.py:28 commerce/gifts.py:36 templates/commerce/gift.html:5
+#: commerce/gifts.py:28 commerce/gifts.py:40 commerce/refunds.py:40 templates/commerce/gift.html:5
 msgid "Este regalo ya fue canjeado."
 msgstr "This gift was already redeemed."
+
+#: commerce/gifts.py:36
+msgid "Este regalo ya no está disponible."
+msgstr "This gift is no longer available."
 
 #: content/models.py:172
 msgid "Este texto se muestra antes de comprar. Escribe una muestra que pueda compartirse públicamente."
@@ -4797,7 +4871,7 @@ msgstr "Quiz: %(title)s"
 msgid "Exigir aprobación para completar la lección"
 msgstr "Require passing to complete the lesson"
 
-#: commerce/refunds.py:132
+#: commerce/refunds.py:179
 msgid "Explica al estudiante por qué no procede el reembolso."
 msgstr "Explain to the student why the refund doesn't apply."
 
@@ -4809,7 +4883,7 @@ msgstr "Explain how questions can be resolved and what support the unit includes
 msgid "Explica el motivo de la decisión."
 msgstr "Explain the reason for the decision."
 
-#: commerce/refunds.py:71
+#: commerce/refunds.py:80
 msgid "Explica el motivo en al menos 10 caracteres."
 msgstr "Explain the reason in at least 10 characters."
 
@@ -4821,11 +4895,11 @@ msgstr "Explain the reason so the creator can act on it."
 msgid "Explica el resultado y el siguiente paso para el estudiante."
 msgstr "Explain the result and the next step for the student."
 
-#: commerce/forms.py:103
+#: commerce/forms.py:110
 msgid "Explica por qué no procede el reembolso."
 msgstr "Explain why the refund doesn't apply."
 
-#: commerce/forms.py:29 creators/services.py:62
+#: commerce/forms.py:30 creators/services.py:62
 msgid "Explica qué debe corregir el creador."
 msgstr "Explain what the creator needs to fix."
 
@@ -4909,7 +4983,7 @@ msgstr "Order invoice reserved for 15 minutes."
 msgid "Factura Lightning"
 msgstr "Lightning invoice"
 
-#: commerce/forms.py:77
+#: commerce/forms.py:78
 msgid "Factura Lightning para recibir el reembolso"
 msgstr "Lightning invoice to receive the refund"
 
@@ -5267,7 +5341,7 @@ msgstr ""
 msgid "Has utilizado los intentos disponibles. Puedes solicitar otro al creador."
 msgstr "You've used the available attempts. You can ask the creator for another one."
 
-#: commerce/forms.py:97
+#: commerce/forms.py:104
 msgid "Hash del pago confirmado"
 msgstr "Confirmed payment hash"
 
@@ -5279,7 +5353,7 @@ msgstr "To"
 msgid "Hasta 2000 caracteres · Conversación compartida"
 msgstr "Up to 2000 characters · Shared conversation"
 
-#: commerce/forms.py:39
+#: commerce/forms.py:40
 msgid "Hasta 90 % o 100 000 sats. Cada artículo conserva al menos 1 sat."
 msgstr "Up to 90% or 100 000 sats. Every item keeps at least 1 sat."
 
@@ -5387,7 +5461,7 @@ msgstr "subcategory image"
 msgid "Importe"
 msgstr "Amount"
 
-#: commerce/forms.py:63
+#: commerce/forms.py:64
 msgid "Importe en sats"
 msgstr "Amount in sats"
 
@@ -5443,7 +5517,7 @@ msgstr "Educator onboarding"
 msgid "Indica conocimientos, herramientas y contenidos previos; si no se necesitan, dilo."
 msgstr "State prior knowledge, tools and content; if none are needed, say so."
 
-#: commerce/refunds.py:148
+#: commerce/refunds.py:195
 msgid "Indica el hash del pago confirmado en la wallet."
 msgstr "Enter the hash of the payment confirmed in the wallet."
 
@@ -5751,7 +5825,7 @@ msgstr "The invoice isn't ready yet"
 msgid "La factura conserva el precio y contenido originales."
 msgstr "The invoice keeps the original price and content."
 
-#: templates/commerce/cart_checkout.html:19
+#: templates/commerce/cart_checkout.html:20
 msgid "La factura conservará el total y el contenido de esta selección. El acceso se habilita después de confirmar el pago; estudiar, completar lecciones y solicitar un certificado conservan sus propios requisitos."
 msgstr "The invoice will keep this selection's total and content. Access is enabled once the payment is confirmed; studying, completing lessons and requesting a certificate keep their own requirements."
 
@@ -5759,7 +5833,7 @@ msgstr "The invoice will keep this selection's total and content. Access is enab
 msgid "La factura venció sin conceder acceso nuevo."
 msgstr "The invoice expired without granting new access."
 
-#: commerce/forms.py:58 commerce/models.py:315
+#: commerce/forms.py:59 commerce/models.py:315
 msgid "La fecha de vencimiento debe ser posterior al inicio."
 msgstr "The expiry date must be after the start date."
 
@@ -5819,6 +5893,10 @@ msgstr "The line must keep its offer's full inventory."
 msgid "La marca indica la nota mínima: %(pass_mark)s."
 msgstr "The mark shows the minimum score: %(pass_mark)s."
 
+#: templates/core/terms.html:21
+msgid "La membresía abre las lecciones de pago de los cursos incluidos durante el periodo pagado. No se renueva sola: cada periodo es un pago nuevo."
+msgstr "Membership opens the paid lessons of the included courses during the paid period. It does not renew on its own: each period is a new payment."
+
 #: templates/commerce/membership.html:29
 msgid "La membresía está disponible para cuentas de estudiante."
 msgstr "The membership is available for student accounts."
@@ -5826,6 +5904,10 @@ msgstr "The membership is available for student accounts."
 #: templates/commerce/membership.html:33
 msgid "La membresía no está disponible en este momento."
 msgstr "The membership is not available right now."
+
+#: templates/admin/index.html:1
+msgid "La más antigua vence el %(respond_by)s."
+msgstr "The oldest one is due on %(respond_by)s."
 
 #: learning/path_forms.py:32
 msgid "La nota de «%(title)s» admite hasta 240 caracteres."
@@ -5943,7 +6025,7 @@ msgstr "The request changed. Reload before recording the decision."
 msgid "La solicitud cambió. Recarga antes de registrar otra decisión."
 msgstr "The request changed. Reload before recording another decision."
 
-#: commerce/models.py:496
+#: commerce/models.py:499
 msgid "La solicitud conserva su factura, importe y destino."
 msgstr "The request keeps its invoice, amount and destination."
 
@@ -5967,7 +6049,7 @@ msgstr "The purchase request is not valid."
 msgid "La solicitud no es válida."
 msgstr "The request is not valid."
 
-#: commerce/refunds.py:135 commerce/refunds.py:91
+#: commerce/refunds.py:138 commerce/refunds.py:182
 msgid "La solicitud ya fue revisada."
 msgstr "The request was already reviewed."
 
@@ -6022,6 +6104,10 @@ msgstr "Access options are shown to the student after the offers are published a
 #: learning/quizzes.py:20
 msgid "Las opciones deben ser diferentes."
 msgstr "The options must be different."
+
+#: templates/core/terms.html:44
+msgid "Las preguntas y comentarios deben respetar a las demás personas. Cuando se reporta un abuso podemos ocultar mensajes o suspender la escritura, con un motivo registrado."
+msgstr "Questions and comments must respect other people. When abuse is reported we may hide messages or suspend writing, with a recorded reason."
 
 #: templates/commerce/tip_create.html:16
 msgid "Las propinas no se reembolsan."
@@ -6225,9 +6311,17 @@ msgstr "Courses that offer a certificate will show their requirements here when 
 msgid "Los educadores nuevos completan su perfil y solicitan aprobación antes de publicar."
 msgstr "New educators complete their profile and request approval before publishing."
 
+#: templates/core/terms.html:38
+msgid "Los educadores preparan el contenido y responden por su exactitud y por los derechos sobre sus materiales. BTC.EDU revisa cada versión antes de publicarla."
+msgstr "Educators prepare the content and are responsible for its accuracy and for the rights to their materials. BTC.EDU reviews each version before publishing it."
+
 #: templates/core/_catalog.html:25
 msgid "Los enlaces externos te llevan al sitio de su fuente. Su acceso depende de las condiciones de ese sitio."
 msgstr "External links take you to their source's site. Access depends on that site's terms."
+
+#: templates/core/terms.html:28
+msgid "Los precios están en sats y se pagan con una factura Lightning que vence a los pocos minutos. El acceso se habilita al confirmarse el pago. Si un pago no se puede confirmar, conservamos su evidencia y lo resolvemos contigo desde la ayuda de tu cuenta."
+msgstr "Prices are in sats and are paid with a Lightning invoice that expires within a few minutes. Access is enabled once the payment is confirmed. If a payment cannot be confirmed, we keep its evidence and resolve it with you through your account's help page."
 
 #: templates/core/_category_grid.html:10
 msgid "Los primeros cursos están en camino"
@@ -6253,13 +6347,9 @@ msgstr "The resources you buy will appear in this section."
 msgid "Los reembolsos no están configurados en este entorno."
 msgstr "Refunds are not configured in this environment."
 
-#: commerce/refunds.py:110
+#: commerce/refunds.py:157
 msgid "Los reembolsos por Lightning no están configurados en este entorno."
 msgstr "Lightning refunds are not configured in this environment."
-
-#: commerce/refunds.py:39
-msgid "Los regalos no admiten reembolso desde esta página."
-msgstr "Gifts can't be refunded from this page."
 
 #: content/education.py:15
 msgid "los requisitos (o indica que no hay requisitos previos)"
@@ -6369,11 +6459,15 @@ msgstr "membership"
 msgid "MEMBRESÍA / %(get_status_display)s"
 msgstr "MEMBERSHIP / %(get_status_display)s"
 
+#: commerce/membership_views.py:147 commerce/models.py:506
+msgid "Membresía · %(plan)s"
+msgstr "Membership · %(plan)s"
+
 #: templates/commerce/membership.html:2
 msgid "Membresía · BTC.EDU"
 msgstr "Membership · BTC.EDU"
 
-#: commerce/forms.py:64
+#: commerce/forms.py:65
 msgid "Mensaje para el educador"
 msgstr "Message for the educator"
 
@@ -6493,9 +6587,13 @@ msgstr "Show message"
 msgid "Mostrar soluciones"
 msgstr "Show solutions"
 
-#: commerce/forms.py:76 templates/commerce/refund_review.html:7 templates/core/_analytics.html:23 templates/learning/_community_moderation.html:3 templates/learning/_community_post.html:3 templates/learning/certificate_revoke.html:1
+#: commerce/forms.py:77 templates/commerce/refund_review.html:7 templates/core/_analytics.html:23 templates/learning/_community_moderation.html:3 templates/learning/_community_post.html:3 templates/learning/certificate_revoke.html:1
 msgid "Motivo"
 msgstr "Reason"
+
+#: commerce/forms.py:94
+msgid "Motivo (opcional)"
+msgstr "Reason (optional)"
 
 #: templates/learning/quiz_results.html:7
 msgid "Motivo de la autorización"
@@ -6577,9 +6675,17 @@ msgstr "You need approval as a creator."
 msgid "Necesitas un enlace nuevo."
 msgstr "You need a new link."
 
+#: templates/core/terms.html:15
+msgid "Necesitas una cuenta de estudiante para comprar y guardar tu avance. Cuida tu contraseña. Desde Mi cuenta puedes descargar tus datos o desactivar la cuenta."
+msgstr "You need a student account to buy and keep your progress. Look after your password. From My account you can download your data or deactivate the account."
+
 #: templates/commerce/gift.html:24
 msgid "Necesitas una cuenta de estudiante para conservar el acceso."
 msgstr "You need a student account to keep the access."
+
+#: core/views.py:205
+msgid "NIT"
+msgstr "Tax ID (NIT)"
 
 #: templates/core/_filters.html:17 templates/core/selector.html:10
 msgid "Nivel"
@@ -6721,7 +6827,7 @@ msgstr "We couldn't update the catalog. Your filters are still here; try again."
 msgid "No pudimos añadir esta selección. Revisa la opción y vuelve a intentar."
 msgstr "We couldn't add this selection. Review the option and try again."
 
-#: commerce/feature_views.py:171 commerce/membership_views.py:87
+#: commerce/feature_views.py:171 commerce/membership_views.py:92
 msgid "No pudimos comprobar el pago."
 msgstr "We couldn't check the payment."
 
@@ -6733,11 +6839,11 @@ msgstr "We couldn't check the payment. Refresh this same invoice before paying a
 msgid "No pudimos comprobar el pago. Actualiza esta misma propina antes de volver a pagar."
 msgstr "We couldn't check the payment. Refresh this same tip before paying again."
 
-#: commerce/membership_views.py:117
+#: commerce/membership_views.py:122
 msgid "No pudimos comprobar el pago. Actualiza este mismo pago antes de volver a pagar."
 msgstr "We couldn't check the payment. Refresh this same payment before paying again."
 
-#: commerce/feature_views.py:154 commerce/membership_views.py:72 commerce/views.py:250 commerce/views.py:324 core/js_text.py:10
+#: commerce/feature_views.py:154 commerce/membership_views.py:73 commerce/views.py:250 commerce/views.py:324 core/js_text.py:10
 msgid "No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo."
 msgstr "We couldn't check the payment. Use Refresh status to try again."
 
@@ -6765,7 +6871,7 @@ msgstr "We couldn't confirm the save. Your changes are still here; try again."
 msgid "No pudimos confirmar el pago del reembolso."
 msgstr "We couldn't confirm the refund payment."
 
-#: commerce/feature_views.py:256
+#: commerce/feature_views.py:261
 msgid "No pudimos confirmar el pago. Revisa la wallet antes de volver a intentarlo."
 msgstr "We couldn't confirm the payment. Check the wallet before trying again."
 
@@ -6805,7 +6911,7 @@ msgstr "We couldn't prepare the payment. Refresh the status of this same invoice
 msgid "No pudimos preparar el pago. Actualiza el estado de esta misma propina."
 msgstr "We couldn't prepare the payment. Refresh the status of this same tip."
 
-#: commerce/membership_views.py:59
+#: commerce/membership_views.py:60
 msgid "No pudimos preparar el pago. Actualiza el estado de este mismo pago."
 msgstr "We couldn't prepare the payment. Refresh the status of this same payment."
 
@@ -6841,7 +6947,7 @@ msgstr "No prerequisites have been listed."
 msgid "No se movieron fondos con esta factura. Puedes preparar otra propina cuando quieras."
 msgstr "No funds moved with this invoice. You can prepare another tip whenever you like."
 
-#: templates/commerce/membership_payment.html:32
+#: templates/commerce/membership_payment.html:34
 msgid "No se movieron fondos con esta factura. Puedes preparar otro pago desde la membresía."
 msgstr "No funds moved with this invoice. You can prepare another payment from the membership."
 
@@ -6905,7 +7011,7 @@ msgstr "First name"
 msgid "Nombre de la colección"
 msgstr "Collection name"
 
-#: commerce/forms.py:10
+#: commerce/forms.py:11
 msgid "Nombre de la oferta"
 msgstr "Offer name"
 
@@ -6953,7 +7059,7 @@ msgstr "Passing score %(pass_mark)s / 100 · %(questions)s questions · %(max_at
 msgid "Nota mínima %(pass_mark)s · Intentos %(max_attempts)s · Espera %(wait_minutes)s minutos ·"
 msgstr "Passing score %(pass_mark)s · Attempts %(max_attempts)s · Wait %(wait_minutes)s minutes ·"
 
-#: commerce/forms.py:96
+#: commerce/forms.py:103
 msgid "Nota para el estudiante"
 msgstr "Note for the student"
 
@@ -7033,7 +7139,7 @@ msgstr "Required"
 msgid "Obligatoria para completar la lección"
 msgstr "Required to complete the lesson"
 
-#: commerce/forms.py:24 creators/forms.py:191 templates/creators/resource.html:5 templates/creators/review.html:1
+#: commerce/forms.py:25 creators/forms.py:191 templates/creators/resource.html:5 templates/creators/review.html:1
 msgid "Observaciones"
 msgstr "Notes"
 
@@ -7109,7 +7215,7 @@ msgstr "Optional to complete the lesson"
 msgid "Opcional, en lugar de un archivo MP4. El recurso queda gratuito."
 msgstr "Optional, instead of an MP4 file. The resource becomes free."
 
-#: commerce/forms.py:66
+#: commerce/forms.py:67
 msgid "Opcional. Solo lo lee el educador."
 msgstr "Optional. Only the educator reads it."
 
@@ -7269,7 +7375,7 @@ msgstr "To approve a bundle, its paid components must have individual offers ava
 msgid "Para aprobar, la entrega debe cumplir todos los criterios."
 msgstr "To approve, the submission must meet every criterion."
 
-#: commerce/forms.py:12
+#: commerce/forms.py:13
 msgid "Para cambiar el precio después, prepara una nueva oferta. Las facturas pendientes conservarán el importe original."
 msgstr "To change the price later, prepare a new offer. Pending invoices keep the original amount."
 
@@ -7355,7 +7461,7 @@ msgstr "Order"
 msgid "Pedido: %(order_id)s"
 msgstr "Order: %(order_id)s"
 
-#: commerce/refunds.py:74
+#: commerce/refunds.py:83
 msgid "Pega una factura Lightning de tu wallet por exactamente %(amount_sats)s sats."
 msgstr "Paste a Lightning invoice from your wallet for exactly %(amount_sats)s sats."
 
@@ -7475,6 +7581,18 @@ msgstr "You'll be able to review the order before preparing the invoice."
 msgid "Podrás revisar el precio actual antes de crear otra factura."
 msgstr "You'll be able to review the current price before creating another invoice."
 
+#: templates/commerce/invoice.html:31 templates/commerce/refund_request.html:12 templates/core/refund_policy.html:5
+msgid "Política de reembolsos"
+msgstr "Refund policy"
+
+#: templates/core/refund_policy.html:2
+msgid "Política de reembolsos · BTC.EDU"
+msgstr "Refund policy · BTC.EDU"
+
+#: templates/core/terms.html:5
+msgid "Política de reembolsos →"
+msgstr "Refund policy →"
+
 #: templates/commerce/_cart_line.html:5 templates/commerce/_order_lines.html:4 templates/commerce/offer.html:7 templates/content/course.html:15 templates/content/resource.html:2 templates/core/_card.html:8 templates/core/_resource_group.html:19 templates/core/_resource_group.html:8 templates/core/_tutorial_row.html:7 templates/learning/path.html:9
 msgid "Por"
 msgstr "By"
@@ -7519,7 +7637,7 @@ msgstr "To be confirmed"
 msgid "Por curso"
 msgstr "By course"
 
-#: commerce/membership_views.py:37 content/catalog.py:211 content/catalog.py:289 content/catalog_filters.py:32
+#: commerce/membership_views.py:38 content/catalog.py:211 content/catalog.py:289 content/catalog_filters.py:32
 msgid "Por descubrir"
 msgstr "To discover"
 
@@ -7579,7 +7697,7 @@ msgstr "By course version"
 msgid "por «%(title)s»"
 msgstr "for “%(title)s”"
 
-#: commerce/forms.py:37
+#: commerce/forms.py:38
 msgid "Porcentaje"
 msgstr "Percentage"
 
@@ -7603,7 +7721,7 @@ msgstr "Practice again"
 msgid "Precio"
 msgstr "Price"
 
-#: commerce/forms.py:11
+#: commerce/forms.py:12
 msgid "Precio en sats"
 msgstr "Price in sats"
 
@@ -7614,6 +7732,10 @@ msgstr "price in sats"
 #: commerce/models.py:32
 msgid "precio en sats de prueba"
 msgstr "test price in sats"
+
+#: templates/core/terms.html:27
+msgid "Precios y pago"
+msgstr "Prices and payment"
 
 #: accounts/account_views.py:233
 msgid "Preferencias de avisos guardadas."
@@ -7747,7 +7869,7 @@ msgstr "Prepare offer →"
 msgid "Preparar otra oferta →"
 msgstr "Prepare another offer →"
 
-#: templates/commerce/cart_checkout.html:14 templates/commerce/cart_checkout.html:22
+#: templates/commerce/cart_checkout.html:14 templates/commerce/cart_checkout.html:23
 msgid "Preparar pago →"
 msgstr "Prepare payment →"
 
@@ -8085,6 +8207,10 @@ msgstr "You can read the lessons you saved on this device. Progress, purchases a
 msgid "Puedes mostrar esta práctica aprobada a otros estudiantes. Se verá tu alias público, tu solución escrita y tu enlace; los archivos adjuntos siguen privados."
 msgstr "You can show this approved practice to other students. They'll see your public alias, your written solution and your link; attachments stay private."
 
+#: templates/core/refund_policy.html:13
+msgid "Puedes pedir el reembolso de una compra durante %(refund_days)s días, sin explicar el motivo y aunque ya hayas abierto el contenido. No aplica si obtuviste un certificado con ese contenido o si lo usaste como crédito para completar otra compra."
+msgstr "You can ask for a refund of a purchase within %(refund_days)s days, without giving a reason and even if you have already opened the content. It does not apply if you earned a certificate with that content or used it as credit toward another purchase."
+
 #: commerce/orders.py:93
 msgid "Puedes preparar hasta %(MAX_ORDER_LINES)s contenidos por pedido."
 msgstr "You can prepare up to %(MAX_ORDER_LINES)s items per order."
@@ -8213,6 +8339,10 @@ msgstr "Remove %(title)s from the cart"
 msgid "Quitar filtro: %(label)s"
 msgstr "Remove filter: %(label)s"
 
+#: templates/core/terms.html:8
+msgid "Quién presta el servicio"
+msgstr "Who provides the service"
+
 #: content/education.py:14 content/models.py:169
 msgid "qué aprenderá el alumno"
 msgstr "what the learner will learn"
@@ -8233,6 +8363,10 @@ msgstr "What you'll learn and how to prepare"
 msgid "Qué bueno"
 msgstr "What worked"
 
+#: templates/core/terms.html:19
+msgid "Qué compras"
+msgstr "What you buy"
+
 #: learning/models.py:82 learning/practice_forms.py:12
 msgid "Qué debe entregar el estudiante"
 msgstr "What the student must submit"
@@ -8245,7 +8379,7 @@ msgstr "what the learner will do"
 msgid "Qué harás: %(get_activity_kind_display)s"
 msgstr "What you'll do: %(get_activity_kind_display)s"
 
-#: commerce/forms.py:9 templates/commerce/_order_lines.html:7 templates/commerce/gift.html:8 templates/commerce/offer.html:12
+#: commerce/forms.py:10 templates/commerce/_order_lines.html:7 templates/commerce/gift.html:8 templates/commerce/offer.html:12
 msgid "Qué incluye"
 msgstr "What's included"
 
@@ -8263,9 +8397,13 @@ msgstr[1] "What's included · %(counter)s items"
 msgid "Qué lograrás al terminar"
 msgstr "What you'll achieve by the end"
 
-#: commerce/forms.py:75
+#: commerce/forms.py:76
 msgid "Qué ocurrió"
 msgstr "What happened"
+
+#: templates/core/refund_policy.html:28
+msgid "Qué pasa después"
+msgstr "What happens next"
 
 #: accounts/models.py:58
 msgid "qué quieres aprender"
@@ -8278,6 +8416,10 @@ msgstr "What happens when you submit"
 #: templates/learning/_reviews.html:9
 msgid "Qué te sirvió y qué mejorarías"
 msgstr "What helped you and what you'd improve"
+
+#: core/views.py:205
+msgid "Razón social"
+msgstr "Legal name"
 
 #: learning/models.py:415
 msgid "Reabrir"
@@ -8355,11 +8497,11 @@ msgstr "Submissions paused by the educator."
 msgid "Rechazada"
 msgstr "Rejected"
 
-#: commerce/creator_notices.py:36
+#: commerce/creator_notices.py:39
 msgid "Rechazamos el reembolso de «%(title)s»."
 msgstr "We declined the refund for “%(title)s”."
 
-#: commerce/forms.py:95
+#: commerce/forms.py:102
 msgid "Rechazar"
 msgstr "Reject"
 
@@ -8383,7 +8525,7 @@ msgstr "Received on %(submitted_at)s · Due %(due_at)s"
 msgid "Recibiendo entregas"
 msgstr "Accepting submissions"
 
-#: commerce/feature_views.py:235
+#: commerce/feature_views.py:235 commerce/membership_views.py:145
 msgid "Recibimos tu solicitud. Te avisaremos cuando la revisemos."
 msgstr "We received your request. We'll let you know when we review it."
 
@@ -8398,6 +8540,10 @@ msgstr "You'll get internal notices when someone replies to your conversation."
 #: commerce/tips.py:61
 msgid "Recibiste una propina de %(amount_sats)s sats."
 msgstr "You received a %(amount_sats)s sats tip."
+
+#: templates/core/terms.html:53
+msgid "Reclamos"
+msgstr "Complaints"
 
 #: templates/content/course.html:33
 msgid "Reconoce tu recorrido."
@@ -8461,11 +8607,11 @@ msgstr "Refunded"
 msgid "Reembolsado"
 msgstr "Refunded"
 
-#: commerce/refunds.py:102
+#: commerce/refunds.py:149
 msgid "Reembolsamos %(amount_sats)s sats a tu wallet."
 msgstr "We refunded %(amount_sats)s sats to your wallet."
 
-#: commerce/creator_notices.py:35
+#: commerce/creator_notices.py:38
 msgid "Reembolsamos «%(title)s» (%(amount_sats)s sats)."
 msgstr "We refunded “%(title)s” (%(amount_sats)s sats)."
 
@@ -8481,9 +8627,13 @@ msgstr "REFUND"
 msgid "Reembolso dentro del plazo"
 msgstr "Refund within the period"
 
-#: templates/commerce/invoice.html:30
+#: templates/commerce/invoice.html:30 templates/commerce/membership_payment.html:31
 msgid "Reembolso: %(get_status_display)s"
 msgstr "Refund: %(get_status_display)s"
+
+#: templates/academy.html:15 templates/base.html:53 templates/core/terms.html:32
+msgid "Reembolsos"
+msgstr "Refunds"
 
 #: templates/core/_analytics.html:23
 msgid "Reembolsos y reclamos"
@@ -8509,7 +8659,7 @@ msgstr "Purchase reference:"
 msgid "Referencia externa"
 msgstr "External reference"
 
-#: templates/commerce/cart_checkout.html:18 templates/commerce/offer.html:24 templates/commerce/offer.html:45
+#: templates/commerce/cart_checkout.html:19 templates/commerce/offer.html:24 templates/commerce/offer.html:45
 msgid "Regalar este contenido →"
 msgstr "Give this content as a gift →"
 
@@ -8581,7 +8731,7 @@ msgstr "Repeat the new password"
 msgid "Reportar mensaje"
 msgstr "Report message"
 
-#: templates/commerce/invoice.html:31
+#: templates/commerce/invoice.html:31 templates/commerce/membership_payment.html:32
 msgid "Reportar un problema con esta compra"
 msgstr "Report a problem with this purchase"
 
@@ -8660,6 +8810,10 @@ msgstr "Answer at your own pace"
 #: learning/assessment_services.py:79
 msgid "Responde todas las preguntas antes de entregar. Puedes guardar y continuar después."
 msgstr "Answer every question before submitting. You can save and continue later."
+
+#: templates/core/refund_policy.html:29
+msgid "Respondemos en un máximo de %(response_days)s días. Si procede, enviamos los sats a tu factura y termina el acceso que daba esa compra; tu avance se conserva. Si no procede, te explicamos el motivo."
+msgstr "We answer within %(response_days)s days at most. If it applies, we send the sats to your invoice and the access that purchase gave ends; your progress is kept. If it does not apply, we explain why."
 
 #: templates/creators/dashboard.html:7 templates/learning/_community_thread.html:9 templates/learning/_lesson_discussion.html:14 templates/learning/_questions.html:4 templates/learning/_reviews.html:20
 msgid "Responder"
@@ -8935,7 +9089,7 @@ msgstr "We review each case within %(response_days)s days. If it applies, we sen
 msgid "Revisamos cada solicitud. Si la aprobamos, enviamos los sats a tu factura y el acceso de esta compra termina. Tu avance se conserva."
 msgstr "We review every request. If we approve it, we send the sats to your invoice and this purchase's access ends. Your progress is kept."
 
-#: commerce/refunds.py:138
+#: commerce/refunds.py:185
 msgid "Revisamos tu solicitud de reembolso."
 msgstr "We reviewed your refund request."
 
@@ -9035,6 +9189,10 @@ msgstr "Review practices →"
 msgid "Revisar reembolso · BTC.EDU"
 msgstr "Review refund · BTC.EDU"
 
+#: templates/admin/index.html:1
+msgid "Revisar reembolsos →"
+msgstr "Review refunds →"
+
 #: templates/learning/_progress.html:12
 msgid "Revisar requisitos del certificado →"
 msgstr "Review certificate requirements →"
@@ -9067,7 +9225,7 @@ msgstr "Review and submit →"
 msgid "Revisar y enviar"
 msgstr "Review and send"
 
-#: templates/commerce/invoice.html:30
+#: templates/commerce/invoice.html:30 templates/commerce/membership_payment.html:31
 msgid "Revisaremos tu solicitud y te avisaremos."
 msgstr "We'll review your request and let you know."
 
@@ -9193,7 +9351,7 @@ msgstr "The connection was lost. Your changes are still here; try again when it'
 msgid "se retiró del carrito."
 msgstr "was removed from the cart."
 
-#: commerce/creator_notices.py:31
+#: commerce/creator_notices.py:34
 msgid "Se solicitó el reembolso de «%(title)s» (%(amount_sats)s sats)."
 msgstr "A refund was requested for “%(title)s” (%(amount_sats)s sats)."
 
@@ -9361,6 +9519,14 @@ msgstr "Session ended."
 msgid "Señala las preguntas dudosas. Antes de entregar verás cuáles marcaste y cuáles faltan."
 msgstr "Flag the questions you're unsure about. Before submitting you'll see which ones you marked and which are missing."
 
+#: templates/core/refund_policy.html:18
+msgid "Si algo falló"
+msgstr "If something went wrong"
+
+#: templates/core/terms.html:59
+msgid "Si cambiamos estos términos, publicaremos la nueva versión con su fecha y se aplicará a las compras posteriores. Lo que ya compraste conserva las condiciones con que lo compraste. Estos términos se rigen por las leyes de El Salvador."
+msgstr "If we change these terms, we will publish the new version with its date and it will apply to later purchases. What you already bought keeps the conditions under which you bought it. These terms are governed by the laws of El Salvador."
+
 #: templates/content/lesson.html:34
 msgid "Si esta lección te ayudó, envía una propina por Lightning con un mensaje opcional."
 msgstr "If this lesson helped you, send a tip over Lightning with an optional message."
@@ -9373,9 +9539,17 @@ msgstr "If there's an active account with that email in this space, you'll recei
 msgid "Si hay una cuenta que puedas reactivar, solicitamos el envío de un enlace a ese correo."
 msgstr "If there's an account you can reactivate, we've requested that a link be sent to that email."
 
+#: templates/core/refund_policy.html:30
+msgid "Si no estás de acuerdo con la respuesta, escríbenos desde la ayuda de tu cuenta o acude a la Defensoría del Consumidor."
+msgstr "If you disagree with the answer, write to us from your account's help page or go to the Defensoría del Consumidor."
+
 #: templates/commerce/refund_request.html:12
 msgid "Si no pudiste acceder al contenido, no corresponde a lo ofrecido, tiene errores o te cobramos de más, puedes pedir la devolución en cualquier momento."
 msgstr "If you could not access the content, it does not match what was offered, it has errors or we overcharged you, you can ask for your money back at any time."
+
+#: templates/core/terms.html:22
+msgid "Si regalas contenido, el acceso es para quien canjea el enlace. Las propinas son voluntarias y no compran contenido."
+msgstr "If you give content as a gift, access goes to whoever redeems the link. Tips are voluntary and do not buy content."
 
 #: templates/registration/register.html:1
 msgid "Si también quieres enseñar, puedes crear una cuenta de educador independiente."
@@ -9501,6 +9675,10 @@ msgstr "Unread"
 msgid "Sin mensaje."
 msgstr "No message."
 
+#: templates/commerce/refund_review.html:7
+msgid "Sin motivo: el retracto no requiere justificación."
+msgstr "No reason: a withdrawal needs no justification."
+
 #: templates/learning/creator_paths.html:4
 msgid "Sin paquete"
 msgstr "No bundle"
@@ -9593,7 +9771,7 @@ msgstr "Ask for help →"
 msgid "Solicitar cambio"
 msgstr "Request change"
 
-#: commerce/forms.py:23 creators/forms.py:190 learning/models.py:174
+#: commerce/forms.py:24 creators/forms.py:190 learning/models.py:174
 msgid "Solicitar cambios"
 msgstr "Request changes"
 
@@ -9609,7 +9787,7 @@ msgstr "Request link →"
 msgid "Solicitar reactivación →"
 msgstr "Request reactivation →"
 
-#: templates/commerce/invoice.html:31
+#: templates/commerce/invoice.html:31 templates/commerce/membership_payment.html:32
 msgid "Solicitar reembolso"
 msgstr "Request refund"
 
@@ -9645,7 +9823,7 @@ msgstr "Request received. You can check its status and the replies here."
 msgid "Solo al aprobar"
 msgstr "Only on passing"
 
-#: commerce/forms.py:17
+#: commerce/forms.py:18
 msgid "Solo aparece contenido publicado que puedes ofrecer. Un curso o capítulo necesita antes una oferta individual para cada lección de pago. El precio y las inclusiones se revisan antes de la venta."
 msgstr "Only published content you can offer appears here. A course or chapter first needs an individual offer for each paid lesson. Price and inclusions are reviewed before the sale."
 
@@ -9653,7 +9831,7 @@ msgstr "Only published content you can offer appears here. A course or chapter f
 msgid "Solo el educador de esta práctica puede revisarla."
 msgstr "Only this practice's educator can review it."
 
-#: commerce/forms.py:98
+#: commerce/forms.py:105
 msgid "Solo para cerrar un reembolso por conciliar que ya consta en la wallet."
 msgstr "Only to close a refund awaiting reconciliation that already shows in the wallet."
 
@@ -9681,9 +9859,13 @@ msgstr "You can only submit an offer in draft."
 msgid "Solo puedes guardar una lección accesible de esta inscripción."
 msgstr "You can only save an accessible lesson from this enrollment."
 
-#: commerce/refunds.py:35
+#: commerce/refunds.py:34
 msgid "Solo puedes solicitar el reembolso de una compra confirmada."
 msgstr "You can only request a refund for a confirmed purchase."
+
+#: commerce/refunds.py:100
+msgid "Solo puedes solicitar el reembolso de una membresía pagada."
+msgstr "You can only request a refund for a paid membership."
 
 #: commerce/models.py:84
 msgid "Solo se puede componer un borrador con recursos propios."
@@ -9769,6 +9951,10 @@ msgstr "It will also appear on your profile once you're approved."
 msgid "Te avisaremos aquí cuando exista una decisión. Puedes mantener tu presentación al día."
 msgstr "We'll let you know here once there's a decision. You can keep your introduction up to date."
 
+#: templates/core/refund_policy.html:8
+msgid "Te devolvemos los mismos sats que pagaste, por Lightning y sin cargos, aunque el precio del bitcoin haya cambiado desde la compra."
+msgstr "We return the same sats you paid, over Lightning and without fees, even if the price of bitcoin has changed since the purchase."
+
 #: templates/registration/_reset_request.html:1
 msgid "Te enviaremos instrucciones para la contraseña de esta cuenta."
 msgstr "We'll send you instructions for this account's password."
@@ -9776,6 +9962,10 @@ msgstr "We'll send you instructions for this account's password."
 #: content/models.py:57
 msgid "Tecnología"
 msgstr "Technology"
+
+#: core/views.py:206
+msgid "Teléfono"
+msgstr "Phone"
 
 #: templates/learning/_notifications.html:2
 msgid "Tema"
@@ -9821,6 +10011,10 @@ msgstr "texts"
 msgid "Tiene errores o archivos dañados"
 msgstr "It has errors or damaged files"
 
+#: templates/core/terms.html:33
+msgid "Tienes %(refund_days)s días para pedir el reembolso de una compra y puedes reportar en cualquier momento un contenido que no funciona o no corresponde a lo ofrecido."
+msgstr "You have %(refund_days)s days to ask for a refund of a purchase, and you can report content that does not work or does not match what was offered at any time."
+
 #: learning/assessment_services.py:138
 msgid "Tienes otro intento autorizado"
 msgstr "You have another attempt authorized"
@@ -9841,7 +10035,7 @@ msgstr "You have several pending membership payments. Pay one or let it expire b
 msgid "Tipo"
 msgstr "Type"
 
-#: commerce/models.py:475
+#: commerce/models.py:476
 msgid "tipo"
 msgstr "type"
 
@@ -9849,7 +10043,7 @@ msgstr "type"
 msgid "tipo de cuenta"
 msgstr "account type"
 
-#: commerce/forms.py:37
+#: commerce/forms.py:38
 msgid "Tipo de descuento"
 msgstr "Discount type"
 
@@ -10025,7 +10219,7 @@ msgstr "All topics"
 msgid "Todos los tipos"
 msgstr "All types"
 
-#: templates/commerce/cart.html:10 templates/commerce/cart.html:12 templates/commerce/cart_checkout.html:11 templates/commerce/cart_checkout.html:22 templates/commerce/invoice.html:22 templates/commerce/membership_payment.html:15 templates/commerce/offer.html:18 templates/commerce/tip.html:13
+#: templates/commerce/cart.html:10 templates/commerce/cart.html:12 templates/commerce/cart_checkout.html:11 templates/commerce/cart_checkout.html:23 templates/commerce/invoice.html:22 templates/commerce/membership_payment.html:15 templates/commerce/offer.html:18 templates/commerce/tip.html:13
 msgid "Total"
 msgstr "Total"
 
@@ -10157,7 +10351,7 @@ msgstr "Your content and the tasks that need your attention."
 msgid "Tu contenido ya está en Mi aprendizaje."
 msgstr "Your content is now in My learning."
 
-#: templates/accounts/closed.html:1 templates/learning/_notifications.html:1
+#: templates/accounts/closed.html:1 templates/core/terms.html:14 templates/learning/_notifications.html:1
 msgid "Tu cuenta"
 msgstr "Your account"
 
@@ -10237,7 +10431,7 @@ msgstr "Your photo"
 msgid "Tu foto aparecerá junto a tus mensajes en los espacios a los que tengan acceso sus participantes."
 msgstr "Your photo will appear next to your messages in the spaces their participants can access."
 
-#: commerce/membership.py:93 commerce/membership_views.py:115
+#: commerce/membership.py:94 commerce/membership_views.py:120
 msgid "Tu membresía está activa hasta el %(localtime)s."
 msgstr "Your membership is active until %(localtime)s."
 
@@ -10389,7 +10583,7 @@ msgstr "Your gift is ready."
 msgid "Tu regalo está listo. Comparte el enlace de canje con quien lo recibirá."
 msgstr "Your gift is ready. Share the redemption link with the person who will receive it."
 
-#: commerce/gifts.py:45
+#: commerce/gifts.py:49
 msgid "Tu regalo «%(title)s» fue canjeado."
 msgstr "Your gift “%(title)s” was redeemed."
 
@@ -10513,6 +10707,10 @@ msgstr "Your coupons"
 msgid "Tus cursos"
 msgstr "Your courses"
 
+#: templates/core/terms.html:48
+msgid "Tus datos"
+msgstr "Your data"
+
 #: templates/accounts/_settings.html:25
 msgid "Tus datos, compras y contenido permanecen en su cuenta original."
 msgstr "Your data, purchases and content stay in their original account."
@@ -10590,6 +10788,22 @@ msgstr "tutorials"
 #: templates/core/_catalog.html:11
 msgid "Tutoriales disponibles"
 msgstr "Available tutorials"
+
+#: templates/academy.html:15 templates/base.html:53
+msgid "Términos"
+msgstr "Terms"
+
+#: templates/core/terms.html:5
+msgid "Términos y condiciones"
+msgstr "Terms and conditions"
+
+#: templates/core/terms.html:2
+msgid "Términos y condiciones · BTC.EDU"
+msgstr "Terms and conditions · BTC.EDU"
+
+#: templates/core/refund_policy.html:5
+msgid "Términos y condiciones →"
+msgstr "Terms and conditions →"
 
 #: content/models.py:116 learning/models.py:194 learning/models.py:478
 msgid "título"
@@ -10675,6 +10889,10 @@ msgstr "A path organized in lessons."
 msgid "Un recurso de texto requiere contenido y no admite archivos."
 msgstr "A text resource requires content and doesn't accept files."
 
+#: templates/core/refund_policy.html:14
+msgid "Un regalo se puede devolver durante %(refund_days)s días mientras nadie lo haya canjeado; al pedir el reembolso, su enlace deja de funcionar. Un periodo de membresía se puede devolver durante %(refund_days)s días si todavía no abriste contenido incluido."
+msgstr "A gift can be returned within %(refund_days)s days as long as nobody has redeemed it; once you request the refund, its link stops working. A membership period can be returned within %(refund_days)s days if you have not opened included content yet."
+
 #: templates/commerce/gift.html:2
 msgid "Un regalo · BTC.EDU"
 msgstr "A gift · BTC.EDU"
@@ -10686,6 +10904,10 @@ msgstr "A report needs review"
 #: content/models.py:283
 msgid "Un video de YouTube necesita un enlace válido, el autor y acceso gratuito, sin archivo."
 msgstr "A YouTube video needs a valid link, the author and free access, with no file."
+
+#: templates/core/terms.html:20
+msgid "Una compra individual te da acceso permanente a la versión del curso, capítulo, lección o recurso que adquiriste. Si el educador publica una versión nueva, conservas la tuya."
+msgstr "A single purchase gives you permanent access to the version of the course, chapter, lesson or resource you bought. If the educator publishes a new version, you keep yours."
 
 #: learning/community.py:96
 msgid "Una conversación tiene una respuesta"
@@ -10759,11 +10981,15 @@ msgstr "One answer"
 msgid "Una ruta reúne al menos dos de tus cursos publicados en un orden recomendado. Los estudiantes pueden saltar pasos y los opcionales no cuentan para la credencial."
 msgstr "A path brings together at least two of your published courses in a recommended order. Students can skip steps and optional ones don't count toward the credential."
 
+#: templates/core/terms.html:39
+msgid "Usa el contenido para tu aprendizaje; no lo redistribuyas sin permiso de su educador. Los certificados acreditan que completaste los requisitos de una versión y no son títulos oficiales."
+msgstr "Use the content for your learning; do not redistribute it without its educator's permission. Certificates show that you completed the requirements of a version and are not official degrees."
+
 #: content/immutability.py:16
 msgid "Usa el servicio de publicación para crear revisiones."
 msgstr "Use the publishing service to create revisions."
 
-#: commerce/forms.py:36
+#: commerce/forms.py:37
 msgid "Usa entre 4 y 24 letras, números o guiones."
 msgstr "Use between 4 and 24 letters, numbers or hyphens."
 
@@ -10783,7 +11009,11 @@ msgstr "Use an HTTP or HTTPS link."
 msgid "Usa un nombre de entre 1 y 60 caracteres."
 msgstr "Use a name between 1 and 60 characters."
 
-#: commerce/forms.py:43
+#: templates/core/terms.html:49
+msgid "Usamos tus datos para darte acceso, procesar pagos y acompañar tu aprendizaje. No los compartimos con terceros ajenos a la compra sin tu autorización, salvo requerimiento de una autoridad competente. Conservamos la prueba de cada compra durante diez años."
+msgstr "We use your data to give you access, process payments and support your learning. We do not share it with third parties outside the purchase without your permission, except when a competent authority requires it. We keep the proof of each purchase for ten years."
+
+#: commerce/forms.py:44
 msgid "Usos disponibles"
 msgstr "Available uses"
 
@@ -10803,7 +11033,7 @@ msgstr "rating"
 msgid "Varias respuestas"
 msgstr "Several answers"
 
-#: commerce/forms.py:42
+#: commerce/forms.py:43
 msgid "Vence"
 msgstr "Expires"
 
@@ -10827,7 +11057,7 @@ msgstr "Expired"
 msgid "Vencido o sustituido"
 msgstr "Expired or replaced"
 
-#: commerce/creator_notices.py:26
+#: commerce/creator_notices.py:29
 msgid "Vendiste «%(title)s» por %(amount_sats)s sats."
 msgstr "You sold “%(title)s” for %(amount_sats)s sats."
 
@@ -11171,6 +11401,14 @@ msgstr "Reviewed videos and materials"
 msgid "Videos, materiales y fuentes para consultar cuando los necesites."
 msgstr "Videos, materials and sources to consult whenever you need them."
 
+#: templates/core/refund_policy.html:5
+msgid "Vigente desde el %(effective)s."
+msgstr "In force since %(effective)s."
+
+#: templates/core/terms.html:5
+msgid "Vigentes desde el %(effective)s."
+msgstr "In force since %(effective)s."
+
 #: templates/content/reference.html:6
 msgid "Visitar fuente"
 msgstr "Visit source"
@@ -11231,7 +11469,7 @@ msgstr "Back to the lesson"
 msgid "Volver a la lección →"
 msgstr "Back to the lesson →"
 
-#: templates/commerce/membership_payment.html:33
+#: templates/commerce/membership_payment.html:35
 msgid "Volver a la membresía"
 msgstr "Back to the membership"
 
@@ -11347,9 +11585,13 @@ msgstr "An account with this email already exists in this space. Sign in."
 msgid "Ya existe una publicación posterior. Solicita un nuevo envío para revisar los cambios."
 msgstr "A later publication already exists. Request a new submission to review the changes."
 
-#: commerce/refunds.py:37
+#: commerce/refunds.py:36
 msgid "Ya existe una solicitud de reembolso para esta compra."
 msgstr "A refund request already exists for this purchase."
+
+#: commerce/refunds.py:102
+msgid "Ya existe una solicitud de reembolso para este pago."
+msgstr "A refund request already exists for this payment."
 
 #: learning/practices.py:163
 msgid "Ya hay una entrega más reciente. Recarga para consultarla."
@@ -11363,7 +11605,7 @@ msgstr "A version is already under review. Withdraw the submission before resubm
 msgid "Ya obtuviste la credencial de esta ruta."
 msgstr "You already earned this path's credential."
 
-#: commerce/refunds.py:49
+#: commerce/refunds.py:50
 msgid "Ya obtuviste un certificado con este contenido."
 msgstr "You already earned a certificate with this content."
 
@@ -11402,6 +11644,10 @@ msgstr "You already have a collection with that name."
 #: accounts/account_views.py:279
 msgid "Ya tienes una solicitud de revisión de suspensión abierta."
 msgstr "You already have an open suspension review request."
+
+#: commerce/refunds.py:108
+msgid "Ya usaste contenido de la membresía en este periodo."
+msgstr "You already used membership content in this period."
 
 #: commerce/pricing.py:84
 msgid "Ya usaste este cupón en una compra anterior."

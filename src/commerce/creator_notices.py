@@ -16,6 +16,9 @@ def creator_shares(invoice):
 
 def notify_creators(invoice, key, message):
     """Send one notice per educator; ``message`` receives title and amount_sats."""
+    if invoice is None:
+        # Membership periods belong to the platform plan, not to one educator.
+        return
     from learning.support import notify
     url = reverse("creator-analytics")
     for creator, title, amount in creator_shares(invoice):

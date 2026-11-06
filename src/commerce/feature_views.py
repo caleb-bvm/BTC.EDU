@@ -234,8 +234,13 @@ def refund_request(request, pk, claim=False):
         else:
             messages.success(request, gettext("Recibimos tu solicitud. Te avisaremos cuando la revisemos."))
             return redirect("invoice-detail", pk=pk)
-    return render(request, "commerce/refund_request.html", {"invoice": invoice, "form": form, "active": "purchases", "claim": claim,
-                                                           "refund_days": settings.COMMERCE_REFUND_DAYS, "response_days": Refund.RESPONSE_DAYS})
+    return render_refund_request(request, form, claim, invoice.title, invoice.amount_sats, reverse("invoice-detail", args=[pk]), "purchases")
+
+
+def render_refund_request(request, form, claim, title, amount_sats, back_url, active):
+    return render(request, "commerce/refund_request.html", {
+        "form": form, "claim": claim, "purchase_title": title, "amount_sats": amount_sats, "back_url": back_url, "active": active,
+        "refund_days": settings.COMMERCE_REFUND_DAYS, "response_days": Refund.RESPONSE_DAYS})
 
 
 @login_required(login_url="admin:login")

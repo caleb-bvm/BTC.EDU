@@ -1,0 +1,33 @@
+{% extends 'academy.html' %}
+{% block title %}{% translate "Política de reembolsos · BTC.EDU" %}{% endblock %}
+{% block academy_content %}
+<article class="learning-page legal-page">
+  <header class="page-heading"><div><p class="eyebrow">{% translate "CONDICIONES" %}</p><h1>{% translate "Política de reembolsos" %}</h1><p>{% blocktranslate with effective=effective|date:'d/m/Y' %}Vigente desde el {{ effective }}.{% endblocktranslate %} <a class="text-link" href="{% url 'terms' %}">{% translate "Términos y condiciones →" %}</a></p></div></header>
+
+  <section class="commerce-panel">
+    <p>{% translate "Te devolvemos los mismos sats que pagaste, por Lightning y sin cargos, aunque el precio del bitcoin haya cambiado desde la compra." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% blocktranslate with refund_days=refund_days %}Durante {{ refund_days }} días{% endblocktranslate %}</h2>
+    <p>{% blocktranslate with refund_days=refund_days %}Puedes pedir el reembolso de una compra durante {{ refund_days }} días, sin explicar el motivo y aunque ya hayas abierto el contenido. No aplica si obtuviste un certificado con ese contenido o si lo usaste como crédito para completar otra compra.{% endblocktranslate %}</p>
+    <p>{% blocktranslate with refund_days=refund_days %}Un regalo se puede devolver durante {{ refund_days }} días mientras nadie lo haya canjeado; al pedir el reembolso, su enlace deja de funcionar. Un periodo de membresía se puede devolver durante {{ refund_days }} días si todavía no abriste contenido incluido.{% endblocktranslate %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Si algo falló" %}</h2>
+    <p>{% translate "En cualquier momento puedes reportar que no pudiste acceder al contenido, que no corresponde a lo ofrecido, que tiene errores o archivos dañados, o que hubo un error en el cobro. Estos casos no dependen del plazo ni de tu avance." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Cómo pedirlo" %}</h2>
+    <p>{% translate "Abre la compra en tu historial de compras, o el pago en Membresía, y elige Solicitar reembolso o Reportar un problema con esta compra. Pega una factura Lightning de tu wallet por el importe exacto." %}</p>
+  </section>
+
+  <section class="commerce-panel">
+    <h2>{% translate "Qué pasa después" %}</h2>
+    <p>{% blocktranslate with response_days=response_days %}Respondemos en un máximo de {{ response_days }} días. Si procede, enviamos los sats a tu factura y termina el acceso que daba esa compra; tu avance se conserva. Si no procede, te explicamos el motivo.{% endblocktranslate %}</p>
+    <p>{% translate "Si no estás de acuerdo con la respuesta, escríbenos desde la ayuda de tu cuenta o acude a la Defensoría del Consumidor." %}</p>
+  </section>
+</article>
+{% endblock %}

@@ -30,6 +30,10 @@ def redeem_gift(actor, token):
         raise ValidationError(gettext("Comparte este enlace con la persona a quien quieres regalar el contenido."))
     if gift.purchase.invoice.status != "paid":
         raise ValidationError(gettext("Este regalo todavía no está disponible."))
+    # The writer lock above serializes this check with refund requests from the buyer.
+    from .models import Refund
+    if Refund.objects.filter(invoice=gift.purchase.invoice).exclude(status=Refund.Status.REJECTED).exists():
+        raise ValidationError(gettext("Este regalo ya no está disponible."))
     now = timezone.now()
     # Only an unredeemed gift changes state; a concurrent redemption updates nothing.
     if not Gift.objects.filter(pk=gift.pk, recipient__isnull=True).update(recipient=actor, redeemed_at=now):

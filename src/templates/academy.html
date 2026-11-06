@@ -12,7 +12,7 @@
     {% if not reviewer %}{% include '_section_navigation.html' %}{% endif %}
     {% block academy_tabs %}{% endblock %}
     <div class="academy-page">{% for message in messages %}<div class="notice" role="status" data-message-level="{{ message.tags }}">{{ message }}</div>{% endfor %}{% block academy_content %}{% endblock %}</div>
-    <footer class="academy-footer">{% block academy_footer %}<span class="mono">BTC.EDU</span><span>{% translate "Aprende a tu ritmo." %}</span>{% endblock %}</footer>
+    <footer class="academy-footer">{% block academy_footer %}<span class="mono">BTC.EDU</span><span>{% translate "Aprende a tu ritmo." %}</span><nav class="legal-links" aria-label="{% translate "Condiciones" %}"><a href="{% url 'terms' %}">{% translate "Términos" %}</a><a href="{% url 'refund-policy' %}">{% translate "Reembolsos" %}</a></nav>{% endblock %}</footer>
   </div>
 </div>
 {% endblock %}

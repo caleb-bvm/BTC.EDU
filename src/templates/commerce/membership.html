@@ -22,7 +22,7 @@
           <p class="membership-plan-period">{% blocktranslate with days=plan.days %}{{ days }} días de acceso{% endblocktranslate %}</p>
           {% if plan.description %}<p class="small-note">{{ plan.description|tr }}</p>{% endif %}
           {% if student %}
-            <form method="post" action="{% url 'membership-join' %}" data-payment-form data-pending-label="Preparando el pago…">{% csrf_token %}<input type="hidden" name="plan" value="{{ plan.pk }}"><button class="btn btn-accent" type="submit">{% if until %}{% translate "Renovar" %}{% else %}{% translate "Hacerme miembro" %}{% endif %} →</button></form>
+            <form method="post" action="{% url 'membership-join' %}" data-payment-form data-pending-label="Preparando el pago…">{% csrf_token %}<input type="hidden" name="plan" value="{{ plan.pk }}"><button class="btn btn-accent" type="submit">{% if until %}{% translate "Renovar" %}{% else %}{% translate "Hacerme miembro" %}{% endif %} →</button></form><p class="small-note">{% url 'terms' as terms_url %}{% url 'refund-policy' as refunds_url %}{% blocktranslate %}Al preparar el pago aceptas los <a href="{{ terms_url }}">términos</a>. Consulta la <a href="{{ refunds_url }}">política de reembolsos</a>.{% endblocktranslate %}</p>
           {% elif not user.is_authenticated %}
             <a class="btn btn-accent" href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">{% translate "Entrar para unirme →" %}</a>
           {% else %}

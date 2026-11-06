@@ -23,7 +23,7 @@ def membership_until(user):
         return None
     now = timezone.now()
     # Renewals start where the previous period ends, so open periods are contiguous.
-    period = MembershipPayment.objects.filter(member=user, status="paid", ends_at__gt=now).aggregate(start=Min("starts_at"), end=Max("ends_at"))
+    period = MembershipPayment.objects.filter(member=user, status="paid", ends_at__gt=now).exclude(refund__status="refunded").aggregate(start=Min("starts_at"), end=Max("ends_at"))
     return period["end"] if period["start"] and period["start"] <= now else None
 
 
@@ -83,7 +83,8 @@ def settle_membership(payment_id, provider_status):
         now = timezone.now()
         if provider_status.paid and provider_status.amount_msat == payment.amount_sats * 1000:
             # A payment observed late still buys a full period, counted from its confirmation.
-            latest = MembershipPayment.objects.filter(member_id=member_id, status="paid").aggregate(end=Max("ends_at"))["end"]
+            latest = (MembershipPayment.objects.filter(member_id=member_id, status="paid").exclude(refund__status="refunded")
+                      .aggregate(end=Max("ends_at"))["end"])
             starts_at = max(now, latest) if latest else now
             ends_at = starts_at + timedelta(days=payment.days)
             MembershipPayment.objects.filter(pk=payment.pk).exclude(status="paid").update(

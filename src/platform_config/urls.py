@@ -56,6 +56,8 @@ urlpatterns += i18n_patterns(
     path("recursos/", views.academy_catalog, {"section": "recursos"}, name="resources"),
     path("referencias/<int:pk>/", reference_detail, name="reference-detail"),
     path("para-creadores/", views.creators, name="creators"),
+    path("terminos/", views.terms, name="terms"),
+    path("reembolsos/", views.refund_policy, name="refund-policy"),
     path("crear/", include("creators.urls")),
     path("creadores/<int:pk>/", public_profile, name="creator-public-profile"),
     path("mi-espacio/", views.workspace, name="workspace"),

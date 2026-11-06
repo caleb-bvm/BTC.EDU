@@ -1,5 +1,6 @@
 """Forms for offers, coupons, tips and refunds."""
 from django import forms
+from django.core.validators import MinLengthValidator
 from django.utils.translation import gettext, gettext_lazy
 
 from .catalog import target_choices
@@ -85,6 +86,12 @@ class RefundForm(forms.Form):
             self.fields["reason"].label = gettext_lazy("Describe el problema")
         else:
             del self.fields["kind"]
+            self.fields["reason"].required = False
+            self.fields["reason"].min_length = None
+            self.fields["reason"].validators = [validator for validator in self.fields["reason"].validators
+                                                if not isinstance(validator, MinLengthValidator)]
+            self.fields["reason"].widget.attrs.pop("minlength", None)
+            self.fields["reason"].label = gettext_lazy("Motivo (opcional)")
         self.fields["payment_request"].help_text = (gettext('Crea en tu wallet una factura por exactamente %(amount)s sats y pégala aquí.') % {"amount": amount})
         for name, field in self.fields.items():
             if name != "kind":

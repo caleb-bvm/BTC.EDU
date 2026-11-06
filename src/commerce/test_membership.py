@@ -166,3 +166,42 @@ class MembershipPageTests(MembershipFixture):
         self.assertContains(self.client.get(reverse("membership")), "Activa hasta el")
         self.client.force_login(self.other)
         self.assertEqual(self.client.get(reverse("membership-payment", args=[payment.pk])).status_code, 404)
+
+
+@override_settings(LNBITS_REFUND_KEY="refund-key")
+class MembershipRefundTests(MembershipFixture):
+    INVOICE_5000 = "lnbc50u1pjtestqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
+
+    def test_unused_period_is_refunded_and_access_ends(self):
+        from .refunds import (
+            approve_refund,
+            membership_refund_blocker,
+            request_membership_refund,
+        )
+        from .test_features import PayingGateway
+        payment = self.join()
+        self.assertEqual(membership_refund_blocker(payment, self.student), "")
+        page = self.client.get(reverse("membership-payment", args=[payment.pk]))
+        self.assertContains(page, reverse("membership-refund", args=[payment.pk]))
+        refund = request_membership_refund(self.student, payment.pk, "", self.INVOICE_5000)
+        self.assertEqual(refund.title, "Membresía · Membresía mensual")
+        approve_refund(self.admin, refund, "", PayingGateway())
+        self.assertIsNone(membership_until(self.student))
+        self.assertFalse(content_access(self.student, self.records[1]).allowed)
+        self.assertTrue(Notification.objects.filter(recipient=self.student, event_key=f"refund:{refund.pk}").exists())
+        # A new period starts now instead of after the refunded one.
+        self.gateway.paid = False
+        renewal = self.join()
+        self.assertLess(renewal.starts_at, payment.ends_at)
+
+    def test_opening_included_content_or_the_window_ends_the_withdrawal(self):
+        from .refunds import membership_refund_blocker
+        payment = self.join()
+        self.assertIn("plazo", membership_refund_blocker(payment, self.student, now=payment.paid_at + timedelta(days=9)))
+        self.assertEqual(self.client.get(self.lesson_url()).status_code, 200)
+        self.assertIn("usaste", membership_refund_blocker(payment, self.student))
+        self.assertEqual(membership_refund_blocker(payment, self.student, claim=True), "")
+        response = self.client.post(reverse("membership-claim", args=[payment.pk]),
+                                    {"kind": "unavailable", "reason": "Las lecciones incluidas no cargan", "payment_request": self.INVOICE_5000})
+        self.assertRedirects(response, reverse("membership-payment", args=[payment.pk]), fetch_redirect_response=False)
+        self.assertEqual(MembershipPayment.objects.get(pk=payment.pk).refund.kind, "unavailable")

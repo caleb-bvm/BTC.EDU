@@ -8,10 +8,11 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
 from core.content_translation import translate_content
 
@@ -22,7 +23,7 @@ from .membership import (
     create_membership_payment,
     membership_until,
 )
-from .models import MembershipPayment
+from .models import MembershipPayment, Refund
 from .views import student_required
 
 
@@ -70,8 +71,12 @@ def membership_payment(request, pk):
         except ProviderUnavailable:
             payment.refresh_from_db()
             messages.warning(request, gettext("No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo."))
+    from .refunds import membership_refund_blocker
+    refund = getattr(payment, "refund", None)
     return render(request, "commerce/membership_payment.html", {
-        "payment": payment, "active": "membership", "until": membership_until(request.user),
+        "payment": payment, "active": "membership", "until": membership_until(request.user), "refund": refund,
+        "can_refund": payment.status == "paid" and not membership_refund_blocker(payment, request.user),
+        "can_claim": payment.status == "paid" and not membership_refund_blocker(payment, request.user, claim=True),
         "can_pay": payment.status == "pending" and payment.issue_state == "ready" and payment.expires_at > timezone.now(),
         "external_payment": settings.COMMERCE_PAYMENT_MODE == "regtest",
     })
@@ -116,3 +121,28 @@ def membership_payment_action(request, pk):
     except ProviderUnavailable:
         messages.warning(request, gettext("No pudimos comprobar el pago. Actualiza este mismo pago antes de volver a pagar."))
     return redirect("membership-payment", pk=pk)
+
+
+@student_required
+@require_http_methods(["GET", "POST"])
+def membership_refund_request(request, pk, claim=False):
+    from .feature_views import render_refund_request
+    from .forms import RefundForm
+    from .refunds import membership_refund_blocker, request_membership_refund
+    payment = get_object_or_404(MembershipPayment.objects.select_related("plan"), pk=pk, member=request.user)
+    blocker = membership_refund_blocker(payment, request.user, claim=claim)
+    if blocker:
+        messages.info(request, blocker)
+        return redirect("membership-payment", pk=pk)
+    form = RefundForm(request.POST if request.method == "POST" else None, amount=payment.amount_sats, claim=claim)
+    if request.method == "POST" and form.is_valid():
+        try:
+            request_membership_refund(request.user, payment.pk, form.cleaned_data["reason"], form.cleaned_data["payment_request"],
+                                      form.cleaned_data.get("kind", Refund.Kind.WITHDRAWAL))
+        except ValidationError as exc:
+            form.add_error(None, " ".join(exc.messages))
+        else:
+            messages.success(request, gettext("Recibimos tu solicitud. Te avisaremos cuando la revisemos."))
+            return redirect("membership-payment", pk=pk)
+    return render_refund_request(request, form, claim, gettext("Membresía · %(plan)s") % {"plan": payment.plan.name},
+                                 payment.amount_sats, reverse("membership-payment", args=[pk]), "membership")

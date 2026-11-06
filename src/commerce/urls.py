@@ -37,4 +37,6 @@ urlpatterns = [
     path("membresia/pagos/<uuid:pk>/qr/", membership_views.membership_payment_qr, name="membership-payment-qr"),
     path("membresia/pagos/<uuid:pk>/estado/", membership_views.membership_payment_status, name="membership-payment-status"),
     path("membresia/pagos/<uuid:pk>/comprobar/", membership_views.membership_payment_action, name="membership-payment-action"),
+    path("membresia/pagos/<uuid:pk>/reembolso/", membership_views.membership_refund_request, name="membership-refund"),
+    path("membresia/pagos/<uuid:pk>/reclamo/", membership_views.membership_refund_request, {"claim": True}, name="membership-claim"),
 ]
