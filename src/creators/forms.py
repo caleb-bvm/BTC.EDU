@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.utils.translation import gettext, gettext_lazy
 
 from content.education import EDUCATION_FIELDS
+from content.languages import DEFAULT_CONTENT_LANGUAGE, sorted_language_choices
 from content.models import (
     Chapter,
     Course,
@@ -59,14 +60,23 @@ class ProfileForm(forms.ModelForm):
         self.fields["bio"].max_length = 2000
 
 
+def language_choice(form):
+    """Languages sorted by name; a form that omits the field keeps the current language."""
+    field = form.fields["language"]
+    field.choices = sorted_language_choices()
+    field.required = False
+    form.clean_language = lambda: form.cleaned_data.get("language") or form.instance.language or DEFAULT_CONTENT_LANGUAGE
+
+
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ("title", "kind", "description", "objective", "requirements", "topic", "level", "estimated_minutes")
+        fields = ("title", "kind", "language", "description", "objective", "requirements", "topic", "level", "estimated_minutes")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         group_topic_choices(self)
+        language_choice(self)
 
 
 class ChapterForm(forms.ModelForm):
@@ -112,11 +122,11 @@ class LessonForm(forms.ModelForm):
 
 class ResourceForm(forms.ModelForm):
     new_file = forms.FileField(label=gettext_lazy("Cargar un archivo nuevo"), required=False, help_text=gettext_lazy("Selecciona un archivo de tu equipo o elige uno de tu biblioteca más abajo."))
-    new_subtitles = forms.FileField(label=gettext_lazy("Cargar subtítulos nuevos"), required=False, help_text=gettext_lazy("Archivo VTT en español; también puedes elegir uno de tu biblioteca."))
+    new_subtitles = forms.FileField(label=gettext_lazy("Cargar subtítulos nuevos"), required=False, help_text=gettext_lazy("Archivo VTT en el idioma del contenido; también puedes elegir uno de tu biblioteca."))
 
     class Meta:
         model = Video
-        fields = ("title", "description", *EDUCATION_FIELDS, "topic", "access_type", "pending_asset", "pending_subtitles", "transcript")
+        fields = ("title", "description", *EDUCATION_FIELDS, "topic", "language", "access_type", "pending_asset", "pending_subtitles", "transcript")
 
     def __init__(self, *args, actor, **kwargs):
         super().__init__(*args, **kwargs)
@@ -124,6 +134,7 @@ class ResourceForm(forms.ModelForm):
         self.uploaded_assets = {}
         education_widgets(self)
         group_topic_choices(self)
+        language_choice(self)
         kind = "video" if isinstance(self.instance, Video) else "material"
         self.fields["pending_asset"].queryset = Asset.objects.filter(creator=actor, kind=kind)
         self.fields["pending_asset"].required = False

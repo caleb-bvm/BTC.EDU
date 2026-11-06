@@ -37,7 +37,7 @@ def load_version(user, course_pk, number):
 def version_course(version):
     """Presentation objects keep existing templates, never write draft records."""
     course = Course(pk=version.course_id, creator=version.course.creator, current_version=version, status=version.course.status)
-    for field in ("title", "description", "objective", "requirements", "kind", "topic", "level", "estimated_minutes"):
+    for field in ("title", "description", "objective", "requirements", "kind", "topic", "level", "estimated_minutes", "language"):
         setattr(course, field, getattr(version, field))
     course.visible_chapters = []
     course.version_number = version.number
@@ -99,7 +99,7 @@ def attachment_cards(request, attachments):
         allowed = content_access(request.user, attachment).allowed
         cards.append({"title": resource.title, "kind": resource.kind, "allowed": allowed, "unit": resource,
                       "size": resource.asset.size, "mime": resource.asset.mime_type,
-                      "body": resource.body if allowed else "",
+                      "body": resource.body if allowed else "", "language": resource.language,
                       "file_url": reverse("attachment-file", args=[attachment.pk, "archivo"]) if allowed and resource.asset.file.storage.exists(resource.asset.file.name) else "",
                       "subtitle_url": reverse("attachment-file", args=[attachment.pk, "subtitulos"]) if allowed and resource.subtitles_id else ""})
     return cards
@@ -147,7 +147,7 @@ def version_lesson_detail(request, course_pk, number, lesson_pk):
     if offers and not preview:
         from core.telemetry import offer_views
         offer_views(request, offers)
-    return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "reading_sections": reading_sections(body), "allowed": decision.allowed, "preview": preview, "version": version, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments, "offers": offers, "membership": membership, "purchase_return": record.pk, "lesson_context": True, **learning, **journey, **discussion}, status=200 if decision.allowed else 403)
+    return render(request, "content/lesson.html", {"course": course, "lesson": lesson, "body": body, "reading_sections": reading_sections(body), "content_language": record.content.language, "allowed": decision.allowed, "preview": preview, "version": version, "active": "tutorials" if course.kind == "tutorial" else "courses", "return_to": return_path(request, "tutorials" if course.kind == "tutorial" else "courses"), "previous": lessons[index - 1] if index else None, "next_lesson": lessons[index + 1] if index + 1 < len(lessons) else None, "lesson_number": index + 1, "lesson_count": len(lessons), "attachments": attachments, "offers": offers, "membership": membership, "purchase_return": record.pk, "lesson_context": True, **learning, **journey, **discussion}, status=200 if decision.allowed else 403)
 
 
 @require_safe

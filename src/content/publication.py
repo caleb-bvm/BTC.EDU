@@ -54,6 +54,7 @@ def prepare_resource(resource, actor):
         resource_key=resource.resource_key, number=next_revision(resource.resource_key),
         creator=resource.creator, kind="video" if model == Video else "material",
         title=resource.title, description=resource.description, topic=resource.topic, access_type=resource.access_type,
+        language=resource.language,
         body=resource.transcript, asset=resource.pending_asset, subtitles=resource.pending_subtitles,
         video_url=getattr(resource, "video_url", ""), video_author=getattr(resource, "video_author", ""),
         **education_values(resource),
@@ -108,12 +109,12 @@ def prepare_course(course, actor):
         course=course, number=number, title=course.title, description=course.description,
         objective=course.objective, requirements=course.requirements, kind=course.kind,
         topic=course.topic, level=course.level, estimated_minutes=course.estimated_minutes,
-        creator_name=creator_name,
+        language=course.language, creator_name=creator_name,
     )
     for chapter, lessons in visible:
         frozen_chapter = VersionChapter.objects.create(version=version, title=chapter.title, description=chapter.description, position=chapter.position)
         for lesson in lessons:
-            values = {"title": lesson.title, "description": lesson.description, "access_type": lesson.access_type, "body": lesson.body, **education_values(lesson)}
+            values = {"title": lesson.title, "description": lesson.description, "access_type": lesson.access_type, "body": lesson.body, "language": course.language, **education_values(lesson)}
             text = ResourceVersion.objects.filter(resource_key=lesson.resource_key).order_by("-number").first()
             if text is None or any(getattr(text, key) != value for key, value in values.items()):
                 text = ResourceVersion.objects.create(resource_key=lesson.resource_key, number=next_revision(lesson.resource_key), creator=course.creator, kind="text", **values)

@@ -111,7 +111,7 @@ El 23 de octubre de 2026 el usuario compartió una comparación de BTC.EDU con U
 | Pago por minuto | Pendiente | Necesita medición de reproducción y pagos recurrentes |
 | Pagos a educadores | Pendiente | Requiere comisión, reparto y liquidación definidos |
 | Asistente de IA | Pendiente | Costo y proveedor por decidir |
-| Inglés | Implementada | Interfaz y fichas del catálogo propio traducidas; los cursos quedan en el idioma de su educador; falta revisión por hablantes nativos |
+| Inglés | Implementada | Interfaz y fichas del catálogo propio traducidas; cada curso, video y material declara el idioma de su educador; falta revisión por hablantes nativos |
 | Pase con créditos | Hipótesis | Contradice la tesis de micropagos del reto |
 
 Los reembolsos revocan solo el acceso que concedía la compra reembolsada: un derecho con otra fuente vigente se conserva y una compra nueva lo restablece. Un pago de reembolso con resultado incierto queda por conciliar sin retirar el acceso. Las propinas aceptan un pago observado tarde porque no conceden acceso. La galería y las reseñas muestran el alias público. Estas decisiones son técnicas y provisionales; plazo de reembolso, uso de cupones y utilidad de reseñas, rutas y lectura sin conexión deben observarse con participantes. [Comprobaciones](../src/docs/operacion-y-bitacora.md#23-de-octubre-de-2026).

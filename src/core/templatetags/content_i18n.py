@@ -24,9 +24,13 @@ def tr(value):
 
 
 @register.filter
-def source_lang(value):
-    """Return the source language when the text has no translation, for the lang attribute."""
-    return "" if is_translated(value) else settings.LANGUAGE_CODE
+def source_lang(value, language=None):
+    """Return the text's own language when it has no translation, for the lang attribute.
+
+    ``language`` is the language the educator wrote the content in; BTC.EDU's own
+    catalog is written in Spanish.
+    """
+    return "" if is_translated(value) else (language or settings.LANGUAGE_CODE)
 
 
 @register.simple_tag(takes_context=True)

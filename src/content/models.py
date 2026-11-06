@@ -12,6 +12,17 @@ from django.db import models
 from django.utils.translation import gettext, gettext_lazy
 
 from .immutability import FrozenRecord
+from .languages import (
+    CONTENT_LANGUAGES,
+    DEFAULT_CONTENT_LANGUAGE,
+    LANGUAGE_FIELD_MAX_LENGTH,
+)
+
+
+def language_field(**kwargs):
+    """Language the educator writes the content in; the interface language is separate."""
+    return models.CharField(max_length=LANGUAGE_FIELD_MAX_LENGTH, choices=CONTENT_LANGUAGES,
+                            default=DEFAULT_CONTENT_LANGUAGE, db_default=DEFAULT_CONTENT_LANGUAGE, **kwargs)
 
 
 class PublicationStatus(models.TextChoices):
@@ -125,6 +136,7 @@ class Course(Publication):
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="tema")
     level = models.CharField("nivel", max_length=12, choices=CourseLevel, blank=True)
     estimated_minutes = models.PositiveIntegerField(gettext_lazy("duración estimada en minutos"), null=True, blank=True)
+    language = language_field(verbose_name=gettext_lazy("idioma del contenido"), help_text=gettext_lazy("Idioma en que escribes las lecciones. La plataforma no traduce los cursos."))
     current_version = models.ForeignKey("CourseVersion", on_delete=models.PROTECT, null=True, blank=True, related_name="+", editable=False)
     membership = models.BooleanField(gettext_lazy("incluido en la membresía"), default=False, db_default=False,
                                      help_text=gettext_lazy("Con una membresía vigente se abren las lecciones de pago de la versión publicada."))
@@ -184,6 +196,7 @@ class StandaloneResource(Publication, EducationalUnit):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name="creador")
     access_type = models.CharField("acceso", max_length=8, choices=AccessType, default=AccessType.FREE)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="tema")
+    language = language_field(verbose_name=gettext_lazy("idioma del contenido"), help_text=gettext_lazy("Idioma del video, el material, los subtítulos y la transcripción."))
     resource_key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     pending_asset = models.ForeignKey("media.Asset", on_delete=models.PROTECT, null=True, blank=True, related_name="+", verbose_name=gettext_lazy("archivo de la próxima revisión"))
     pending_subtitles = models.ForeignKey("media.Asset", on_delete=models.PROTECT, null=True, blank=True, related_name="+", verbose_name=gettext_lazy("subtítulos VTT de la próxima revisión"))
@@ -243,6 +256,7 @@ class ResourceVersion(FrozenRecord, EducationalUnit):
     description = models.TextField(blank=True)
     topic = models.ForeignKey(Topic, on_delete=models.PROTECT, null=True, blank=True, related_name="+")
     access_type = models.CharField(max_length=8, choices=AccessType)
+    language = language_field()
     body = models.TextField(blank=True)
     asset = models.ForeignKey("media.Asset", on_delete=models.PROTECT, null=True, blank=True, related_name="+")
     subtitles = models.ForeignKey("media.Asset", on_delete=models.PROTECT, null=True, blank=True, related_name="+")
@@ -285,6 +299,7 @@ class CourseVersion(FrozenRecord):
     topic = models.ForeignKey(Topic, on_delete=models.PROTECT, null=True, blank=True)
     level = models.CharField(max_length=12, choices=CourseLevel, blank=True)
     estimated_minutes = models.PositiveIntegerField(null=True, blank=True)
+    language = language_field()
     creator_name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     sealed = models.BooleanField(default=False, editable=False)

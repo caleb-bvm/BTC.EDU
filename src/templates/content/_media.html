@@ -8,11 +8,11 @@
       {% if media.kind == 'video' %}
       <video class="lesson-video" controls playsinline preload="metadata" aria-label="{{ media.title|tr }}">
         <source src="{{ media.file_url }}" type="video/mp4">
-        {% if media.subtitle_url %}<track kind="captions" src="{{ media.subtitle_url }}" srclang="es" label="{% translate "Español" %}" default>{% endif %}
+        {% if media.subtitle_url %}<track kind="captions" src="{{ media.subtitle_url }}" srclang="{{ media.language|default:'es' }}" label="{{ media.language|default:'es'|language_name_local }}" default>{% endif %}
         {% translate "Tu navegador no admite este reproductor." %} <a href="{{ media.file_url }}">{% translate "Abrir video" %}</a>.
       </video>
       <p class="media-error status-strip" hidden>{% translate "No se pudo reproducir el video. Intenta recargar; si continúa, avisa al educador." %}</p>
-      {% if media.body %}<details class="media-transcript"><summary>{% translate "Leer transcripción" %}</summary><div class="reading-copy"{% if media.body|source_lang %} lang="{{ media.body|source_lang }}"{% endif %}>{{ media.body|linebreaks }}</div></details>{% endif %}
+      {% if media.body %}<details class="media-transcript"><summary>{% translate "Leer transcripción" %}</summary><div class="reading-copy"{% if media.body|source_lang:media.language %} lang="{{ media.body|source_lang:media.language }}"{% endif %}>{{ media.body|linebreaks }}</div></details>{% endif %}
       {% else %}<p>{% blocktranslate with size=media.size|filesizeformat %}Archivo · {{ size }}{% endblocktranslate %}</p><a class="btn btn-dark" href="{{ media.file_url }}">{% translate "Descargar material ↓" %}</a>{% endif %}
     {% else %}<div class="status-strip"><p>{% translate "El archivo no está disponible. Vuelve a intentar más tarde o avisa al educador." %}</p></div>{% endif %}
   {% else %}<div class="locked-panel"><span class="access-badge">{% translate "Contenido de pago" %}</span><p>{% translate "Este recurso requiere una compra. Consulta las opciones de acceso disponibles." %}</p></div>{% endif %}
