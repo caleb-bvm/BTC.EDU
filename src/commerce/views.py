@@ -281,8 +281,9 @@ def invoice_detail(request, pk):
     from .refunds import refund_blocker
     refund = getattr(invoice, "refund", None)
     can_refund = invoice.status == "paid" and refund is None and not refund_blocker(invoice, request.user)
+    can_claim = invoice.status == "paid" and refund is None and not refund_blocker(invoice, request.user, claim=True)
     return render(request, "commerce/invoice.html", {
-        "refund": refund, "can_refund": can_refund, "gift": invoice.order.gift if invoice.order_id else False,
+        "refund": refund, "can_refund": can_refund, "can_claim": can_claim, "gift": invoice.order.gift if invoice.order_id else False,
         "invoice": invoice, "order_lines": lines, "destination": next_destination["url"],
         "destination_label": next_destination["label"], "destination_title": next_destination["title"],
         "selected_lesson": chosen_lesson, "return_to_content": back_to_lesson, "retry_url": retry_url,

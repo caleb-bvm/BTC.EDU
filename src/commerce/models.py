@@ -3,6 +3,7 @@
 Purchases, entitlements and evidence are append-only.
 """
 import uuid
+from datetime import timedelta
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -459,8 +460,19 @@ class Refund(models.Model):
         REJECTED = "rejected", gettext_lazy("Rechazada")
         REVIEW = "review", gettext_lazy("Por conciliar")
 
+    class Kind(models.TextChoices):
+        """A withdrawal follows the refund window; the other kinds are claims about the purchase itself."""
+        WITHDRAWAL = "withdrawal", gettext_lazy("Reembolso dentro del plazo")
+        UNAVAILABLE = "unavailable", gettext_lazy("No pude acceder al contenido")
+        MISMATCH = "mismatch", gettext_lazy("No corresponde a lo ofrecido")
+        DEFECTIVE = "defective", gettext_lazy("Tiene errores o archivos dañados")
+        BILLING = "billing", gettext_lazy("Error en el cobro")
+
+    RESPONSE_DAYS = 15
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     invoice = models.OneToOneField(Invoice, on_delete=models.PROTECT, related_name="refund")
+    kind = models.CharField(gettext_lazy("tipo"), max_length=12, choices=Kind, default=Kind.WITHDRAWAL)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="refunds")
     amount_sats = models.PositiveIntegerField()
     reason = models.TextField(max_length=1000)
@@ -480,6 +492,15 @@ class Refund(models.Model):
     def save(self, *args, **kwargs):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)
-            if any(getattr(self, field) != getattr(original, field) for field in ("invoice_id", "buyer_id", "amount_sats", "reason", "payment_request")):
+            if any(getattr(self, field) != getattr(original, field) for field in ("invoice_id", "buyer_id", "kind", "amount_sats", "reason", "payment_request")):
                 raise ValidationError(gettext("La solicitud conserva su factura, importe y destino."))
         return super().save(*args, **kwargs)
+
+    @property
+    def is_claim(self):
+        return self.kind != self.Kind.WITHDRAWAL
+
+    @property
+    def respond_by(self):
+        """Consumer law gives fifteen days to return the payment once a request is received."""
+        return self.created_at + timedelta(days=self.RESPONSE_DAYS)

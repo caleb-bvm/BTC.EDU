@@ -218,23 +218,24 @@ def creator_tips(request):
 
 @student_required
 @require_http_methods(["GET", "POST"])
-def refund_request(request, pk):
+def refund_request(request, pk, claim=False):
     invoice = get_object_or_404(Invoice.objects.select_related("order", "offer", "purchase"), pk=pk, buyer=request.user)
-    blocker = refund_blocker(invoice, request.user)
+    blocker = refund_blocker(invoice, request.user, claim=claim)
     if blocker:
         messages.info(request, blocker)
         return redirect("invoice-detail", pk=pk)
-    form = RefundForm(request.POST if request.method == "POST" else None, amount=invoice.amount_sats)
+    form = RefundForm(request.POST if request.method == "POST" else None, amount=invoice.amount_sats, claim=claim)
     if request.method == "POST" and form.is_valid():
         try:
-            request_refund(request.user, invoice.pk, form.cleaned_data["reason"], form.cleaned_data["payment_request"])
+            request_refund(request.user, invoice.pk, form.cleaned_data["reason"], form.cleaned_data["payment_request"],
+                           form.cleaned_data.get("kind", Refund.Kind.WITHDRAWAL))
         except ValidationError as exc:
             form.add_error(None, " ".join(exc.messages))
         else:
             messages.success(request, gettext("Recibimos tu solicitud. Te avisaremos cuando la revisemos."))
             return redirect("invoice-detail", pk=pk)
-    return render(request, "commerce/refund_request.html", {"invoice": invoice, "form": form, "active": "purchases",
-                                                           "refund_days": settings.COMMERCE_REFUND_DAYS})
+    return render(request, "commerce/refund_request.html", {"invoice": invoice, "form": form, "active": "purchases", "claim": claim,
+                                                           "refund_days": settings.COMMERCE_REFUND_DAYS, "response_days": Refund.RESPONSE_DAYS})
 
 
 @login_required(login_url="admin:login")

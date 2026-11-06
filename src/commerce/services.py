@@ -13,6 +13,7 @@ from django.db.models import F
 from django.utils import timezone
 from django.utils.translation import gettext
 
+from . import creator_notices
 from .catalog import available, ownership
 from .gateway import LNbitsGateway, ProviderUnavailable
 from .models import (
@@ -184,6 +185,7 @@ def settle(invoice_id, provider_status, observed_at=None):
         Gift.objects.create(purchase=purchase, order=invoice.order, token=secrets.token_urlsafe(24))
         Invoice.objects.filter(pk=invoice.pk).update(status="paid", incident="")
         event(invoice, "paid", gettext("Tu regalo está listo. Comparte el enlace de canje con quien lo recibirá."))
+        creator_notices.sale(invoice)
     else:
         purchase = Purchase.objects.create(invoice=invoice)
         for item in {item["resource_id"]: item for item in invoice.inventory}.values():
@@ -191,6 +193,7 @@ def settle(invoice_id, provider_status, observed_at=None):
             EntitlementSource.objects.create(entitlement=right, purchase=purchase)
         Invoice.objects.filter(pk=invoice.pk).update(status="paid", incident="")
         event(invoice, "paid", gettext("Tu compra está confirmada. El contenido adquirido permanece en tu biblioteca."))
+        creator_notices.sale(invoice)
         versions = {invoice.offer.course_version_id} if invoice.offer_id and invoice.offer.course_version_id else set()
         if invoice.order_id:
             versions |= set(invoice.order.lines.exclude(course_version=None).values_list("course_version_id", flat=True))

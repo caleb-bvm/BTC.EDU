@@ -1,15 +1,15 @@
 {% extends 'academy.html' %}
-{% block title %}{% translate "Solicitar reembolso · BTC.EDU" %}{% endblock %}
+{% block title %}{% if claim %}{% translate "Reportar un problema · BTC.EDU" %}{% else %}{% translate "Solicitar reembolso · BTC.EDU" %}{% endif %}{% endblock %}
 {% block academy_content %}
 <section class="learning-page commerce-page">
-  <nav class="breadcrumbs" aria-label="{% translate "Tu recorrido" %}"><a href="{% url 'invoice-detail' invoice.pk %}">{% translate "← Volver a la compra" %}</a><span aria-current="page">{% translate "Reembolso" %}</span></nav>
-  <header class="page-heading"><div><p class="eyebrow">{% translate "REEMBOLSO" %}</p><h1>{% translate "Solicita un reembolso." %}</h1><p>{{ invoice.title|tr }} · {{ invoice.amount_sats }} sats</p></div></header>
+  <nav class="breadcrumbs" aria-label="{% translate "Tu recorrido" %}"><a href="{% url 'invoice-detail' invoice.pk %}">{% translate "← Volver a la compra" %}</a><span aria-current="page">{% if claim %}{% translate "Problema con la compra" %}{% else %}{% translate "Reembolso" %}{% endif %}</span></nav>
+  <header class="page-heading"><div><p class="eyebrow">{% translate "REEMBOLSO" %}</p><h1>{% if claim %}{% translate "Cuéntanos qué falló." %}{% else %}{% translate "Solicita un reembolso." %}{% endif %}</h1><p>{{ invoice.title|tr }} · {{ invoice.amount_sats }} sats</p></div></header>
   <div class="commerce-grid">
     <section class="commerce-panel">
       {% if form.non_field_errors %}<div class="form-errors" role="alert">{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>{% endif %}
       <form method="post" data-payment-form data-pending-label="Enviando…">{% csrf_token %}{{ form.as_p }}<button class="btn btn-dark" type="submit">{% translate "Enviar solicitud →" %}</button></form>
     </section>
-    <aside class="commerce-panel purchase-summary"><h2>{% translate "Antes de enviar" %}</h2><p>{% blocktranslate with refund_days=refund_days %}Puedes solicitarlo durante {{ refund_days }} días desde la compra, si todavía no obtuviste un certificado con este contenido.{% endblocktranslate %}</p><p>{% translate "Revisamos cada solicitud. Si la aprobamos, enviamos los sats a tu factura y el acceso de esta compra termina. Tu avance se conserva." %}</p></aside>
+    <aside class="commerce-panel purchase-summary"><h2>{% translate "Antes de enviar" %}</h2>{% if claim %}<p>{% translate "Si no pudiste acceder al contenido, no corresponde a lo ofrecido, tiene errores o te cobramos de más, puedes pedir la devolución en cualquier momento." %}</p><p>{% blocktranslate with response_days=response_days %}Revisamos cada caso en un máximo de {{ response_days }} días. Si procede, enviamos los sats a tu factura y el acceso de esta compra termina. Tu avance se conserva.{% endblocktranslate %}</p>{% else %}<p>{% blocktranslate with refund_days=refund_days %}Puedes solicitarlo durante {{ refund_days }} días desde la compra, si todavía no obtuviste un certificado con este contenido.{% endblocktranslate %}</p><p>{% translate "Revisamos cada solicitud. Si la aprobamos, enviamos los sats a tu factura y el acceso de esta compra termina. Tu avance se conserva." %}</p>{% endif %}</aside>
   </div>
 </section>
 {% endblock %}

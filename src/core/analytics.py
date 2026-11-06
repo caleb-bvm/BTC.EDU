@@ -6,7 +6,7 @@ from django.db.models import Avg, Count, DurationField, ExpressionWrapper, F, Q,
 from django.utils import timezone
 from django.utils.translation import gettext, gettext_lazy
 
-from commerce.models import Entitlement, Invoice, OrderLine, Purchase
+from commerce.models import Entitlement, Invoice, OrderLine, Purchase, Refund
 from content.models import CourseVersion, VersionLesson
 from creators.models import Submission
 from learning.models import (
@@ -36,6 +36,24 @@ def ratio(numerator, denominator):
     return {"numerator": numerator, "denominator": denominator, "percent": round(100 * numerator / denominator, 1) if denominator else None}
 
 
+def sales_volume(paid, invoice_ids, creator=None):
+    """Sats and sold lines of these paid invoices; for a creator, only their offers and order lines."""
+    lines = OrderLine.objects.filter(order__invoice__pk__in=invoice_ids)
+    if not creator:
+        return paid.filter(pk__in=invoice_ids).aggregate(total=Sum("amount_sats"))["total"] or 0, lines
+    lines = lines.filter(creator=creator)
+    direct = paid.filter(pk__in=invoice_ids, offer__isnull=False).aggregate(total=Sum("amount_sats"))["total"] or 0
+    return direct + (lines.aggregate(total=Sum("amount_sats"))["total"] or 0), lines
+
+
+def own_share(invoice, creator):
+    """Title and amount of an invoice that belong to the creator (or all of it)."""
+    own_lines = [line for line in invoice.order.lines.all() if not creator or line.creator_id == creator.pk] if invoice.order_id else []
+    invoice.metric_title = ", ".join(line.title for line in own_lines) if own_lines else invoice.title
+    invoice.metric_amount_sats = sum(line.amount_sats for line in own_lines) if invoice.order_id and creator else invoice.amount_sats
+    return invoice
+
+
 def dashboard_data(start, end, creator=None):
     """Funnel metrics for a period.
 
@@ -63,13 +81,12 @@ def dashboard_data(start, end, creator=None):
     invoice_count = invoices.count()
     buyers = set(paid.values_list("buyer_id", flat=True))
     repeat_buyers = purchases.filter(invoice__buyer_id__in=buyers).values("invoice__buyer_id").annotate(total=Count("pk", distinct=True)).filter(total__gte=2).count()
-    sold_lines = OrderLine.objects.filter(order__invoice__pk__in=paid_ids)
-    if creator:
-        sold_lines = sold_lines.filter(creator=creator)
-        volume = (paid.filter(offer__isnull=False).aggregate(total=Sum("amount_sats"))["total"] or 0) + (sold_lines.aggregate(total=Sum("amount_sats"))["total"] or 0)
-    else:
-        volume = paid.aggregate(total=Sum("amount_sats"))["total"] or 0
-    sold_count = paid.filter(offer__isnull=False).count() + sold_lines.count()
+    # A refunded purchase is kept as a record, but its sats no longer count as sold.
+    refunded_ids = set(Refund.objects.filter(invoice_id__in=paid_ids, status="refunded").values_list("invoice_id", flat=True))
+    kept_ids = paid_ids - refunded_ids
+    volume, sold_lines = sales_volume(paid, kept_ids, creator)
+    refunded_volume, _ = sales_volume(paid, refunded_ids, creator)
+    sold_count = paid.filter(pk__in=kept_ids, offer__isnull=False).count() + sold_lines.count()
     rights = Entitlement.objects.filter(created_at__gte=lower, created_at__lt=upper, buyer__account_type="student", buyer__is_staff=False)
     if creator:
         rights = rights.filter(resource__creator=creator)
@@ -112,12 +129,14 @@ def dashboard_data(start, end, creator=None):
     first_event = ActivityEvent.objects.filter(creator=creator).order_by("created_at").first() if creator else ActivityEvent.objects.order_by("created_at").first()
     recent = list(invoices.select_related("offer", "offer__course_version", "order").prefetch_related("order__lines").order_by("-created_at")[:20])
     for invoice in recent:
-        own_lines = [line for line in invoice.order.lines.all() if not creator or line.creator_id == creator.pk] if invoice.order_id else []
-        invoice.metric_title = ", ".join(line.title for line in own_lines) if own_lines else invoice.title
-        invoice.metric_amount_sats = sum(line.amount_sats for line in own_lines) if invoice.order_id and creator else invoice.amount_sats
+        own_share(invoice, creator)
+    refunds = list(Refund.objects.filter(invoice__in=invoices).select_related("invoice__offer", "invoice__order").prefetch_related("invoice__order__lines")[:20])
+    for refund in refunds:
+        own_share(refund.invoice, creator)
     return {"invoice_count": invoice_count, "paid_count": len(paid_ids), "pending_count": invoices.filter(status="pending").count(),
             "failed_count": invoices.filter(status="failed").count(), "expired_count": invoices.filter(status="expired").count(),
             "payment_completion": ratio(len(paid_ids), invoice_count), "volume": volume, "sold_count": sold_count,
+            "refunded_volume": refunded_volume, "refunded_count": len(refunded_ids), "refunds": refunds,
             "buyer_count": len(buyers), "repeat_purchase": ratio(repeat_buyers, len(buyers)),
             "request_conversion": ratio(len(viewed_pairs & created_pairs), len(viewed_pairs)),
             "opening": ratio(len(opened_pairs), len(rights_data)), "library_return": ratio(len(returning), len(tracked_buyers)),

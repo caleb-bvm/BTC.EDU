@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext
 
+from . import creator_notices
 from .bolt11 import normalized, requested_msat
 from .gateway import LNbitsGateway, ProviderUnavailable
 from .models import Invoice, OrderLine, Refund
@@ -23,8 +24,12 @@ def paid_ids(invoice):
     return {item["resource_id"] for item in invoice.inventory if item.get("paid")}
 
 
-def refund_blocker(invoice, user, now=None):
-    """Why this paid invoice cannot be refunded, or an empty string."""
+def refund_blocker(invoice, user, now=None, claim=False):
+    """Why this paid invoice cannot be refunded, or an empty string.
+
+    A claim (content unavailable, different from the offer, defective or charged in error) must be
+    reviewed whatever the date or use, so only a withdrawal checks the window, certificates and credit.
+    """
     now = now or timezone.now()
     if invoice.buyer_id != user.pk or invoice.status != "paid" or not hasattr(invoice, "purchase"):
         return gettext("Solo puedes solicitar el reembolso de una compra confirmada.")
@@ -32,6 +37,8 @@ def refund_blocker(invoice, user, now=None):
         return gettext("Ya existe una solicitud de reembolso para esta compra.")
     if invoice.order_id and invoice.order.gift:
         return gettext("Los regalos no admiten reembolso desde esta página.")
+    if claim:
+        return ""
     if invoice.purchase.created_at + timedelta(days=settings.COMMERCE_REFUND_DAYS) < now:
         return (gettext('El plazo de reembolso es de %(COMMERCE_REFUND_DAYS)s días desde la compra.') % {"COMMERCE_REFUND_DAYS": settings.COMMERCE_REFUND_DAYS})
     from learning.models import Certificate
@@ -50,11 +57,13 @@ def refund_blocker(invoice, user, now=None):
 
 
 @transaction.atomic
-def request_refund(actor, invoice_id, reason, payment_request):
+def request_refund(actor, invoice_id, reason, payment_request, kind=Refund.Kind.WITHDRAWAL):
     require_student(actor)
     reserve_writer(actor.pk)
-    invoice = Invoice.objects.select_related("order", "offer", "purchase").get(pk=invoice_id, buyer=actor)
-    blocker = refund_blocker(invoice, actor)
+    if kind not in Refund.Kind.values:
+        raise ValidationError(gettext("Elige qué problema tuvo la compra."))
+    invoice = Invoice.objects.select_related("order", "offer__creator", "purchase").get(pk=invoice_id, buyer=actor)
+    blocker = refund_blocker(invoice, actor, claim=kind != Refund.Kind.WITHDRAWAL)
     if blocker:
         raise ValidationError(blocker)
     reason = " ".join(str(reason or "").split())
@@ -63,7 +72,8 @@ def request_refund(actor, invoice_id, reason, payment_request):
     request = normalized(payment_request)
     if requested_msat(request) != invoice.amount_sats * 1000:
         raise ValidationError((gettext('Pega una factura Lightning de tu wallet por exactamente %(amount_sats)s sats.') % {"amount_sats": invoice.amount_sats}))
-    refund = Refund.objects.create(invoice=invoice, buyer=actor, amount_sats=invoice.amount_sats, reason=reason, payment_request=request)
+    refund = Refund.objects.create(invoice=invoice, buyer=actor, kind=kind, amount_sats=invoice.amount_sats, reason=reason, payment_request=request)
+    creator_notices.refund_requested(refund)
     return refund
 
 
@@ -90,6 +100,7 @@ def finish_refund(refund_id, payment_hash):
     refund = Refund.objects.select_related("buyer").get(pk=refund_id)
     from learning.support import notify
     notify(refund.buyer, f"refund:{refund.pk}", (gettext('Reembolsamos %(amount_sats)s sats a tu wallet.') % {"amount_sats": refund.amount_sats}), reverse("invoice-detail", args=[refund.invoice_id]))
+    creator_notices.refund_resolved(refund)
     return refund
 
 
@@ -125,6 +136,7 @@ def reject_refund(actor, refund, note):
     refund.refresh_from_db()
     from learning.support import notify
     notify(refund.buyer, f"refund-rejected:{refund.pk}", gettext("Revisamos tu solicitud de reembolso."), reverse("invoice-detail", args=[refund.invoice_id]))
+    creator_notices.refund_resolved(refund)
     return refund
 
 

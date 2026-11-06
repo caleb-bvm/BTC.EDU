@@ -22,6 +22,7 @@ urlpatterns = [
     path("facturas/<uuid:pk>/estado/", views.invoice_status, name="invoice-status"),
     path("facturas/<uuid:pk>/comprobar/", views.invoice_action, name="invoice-action"),
     path("facturas/<uuid:pk>/reembolso/", feature_views.refund_request, name="refund-request"),
+    path("facturas/<uuid:pk>/reclamo/", feature_views.refund_request, {"claim": True}, name="refund-claim"),
     path("administracion/reembolsos/<uuid:pk>/", feature_views.refund_review, name="refund-review"),
     path("regalos/<str:token>/", feature_views.gift_detail, name="gift-detail"),
     path("propinas/", feature_views.student_tips, name="student-tips"),

@@ -72,15 +72,23 @@ class TipForm(forms.Form):
 
 
 class RefundForm(forms.Form):
+    kind = forms.ChoiceField(label=gettext_lazy("Qué ocurrió"), widget=forms.RadioSelect)
     reason = forms.CharField(label=gettext_lazy("Motivo"), min_length=10, max_length=1000, widget=forms.Textarea(attrs={"rows": 4}))
     payment_request = forms.CharField(label=gettext_lazy("Factura Lightning para recibir el reembolso"), max_length=2000,
                                       widget=forms.Textarea(attrs={"rows": 3, "spellcheck": "false", "autocomplete": "off"}))
 
-    def __init__(self, *args, amount=0, **kwargs):
+    def __init__(self, *args, amount=0, claim=False, **kwargs):
+        from .models import Refund
         super().__init__(*args, **kwargs)
+        if claim:
+            self.fields["kind"].choices = [choice for choice in Refund.Kind.choices if choice[0] != Refund.Kind.WITHDRAWAL]
+            self.fields["reason"].label = gettext_lazy("Describe el problema")
+        else:
+            del self.fields["kind"]
         self.fields["payment_request"].help_text = (gettext('Crea en tu wallet una factura por exactamente %(amount)s sats y pégala aquí.') % {"amount": amount})
-        for field in self.fields.values():
-            field.widget.attrs["class"] = "form-control"
+        for name, field in self.fields.items():
+            if name != "kind":
+                field.widget.attrs["class"] = "form-control"
 
 
 class RefundDecisionForm(forms.Form):

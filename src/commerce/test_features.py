@@ -318,7 +318,7 @@ class RefundTests(FeatureFixture):
             approve_refund(self.student, Refund(pk=invoice.pk), "")
         self.paid(self.direct(self.bundle))
         self.assertIn("crédito", refund_blocker(Invoice.objects.get(pk=invoice.pk), self.student))
-        later = timezone.now() + timedelta(days=8)
+        later = timezone.now() + timedelta(days=9)
         bundle_invoice = Invoice.objects.filter(order__isnull=False).get()
         self.assertIn("plazo", refund_blocker(bundle_invoice, self.student, now=later))
 
@@ -334,3 +334,67 @@ class RefundTests(FeatureFixture):
             self.client.post(reverse("refund-review", args=[refund.pk]), {"decision": "approve", "note": ""})
         refund.refresh_from_db()
         self.assertEqual(refund.status, "refunded")
+
+
+@override_settings(LNBITS_REFUND_KEY="refund-key")
+class ConsumerClaimTests(FeatureFixture):
+    """Refund rules reviewed against the consumer protection law and the notices educators receive."""
+
+    def test_withdrawal_window_lasts_eight_days(self):
+        invoice = self.pay(self.bundle)
+        bought = invoice.purchase.created_at
+        self.assertEqual(refund_blocker(invoice, self.student, now=bought + timedelta(days=8) - timedelta(minutes=1)), "")
+        self.assertIn("plazo", refund_blocker(invoice, self.student, now=bought + timedelta(days=8, minutes=1)))
+
+    def test_claims_ignore_window_and_credit_but_keep_basic_checks(self):
+        lesson = self.pay(self.individual)
+        self.paid(self.direct(self.bundle))
+        lesson = Invoice.objects.get(pk=lesson.pk)
+        later = timezone.now() + timedelta(days=60)
+        self.assertTrue(refund_blocker(lesson, self.student, now=later))
+        self.assertEqual(refund_blocker(lesson, self.student, now=later, claim=True), "")
+        with self.assertRaises(ValidationError):
+            request_refund(self.student, lesson.pk, "El video no carga en ningún navegador", "lnbc700n1pjtest", kind="otro")
+        with self.assertRaises(ValidationError):
+            request_refund(self.student, lesson.pk, "El video no carga en ningún navegador", "lnbc700n1pjtest")
+        refund = request_refund(self.student, lesson.pk, "El video no carga en ningún navegador", "lnbc700n1pjtest", kind=Refund.Kind.DEFECTIVE)
+        self.assertTrue(refund.is_claim)
+        self.assertEqual(refund.respond_by, refund.created_at + timedelta(days=15))
+        self.assertIn("Ya existe", refund_blocker(Invoice.objects.get(pk=lesson.pk), self.student, claim=True))
+        refund.kind = Refund.Kind.WITHDRAWAL
+        with self.assertRaises(ValidationError):
+            refund.save()
+
+    def test_claim_page_from_the_invoice(self):
+        invoice = self.pay(self.bundle)
+        claim_url = reverse("refund-claim", args=[invoice.pk])
+        self.assertContains(self.client.get(reverse("invoice-detail", args=[invoice.pk])), claim_url)
+        self.assertContains(self.client.get(claim_url), "Tiene errores o archivos dañados")
+        response = self.client.post(claim_url, {"kind": "mismatch", "reason": "El temario no coincide con la ficha", "payment_request": INVOICE_150})
+        self.assertRedirects(response, reverse("invoice-detail", args=[invoice.pk]), fetch_redirect_response=False)
+        self.assertEqual(Refund.objects.get().kind, "mismatch")
+        self.client.force_login(self.admin)
+        self.assertContains(self.client.get(reverse("refund-review", args=[Refund.objects.get().pk])), "No corresponde a lo ofrecido")
+
+    def test_educator_hears_about_sales_and_refunds_without_student_data(self):
+        invoice = self.pay(self.bundle)
+        sale = Notification.objects.get(recipient=self.creator, event_key__startswith="sale:")
+        self.assertIn(f"{invoice.amount_sats} sats", sale.title)
+        self.assertNotIn(self.student.email, sale.title)
+        refund = request_refund(self.student, invoice.pk, "No era el nivel que buscaba", INVOICE_150)
+        self.assertTrue(Notification.objects.filter(recipient=self.creator, event_key__startswith=f"refund-requested:{refund.pk}").exists())
+        approve_refund(self.admin, refund, "", PayingGateway())
+        resolved = Notification.objects.get(recipient=self.creator, event_key__startswith=f"refund-resolved:{refund.pk}")
+        self.assertIn("Reembolsamos", resolved.title)
+
+    def test_sales_volume_leaves_out_refunded_purchases(self):
+        from core.analytics import dashboard_data
+        invoice = self.pay(self.bundle)
+        today = timezone.localdate()
+        self.assertEqual(dashboard_data(today, today, self.creator)["volume"], invoice.amount_sats)
+        approve_refund(self.admin, request_refund(self.student, invoice.pk, "No era el nivel que buscaba", INVOICE_150), "", PayingGateway())
+        data = dashboard_data(today, today, self.creator)
+        self.assertEqual((data["volume"], data["refunded_volume"], data["sold_count"]), (0, invoice.amount_sats, 0))
+        self.assertEqual(data["refunds"][0].reason, "No era el nivel que buscaba")
+        self.client.force_login(self.creator)
+        self.assertContains(self.client.get(reverse("creator-analytics")), "Reembolsos y reclamos")

@@ -141,8 +141,12 @@ class MembershipPaymentAdmin(HistoryAdmin):
 
 @admin.register(Refund)
 class RefundAdmin(HistoryAdmin):
-    list_display = ("id", "buyer", "amount_sats", "status", "created_at", "review_link")
-    list_filter = ("status",)
+    list_display = ("id", "buyer", "kind", "amount_sats", "status", "created_at", "deadline", "review_link")
+    list_filter = ("status", "kind")
+
+    @admin.display(description=gettext_lazy("Responder antes del"))
+    def deadline(self, obj):
+        return obj.respond_by.date() if obj.status in ("requested", "review") else "—"
 
     @admin.display(description=gettext_lazy("Revisión"))
     def review_link(self, obj):
