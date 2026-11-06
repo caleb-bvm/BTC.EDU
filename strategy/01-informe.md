@@ -72,7 +72,7 @@ El descubrimiento debería ayudar a encontrar una tarea y su nivel, además de u
 
 La primera captación puede probarse con creadores que ya tengan materiales y una audiencia, junto con comunidades educativas. Esto permitiría evaluar una colección concreta sin depender de un catálogo masivo. No hemos contactado aliados ni estimado el costo de adquisición.
 
-La sostenibilidad debe relacionar ingreso, remuneración del creador, pagos, revisión, entrega futura y soporte. Evaluar una comisión sobre ventas es una hipótesis de modelo; el MVP no calcula comisiones ni liquidaciones. Los precios de prueba no justifican anunciar que la plataforma será más barata o rentable.
+La sostenibilidad debe relacionar ingreso, remuneración del creador, pagos, revisión, entrega futura y soporte. Proponemos que el educador reciba el 80 % de cada venta y la plataforma conserve el 20 %, con pagos semanales por Lightning después de quince días; es una hipótesis por validar y el MVP todavía no calcula comisiones ni liquidaciones. [Remuneración y liquidación](04-producto-y-monetizacion.md#remuneracion-educadores). Los precios de prueba no justifican anunciar que la plataforma será más barata o rentable.
 
 El nombre BTC.EDU puede sugerir una academia dedicada únicamente a Bitcoin. Recomendamos acompañarlo con una descripción clara del aprendizaje en distintas áreas y probar su comprensión. Bitcoin mantiene su lugar en el mecanismo de compra y en el valor del proyecto para el ecosistema de El Salvador; usarlo para adquirir otro conocimiento podría ampliar su aplicación, algo todavía por validar.
 
@@ -382,7 +382,7 @@ Comprar ahora permite regalar: la compra no concede acceso a quien paga y genera
 
 Las propinas agradecen una lección o al educador con una factura Lightning de 10 a 100 000 sats y un mensaje opcional. No compran contenido ni cambian el acceso; el educador recibe un aviso y las consulta en Ventas. Se registran por educador, sin liquidación.
 
-El estudiante puede pedir un reembolso durante siete días si no obtuvo un certificado con ese contenido ni lo usó como crédito en otra compra. Entrega una factura Lightning por el importe exacto y la administración aprueba o rechaza con nota. Al confirmarse el pago, termina el acceso que concedía esa compra; la compra, la evidencia y el avance se conservan. Si el resultado del pago es incierto, el acceso se mantiene hasta conciliarlo. Requiere la clave de pago de la wallet receptora, que la preparación local con FakeWallet ya guarda; en regtest no se asigna.
+El estudiante puede pedir un reembolso durante ocho días si no obtuvo un certificado con ese contenido ni lo usó como crédito en otra compra. Entrega una factura Lightning por el importe exacto y la administración aprueba o rechaza con nota. Al confirmarse el pago, termina el acceso que concedía esa compra; la compra, la evidencia y el avance se conservan. Si el resultado del pago es incierto, el acceso se mantiene hasta conciliarlo. Si no pudo acceder al contenido, este no corresponde a lo ofrecido, tiene errores o hubo un error de cobro, puede reportar el problema en cualquier momento, sin los bloqueos anteriores. Administración ve el plazo de quince días para responder y el educador recibe avisos de ventas, solicitudes y reembolsos. Estas reglas siguen la [revisión legal](07-compra-y-comercio.md#revision-legal-reembolsos) del 6 de noviembre, que aún debe confirmar un abogado. Requiere la clave de pago de la wallet receptora, que la preparación local con FakeWallet ya guarda; en regtest no se asigna.
 
 ### Reseñas, proyectos y rutas
 
@@ -522,7 +522,7 @@ La conclusión es que los precios actuales sirven para demostrar micropagos, per
 
 **Software.** Django 5.2 es una versión LTS y las dependencias están fijadas en `uv.lock`. Cada actualización se prueba con `check-platform.ps1` antes de desplegarla, y cada migración se aplica después de respaldar la base.
 
-**Pagos.** `reconcile_payments` debe funcionar como servicio con reinicio automático y alertas. Administración revisa a diario las incidencias de pago y las solicitudes de reembolso, que el estudiante puede presentar durante siete días.
+**Pagos.** `reconcile_payments` debe funcionar como servicio con reinicio automático y alertas. Administración revisa a diario las incidencias de pago y las solicitudes de reembolso y los reclamos, que deben responderse en quince días.
 
 **Datos.** Respaldo diario de la base y de los archivos privados, con una copia fuera del servidor y una restauración ensayada cada mes. Esta restauración todavía no se ha ensayado.
 
@@ -612,7 +612,7 @@ Si compraste antes una parte de un curso, el precio del curso completo descuenta
 
 **Membresía.** En Membresía pagas 5 000 sats por 30 días de acceso a las lecciones de pago de los cursos incluidos. No se renueva sola: al vencer, pagas otro periodo si quieres continuar. Conservas tus compras, tu avance y tus certificados.
 
-**Compras y reembolsos.** Compras → Historial de compras reúne tus facturas. Durante siete días puedes pedir un reembolso con Solicitar reembolso, si no emitiste un certificado con ese contenido. Administración revisa la solicitud y, si la aprueba, te paga a una factura que tú generas por el importe exacto. Compras → Propinas registra los aportes que enviaste a educadores.
+**Compras y reembolsos.** Compras → Historial de compras reúne tus facturas. Durante ocho días puedes pedir un reembolso con Solicitar reembolso, si no emitiste un certificado con ese contenido. Si la compra falló, usa Reportar un problema con esta compra en cualquier momento. Administración revisa la solicitud y, si la aprueba, te paga a una factura que tú generas por el importe exacto. Compras → Propinas registra los aportes que enviaste a educadores.
 
 **Sin conexión.** Guardar sin conexión conserva una lección en el navegador de tu cuenta. Se borra al cerrar sesión.
 

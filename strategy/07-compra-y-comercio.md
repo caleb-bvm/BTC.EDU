@@ -100,7 +100,7 @@ El 23 de octubre de 2026 el usuario compartió una comparación de BTC.EDU con U
 | Crédito por compras anteriores | Implementada | Diferencia sobre el precio de lista, mínimo 1 sat, solo con lo que falta |
 | Propinas al educador | Implementada | Factura propia de 10 a 100 000 sats; no concede acceso ni se reembolsa |
 | Sello OpenTimestamps | Implementada, desactivada por defecto | Prueba `.ots` de la huella; se envía al emitir o con `stamp_certificates` |
-| Reembolso por Lightning | Implementada | Siete días, sin certificado ni crédito posterior; aprobación administrativa y pago a una factura por el importe exacto |
+| Reembolso por Lightning | Implementada | Ocho días, sin certificado ni crédito posterior; reclamo sin plazo por contenido inaccesible, distinto, defectuoso o cobrado por error; aprobación administrativa y pago a una factura por el importe exacto |
 | Regalar | Implementada en Comprar ahora | Enlace de canje de un solo uso; el comprador no recibe acceso |
 | Reseñas verificadas | Implementada | Compra de pago o curso completado; una por curso, editable, con respuesta del educador |
 | Cupones | Implementada | Del educador, por porcentaje o sats, con vencimiento, límite y alcance |
@@ -109,9 +109,39 @@ El 23 de octubre de 2026 el usuario compartió una comparación de BTC.EDU con U
 | Aplicación instalable y lectura sin conexión | Implementada | Solo lecciones guardadas por el estudiante; se borran al cambiar de cuenta |
 | Entrar con Lightning (LNURL-auth) | Pendiente | La wallet debe alcanzar un dominio público con HTTPS; no es demostrable en local |
 | Pago por minuto | Pendiente | Necesita medición de reproducción y pagos recurrentes |
-| Pagos a educadores | Pendiente | Requiere comisión, reparto y liquidación definidos |
+| Pagos a educadores | Definida, sin implementar | [Reparto y liquidación](04-producto-y-monetizacion.md#remuneracion-educadores) propuestos el 6 de noviembre |
 | Asistente de IA | Pendiente | Costo y proveedor por decidir |
 | Inglés | Implementada | Interfaz y fichas del catálogo propio traducidas; cada curso, video y material declara el idioma de su educador; falta revisión por hablantes nativos |
 | Pase con créditos | Hipótesis | Contradice la tesis de micropagos del reto |
 
 Los reembolsos revocan solo el acceso que concedía la compra reembolsada: un derecho con otra fuente vigente se conserva y una compra nueva lo restablece. Un pago de reembolso con resultado incierto queda por conciliar sin retirar el acceso. Las propinas aceptan un pago observado tarde porque no conceden acceso. La galería y las reseñas muestran el alias público. Estas decisiones son técnicas y provisionales; plazo de reembolso, uso de cupones y utilidad de reseñas, rutas y lectura sin conexión deben observarse con participantes. [Comprobaciones](../src/docs/operacion-y-bitacora.md#23-de-octubre-de-2026).
+
+<a id="revision-legal-reembolsos"></a>
+
+### Revisión legal de reembolsos
+
+Revisión del 6 de noviembre de 2026 contra el texto de la [Ley de Protección al Consumidor](https://www.defensoria.gob.sv/wp-content/uploads/2019/05/LPC.pdf) publicado por la Defensoría del Consumidor, con reformas hasta 2019. No sustituye la opinión de un abogado, que debe confirmar si existen reformas posteriores antes del piloto con fondos reales.
+
+**Qué dice la ley.** El artículo 13-A reconoce el retracto en los contratos a distancia: el consumidor puede dejar sin efecto la compra durante ocho días, sin justificarla ni pagar penalización, siempre que no haya empezado a usar el bien o a recibir el servicio. Para servicios el plazo cuenta desde la contratación; la comunicación puede hacerse por el mismo medio de la compra y el proveedor debe devolver lo pagado en quince días. El artículo 13-D obliga además a revertir el pago, en quince días desde el reclamo, cuando el servicio no se prestó, no corresponde a lo ofrecido o es defectuoso, o hubo errores de cobro. Los artículos 21-A y 21-B piden publicar la identidad del proveedor y unos términos con las políticas de retracto y reversión, confirmar el pedido y conservar la prueba de la transacción durante diez años. El artículo 17 considera abusivas las cláusulas que limitan derechos del consumidor o imponen medios alternos de solución de controversias en contratos de adhesión, y el artículo 44 califica como infracción muy grave negarse a devolver el dinero tras un retracto o una reversión.
+
+**Cómo queda la política actual.**
+
+| Regla vigente | Valoración | Cambio propuesto |
+|---|---|---|
+| Plazo de siete días | Más corto que los ocho días legales cuando el contenido no se ha abierto | Ampliado a ocho días el 6 de noviembre |
+| Reembolso aunque el estudiante haya usado el contenido, salvo certificado o crédito | Más generoso que la ley; se puede conservar como política comercial | Mantener e informar que es voluntario |
+| Bloqueo por certificado o crédito posterior | Coherente: obtener un certificado o reutilizar la compra demuestra uso | Mantener para el retracto, no para reclamos por defecto |
+| Sin vía para contenido defectuoso, no disponible o distinto de lo ofrecido | Incumple el artículo 13-D, que no depende del plazo ni del uso | Implementado: Reportar un problema con esta compra, con tipo y motivo, sin los bloqueos anteriores |
+| Regalos excluidos | El comprador del regalo también es consumidor | Admitir reembolso del regalo no canjeado dentro del plazo |
+| Decisión manual sin plazo | La ley fija quince días | Implementado: la lista y la revisión muestran la fecha límite; falta avisar a administración |
+| Pago a una factura Lightning por el importe exacto en sats | Devuelve lo pagado por el mismo medio, sin cargos | Mantener; la plataforma asume la comisión de envío |
+| Rechazo con nota obligatoria | Adecuado para no invertir la carga de la prueba | Mantener y conservar la evidencia en la que se apoya |
+| Membresías sin reembolso | El retracto también alcanza a una membresía no usada | Reembolsar en ocho días si no se abrió contenido incluido |
+
+**Lo que falta publicar.** Una página de términos y una de reembolsos, enlazadas desde el checkout y la factura, con la identidad y el NIT del proveedor, los medios de reclamo, el plazo legal, la política voluntaria y el efecto en el acceso. El resumen previo y la confirmación del pedido ya existen; la confirmación debe incluir impuestos cuando se definan. Ninguna condición debe imponer arbitraje.
+
+**Efecto para el educador.** El reembolso lo decide la plataforma, que vende al estudiante. Anula la remuneración pendiente de esa venta o crea un ajuste negativo si ya se pagó, según la [liquidación](04-producto-y-monetizacion.md#remuneracion-educadores). El educador recibe un aviso con el motivo, sin datos personales del estudiante.
+
+El importe se devuelve en sats; si el estudiante pagó cuando el bitcoin valía más o menos en dólares, recibe los mismos sats. Esta regla debe constar en la política.
+
+El 6 de noviembre implementamos el plazo de ocho días, el reclamo, la fecha límite de respuesta y los avisos al educador. Siguen pendientes los regalos no canjeados, las membresías no usadas, el aviso a administración y las páginas de términos y reembolsos.

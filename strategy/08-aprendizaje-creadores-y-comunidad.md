@@ -71,7 +71,7 @@ La [comparación de costos](04-producto-y-monetizacion.md#13-monetizacion-precio
 
 El creador define contenido gratuito, muestras, ofertas individuales, paquetes y membresías conforme a las reglas comerciales vigentes. Antes de enviar a revisión ve lo incluido, lo excluido, precio en sats de prueba y duración del acceso. Cambiar precio afecta nuevas facturas; las pendientes conservan sus condiciones.
 
-Las compras individuales son permanentes para la composición adquirida. Las membresías conceden acceso temporal y se renuevan manualmente con facturas simuladas de 30 días. Vencimiento conserva compras, progreso y certificados. El panel distingue ventas confirmadas, pendientes e incidencias; no presenta volumen simulado como ingreso real ni saldo disponible para retirar. Fondos reales y liquidaciones requerirán una definición comercial y operativa propia.
+Las compras individuales son permanentes para la composición adquirida. Las membresías conceden acceso temporal y se renuevan manualmente con facturas simuladas de 30 días. Vencimiento conserva compras, progreso y certificados. El panel distingue ventas confirmadas, pendientes e incidencias; no presenta volumen simulado como ingreso real ni saldo disponible para retirar. Fondos reales y liquidaciones siguen la [propuesta de remuneración](04-producto-y-monetizacion.md#remuneracion-educadores) del 6 de noviembre, todavía sin implementar.
 
 El acompañamiento reúne preguntas por lección, avisos, evaluaciones y comunidad. El creador solo consulta alumnos relacionados con sus contenidos y la información necesaria para acompañarlos. Las estadísticas agregadas separan inscripción, actividad, finalización y aprobación; una apertura o reproducción no demuestra aprendizaje. No se incluyen conversaciones privadas en esta definición.
 
@@ -105,6 +105,50 @@ Implementado y verificado el 10 de octubre. [Contrato, privacidad, migración y 
 ### Comunidad implementada
 
 El 10 de octubre se incorpora conversación por versión para alumnos inscritos y creador aprobado; reportes, moderación con motivo e historial, cierre/reapertura, ocultación y suspensión/restablecimiento de escritura. La administración interviene con permiso específico. Conserva lectura, compras y progreso; no habilita membresías ni acceso público. Avisos internos, límites y condiciones en [reglas adoptadas](08-aprendizaje-creadores-y-comunidad.md#15-especificaciones-modulos-pendientes) y [registro técnico](../src/docs/operacion-y-bitacora.md#comunidad-2026-10-10). Las propuestas anteriores de otros tipos de espacio permanecen como diseño.
+
+<a id="revision-estudio-educador"></a>
+
+## Revisión del estudio del educador
+
+Revisión del 6 de noviembre de 2026 sobre el código de `main` en `aecf051`. Hasta ahora priorizamos el recorrido del estudiante; esta revisión ordena lo que falta para que el educador pueda trabajar y cobrar en un piloto. No incluye sesiones con educadores.
+
+### Qué tiene
+
+| Área | Funciones |
+|---|---|
+| Cuenta | Registro independiente, solicitud con historial de decisiones, perfil público, seguridad y recuperación |
+| Inicio | Entregas, preguntas, observaciones y reportes pendientes; contenido reciente y siguiente borrador |
+| Contenido | Cursos, tutoriales, videos y materiales con filtros; editor por secciones, idioma, vista previa como estudiante, envío, retiro y versiones |
+| Archivos y rutas | Biblioteca de archivos propia y rutas de varios cursos con paquete |
+| Alumnos | Preguntas por lección, resultados de evaluaciones, intentos adicionales, entregas de prácticas y respuesta a reseñas |
+| Comunidad | Conversación por lección y moderación con motivo |
+| Ventas | Actividad por periodo, ofertas y precios, cupones y propinas |
+
+### Qué le falta
+
+1. **Ingresos.** Ventas muestra volumen y facturas, pero no cuánto le corresponde, qué está pendiente o disponible, ni pagos recibidos. No existe destino de pago ni datos tributarios.
+2. **Cifras netas.** El volumen de Actividad contaba las compras reembolsadas, porque la compra se conserva después del reembolso; corregido el mismo día. Todavía no separa ventas por curso u oferta.
+3. **Avisos comerciales.** El educador recibía avisos de propinas, reseñas, preguntas y revisión editorial, pero no de ventas ni reembolsos; añadidos el mismo día.
+4. **Acuerdo.** La solicitud no presenta condiciones de licencia, derechos sobre los materiales, remuneración ni reembolsos, y no registra su aceptación.
+5. **Alumnos por curso.** El menú Alumnos lleva a preguntas; no hay una lista de inscritos con avance por curso, aunque las estadísticas tienen los agregados.
+6. **Membresía.** El educador no ve qué contenido suyo está incluido ni el uso de los miembros.
+7. **Motivos de reembolso.** No llegaban al educador; desde el 6 de noviembre Ventas los muestra, sin datos del estudiante.
+
+### Qué proponemos
+
+| Prioridad | Cambio | Depende de |
+|---|---|---|
+| 1 | Acuerdo del educador en la solicitud, con versión y fecha de aceptación; los aprobados lo aceptan al entrar | Texto revisado por un abogado |
+| 1 | Datos de cobro en la cuenta: nombre legal, documento tributario, domicilio y Lightning Address, visibles solo para administración | Opinión contable |
+| 1 | Restar los reembolsos del volumen (hecho) y mostrar ventas netas por curso y oferta | Nada |
+| 2 | Página Ingresos en Ventas: pendiente, disponible, próximo pago, movimientos, pagos y estado de cuenta mensual | [Liquidación](04-producto-y-monetizacion.md#remuneracion-educadores) |
+| 2 | Tarjeta de ingresos en Inicio con el disponible y la fecha del próximo pago, en sats | Página Ingresos |
+| 2 | Avisos de venta, solicitud de reembolso y reembolso resuelto, y lista de reembolsos con su motivo en Ventas, sin datos del estudiante (hecho) | Nada |
+| 3 | Lista de inscritos por curso con avance, último acceso y evaluaciones, con datos mínimos | Nada |
+| 3 | Contenido incluido en la membresía y lecciones completadas por miembros | Reparto de la membresía |
+| 3 | En Ofertas, mostrar junto al precio lo que recibirá el educador | Porcentaje validado |
+
+Las cifras se muestran como cantidad y sats, sin avisos técnicos sobre el entorno. Los cambios de prioridad 1 sin dependencias externas pueden hacerse antes del piloto; ingresos y pagos requieren la revisión legal de la [venta y los reembolsos](07-compra-y-comercio.md#revision-legal-reembolsos).
 
 <a id="08-aprendizaje-creadores-y-membresias"></a>
 

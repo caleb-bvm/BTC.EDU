@@ -136,3 +136,52 @@ Conservar contenido gratuito y muestras junto con compras individuales como hip�
 Compras repetidas: probar biblioteca/continuación y descubrimiento pertinente, sin recompras. La regla provisional de compra conjunta parcialmente adquirida sigue vigente y debe observarse en sesiones. No introduce descuentos, fondos reales, publicidad, comisiones o cobros automáticos.
 
 Pendientes: participantes, aceptación de precios, producción autorizada de catálogo, disponibilidad de servicios y presupuesto operativo. Estas condiciones impiden una recomendación comercial definitiva. Los escenarios de infraestructura y punto de equilibrio del 3 de noviembre están en [operación y sostenibilidad](01-informe.md#operacion-y-sostenibilidad); no incluyen personas ni nodo Lightning.
+
+<a id="remuneracion-educadores"></a>
+
+## Remuneración y liquidación a educadores
+
+Propuesta del 6 de noviembre de 2026. Define el modelo que implementaremos antes del piloto con fondos reales; no está programada ni validada con educadores. Los porcentajes y plazos son hipótesis que deben contrastarse en las sesiones con creadores y en la revisión legal y contable.
+
+### Quién vende
+
+BTC.EDU vende al estudiante como proveedor y responde ante él por la compra, el acceso y los reembolsos, como exige la [Ley de Protección al Consumidor](07-compra-y-comercio.md#revision-legal-reembolsos). El educador concede a BTC.EDU una licencia no exclusiva para ofrecer cada versión publicada y recibe una remuneración por sus ventas. Así el cobro es ingreso de la plataforma y el pago al educador es una remuneración, no un saldo ajeno en custodia. Esta figura debe confirmarla un abogado, porque retener fondos por cuenta de terceros podría exigir el registro como proveedor de servicios de bitcoin y las obligaciones contra el lavado de dinero.
+
+El acuerdo con el educador se acepta en la solicitud y se conserva por versión. Recoge licencia, derechos sobre los materiales, remuneración, retención, reembolsos, datos tributarios y retirada de contenido.
+
+### Reparto
+
+| Ingreso | Educador | Plataforma | Base |
+|---|---:|---:|---|
+| Venta de curso, capítulo, lección o recurso | 80 % | 20 % | Importe cobrado por la línea, después de cupón, crédito o descuento de ruta |
+| Regalo | 80 % | 20 % | Igual que una venta |
+| Propina | 100 % | 0 % | Importe recibido |
+| Membresía de plataforma | 50 % en fondo común | 50 % | Ingreso del periodo |
+| Contenido editorial de BTC.EDU | — | 100 % | Ventas propias |
+
+El 20 % ya era la comisión ilustrativa de [operación y sostenibilidad](01-informe.md#operacion-y-sostenibilidad); cubre revisión editorial, alojamiento, soporte, procesamiento y reembolsos. Los cupones los crea el educador y reducen su base. Un descuento de ruta editorial que reúne a varios educadores se reparte en proporción al precio de lista de cada línea.
+
+El fondo de la membresía se reparte cada mes según las lecciones completadas por miembros en el contenido de cada educador. Usamos lecciones completadas porque ya se registran y no dependen de medir reproducciones; una apertura no demuestra aprendizaje, pero un completado es más difícil de inflar. Debe acompañarse de controles contra completados repetidos o automáticos.
+
+Ejemplo con el precio medio local: un curso de 1 140 sats deja 912 sats al educador y 228 a la plataforma. Con un cupón del 10 %, la línea cobra 1 026 sats y el educador recibe 821.
+
+### Liquidación
+
+1. Cada venta confirmada crea un movimiento pendiente para el educador, en sats, con la referencia del pedido y la línea.
+2. El movimiento queda disponible 15 días después de la compra. Ese plazo cubre el retracto legal de ocho días y el plazo de quince días para devolver el pago.
+3. Un reembolso antes de esa fecha anula el movimiento. Uno posterior crea un ajuste negativo que se descuenta de ventas futuras; nunca se pide devolución inmediata al educador salvo fraude.
+4. Cada semana se paga el saldo disponible desde 2 000 sats a la Lightning Address del educador. La plataforma asume la comisión de envío. Si el pago queda incierto, el saldo se bloquea hasta conciliarlo, como en los reembolsos.
+5. El educador puede descargar un estado de cuenta mensual con ventas, ajustes, retenciones y pagos.
+
+Los movimientos son registros inmutables, como pedidos y facturas. Cada uno guarda el tipo de cambio BTC/USD de su fecha, con fuente y hora, porque contabilidad e impuestos se liquidan en dólares desde la reforma de la Ley Bitcoin de 2025.
+
+### Impuestos y datos
+
+Para pagar se necesitan nombre legal, documento tributario, domicilio y Lightning Address. Si el pago a una persona natural domiciliada se considera prestación de servicios, el artículo 156 del Código Tributario obliga a retener el 10 % de renta ([Ministerio de Hacienda](https://www.mh.gob.sv/wp-content/uploads/2020/11/PMHDC9285.pdf)); a un no domiciliado se aplica el artículo 158 con otra tasa. Un contador debe confirmar si la remuneración es servicio o cesión de derechos, la tasa de cada caso y el IVA de las ventas. Estos datos se guardan aparte del perfil público y solo los ve administración.
+
+### Pendiente
+
+- Opinión legal sobre la figura de venta y la custodia, y opinión contable sobre retenciones e IVA.
+- Validar con educadores el 80 %, la retención de 15 días, el mínimo y la frecuencia.
+- Fuente del tipo de cambio y conciliación de comisiones Lightning.
+- Implementación: [estudio del educador](08-aprendizaje-creadores-y-comunidad.md#revision-estudio-educador).
