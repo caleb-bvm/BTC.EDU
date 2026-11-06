@@ -653,7 +653,7 @@ msgstr "Get access to the remaining lesson"
 msgid "Accede a las %(remaining_count)s lecciones restantes"
 msgstr "Get access to the %(remaining_count)s remaining lessons"
 
-#: accounts/account_views.py:88 creators/presentation.py:44 templates/_app_header.html:17 templates/core/_card.html:26 templates/core/_filters.html:19 templates/core/selector.html:10 templates/learning/_path_card.html:17
+#: accounts/account_views.py:88 creators/presentation.py:44 templates/_app_header.html:17 templates/core/_card.html:26 templates/core/_filters.html:20 templates/core/selector.html:10 templates/learning/_path_card.html:17
 msgid "Acceso"
 msgstr "Access"
 
@@ -941,7 +941,7 @@ msgstr "Applies to"
 msgid "Aplicar"
 msgstr "Apply"
 
-#: templates/core/_filters.html:20
+#: templates/core/_filters.html:21
 msgid "Aplicar filtros"
 msgstr "Apply filters"
 
@@ -1377,11 +1377,11 @@ msgstr "BTC.EDU. Courses, videos and materials. Choose what you want to learn."
 msgid "Buscar"
 msgstr "Search"
 
-#: content/catalog_filters.py:74 content/catalog_filters.py:75
+#: content/catalog_filters.py:79 content/catalog_filters.py:80
 msgid "Buscar %(content)s"
 msgstr "Search %(content)s"
 
-#: content/catalog_filters.py:75
+#: content/catalog_filters.py:80
 msgid "Buscar %(content)s en %(context)s"
 msgstr "Search %(content)s in %(context)s"
 
@@ -1533,7 +1533,7 @@ msgstr "Amount in sats"
 msgid "capítulo"
 msgstr "chapter"
 
-#: commerce/models.py:25 content/catalog.py:253
+#: commerce/models.py:25 content/catalog.py:266
 msgid "Capítulo"
 msgstr "Chapter"
 
@@ -1605,7 +1605,7 @@ msgstr "Category"
 msgid "categoría"
 msgstr "category"
 
-#: content/catalog_filters.py:24 templates/core/_catalog.html:3
+#: content/catalog_filters.py:26 templates/core/_catalog.html:3
 msgid "Categoría no disponible"
 msgstr "Category not available"
 
@@ -2065,11 +2065,11 @@ msgstr "with %(title)s"
 msgid "Con 0, los cursos se compran solo por separado."
 msgstr "With 0, the courses are only sold separately."
 
-#: content/catalog_filters.py:47 core/views.py:76
+#: content/catalog_filters.py:50 core/views.py:77
 msgid "Con contenido de pago"
 msgstr "With paid content"
 
-#: content/catalog_filters.py:47 core/views.py:76
+#: content/catalog_filters.py:50 core/views.py:77
 msgid "Con contenido gratis"
 msgstr "With free content"
 
@@ -2347,7 +2347,7 @@ msgstr "View review →"
 msgid "Contenido"
 msgstr "Content"
 
-#: content/catalog_filters.py:68
+#: content/catalog_filters.py:73
 msgid "contenido"
 msgstr "content"
 
@@ -2379,7 +2379,7 @@ msgstr "Included content"
 msgid "Contenido publicado"
 msgstr "Published content"
 
-#: content/catalog.py:200
+#: content/catalog.py:212
 msgid "Contenido que todavía no tiene una categoría asignada."
 msgstr "Content that doesn't have a category yet."
 
@@ -2867,7 +2867,7 @@ msgstr "Coupon created. Share it with your students."
 msgid "curso"
 msgstr "course"
 
-#: content/catalog.py:116 content/models.py:41 templates/core/_analytics.html:20 templates/creators/_create_content.html:1
+#: content/catalog.py:121 content/models.py:41 templates/core/_analytics.html:20 templates/creators/_create_content.html:1
 msgid "Curso"
 msgstr "Course"
 
@@ -2885,7 +2885,7 @@ msgstr "Course added to My learning. Enrolling keeps this version and doesn't bu
 msgid "Curso completado"
 msgstr "Course completed"
 
-#: commerce/cart.py:225 commerce/journey.py:88 content/catalog.py:253 templates/commerce/offer.html:18
+#: commerce/cart.py:225 commerce/journey.py:88 content/catalog.py:266 templates/commerce/offer.html:18
 msgid "Curso completo"
 msgstr "Full course"
 
@@ -2901,11 +2901,11 @@ msgstr "Course or tutorial"
 msgid "curso o tutorial"
 msgstr "course or tutorial"
 
-#: content/catalog.py:75 core/navigation.py:8 core/views.py:129 core/views.py:136 core/views.py:143 templates/content/course.html:5 templates/content/lesson.html:6 templates/core/_course_tabs.html:1 templates/core/explore.html:2 templates/core/explore.html:3 templates/core/workspace.html:9 templates/creators/content.html:3 templates/learning/_saved_items.html:4 templates/learning/creator_path_form.html:7
+#: content/catalog.py:77 core/navigation.py:8 core/views.py:130 core/views.py:137 core/views.py:144 templates/content/course.html:5 templates/content/lesson.html:6 templates/core/_course_tabs.html:1 templates/core/explore.html:2 templates/core/explore.html:3 templates/core/workspace.html:9 templates/creators/content.html:3 templates/learning/_saved_items.html:4 templates/learning/creator_path_form.html:7
 msgid "Cursos"
 msgstr "Courses"
 
-#: content/catalog_filters.py:68
+#: content/catalog_filters.py:73
 msgid "cursos"
 msgstr "courses"
 
@@ -4033,11 +4033,11 @@ msgstr "Project link"
 msgid "Enlace de canje"
 msgstr "Redemption link"
 
-#: content/catalog.py:118
+#: content/catalog.py:123
 msgid "Enlace externo"
 msgstr "External link"
 
-#: content/catalog.py:75
+#: content/catalog.py:77
 msgid "Enlaces externos"
 msgstr "External links"
 
@@ -4931,7 +4931,7 @@ msgstr "Filter results"
 msgid "Filtros"
 msgstr "Filters"
 
-#: templates/core/_filters.html:24
+#: templates/core/_filters.html:25
 msgid "Filtros aplicados"
 msgstr "Applied filters"
 
@@ -4951,7 +4951,7 @@ msgstr "Syllabus completion"
 msgid "Forma parte de"
 msgstr "Part of"
 
-#: templates/core/_filters.html:18
+#: templates/core/_filters.html:19
 msgid "Formato"
 msgstr "Format"
 
@@ -4987,7 +4987,7 @@ msgstr "Profile photo updated."
 msgid "Fotografía:"
 msgstr "Photo:"
 
-#: content/catalog.py:234 learning/bookmarks.py:95
+#: content/catalog.py:247 learning/bookmarks.py:95
 msgid "Fuente externa"
 msgstr "External source"
 
@@ -5051,11 +5051,11 @@ msgstr "Thank you. Your tip reached the educator."
 msgid "Gracias. Tu reseña ya es visible en el curso."
 msgstr "Thank you. Your review is now visible on the course."
 
-#: content/catalog.py:47 content/models.py:36 templates/commerce/_inventory.html:1 templates/commerce/_order_lines.html:7 templates/commerce/gift.html:10 templates/content/_lesson_row.html:5 templates/core/_card.html:27 templates/creators/preview.html:6 templates/learning/_path_card.html:17 templates/learning/path.html:26
+#: content/catalog.py:48 content/models.py:36 templates/commerce/_inventory.html:1 templates/commerce/_order_lines.html:7 templates/commerce/gift.html:10 templates/content/_lesson_row.html:5 templates/core/_card.html:27 templates/creators/preview.html:6 templates/learning/_path_card.html:17 templates/learning/path.html:26
 msgid "Gratis"
 msgstr "Free"
 
-#: content/catalog.py:44
+#: content/catalog.py:45
 msgid "Gratis + lecciones de pago"
 msgstr "Free + paid lessons"
 
@@ -5329,6 +5329,10 @@ msgstr "Certificate SHA-256 fingerprint"
 msgid "Identificador: %(pk)s"
 msgstr "Identifier: %(pk)s"
 
+#: templates/core/_filters.html:18
+msgid "Idioma"
+msgstr "Language"
+
 #: content/models.py:139 content/models.py:199
 msgid "idioma del contenido"
 msgstr "content language"
@@ -5361,7 +5365,7 @@ msgstr "Amount in sats"
 msgid "Incluido"
 msgstr "Included"
 
-#: content/catalog_filters.py:47 templates/commerce/_membership_option.html:1 templates/content/course.html:41 templates/core/_card.html:22 templates/learning/path.html:26
+#: content/catalog_filters.py:50 templates/commerce/_membership_option.html:1 templates/content/course.html:41 templates/core/_card.html:22 templates/learning/path.html:26
 msgid "Incluido en la membresía"
 msgstr "Included in the membership"
 
@@ -6025,7 +6029,7 @@ msgstr "lessons"
 msgid "lecciones completadas"
 msgstr "lessons completed"
 
-#: content/catalog.py:46 templates/core/_card.html:22
+#: content/catalog.py:47 templates/core/_card.html:22
 msgid "Lecciones de pago"
 msgstr "Paid lessons"
 
@@ -6095,7 +6099,7 @@ msgstr "Lesson saved to the draft."
 msgid "Lección incompatible o versión ya publicada."
 msgstr "Incompatible lesson or version already published."
 
-#: content/catalog.py:253
+#: content/catalog.py:266
 msgid "Lección individual"
 msgstr "Single lesson"
 
@@ -6291,11 +6295,11 @@ msgstr "Mark for review"
 msgid "Marcar todas como leídas"
 msgstr "Mark all as read"
 
-#: commerce/journey.py:92 content/catalog.py:117 content/models.py:254 content/views.py:186 creators/presentation.py:145 templates/commerce/_cart_line.html:7 templates/commerce/invoice.html:15 templates/commerce/offer.html:18 templates/content/lesson.html:24 templates/core/_resource_group.html:16 templates/creators/_create_content.html:1 templates/creators/resource.html:2
+#: commerce/journey.py:92 content/catalog.py:122 content/models.py:254 content/views.py:186 creators/presentation.py:145 templates/commerce/_cart_line.html:7 templates/commerce/invoice.html:15 templates/commerce/offer.html:18 templates/content/lesson.html:24 templates/core/_resource_group.html:16 templates/creators/_create_content.html:1 templates/creators/resource.html:2
 msgid "Material"
 msgstr "Material"
 
-#: content/catalog.py:75 templates/content/lesson.html:8 templates/creators/content.html:3
+#: content/catalog.py:77 templates/content/lesson.html:8 templates/creators/content.html:3
 msgid "Materiales"
 msgstr "Materials"
 
@@ -6547,7 +6551,7 @@ msgstr "You need a student account to keep the access."
 msgid "Nivel"
 msgstr "Level"
 
-#: core/views.py:160
+#: core/views.py:161
 msgid "Nivel por definir"
 msgstr "Level to be defined"
 
@@ -7131,7 +7135,7 @@ msgstr "Other question"
 msgid "Otro intento autorizado. Se conservan las notas y la espera entre intentos."
 msgstr "Another attempt authorized. Scores and the wait between attempts are kept."
 
-#: content/catalog_filters.py:41 creators/forms.py:45
+#: content/catalog_filters.py:43 creators/forms.py:45
 msgid "Otros temas"
 msgstr "Other topics"
 
@@ -7465,7 +7469,7 @@ msgstr "To be confirmed"
 msgid "Por curso"
 msgstr "By course"
 
-#: commerce/membership_views.py:37 content/catalog.py:199 content/catalog.py:276 content/catalog_filters.py:30
+#: commerce/membership_views.py:37 content/catalog.py:211 content/catalog.py:289 content/catalog_filters.py:32
 msgid "Por descubrir"
 msgstr "To discover"
 
@@ -8151,7 +8155,7 @@ msgstr "Remove"
 msgid "Quitar %(title)s del carrito"
 msgstr "Remove %(title)s from the cart"
 
-#: templates/core/_filters.html:24
+#: templates/core/_filters.html:25
 msgid "Quitar filtro: %(label)s"
 msgstr "Remove filter: %(label)s"
 
@@ -8375,11 +8379,11 @@ msgstr "Purchased resource"
 msgid "Recurso guardado. Puedes enviarlo a revisión."
 msgstr "Resource saved. You can submit it for review."
 
-#: core/navigation.py:9 core/views.py:136 core/views.py:143 templates/content/reference.html:4 templates/core/workspace.html:10
+#: core/navigation.py:9 core/views.py:137 core/views.py:144 templates/content/reference.html:4 templates/core/workspace.html:10
 msgid "Recursos"
 msgstr "Resources"
 
-#: content/catalog_filters.py:68
+#: content/catalog_filters.py:73
 msgid "recursos"
 msgstr "resources"
 
@@ -9407,7 +9411,7 @@ msgstr "No reply"
 msgid "Sin respuesta."
 msgstr "No reply."
 
-#: content/catalog_filters.py:37 content/catalog_filters.py:72 core/views.py:62 creators/forms.py:43 templates/core/_catalog.html:3
+#: content/catalog_filters.py:39 content/catalog_filters.py:77 core/views.py:62 creators/forms.py:43 templates/core/_catalog.html:3
 msgid "Sin subcategoría"
 msgstr "No subcategory"
 
@@ -9603,7 +9607,7 @@ msgstr "Subcategory"
 msgid "subcategoría"
 msgstr "subcategory"
 
-#: content/catalog_filters.py:43
+#: content/catalog_filters.py:45
 msgid "Subcategoría no disponible"
 msgstr "Subcategory not available"
 
@@ -9679,7 +9683,7 @@ msgstr "Syllabus completed"
 msgid "Temario de la vista del estudiante"
 msgstr "Student view syllabus"
 
-#: content/catalog.py:47
+#: content/catalog.py:48
 msgid "Temario en preparación"
 msgstr "Syllabus in preparation"
 
@@ -9727,7 +9731,7 @@ msgstr "account type"
 msgid "Tipo de descuento"
 msgstr "Discount type"
 
-#: commerce/views.py:349 core/views.py:95 templates/accounts/_members.html:2 templates/core/_subcategory_navigation.html:2 templates/learning/_community_space.html:6 templates/learning/attempt.html:41
+#: commerce/views.py:349 core/views.py:96 templates/accounts/_members.html:2 templates/core/_subcategory_navigation.html:2 templates/learning/_community_space.html:6 templates/learning/attempt.html:41
 msgid "Todas"
 msgstr "All"
 
@@ -9815,7 +9819,7 @@ msgstr "You haven't received any tips yet."
 msgid "Todavía no tienes certificados emitidos. Puedes consultar los requisitos y los pasos pendientes desde Mi aprendizaje."
 msgstr "You don't have any issued certificates yet. You can see the requirements and pending steps from My learning."
 
-#: content/catalog.py:75
+#: content/catalog.py:77
 msgid "Todo"
 msgstr "All"
 
@@ -9827,7 +9831,7 @@ msgstr "All caught up."
 msgid "Todo el %(get_kind_display)s es gratuito."
 msgstr "The whole %(get_kind_display)s is free."
 
-#: core/navigation.py:26 templates/core/_filters.html:19 templates/creators/_public_profile.html:2
+#: core/navigation.py:26 templates/core/_filters.html:20 templates/creators/_public_profile.html:2
 msgid "Todo el contenido"
 msgstr "All content"
 
@@ -9871,13 +9875,17 @@ msgstr "Every membership course with a single payment."
 msgid "Todos los estados"
 msgstr "All statuses"
 
-#: templates/core/_filters.html:18
+#: templates/core/_filters.html:19
 msgid "Todos los formatos"
 msgstr "All formats"
 
 #: templates/learning/_saved_items.html:4
 msgid "Todos los guardados"
 msgstr "All saved items"
+
+#: templates/core/_filters.html:18
+msgid "Todos los idiomas"
+msgstr "All languages"
 
 #: templates/core/_filters.html:17
 msgid "Todos los niveles"
@@ -10437,11 +10445,11 @@ msgid_plural "tutoriales"
 msgstr[0] "tutorial"
 msgstr[1] "tutorials"
 
-#: content/catalog.py:116 content/models.py:42 templates/core/_tutorial_row.html:4 templates/creators/_create_content.html:1
+#: content/catalog.py:121 content/models.py:42 templates/core/_tutorial_row.html:4 templates/creators/_create_content.html:1
 msgid "Tutorial"
 msgstr "Tutorial"
 
-#: commerce/cart.py:225 commerce/journey.py:88 content/catalog.py:253 templates/commerce/offer.html:18
+#: commerce/cart.py:225 commerce/journey.py:88 content/catalog.py:266 templates/commerce/offer.html:18
 msgid "Tutorial completo"
 msgstr "Full tutorial"
 
@@ -10449,11 +10457,11 @@ msgstr "Full tutorial"
 msgid "tutorial completo"
 msgstr "full tutorial"
 
-#: content/catalog.py:75 core/navigation.py:8 core/views.py:136 core/views.py:143 templates/content/course.html:5 templates/content/lesson.html:6 templates/creators/content.html:3 templates/learning/_saved_items.html:4
+#: content/catalog.py:77 core/navigation.py:8 core/views.py:137 core/views.py:144 templates/content/course.html:5 templates/content/lesson.html:6 templates/creators/content.html:3 templates/learning/_saved_items.html:4
 msgid "Tutoriales"
 msgstr "Tutorials"
 
-#: content/catalog_filters.py:68
+#: content/catalog_filters.py:73
 msgid "tutoriales"
 msgstr "tutorials"
 
@@ -10993,7 +11001,7 @@ msgstr "Version submitted for review. You can keep editing a new draft."
 msgid "versión publicada"
 msgstr "published version"
 
-#: commerce/journey.py:92 content/catalog.py:117 content/models.py:254 content/views.py:186 creators/presentation.py:145 templates/commerce/_cart_line.html:7 templates/commerce/invoice.html:15 templates/commerce/offer.html:18 templates/content/lesson.html:24 templates/content/resource.html:2 templates/core/_resource_group.html:6 templates/creators/_create_content.html:1 templates/creators/resource.html:2
+#: commerce/journey.py:92 content/catalog.py:122 content/models.py:254 content/views.py:186 creators/presentation.py:145 templates/commerce/_cart_line.html:7 templates/commerce/invoice.html:15 templates/commerce/offer.html:18 templates/content/lesson.html:24 templates/content/resource.html:2 templates/core/_resource_group.html:6 templates/creators/_create_content.html:1 templates/creators/resource.html:2
 msgid "Video"
 msgstr "Video"
 
@@ -11013,7 +11021,7 @@ msgstr "YouTube video"
 msgid "Video o material"
 msgstr "Video or material"
 
-#: content/catalog.py:75 templates/creators/content.html:3
+#: content/catalog.py:77 templates/creators/content.html:3
 msgid "Videos"
 msgstr "Videos"
 

@@ -4,12 +4,14 @@ from django.utils.translation import gettext
 
 from core.content_translation import translate_content
 
+from .languages import sorted_language_choices
 from .models import CourseLevel
 
 
 def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, topic_slug,
                           selected_category, selected_topic, category_missing, section,
                           browse_categories, query, level, access, kind, format_labels,
+                          language='',
                           uncategorized):
     topic_by_id = {topic.pk: topic for topic in all_topics}
     available_categories = set()
@@ -44,6 +46,7 @@ def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, 
         })
     topic_groups = [{'name': name, 'topics': options} for name, options in sorted(grouped_topics.items())]
     level_options = [(value, label) for value, label in CourseLevel.choices if value in facets['levels'] or value == level]
+    language_options = [(value, label) for value, label in sorted_language_choices() if value in facets['languages'] or value == language]
     access_options = [(value, label) for value, label in (('gratis', gettext('Con contenido gratis')), ('pago', gettext('Con contenido de pago')), ('membresia', gettext('Incluido en la membresía')))
                       if value in facets['access'] or value == access]
     format_options = [(value, label) for value, label in format_labels.items()
@@ -55,6 +58,7 @@ def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, 
         'show_category': section != 'tutoriales' and not contextual_parent and bool(len(category_options) > 1 or category_slug),
         'show_topic': (not contextual_parent or unknown_topic) and bool(len(facets['topics']) > 1 or topic_slug),
         'show_level': bool(len(level_options) > 1 or level),
+        'show_language': bool(len(language_options) > 1 or language),
         'show_access': bool(len(access_options) > 1 or access != 'todos'),
         'show_format': section != 'recursos' and bool(len(format_options) > 1 or kind != 'todos'),
     }
@@ -62,6 +66,7 @@ def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, 
         bool(category_slug and controls['show_category']),
         bool(topic_slug and controls['show_topic']),
         bool(level and controls['show_level']),
+        bool(language and controls['show_language']),
         access != 'todos' and controls['show_access'],
         kind != 'todos' and controls['show_format'],
     ))
@@ -74,6 +79,7 @@ def build_catalog_filters(facets, *, category_cards, all_topics, category_slug, 
         'search_label': gettext('Buscar %(content)s') % {'content': content_label},
         'search_placeholder': (gettext('Buscar %(content)s en %(context)s') % {'content': content_label, 'context': context_name}) if context_name else gettext('Buscar %(content)s') % {'content': content_label},
         'categories': category_options, 'topic_groups': topic_groups, 'levels': level_options,
+        'languages': language_options,
         'access': access_options, 'formats': format_options,
         **controls, 'has_controls': any(controls.values()),
         'active_count': active_count, 'has_refinements': bool(query or active_count),

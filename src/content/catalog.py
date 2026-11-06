@@ -12,6 +12,7 @@ from core.content_translation import translate_content
 
 from .catalog_filters import build_catalog_filters
 from .identity import public_creator_name
+from .languages import CONTENT_LANGUAGES
 from .models import (
     AccessType,
     Category,
@@ -61,6 +62,7 @@ def published_courses():
     return Course.objects.filter(status=PublicationStatus.PUBLISHED).select_related('creator__creator_profile', 'topic', 'current_version__topic').defer('objective', 'requirements', 'current_version__objective', 'current_version__requirements').annotate(
         public_title=Coalesce('current_version__title', 'title'), public_description=Coalesce('current_version__description', 'description'),
         public_kind=Coalesce('current_version__kind', 'kind'), public_level=Coalesce('current_version__level', 'level'),
+        public_language=Coalesce('current_version__language', 'language'),
         public_topic_id=Case(When(current_version__isnull=False, then=F('current_version__topic_id')), default=F('topic_id')),
         free_count=Case(When(current_version__isnull=False, then=Count('current_version__chapters__lessons', filter=Q(current_version__chapters__lessons__content__access_type=AccessType.FREE), distinct=True)), default=Count('chapters__lessons', filter=visible & Q(chapters__lessons__access_type=AccessType.FREE), distinct=True)),
         paid_count=Case(When(current_version__isnull=False, then=Count('current_version__chapters__lessons', filter=Q(current_version__chapters__lessons__content__access_type=AccessType.PAID), distinct=True)), default=Count('chapters__lessons', filter=visible & Q(chapters__lessons__access_type=AccessType.PAID), distinct=True)),
@@ -85,6 +87,9 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
     level = params.get('nivel', '')
     if level not in CourseLevel.values:
         level = ''
+    language = params.get('idioma', '')
+    if language not in dict(CONTENT_LANGUAGES):
+        language = ''
     topic_slug = params.get('tema', '')[:100]
     category_slug = params.get('categoria', '')[:100]
     parent_categories = list(Category.objects.all())
@@ -106,11 +111,11 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
     parent_topic_ids = [topic.pk for topic in all_topics if
                         (topic.category_id == parent.pk if parent else topic.category_id is None)]
     query = params.get('q', '').strip()[:200]
-    filtered = bool(query or access != 'todos' or topic_slug or category_slug or level or category != 'todos')
+    filtered = bool(query or access != 'todos' or topic_slug or category_slug or level or language or category != 'todos')
     show_categories = browse_categories and not (filtered or params.get('vista') == 'todos' or params.get('pagina'))
     catalog_items = []
     topic_counts = Counter()
-    facets = {'topics': set(), 'levels': set(), 'access': set(), 'formats': set(), 'scope_count': 0}
+    facets = {'topics': set(), 'levels': set(), 'languages': set(), 'access': set(), 'formats': set(), 'scope_count': 0}
     format_counts = Counter()
     for kind, model, label in (
         ('cursos', Course, gettext('Curso')), ('tutoriales', Course, gettext('Tutorial')),
@@ -125,7 +130,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
         if model == Course:
             items = items.filter(public_kind=CourseKind.TUTORIAL if kind == 'tutoriales' else CourseKind.COURSE)
         elif model != ExternalReference:
-            items = items.select_related('creator__creator_profile', 'revision__topic').defer('revision__body').annotate(public_title=Coalesce('revision__title', 'title'), public_description=Coalesce('revision__description', 'description'), public_access=Coalesce('revision__access_type', 'access_type'), public_topic_id=Case(When(revision__isnull=False, then=F('revision__topic_id')), default=F('topic_id')))
+            items = items.select_related('creator__creator_profile', 'revision__topic').defer('revision__body').annotate(public_title=Coalesce('revision__title', 'title'), public_description=Coalesce('revision__description', 'description'), public_access=Coalesce('revision__access_type', 'access_type'), public_language=Coalesce('revision__language', 'language'), public_topic_id=Case(When(revision__isnull=False, then=F('revision__topic_id')), default=F('topic_id')))
         topic_field = 'topic_id' if model == ExternalReference else 'public_topic_id'
         counts = items.order_by().values(topic_field).annotate(topic_count=Count('pk', distinct=True))
         for row in counts:
@@ -146,13 +151,15 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
             items = items.filter(**{topic_field: selected_topic.pk}) if selected_topic else items.none()
         # Las opciones siguen disponibles al aplicar nivel, acceso o formato.
         # Solo se leen metadatos públicos; los cuerpos de las revisiones quedan fuera.
-        facet_fields = (topic_field, 'public_level', 'free_count', 'paid_count', 'membership') if model == Course else (
-            (topic_field,) if model == ExternalReference else (topic_field, 'public_access'))
+        facet_fields = (topic_field, 'public_level', 'public_language', 'free_count', 'paid_count', 'membership') if model == Course else (
+            (topic_field,) if model == ExternalReference else (topic_field, 'public_access', 'public_language'))
         for row in items.values(*facet_fields):
             facets['scope_count'] += 1
             facets['topics'].add(row[topic_field])
             facets['formats'].add(kind)
             format_counts[kind] += 1
+            if model != ExternalReference:
+                facets['languages'].add(row['public_language'])
             if model == Course:
                 if row['public_level']:
                     facets['levels'].add(row['public_level'])
@@ -170,6 +177,11 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
             if model != Course:
                 continue
             items = items.filter(public_level=level)
+        if language:
+            # Los enlaces externos no declaran idioma.
+            if model == ExternalReference:
+                continue
+            items = items.filter(public_language=language)
         if model == Course:
             if access == 'gratis':
                 items = items.filter(free_count__gt=0)
@@ -209,7 +221,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
         category_slug=category_slug, topic_slug=topic_slug, selected_category=selected_category,
         selected_topic=selected_topic, category_missing=category_missing,
         section=section, browse_categories=browse_categories, query=query,
-        level=level, access=access, kind=category, format_labels=categories,
+        level=level, language=language, access=access, kind=category, format_labels=categories,
         uncategorized=UNCATEGORIZED_TOPIC,
     )
     cards = []
@@ -228,10 +240,11 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
                 if item.revision_id:
                     item.title, item.description, item.access_type = item.revision.title, item.revision.description, item.revision.access_type
                     item.topic = item.revision.topic
+                    item.language = item.revision.language
                 url = reverse('resource-detail', args=[kind, item.pk])
             creator = item.source_name if model == ExternalReference else public_creator_name(item.creator)
             domain = (urlsplit(item.source_url).hostname or '').removeprefix('www.') if model == ExternalReference else ''
-            cards.append({'item': item, 'domain': domain, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'membership': bool(summary and item.membership and item.paid_count), 'access_label': summary['access_label'] if summary else gettext('Fuente externa') if model == ExternalReference else item.get_access_type_display()})
+            cards.append({'item': item, 'domain': domain, 'category': kind, 'kind': label, 'creator': creator, 'url': url, 'summary': summary, 'membership': bool(summary and item.membership and item.paid_count), 'language': '' if model == ExternalReference else item.language, 'access_label': summary['access_label'] if summary else gettext('Fuente externa') if model == ExternalReference else item.get_access_type_display()})
     cards.sort(key=lambda card: (card['item'].title.casefold(), card['category'], card['item'].pk))
     from commerce.models import Offer
     course_ids = [card['item'].current_version_id for card in cards if card['summary'] and card['item'].current_version_id]
@@ -281,12 +294,12 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
         'category_filter': category_slug, 'category_missing': category_missing,
         'catalog_filters': catalog_filters,
         'selected_topic': selected_topic, 'topic_groups': topic_groups, 'subcategory_cards': subcategory_cards,
-        'levels': CourseLevel.choices, 'level_filter': level, 'cards': page.object_list,
+        'levels': CourseLevel.choices, 'level_filter': level, 'language_filter': language, 'cards': page.object_list,
         'all_cards': cards, 'groups': list(groups.items()), 'page_obj': page, 'result_count': len(cards),
         'filter_query': link_params.urlencode() if hasattr(link_params, 'urlencode') else '',
         'filtered': filtered,
-        'show_clear_filters': filtered and (category_missing or topic_missing or not browse_categories or not selected_category or bool(query or access != 'todos' or level or category != 'todos')),
-        'has_search_filters': bool(query or access != 'todos' or topic_slug or category_slug or level),
+        'show_clear_filters': filtered and (category_missing or topic_missing or not browse_categories or not selected_category or bool(query or access != 'todos' or level or language or category != 'todos')),
+        'has_search_filters': bool(query or access != 'todos' or topic_slug or category_slug or level or language),
         'type_links': type_links, 'format_tabs': format_tabs,
         'format_groups': [group for group in format_groups if group[2]],
         'topic_missing': topic_missing,

@@ -73,6 +73,7 @@ def filter_navigation(context):
     labels = {
         "q": f'«{context["query"]}»' if context["query"] else "",
         "nivel": dict(context["levels"]).get(context["level_filter"], ""),
+        "idioma": dict(context["catalog_filters"]["languages"]).get(context["language_filter"], ""),
         "acceso": {"gratis": gettext("Con contenido gratis"), "pago": gettext("Con contenido de pago")}.get(context["access_filter"], ""),
         "tipo": context["categories"].get(context["category"], "") if context["category"] != "todos" and context.get("section") != "recursos" else "",
     }
