@@ -836,4 +836,4 @@ Después terminé los reembolsos y las páginas legales. Un regalo no canjeado s
 
 Publiqué `/terminos/` y `/reembolsos/`, en español e inglés, enlazadas desde el pie, el checkout, la membresía, la factura y la solicitud. La identidad del proveedor sale de `LEGAL_PROVIDER_*`; como no tengo esos datos, la página omite las filas y `check --deploy` lo advierte. Revisé las dos páginas en el navegador y corregí la barra lateral, que marcaba Cursos en ellas.
 
-La batería de `check-platform.ps1`, paso a paso, pasó con 629 pruebas (nueve nuevas en `GiftRefundTests`, `MembershipRefundTests` y `core/test_legal.py`), Ruff, migraciones y los cinco controles de concurrencia. No apliqué las migraciones `0008` y `0009` a la base local.
+La batería de `check-platform.ps1`, paso a paso, pasó con 629 pruebas (nueve nuevas en `GiftRefundTests`, `MembershipRefundTests` y `core/test_legal.py`), Ruff, migraciones y los cinco controles de concurrencia. Después respaldé la base local en `.local/backups/platform-before-refunds-legal-20261106-085456.sqlite3` (integridad correcta) y le apliqué las migraciones `0008` y `0009`.
