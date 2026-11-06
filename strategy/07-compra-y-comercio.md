@@ -100,7 +100,7 @@ El 23 de octubre de 2026 el usuario compartió una comparación de BTC.EDU con U
 | Crédito por compras anteriores | Implementada | Diferencia sobre el precio de lista, mínimo 1 sat, solo con lo que falta |
 | Propinas al educador | Implementada | Factura propia de 10 a 100 000 sats; no concede acceso ni se reembolsa |
 | Sello OpenTimestamps | Implementada, desactivada por defecto | Prueba `.ots` de la huella; se envía al emitir o con `stamp_certificates` |
-| Reembolso por Lightning | Implementada | Ocho días, sin certificado ni crédito posterior; reclamo sin plazo por contenido inaccesible, distinto, defectuoso o cobrado por error; aprobación administrativa y pago a una factura por el importe exacto |
+| Reembolso por Lightning | Implementada | Ocho días sin motivo, sin certificado ni crédito posterior; regalos no canjeados y membresías no usadas; reclamo sin plazo por contenido inaccesible, distinto, defectuoso o cobrado por error; aprobación administrativa y pago a una factura por el importe exacto |
 | Regalar | Implementada en Comprar ahora | Enlace de canje de un solo uso; el comprador no recibe acceso |
 | Reseñas verificadas | Implementada | Compra de pago o curso completado; una por curso, editable, con respuesta del educador |
 | Cupones | Implementada | Del educador, por porcentaje o sats, con vencimiento, límite y alcance |
@@ -126,22 +126,25 @@ Revisión del 6 de noviembre de 2026 contra el texto de la [Ley de Protección a
 
 **Cómo queda la política actual.**
 
-| Regla vigente | Valoración | Cambio propuesto |
+| Regla anterior | Valoración | Regla vigente |
 |---|---|---|
-| Plazo de siete días | Más corto que los ocho días legales cuando el contenido no se ha abierto | Ampliado a ocho días el 6 de noviembre |
-| Reembolso aunque el estudiante haya usado el contenido, salvo certificado o crédito | Más generoso que la ley; se puede conservar como política comercial | Mantener e informar que es voluntario |
-| Bloqueo por certificado o crédito posterior | Coherente: obtener un certificado o reutilizar la compra demuestra uso | Mantener para el retracto, no para reclamos por defecto |
-| Sin vía para contenido defectuoso, no disponible o distinto de lo ofrecido | Incumple el artículo 13-D, que no depende del plazo ni del uso | Implementado: Reportar un problema con esta compra, con tipo y motivo, sin los bloqueos anteriores |
-| Regalos excluidos | El comprador del regalo también es consumidor | Admitir reembolso del regalo no canjeado dentro del plazo |
-| Decisión manual sin plazo | La ley fija quince días | Implementado: la lista y la revisión muestran la fecha límite; falta avisar a administración |
-| Pago a una factura Lightning por el importe exacto en sats | Devuelve lo pagado por el mismo medio, sin cargos | Mantener; la plataforma asume la comisión de envío |
-| Rechazo con nota obligatoria | Adecuado para no invertir la carga de la prueba | Mantener y conservar la evidencia en la que se apoya |
-| Membresías sin reembolso | El retracto también alcanza a una membresía no usada | Reembolsar en ocho días si no se abrió contenido incluido |
+| Plazo de siete días | Más corto que los ocho días legales cuando el contenido no se ha abierto | Ocho días desde la compra |
+| Motivo obligatorio | El retracto no exige justificar la decisión | Motivo opcional en el reembolso dentro del plazo; obligatorio en un reclamo |
+| Reembolso aunque el estudiante haya usado el contenido, salvo certificado o crédito | Más generoso que la ley; se conserva como política comercial | Se mantiene y la política lo explica |
+| Bloqueo por certificado o crédito posterior | Coherente: obtener un certificado o reutilizar la compra demuestra uso | Se mantiene para el reembolso dentro del plazo |
+| Sin vía para contenido defectuoso, no disponible o distinto de lo ofrecido | Incumple el artículo 13-D, que no depende del plazo ni del uso | Reportar un problema con esta compra, con tipo y motivo, sin plazo ni bloqueos por uso |
+| Regalos excluidos | El comprador del regalo también es consumidor | Reembolso del regalo no canjeado en ocho días; su enlace deja de funcionar mientras la solicitud no se rechace |
+| Membresías sin reembolso | El retracto también alcanza a una membresía no usada | Reembolso del periodo en ocho días si no se abrió ni completó contenido incluido; el acceso termina y la siguiente renovación empieza al pagarse |
+| Decisión manual sin plazo | La ley fija quince días | La revisión y la lista de reembolsos muestran la fecha límite y el inicio de administración muestra las solicitudes abiertas |
+| Pago a una factura Lightning por el importe exacto en sats | Devuelve lo pagado por el mismo medio, sin cargos | Se mantiene; la plataforma asume la comisión de envío |
+| Rechazo con nota obligatoria | Adecuado para no invertir la carga de la prueba | Se mantiene |
 
-**Lo que falta publicar.** Una página de términos y una de reembolsos, enlazadas desde el checkout y la factura, con la identidad y el NIT del proveedor, los medios de reclamo, el plazo legal, la política voluntaria y el efecto en el acceso. El resumen previo y la confirmación del pedido ya existen; la confirmación debe incluir impuestos cuando se definan. Ninguna condición debe imponer arbitraje.
+**Páginas publicadas.** [Términos y condiciones](../src/templates/core/terms.html) (`/terminos/`) y [política de reembolsos](../src/templates/core/refund_policy.html) (`/reembolsos/`), en español e inglés. Se enlazan desde el pie de cada página, el checkout, la membresía, la factura y la solicitud de reembolso; el checkout indica que preparar el pago implica aceptar los términos. Los términos identifican al proveedor, describen compras, membresía, regalos, pagos, contenido, comunidad y datos, dan los medios de reclamo, mencionan a la Defensoría del Consumidor y no imponen arbitraje. La fecha de vigencia está en `LEGAL_TERMS_EFFECTIVE`.
 
-**Efecto para el educador.** El reembolso lo decide la plataforma, que vende al estudiante. Anula la remuneración pendiente de esa venta o crea un ajuste negativo si ya se pagó, según la [liquidación](04-producto-y-monetizacion.md#remuneracion-educadores). El educador recibe un aviso con el motivo, sin datos personales del estudiante.
+La identidad del proveedor (razón social, NIT, dirección, teléfono y correo) se define con las variables `LEGAL_PROVIDER_*`. No inventamos esos datos: sin ellas, la página omite esas filas y `manage.py check --deploy` advierte `accounts.W003`.
 
-El importe se devuelve en sats; si el estudiante pagó cuando el bitcoin valía más o menos en dólares, recibe los mismos sats. Esta regla debe constar en la política.
+**Efecto para el educador.** El reembolso lo decide la plataforma, que vende al estudiante. Anula la remuneración pendiente de esa venta o crea un ajuste negativo si ya se pagó, según la [liquidación](04-producto-y-monetizacion.md#remuneracion-educadores). El educador recibe un aviso al solicitarse y resolverse, y ve el motivo en Ventas, sin datos personales del estudiante. Las membresías no generan avisos al educador porque el plan es de la plataforma.
 
-El 6 de noviembre implementamos el plazo de ocho días, el reclamo, la fecha límite de respuesta y los avisos al educador. Siguen pendientes los regalos no canjeados, las membresías no usadas, el aviso a administración y las páginas de términos y reembolsos.
+El importe se devuelve en sats; si el estudiante pagó cuando el bitcoin valía más o menos en dólares, recibe los mismos sats. La política lo dice.
+
+**Pendiente.** Confirmar el texto con un abogado y definir la identidad del proveedor antes de cobrar con fondos reales. Avisar por correo a administración cuando exista un dominio público. Un pago que no se pudo confirmar sigue resolviéndose desde la ayuda de la cuenta, no desde un reclamo. La confirmación del pedido deberá incluir impuestos cuando se definan.
