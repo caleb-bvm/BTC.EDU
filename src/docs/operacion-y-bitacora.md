@@ -6,7 +6,7 @@ Ya tengo una plataforma local que conecta publicación, micropagos y aprendizaje
 
 El catálogo local tiene 25 cursos y 252 lecciones. Conservo los seis cursos iniciales de Bitcoin y Lightning y tengo diecinueve cursos completos, con ejercicios, evaluaciones y proyecto final. Cada una de las seis categorías tiene un curso de pago, uno freemium y uno incluido en la membresía de renovación manual. [Registro](#25-de-octubre-de-2026). También tiene cinco tutoriales y cinco recursos por categoría: 30 tutoriales y 30 recursos entre videos, materiales en PDF y enlaces externos. [Registro](#tutoriales-recursos-2026-10-25). La interfaz usa ahora un lenguaje monocromo en blanco y negro con un único acento naranja, en modos claro y oscuro, con un menú principal estable para cada tipo de cuenta y navegación local por tarea.
 
-La entrega de interfaz del 14 de octubre pasó 359 pruebas, las comprobaciones de configuración y migraciones, la revisión estática y cinco controles de concurrencia. También comprobé nueve escenarios del cliente de guardado y el cliente de progreso. Ensayé compra simulada y retorno a la lección, aprendizaje, certificados pendientes, estudio, edición, recuperación de errores y búsqueda con datos temporales. El 3 de noviembre completé una [compra desde ZEUS](#compra-zeus-2026-11-03) dentro de BTC.EDU en regtest. Todavía necesito validar la utilidad educativa con participantes. Conservo el detalle en la [entrega del overhaul](#overhaul-ui-ux-2026-10-14).
+La entrega de interfaz del 14 de octubre pasó 359 pruebas, las comprobaciones de configuración y migraciones, la revisión estática y cinco controles de concurrencia. También comprobé nueve escenarios del cliente de guardado y el cliente de progreso. Ensayé compra simulada y retorno a la lección, aprendizaje, certificados pendientes, estudio, edición, recuperación de errores y búsqueda con datos temporales. El 3 de noviembre completé una [compra desde ZEUS](#compra-zeus-2026-11-03) dentro de BTC.EDU en regtest, y el 5 de noviembre el [recorrido completo de creador y estudiante](#recorrido-creador-estudiante-2026-11-05). Todavía necesito validar la utilidad educativa con participantes. Conservo el detalle en la [entrega del overhaul](#overhaul-ui-ux-2026-10-14).
 
 No he validado la propuesta con participantes ni los precios con compradores. Las pruebas con FakeWallet y Polar/regtest no acreditan cobros con fondos reales. Mantengo el propósito y la investigación en el [informe](../../strategy/01-informe.md) y en [investigación y requisitos](../../strategy/README.md).
 
@@ -321,7 +321,7 @@ Necesito observar tareas sobre la interfaz ya implementada con estudiantes y edu
 
 Necesito preparar pequeñas colecciones en otras áreas con revisión especializada, comprobar si las unidades aportan frente a alternativas gratuitas y observar la comprensión del pago con personas que tengan distinta experiencia. También debo evaluar el nombre BTC.EDU, el paso de una unidad a un conjunto y un presupuesto que cubra remuneración, revisión, entrega y soporte. Las comisiones, liquidaciones y alianzas siguen sin definir o ejecutar.
 
-Necesito ensayar el recorrido completo de creador y estudiante sobre la base comprobada; la compra desde ZEUS y la confirmación ya funcionan en regtest. También debo revisar el catálogo con una persona experta, ampliar las evaluaciones y comprobar comprensión y duración con alumnos. Los precios de 120 sats por curso y 50 sats por lección siguen siendo hipótesis. Repetiré la revisión integrada al incorporar nuevas entregas.
+El 5 de noviembre ensayé el [recorrido completo de creador y estudiante](#recorrido-creador-estudiante-2026-11-05) en regtest, con pago desde ZEUS, y corregí los cinco hallazgos. También debo revisar el catálogo con una persona experta, ampliar las evaluaciones y comprobar comprensión y duración con alumnos. Los precios de 120 sats por curso y 50 sats por lección siguen siendo hipótesis. Repetiré la revisión integrada al incorporar nuevas entregas.
 
 En inglés me falta que una persona nativa revise la traducción de la interfaz. Los avisos y facturas guardan el texto del idioma en que se crearon. No he probado la versión en inglés con participantes.
 
@@ -790,4 +790,29 @@ Después llevé la decisión al código sobre `8eb8b88`. Cursos, videos y materi
 Sobre `3486e81` llevé el idioma al catálogo. La tarjeta de cursos, tutoriales, videos y materiales nombra el idioma cuando no coincide con el de la interfaz: con el catálogo actual no aparece en español y en inglés cada tarjeta dice «Spanish». Añadí el filtro Idioma (`?idioma=`), con su etiqueta de filtro activo; como los de nivel y acceso, solo aparece cuando los resultados tienen más de un idioma, así que hoy no se ve. Los enlaces externos no declaran idioma y quedan fuera al filtrar.
 
 `check-platform.ps1` pasó con 610 pruebas, cinco nuevas en `content/test_catalog_language.py`, Ruff, `manage.py check`, migraciones y los controles de concurrencia. En el navegador, sobre una copia temporal de la base con un curso en portugués creado para la prueba, el filtro ofreció Español y Portugués, filtrar dejó solo ese curso con su etiqueta «Portugués» y en inglés aparecieron «Language», «Portuguese» y «Spanish». Borré la copia; la base local sigue sin migrar.
+
+<a id="recorrido-creador-estudiante-2026-11-05"></a>
+
+Sobre `df0647c` ensayé el recorrido completo en el navegador, con cuentas de prueba locales. Antes respaldé la base en `.local/backups/platform-before-content-language-20261105-212401.sqlite3` y apliqué `content.0012`. Preparé Polar con `prepare-polar.ps1` e inicié LNbits regtest en el puerto 5001.
+
+- Educadora: creé la cuenta desde Enseñar, completé el perfil y envié la solicitud; la administración la aprobó.
+- Curso: «Recorrido: tu primer pago Lightning», en español, con un capítulo, una lección gratuita y una de pago. Las fichas educativas quedaron completas, lo envié a revisión y lo aprobé y publiqué como versión 1 desde la página de revisión.
+- Precio: la oferta del curso (100 sats) pidió primero una oferta individual de la lección de pago (60 sats); la administración aprobó ambas.
+- Estudiante: creé la cuenta, encontré el curso con la búsqueda, lo empecé, completé la lección gratuita y la de pago apareció bloqueada con las dos ofertas.
+- Pago: con Comprar ahora preparé una factura de 100 sats y la pagué desde ZEUS. La página la confirmó sola a las 21:39 y abrió la lección; quedaron una compra y dos derechos de acceso.
+- Cierre: completé el curso (2 de 2 lecciones) y Ventas de la educadora mostró 100 sats confirmados y finalización del temario del 100 %.
+
+Hallazgos:
+
+1. La página de entrada de estudiantes no lleva a la cuenta de educador; solo se llega por Enseñar.
+2. En la oferta del curso, la lección sigue mostrando «Preparar esta oferta» aunque su oferta ya está en revisión, lo que invita a duplicarla. El requisito de la oferta individual aparece después de crear la del curso.
+3. En la lección bloqueada, la opción del curso dice «Textos, videos y materiales de este paquete» aunque el curso solo tiene textos.
+4. Algunos nombres de idioma de Django en español son poco naturales («Africano», «Turcomanos», «Luxenburgués»).
+5. La ficha del curso muestra siempre el idioma, mientras que las tarjetas solo lo muestran cuando difiere de la interfaz.
+
+No configuré certificado ni evaluaciones en este curso, así que no ensayé su emisión. Es un ensayo técnico mío, no una sesión con participantes.
+
+<a id="correcciones-recorrido-2026-11-05"></a>
+
+Después corregí los cinco hallazgos. La entrada de estudiantes enlaza a «¿Enseñas en BTC.EDU? Entra como educador». En la oferta de un curso o capítulo, una lección que ya tiene oferta en borrador o en revisión lleva a esa oferta en lugar de proponer otra, y el formulario avisa desde el principio que cada lección de pago necesita su oferta individual. La opción del curso en la lección bloqueada nombra solo los formatos que incluye («Textos» en este curso). Corregí ocho nombres de idioma en español (Afrikáans, Azerí, Cabileño, Gaélico escocés, Jemer, Luxemburgués, Turcomano, Udmurto), y la ficha del curso muestra el idioma con la misma regla que las tarjetas. Añadí cinco pruebas en `commerce/test_walkthrough_fixes.py`; `check-platform.ps1` pasó con 615 pruebas, Ruff, migraciones y los controles de concurrencia. Comprobé en el navegador el enlace, la descripción de la oferta, la ficha en ambos idiomas y los nombres del editor.
 

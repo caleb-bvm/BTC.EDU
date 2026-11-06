@@ -41,3 +41,11 @@ def language_options(context):
     current = translation.get_language()
     return [{"code": code, "name": name, "current": code == current, "url": translate_url(path, code)}
             for code, name in settings.LANGUAGES]
+
+
+@register.filter
+def content_language_name(code):
+    """Name of a course or resource language, capitalized for labels."""
+    from content.languages import language_name
+    name = language_name(code)
+    return name[:1].upper() + name[1:]

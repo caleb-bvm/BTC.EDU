@@ -1,7 +1,7 @@
 <article class="tutorial-item">
   <p class="tutorial-time">{% if card.item.estimated_minutes %}<span class="visually-hidden">{% translate "Duración aproximada:" %} </span><strong>{{ card.item.estimated_minutes }}</strong> <span>min</span>{% else %}<strong>{{ card.summary.lesson_count }}</strong> <span>{% blocktranslate count counter=card.summary.lesson_count|default:0 %}paso{% plural %}pasos{% endblocktranslate %}</span>{% endif %}</p>
   <div class="tutorial-copy">
-    <p class="tutorial-meta">{% if card.item.topic %}{{ card.item.topic|tr }}{% else %}{% translate "Tutorial" %}{% endif %}{% if card.item.level %} · {{ card.item.get_level_display }}{% endif %}{% get_current_language as interface_language %}{% if card.language and card.language != interface_language %} · {{ card.language|language_name_translated|capfirst }}{% endif %}</p>
+    <p class="tutorial-meta">{% if card.item.topic %}{{ card.item.topic|tr }}{% else %}{% translate "Tutorial" %}{% endif %}{% if card.item.level %} · {{ card.item.get_level_display }}{% endif %}{% get_current_language as interface_language %}{% if card.language and card.language != interface_language %} · {{ card.language|content_language_name }}{% endif %}</p>
     <h3><a href="{{ card.url }}">{{ card.item.title|tr }}</a></h3>
     {% if card.item.description %}<p>{{ card.item.description|tr|truncatechars:140 }}</p>{% endif %}
     <p class="tutorial-author">{% translate "Por" %} {% include 'creators/_author_link.html' with person=card.item.creator author_name=card.creator %}</p>

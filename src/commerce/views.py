@@ -166,7 +166,11 @@ def creator_offer(request, pk):
         query = {"objetivo": target}
         if offer.course_version_id:
             query["curso"] = offer.course_version.course_id
-        dependencies.append({"item": item, "url": reverse("creator-offers") + "?" + urlencode(query)})
+        # An individual offer already prepared is shown instead of inviting a duplicate.
+        existing = Offer.objects.filter(creator=request.user, status__in=(Offer.Status.DRAFT, Offer.Status.PENDING)).filter(
+            Q(kind=Offer.Kind.LESSON, lesson=lesson) if lesson else Q(kind=Offer.Kind.RESOURCE, resource_id=item.resource_id)).first()
+        dependencies.append({"item": item, "url": reverse("creator-offers") + "?" + urlencode(query), "existing": existing,
+                             "existing_url": reverse("creator-offer", args=[existing.pk]) if existing else ""})
     return render(request, "commerce/creator_offer.html", {"offer": offer, "items": offer.items.select_related("resource"), "missing": missing, "dependencies": dependencies, "offer_live": available(offer)})
 
 

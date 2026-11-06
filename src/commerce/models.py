@@ -48,6 +48,16 @@ class Offer(models.Model):
     def __str__(self):
         return f"{self.title} · {self.amount_sats} sats"
 
+    @property
+    def included_kinds_label(self):
+        """Formats the offer really contains, e.g. «Textos y videos», for package descriptions."""
+        kinds = set(self.items.values_list("resource__kind", flat=True))
+        names = [label for kind, label in (("text", gettext("textos")), ("video", gettext("videos")), ("material", gettext("materiales"))) if kind in kinds]
+        if not names:
+            return ""
+        text = names[0] if len(names) == 1 else gettext("%(first)s y %(last)s") % {"first": ", ".join(names[:-1]), "last": names[-1]}
+        return text[:1].upper() + text[1:]
+
     def save(self, *args, **kwargs):
         if not self._state.adding:
             original = type(self).objects.get(pk=self.pk)

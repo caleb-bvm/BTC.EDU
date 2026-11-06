@@ -14,7 +14,7 @@ class OfferForm(forms.Form):
     def __init__(self, *args, actor, course=None, resource=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["target"].choices = [("", gettext("Elige un contenido publicado"))] + target_choices(actor, course, resource)
-        self.fields["target"].help_text = gettext("Solo aparece contenido publicado que puedes ofrecer. El precio y las inclusiones se revisan antes de la venta.")
+        self.fields["target"].help_text = gettext("Solo aparece contenido publicado que puedes ofrecer. Un curso o capítulo necesita antes una oferta individual para cada lección de pago. El precio y las inclusiones se revisan antes de la venta.")
         for field in self.fields.values():
             field.widget.attrs["class"] = "form-control"
 
