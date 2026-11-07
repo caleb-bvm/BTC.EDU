@@ -49,6 +49,24 @@ class LearningJourneyTests(TestCase):
         self.enrollment.refresh_from_db()
         self.assertEqual(self.enrollment.last_lesson_id, self.data.records[0].pk)
 
+    def test_completion_panel_offers_one_step_and_continues_without_javascript(self):
+        record = self.data.records[0]
+        lesson_url = reverse("version-lesson", args=[self.data.version.course_id, self.data.version.number, record.pk])
+        page = self.client.get(lesson_url)
+        self.assertContains(page, "Completar y continuar →")
+        self.assertContains(page, 'data-when="done" hidden')
+        self.assertNotContains(page, "El punto de continuación se guarda")
+        endpoint = reverse("progress-update", args=[self.enrollment.pk])
+        following = reverse("version-lesson", args=[self.data.version.course_id, self.data.version.number, self.data.records[1].pk])
+        response = self.client.post(f"{endpoint}?siguiente={following}", {"lesson": record.pk, "revision": 0, "action": "complete"})
+        self.assertRedirects(response, following, fetch_redirect_response=False)
+        self.assertTrue(LessonProgress.objects.filter(lesson=record).exists())
+        completed = self.client.get(lesson_url)
+        self.assertContains(completed, 'data-when="pending" hidden')
+        self.assertContains(completed, "Lección completada")
+        outside = self.client.post(f"{endpoint}?siguiente=https://example.com/", {"lesson": record.pk, "revision": 1, "action": "complete"})
+        self.assertRedirects(outside, lesson_url, fetch_redirect_response=False)
+
     def test_locked_paid_lesson_cannot_be_completed_or_used_as_resume_point(self):
         response = self.save(record=self.data.records[1])
         self.assertEqual(response.status_code, 403)
@@ -110,7 +128,7 @@ class LearningJourneyTests(TestCase):
         self.save()
         Course.objects.filter(pk=self.data.course.pk).update(status="archived")
         url = reverse("version-lesson", args=[self.data.course.pk, self.data.version.number, self.data.records[0].pk])
-        self.assertContains(self.client.get(url), "Esta lección está completada")
+        self.assertContains(self.client.get(url), "Lección completada")
         self.assertContains(self.client.get(reverse("workspace")), "Versión conservada")
         self.client.force_login(self.data.other)
         self.assertEqual(self.client.get(url).status_code, 404)
@@ -122,7 +140,7 @@ class LearningJourneyTests(TestCase):
         response = self.client.post(endpoint, {"revision": 0, "lesson": self.data.records[0].pk, "action": "complete"})
         self.assertEqual(response.status_code, 302)
         self.assertIn("lecciones", response.url)
-        self.assertContains(self.client.get(response.url), "Esta lección está completada")
+        self.assertContains(self.client.get(response.url), "Lección completada")
 
     def test_all_completed_reports_full_progress_without_counting_materials(self):
         self.buy()

@@ -18,7 +18,7 @@ label{font-size:14px;line-height:1.5}input[type=checkbox],input[type=radio]{acce
 .app-header{min-height:78px;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 28px;background:var(--paper);border-bottom:1px solid var(--line)}
 .app-header .brand-wordmark{font-size:32px}.app-header .academy-header-actions{gap:8px;flex-wrap:nowrap}.public-navigation{display:flex;gap:4px;align-items:center}
 .public-navigation a:not(.btn){display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;font:12px/1.4 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--muted)}.public-navigation a:not(.btn):hover{color:var(--ink);background:var(--ui-muted-surface)}
-.app-header .theme-toggle{min-height:44px;max-width:120px}.app-header .account-header-avatar{width:36px;height:36px}
+.app-header .theme-toggle{min-height:44px;max-width:120px}.app-header .account-header-avatar{width:36px;height:36px;margin:0}
 .academy-layout{grid-template-columns:var(--sidebar-width) minmax(0,1fr)}.academy-sidebar{padding:22px 14px;border-color:var(--line);background:var(--paper);min-height:calc(100dvh - 78px)}
 .primary-navigation{gap:6px;margin-bottom:26px}.academy-navigation a{font-size:14px;min-height:48px;padding:12px 14px;gap:14px;overflow-wrap:anywhere;border-radius:999px}
 .academy-navigation a[aria-current=page]{box-shadow:none;background:var(--ui-muted-surface);border-color:transparent;font-weight:600}

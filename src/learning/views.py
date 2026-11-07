@@ -6,6 +6,7 @@ from django.db.models import Count, F, Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext
 from django.views.decorators.http import require_GET, require_POST, require_safe
 
@@ -162,6 +163,9 @@ def progress_update(request, pk):
         return JsonResponse({"saved": True, "revision": enrollment.revision, "completed": completed, "total": total,
                              "is_completed": enrollment.completed_lessons.filter(lesson_id=lesson_id).exists(),
                              "message": gettext("Lección completada y avance guardado.") if request.POST.get("action") == "complete" else gettext("Lección pendiente y avance guardado.") if request.POST.get("action") == "incomplete" else gettext("Tu punto de continuación quedó guardado.")})
+    following = request.GET.get("siguiente", "")
+    if request.POST.get("action") == "complete" and url_has_allowed_host_and_scheme(following, {request.get_host()}, request.is_secure()):
+        return redirect(following)
     messages.success(request, gettext("Avance guardado."))
     return redirect("version-lesson", course_pk=enrollment.version.course_id, number=enrollment.version.number, lesson_pk=lesson_id)
 

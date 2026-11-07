@@ -44,24 +44,28 @@
   if (!form) return;
   const status = form.querySelector('[data-progress-status]');
   const revision = form.querySelector('[name="revision"]');
-  const completion = form.querySelector('[data-completion]');
+  const actions = [...form.querySelectorAll('[data-completion]')];
   const reload = form.querySelector('[data-progress-reload]');
   const retry = form.querySelector('[data-progress-retry]');
-  const quizBlocked = completion.disabled;
   const recordId = form.querySelector('[name="lesson"]').value;
   let busy = false;
   let conflicted = false;
 
-  async function save(action) {
+  function showState(done) {
+    form.querySelectorAll('[data-when]').forEach(item => { item.hidden = (item.dataset.when === 'done') !== done; });
+    form.closest('[data-completion-panel]')?.classList.toggle('is-complete', done);
+  }
+
+  async function save(action, continueTo) {
     if (conflicted || busy) return;
     busy = true;
     const body = new FormData(form);
     body.set('action', action);
     const explicit = action !== 'position';
     const recovering = status.classList.contains('save-error');
-    if (explicit || recovering) status.textContent = btcT('Guardando tu avance…');
+    if (recovering) status.textContent = btcT('Guardando tu avance…');
     form.setAttribute('aria-busy', 'true');
-    completion.disabled = true;
+    actions.forEach(item => { item.disabled = true; });
     retry.disabled = true;
     try {
       const response = await fetch(form.getAttribute('action'), {method: 'POST', body, credentials: 'same-origin', headers: {'Accept': 'application/json'}, cache: 'no-store'});
@@ -74,29 +78,27 @@
       }
       revision.value = data.revision;
       retry.hidden = true;
-      if (explicit || recovering) status.textContent = data.message;
+      // Success stays quiet on screen; the live region still informs assistive technology.
+      status.textContent = explicit || recovering ? data.message : '';
       status.classList.remove('save-error');
-      completion.value = data.is_completed ? 'incomplete' : 'complete';
-      completion.textContent = data.is_completed ? btcT('Marcar como pendiente') : btcT('Marcar lección completada');
-      completion.classList.toggle('btn-dark', !data.is_completed);
-      completion.classList.toggle('btn-outline-dark', data.is_completed);
-      const continueLink = document.querySelector('[data-completion-next]');
-      if (continueLink) continueLink.hidden = !data.is_completed;
+      if (continueTo && data.is_completed) { window.location.assign(continueTo); return; }
+      if (explicit) showState(data.is_completed);
       const percentage = data.total ? Math.round(data.completed * 100 / data.total) : 0;
-      document.querySelectorAll('[data-progress-count]').forEach(item => { item.textContent = `${data.completed} de ${data.total}`; });
+      document.querySelectorAll('[data-progress-count]').forEach(item => { item.textContent = btcT('{completed} de {total}').replace('{completed}', data.completed).replace('{total}', data.total); });
       document.querySelectorAll('[data-progress-percentage]').forEach(item => { item.textContent = `${percentage}%`; });
       document.querySelectorAll('[data-course-progress]').forEach(item => { item.max = data.total || 1; item.value = data.completed; });
       document.querySelectorAll(`[data-outline-lesson="${recordId}"]`).forEach(item => {
         item.closest('li').classList.toggle('is-complete', data.is_completed);
         item.querySelector('[data-lesson-marker]').textContent = data.is_completed ? '✓' : String(document.querySelector('.reader-toolbar strong').textContent).padStart(2, '0');
         const state = item.querySelector('[data-lesson-state]');
-        state.textContent = data.is_completed ? 'Completada' : btcT('Estás aquí');
+        state.textContent = data.is_completed ? btcT('Completada') : btcT('Estás aquí');
         state.classList.toggle('state-complete', data.is_completed);
       });
       const currentState = document.querySelector('[data-current-lesson-state]');
-      currentState.textContent = data.is_completed ? 'Completada' : btcT('Por estudiar');
-      currentState.classList.toggle('state-complete', data.is_completed);
-      document.querySelector('[data-completion-heading]').textContent = data.is_completed ? btcT('Una lección más en tu recorrido.') : btcT('¿Terminaste esta lección?');
+      if (currentState) {
+        currentState.textContent = data.is_completed ? btcT('Completada') : btcT('Por estudiar');
+        currentState.classList.toggle('state-complete', data.is_completed);
+      }
       document.querySelector('[data-course-finished]').hidden = !(data.total > 0 && data.completed === data.total);
     } catch (error) {
       retry.hidden = conflicted;
@@ -105,13 +107,13 @@
     } finally {
       busy = false;
       form.removeAttribute('aria-busy');
-      completion.disabled = conflicted || quizBlocked;
+      actions.forEach(item => { item.disabled = conflicted; });
       retry.disabled = conflicted;
     }
   }
   form.addEventListener('submit', event => {
     event.preventDefault();
-    save(event.submitter?.value || 'position');
+    save(event.submitter?.value || 'position', event.submitter?.dataset?.continueTo);
   });
   reload.addEventListener('click', () => window.location.reload());
   // Opening remembers the lesson; completion remains an explicit student action.
