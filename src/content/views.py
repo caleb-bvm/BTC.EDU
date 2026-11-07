@@ -2,7 +2,7 @@
 from urllib.parse import urlsplit
 
 from django.db.models import F, Prefetch
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -11,6 +11,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_safe
 
 from media.delivery import file_response
+from media.models import Cover
 
 from .access import content_access
 from .catalog import course_summary, course_tree
@@ -19,6 +20,7 @@ from .identity import public_creator_name
 from .models import (
     Course,
     CourseKind,
+    CourseVersion,
     ExternalReference,
     Lesson,
     Material,
@@ -259,4 +261,30 @@ def resource_file(request, kind, pk, number, part):
     if request.method == "GET" and response.status_code in (200, 206) and part == "archivo":
         from core.telemetry import content_opened
         content_opened(request, revision)
+    return response
+
+
+@require_safe
+def course_cover(request, pk):
+    """Cover image: public once a published version uses it, otherwise only for its creator or a reviewer."""
+    cover = get_object_or_404(Cover, pk=pk)
+    public = CourseVersion.objects.filter(cover=cover, published_at__isnull=False).exists()
+    if not public:
+        user = request.user
+        reviewer = user.is_authenticated and user.is_active and user.is_staff and user.has_perm("creators.change_submission")
+        if not (user.is_authenticated and user.is_active and user.pk == cover.creator_id) and not (
+                reviewer and CourseVersion.objects.filter(cover=cover).exists()):
+            raise Http404
+    etag = f'"{cover.sha256}"'
+    if request.headers.get("If-None-Match") == etag:
+        response = HttpResponse(status=304)
+    else:
+        try:
+            response = FileResponse(cover.file.storage.open(cover.file.name, "rb"), content_type="image/webp")
+        except OSError as exc:
+            raise Http404 from exc
+    response["ETag"] = etag
+    # A cover is immutable: a new upload creates a new record and a new address.
+    response["Cache-Control"] = "public, max-age=31536000, immutable" if public else "private, no-store"
+    response["X-Content-Type-Options"] = "nosniff"
     return response

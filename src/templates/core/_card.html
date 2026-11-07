@@ -1,6 +1,6 @@
 {% load static %}
 <article class="academy-card{% if card.learning %} is-enrolled{% if card.learning.total and card.learning.done == card.learning.total %} is-complete{% endif %}{% endif %}">
-  <a class="academy-card-cover" href="{{ card.url }}" tabindex="-1" aria-hidden="true">{% include '_content_image.html' with kind=card.category topic_slug=card.item.topic.slug only %}<span class="academy-card-kind">{{ card.kind }}</span></a>
+  <a class="academy-card-cover" href="{{ card.url }}" tabindex="-1" aria-hidden="true">{% include '_content_image.html' with kind=card.category topic_slug=card.item.topic.slug cover=card.item.cover_id only %}<span class="academy-card-kind">{{ card.kind }}</span></a>
   <div class="academy-card-body">
     <p class="academy-card-meta">{% if card.item.level %}<span>{{ card.item.get_level_display }}</span>{% endif %}{% if card.summary %}<span>{% blocktranslate with lesson_count=card.summary.lesson_count %}{{ lesson_count }} lecciones{% endblocktranslate %}</span>{% endif %}{% if card.item.estimated_minutes %}<span>~{{ card.item.estimated_minutes }} min</span>{% endif %}{% get_current_language as interface_language %}{% if card.language and card.language != interface_language %}<span>{{ card.language|content_language_name }}</span>{% endif %}{% if not card.item.level and not card.summary and not card.item.estimated_minutes %}<span>{{ card.kind }}</span>{% endif %}</p>
     <h3><a href="{{ card.url }}">{{ card.item.title|tr }}</a></h3>

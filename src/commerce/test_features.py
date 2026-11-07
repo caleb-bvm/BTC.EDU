@@ -437,6 +437,6 @@ class GiftRefundTests(FeatureFixture):
         self.client.force_login(self.admin)
         response = self.client.get(reverse("admin:index"))
         self.assertContains(response, "1 solicitud de reembolso por responder.")
-        self.assertContains(response, f"{refund.respond_by:%d/%m/%Y}")
+        self.assertContains(response, f"{timezone.localtime(refund.respond_by):%d/%m/%Y}")
         approve_refund(self.admin, refund, "", PayingGateway())
         self.assertNotContains(self.client.get(reverse("admin:index")), "por responder")

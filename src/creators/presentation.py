@@ -8,7 +8,7 @@ from learning.models import CertificateDraft
 
 from .models import Submission
 
-COURSE_FIELDS = ("title", "description", "objective", "requirements", "kind", "topic_id", "level", "estimated_minutes", "language")
+COURSE_FIELDS = ("title", "description", "objective", "requirements", "kind", "topic_id", "level", "estimated_minutes", "language", "cover_id")
 UNIT_FIELDS = ("title", "description", *EDUCATION_FIELDS, "access_type", "body")
 QUIZ_FIELDS = ("title", "pass_mark", "max_attempts", "wait_minutes", "required", "feedback", "questions")
 
@@ -45,7 +45,7 @@ def form_groups(form):
         )
     elif form.__class__.__name__ == "CourseForm":
         groups = (
-            (gettext("Presentación"), ("title", "kind", "language", "description")),
+            (gettext("Presentación"), ("title", "kind", "language", "description", "new_cover", "remove_cover")),
             (gettext("Resultado y requisitos"), ("objective", "requirements")),
             (gettext("Descubrimiento"), ("topic", "level", "estimated_minutes")),
         )

@@ -16,7 +16,7 @@ from content.models import (
     Video,
 )
 from core.content_translation import translate_content
-from media.models import Asset
+from media.models import Asset, Cover
 
 from .models import CreatorProfile
 
@@ -69,6 +69,12 @@ def language_choice(form):
 
 
 class CourseForm(forms.ModelForm):
+    new_cover = forms.FileField(
+        label=gettext_lazy("Portada"), required=False,
+        widget=forms.FileInput(attrs={"accept": "image/jpeg,image/png,image/webp"}),
+        help_text=gettext_lazy("JPG, PNG o WebP de al menos 800 × 450 píxeles y hasta 8 MB. La recortamos al centro en formato 16:9 y quitamos sus metadatos. Usa una imagen propia o con permiso de uso."))
+    remove_cover = forms.BooleanField(label=gettext_lazy("Usar la ilustración de la subcategoría"), required=False)
+
     class Meta:
         model = Course
         fields = ("title", "kind", "language", "description", "objective", "requirements", "topic", "level", "estimated_minutes")
@@ -77,6 +83,27 @@ class CourseForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         group_topic_choices(self)
         language_choice(self)
+        self.new_cover_record = None
+        if not self.instance.cover_id:
+            self.fields.pop("remove_cover")
+
+    def clean_new_cover(self):
+        upload = self.cleaned_data.get("new_cover")
+        if upload:
+            self.new_cover_record = Cover.from_upload(self.instance.creator, upload)
+        return upload
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.new_cover_record is not None:
+            self.new_cover_record.save()
+            instance.cover = self.new_cover_record
+        elif self.cleaned_data.get("remove_cover"):
+            instance.cover = None
+        if commit:
+            instance.save()
+            self.save_m2m()
+        return instance
 
 
 class ChapterForm(forms.ModelForm):

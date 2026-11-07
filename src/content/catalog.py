@@ -230,7 +230,7 @@ def catalog_context(params, section=None, creator=None, browse_categories=False)
             summary = None
             if model == Course:
                 if item.current_version_id:
-                    for field in ('title', 'description', 'kind', 'level', 'topic', 'estimated_minutes', 'language'):
+                    for field in ('title', 'description', 'kind', 'level', 'topic', 'estimated_minutes', 'language', 'cover_id'):
                         setattr(item, field, getattr(item.current_version, field))
                 summary = {'free_count': item.free_count, 'paid_count': item.paid_count, 'lesson_count': item.free_count + item.paid_count, 'access_label': access_label(item.free_count, item.paid_count)}
                 url = reverse('course-detail', args=[item.pk])

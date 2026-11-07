@@ -140,6 +140,7 @@ class Course(Publication):
     current_version = models.ForeignKey("CourseVersion", on_delete=models.PROTECT, null=True, blank=True, related_name="+", editable=False)
     membership = models.BooleanField(gettext_lazy("incluido en la membresía"), default=False, db_default=False,
                                      help_text=gettext_lazy("Con una membresía vigente se abren las lecciones de pago de la versión publicada."))
+    cover = models.ForeignKey("media.Cover", on_delete=models.PROTECT, null=True, blank=True, related_name="+", verbose_name=gettext_lazy("portada"))
 
     def save(self, *args, **kwargs):
         if not self._state.adding:
@@ -300,6 +301,7 @@ class CourseVersion(FrozenRecord):
     level = models.CharField(max_length=12, choices=CourseLevel, blank=True)
     estimated_minutes = models.PositiveIntegerField(null=True, blank=True)
     language = language_field()
+    cover = models.ForeignKey("media.Cover", on_delete=models.PROTECT, null=True, blank=True, related_name="+")
     creator_name = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     sealed = models.BooleanField(default=False, editable=False)

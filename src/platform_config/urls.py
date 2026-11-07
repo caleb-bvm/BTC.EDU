@@ -19,6 +19,7 @@ from content.version_views import (
     version_lesson_detail,
 )
 from content.views import (
+    course_cover,
     course_detail,
     lesson_content,
     lesson_detail,
@@ -69,6 +70,7 @@ urlpatterns += i18n_patterns(
     path("sin-conexion/", pwa.offline, name="offline"),
     path("lecciones/<int:pk>/contenido/", lesson_content, name="lesson-content"),
     path("cursos/<int:pk>/", course_detail, name="course-detail"),
+    path("portadas/<int:pk>/", course_cover, name="course-cover"),
     path("cursos/<int:pk>/proyectos/", learning_features.course_gallery, name="course-gallery"),
     path("rutas/", learning_features.paths_list, name="learning-paths"),
     path("rutas/<slug:slug>/", learning_features.path_detail, name="learning-path"),

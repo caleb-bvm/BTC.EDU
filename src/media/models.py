@@ -122,3 +122,78 @@ class Asset(FrozenRecord):
         if self._state.adding:
             self.clean()
         return super().save(*args, **kwargs)
+
+
+COVER_SIZE = (1600, 900)
+COVER_MAX_BYTES = 8 * 1024 * 1024
+
+
+def cover_name(instance, filename):
+    """Random storage name under covers/; the uploaded name is not kept."""
+    return f"covers/{uuid.uuid4().hex}.webp"
+
+
+def normalize_cover(upload):
+    """Rebuild a JPG, PNG or WebP upload as a 1600×900 WebP without its metadata.
+
+    The image is centred and cropped to 16:9, so the catalog never shows bands or distortion.
+    """
+    import warnings
+    from io import BytesIO
+
+    from django.core.files.base import ContentFile
+    from PIL import Image, ImageOps, UnidentifiedImageError
+
+    if not upload or not upload.size or upload.size > COVER_MAX_BYTES:
+        raise ValidationError(gettext("Elige una imagen JPG, PNG o WebP de hasta 8 MB."))
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", Image.DecompressionBombWarning)
+            upload.seek(0)
+            with Image.open(upload) as source:
+                if source.format not in ("JPEG", "PNG", "WEBP") or getattr(source, "is_animated", False):
+                    raise ValidationError(gettext("Usa una imagen JPG, PNG o WebP sin animación."))
+                if source.width * source.height > 40_000_000:
+                    raise ValidationError(gettext("La imagen no debe superar 40 megapíxeles."))
+                source.load()
+                rotated = ImageOps.exif_transpose(source)
+                if rotated.width < 800 or rotated.height < 450:
+                    raise ValidationError(gettext("La imagen debe medir al menos 800 × 450 píxeles."))
+                # New pixels only: EXIF, GPS, comments and colour profiles are discarded.
+                rgba = rotated.convert("RGBA")
+                pixels = Image.new("RGB", rgba.size, "white")
+                pixels.paste(rgba.convert("RGB"), mask=rgba.getchannel("A"))
+                cover = ImageOps.fit(pixels, COVER_SIZE, Image.Resampling.LANCZOS)
+                output = BytesIO()
+                cover.save(output, format="WEBP", quality=82, method=4)
+    except ValidationError:
+        raise
+    except (UnidentifiedImageError, OSError, ValueError, Image.DecompressionBombError, Image.DecompressionBombWarning) as exc:
+        raise ValidationError(gettext("No pudimos leer la imagen. Elige otro archivo JPG, PNG o WebP.")) from exc
+    finally:
+        upload.seek(0)
+    return ContentFile(output.getvalue(), name="portada.webp")
+
+
+class Cover(FrozenRecord):
+    """Normalized course cover; public only once a published version uses it."""
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name="propietario")
+    file = models.FileField("imagen", storage=private_storage, upload_to=cover_name)
+    size = models.PositiveIntegerField(editable=False)
+    sha256 = models.CharField(max_length=64, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "portada"
+        verbose_name_plural = "portadas"
+
+    def __str__(self):
+        return f"portada {self.pk}"
+
+    @classmethod
+    def from_upload(cls, creator, upload):
+        """Unsaved cover built from an upload; raises ValidationError if it is not a usable image."""
+        image = normalize_cover(upload)
+        data = image.read()
+        image.seek(0)
+        return cls(creator=creator, file=image, size=len(data), sha256=hashlib.sha256(data).hexdigest())

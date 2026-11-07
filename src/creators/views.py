@@ -176,7 +176,7 @@ def course_edit(request, pk=None):
     course = get_object_or_404(Course, pk=pk, creator=request.user) if pk else Course(creator=request.user)
     protect_legacy(course)
     initial = {"kind": "tutorial"} if not pk and request.GET.get("tipo") == "tutorial" else {}
-    form = CourseForm(request.POST if request.method == "POST" else None, instance=course, initial=initial)
+    form = CourseForm(request.POST if request.method == "POST" else None, request.FILES if request.method == "POST" else None, instance=course, initial=initial)
     if request.method == "POST" and form.is_valid():
         form.save()
         messages.success(request, gettext("Información guardada. Continúa con el temario."))

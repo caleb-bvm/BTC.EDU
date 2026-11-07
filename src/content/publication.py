@@ -109,7 +109,7 @@ def prepare_course(course, actor):
         course=course, number=number, title=course.title, description=course.description,
         objective=course.objective, requirements=course.requirements, kind=course.kind,
         topic=course.topic, level=course.level, estimated_minutes=course.estimated_minutes,
-        language=course.language, creator_name=creator_name,
+        language=course.language, cover=course.cover, creator_name=creator_name,
     )
     for chapter, lessons in visible:
         frozen_chapter = VersionChapter.objects.create(version=version, title=chapter.title, description=chapter.description, position=chapter.position)

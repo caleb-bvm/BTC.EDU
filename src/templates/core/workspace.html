@@ -16,7 +16,7 @@
   {% if learning_section == 'continuar' %}
     {% if resume %}
     <section class="resume-feature" aria-labelledby="resume-heading">
-      <div class="resume-art" aria-hidden="true">{% include '_content_image.html' with kind=resume.version.kind topic_slug=resume.version.topic.slug thumbnail=True eager=True only %}</div>
+      <div class="resume-art" aria-hidden="true">{% include '_content_image.html' with kind=resume.version.kind topic_slug=resume.version.topic.slug cover=resume.version.cover_id thumbnail=True eager=True only %}</div>
       <div class="resume-copy"><p class="eyebrow">{% if resume.state_label == _('Por empezar') %}{% translate "Tu punto de partida" %}{% else %}{% translate "Continúa aprendiendo" %}{% endif %}</p><h2 id="resume-heading">{{ resume.version.title|tr }}</h2><p class="resume-next">{% translate "Siguiente lección:" %} <strong>{{ resume.next_title|tr }}</strong></p><div class="resume-progress"><div class="meter-label"><span>{% blocktranslate with completed_count=resume.completed_count lesson_count=resume.lesson_count %}{{ completed_count }} de {{ lesson_count }} lecciones{% endblocktranslate %}</span><strong>{{ resume.percentage }}%</strong></div><progress class="progress-track" value="{{ resume.completed_count }}" max="{{ resume.lesson_count|default:1 }}" aria-label="{% blocktranslate with title=resume.version.title|tr %}Progreso de {{ title }}{% endblocktranslate %}"></progress></div></div>
       <a class="btn btn-dark resume-action" href="{{ resume.open_url }}">{% if resume.state_label == _('Por empezar') %}{% translate "Empezar curso" %}{% else %}{% translate "Continuar lección" %}{% endif %} <span aria-hidden="true">→</span></a>
     </section>

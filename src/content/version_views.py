@@ -37,7 +37,7 @@ def load_version(user, course_pk, number):
 def version_course(version):
     """Presentation objects keep existing templates, never write draft records."""
     course = Course(pk=version.course_id, creator=version.course.creator, current_version=version, status=version.course.status)
-    for field in ("title", "description", "objective", "requirements", "kind", "topic", "level", "estimated_minutes", "language"):
+    for field in ("title", "description", "objective", "requirements", "kind", "topic", "level", "estimated_minutes", "language", "cover_id"):
         setattr(course, field, getattr(version, field))
     course.visible_chapters = []
     course.version_number = version.number

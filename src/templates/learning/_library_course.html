@@ -1,6 +1,6 @@
 {% load static %}{% url 'course-version' enrollment.version.course_id enrollment.version.number as syllabus_url %}
 <article class="library-course{% if enrollment.is_complete %} is-complete{% elif enrollment.needs_access %} is-locked{% elif enrollment.state_label == _('Por empezar') %} is-new{% else %} is-active{% endif %}">
-  <a class="library-course-cover" href="{{ syllabus_url }}" tabindex="-1" aria-hidden="true">{% include '_content_image.html' with kind=enrollment.version.kind topic_slug=enrollment.version.topic.slug only %}</a>
+  <a class="library-course-cover" href="{{ syllabus_url }}" tabindex="-1" aria-hidden="true">{% include '_content_image.html' with kind=enrollment.version.kind topic_slug=enrollment.version.topic.slug cover=enrollment.version.cover_id only %}</a>
   <div class="library-course-body">
     <header class="library-course-head">
       <p class="library-course-topic">{{ enrollment.version.topic|tr|default:enrollment.version.get_kind_display }}<span> · {% if enrollment.retired %}{% translate "Versión conservada" %}{% else %}{% blocktranslate with number=enrollment.version.number %}Versión {{ number }}{% endblocktranslate %}{% endif %}</span></p>
