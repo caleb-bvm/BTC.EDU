@@ -69,6 +69,21 @@ Cada curso enlaza entre cuatro y ocho videos externos insertables, con el títul
 
 Ejecutamos los ejemplos de código antes de publicarlos: consultas en SQLite, análisis con pandas, ejemplos de seguridad con Flask, una API de FastAPI con sus pruebas, contenedores con Docker y un nodo Bitcoin Core en regtest. Esa ejecución corrigió afirmaciones concretas, como el reinicio de systemd tras una señal, la conversión de mayúsculas acentuadas en SQLite y el intervalo del halving en regtest. Los ejercicios de Blender y Figma no se ejecutaron. Comprobamos también los enlaces de las fuentes. Ninguno de los cursos tiene revisión de especialistas ni se ha probado con alumnos.
 
+<a id="curso-avanzado-backend"></a>
+
+### Curso avanzado de backend
+
+El 6 de noviembre de 2026 publicamos el primer curso de nivel avanzado: **Backend avanzado con Python: PostgreSQL, fiabilidad y operación en producción**. Lo elegimos porque continúa un curso existente, APIs REST con FastAPI, y porque podíamos ejecutar todos sus ejemplos aquí. Es de pago, cuesta 3600 sats, dura unas 11 horas y sigue el formato del catálogo: cuatro capítulos, doce lecciones, una evaluación de cuatro preguntas por capítulo y un proyecto final de autoevaluación.
+
+| Capítulo | Lecciones |
+|---|---|
+| Persistencia para producción | SQLAlchemy 2.0 y PostgreSQL; migraciones con Alembic; transacciones y concurrencia |
+| Asincronía y rendimiento | async y await; tiempos límite y reintentos; caché con ETag y Redis |
+| Trabajo fiable | Bandeja de salida; idempotencia; webhooks firmados |
+| Operar en producción | OAuth2 con alcances; observabilidad; despliegue con reversión |
+
+El proyecto de ejemplo se comprobó con FastAPI 0.162, SQLAlchemy 2.1, Alembic 1.20, PostgreSQL 17 y Redis 7, en contenedores locales. Las cifras que citan las lecciones vienen de esas ejecuciones: veinte ventas simultáneas con cinco unidades dejan cero existencias con la actualización atómica, y una versión ingenua con doce ventas vendió doce. Las fuentes son documentación oficial y RFC. De los siete videos, seis están en español; el de SQLAlchemy 2.0 está en inglés, y los de caché y métricas usan Node.js y Go. Es un paso opcional de la ruta Backend con Python. Como los demás cursos, no tiene revisión de especialistas ni se ha probado con alumnos, y su precio es una hipótesis.
+
 <a id="tutoriales-y-recursos"></a>
 
 ### Tutoriales y recursos por categoría
@@ -107,6 +122,8 @@ El usuario definió cuatro condiciones: la ruta es un sendero recomendado que no
 El descuento de las rutas editoriales es de 15 %, una hipótesis sin validar. Las rutas de Python, datos, ciberseguridad e infraestructura cuestan entre 6630 y 7140 sats en paquete, frente a 7800–8400 por separado. Las dos de Lightning tienen paquetes pequeños, de 2652 y 306 sats, porque la mayoría de sus cursos editoriales son gratuitos. Cinco rutas incluyen un curso de membresía; la ruta lo indica y el paquete no lo cobra.
 
 Falta comprobar con participantes si se entienden el paquete, los pasos opcionales y la diferencia con la membresía, y si el descuento influye en la compra. Detectamos brechas para rutas futuras: ningún curso es avanzado, Desarrollo web tiene un solo curso y Diseño y creación digital no forma todavía un recorrido.
+
+El 6 de noviembre de 2026 cerramos dos de esas brechas sin escribir cursos nuevos, porque los cursos publicados ya permitían formar los recorridos. **Desarrollo web** reúne Desarrollo web, Git y GitHub y Seguridad de aplicaciones web como pasos obligatorios; Diseño UI/UX y APIs con FastAPI son opcionales. **Diseño y creación digital** va de Fotografía con celular a Edición de video con Shotcut y Diseño UI/UX, con Blender como paso opcional. Sus paquetes cuestan 9435 sats (11 100 por separado) y 5610 sats (6600). El paquete de Desarrollo web incluye Diseño UI/UX, aunque es opcional, porque el paquete cobra todos los cursos de pago que el estudiante no tiene. APIs con FastAPI y Blender se abren con la membresía. Ese mismo día publicamos el [primer curso avanzado](#curso-avanzado-backend), de backend con Python, como paso opcional de Backend con Python. Con él, el paquete de esa ruta pasa a 9945 sats (11 700 por separado).
 
 ### Ejemplos históricos de programación
 

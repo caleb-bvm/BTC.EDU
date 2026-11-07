@@ -282,7 +282,7 @@ Para mostrar que la compra por unidades convive con el acceso gratuito y la memb
 
 Los cursos de pago venden cada lección, cada capítulo y el curso completo. Los freemium abren tres lecciones y venden las nueve restantes. En ambos, la lección cuesta 1,5 veces su parte proporcional del curso, de modo que el curso completo resulta más barato que sus unidades. Los cursos de membresía abren la primera lección; las demás se abren con la membresía de 5000 sats por 30 días y no tienen ofertas individuales. Todos los importes son decisiones editoriales sin validación comercial.
 
-Los textos son originales y se apoyan en documentación primaria, como SQLite, pandas, FastAPI, Docker, Blender, Git, NIST, CISA, OWASP, LNbits y Bitcoin Core. Cada curso enlaza videos externos atribuidos, en español salvo uno en inglés identificado como apoyo opcional. Las portadas son ilustraciones propias. Ejecutamos los ejemplos de código y los ejercicios de SQLite, pandas, Flask, FastAPI, Docker y un nodo Bitcoin Core en regtest; los de Blender no se ejecutaron. Ningún curso tiene todavía revisión de especialistas ni se ha probado con alumnos. El catálogo local suma 25 cursos y 252 lecciones. [Fuentes y criterios](09-catalogo.md#cursos-por-modalidad).
+Los textos son originales y se apoyan en documentación primaria, como SQLite, pandas, FastAPI, Docker, Blender, Git, NIST, CISA, OWASP, LNbits y Bitcoin Core. Cada curso enlaza videos externos atribuidos, en español salvo dos en inglés identificados como apoyo opcional. Las portadas son ilustraciones propias. Ejecutamos los ejemplos de código y los ejercicios de SQLite, pandas, Flask, FastAPI, Docker, un nodo Bitcoin Core en regtest y el backend avanzado con PostgreSQL 17 y Redis 7; los de Blender no se ejecutaron. Ningún curso tiene todavía revisión de especialistas ni se ha probado con alumnos. El catálogo local suma 26 cursos y 264 lecciones; uno es de nivel avanzado. [Fuentes y criterios](09-catalogo.md#cursos-por-modalidad).
 
 ### Tutoriales y recursos
 
@@ -606,7 +606,7 @@ Esta guía describe los recorridos de la versión actual. La plataforma funciona
 
 Si compraste antes una parte de un curso, el precio del curso completo descuenta lo que ya tienes. Una ruta puede comprarse como paquete con descuento. Regalar genera un enlace que la otra persona canjea en su cuenta.
 
-**Aprender.** Mi aprendizaje muestra tus cursos y el siguiente paso de cada uno. Al terminar una lección, pulsa Marcar lección completada. Si la lección tiene una evaluación obligatoria, apruébala con Entregar intento; la corrección se hace en el servidor y el número de intentos puede estar limitado. Las prácticas se envían con Revisar y entregar, como texto, enlace o archivo, y el educador las aprueba o pide cambios. Con Enviar pregunta consultas al educador en privado; los comentarios de la lección son visibles para los demás inscritos.
+**Aprender.** Mi aprendizaje muestra tus cursos y el siguiente paso de cada uno. Al terminar una lección, pulsa Completar y continuar: se guarda y abre la siguiente. Si la lección tiene una evaluación obligatoria, el mismo panel lleva a ella; apruébala con Entregar intento; la corrección se hace en el servidor y el número de intentos puede estar limitado. Las prácticas se envían con Revisar y entregar, como texto, enlace o archivo, y el educador las aprueba o pide cambios. Con Enviar pregunta consultas al educador en privado; los comentarios de la lección son visibles para los demás inscritos.
 
 **Certificados.** Cuando cumplas los requisitos del curso, confirma tu nombre y pulsa Emitir certificado. Puedes descargar el PDF y activar la verificación pública para compartirla. Comprobar huella compara los datos del certificado con su huella SHA-256.
 
@@ -621,6 +621,8 @@ Si compraste antes una parte de un curso, el precio del curso completo descuenta
 **Solicitar acceso.** Elige Crear cuenta de educador y completa tu perfil. Administración revisa la solicitud; hasta que la apruebe no puedes crear ni publicar contenido.
 
 **Crear contenido.** En Contenido → Crear contenido eliges un curso, un video o un material. En el editor del curso organizas capítulos y lecciones, marcas qué lecciones son gratuitas y añades evaluaciones y prácticas. Guardar borrador conserva el trabajo sin publicarlo. Los archivos admitidos son MP4, PDF, TXT y WebVTT.
+
+**Portada.** En Información del curso, Portada acepta una imagen JPG, PNG o WebP de al menos 800 × 450 píxeles. Se recorta al centro a 16:9 y se publica con la siguiente versión aprobada. Sin portada propia se usa la ilustración de la subcategoría.
 
 **Publicar.** Enviar a revisión congela una copia. Si necesitas corregirla antes de la decisión, usa Retirar envío para corregir. Cuando administración aprueba, esa copia se publica como una versión. Los cambios posteriores generan otra versión y no alteran lo que tus estudiantes compraron.
 

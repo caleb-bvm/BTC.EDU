@@ -17,6 +17,7 @@ Esta carpeta reúne la investigación, los requisitos y las decisiones de produc
 | [09 · Catálogo](09-catalogo.md) | Cursos, modalidades, tutoriales, recursos, rutas y muestras del catálogo local. |
 | [10 · Métricas y validación](10-metricas-y-validacion.md) | Eventos e indicadores, plan de investigación e instrumentos para sesiones con usuarios. |
 | [11 · Plan y decisiones](11-plan-y-decisiones.md) | Plan de trabajo, calendario, decisiones registradas y plan de documentación. |
+| [12 · Guion de presentación](12-guion-de-presentacion.md) | Guion del Demo Day en inglés y español, lista para la demostración, cifras clave y preguntas probables. Presentación de 11 diapositivas en `12-presentacion-btc-edu.pptx`. |
 
 Fuera de esta carpeta:
 
