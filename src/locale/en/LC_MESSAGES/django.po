@@ -733,7 +733,7 @@ msgstr "Guide each student's next step."
 msgid "Acompañamiento"
 msgstr "Support"
 
-#: content/models.py:173
+#: content/models.py:174
 msgid "acompañamiento"
 msgstr "support"
 
@@ -745,11 +745,11 @@ msgstr "Shorten the file name to 200 characters."
 msgid "Activa hasta el %(until)s"
 msgstr "Active until %(until)s"
 
-#: core/js_text.py:58
+#: core/js_text.py:57
 msgid "Activar modo claro"
 msgstr "Switch to light mode"
 
-#: core/js_text.py:58 templates/_theme_toggle.html:1
+#: core/js_text.py:57 templates/_theme_toggle.html:1
 msgid "Activar modo oscuro"
 msgstr "Switch to dark mode"
 
@@ -801,11 +801,11 @@ msgstr "Refresh payment status"
 msgid "Adjunta un PDF, ZIP, TXT en UTF-8, PNG o JPG válido (máximo 10 MB)."
 msgstr "Attach a valid PDF, ZIP, UTF-8 TXT, PNG or JPG file (10 MB max)."
 
-#: content/models.py:366
+#: content/models.py:368
 msgid "Adjunta un video o material del mismo creador."
 msgstr "Attach a video or material from the same creator."
 
-#: content/models.py:382
+#: content/models.py:384
 msgid "Adjunto incompatible o versión ya publicada."
 msgstr "Incompatible attachment or version already published."
 
@@ -817,7 +817,7 @@ msgstr "Administration"
 msgid "ADMINISTRACIÓN / REEMBOLSOS"
 msgstr "ADMINISTRATION / REFUNDS"
 
-#: platform_config/urls.py:84
+#: platform_config/urls.py:86
 msgid "Administración de BTC.EDU"
 msgstr "BTC.EDU administration"
 
@@ -937,7 +937,7 @@ msgstr "Before approving this bundle, these components need a published individu
 msgid "Antes de empezar"
 msgstr "Before you start"
 
-#: content/models.py:170
+#: content/models.py:171
 msgid "antes de empezar"
 msgstr "before you start"
 
@@ -1077,7 +1077,7 @@ msgstr "Approve reviewed offers"
 msgid "Aprobar y pagar"
 msgstr "Approve and pay"
 
-#: creators/forms.py:190
+#: creators/forms.py:217
 msgid "Aprobar y publicar"
 msgstr "Approve and publish"
 
@@ -1085,13 +1085,13 @@ msgstr "Approve and publish"
 msgid "Aprobar y publicar la composición enviada"
 msgstr "Approve and publish the submitted composition"
 
-#: templates/learning/_progress.html:2
-msgid "Aprueba esta evaluación para completar la lección."
-msgstr "Pass this quiz to complete the lesson."
-
 #: learning/services.py:74
 msgid "Aprueba la evaluación obligatoria antes de completar esta lección."
 msgstr "Pass the required quiz before completing this lesson."
+
+#: templates/learning/_progress.html:9
+msgid "Aprueba la evaluación para completar esta lección"
+msgstr "Pass the quiz to complete this lesson"
 
 #: templates/creators/preview.html:9
 msgid "Aprueba la evaluación para completar esta lección."
@@ -1109,7 +1109,7 @@ msgstr "Here you'll be able to compare the courses at each level."
 msgid "Archivo adjunto"
 msgstr "Attached file"
 
-#: content/models.py:201
+#: content/models.py:202
 msgid "archivo de la próxima revisión"
 msgstr "file for the next revision"
 
@@ -1121,7 +1121,7 @@ msgstr "Selected file"
 msgid "Archivo validado y guardado en tu biblioteca privada."
 msgstr "File validated and saved to your private library."
 
-#: creators/forms.py:125
+#: creators/forms.py:152
 msgid "Archivo VTT en el idioma del contenido; también puedes elegir uno de tu biblioteca."
 msgstr "VTT file in the content's language; you can also choose one from your library."
 
@@ -1157,7 +1157,7 @@ msgstr "Keyboard shortcuts"
 msgid "Atender comunidad →"
 msgstr "Moderate community →"
 
-#: content/models.py:221
+#: content/models.py:222
 msgid "autor del video"
 msgstr "video author"
 
@@ -1177,7 +1177,7 @@ msgstr "Allow one more attempt"
 msgid "Avance en la ruta"
 msgstr "Path progress"
 
-#: learning/views.py:165
+#: learning/views.py:169
 msgid "Avance guardado."
 msgstr "Progress saved."
 
@@ -1233,7 +1233,7 @@ msgstr "Add content to prepare your order."
 msgid "Añade cursos, tutoriales o recursos que quieras adquirir. También puedes comenzar con el contenido gratuito."
 msgstr "Add the courses, tutorials or resources you want to get. You can also start with the free content."
 
-#: templates/learning/_progress.html:15
+#: templates/learning/_progress.html:27
 msgid "Añade el curso a Mi aprendizaje para guardar tu avance y acceder a las evaluaciones disponibles."
 msgstr "Add the course to My learning to save your progress and access the available quizzes."
 
@@ -1285,7 +1285,7 @@ msgstr "Add a practice with submission"
 msgid "Añadir seleccionados →"
 msgstr "Add selected →"
 
-#: templates/learning/_progress.html:15
+#: templates/learning/_progress.html:27
 msgid "Añadir y guardar mi avance →"
 msgstr "Add and save my progress →"
 
@@ -1565,7 +1565,7 @@ msgstr "Redeem gift"
 msgid "Cantidad en sats"
 msgstr "Amount in sats"
 
-#: content/models.py:162 content/models.py:181 templates/commerce/offer.html:26
+#: content/models.py:163 content/models.py:182 templates/commerce/offer.html:26
 msgid "capítulo"
 msgstr "chapter"
 
@@ -1581,7 +1581,7 @@ msgstr "Chapter %(counter)s"
 msgid "Capítulo completo"
 msgstr "Full chapter"
 
-#: content/models.py:163
+#: content/models.py:164
 msgid "capítulos"
 msgstr "chapters"
 
@@ -1601,7 +1601,7 @@ msgstr "Upload a new file; disk paths are not accepted."
 msgid "Carga un archivo o créalo directamente desde el editor de un video o material."
 msgstr "Upload a file or create it directly from the video or material editor."
 
-#: creators/forms.py:164
+#: creators/forms.py:191
 msgid "Carga un archivo o selecciona uno de tu biblioteca."
 msgstr "Upload a file or select one from your library."
 
@@ -1613,11 +1613,11 @@ msgstr "Uploading file…"
 msgid "Cargar archivo"
 msgstr "Upload file"
 
-#: creators/forms.py:125
+#: creators/forms.py:152
 msgid "Cargar subtítulos nuevos"
 msgstr "Upload new subtitles"
 
-#: creators/forms.py:124
+#: creators/forms.py:151
 msgid "Cargar un archivo nuevo"
 msgstr "Upload a new file"
 
@@ -1629,7 +1629,7 @@ msgstr "Cart"
 msgid "Carrito · BTC.EDU"
 msgstr "Cart · BTC.EDU"
 
-#: core/js_text.py:57
+#: core/js_text.py:56
 msgid "Carrito, "
 msgstr "Cart,"
 
@@ -1841,7 +1841,7 @@ msgstr "Complete your payment."
 msgid "Completa tu propina."
 msgstr "Complete your tip."
 
-#: learning/presentation.py:69 templates/content/_lesson_row.html:5 templates/content/lesson.html:20 templates/learning/certificate_request.html:7
+#: core/js_text.py:43 learning/presentation.py:69 templates/content/_lesson_row.html:5 templates/content/lesson.html:20 templates/learning/certificate_request.html:7
 msgid "Completada"
 msgstr "Completed"
 
@@ -1869,7 +1869,7 @@ msgstr "Complete details"
 msgid "Completar información"
 msgstr "Complete information"
 
-#: creators/presentation.py:69
+#: creators/presentation.py:69 templates/learning/_progress.html:13
 msgid "Completar lección"
 msgstr "Complete lesson"
 
@@ -1880,6 +1880,10 @@ msgstr "Complete for %(amount_sats)s sats →"
 #: templates/core/_analytics.html:24
 msgid "Completar una lección, abrir contenido o aprobar una evaluación son resultados diferentes. Las cifras registradas no acreditan aprendizaje ni validación comercial."
 msgstr "Completing a lesson, opening content and passing a quiz are different outcomes. The recorded figures don't prove learning or commercial validation."
+
+#: templates/learning/_progress.html:13
+msgid "Completar y continuar →"
+msgstr "Complete and continue →"
 
 #: learning/paths.py:151
 msgid "Completaste la ruta «%(title)s»"
@@ -1897,7 +1901,7 @@ msgstr "You've used the available attempts. Your pass is kept."
 msgid "Completaste los requisitos. Ya puedes preparar tu certificado."
 msgstr "You met the requirements. You can now prepare your certificate."
 
-#: templates/learning/_progress.html:12
+#: templates/learning/_progress.html:21
 msgid "Completaste todas las lecciones."
 msgstr "You completed every lesson."
 
@@ -1997,7 +2001,7 @@ msgstr "Purchases · BTC.EDU"
 msgid "Compras."
 msgstr "Purchases."
 
-#: content/models.py:171
+#: content/models.py:172
 msgid "Comprender"
 msgstr "Understand"
 
@@ -2137,13 +2141,13 @@ msgstr "With your %(credit_sats)s sats credit"
 msgid "Con una membresía vigente se abren las lecciones de pago de la versión publicada."
 msgstr "An active membership opens the paid lessons of the published version."
 
-#: templates/core/refund_policy.html:5 templates/core/terms.html:5
-msgid "CONDICIONES"
-msgstr "TERMS"
-
 #: templates/academy.html:15 templates/base.html:53
 msgid "Condiciones"
 msgstr "Terms"
+
+#: templates/core/refund_policy.html:5 templates/core/terms.html:5
+msgid "CONDICIONES"
+msgstr "TERMS"
 
 #: templates/creators/course.html:7
 msgid "Configura evaluaciones y prácticas por lección. Define qué entregar, cómo se revisará y en qué plazo antes de publicar."
@@ -2403,7 +2407,7 @@ msgstr "content"
 msgid "Contenido de pago"
 msgstr "Paid content"
 
-#: content/models.py:184
+#: content/models.py:185
 msgid "contenido de texto"
 msgstr "text content"
 
@@ -2491,7 +2495,7 @@ msgstr "Continue payment →"
 msgid "Continuar tutorial"
 msgstr "Continue tutorial"
 
-#: templates/commerce/cart.html:12 templates/learning/_progress.html:8
+#: templates/commerce/cart.html:12 templates/learning/_progress.html:19
 msgid "Continuar →"
 msgstr "Continue →"
 
@@ -2937,7 +2941,7 @@ msgid_plural "cursos"
 msgstr[0] "course"
 msgstr[1] "courses"
 
-#: learning/views.py:32
+#: learning/views.py:33
 msgid "Curso añadido a Mi aprendizaje. La inscripción conserva esta versión y no compra los contenidos de pago."
 msgstr "Course added to My learning. Enrolling keeps this version and doesn't buy the paid content."
 
@@ -3127,7 +3131,7 @@ msgstr "Paid"
 msgid "Decidida el %(decided_at)s"
 msgstr "Decided on %(decided_at)s"
 
-#: commerce/forms.py:102 commerce/forms.py:24 creators/forms.py:190 templates/commerce/review.html:3 templates/learning/_community_moderation.html:3
+#: commerce/forms.py:102 commerce/forms.py:24 creators/forms.py:217 templates/commerce/review.html:3 templates/learning/_community_moderation.html:3
 msgid "Decisión"
 msgstr "Decision"
 
@@ -3299,7 +3303,7 @@ msgstr "Dismiss the message's reports"
 msgid "Describe el problema"
 msgstr "Describe the problem"
 
-#: content/models.py:169
+#: content/models.py:170
 msgid "Describe un resultado concreto que esta unidad permite conseguir."
 msgstr "Describe a concrete result this unit helps achieve."
 
@@ -3343,6 +3347,10 @@ msgstr "From"
 msgid "Deshacer"
 msgstr "Undo"
 
+#: templates/learning/_progress.html:19
+msgid "Desmarcar"
+msgstr "Unmark"
+
 #: templates/commerce/_cart_line.html:5
 msgid "Después de pagar: %(title)s"
 msgstr "After paying: %(title)s"
@@ -3375,7 +3383,7 @@ msgstr "Details prepared"
 msgid "Dirección"
 msgstr "Address"
 
-#: content/models.py:171
+#: content/models.py:172
 msgid "Diseñar"
 msgstr "Design"
 
@@ -3383,7 +3391,7 @@ msgstr "Design"
 msgid "Disponible"
 msgstr "Available"
 
-#: core/js_text.py:47
+#: core/js_text.py:46
 msgid "Disponible sin conexión ✓"
 msgstr "Available offline ✓"
 
@@ -3499,7 +3507,7 @@ msgstr "An administrator must publish a version of the previous course before ed
 msgid "el alcance del acompañamiento"
 msgstr "the scope of support"
 
-#: content/models.py:285
+#: content/models.py:286
 msgid "El archivo debe pertenecer al creador y corresponder al formato del recurso."
 msgstr "The file must belong to the creator and match the resource format."
 
@@ -3531,7 +3539,7 @@ msgstr "The file is not available. Contact the creator."
 msgid "El archivo no está disponible. Vuelve a intentar más tarde o avisa al educador."
 msgstr "The file is not available. Try again later or let the educator know."
 
-#: learning/services.py:58 learning/views.py:154
+#: learning/services.py:58 learning/views.py:155
 msgid "El avance enviado no es válido."
 msgstr "The submitted progress is not valid."
 
@@ -3613,7 +3621,7 @@ msgstr "The status is not available."
 msgid "El estudiante escribe el código al revisar su compra. El descuento se aplica a tus ofertas incluidas, después del crédito por compras anteriores, y cada artículo conserva al menos 1 sat."
 msgstr "The student enters the code when reviewing their purchase. The discount applies to your included offers, after the credit for earlier purchases, and every item keeps at least 1 sat."
 
-#: creators/forms.py:158
+#: creators/forms.py:185
 msgid "El formato del archivo no corresponde a este recurso."
 msgstr "The file format doesn't match this resource."
 
@@ -3637,7 +3645,7 @@ msgstr "The payment mode is not available."
 msgid "El MP4 requiere índice y datos completos; no admite fragmentos sueltos."
 msgstr "The MP4 needs its index and complete data; loose fragments are not accepted."
 
-#: core/js_text.py:49
+#: core/js_text.py:48
 msgid "El máximo es 20 preguntas. Puedes editar o eliminar las existentes."
 msgstr "The maximum is 20 questions. You can edit or delete the existing ones."
 
@@ -3704,10 +3712,6 @@ msgstr "The provider didn't return a regtest invoice."
 #: commerce/gateway.py:83
 msgid "El proveedor no devolvió una factura válida."
 msgstr "The provider didn't return a valid invoice."
-
-#: templates/learning/_progress.html:9
-msgid "El punto de continuación se guarda al abrir la lección."
-msgstr "Your resume point is saved when you open the lesson."
 
 #: templates/learning/certificate_revoke.html:1
 msgid "El registro original se conserva. Para corregir un nombre se requiere revisión administrativa; no se sobrescribe la credencial."
@@ -3921,6 +3925,10 @@ msgstr "Choose a new photo before saving."
 msgid "Elige una foto o conserva la actual."
 msgstr "Choose a photo or keep the current one."
 
+#: media/models.py:148
+msgid "Elige una imagen JPG, PNG o WebP de hasta 8 MB."
+msgstr "Choose a JPG, PNG or WebP image of up to 8 MB."
+
 #: templates/accounts/_settings.html:10
 msgid "Elige una imagen y ajusta cómo aparece en tu perfil."
 msgstr "Choose an image and adjust how it appears on your profile."
@@ -4049,7 +4057,7 @@ msgstr "In progress"
 msgid "En curso · %(done)s/%(total)s"
 msgstr "In progress · %(done)s/%(total)s"
 
-#: creators/forms.py:83 creators/forms.py:97
+#: creators/forms.py:110 creators/forms.py:124
 msgid "En el temario"
 msgstr "In the syllabus"
 
@@ -4109,7 +4117,7 @@ msgstr "Focus reading"
 msgid "Enfocar lectura ↗"
 msgstr "Focus reading ↗"
 
-#: content/models.py:241
+#: content/models.py:242
 msgid "enlace a la fuente"
 msgstr "source link"
 
@@ -4169,7 +4177,7 @@ msgstr "Sign in and enroll in the course to join the conversation."
 msgid "Entra para"
 msgstr "Sign in to"
 
-#: templates/learning/_progress.html:17
+#: templates/learning/_progress.html:29
 msgid "Entra para guardar el progreso y retomar desde cualquier sesión."
 msgstr "Sign in to save your progress and resume from any session."
 
@@ -4245,7 +4253,7 @@ msgstr "Sign in to join →"
 msgid "Entrar y continuar →"
 msgstr "Sign in and continue →"
 
-#: templates/learning/_progress.html:17
+#: templates/learning/_progress.html:29
 msgid "Entrar y guardar avance →"
 msgstr "Sign in and save progress →"
 
@@ -4497,10 +4505,6 @@ msgstr "This invoice already ended or expired. Check its status before continuin
 msgid "Esta lección"
 msgstr "This lesson"
 
-#: templates/learning/_progress.html:9
-msgid "Esta lección está completada."
-msgstr "This lesson is completed."
-
 #: templates/content/lesson.html:26
 msgid "Esta lección requiere acceso"
 msgstr "This lesson requires access"
@@ -4661,7 +4665,7 @@ msgstr "This content doesn't need a purchase."
 msgid "Este contenido no se puede guardar ahora. Tu selección sigue en el carrito."
 msgstr "This content can't be saved right now. Your selection is still in the cart."
 
-#: content/version_views.py:161 content/views.py:254
+#: content/version_views.py:161 content/views.py:256
 msgid "Este contenido requiere una compra."
 msgstr "This content requires a purchase."
 
@@ -4741,11 +4745,11 @@ msgstr "This form was already used for another submission. Reload to see the rec
 msgid "Este nombre aparece en tus mensajes. Puedes usar un alias; si lo dejas vacío se muestra Participante."
 msgstr "This name appears in your messages. You can use an alias; if you leave it empty, Participant is shown."
 
-#: creators/forms.py:107
+#: creators/forms.py:134
 msgid "Este orden ya lo ocupa otra lección. Elige un número libre."
 msgstr "Another lesson already uses this position. Choose a free number."
 
-#: creators/forms.py:92
+#: creators/forms.py:119
 msgid "Este orden ya lo ocupa otro capítulo. Elige un número libre."
 msgstr "Another chapter already uses this position. Choose a free number."
 
@@ -4793,7 +4797,7 @@ msgstr "This gift was already redeemed."
 msgid "Este regalo ya no está disponible."
 msgstr "This gift is no longer available."
 
-#: content/models.py:172
+#: content/models.py:173
 msgid "Este texto se muestra antes de comprar. Escribe una muestra que pueda compartirse públicamente."
 msgstr "This text is shown before purchase. Write a preview that can be shared publicly."
 
@@ -4875,7 +4879,7 @@ msgstr "Require passing to complete the lesson"
 msgid "Explica al estudiante por qué no procede el reembolso."
 msgstr "Explain to the student why the refund doesn't apply."
 
-#: content/models.py:173
+#: content/models.py:174
 msgid "Explica cómo se pueden resolver dudas y qué atención incluye la unidad."
 msgstr "Explain how questions can be resolved and what support the unit includes."
 
@@ -5239,7 +5243,7 @@ msgstr "Save decision"
 msgid "Guardar decisión →"
 msgstr "Save decision →"
 
-#: templates/learning/_progress.html:10
+#: templates/learning/_progress.html:23
 msgid "Guardar este punto"
 msgstr "Save this point"
 
@@ -5255,7 +5259,7 @@ msgstr "Save photo →"
 msgid "Guardar organización"
 msgstr "Save organization"
 
-#: commerce/cart.py:231 creators/forms.py:83 creators/forms.py:97
+#: commerce/cart.py:231 creators/forms.py:110 creators/forms.py:124
 msgid "Guardar para después"
 msgstr "Save for later"
 
@@ -5287,7 +5291,7 @@ msgstr "Save answers"
 msgid "Guardar ruta →"
 msgstr "Save path →"
 
-#: core/js_text.py:47 templates/content/lesson.html:8
+#: core/js_text.py:46 templates/content/lesson.html:8
 msgid "Guardar sin conexión"
 msgstr "Save for offline"
 
@@ -5397,7 +5401,7 @@ msgstr "There's a submission under review. You can continue the draft or withdra
 msgid "Hay un pago pendiente o en revisión para parte de esta selección. Consulta esa factura antes de preparar otro pago."
 msgstr "There's a pending or in-review payment for part of this selection. Check that invoice before preparing another payment."
 
-#: templates/learning/_progress.html:15
+#: templates/learning/_progress.html:27
 msgid "Haz de esta lección tu punto de partida."
 msgstr "Make this lesson your starting point."
 
@@ -5437,11 +5441,11 @@ msgstr "Identifier: %(pk)s"
 msgid "Idioma"
 msgstr "Language"
 
-#: content/models.py:139 content/models.py:199
+#: content/models.py:139 content/models.py:200
 msgid "idioma del contenido"
 msgstr "content language"
 
-#: content/models.py:199
+#: content/models.py:200
 msgid "Idioma del video, el material, los subtítulos y la transcripción."
 msgstr "Language of the video or material, its subtitles and its transcript."
 
@@ -5481,7 +5485,7 @@ msgstr "included in the membership"
 msgid "Incluido en tu membresía"
 msgstr "Included in your membership"
 
-#: creators/forms.py:83 creators/forms.py:97
+#: creators/forms.py:110 creators/forms.py:124
 msgid "Incluir en la próxima versión"
 msgstr "Include in the next version"
 
@@ -5513,7 +5517,7 @@ msgstr "Includes the lessons, materials and quizzes of the published version."
 msgid "Incorporación de educadores"
 msgstr "Educator onboarding"
 
-#: content/models.py:170
+#: content/models.py:171
 msgid "Indica conocimientos, herramientas y contenidos previos; si no se necesitan, dilo."
 msgstr "State prior knowledge, tools and content; if none are needed, say so."
 
@@ -5529,7 +5533,7 @@ msgstr "Enter the name that will appear on your certificate, up to 150 character
 msgid "Indica el nombre que aparecerá en tu credencial, hasta 150 caracteres."
 msgstr "Enter the name that will appear on your credential, up to 150 characters."
 
-#: commerce/offers.py:89 creators/forms.py:196
+#: commerce/offers.py:89 creators/forms.py:223
 msgid "Indica qué debe corregirse."
 msgstr "Say what needs to be fixed."
 
@@ -5669,7 +5673,7 @@ msgstr "Try again."
 msgid "Ir a la evaluación"
 msgstr "Go to the quiz"
 
-#: templates/learning/_progress.html:2
+#: templates/learning/_progress.html:10 templates/learning/_progress.html:2
 msgid "Ir a la evaluación →"
 msgstr "Go to the quiz →"
 
@@ -5712,6 +5716,10 @@ msgstr "Go to the catalog ↗"
 #: templates/accounts/_settings.html:10
 msgid "JPG / PNG / WEBP · hasta 3 MB"
 msgstr "JPG / PNG / WEBP · up to 3 MB"
+
+#: creators/forms.py:75
+msgid "JPG, PNG o WebP de al menos 800 × 450 píxeles y hasta 8 MB. La recortamos al centro en formato 16:9 y quitamos sus metadatos. Usa una imagen propia o con permiso de uso."
+msgstr "JPG, PNG or WebP, at least 800 × 450 pixels and up to 8 MB. We crop it from the centre to 16:9 and remove its metadata. Use your own image or one you have permission to use."
 
 #: learning/community.py:212
 msgid "La acción de moderación no es válida."
@@ -5864,6 +5872,14 @@ msgstr "The fingerprint was sent to OpenTimestamps calendars on %(submitted_at)s
 #: templates/learning/certificate.html:4
 msgid "La huella SHA-256 permite comprobar que los datos coinciden con el certificado emitido."
 msgstr "The SHA-256 fingerprint lets you check that the data matches the issued certificate."
+
+#: media/models.py:161
+msgid "La imagen debe medir al menos 800 × 450 píxeles."
+msgstr "The image must be at least 800 × 450 pixels."
+
+#: media/models.py:157
+msgid "La imagen no debe superar 40 megapíxeles."
+msgstr "The image must not exceed 40 megapixels."
 
 #: commerce/orders.py:130
 msgid "La lección elegida no forma parte de esta oferta."
@@ -6061,7 +6077,7 @@ msgstr "Verification is turned off."
 msgid "La versión enviada se guardó. Tus cambios posteriores siguen aquí; revisa el borrador antes de volver a guardar."
 msgstr "The submitted version was saved. Your later changes are still here; review the draft before saving again."
 
-#: content/models.py:318
+#: content/models.py:320
 msgid "La versión vigente debe pertenecer al curso."
 msgstr "The current version must belong to the course."
 
@@ -6173,7 +6189,7 @@ msgstr "Required lessons: %(required_lesson_ids)s. Every required quiz must be p
 msgid "Lección"
 msgstr "Lesson"
 
-#: content/models.py:189 templates/content/lesson.html:14
+#: content/models.py:190 templates/content/lesson.html:14
 msgid "lección"
 msgstr "lesson"
 
@@ -6195,7 +6211,11 @@ msgstr "Lesson %(lesson_number)s of %(lesson_count)s"
 msgid "lección completada"
 msgstr "lesson completed"
 
-#: learning/views.py:164
+#: templates/learning/_progress.html:18
+msgid "Lección completada"
+msgstr "Lesson completed"
+
+#: learning/views.py:165
 msgid "Lección completada y avance guardado."
 msgstr "Lesson completed and progress saved."
 
@@ -6211,7 +6231,7 @@ msgstr "Chosen lesson: %(title)s"
 msgid "Lección guardada en el borrador."
 msgstr "Lesson saved to the draft."
 
-#: content/models.py:351
+#: content/models.py:353
 msgid "Lección incompatible o versión ya publicada."
 msgstr "Incompatible lesson or version already published."
 
@@ -6219,7 +6239,7 @@ msgstr "Incompatible lesson or version already published."
 msgid "Lección individual"
 msgstr "Single lesson"
 
-#: learning/views.py:164
+#: learning/views.py:165
 msgid "Lección pendiente y avance guardado."
 msgstr "Lesson marked as pending and progress saved."
 
@@ -6355,7 +6375,7 @@ msgstr "Lightning refunds are not configured in this environment."
 msgid "los requisitos (o indica que no hay requisitos previos)"
 msgstr "the requirements (or say there are no prerequisites)"
 
-#: content/models.py:287
+#: content/models.py:288
 msgid "Los subtítulos deben ser VTT del mismo propietario y acompañar un video."
 msgstr "Subtitles must be VTT files from the same owner and accompany a video."
 
@@ -6366,10 +6386,6 @@ msgstr "Topics will appear once the first courses are published."
 #: templates/learning/attempt.html:64 templates/learning/quiz.html:31
 msgid "M"
 msgstr "M"
-
-#: templates/learning/_progress.html:6
-msgid "Marca lo que estudiaste y continúa a tu ritmo."
-msgstr "Mark what you studied and continue at your own pace."
 
 #: templates/learning/quiz.html:28
 msgid "Marca lo que quieras revisar"
@@ -6391,7 +6407,7 @@ msgstr "Check every criterion met to approve, or request changes explaining what
 msgid "Marcada"
 msgstr "Marked"
 
-#: core/js_text.py:50
+#: core/js_text.py:49
 msgid "Marcada para revisar"
 msgstr "Marked for review"
 
@@ -6399,15 +6415,7 @@ msgstr "Marked for review"
 msgid "Marcadas"
 msgstr "Marked"
 
-#: core/js_text.py:43 templates/learning/_progress.html:8
-msgid "Marcar como pendiente"
-msgstr "Mark as pending"
-
-#: core/js_text.py:43 templates/learning/_progress.html:8
-msgid "Marcar lección completada"
-msgstr "Mark lesson completed"
-
-#: core/js_text.py:50 templates/learning/attempt.html:64 templates/learning/attempt.html:80 templates/learning/quiz.html:31
+#: core/js_text.py:49 templates/learning/attempt.html:64 templates/learning/attempt.html:80 templates/learning/quiz.html:31
 msgid "Marcar para revisar"
 msgstr "Mark for review"
 
@@ -6415,7 +6423,7 @@ msgstr "Mark for review"
 msgid "Marcar todas como leídas"
 msgstr "Mark all as read"
 
-#: commerce/journey.py:92 content/catalog.py:122 content/models.py:254 content/views.py:186 creators/presentation.py:145 templates/commerce/_cart_line.html:7 templates/commerce/invoice.html:15 templates/commerce/offer.html:18 templates/content/lesson.html:24 templates/core/_resource_group.html:16 templates/creators/_create_content.html:1 templates/creators/resource.html:2
+#: commerce/journey.py:92 content/catalog.py:122 content/models.py:255 content/views.py:188 creators/presentation.py:145 templates/commerce/_cart_line.html:7 templates/commerce/invoice.html:15 templates/commerce/offer.html:18 templates/content/lesson.html:24 templates/core/_resource_group.html:16 templates/creators/_create_content.html:1 templates/creators/resource.html:2
 msgid "Material"
 msgstr "Material"
 
@@ -6619,9 +6627,13 @@ msgstr "Reason: %(reason)s"
 msgid "MP4, PDF, TXT UTF-8 o VTT · máximo 256 MiB por archivo."
 msgstr "MP4, PDF, UTF-8 TXT or VTT · 256 MiB max per file."
 
-#: content/models.py:172
+#: content/models.py:173
 msgid "muestra pública"
 msgstr "public preview"
+
+#: templates/learning/_progress.html:12
+msgid "Márcala como completada para llevar la cuenta de tu avance."
+msgstr "Mark it as complete to keep track of your progress."
 
 #: templates/learning/_lesson_discussion.html:18
 msgid "Más comentarios →"
@@ -6847,7 +6859,7 @@ msgstr "We couldn't check the payment. Refresh this same payment before paying a
 msgid "No pudimos comprobar el pago. Usa Actualizar estado para volver a intentarlo."
 msgstr "We couldn't check the payment. Use Refresh status to try again."
 
-#: core/js_text.py:46
+#: core/js_text.py:45
 msgid "No pudimos conectar para guardar. Reintenta desde esta lección."
 msgstr "We couldn't connect to save. Try again from this lesson."
 
@@ -6902,6 +6914,10 @@ msgstr "We couldn't sign you in. Check your %(label)s account credentials."
 #: core/js_text.py:20
 msgid "No pudimos leer la foto. Elige otro archivo."
 msgstr "We couldn't read the photo. Choose another file."
+
+#: media/models.py:172
+msgid "No pudimos leer la imagen. Elige otro archivo JPG, PNG o WebP."
+msgstr "We couldn't read the image. Choose another JPG, PNG or WebP file."
 
 #: commerce/views.py:237
 msgid "No pudimos preparar el pago. Actualiza el estado de esta misma factura para continuar."
@@ -6975,7 +6991,7 @@ msgstr "It couldn't be saved. We kept your selection so you can retry."
 msgid "No se pudo guardar. Conservamos tus cambios para reintentar."
 msgstr "It couldn't be saved. We kept your changes so you can retry."
 
-#: core/js_text.py:48
+#: core/js_text.py:47
 msgid "No se pudo guardar. Inténtalo con conexión."
 msgstr "It couldn't be saved. Try again with a connection."
 
@@ -6983,7 +6999,7 @@ msgstr "It couldn't be saved. Try again with a connection."
 msgid "No se pudo reproducir el video. Intenta recargar; si continúa, avisa al educador."
 msgstr "The video couldn't play. Try reloading; if it continues, let the educator know."
 
-#: content/models.py:334
+#: content/models.py:336
 msgid "No se pueden añadir capítulos a la versión ya publicada."
 msgstr "Chapters can't be added to the version already published."
 
@@ -7087,7 +7103,7 @@ msgstr "New submission: %(title)s"
 msgid "Nueva lección"
 msgstr "New lesson"
 
-#: core/js_text.py:57 templates/learning/_quiz_editor_question.html:2
+#: core/js_text.py:56 templates/learning/_quiz_editor_question.html:2
 msgid "Nueva pregunta"
 msgstr "New question"
 
@@ -7123,7 +7139,7 @@ msgstr "New course or tutorial"
 msgid "Números de las opciones correctas"
 msgstr "Numbers of the correct options"
 
-#: creators/forms.py:141
+#: creators/forms.py:168
 msgid "O elegir de mi biblioteca"
 msgstr "Or choose from my library"
 
@@ -7139,7 +7155,7 @@ msgstr "Required"
 msgid "Obligatoria para completar la lección"
 msgstr "Required to complete the lesson"
 
-#: commerce/forms.py:25 creators/forms.py:191 templates/creators/resource.html:5 templates/creators/review.html:1
+#: commerce/forms.py:25 creators/forms.py:218 templates/creators/resource.html:5 templates/creators/review.html:1
 msgid "Observaciones"
 msgstr "Notes"
 
@@ -7211,7 +7227,7 @@ msgstr "Optional"
 msgid "Opcional para completar la lección"
 msgstr "Optional to complete the lesson"
 
-#: content/models.py:220
+#: content/models.py:221
 msgid "Opcional, en lugar de un archivo MP4. El recurso queda gratuito."
 msgstr "Optional, instead of an MP4 file. The resource becomes free."
 
@@ -7705,6 +7721,18 @@ msgstr "Percentage"
 msgid "porcentaje de descuento"
 msgstr "discount percentage"
 
+#: content/models.py:143
+msgid "portada"
+msgstr "cover"
+
+#: creators/forms.py:73
+msgid "Portada"
+msgstr "Cover"
+
+#: templates/creators/course.html:4
+msgid "Portada actual del borrador"
+msgstr "Current draft cover"
+
 #: accounts/account_forms.py:17
 msgid "Posición horizontal"
 msgstr "Horizontal position"
@@ -7928,10 +7956,6 @@ msgstr "First lesson"
 #: templates/core/_analytics.html:19
 msgid "Primera respuesta"
 msgstr "First reply"
-
-#: templates/learning/_progress.html:6
-msgid "Primero aprueba la evaluación. Después podrás guardar la lección como completada."
-msgstr "Pass the quiz first. Then you can save the lesson as completed."
 
 #: templates/commerce/creator_offers.html:17
 msgid "Primero publica contenido de pago"
@@ -8239,7 +8263,7 @@ msgstr "You can post in the community again"
 msgid "Puedes volver a practicar."
 msgstr "You can practice again."
 
-#: templates/learning/_progress.html:12
+#: templates/learning/_progress.html:21
 msgid "Puedes volver al temario para repasar lo aprendido."
 msgstr "You can go back to the syllabus to review what you learned."
 
@@ -8343,7 +8367,7 @@ msgstr "Remove filter: %(label)s"
 msgid "Quién presta el servicio"
 msgstr "Who provides the service"
 
-#: content/education.py:14 content/models.py:169
+#: content/education.py:14 content/models.py:170
 msgid "qué aprenderá el alumno"
 msgstr "what the learner will learn"
 
@@ -8371,7 +8395,7 @@ msgstr "What you buy"
 msgid "Qué debe entregar el estudiante"
 msgstr "What the student must submit"
 
-#: content/models.py:171
+#: content/models.py:172
 msgid "qué hará el alumno"
 msgstr "what the learner will do"
 
@@ -8457,7 +8481,7 @@ msgstr "Reactivate account"
 msgid "Reactivar una cuenta desactivada"
 msgstr "Reactivate a deactivated account"
 
-#: content/models.py:171
+#: content/models.py:172
 msgid "Realizar una práctica"
 msgstr "Do a practice"
 
@@ -8473,7 +8497,7 @@ msgstr "Reload the form before sending."
 msgid "Recarga el formulario para volver a enviar."
 msgstr "Reload the form to send again."
 
-#: core/js_text.py:55
+#: core/js_text.py:54
 msgid "Recarga el intento para recuperar las respuestas guardadas."
 msgstr "Reload the attempt to recover the saved answers."
 
@@ -8481,7 +8505,7 @@ msgstr "Reload the attempt to recover the saved answers."
 msgid "Recargar el intento"
 msgstr "Reload the attempt"
 
-#: templates/learning/_progress.html:8
+#: templates/learning/_progress.html:23
 msgid "Recargar lección"
 msgstr "Reload lesson"
 
@@ -8695,7 +8719,7 @@ msgstr "Back to My learning"
 msgid "Reintentar"
 msgstr "Retry"
 
-#: templates/learning/_progress.html:8
+#: templates/learning/_progress.html:23
 msgid "Reintentar guardado"
 msgstr "Retry saving"
 
@@ -8835,11 +8859,11 @@ msgstr "Answered"
 msgid "Respondidas"
 msgstr "Answered"
 
-#: core/js_text.py:53
+#: core/js_text.py:52
 msgid "Respondiste todas las preguntas. Puedes cambiar cualquier respuesta o entregar el intento."
 msgstr "You answered every question. You can change any answer or submit the attempt."
 
-#: core/js_text.py:52
+#: core/js_text.py:51
 msgid "Respondiste todo. Revisa las preguntas marcadas si quieres cambiar algo."
 msgstr "You answered everything. Review the marked questions if you want to change something."
 
@@ -9045,7 +9069,7 @@ msgstr "Review the selected criteria."
 msgid "Revisa tu compra"
 msgstr "Review your purchase"
 
-#: core/js_text.py:56
+#: core/js_text.py:55
 msgid "Revisa tu conexión. Tus respuestas siguen en esta página."
 msgstr "Check your connection. Your answers are still on this page."
 
@@ -9193,7 +9217,7 @@ msgstr "Review refund · BTC.EDU"
 msgid "Revisar reembolsos →"
 msgstr "Review refunds →"
 
-#: templates/learning/_progress.html:12
+#: templates/learning/_progress.html:21
 msgid "Revisar requisitos del certificado →"
 msgstr "Review certificate requirements →"
 
@@ -9217,7 +9241,7 @@ msgstr "Review suspension"
 msgid "Revisar y entregar"
 msgstr "Review and submit"
 
-#: core/js_text.py:51
+#: core/js_text.py:50
 msgid "Revisar y entregar →"
 msgstr "Review and submit →"
 
@@ -9229,7 +9253,7 @@ msgstr "Review and send"
 msgid "Revisaremos tu solicitud y te avisaremos."
 msgstr "We'll review your request and let you know."
 
-#: content/models.py:270
+#: content/models.py:271
 msgid "revisiones de recursos"
 msgstr "resource revisions"
 
@@ -9245,7 +9269,7 @@ msgstr "Revision %(number)s · %(get_kind_display)s"
 msgid "REVISIÓN COMERCIAL / %(get_status_display)s"
 msgstr "COMMERCIAL REVIEW / %(get_status_display)s"
 
-#: content/models.py:269 content/models.py:357
+#: content/models.py:270 content/models.py:359
 msgid "revisión de recurso"
 msgstr "resource revision"
 
@@ -9439,7 +9463,7 @@ msgstr "Select your collections again."
 msgid "Selecciona un alumno inscrito en este espacio."
 msgstr "Select a learner enrolled in this space."
 
-#: creators/forms.py:124
+#: creators/forms.py:151
 msgid "Selecciona un archivo de tu equipo o elige uno de tu biblioteca más abajo."
 msgstr "Select a file from your computer or choose one from your library below."
 
@@ -9591,7 +9615,7 @@ msgstr "Next step ↓"
 msgid "Siguiente paso: %(title)s"
 msgstr "Next step: %(title)s"
 
-#: core/js_text.py:51 templates/accounts/_filtered_pagination.html:1 templates/commerce/_pagination.html:1 templates/content/lesson.html:31 templates/core/_catalog.html:14 templates/core/workspace.html:31 templates/core/workspace.html:35 templates/creators/content.html:5 templates/learning/_community_moderation.html:6 templates/learning/_community_moderation.html:8 templates/learning/_library_certificates.html:9 templates/learning/_notifications.html:4 templates/learning/_questions.html:5 templates/learning/_saved_items.html:6 templates/learning/attempt.html:80 templates/learning/practice_inbox.html:7 templates/learning/practice_inbox.html:8 templates/learning/practices.html:6
+#: core/js_text.py:50 templates/accounts/_filtered_pagination.html:1 templates/commerce/_pagination.html:1 templates/content/lesson.html:31 templates/core/_catalog.html:14 templates/core/workspace.html:31 templates/core/workspace.html:35 templates/creators/content.html:5 templates/learning/_community_moderation.html:6 templates/learning/_community_moderation.html:8 templates/learning/_library_certificates.html:9 templates/learning/_notifications.html:4 templates/learning/_questions.html:5 templates/learning/_saved_items.html:6 templates/learning/attempt.html:80 templates/learning/practice_inbox.html:7 templates/learning/practice_inbox.html:8 templates/learning/practices.html:6
 msgid "Siguiente →"
 msgstr "Next →"
 
@@ -9655,7 +9679,7 @@ msgstr "No quiz included"
 msgid "Sin facturas para el periodo."
 msgstr "No invoices for the period."
 
-#: core/js_text.py:54
+#: core/js_text.py:53
 msgid "Sin guardar"
 msgstr "Not saved"
 
@@ -9683,7 +9707,7 @@ msgstr "No reason: a withdrawal needs no justification."
 msgid "Sin paquete"
 msgstr "No bundle"
 
-#: core/js_text.py:54 templates/learning/attempt.html:74
+#: core/js_text.py:53 templates/learning/attempt.html:74
 msgid "Sin responder"
 msgstr "Unanswered"
 
@@ -9771,7 +9795,7 @@ msgstr "Ask for help →"
 msgid "Solicitar cambio"
 msgstr "Request change"
 
-#: commerce/forms.py:24 creators/forms.py:190 learning/models.py:174
+#: commerce/forms.py:24 creators/forms.py:217 learning/models.py:174
 msgid "Solicitar cambios"
 msgstr "Request changes"
 
@@ -9923,7 +9947,7 @@ msgstr "Move lesson %(title)s up"
 msgid "Subtotal"
 msgstr "Subtotal"
 
-#: content/models.py:202
+#: content/models.py:203
 msgid "subtítulos VTT de la próxima revisión"
 msgstr "VTT subtitles for the next revision"
 
@@ -9991,7 +10015,7 @@ msgstr "Syllabus in preparation"
 msgid "Temario ↓"
 msgstr "Syllabus ↓"
 
-#: content/models.py:254
+#: content/models.py:255
 msgid "Texto"
 msgstr "Text"
 
@@ -10223,7 +10247,7 @@ msgstr "All types"
 msgid "Total"
 msgstr "Total"
 
-#: content/models.py:203
+#: content/models.py:204
 msgid "transcripción"
 msgstr "transcript"
 
@@ -10259,7 +10283,7 @@ msgstr "Your alias, photo, introduction, interests and website can be seen witho
 msgid "Tu aprendizaje"
 msgstr "Your learning"
 
-#: templates/learning/_progress.html:17
+#: templates/learning/_progress.html:29
 msgid "Tu aprendizaje puede continuar aquí."
 msgstr "Your learning can continue here."
 
@@ -10551,7 +10575,7 @@ msgstr "Your next step"
 msgid "Tu próximo paso está en tus cursos."
 msgstr "Your next step is in your courses."
 
-#: learning/views.py:164
+#: learning/views.py:165
 msgid "Tu punto de continuación quedó guardado."
 msgstr "Your resume point was saved."
 
@@ -10647,7 +10671,7 @@ msgstr "Your session expired. Open Sign in in another tab and retry; the file is
 msgid "TU SIGUIENTE LECCIÓN"
 msgstr "YOUR NEXT LESSON"
 
-#: templates/content/course.html:43 templates/learning/_progress.html:6 templates/learning/quiz.html:35
+#: templates/content/course.html:43 templates/learning/quiz.html:35
 msgid "Tu siguiente paso"
 msgstr "Your next step"
 
@@ -10885,7 +10909,7 @@ msgstr "A complete path, at your own pace."
 msgid "Un recorrido organizado por lecciones."
 msgstr "A path organized in lessons."
 
-#: content/models.py:278
+#: content/models.py:279
 msgid "Un recurso de texto requiere contenido y no admite archivos."
 msgstr "A text resource requires content and doesn't accept files."
 
@@ -10901,7 +10925,7 @@ msgstr "A gift · BTC.EDU"
 msgid "Un reporte requiere revisión"
 msgstr "A report needs review"
 
-#: content/models.py:283
+#: content/models.py:284
 msgid "Un video de YouTube necesita un enlace válido, el autor y acceso gratuito, sin archivo."
 msgstr "A YouTube video needs a valid link, the author and free access, with no file."
 
@@ -10936,10 +10960,6 @@ msgstr "A guide for a specific task."
 #: templates/accounts/_settings.html:6
 msgid "Una imagen para reconocerte."
 msgstr "An image so people recognize you."
-
-#: core/js_text.py:45 templates/learning/_progress.html:6
-msgid "Una lección más en tu recorrido."
-msgstr "One more lesson on your path."
 
 #: content/education.py:17
 msgid "una muestra pública"
@@ -11009,9 +11029,17 @@ msgstr "Use an HTTP or HTTPS link."
 msgid "Usa un nombre de entre 1 y 60 caracteres."
 msgstr "Use a name between 1 and 60 characters."
 
+#: media/models.py:155
+msgid "Usa una imagen JPG, PNG o WebP sin animación."
+msgstr "Use a JPG, PNG or WebP image without animation."
+
 #: templates/core/terms.html:49
 msgid "Usamos tus datos para darte acceso, procesar pagos y acompañar tu aprendizaje. No los compartimos con terceros ajenos a la compra sin tu autorización, salvo requerimiento de una autoridad competente. Conservamos la prueba de cada compra durante diez años."
 msgstr "We use your data to give you access, process payments and support your learning. We do not share it with third parties outside the purchase without your permission, except when a competent authority requires it. We keep the proof of each purchase for ten years."
+
+#: creators/forms.py:76
+msgid "Usar la ilustración de la subcategoría"
+msgstr "Use the subcategory illustration"
 
 #: commerce/forms.py:44
 msgid "Usos disponibles"
@@ -11105,7 +11133,7 @@ msgstr "View credential →"
 msgid "Ver curso"
 msgstr "View course"
 
-#: templates/learning/_progress.html:12
+#: templates/learning/_progress.html:21
 msgid "Ver el curso →"
 msgstr "View the course →"
 
@@ -11249,7 +11277,7 @@ msgstr "View review →"
 msgid "Ver ruta →"
 msgstr "View path →"
 
-#: templates/learning/_progress.html:8
+#: templates/learning/_progress.html:19
 msgid "Ver siguiente lección →"
 msgstr "View next lesson →"
 
@@ -11353,11 +11381,11 @@ msgstr "Version kept"
 msgid "Versión enviada a revisión. Puedes seguir editando un nuevo borrador."
 msgstr "Version submitted for review. You can keep editing a new draft."
 
-#: content/models.py:310
+#: content/models.py:312
 msgid "versión publicada"
 msgstr "published version"
 
-#: commerce/journey.py:92 content/catalog.py:122 content/models.py:254 content/views.py:186 creators/presentation.py:145 templates/commerce/_cart_line.html:7 templates/commerce/invoice.html:15 templates/commerce/offer.html:18 templates/content/lesson.html:24 templates/content/resource.html:2 templates/core/_resource_group.html:6 templates/creators/_create_content.html:1 templates/creators/resource.html:2
+#: commerce/journey.py:92 content/catalog.py:122 content/models.py:255 content/views.py:188 creators/presentation.py:145 templates/commerce/_cart_line.html:7 templates/commerce/invoice.html:15 templates/commerce/offer.html:18 templates/content/lesson.html:24 templates/content/resource.html:2 templates/core/_resource_group.html:6 templates/creators/_create_content.html:1 templates/creators/resource.html:2
 msgid "Video"
 msgstr "Video"
 
@@ -11369,7 +11397,7 @@ msgstr "Supplementary video for the lesson"
 msgid "Video de %(video_author)s en YouTube."
 msgstr "Video by %(video_author)s on YouTube."
 
-#: content/models.py:219
+#: content/models.py:220
 msgid "video de YouTube"
 msgstr "YouTube video"
 
@@ -11393,7 +11421,7 @@ msgstr "Videos and materials"
 msgid "Videos y materiales adquiridos, incluidos los de tus paquetes."
 msgstr "Purchased videos and materials, including those in your bundles."
 
-#: creators/forms.py:98
+#: creators/forms.py:125
 msgid "Videos y materiales revisados"
 msgstr "Reviewed videos and materials"
 
@@ -11513,7 +11541,7 @@ msgstr "Back to sign-in →"
 msgid "Volver al contenido"
 msgstr "Back to the content"
 
-#: templates/learning/_progress.html:8
+#: templates/learning/_progress.html:19
 msgid "Volver al curso →"
 msgstr "Back to the course →"
 
@@ -11652,6 +11680,10 @@ msgstr "You already used membership content in this period."
 #: commerce/pricing.py:84
 msgid "Ya usaste este cupón en una compra anterior."
 msgstr "You already used this coupon on an earlier purchase."
+
+#: core/js_text.py:43
+msgid "{completed} de {total}"
+msgstr "{completed} of {total}"
 
 #: templates/content/course.html:27
 msgid "· %(counter)s completada"
@@ -11801,7 +11833,7 @@ msgstr "Need help with access?"
 msgid "¿Quieres enseñar?"
 msgstr "Want to teach?"
 
-#: core/js_text.py:45 templates/learning/_progress.html:6
+#: templates/learning/_progress.html:12
 msgid "¿Terminaste esta lección?"
 msgstr "Did you finish this lesson?"
 
@@ -11969,11 +12001,11 @@ msgstr "← Back to the course"
 msgid "← Volver al editor"
 msgstr "← Back to the editor"
 
-#: core/js_text.py:59
+#: core/js_text.py:58
 msgid "☀ Claro"
 msgstr "☀ Light"
 
-#: core/js_text.py:59 templates/_theme_toggle.html:1
+#: core/js_text.py:58 templates/_theme_toggle.html:1
 msgid "☾ Oscuro"
 msgstr "☾ Dark"
 

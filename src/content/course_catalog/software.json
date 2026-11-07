@@ -1297,5 +1297,817 @@
         ]
       }
     ]
+  },
+  {
+    "slug": "backend-python-produccion",
+    "title": "Backend avanzado con Python: PostgreSQL, fiabilidad y operación en producción",
+    "access": "paid",
+    "category": {
+      "name": "Desarrollo de software",
+      "slug": "desarrollo-software"
+    },
+    "topic": {
+      "name": "APIs y backend",
+      "slug": "apis-backend"
+    },
+    "description": "Lleva la API de inventario de la cafetería a producción: PostgreSQL con SQLAlchemy 2.0 y migraciones de Alembic, escrituras simultáneas sin actualizaciones perdidas, llamadas a otros servicios con tiempos límite y reintentos, caché con ETag y Redis, bandeja de salida, idempotencia, webhooks firmados, tokens JWT con alcances, métricas y despliegue con plan de reversión. El código se comprobó con FastAPI 0.162, SQLAlchemy 2.1, Alembic 1.20, PostgreSQL 17 y Redis 7.",
+    "objective": "Diseñar y operar un backend en Python que mantenga sus datos consistentes bajo concurrencia, tolere fallos de otros servicios, no duplique operaciones al repetirse y pueda desplegarse, observarse y revertirse con seguridad.",
+    "requirements": "Haber terminado APIs REST con Python y FastAPI o tener experiencia equivalente: rutas, Pydantic, pruebas con pytest y SQL básico. Necesitas Python 3.12 y Docker para ejecutar PostgreSQL y Redis; conocer Linux para servidores ayuda en el último capítulo.",
+    "minutes": 660,
+    "price": 3600,
+    "level": "advanced",
+    "sources": [
+      {
+        "title": "SQLAlchemy 2.0: tutorial unificado",
+        "url": "https://docs.sqlalchemy.org/en/20/tutorial/index.html"
+      },
+      {
+        "title": "SQLAlchemy: configuración declarativa con Mapped",
+        "url": "https://docs.sqlalchemy.org/en/20/orm/declarative_tables.html"
+      },
+      {
+        "title": "PostgreSQL: restricciones",
+        "url": "https://www.postgresql.org/docs/17/ddl-constraints.html"
+      },
+      {
+        "title": "Alembic: tutorial",
+        "url": "https://alembic.sqlalchemy.org/en/latest/tutorial.html"
+      },
+      {
+        "title": "Alembic: autogeneración y sus límites",
+        "url": "https://alembic.sqlalchemy.org/en/latest/autogenerate.html"
+      },
+      {
+        "title": "Alembic: migraciones por lotes para SQLite",
+        "url": "https://alembic.sqlalchemy.org/en/latest/batch.html"
+      },
+      {
+        "title": "PostgreSQL: aislamiento de transacciones",
+        "url": "https://www.postgresql.org/docs/17/transaction-iso.html"
+      },
+      {
+        "title": "PostgreSQL: bloqueo explícito de filas",
+        "url": "https://www.postgresql.org/docs/17/explicit-locking.html"
+      },
+      {
+        "title": "SQLAlchemy: contador de versiones",
+        "url": "https://docs.sqlalchemy.org/en/20/orm/versioning.html"
+      },
+      {
+        "title": "RFC 9110: solicitudes condicionales",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110#name-conditional-requests"
+      },
+      {
+        "title": "FastAPI: concurrencia y async/await",
+        "url": "https://fastapi.tiangolo.com/es/async/"
+      },
+      {
+        "title": "Python: asyncio.gather",
+        "url": "https://docs.python.org/3/library/asyncio-task.html#asyncio.gather"
+      },
+      {
+        "title": "HTTPX: cliente asíncrono",
+        "url": "https://www.python-httpx.org/async/"
+      },
+      {
+        "title": "HTTPX: tiempos límite",
+        "url": "https://www.python-httpx.org/advanced/timeouts/"
+      },
+      {
+        "title": "HTTPX: transportes y MockTransport",
+        "url": "https://www.python-httpx.org/advanced/transports/"
+      },
+      {
+        "title": "AWS Architecture Blog: backoff exponencial y fluctuación",
+        "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/"
+      },
+      {
+        "title": "MDN: cabecera Retry-After (en inglés)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Retry-After"
+      },
+      {
+        "title": "RFC 9111: caché HTTP",
+        "url": "https://www.rfc-editor.org/rfc/rfc9111"
+      },
+      {
+        "title": "MDN: ETag",
+        "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Headers/ETag"
+      },
+      {
+        "title": "MDN: Cache-Control",
+        "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Headers/Cache-Control"
+      },
+      {
+        "title": "Redis: caducidad de claves",
+        "url": "https://redis.io/docs/latest/commands/expire/"
+      },
+      {
+        "title": "FastAPI: tareas en segundo plano",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/background-tasks/"
+      },
+      {
+        "title": "PostgreSQL: SELECT con FOR UPDATE SKIP LOCKED",
+        "url": "https://www.postgresql.org/docs/17/sql-select.html#SQL-FOR-UPDATE-SHARE"
+      },
+      {
+        "title": "microservices.io: patrón de bandeja de salida transaccional",
+        "url": "https://microservices.io/patterns/data/transactional-outbox.html"
+      },
+      {
+        "title": "RFC 9110: métodos idempotentes",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110#name-idempotent-methods"
+      },
+      {
+        "title": "IETF: borrador de la cabecera Idempotency-Key",
+        "url": "https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/"
+      },
+      {
+        "title": "Stripe: solicitudes idempotentes",
+        "url": "https://docs.stripe.com/api/idempotent_requests"
+      },
+      {
+        "title": "Python: módulo hmac y compare_digest",
+        "url": "https://docs.python.org/3/library/hmac.html"
+      },
+      {
+        "title": "Standard Webhooks: especificación",
+        "url": "https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md"
+      },
+      {
+        "title": "OWASP: hoja de referencia de seguridad para servicios REST",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html"
+      },
+      {
+        "title": "FastAPI: OAuth2 con contraseña y JWT",
+        "url": "https://fastapi.tiangolo.com/es/tutorial/security/oauth2-jwt/"
+      },
+      {
+        "title": "FastAPI: alcances de OAuth2",
+        "url": "https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/"
+      },
+      {
+        "title": "RFC 8725: buenas prácticas para JWT",
+        "url": "https://www.rfc-editor.org/rfc/rfc8725"
+      },
+      {
+        "title": "OWASP: almacenamiento de contraseñas",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+      },
+      {
+        "title": "Python: logging",
+        "url": "https://docs.python.org/3/library/logging.html"
+      },
+      {
+        "title": "Prometheus: cliente de Python",
+        "url": "https://prometheus.github.io/client_python/"
+      },
+      {
+        "title": "Prometheus: buenas prácticas de nombres y etiquetas",
+        "url": "https://prometheus.io/docs/practices/naming/"
+      },
+      {
+        "title": "Kubernetes: comprobaciones de vida y disponibilidad",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+      },
+      {
+        "title": "Uvicorn: despliegue",
+        "url": "https://uvicorn.dev/deployment/"
+      },
+      {
+        "title": "FastAPI: conceptos de despliegue",
+        "url": "https://fastapi.tiangolo.com/es/deployment/concepts/"
+      },
+      {
+        "title": "SQLAlchemy: grupos de conexiones",
+        "url": "https://docs.sqlalchemy.org/en/20/core/pooling.html"
+      },
+      {
+        "title": "PostgreSQL: respaldo y restauración",
+        "url": "https://www.postgresql.org/docs/17/backup.html"
+      }
+    ],
+    "chapters": [
+      {
+        "title": "1. Persistencia para producción",
+        "description": "Lleva la API a PostgreSQL con SQLAlchemy, versiona el esquema y controla la concurrencia.",
+        "lessons": [
+          {
+            "title": "De SQLite a PostgreSQL con SQLAlchemy 2.0",
+            "description": "Reemplaza las consultas manuales por modelos de SQLAlchemy y conecta la API a PostgreSQL sin cambiar sus rutas.",
+            "outcome": "Definir modelos tipados con SQLAlchemy 2.0 y usar una sesión por solicitud que funcione con SQLite y PostgreSQL.",
+            "activity": "execute",
+            "preview": "La misma API funcionará con SQLite en tus pruebas y con PostgreSQL en el servidor.",
+            "body": "En el curso de APIs con FastAPI guardamos el inventario de la cafetería con sqlite3 y SQL escrito a mano. Funciona para un solo proceso, pero en producción aparecen varias instancias de la API, escrituras simultáneas y la necesidad de cambiar el esquema sin perder datos. En este curso llevamos esa API a ese escenario. El primer paso es separar el código de la base concreta con SQLAlchemy 2.0 y usar PostgreSQL en el servidor.\n\nPor qué PostgreSQL\n\nSQLite guarda toda la base en un archivo y permite un solo escritor a la vez. Es excelente para pruebas y aplicaciones pequeñas. PostgreSQL es un servidor: atiende muchas conexiones, bloquea filas en lugar de la base completa y ofrece restricciones, transacciones e índices avanzados. Con SQLAlchemy el mismo código de modelos funciona en ambos; lo que cambia es la URL de conexión.\n\nModelos tipados\n\n```python\nfrom sqlalchemy import CheckConstraint, String, create_engine\nfrom sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker\n\nURL_DB = os.environ.get(\"INVENTARIO_DB_URL\", \"sqlite:///inventario.db\")\nengine = create_engine(URL_DB, pool_pre_ping=True)\nSesionLocal = sessionmaker(engine, expire_on_commit=False)\n\nclass Base(DeclarativeBase):\n    pass\n\nclass Producto(Base):\n    __tablename__ = \"productos\"\n    __table_args__ = (CheckConstraint(\"existencias >= 0\", name=\"existencias_no_negativas\"),)\n    id: Mapped[int] = mapped_column(primary_key=True)\n    nombre: Mapped[str] = mapped_column(String(120), unique=True)\n    categoria: Mapped[str] = mapped_column(String(60), index=True)\n    precio_centavos: Mapped[int]\n    existencias: Mapped[int] = mapped_column(default=0)\n```\n\nMapped[int] declara el tipo de Python y SQLAlchemy deduce la columna; Mapped[str | None] la hace opcional. La restricción CHECK vive en la base: aunque un error del código intente dejar existencias negativas, PostgreSQL rechaza la escritura. pool_pre_ping comprueba cada conexión del grupo antes de usarla, útil cuando el servidor reinicia o cierra conexiones inactivas.\n\nUna sesión por solicitud\n\n```python\ndef sesion():\n    with SesionLocal() as db:\n        yield db\n\nBaseDatos = Annotated[Session, Depends(sesion)]\n```\n\nLa sesión agrupa las operaciones de una solicitud y se cierra al final, aunque haya un error. Las consultas usan select: db.scalars(select(Producto).where(Producto.categoria == \"Bebidas\")). Los valores siempre viajan como parámetros, así que la protección contra inyección SQL se conserva.\n\nEjemplo\n\nPara usar PostgreSQL basta con definir la variable:\n\n```\nINVENTARIO_DB_URL=postgresql+psycopg://inventario:clave@127.0.0.1:5432/inventario\n```\n\nEl controlador psycopg 3 se instala con pip install \"psycopg[binary]\". Comprobamos el código del curso con SQLAlchemy 2.1, psycopg 3.3 y PostgreSQL 17 en un contenedor.\n\nPráctica\n\nLevanta PostgreSQL con docker run --rm -e POSTGRES_PASSWORD=demo -p 127.0.0.1:5432:5432 postgres:17-alpine, define la URL y crea las tablas con Base.metadata.create_all(engine). Crea un producto desde la API y consúltalo con psql.\n\nSolución y comprobación\n\nCon psql, SELECT nombre, existencias FROM productos muestra el producto creado. Si intentas UPDATE productos SET existencias = -1, PostgreSQL responde con una violación de la restricción existencias_no_negativas. En la próxima lección reemplazaremos create_all por migraciones.",
+            "sources": [
+              {
+                "title": "SQLAlchemy 2.0: tutorial unificado",
+                "url": "https://docs.sqlalchemy.org/en/20/tutorial/index.html"
+              },
+              {
+                "title": "SQLAlchemy: configuración declarativa con Mapped",
+                "url": "https://docs.sqlalchemy.org/en/20/orm/declarative_tables.html"
+              },
+              {
+                "title": "PostgreSQL: restricciones",
+                "url": "https://www.postgresql.org/docs/17/ddl-constraints.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Six Feet Up: tutorial de SQLAlchemy 2.0 (en inglés)",
+                "url": "https://www.youtube.com/watch?v=Uym2DHnUEno"
+              }
+            ]
+          },
+          {
+            "title": "Migraciones con Alembic",
+            "description": "Versiona el esquema de la base y aplica cambios sin perder datos, incluso con la aplicación en marcha.",
+            "outcome": "Generar, revisar, aplicar y revertir migraciones con Alembic siguiendo el patrón expandir y contraer.",
+            "activity": "execute",
+            "preview": "Cada cambio de la base quedará en un archivo revisable, como el código.",
+            "body": "create_all crea tablas que no existen, pero no modifica las que ya tienen datos. Si añades una columna al modelo, la base de producción no se entera. Alembic resuelve esto: cada cambio del esquema es un archivo de migración con un identificador, una función upgrade y una función downgrade, y la base guarda en la tabla alembic_version cuál fue la última aplicada.\n\nConfigurar Alembic\n\n```\nalembic init migraciones\n```\n\nEn migraciones/env.py conecta Alembic con tus modelos y con la misma URL de la aplicación:\n\n```python\nfrom app.db import URL_DB, Base\nconfig.set_main_option(\"sqlalchemy.url\", URL_DB)\ntarget_metadata = Base.metadata\n```\n\nCon SQLite añade render_as_batch=True en context.configure: SQLite no permite modificar columnas directamente y Alembic recrea la tabla por ti.\n\nGenerar y revisar\n\n```\nalembic revision --autogenerate -m \"esquema inicial\"\nalembic upgrade head\nalembic check\n```\n\nLa autogeneración compara los modelos con la base y escribe las operaciones. Revisa siempre el archivo: no detecta cambios de nombre (los interpreta como borrar y crear, perdiendo datos) y puede omitir algunas restricciones. alembic check falla si los modelos tienen cambios sin migración; inclúyelo en tus pruebas automáticas.\n\nExpandir y contraer\n\nDurante un despliegue conviven por un momento la versión vieja y la nueva de la aplicación. Por eso un cambio incompatible se divide en pasos compatibles:\n\n1. Expandir: añadir la columna nueva como opcional.\n2. Rellenar: completar los datos existentes.\n3. Desplegar el código que escribe y lee la columna nueva.\n4. Contraer: en una migración posterior, exigirla o borrar lo viejo.\n\n```python\ndef upgrade():\n    with op.batch_alter_table(\"productos\") as tabla:\n        tabla.add_column(sa.Column(\"sku\", sa.String(30), nullable=True))\n        tabla.create_unique_constraint(\"uq_productos_sku\", [\"sku\"])\n    op.execute(\"UPDATE productos SET sku = 'P-' || id WHERE sku IS NULL\")\n```\n\nEl relleno usa SQL directo y no los modelos de la aplicación: los modelos cambiarán en el futuro y la migración debe seguir funcionando igual que el día en que se escribió.\n\nEjemplo\n\nCon un producto existente, alembic upgrade head añade la columna y le asigna P-1. alembic downgrade -1 la retira. Comprobamos el ciclo completo en SQLite y PostgreSQL 17.\n\nPráctica\n\nAgrega la columna proveedor como opcional con su migración, rellénala con «Sin asignar», ejecuta alembic check y revierte con downgrade.\n\nSolución y comprobación\n\nDespués de upgrade, SELECT proveedor FROM productos devuelve «Sin asignar» en las filas existentes y alembic check informa «No new upgrade operations detected». Tras downgrade la columna desaparece y alembic current muestra la revisión anterior.",
+            "sources": [
+              {
+                "title": "Alembic: tutorial",
+                "url": "https://alembic.sqlalchemy.org/en/latest/tutorial.html"
+              },
+              {
+                "title": "Alembic: autogeneración y sus límites",
+                "url": "https://alembic.sqlalchemy.org/en/latest/autogenerate.html"
+              },
+              {
+                "title": "Alembic: migraciones por lotes para SQLite",
+                "url": "https://alembic.sqlalchemy.org/en/latest/batch.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "David Alejandro Pineda: ORM SQLAlchemy y migraciones con Alembic (español)",
+                "url": "https://www.youtube.com/watch?v=JSxbXob8UaU"
+              }
+            ]
+          },
+          {
+            "title": "Transacciones y concurrencia",
+            "description": "Evita que dos solicitudes simultáneas dejen el inventario en un estado imposible.",
+            "outcome": "Elegir entre actualización atómica, bloqueo de filas y control optimista según el tipo de conflicto.",
+            "activity": "execute",
+            "preview": "Veinte ventas simultáneas sobre cinco unidades dejarán exactamente cero, nunca menos.",
+            "body": "Una API en producción recibe solicitudes en paralelo. Si dos cajas venden el último café al mismo tiempo, el código ingenuo lee existencias = 1 en ambas, resta uno en ambas y guarda 0 dos veces: se vendieron dos cafés que no existían. Este error se llama actualización perdida y no aparece en pruebas de una sola solicitud.\n\nActualización atómica\n\nLa solución más simple es que la base compruebe y actualice en una sola sentencia:\n\n```python\nresultado = db.execute(\n    update(Producto)\n    .where(Producto.id == producto_id, Producto.existencias + cantidad >= 0)\n    .values(existencias=Producto.existencias + cantidad)\n    .returning(Producto.existencias))\nexistencias = resultado.scalar_one_or_none()\nif existencias is None:\n    db.rollback()\n    raise HTTPException(409, \"No hay existencias suficientes\")\n```\n\nPostgreSQL bloquea la fila mientras la sentencia se ejecuta; la segunda venta espera y vuelve a evaluar la condición con el valor nuevo. RETURNING devuelve el resultado sin otra consulta. En el curso lanzamos veinte ventas simultáneas sobre cinco unidades: cinco respondieron 201, quince 409 y quedaron cero existencias.\n\nBloqueo de filas\n\nCuando la decisión necesita varias lecturas, bloquea la fila al leerla:\n\n```python\nproducto = db.scalars(select(Producto).where(Producto.id == producto_id).with_for_update()).one()\n```\n\nSELECT ... FOR UPDATE retiene la fila hasta el commit. Mantén estas transacciones cortas: sin llamadas a otros servicios mientras la fila está bloqueada.\n\nControl optimista\n\nPara ediciones humanas, como cambiar un precio desde un formulario, bloquear mientras la persona piensa no es viable. Se guarda un número de versión y se rechaza la escritura si cambió:\n\n```python\nversion: Mapped[int] = mapped_column(default=1)\n__mapper_args__ = {\"version_id_col\": version}\n```\n\nSQLAlchemy añade WHERE version = :leída a cada UPDATE y lanza StaleDataError si no afectó ninguna fila. En HTTP, el cliente envía la versión leída en la cabecera If-Match; si no coincide, la API responde 412 Precondition Failed y el cliente vuelve a leer. Si falta la cabecera, 428 Precondition Required.\n\nEjemplo\n\nDos personas abren el precio del café (versión 3). La primera guarda 275 y la versión pasa a 4. La segunda guarda 300 con If-Match: 3 y recibe 412, en lugar de pisar el cambio sin saberlo.\n\nPráctica\n\nEscribe una prueba que lance veinte hilos con salidas de una unidad sobre un producto con cinco existencias usando PostgreSQL. Después, prueba una versión ingenua que lea las existencias, reste en Python y guarde, haciendo que todos los hilos lean antes de escribir.\n\nSolución y comprobación\n\nCon la actualización atómica la prueba obtiene exactamente cinco 201 y quince 409. En nuestra ejecución de la versión ingenua con doce hilos, las doce ventas respondieron 201 aunque solo había cinco unidades, y quedaron 4 existencias: cada hilo guardó su propio cálculo y borró el de los demás. La restricción CHECK no lo detecta, porque ningún valor escrito es negativo. Si el modelo tiene contador de versión, el resultado cambia: una venta se guarda y las otras once fallan con StaleDataError, que sin manejo se convierte en un error 500. Ten en cuenta que cada hilo ocupa una conexión: el grupo predeterminado de SQLAlchemy admite quince, así que veinte hilos que esperan a la vez con la conexión abierta se bloquean entre sí.",
+            "sources": [
+              {
+                "title": "PostgreSQL: aislamiento de transacciones",
+                "url": "https://www.postgresql.org/docs/17/transaction-iso.html"
+              },
+              {
+                "title": "PostgreSQL: bloqueo explícito de filas",
+                "url": "https://www.postgresql.org/docs/17/explicit-locking.html"
+              },
+              {
+                "title": "SQLAlchemy: contador de versiones",
+                "url": "https://docs.sqlalchemy.org/en/20/orm/versioning.html"
+              },
+              {
+                "title": "RFC 9110: solicitudes condicionales",
+                "url": "https://www.rfc-editor.org/rfc/rfc9110#name-conditional-requests"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: persistencia para producción",
+              "questions": [
+                {
+                  "prompt": "¿Qué hace una restricción CHECK existencias >= 0 que no hace la validación de Pydantic?",
+                  "multiple": false,
+                  "options": [
+                    "Nada; son equivalentes.",
+                    "La aplica la base de datos a cualquier escritura, incluso si el código tiene un error.",
+                    "Acelera las consultas.",
+                    "Convierte los números negativos en cero."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La base es la última defensa: rechaza datos imposibles venga de donde venga la escritura."
+                },
+                {
+                  "prompt": "¿Por qué la autogeneración de Alembic debe revisarse siempre?",
+                  "multiple": false,
+                  "options": [
+                    "Porque escribe en otro lenguaje.",
+                    "Porque un cambio de nombre se interpreta como borrar y crear, y puede perder datos.",
+                    "Porque nunca detecta columnas nuevas.",
+                    "Porque borra la tabla alembic_version."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Alembic compara estructuras; no conoce tu intención."
+                },
+                {
+                  "prompt": "Necesitas que la columna sku sea obligatoria en una tabla con datos y sin detener el servicio. ¿Qué orden sigues?",
+                  "multiple": false,
+                  "options": [
+                    "Añadirla obligatoria y desplegar.",
+                    "Añadirla opcional, rellenar, desplegar el código que la usa y exigirla después.",
+                    "Borrar la tabla y recrearla.",
+                    "Exigirla primero y rellenar después."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Expandir y contraer mantiene compatibles las versiones que conviven durante el despliegue."
+                },
+                {
+                  "prompt": "Dos personas editan el mismo precio desde un formulario. ¿Qué mecanismo corresponde?",
+                  "multiple": false,
+                  "options": [
+                    "SELECT FOR UPDATE mientras la persona escribe.",
+                    "Control optimista con versión e If-Match.",
+                    "Desactivar las transacciones.",
+                    "Guardar siempre el último valor."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "No se bloquea mientras alguien piensa; se detecta el conflicto al guardar y se responde 412."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "title": "2. Asincronía y rendimiento",
+        "description": "Usa async donde ayuda, protege las llamadas a otros servicios y evita trabajo repetido con caché.",
+        "lessons": [
+          {
+            "title": "async y await en FastAPI: cuándo ayudan",
+            "description": "Entiende cómo FastAPI ejecuta rutas síncronas y asíncronas, y evita bloquear el bucle de eventos.",
+            "outcome": "Decidir entre def y async def para cada ruta y lanzar varias esperas de red a la vez con asyncio.gather.",
+            "activity": "understand",
+            "preview": "Una sola llamada bloqueante dentro de async def puede detener todas las solicitudes del proceso.",
+            "body": "async y await no hacen que el código sea más rápido por sí solos. Permiten que un proceso atienda otras solicitudes mientras una espera algo externo: la red, otro servicio, un disco lento. Si la ruta pasa su tiempo calculando, async no ayuda.\n\nCómo ejecuta FastAPI cada ruta\n\nFastAPI corre sobre un bucle de eventos. Las rutas declaradas con async def se ejecutan dentro de ese bucle: mientras hacen await, el bucle atiende otras solicitudes. Las rutas declaradas con def se ejecutan en un grupo de hilos aparte, para que su espera no detenga el bucle. Por eso una ruta def que usa una biblioteca síncrona, como la sesión de SQLAlchemy que usamos en este curso, es correcta.\n\nEl error más común\n\n```python\n@app.get(\"/lento\")\nasync def lento():\n    time.sleep(2)          # bloquea el bucle completo\n    return {\"ok\": True}\n```\n\ntime.sleep, requests.get o una consulta con un controlador síncrono dentro de async def detienen el bucle: durante esos dos segundos el proceso no responde a nadie, ni siquiera a la comprobación de salud. La regla práctica es simple: dentro de async def, solo bibliotecas asíncronas con await (httpx.AsyncClient, asyncio.sleep, controladores asíncronos). Si una biblioteca es síncrona, declara la ruta con def o envuelve la llamada con await run_in_threadpool(funcion).\n\nEsperas en paralelo\n\nLa ventaja aparece cuando hay varias esperas independientes:\n\n```python\nasync def precios_proveedor(cliente, skus):\n    resultados = await asyncio.gather(\n        *(precio_proveedor(cliente, sku) for sku in skus), return_exceptions=True)\n    return {sku: None if isinstance(r, Exception) else r for sku, r in zip(skus, resultados)}\n```\n\nSi cada consulta tarda 300 ms, diez consultas en secuencia tardan unos 3 s; con gather, poco más de 300 ms. return_exceptions=True hace que un fallo se devuelva como valor y no cancele las demás.\n\nEjemplo\n\nEl inventario consulta al proveedor el precio de diez productos para sugerir reposiciones. Con un httpx.AsyncClient compartido y gather, la ruta responde en el tiempo de la consulta más lenta, no en la suma de todas.\n\nPráctica\n\nCrea una ruta async def con time.sleep(2) y otra con await asyncio.sleep(2). Con el servidor en marcha, lanza cinco solicitudes simultáneas a cada una y mide cuánto tarda la última respuesta.\n\nSolución y comprobación\n\nCon time.sleep las respuestas salen una tras otra y la última tarda unos 10 s, porque el bucle está bloqueado. Con asyncio.sleep las cinco terminan juntas en unos 2 s. Una ruta def con time.sleep(2) también termina en unos 2 s, porque corre en hilos; el grupo de hilos tiene un límite, así que no sirve para miles de esperas simultáneas.",
+            "sources": [
+              {
+                "title": "FastAPI: concurrencia y async/await",
+                "url": "https://fastapi.tiangolo.com/es/async/"
+              },
+              {
+                "title": "Python: asyncio.gather",
+                "url": "https://docs.python.org/3/library/asyncio-task.html#asyncio.gather"
+              },
+              {
+                "title": "HTTPX: cliente asíncrono",
+                "url": "https://www.python-httpx.org/async/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "Python Argentina: Entendiendo asyncio sin usar asyncio, por Juan Pedro Fisanotti (español)",
+                "url": "https://www.youtube.com/watch?v=BenwwgMx3Hg"
+              }
+            ]
+          },
+          {
+            "title": "Servicios externos: tiempos límite, reintentos y backoff",
+            "description": "Llama a otros servicios sin que su lentitud o sus fallos tumben tu API.",
+            "outcome": "Configurar tiempos límite y reintentar solo fallos temporales con espera exponencial y fluctuación.",
+            "activity": "execute",
+            "preview": "Una llamada sin tiempo límite puede esperar para siempre y ocupar recursos de tu servidor.",
+            "body": "Cada servicio externo fallará en algún momento: tardará, devolverá 503 o cerrará la conexión. Lo que decide si tu API sigue en pie es cómo esperas y cuándo reintentas.\n\nTiempos límite siempre\n\n```python\nrespuesta = await cliente.get(f\"/precios/{sku}\", timeout=httpx.Timeout(2.0, connect=1.0))\n```\n\nHTTPX aplica por defecto 5 segundos, pero conviene decidirlo según el caso: un segundo para conectar y dos para el resto. Un tiempo límite convierte una espera indefinida en un error que puedes manejar. Crea un solo AsyncClient para toda la aplicación y reutilízalo: mantiene conexiones abiertas y evita repetir la negociación TLS en cada llamada.\n\nQué reintentar\n\nReintenta solo lo que puede salir bien al repetirlo: errores de conexión, tiempos agotados y respuestas 429, 502, 503 y 504. Un 400 o un 404 fallarán igual la segunda vez; reintentarlos solo agrega carga.\n\n```python\nREINTENTABLES = {429, 502, 503, 504}\n\nfor intento in range(1, intentos + 1):\n    try:\n        respuesta = await cliente.get(...)\n    except (httpx.ConnectError, httpx.TimeoutException):\n        if intento == intentos:\n            raise ProveedorNoDisponible(sku)\n    else:\n        if respuesta.status_code not in REINTENTABLES:\n            respuesta.raise_for_status()\n            return respuesta.json()[\"precio_centavos\"]\n        if intento == intentos:\n            raise ProveedorNoDisponible(sku)\n    await asyncio.sleep(random.uniform(0, 0.2 * 2 ** intento))\n```\n\nBackoff exponencial con fluctuación\n\nSi cien clientes reintentan exactamente al segundo, el servicio recibe cien solicitudes de golpe justo cuando intenta recuperarse. La espera exponencial (0,4 s, 0,8 s, 1,6 s...) reduce la presión, y elegir un valor aleatorio entre cero y ese límite reparte los reintentos en el tiempo. Si el servicio envía Retry-After, respeta ese valor con un máximo razonable.\n\nReintentar y efectos secundarios\n\nReintentar un GET es seguro. Reintentar un POST que crea un cobro puede duplicarlo si la primera solicitud llegó pero la respuesta se perdió. Para eso existen las claves de idempotencia, que veremos en el capítulo 3.\n\nEjemplo\n\nEn las pruebas usamos httpx.MockTransport para simular el proveedor: un error de conexión, luego un 503 y luego un 200. La función devuelve el precio en el tercer intento. Con un 404 hace una sola llamada y lanza el error.\n\nPráctica\n\nEscribe la función de consulta con tres intentos y sus pruebas con MockTransport: éxito tras fallos temporales, error inmediato con 404 y rendición tras tres 503.\n\nSolución y comprobación\n\nCuenta las llamadas que recibe el transporte simulado: tres en el primer caso, una en el segundo y tres en el tercero, que termina con ProveedorNoDisponible. Para que las pruebas sean rápidas, las esperas del ejemplo son de décimas de segundo; en producción, ajústalas a lo que tolera el servicio.",
+            "sources": [
+              {
+                "title": "HTTPX: tiempos límite",
+                "url": "https://www.python-httpx.org/advanced/timeouts/"
+              },
+              {
+                "title": "HTTPX: transportes y MockTransport",
+                "url": "https://www.python-httpx.org/advanced/transports/"
+              },
+              {
+                "title": "AWS Architecture Blog: backoff exponencial y fluctuación",
+                "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/"
+              },
+              {
+                "title": "MDN: cabecera Retry-After (en inglés)",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Retry-After"
+              }
+            ]
+          },
+          {
+            "title": "Caché: ETag, Cache-Control y Redis",
+            "description": "Evita trabajo repetido en el servidor y en la red sin servir datos equivocados.",
+            "outcome": "Responder 304 con ETag, guardar respuestas en Redis con invalidación por generación y tolerar la caída de la caché.",
+            "activity": "execute",
+            "preview": "Un cliente que ya tiene la lista actual recibirá 304 sin cuerpo.",
+            "body": "La caché tiene dos lugares: el cliente, que puede evitar descargar algo que ya tiene, y el servidor, que puede evitar repetir una consulta costosa. Los dos requieren decidir cuándo un dato deja de ser válido.\n\nETag y 304\n\n```python\netiqueta = '\"' + hashlib.sha256(cuerpo.encode()).hexdigest()[:32] + '\"'\ncabeceras = {\"ETag\": etiqueta, \"Cache-Control\": \"private, no-cache\"}\nif etiqueta in request.headers.get(\"If-None-Match\", \"\"):\n    return Response(status_code=304, headers=cabeceras)\n```\n\nLa ETag identifica una versión de la respuesta. El cliente la guarda y la envía en If-None-Match; si no cambió, la API responde 304 sin cuerpo. no-cache no significa «no guardar»: significa «guarda, pero pregunta antes de reutilizar». private evita que un proxy compartido almacene datos de un usuario autenticado.\n\nCaché en el servidor con Redis\n\nRedis guarda valores en memoria con caducidad. La parte difícil es invalidar: tras una escritura, la lista vieja no debe servirse. En lugar de buscar y borrar claves, usamos un número de generación que forma parte de la clave:\n\n```python\nclave = f\"inventario:{cache.generacion()}:productos:{categoria or '*'}\"\n# al escribir:\ncliente.incr(\"inventario:generacion\")\n```\n\nAl incrementar la generación, las claves viejas dejan de consultarse y caducan solas con su TTL de 60 s.\n\nCuando Redis falla\n\nLa caché es una ayuda, no una dependencia. Si Redis no responde, la API debe consultar la base. Descubrimos un detalle al probarlo: con Redis caído, cada solicitud esperaba la conexión y las pruebas pasaron de 3 a 68 segundos. La solución fue un tiempo límite corto y un interruptor simple:\n\n```python\ndef _llamar(operacion, *argumentos):\n    global _pausa_hasta\n    if cliente is None or time.monotonic() < _pausa_hasta:\n        return None\n    try:\n        return getattr(cliente, operacion)(*argumentos)\n    except redis.RedisError:\n        _pausa_hasta = time.monotonic() + 30\n        return None\n```\n\nTras un fallo, la API deja de intentar Redis durante 30 s. Hay un costo: una escritura durante la pausa no incrementa la generación, así que al volver Redis podría servirse una lista vieja hasta que caduque. El TTL limita ese error a un minuto; si tus datos no lo toleran, reduce el TTL o no uses caché para ellos.\n\nEjemplo\n\nCon Redis 7 en un contenedor, la primera lectura guarda la clave inventario:0:productos:*; tras un movimiento, la generación sube y la siguiente lectura crea otra clave.\n\nPráctica\n\nAgrega la ETag y la caché por generación a la lista de productos. Comprueba el 304, el cambio de ETag tras un movimiento y el funcionamiento con REDIS_URL apuntando a un puerto cerrado.\n\nSolución y comprobación\n\nCon la misma ETag recibes 304; después de un movimiento, 200 con otra ETag. redis-cli --scan --pattern 'inventario:*' muestra una clave por generación. Con el puerto cerrado, las respuestas siguen siendo correctas y rápidas después del primer fallo.",
+            "sources": [
+              {
+                "title": "RFC 9111: caché HTTP",
+                "url": "https://www.rfc-editor.org/rfc/rfc9111"
+              },
+              {
+                "title": "MDN: ETag",
+                "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Headers/ETag"
+              },
+              {
+                "title": "MDN: Cache-Control",
+                "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Headers/Cache-Control"
+              },
+              {
+                "title": "Redis: caducidad de claves",
+                "url": "https://redis.io/docs/latest/commands/expire/"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: asincronía y rendimiento",
+              "questions": [
+                {
+                  "prompt": "Una ruta async def llama a time.sleep(2). ¿Qué ocurre con cinco solicitudes simultáneas?",
+                  "multiple": false,
+                  "options": [
+                    "Terminan juntas en 2 s.",
+                    "Se atienden una tras otra porque el bucle de eventos queda bloqueado.",
+                    "FastAPI las mueve a hilos automáticamente.",
+                    "Fallan con 500."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Dentro de async def solo deben usarse esperas con await."
+                },
+                {
+                  "prompt": "¿Cuáles respuestas conviene reintentar? Elige todas las correctas.",
+                  "multiple": true,
+                  "options": [
+                    "404",
+                    "503",
+                    "429",
+                    "400"
+                  ],
+                  "correct": [
+                    1,
+                    2
+                  ],
+                  "explanation": "Son fallos temporales; los errores del cliente se repetirían igual."
+                },
+                {
+                  "prompt": "El cliente envía If-None-Match con la ETag actual. ¿Qué responde la API?",
+                  "multiple": false,
+                  "options": [
+                    "200 con el cuerpo",
+                    "204",
+                    "304 sin cuerpo",
+                    "412"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "304 Not Modified indica que puede reutilizar su copia."
+                },
+                {
+                  "prompt": "Redis deja de responder. ¿Qué debe hacer la API de inventario?",
+                  "multiple": false,
+                  "options": [
+                    "Responder 503 a todo.",
+                    "Consultar la base y dejar de intentar Redis por un tiempo.",
+                    "Reiniciarse.",
+                    "Servir la última respuesta guardada en memoria para siempre."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La caché acelera; no debe convertirse en un punto único de fallo."
+                }
+              ]
+            },
+            "videos": [
+              {
+                "title": "Fazt Code: cómo funciona una caché con Redis, con Node.js (español)",
+                "url": "https://www.youtube.com/watch?v=TazYA-wqOkY"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "3. Trabajo fiable",
+        "description": "Procesa en segundo plano sin perder trabajo, repite solicitudes sin duplicar y firma los avisos entre sistemas.",
+        "lessons": [
+          {
+            "title": "Trabajo en segundo plano y bandeja de salida",
+            "description": "Saca de la solicitud el trabajo lento y garantiza que no se pierda si el proceso se reinicia.",
+            "outcome": "Registrar eventos en la misma transacción que el cambio y procesarlos con un trabajador que reparte el trabajo con SKIP LOCKED.",
+            "activity": "execute",
+            "preview": "Si el servidor se reinicia a mitad de un envío, el evento seguirá pendiente en la base.",
+            "body": "Algunas tareas no deben retrasar la respuesta: avisar a otro sistema, enviar un correo, generar un reporte. FastAPI ofrece BackgroundTasks, que ejecuta una función después de responder, en el mismo proceso. Es útil para tareas pequeñas cuya pérdida no importa: si el proceso se reinicia antes de ejecutarla, la tarea desaparece.\n\nEl problema de la escritura doble\n\nSupón que, al registrar una venta, la API guarda el movimiento y después avisa al sistema de contabilidad. Si guarda y el aviso falla, contabilidad no se entera. Si avisa primero y la base falla, contabilidad registra algo que no ocurrió. No hay un orden correcto entre dos sistemas sin una transacción común.\n\nBandeja de salida\n\nLa solución es escribir el aviso como una fila más, en la misma transacción que el cambio:\n\n```python\ndb.add(Movimiento(producto_id=producto_id, **movimiento.model_dump()))\ndb.add(Evento(tipo=\"inventario.movido\", datos=json.dumps({\"producto_id\": producto_id, \"existencias\": existencias})))\ndb.commit()\n```\n\nO se guardan los dos o ninguno. Un trabajador aparte lee los eventos pendientes y los entrega:\n\n```python\nconsulta = (select(Evento)\n    .where(Evento.enviado.is_(None), Evento.intentos < MAX_INTENTOS, Evento.siguiente_intento <= ahora())\n    .order_by(Evento.id).limit(lote)\n    .with_for_update(skip_locked=True))\n```\n\nFOR UPDATE SKIP LOCKED bloquea las filas que toma y hace que otro trabajador salte esas filas en lugar de esperarlas. Así puedes ejecutar varios trabajadores sin que dos entreguen el mismo evento a la vez. Si la entrega falla, el trabajador suma un intento y programa el siguiente con backoff; tras el máximo, el evento queda para revisión manual con su último error.\n\nEntrega al menos una vez\n\nSi el trabajador entrega un evento y el proceso muere antes de marcarlo como enviado, lo volverá a entregar. La bandeja de salida garantiza que nada se pierde, no que nada se repita. Por eso cada evento lleva un id estable y el receptor debe ignorar los ids que ya procesó.\n\nEjemplo\n\nEl trabajador puede ser un bucle simple que llama a entregar_pendientes cada pocos segundos, ejecutado como un servicio de systemd o un contenedor aparte. Para volúmenes mayores existen colas dedicadas, pero la bandeja de salida sigue siendo útil para no perder el vínculo entre el cambio y el aviso.\n\nPráctica\n\nAgrega la tabla de eventos, escribe un evento al crear un producto y prueba el trabajador con un destino simulado que responde 503 la primera vez y 200 después.\n\nSolución y comprobación\n\nTras la primera ronda, el evento tiene un intento, último error y sin fecha de envío. Al adelantar siguiente_intento y repetir, se entrega y queda marcado; una tercera ronda no envía nada. En nuestras pruebas el destino simulado verificó además la firma de cada entrega, que veremos en la lección 9.",
+            "sources": [
+              {
+                "title": "FastAPI: tareas en segundo plano",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/background-tasks/"
+              },
+              {
+                "title": "PostgreSQL: SELECT con FOR UPDATE SKIP LOCKED",
+                "url": "https://www.postgresql.org/docs/17/sql-select.html#SQL-FOR-UPDATE-SHARE"
+              },
+              {
+                "title": "microservices.io: patrón de bandeja de salida transaccional",
+                "url": "https://microservices.io/patterns/data/transactional-outbox.html"
+              }
+            ]
+          },
+          {
+            "title": "Idempotencia: repetir sin duplicar",
+            "description": "Permite que un cliente repita una solicitud de creación sin crear dos veces el mismo recurso.",
+            "outcome": "Implementar claves de idempotencia que guarden la primera respuesta y rechacen la reutilización con otro contenido.",
+            "activity": "execute",
+            "preview": "Si la respuesta se pierde en la red, el cliente podrá repetir el pedido con tranquilidad.",
+            "body": "Un cliente envía POST /v1/productos, la API crea el producto y la conexión se corta antes de que llegue la respuesta. El cliente no sabe si se creó. Si repite, puede duplicarlo; si no repite, puede perderlo. GET, PUT y DELETE son idempotentes por definición: repetirlos deja el mismo estado. POST no lo es, y ahí entran las claves de idempotencia.\n\nEl contrato\n\nEl cliente genera un identificador único por operación, por ejemplo un UUID, y lo envía en la cabecera Idempotency-Key. Si repite la misma operación, envía la misma clave. El servidor guarda la clave junto con la respuesta y, ante una repetición, devuelve la respuesta guardada sin volver a ejecutar nada.\n\n```python\nhuella = hashlib.sha256(producto.model_dump_json().encode()).hexdigest()\nprevia = db.scalar(select(ClaveIdempotencia).where(\n    ClaveIdempotencia.cliente == usuario, ClaveIdempotencia.clave == clave))\nif previa:\n    if previa.huella != huella:\n        raise HTTPException(422, \"La clave de idempotencia ya se usó con otro contenido\")\n    return JSONResponse(json.loads(previa.respuesta), status_code=previa.estado,\n                        headers={\"Idempotent-Replayed\": \"true\"})\n```\n\nTres decisiones importantes:\n\n1. La clave pertenece a un cliente. Dos usuarios pueden generar la misma clave sin interferir; por eso la restricción única es sobre cliente y clave.\n2. La huella del cuerpo detecta un error del cliente: reutilizar una clave para otra operación. Responder con la respuesta vieja ocultaría el error.\n3. La clave se guarda en la misma transacción que el producto. Si la creación falla, no queda una clave huérfana.\n\nDos solicitudes a la vez\n\nSi la misma clave llega dos veces casi al mismo tiempo, las dos pueden no encontrarla y ambas intentar insertar. La restricción única hace que una falle con IntegrityError; la API responde 409 y el cliente repite, recibiendo la respuesta guardada.\n\nEjemplo\n\nCon Idempotency-Key: pedido-001, el primer POST responde 201 y crea el café. El segundo responde 201 con el mismo cuerpo y la cabecera Idempotent-Replayed: true; la lista sigue teniendo un producto y la bandeja de salida un evento. Con la misma clave y otro precio, 422.\n\nPráctica\n\nImplementa la tabla de claves y la lógica en la ruta de creación. Escribe pruebas para la repetición, el contenido distinto y una clave igual de otro usuario.\n\nSolución y comprobación\n\nLa repetición no crea filas en productos ni en eventos. La clave de otro usuario crea su propio producto, o recibe 409 si el nombre ya existe. En producción, borra las claves viejas con una tarea programada: un día suele bastar para cubrir los reintentos razonables de un cliente.",
+            "sources": [
+              {
+                "title": "RFC 9110: métodos idempotentes",
+                "url": "https://www.rfc-editor.org/rfc/rfc9110#name-idempotent-methods"
+              },
+              {
+                "title": "IETF: borrador de la cabecera Idempotency-Key",
+                "url": "https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/"
+              },
+              {
+                "title": "Stripe: solicitudes idempotentes",
+                "url": "https://docs.stripe.com/api/idempotent_requests"
+              }
+            ]
+          },
+          {
+            "title": "Webhooks firmados: HMAC, reintentos y verificación",
+            "description": "Envía y recibe avisos entre sistemas de forma que el receptor pueda comprobar su origen.",
+            "outcome": "Firmar webhooks con HMAC-SHA256 y una marca de tiempo, verificarlos en tiempo constante y rechazar repeticiones.",
+            "activity": "execute",
+            "preview": "Cualquiera puede enviar un POST a tu receptor; la firma demuestra quién lo envió.",
+            "body": "Un webhook es una solicitud HTTP que tu sistema envía a otro cuando ocurre algo. La URL del receptor suele ser pública, así que cualquiera podría enviarle un evento falso. La firma resuelve ese problema: ambos lados comparten un secreto y cada mensaje lleva un código que solo puede calcular quien conoce el secreto.\n\nFirmar\n\n```python\ndef firmar(cuerpo: bytes, marca: int, secreto: bytes) -> str:\n    mensaje = f\"{marca}.\".encode() + cuerpo\n    return \"sha256=\" + hmac.new(secreto, mensaje, hashlib.sha256).hexdigest()\n```\n\nLa firma cubre el cuerpo exacto en bytes y una marca de tiempo. El emisor envía las cabeceras Webhook-Id, Webhook-Timestamp y Webhook-Signature, siguiendo la idea de la especificación Standard Webhooks.\n\nVerificar\n\n```python\ndef verificar(cuerpo, marca, firma, secreto, ahora_s=None) -> bool:\n    try:\n        marca_int = int(marca)\n    except ValueError:\n        return False\n    if abs((ahora_s or int(time.time())) - marca_int) > 300:\n        return False\n    return hmac.compare_digest(firmar(cuerpo, marca_int, secreto), firma)\n```\n\nTres detalles marcan la diferencia:\n\n1. Verifica el cuerpo crudo, antes de convertirlo en JSON. Si lo conviertes y lo vuelves a serializar, el orden de las claves o los espacios pueden cambiar y la firma no coincidirá.\n2. Usa hmac.compare_digest. Una comparación con == termina en el primer carácter distinto, y el tiempo de respuesta podría revelar cuántos caracteres acertó un atacante.\n3. Rechaza marcas de más de cinco minutos. Sin marca de tiempo, alguien que capture un mensaje válido podría reenviarlo días después.\n\nRecibir bien\n\nEl receptor debe responder 2xx rápido y procesar después, porque el emisor considera fallo cualquier demora larga y reintentará. Como la entrega es al menos una vez, el receptor guarda el Webhook-Id procesado y descarta repeticiones. Del lado emisor, los reintentos usan el backoff de la bandeja de salida.\n\nEjemplo\n\nEn nuestras pruebas, la firma de b'{\"id\": 1}' se acepta; el mismo encabezado con b'{\"id\": 2}' se rechaza; un mensaje firmado hace diez minutos se rechaza aunque la firma sea correcta, y una marca que no es número también.\n\nPráctica\n\nEscribe un receptor con FastAPI que lea el cuerpo con await request.body(), verifique la firma, responda 401 si falla y guarde el Webhook-Id para ignorar repeticiones.\n\nSolución y comprobación\n\nEnvía el mismo evento dos veces: la segunda debe responder 200 sin procesarlo de nuevo. Cambia un carácter del cuerpo y recibirás 401. Rota el secreto de forma gradual: durante un tiempo acepta firmas con el secreto viejo y con el nuevo.",
+            "sources": [
+              {
+                "title": "Python: módulo hmac y compare_digest",
+                "url": "https://docs.python.org/3/library/hmac.html"
+              },
+              {
+                "title": "Standard Webhooks: especificación",
+                "url": "https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md"
+              },
+              {
+                "title": "OWASP: hoja de referencia de seguridad para servicios REST",
+                "url": "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: trabajo fiable",
+              "questions": [
+                {
+                  "prompt": "¿Qué garantiza escribir el evento en la misma transacción que el movimiento?",
+                  "multiple": false,
+                  "options": [
+                    "Que el evento se entregue una sola vez.",
+                    "Que se guarden ambos o ninguno.",
+                    "Que el receptor responda rápido.",
+                    "Que no haga falta un trabajador."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La bandeja de salida evita la escritura doble entre dos sistemas."
+                },
+                {
+                  "prompt": "¿Para qué sirve SKIP LOCKED en el trabajador?",
+                  "multiple": false,
+                  "options": [
+                    "Para borrar eventos viejos.",
+                    "Para que varios trabajadores tomen eventos distintos sin esperarse.",
+                    "Para saltar eventos con error.",
+                    "Para desactivar las transacciones."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Cada trabajador salta las filas que otro ya bloqueó."
+                },
+                {
+                  "prompt": "Llega una solicitud con una Idempotency-Key ya usada y un cuerpo distinto. ¿Qué responde la API?",
+                  "multiple": false,
+                  "options": [
+                    "La respuesta guardada.",
+                    "Crea otro recurso.",
+                    "422, porque la clave se reutilizó para otra operación.",
+                    "204"
+                  ],
+                  "correct": [
+                    2
+                  ],
+                  "explanation": "Devolver la respuesta vieja ocultaría un error del cliente."
+                },
+                {
+                  "prompt": "¿Por qué se verifica la firma sobre el cuerpo crudo y no sobre el JSON ya convertido?",
+                  "multiple": false,
+                  "options": [
+                    "Porque es más rápido.",
+                    "Porque al volver a serializar pueden cambiar espacios u orden y la firma no coincidiría.",
+                    "Porque HMAC no acepta texto.",
+                    "Porque el JSON está cifrado."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "La firma cubre bytes exactos."
+                }
+              ]
+            },
+            "videos": [
+              {
+                "title": "Oscar Fernandez: qué es un webhook y para qué sirve (español)",
+                "url": "https://www.youtube.com/watch?v=JHGYDe51Md4"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "4. Operar en producción",
+        "description": "Protege la API con tokens y alcances, observa su comportamiento y despliégala con un plan de reversión.",
+        "lessons": [
+          {
+            "title": "OAuth2 con tokens JWT y permisos por alcance",
+            "description": "Reemplaza la clave de API única por usuarios, tokens con vencimiento y permisos limitados.",
+            "outcome": "Emitir y validar tokens JWT con vencimiento y exigir alcances distintos para leer y escribir.",
+            "activity": "execute",
+            "preview": "La caja podrá consultar el inventario, pero solo bodega podrá modificarlo.",
+            "body": "En el curso anterior protegimos la escritura con una sola clave de API. Funciona para un sistema, pero no distingue personas, no vence y, si se filtra, hay que cambiarla en todos los clientes. Ahora cada usuario obtiene un token de corta duración con permisos concretos, llamados alcances o scopes.\n\nEmitir el token\n\n```python\nhash_claves = PasswordHash.recommended()\n\ndef emitir_token(usuario, permisos):\n    vence = datetime.now(timezone.utc) + timedelta(minutes=15)\n    return jwt.encode({\"sub\": usuario, \"scope\": \" \".join(permisos), \"exp\": vence},\n                      SECRETO, algorithm=\"HS256\")\n```\n\nLas contraseñas se guardan con un hash lento y con sal; PasswordHash.recommended() de pwdlib usa Argon2. La ruta /v1/token recibe usuario y clave con OAuth2PasswordRequestForm, que requiere el paquete python-multipart, y concede solo los alcances que el usuario tiene. Para no revelar qué usuarios existen, verifica un hash aunque el usuario no exista, así la respuesta tarda lo mismo.\n\nExigir alcances\n\n```python\ndef usuario_actual(permisos: SecurityScopes, token: Annotated[str, Depends(esquema)]):\n    try:\n        datos = jwt.decode(token, SECRETO, algorithms=[\"HS256\"])\n    except jwt.InvalidTokenError:\n        raise HTTPException(401, \"Token inválido o vencido\")\n    if not set(permisos.scopes) <= set(datos.get(\"scope\", \"\").split()):\n        raise HTTPException(403, \"Permiso insuficiente\")\n    return datos[\"sub\"]\n\nLector = Annotated[str, Security(usuario_actual, scopes=[\"inventario:leer\"])]\nEscritor = Annotated[str, Security(usuario_actual, scopes=[\"inventario:escribir\"])]\n```\n\n401 significa «no sé quién eres»: falta el token, está vencido o su firma no es válida. 403 significa «sé quién eres y no puedes hacer esto». Las dos respuestas incluyen la cabecera WWW-Authenticate con los alcances requeridos.\n\nErrores frecuentes con JWT\n\nIndica siempre la lista algorithms al decodificar: aceptar el algoritmo que declara el propio token permite ataques conocidos. No guardes datos sensibles en el token: está firmado, no cifrado, y cualquiera puede leerlo. El secreto viene de una variable de entorno y debe ser largo y aleatorio. Un token vigente no se puede revocar sin una lista de bloqueo, por eso conviene una duración corta.\n\nEjemplo\n\nLa caja obtiene un token con inventario:leer: GET /v1/productos responde 200 y POST responde 403. Bodega obtiene ambos alcances, pero puede pedir solo inventario:leer para un reporte; con ese token tampoco puede escribir.\n\nPráctica\n\nAgrega la ruta /v1/token, los dos usuarios de ejemplo y las dependencias Lector y Escritor. Escribe pruebas para 401 sin token, 403 con alcance insuficiente y 201 con el alcance correcto.\n\nSolución y comprobación\n\nLas pruebas cubren los tres casos y un usuario inexistente que recibe 401. En /docs, el botón Authorize muestra los dos alcances con sus descripciones. Los usuarios de ejemplo viven en el código para el ejercicio; en producción salen de la base de datos.",
+            "sources": [
+              {
+                "title": "FastAPI: OAuth2 con contraseña y JWT",
+                "url": "https://fastapi.tiangolo.com/es/tutorial/security/oauth2-jwt/"
+              },
+              {
+                "title": "FastAPI: alcances de OAuth2",
+                "url": "https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/"
+              },
+              {
+                "title": "RFC 8725: buenas prácticas para JWT",
+                "url": "https://www.rfc-editor.org/rfc/rfc8725"
+              },
+              {
+                "title": "OWASP: almacenamiento de contraseñas",
+                "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+              }
+            ],
+            "videos": [
+              {
+                "title": "PabloEsDev: autorización y autenticación con OAuth2 y JWT en FastAPI (español)",
+                "url": "https://www.youtube.com/watch?v=R8UKWQe5D8w"
+              }
+            ]
+          },
+          {
+            "title": "Observabilidad: registros, métricas y salud",
+            "description": "Entiende qué hace tu API en producción sin reproducir cada problema en tu equipo.",
+            "outcome": "Emitir registros JSON con identificador de solicitud, exponer métricas de Prometheus y separar las comprobaciones de vida y de disponibilidad.",
+            "activity": "execute",
+            "preview": "Con un identificador de solicitud podrás seguir un error desde el cliente hasta la línea del registro.",
+            "body": "Cuando algo falla en producción, solo tienes lo que la aplicación dejó escrito. Observabilidad es preparar esos rastros antes de necesitarlos: registros que se puedan buscar, métricas que muestren tendencias y comprobaciones que digan si el servicio puede atender.\n\nRegistros estructurados\n\n```python\nclass FormatoJSON(logging.Formatter):\n    def format(self, registro):\n        datos = {\"nivel\": registro.levelname, \"mensaje\": registro.getMessage(),\n                 \"id_solicitud\": id_solicitud.get()}\n        datos.update(getattr(registro, \"extra_datos\", {}))\n        return json.dumps(datos, ensure_ascii=False)\n```\n\nUn registro en JSON se filtra por campo, por ejemplo todas las solicitudes con estado 500 de la última hora. No registres contraseñas, tokens ni datos personales innecesarios.\n\nIdentificador de solicitud\n\nUn middleware toma la cabecera X-Request-ID si es válida o genera una, la guarda en una ContextVar para que todos los registros de esa solicitud la incluyan y la devuelve en la respuesta. Si un cliente reporta un error con ese identificador, lo encuentras en segundos.\n\nMétricas\n\n```python\nSOLICITUDES = Counter(\"http_solicitudes_total\", \"Solicitudes atendidas\", [\"metodo\", \"ruta\", \"estado\"])\nDURACION = Histogram(\"http_duracion_segundos\", \"Duración de las solicitudes\", [\"metodo\", \"ruta\"])\n```\n\nLa etiqueta ruta usa la plantilla /v1/productos/{producto_id}, nunca la URL concreta: con un valor por cada id, las series crecerían sin límite. Prometheus lee /metricas periódicamente y calcula tasas de error y percentiles de duración. Con varios procesos de Uvicorn, cada uno tiene sus propios contadores; prometheus_client ofrece un modo multiproceso para sumarlos.\n\nVida y disponibilidad\n\n/salud/vida responde si el proceso funciona; si falla, el orquestador lo reinicia. /salud/lista comprueba además la base de datos; si falla, deja de enviarle tráfico pero no lo reinicia, porque reiniciar no arregla una base caída. Mezclar las dos provoca reinicios en cadena cuando falla una dependencia.\n\nEjemplo\n\nCon X-Request-ID: abc123, la respuesta devuelve la misma cabecera y el registro muestra {\"mensaje\": \"solicitud\", \"id_solicitud\": \"abc123\", \"ruta\": \"/v1/productos\", \"estado\": 200, \"ms\": 4.1}. /metricas incluye la línea http_solicitudes_total{estado=\"200\",metodo=\"GET\",ruta=\"/v1/productos\"}.\n\nPráctica\n\nAgrega el middleware, el formato JSON, las dos métricas y las dos rutas de salud. Detén la base de datos y observa cuál responde 503.\n\nSolución y comprobación\n\nCon la base detenida, /salud/vida sigue respondiendo 200 y /salud/lista responde 503. Los registros de esas solicitudes comparten formato y cada una tiene su propio identificador.",
+            "sources": [
+              {
+                "title": "Python: logging",
+                "url": "https://docs.python.org/3/library/logging.html"
+              },
+              {
+                "title": "Prometheus: cliente de Python",
+                "url": "https://prometheus.github.io/client_python/"
+              },
+              {
+                "title": "Prometheus: buenas prácticas de nombres y etiquetas",
+                "url": "https://prometheus.io/docs/practices/naming/"
+              },
+              {
+                "title": "Kubernetes: comprobaciones de vida y disponibilidad",
+                "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+              }
+            ],
+            "videos": [
+              {
+                "title": "MHCode: monitorea tu API con Prometheus y Grafana, con Go (español)",
+                "url": "https://www.youtube.com/watch?v=Dzl8sMqArhc"
+              }
+            ]
+          },
+          {
+            "title": "Proyecto: desplegar con migraciones y reversión",
+            "description": "Integra lo aprendido y despliega la API con Uvicorn, PostgreSQL y un plan para volver atrás.",
+            "outcome": "Desplegar la API con varios procesos, aplicar migraciones de forma segura y definir cuándo y cómo revertir.",
+            "activity": "execute",
+            "preview": "Un despliegue seguro empieza antes de ejecutar el comando: con la reversión ya pensada.",
+            "body": "El último paso une todo: la API con PostgreSQL y migraciones, protegida con tokens, con caché, bandeja de salida y métricas, ejecutándose con varios procesos detrás de un proxy con HTTPS.\n\nEjecutar con varios procesos\n\n```\nuvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 2 --proxy-headers\n```\n\nCada proceso tiene su propio bucle de eventos y su propio grupo de conexiones. Con dos procesos y el grupo predeterminado de SQLAlchemy (5 conexiones más 10 adicionales), la API puede abrir hasta 30 conexiones; comprueba que PostgreSQL las admita. --proxy-headers confía en X-Forwarded-For y X-Forwarded-Proto del proxy; limita esa confianza a la dirección del proxy con --forwarded-allow-ips. HTTPS termina en el proxy, por ejemplo Caddy o Nginx.\n\nOrden del despliegue\n\n1. Respaldar la base y comprobar que el respaldo se puede restaurar.\n2. Aplicar las migraciones con alembic upgrade head. Deben ser compatibles con la versión que todavía está en marcha: expandir primero.\n3. Desplegar el código nuevo y reiniciar los procesos uno a uno.\n4. Verificar: /salud/lista, una solicitud real y la tasa de errores en las métricas.\n5. Contraer en un despliegue posterior, cuando ya nadie use lo viejo.\n\nRevertir\n\nDecide antes de desplegar qué señal te hará volver atrás: por ejemplo, más de 1 % de respuestas 5xx durante cinco minutos. Revertir el código es rápido si las migraciones fueron compatibles: la versión anterior sigue funcionando con el esquema expandido. alembic downgrade existe, pero en producción úsalo con cuidado, porque puede borrar columnas con datos nuevos. Muchas veces es más seguro corregir con una migración nueva.\n\nComprobación del curso\n\nEjecutamos la API con dos procesos de Uvicorn sobre PostgreSQL 17 y Redis 7: /salud/lista respondió {\"estado\":\"ok\"}, GET /v1/productos sin token respondió 401 y con token 200 con ETag e identificador de solicitud, y cada proceso escribió registros JSON. La batería de pruebas pasó en SQLite y en PostgreSQL, también con Redis apagado.\n\nPráctica\n\nEntrega el proyecto final descrito abajo: el repositorio de la API con todo lo del curso y su guía de despliegue.\n\nSolución y comprobación\n\nEl proyecto está listo cuando un tercero puede seguir tu README para levantar PostgreSQL, aplicar migraciones, iniciar la API y el trabajador, ejecutar las pruebas y saber qué hacer si el despliegue falla. Revisa que ningún secreto real esté en el repositorio.",
+            "sources": [
+              {
+                "title": "Uvicorn: despliegue",
+                "url": "https://uvicorn.dev/deployment/"
+              },
+              {
+                "title": "FastAPI: conceptos de despliegue",
+                "url": "https://fastapi.tiangolo.com/es/deployment/concepts/"
+              },
+              {
+                "title": "SQLAlchemy: grupos de conexiones",
+                "url": "https://docs.sqlalchemy.org/en/20/core/pooling.html"
+              },
+              {
+                "title": "PostgreSQL: respaldo y restauración",
+                "url": "https://www.postgresql.org/docs/17/backup.html"
+              }
+            ],
+            "quiz": {
+              "title": "Evaluación: operar en producción",
+              "questions": [
+                {
+                  "prompt": "Un usuario con token válido pero sin inventario:escribir intenta crear un producto. ¿Qué responde la API?",
+                  "multiple": false,
+                  "options": [
+                    "401",
+                    "403",
+                    "404",
+                    "422"
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Se sabe quién es, pero no tiene el permiso."
+                },
+                {
+                  "prompt": "¿Por qué se indica la lista algorithms al decodificar un JWT?",
+                  "multiple": false,
+                  "options": [
+                    "Para acelerar la validación.",
+                    "Para no aceptar el algoritmo que declara el propio token, lo que permite ataques.",
+                    "Porque el token está cifrado.",
+                    "Para que el token no venza."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "El servidor decide qué algoritmos son válidos."
+                },
+                {
+                  "prompt": "¿Por qué la métrica usa /v1/productos/{producto_id} como etiqueta y no la URL concreta?",
+                  "multiple": false,
+                  "options": [
+                    "Por estética.",
+                    "Para que el número de series no crezca con cada id.",
+                    "Porque Prometheus no acepta números.",
+                    "Para ocultar datos."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Las etiquetas deben tener un conjunto limitado de valores."
+                },
+                {
+                  "prompt": "La base de datos se cae. ¿Qué comprobación debe fallar?",
+                  "multiple": false,
+                  "options": [
+                    "Solo la de vida.",
+                    "Solo la de disponibilidad.",
+                    "Ambas.",
+                    "Ninguna."
+                  ],
+                  "correct": [
+                    1
+                  ],
+                  "explanation": "Reiniciar el proceso no arregla la base; basta con dejar de enviarle tráfico."
+                }
+              ]
+            },
+            "practice": {
+              "title": "Proyecto final: API de inventario lista para producción",
+              "instructions": "Entrega el repositorio de la API de inventario con PostgreSQL y SQLAlchemy 2.0, migraciones de Alembic (incluida una de expandir y rellenar), movimientos sin actualizaciones perdidas, control optimista con If-Match, claves de idempotencia, bandeja de salida con un trabajador y webhooks firmados, tokens JWT con alcances, caché con ETag y Redis que tolere su caída, registros JSON, métricas y comprobaciones de salud. Incluye pruebas con pytest que pasen en SQLite y en PostgreSQL, y un README con el orden de despliegue y el criterio de reversión. Usa datos ficticios y ningún secreto real. Este proyecto es una autoevaluación personal, sin envío en la plataforma ni revisión humana; el certificado requiere completar las doce lecciones y aprobar las cuatro evaluaciones.",
+              "criteria": [
+                {
+                  "label": "Datos consistentes",
+                  "description": "Restricciones en la base, migraciones revisadas y escrituras simultáneas sin actualizaciones perdidas, comprobadas con una prueba concurrente en PostgreSQL."
+                },
+                {
+                  "label": "Fiabilidad",
+                  "description": "Reintentos solo de fallos temporales, idempotencia en la creación y eventos que no se pierden aunque el proceso se reinicie."
+                },
+                {
+                  "label": "Seguridad",
+                  "description": "Tokens con vencimiento y alcances, contraseñas con Argon2, webhooks firmados y verificados en tiempo constante, y secretos fuera del repositorio."
+                },
+                {
+                  "label": "Operación",
+                  "description": "Registros JSON con identificador de solicitud, métricas con etiquetas acotadas, vida y disponibilidad separadas, y un plan de despliegue y reversión verificable."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
   }
 ]

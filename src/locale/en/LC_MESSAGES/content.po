@@ -65,6 +65,9 @@ msgstr "1. API fundamentals with FastAPI"
 msgid "1. Pensar como defensor"
 msgstr "1. Think like a defender"
 
+msgid "1. Persistencia para producción"
+msgstr "1. Persistence for production"
+
 msgid "1. Por qué y cómo tener un nodo"
 msgstr "1. Why and how to run a node"
 
@@ -91,6 +94,9 @@ msgstr "120 sats, created 10:00, valid for 600 seconds; attempt at 10:12."
 
 msgid "120 sats; pendiente; pago de práctica; dos consultas; una compra esperada."
 msgstr "120 sats; pending; practice payment; two lookups; one purchase expected."
+
+msgid "2. Asincronía y rendimiento"
+msgstr "2. Async and performance"
 
 msgid "2. Cobrar en el día a día"
 msgstr "2. Charging day to day"
@@ -185,6 +191,9 @@ msgstr "3. Relate tables"
 msgid "3. Resumir para responder preguntas"
 msgstr "3. Summarize to answer questions"
 
+msgid "3. Trabajo fiable"
+msgstr "3. Reliable work"
+
 msgid "3. Transacciones, comisiones y minería"
 msgstr "3. Transactions, fees and mining"
 
@@ -214,6 +223,9 @@ msgstr "4. A small office network"
 
 msgid "4. Mantener datos y entregar un informe"
 msgstr "4. Maintain data and deliver a report"
+
+msgid "4. Operar en producción"
+msgstr "4. Running in production"
 
 msgid "4. Preparar para producción"
 msgstr "4. Prepare for production"
@@ -391,6 +403,12 @@ msgstr "Adjust voice and ambient levels and check the result by listening and wi
 
 msgid "Al terminar habrás automatizado tareas con Python, versionado tu código y publicado una API en un servidor."
 msgstr "By the end you'll have automated tasks with Python, versioned your code and published an API on a server."
+
+msgid "Al terminar habrás producido una serie fotográfica, un video editado y el prototipo de la interfaz que los presenta."
+msgstr "By the end you will have produced a photo series, an edited video and a prototype of the interface that presents them."
+
+msgid "Al terminar habrás publicado un sitio accesible, versionado su código con Git y revisado sus riesgos con OWASP Top 10."
+msgstr "By the end you will have published an accessible site, versioned its code with Git and reviewed its risks with the OWASP Top 10."
 
 msgid "Al terminar podrás diagnosticar conexiones, administrar un servidor y desplegar servicios en contenedores, incluido un nodo Bitcoin."
 msgstr "By the end you'll be able to diagnose connections, manage a server and deploy services in containers, including a Bitcoin node."
@@ -611,6 +629,9 @@ msgstr "Set suitable permissions on files and directories and explain the effect
 msgid "Asignar una severidad justificada a un incidente y determinar a quién escalarlo."
 msgstr "Assign a justified severity to an incident and decide who to escalate it to."
 
+msgid "async y await en FastAPI: cuándo ayudan"
+msgstr "async and await in FastAPI: when they help"
+
 msgid "Atender devoluciones de forma justa, segura y documentada."
 msgstr "Handle returns in a fair, safe and documented way."
 
@@ -632,6 +653,12 @@ msgstr "Isolate each project's dependencies with venv, activate it on your syste
 msgid "Añade información escrita con contraste, tiempo suficiente y sincronización revisada."
 msgstr "Add written information with contrast, enough time and reviewed timing."
 
+msgid "Añade objetos y escenas 3D a tus piezas."
+msgstr "Add 3D objects and scenes to your work."
+
+msgid "Añade un backend cuando el sitio necesite datos propios."
+msgstr "Add a backend when the site needs its own data."
+
 msgid "Añade un salto al contenido, foco visible y una sección desplegable nativa."
 msgstr "Add a skip link, a visible focus and a native disclosure section."
 
@@ -640,6 +667,9 @@ msgstr "Add an image of your own and tell local resources, anchors and external 
 
 msgid "Añadirás una interacción pequeña antes de construir el filtro completo."
 msgstr "You'll add a small interaction before building the full filter."
+
+msgid "Backend avanzado con Python: PostgreSQL, fiabilidad y operación en producción"
+msgstr "Advanced Python backend: PostgreSQL, reliability and running in production"
 
 msgid "Backend con Python"
 msgstr "Backend with Python"
@@ -688,6 +718,12 @@ msgstr "WEBVTT header and a period in the milliseconds."
 
 msgid "Caché de capas y .dockerignore"
 msgstr "Layer cache and .dockerignore"
+
+msgid "Caché: ETag, Cache-Control y Redis"
+msgstr "Caching: ETag, Cache-Control and Redis"
+
+msgid "Cada cambio de la base quedará en un archivo revisable, como el código."
+msgstr "Every database change will live in a reviewable file, like code."
 
 msgid "Cada cambio en la API se comprobará en menos de un segundo."
 msgstr "Every change to the API will be checked in under a second."
@@ -974,6 +1010,9 @@ msgstr "Photo composition: the rule of thirds"
 msgid "Composición, iluminación, captura y edición de fotografías."
 msgstr "Composition, lighting, shooting and editing of photographs."
 
+msgid "Composición, luz y edición con la cámara que ya tienes."
+msgstr "Composition, light and editing with the camera you already have."
+
 msgid "Comprende canales, rutas, liquidez y pagos Lightning."
 msgstr "Understand Lightning channels, routes, liquidity and payments."
 
@@ -1133,6 +1172,9 @@ msgstr "With two steps, a leaked password is no longer enough to get in."
 msgid "Con permiso y en tu propia red, descubre los equipos conectados, revisa sus puertos abiertos y decide qué cerrar."
 msgstr "With permission and on your own network, discover the connected devices, review their open ports and decide what to close."
 
+msgid "Con un identificador de solicitud podrás seguir un error desde el cliente hasta la línea del registro."
+msgstr "With a request ID you can follow an error from the client to the log line."
+
 msgid "Conceptos y uso práctico de herramientas de inteligencia artificial."
 msgstr "Concepts and practical use of artificial intelligence tools."
 
@@ -1231,6 +1273,9 @@ msgstr "Configure the API per environment and define which websites can call it 
 
 msgid "Configurar la cámara, su distancia focal y la composición para una imagen de producto."
 msgstr "Set up the camera, its focal length and the composition for a product image."
+
+msgid "Configurar tiempos límite y reintentar solo fallos temporales con espera exponencial y fluctuación."
+msgstr "Set timeouts and retry only temporary failures, with exponential backoff and jitter."
 
 msgid "Configurar un nodo con acceso restringido, actualizado y con respaldos de sus wallets."
 msgstr "Set up a node with restricted access, kept up to date and with backups of its wallets."
@@ -1766,6 +1811,9 @@ msgstr "Cross departments and categories with pivot_table and join the targets w
 msgid "Cuadrarás la caja Lightning de un día de ventas."
 msgstr "You'll balance the Lightning cash for a day of sales."
 
+msgid "Cualquiera puede enviar un POST a tu receptor; la firma demuestra quién lo envió."
+msgstr "Anyone can send a POST to your receiver; the signature proves who sent it."
+
 msgid "Cubre varios casos y los errores esperados"
 msgstr "Cover several cases and the expected errors"
 
@@ -1826,6 +1874,9 @@ msgstr "From shots to a series"
 msgid "De pendiente a confirmada"
 msgstr "From pending to confirmed"
 
+msgid "De SQLite a PostgreSQL con SQLAlchemy 2.0"
+msgstr "From SQLite to PostgreSQL with SQLAlchemy 2.0"
+
 msgid "Decide cuándo romper la regla"
 msgstr "Decide when to break the rule"
 
@@ -1840,6 +1891,9 @@ msgstr "Decide on an upgrade with the data"
 
 msgid "Decidir con criterios si un negocio debe aceptar pagos Lightning y en qué condiciones."
 msgstr "Decide with criteria whether a business should accept Lightning payments and under what conditions."
+
+msgid "Decidir entre def y async def para cada ruta y lanzar varias esperas de red a la vez con asyncio.gather."
+msgstr "Choose between def and async def for each route and run several network waits at once with asyncio.gather."
 
 msgid "Decidir qué información puede usarse con un asistente y cómo anonimizar un texto antes de pegarlo."
 msgstr "Decide which information can be used with an assistant and how to anonymize a text before pasting it."
@@ -1907,6 +1961,9 @@ msgstr "Define the purchase"
 msgid "Definir la estructura y las etiquetas de una aplicación a partir de cómo piensan sus usuarios."
 msgstr "Define an application's structure and labels based on how its users think."
 
+msgid "Definir modelos tipados con SQLAlchemy 2.0 y usar una sesión por solicitud que funcione con SQLite y PostgreSQL."
+msgstr "Define typed SQLAlchemy 2.0 models and use one session per request that works with SQLite and PostgreSQL."
+
 msgid "Definir y configurar las reglas de colaboración de un repositorio de equipo."
 msgstr "Define and configure a team repository's collaboration rules."
 
@@ -1930,6 +1987,9 @@ msgstr "You'll stop testing at random and find the cause in a few steps."
 
 msgid "Dejarás documentado tu nodo como lo haría un equipo de operaciones."
 msgstr "You'll document your node the way an operations team would."
+
+msgid "Del guion a un video publicado, con un editor gratuito."
+msgstr "From script to published video, with a free editor."
 
 msgid "Del primer script a una API publicada en un servidor Linux."
 msgstr "From the first script to an API published on a Linux server."
@@ -2026,6 +2086,9 @@ msgstr "Undo a shared commit without rewriting history."
 
 msgid "Deshaz cambios en Git sin perder trabajo"
 msgstr "Undo changes in Git without losing work"
+
+msgid "Desplegar la API con varios procesos, aplicar migraciones de forma segura y definir cuándo y cómo revertir."
+msgstr "Deploy the API with several processes, apply migrations safely and decide when and how to roll back."
 
 msgid "Despliega servicios repetibles con contenedores."
 msgstr "Deploy repeatable services with containers."
@@ -2140,6 +2203,9 @@ msgstr "Design product lighting with key, fill and rim lights, and use an HDRI e
 
 msgid "Diseñar y construir una API REST con FastAPI que valide sus datos, responda con códigos HTTP correctos, proteja sus operaciones de escritura y esté cubierta por pruebas automatizadas."
 msgstr "Design and build a REST API with FastAPI that validates its data, responds with correct HTTP codes, protects its write operations and is covered by automated tests."
+
+msgid "Diseñar y operar un backend en Python que mantenga sus datos consistentes bajo concurrencia, tolere fallos de otros servicios, no duplique operaciones al repetirse y pueda desplegarse, observarse y revertirse con seguridad."
+msgstr "Design and run a Python backend that keeps its data consistent under concurrency, tolerates failures in other services, doesn't duplicate operations when they are repeated, and can be deployed, observed and rolled back safely."
 
 msgid "Diseñarás el flujo de pago de la tienda en línea de la cafetería."
 msgstr "You'll design the payment flow for the café's online store."
@@ -2411,6 +2477,9 @@ msgstr "Choose the right payment request type for the counter, the online store 
 msgid "Elegir entradas, salidas y cortes útiles"
 msgstr "Choose useful ins, outs and cuts"
 
+msgid "Elegir entre actualización atómica, bloqueo de filas y control optimista según el tipo de conflicto."
+msgstr "Choose between an atomic update, row locking and optimistic concurrency control depending on the kind of conflict."
+
 msgid "Elegir entre volúmenes y montajes de carpetas y respaldar datos persistentes."
 msgstr "Choose between volumes and bind mounts and back up persistent data."
 
@@ -2476,6 +2545,12 @@ msgstr "Remove duplicates and fix text"
 
 msgid "Eliminar filas duplicadas y normalizar textos para que los grupos coincidan."
 msgstr "Remove duplicate rows and normalize text so the groups match."
+
+msgid "Emitir registros JSON con identificador de solicitud, exponer métricas de Prometheus y separar las comprobaciones de vida y de disponibilidad."
+msgstr "Emit JSON logs with a request ID, expose Prometheus metrics and separate liveness and readiness checks."
+
+msgid "Emitir y validar tokens JWT con vencimiento y exigir alcances distintos para leer y escribir."
+msgstr "Issue and validate expiring JWT tokens and require different scopes to read and to write."
 
 msgid "Empaqueta la API para desplegarla igual en cualquier servidor."
 msgstr "Package the API to deploy it the same way on any server."
@@ -2579,6 +2654,9 @@ msgstr "Understand Bitcoin, protect your keys and get paid with Lightning in a b
 msgid "Entiende confidencialidad, integridad y disponibilidad, y cómo se estima un riesgo."
 msgstr "Understand confidentiality, integrity and availability, and how a risk is estimated."
 
+msgid "Entiende cómo FastAPI ejecuta rutas síncronas y asíncronas, y evita bloquear el bucle de eventos."
+msgstr "Understand how FastAPI runs sync and async routes, and avoid blocking the event loop."
+
 msgid "Entiende cómo una aplicación recuerda quién eres y qué atributos protegen la cookie."
 msgstr "Understand how an application remembers who you are and which attributes protect the cookie."
 
@@ -2602,6 +2680,9 @@ msgstr "Understand what a second factor adds"
 
 msgid "Entiende qué es un hash"
 msgstr "Understand what a hash is"
+
+msgid "Entiende qué hace tu API en producción sin reproducir cada problema en tu equipo."
+msgstr "Understand what your API does in production without reproducing every problem on your machine."
 
 msgid "Entiende qué protege HTTPS, los riesgos del Wi-Fi público y la configuración del hogar."
 msgstr "Understand what HTTPS protects, the risks of public Wi-Fi and home settings."
@@ -2704,6 +2785,9 @@ msgstr "Send JSON with authentication"
 
 msgid "Envía un pago entre wallets y observa su paso por la mempool hasta la confirmación."
 msgstr "Send a payment between wallets and watch it pass through the mempool until confirmation."
+
+msgid "Envía y recibe avisos entre sistemas de forma que el receptor pueda comprobar su origen."
+msgstr "Send and receive notifications between systems so the receiver can check where they came from."
 
 msgid "Equipos útiles = direcciones − 2."
 msgstr "Usable hosts = addresses − 2."
@@ -2894,6 +2978,9 @@ msgstr "Heuristic evaluation"
 msgid "Evaluación: aplicaciones de trabajo"
 msgstr "Quiz: work applications"
 
+msgid "Evaluación: asincronía y rendimiento"
+msgstr "Assessment: async and performance"
+
 msgid "Evaluación: autenticación, configuración y dependencias"
 msgstr "Quiz: authentication, configuration and dependencies"
 
@@ -2987,8 +3074,14 @@ msgstr "Quiz: names, ports and translation"
 msgid "Evaluación: operar el nodo"
 msgstr "Quiz: run the node"
 
+msgid "Evaluación: operar en producción"
+msgstr "Assessment: running in production"
+
 msgid "Evaluación: pensar como defensor"
 msgstr "Quiz: think like a defender"
+
+msgid "Evaluación: persistencia para producción"
+msgstr "Assessment: persistence for production"
 
 msgid "Evaluación: por qué y cómo tener un nodo"
 msgstr "Quiz: why and how to run a node"
@@ -3026,6 +3119,9 @@ msgstr "Quiz: relate tables"
 msgid "Evaluación: resumir para responder preguntas"
 msgstr "Quiz: summarize to answer questions"
 
+msgid "Evaluación: trabajo fiable"
+msgstr "Assessment: reliable work"
+
 msgid "Evaluación: transacciones, comisiones y minería"
 msgstr "Quiz: transactions, fees and mining"
 
@@ -3061,6 +3157,12 @@ msgstr "Evaluate results with a rubric and save reusable prompts."
 
 msgid "Eventos, incidentes y el modelo de NIST 800-61r3"
 msgstr "Events, incidents and the NIST 800-61r3 model"
+
+msgid "Evita que dos solicitudes simultáneas dejen el inventario en un estado imposible."
+msgstr "Stop two simultaneous requests from leaving the inventory in an impossible state."
+
+msgid "Evita trabajo repetido en el servidor y en la red sin servir datos equivocados."
+msgstr "Avoid repeated work on the server and the network without serving wrong data."
 
 msgid "Evitarás el error más costoso de un repositorio público."
 msgstr "You'll avoid the most costly mistake in a public repository."
@@ -3266,6 +3368,9 @@ msgstr "Filter with loc and query"
 msgid "Filtrar las tres tarjetas, indicar resultados y recuperar el listado completo."
 msgstr "Filter the three cards, show the results and get back the full list."
 
+msgid "Firmar webhooks con HMAC-SHA256 y una marca de tiempo, verificarlos en tiempo constante y rechazar repeticiones."
+msgstr "Sign webhooks with HMAC-SHA256 and a timestamp, verify them in constant time and reject replays."
+
 msgid "Flujos y wireframes"
 msgstr "Flows and wireframes"
 
@@ -3277,6 +3382,9 @@ msgstr "Photography"
 
 msgid "Fotografía con celular: de la captura a una serie visual"
 msgstr "Phone photography: from shooting to a visual series"
+
+msgid "Fotografía, video e interfaz para presentar un proyecto propio."
+msgstr "Photography, video and an interface to present your own project."
 
 msgid "Fotografías, rutas y contenido publicable"
 msgstr "Photos, paths and publishable content"
@@ -3328,6 +3436,9 @@ msgstr "Generate an ed25519 key pair protected with a passphrase."
 
 msgid "Generar una llave SSH y usarla para conectarte a un servidor."
 msgstr "Generate an SSH key and use it to connect to a server."
+
+msgid "Generar, revisar, aplicar y revertir migraciones con Alembic siguiendo el patrón expandir y contraer."
+msgstr "Generate, review, apply and revert Alembic migrations following the expand-and-contract pattern."
 
 msgid "Gestiona servicios, crea una unidad propia y consulta sus registros."
 msgstr "Manage services, create your own unit and check its logs."
@@ -3403,6 +3514,9 @@ msgstr "Have completed Lightning from scratch and Lightning invoices, or know ch
 
 msgid "Haber enviado o visto una transacción de Bitcoin. El primer tutorial de esta categoría ayuda a leer entradas y salidas."
 msgstr "Have sent or seen a Bitcoin transaction. This category's first tutorial helps you read inputs and outputs."
+
+msgid "Haber terminado APIs REST con Python y FastAPI o tener experiencia equivalente: rutas, Pydantic, pruebas con pytest y SQL básico. Necesitas Python 3.12 y Docker para ejecutar PostgreSQL y Redis; conocer Linux para servidores ayuda en el último capítulo."
+msgstr "You should have finished REST APIs with Python and FastAPI or have equivalent experience: routes, Pydantic, pytest and basic SQL. You need Python 3.12 and Docker to run PostgreSQL and Redis; knowing Linux for servers helps in the last chapter."
 
 msgid "Hacer que un script se detenga cuando una API responde con error."
 msgstr "Make a script stop when an API responds with an error."
@@ -3503,6 +3617,9 @@ msgstr "Reference sheet: units, addresses and fees"
 msgid "Hojas de cálculo de Google o Excel. No necesitas fórmulas."
 msgstr "Google Sheets or Excel. You don't need formulas."
 
+msgid "HTML, CSS y accesibilidad con un sitio que publicas al final."
+msgstr "HTML, CSS and accessibility, with a site you publish at the end."
+
 msgid "HTTP, cookies y sesiones"
 msgstr "HTTP, cookies and sessions"
 
@@ -3511,6 +3628,9 @@ msgstr "Server fingerprint and the ~/.ssh/config file."
 
 msgid "IA generativa en el trabajo: instrucciones claras y resultados verificables"
 msgstr "Generative AI at work: clear prompts and verifiable results"
+
+msgid "Idempotencia: repetir sin duplicar"
+msgstr "Idempotency: repeat without duplicating"
 
 msgid "Identifica los componentes de tu computadora"
 msgstr "Identify your computer's components"
@@ -3553,6 +3673,9 @@ msgstr "Implement create, read and delete with correct responses and errors."
 
 msgid "Implementa un resumen independiente de los archivos."
 msgstr "Implement a summary independent of the files."
+
+msgid "Implementar claves de idempotencia que guarden la primera respuesta y rechacen la reutilización con otro contenido."
+msgstr "Implement idempotency keys that store the first response and reject reuse with different content."
 
 msgid "Implementar un inicio de sesión que no filtre información y almacene contraseñas de forma adecuada."
 msgstr "Implement a sign-in that doesn't leak information and stores passwords properly."
@@ -3698,6 +3821,9 @@ msgstr "Bring installation, configuration, lab and security together in an opera
 msgid "Integra inventario, controles y respuesta en un plan con prioridades."
 msgstr "Bring inventory, controls and response together in a prioritized plan."
 
+msgid "Integra lo aprendido y despliega la API con Uvicorn, PostgreSQL y un plan para volver atrás."
+msgstr "Bring it all together and deploy the API with Uvicorn, PostgreSQL and a plan to roll back."
+
 msgid "Integra modelado, materiales, iluminación, render y exportación en una pieza de portafolio."
 msgstr "Bring modeling, materials, lighting, rendering and export together in a portfolio piece."
 
@@ -3815,6 +3941,12 @@ msgstr "Spanish-language introduction to ethical hacking: what a professional do
 msgid "Inventariar los equipos y servicios expuestos de una red propia con Nmap y priorizar correcciones."
 msgstr "Inventory the devices and exposed services of your own network with Nmap and prioritize fixes."
 
+msgid "Investiga a tu público y prototipa dónde mostrarás tu trabajo."
+msgstr "Research your audience and prototype where you will show your work."
+
+msgid "Investiga y prototipa antes de escribir la siguiente página."
+msgstr "Research and prototype before you write the next page."
+
 msgid "Investigación, experiencia de usuario e interfaces digitales."
 msgstr "Research, user experience and digital interfaces."
 
@@ -3836,6 +3968,9 @@ msgstr "Iterate with quality criteria"
 msgid "JavaScript y una primera interacción"
 msgstr "JavaScript and a first interaction"
 
+msgid "La caja podrá consultar el inventario, pero solo bodega podrá modificarlo."
+msgstr "The till will be able to read the inventory, but only the warehouse will be able to change it."
+
 msgid "La comisión no aparece como una salida: es la diferencia entre lo que entra y lo que sale."
 msgstr "The fee doesn't appear as an output: it's the difference between what goes in and what comes out."
 
@@ -3850,6 +3985,9 @@ msgstr "The invoice is the interface between your application and the payment."
 
 msgid "La llave privada nunca sale de tu equipo."
 msgstr "The private key never leaves your computer."
+
+msgid "La misma API funcionará con SQLite en tus pruebas y con PostgreSQL en el servidor."
+msgstr "The same API will run on SQLite in your tests and on PostgreSQL on the server."
 
 msgid "La opción -sn descubre equipos sin revisar puertos."
 msgstr "The -sn option discovers devices without checking ports."
@@ -4022,8 +4160,17 @@ msgstr "Personal security checklist"
 msgid "Listar los equipos activos de la red con un descubrimiento de hosts."
 msgstr "List the active devices on the network with host discovery."
 
+msgid "Llama a otros servicios sin que su lentitud o sus fallos tumben tu API."
+msgstr "Call other services without letting their slowness or failures take your API down."
+
 msgid "Llave privada, llave pública y frase de protección."
 msgstr "Private key, public key and passphrase."
+
+msgid "Lleva la API a PostgreSQL con SQLAlchemy, versiona el esquema y controla la concurrencia."
+msgstr "Move the API to PostgreSQL with SQLAlchemy, version the schema and control concurrency."
+
+msgid "Lleva la API de inventario de la cafetería a producción: PostgreSQL con SQLAlchemy 2.0 y migraciones de Alembic, escrituras simultáneas sin actualizaciones perdidas, llamadas a otros servicios con tiempos límite y reintentos, caché con ETag y Redis, bandeja de salida, idempotencia, webhooks firmados, tokens JWT con alcances, métricas y despliegue con plan de reversión. El código se comprobó con FastAPI 0.162, SQLAlchemy 2.1, Alembic 1.20, PostgreSQL 17 y Redis 7."
+msgstr "Take the café's inventory API to production: PostgreSQL with SQLAlchemy 2.0 and Alembic migrations, simultaneous writes without lost updates, calls to other services with timeouts and retries, caching with ETag and Redis, an outbox, idempotency, signed webhooks, JWT tokens with scopes, metrics and a deployment with a rollback plan. The code was tested with FastAPI 0.162, SQLAlchemy 2.1, Alembic 1.20, PostgreSQL 17 and Redis 7."
 
 msgid "Lleva lo aprendido al mostrador y a la contabilidad."
 msgstr "Take what you learned to the counter and the books."
@@ -4130,6 +4277,9 @@ msgstr "Measure the contrast ratio between text and background, apply the WCAG 2
 msgid "Mide latencia y pérdida, sigue la ruta de los paquetes e interpreta resultados con cautela."
 msgstr "Measure latency and loss, follow the packets' route and interpret the results carefully."
 
+msgid "Migraciones con Alembic"
+msgstr "Migrations with Alembic"
+
 msgid "Minería y bloques"
 msgstr "Mining and blocks"
 
@@ -4229,6 +4379,9 @@ msgstr "Navigate and transform objects"
 msgid "Ningún soporte legítimo te pedirá tu frase semilla."
 msgstr "No legitimate support will ever ask for your seed phrase."
 
+msgid "Nivel avanzado: concurrencia, idempotencia, observabilidad y despliegue con reversión."
+msgstr "Advanced level: concurrency, idempotency, observability and deployment with rollback."
+
 msgid "Nmap instalado desde nmap.org, una red doméstica propia o una en la que tengas autorización por escrito, y acceso al router."
 msgstr "Nmap installed from nmap.org, your own home network or one you have written authorization for, and access to the router."
 
@@ -4259,11 +4412,17 @@ msgstr "Cores, memory modules, disks and graphics."
 msgid "Número, tiempos y texto."
 msgstr "Number, timing and text."
 
+msgid "OAuth2 con tokens JWT y permisos por alcance"
+msgstr "OAuth2 with JWT tokens and scoped permissions"
+
 msgid "Observa cómo un texto del usuario cambia una consulta y corrígelo con marcadores."
 msgstr "Watch how user text changes a query and fix it with placeholders."
 
 msgid "Observa procesos, memoria y disco, y detén procesos con las señales adecuadas."
 msgstr "Watch processes, memory and disk, and stop processes with the right signals."
+
+msgid "Observabilidad: registros, métricas y salud"
+msgstr "Observability: logs, metrics and health"
 
 msgid "Observar a personas realizando tareas con el prototipo e identificar y priorizar problemas."
 msgstr "Watch people perform tasks with the prototype and identify and prioritize problems."
@@ -4426,6 +4585,9 @@ msgstr "Pending; confirmed twice; expired without payment; provider unavailable;
 
 msgid "Permisos rwx y chmod"
 msgstr "rwx permissions and chmod"
+
+msgid "Permite que un cliente repita una solicitud de creación sin crear dos veces el mismo recurso."
+msgstr "Let a client repeat a create request without creating the same resource twice."
 
 msgid "Persistencia con SQLite y dependencias"
 msgstr "Persistence with SQLite and dependencies"
@@ -4655,6 +4817,9 @@ msgstr "Test several cases with parametrize and check that a function rejects in
 msgid "Probar y depurar una API HTTP desde la terminal con curl."
 msgstr "Test and debug an HTTP API from the terminal with curl."
 
+msgid "Procesa en segundo plano sin perder trabajo, repite solicitudes sin duplicar y firma los avisos entre sistemas."
+msgstr "Process in the background without losing work, repeat requests without duplicating and sign notifications between systems."
+
 msgid "Procesos y recursos"
 msgstr "Processes and resources"
 
@@ -4727,6 +4892,9 @@ msgstr "Protect accounts and applications, and respond when something fails."
 msgid "Protege el nodo, conéctale tus wallets y planifica su operación."
 msgstr "Protect the node, connect your wallets to it and plan its operation."
 
+msgid "Protege la API con tokens y alcances, observa su comportamiento y despliégala con un plan de reversión."
+msgstr "Protect the API with tokens and scopes, observe its behaviour and deploy it with a rollback plan."
+
 msgid "Protege las claves, integra la tienda en línea y planifica la adopción."
 msgstr "Protect the keys, integrate the online store and plan the adoption."
 
@@ -4759,6 +4927,9 @@ msgstr "Trigger and fix SQL injection, XSS and access to other people's data."
 
 msgid "Proyecto final: API de inventario"
 msgstr "Final project: inventory API"
+
+msgid "Proyecto final: API de inventario lista para producción"
+msgstr "Final project: a production-ready inventory API"
 
 msgid "Proyecto final: aplicación contenerizada lista para desplegar"
 msgstr "Final project: containerized application ready to deploy"
@@ -4822,6 +4993,9 @@ msgstr "Project: the application's case study"
 
 msgid "Proyecto: contenerizar y desplegar una aplicación"
 msgstr "Project: containerize and deploy an application"
+
+msgid "Proyecto: desplegar con migraciones y reversión"
+msgstr "Project: deploy with migrations and rollback"
 
 msgid "Proyecto: diseño y documentación de la red de una oficina"
 msgstr "Project: design and documentation of an office network"
@@ -4900,6 +5074,9 @@ msgstr "Testing and quality"
 
 msgid "Publica en YouTube"
 msgstr "Publish on YouTube"
+
+msgid "Publica un sitio accesible, colabora con Git y protégelo de los ataques más comunes."
+msgstr "Publish an accessible site, collaborate with Git and protect it from the most common attacks."
 
 msgid "Publicación y autoevaluación final"
 msgstr "Publication and final self-assessment"
@@ -5183,6 +5360,12 @@ msgstr "Narrow a shoot down to six images with clear purposes and record why you
 msgid "Reducirás los riesgos de robo interno, externo y pérdida accidental."
 msgstr "You'll reduce the risks of internal theft, external theft and accidental loss."
 
+msgid "Reemplaza la clave de API única por usuarios, tokens con vencimiento y permisos limitados."
+msgstr "Replace the single API key with users, expiring tokens and limited permissions."
+
+msgid "Reemplaza las consultas manuales por modelos de SQLAlchemy y conecta la API a PostgreSQL sin cambiar sus rutas."
+msgstr "Replace hand-written queries with SQLAlchemy models and connect the API to PostgreSQL without changing its routes."
+
 msgid "Reescribir una instrucción vaga en una instrucción completa y explicar qué aporta cada parte."
 msgstr "Rewrite a vague prompt into a complete prompt and explain what each part adds."
 
@@ -5197,6 +5380,9 @@ msgstr "Record changes with small commits and messages that explain their purpos
 
 msgid "Registrar casos reproducibles y corregir un defecto sin confundir una puntuación con accesibilidad completa."
 msgstr "Record reproducible cases and fix a defect without mistaking a score for full accessibility."
+
+msgid "Registrar eventos en la misma transacción que el cambio y procesarlos con un trabajador que reparte el trabajo con SKIP LOCKED."
+msgstr "Record events in the same transaction as the change and process them with a worker that shares the work using SKIP LOCKED."
 
 msgid "Registrar las dependencias de un proyecto para reproducir el entorno en otra computadora."
 msgstr "Record a project's dependencies to reproduce the environment on another computer."
@@ -5270,6 +5456,9 @@ msgstr "Backup and receiving"
 msgid "Responde a B sin datos reales y distingue respaldo de contraseña."
 msgstr "Reply to B without real data and tell a backup apart from a password."
 
+msgid "Responder 304 con ETag, guardar respuestas en Redis con invalidación por generación y tolerar la caída de la caché."
+msgstr "Answer 304 with an ETag, store responses in Redis with generation-based invalidation and survive the cache going down."
+
 msgid "Responder con el código HTTP adecuado en cada caso, incluidos los errores esperables."
 msgstr "Respond with the right HTTP code in each case, including expected errors."
 
@@ -5317,6 +5506,9 @@ msgstr "Revert a published commit"
 
 msgid "Revisa archivos, códigos de salida y conservación de resultados."
 msgstr "Check files, exit codes and how results are kept."
+
+msgid "Revisa el sitio con los riesgos más comunes de la web."
+msgstr "Review the site against the most common web risks."
 
 msgid "Revisa la aplicación completa, corrige las fallas y demuestra cada corrección con pruebas."
 msgstr "Review the whole application, fix the flaws and prove each fix with tests."
@@ -5435,6 +5627,9 @@ msgstr "You'll know which QR code to put at the counter and which to generate fo
 msgid "Sabrás qué significa 192.168.1.37/24 y por qué tu casa usa esas direcciones."
 msgstr "You'll know what 192.168.1.37/24 means and why your home uses those addresses."
 
+msgid "Saca de la solicitud el trabajo lento y garantiza que no se pierda si el proceso se reinicia."
+msgstr "Move slow work out of the request and make sure it isn't lost if the process restarts."
+
 msgid "Salud, reinicios y registros"
 msgstr "Health, restarts and logs"
 
@@ -5516,6 +5711,9 @@ msgstr "Service and credentials"
 msgid "Servicios con systemd y registros con journalctl"
 msgstr "Services with systemd and logs with journalctl"
 
+msgid "Servicios externos: tiempos límite, reintentos y backoff"
+msgstr "External services: timeouts, retries and backoff"
+
 msgid "Servicios, APIs y lógica de servidor para aplicaciones."
 msgstr "Services, APIs and server logic for applications."
 
@@ -5525,11 +5723,17 @@ msgstr "Services, deployment and cost control on cloud platforms."
 msgid "shape, dtypes e isna antes de tocar nada."
 msgstr "shape, dtypes and isna before touching anything."
 
+msgid "Si el servidor se reinicia a mitad de un envío, el evento seguirá pendiente en la base."
+msgstr "If the server restarts in the middle of a delivery, the event will still be pending in the database."
+
 msgid "Si funciona a mano y no en cron, casi siempre es el entorno."
 msgstr "If it works by hand and not in cron, it's almost always the environment."
 
 msgid "Si la primera dirección coincide, tu respaldo restaura la billetera correcta."
 msgstr "If the first address matches, your backup restores the right wallet."
+
+msgid "Si la respuesta se pierde en la red, el cliente podrá repetir el pedido con tranquilidad."
+msgstr "If the response is lost on the network, the client can safely repeat the request."
 
 msgid "Sigue un orden de pruebas de abajo hacia arriba para aislar la causa de una falla."
 msgstr "Follow a bottom-up test order to isolate a failure's cause."
@@ -5684,8 +5888,14 @@ msgstr "Topology and good practices"
 msgid "Trabajar cada cambio en su propia rama y fusionarlo distinguiendo avance rápido y confirmación de fusión."
 msgstr "Work on each change in its own branch and merge it, telling fast-forward apart from a merge commit."
 
+msgid "Trabajo en segundo plano y bandeja de salida"
+msgstr "Background work and the outbox"
+
 msgid "Traducción al español del documento de 2008 que describe Bitcoin: transacciones, marca de tiempo, prueba de trabajo e incentivos. Nueve páginas para leer después de los tutoriales de transacciones."
 msgstr "Spanish translation of the 2008 document that describes Bitcoin: transactions, timestamps, proof of work and incentives. Nine pages to read after the transaction tutorials."
+
+msgid "Transacciones y concurrencia"
+msgstr "Transactions and concurrency"
 
 msgid "Transforma la página inicial en una estructura semántica que funciona sin estilos."
 msgstr "Turn the initial page into a semantic structure that works without styles."
@@ -5744,11 +5954,17 @@ msgstr "A sweep without a port scan."
 msgid "Un celular con cámara y espacio libre; editor gratuito incluido en la galería o Google Fotos para ajustes básicos; acceso a una ventana y objetos cotidianos. No se necesita cámara profesional, accesorios de pago ni salir de casa. Reserva tiempo para las prácticas."
 msgstr "A phone with a camera and free space; the free editor included in the gallery or Google Photos for basic adjustments; access to a window and everyday objects. You don't need a professional camera, paid accessories or to leave home. Set aside time for the practices."
 
+msgid "Un cliente que ya tiene la lista actual recibirá 304 sin cuerpo."
+msgstr "A client that already has the current list will get a 304 with no body."
+
 msgid "Un color de marca puede quedarse como acento y no como texto."
 msgstr "A brand color can stay as an accent rather than text."
 
 msgid "Un commit que hiciste no desaparece de inmediato: reflog lo recuerda."
 msgstr "A commit you made doesn't disappear right away: reflog remembers it."
+
+msgid "Un despliegue seguro empieza antes de ejecutar el comando: con la reversión ya pensada."
+msgstr "A safe deployment starts before you run the command: with the rollback already planned."
 
 msgid "Un disco duro mecánico suele ser el mayor cuello de botella."
 msgstr "A mechanical hard drive is usually the biggest bottleneck."
@@ -5894,6 +6110,9 @@ msgstr "A slim image reduces size and attack surface."
 msgid "Una instancia de LNbits de prueba (por ejemplo, con FakeWallet o en testnet), curl y una terminal. Saber qué es una petición HTTP."
 msgstr "A test LNbits instance (for example, with FakeWallet or on testnet), curl and a terminal. Know what an HTTP request is."
 
+msgid "Una llamada sin tiempo límite puede esperar para siempre y ocupar recursos de tu servidor."
+msgstr "A call without a timeout can wait forever and tie up your server's resources."
+
 msgid "Una montaña pegada al borde indica detalle perdido."
 msgstr "A peak stuck to the edge signals lost detail."
 
@@ -5911,6 +6130,9 @@ msgstr "A network with shared rules"
 
 msgid "Una secuencia con principio y final"
 msgstr "A sequence with a beginning and an end"
+
+msgid "Una sola llamada bloqueante dentro de async def puede detener todas las solicitudes del proceso."
+msgstr "A single blocking call inside async def can stall every request in the process."
 
 msgid "Una terminal con OpenSSH (incluido en Windows 10 o posterior, macOS y Linux) y acceso con contraseña a un servidor o máquina virtual."
 msgstr "A terminal with OpenSSH (included in Windows 10 or later, macOS and Linux) and password access to a server or virtual machine."
@@ -5938,6 +6160,9 @@ msgstr "You'll join four tables to get the real sales by category."
 
 msgid "Usa asistentes para entender, escribir y revisar código sin perder el control."
 msgstr "Use assistants to understand, write and review code without losing control."
+
+msgid "Usa async donde ayuda, protege las llamadas a otros servicios y evita trabajo repetido con caché."
+msgstr "Use async where it helps, protect calls to other services and avoid repeated work with caching."
 
 msgid "Usa csv.DictReader, contextos de archivo y codificación explícita."
 msgstr "Use csv.DictReader, file contexts and explicit encoding."
@@ -6041,6 +6266,9 @@ msgstr "Validate JSON bodies with Pydantic models and control which data the API
 msgid "Validar un archivo completo y explicar sus errores"
 msgstr "Validate a whole file and explain its errors"
 
+msgid "Veinte ventas simultáneas sobre cinco unidades dejarán exactamente cero, nunca menos."
+msgstr "Twenty simultaneous sales of five units will leave exactly zero, never less."
+
 msgid "Verifica antes de usar el resultado"
 msgstr "Verify before using the result"
 
@@ -6088,6 +6316,12 @@ msgstr "You'll verify a generated text claim by claim."
 
 msgid "Versiona desde el principio y trabaja con otras personas."
 msgstr "Version from the start and work with other people."
+
+msgid "Versiona el esquema de la base y aplica cambios sin perder datos, incluso con la aplicación en marcha."
+msgstr "Version the database schema and apply changes without losing data, even while the app is running."
+
+msgid "Versiona el sitio y colabora mediante ramas y revisiones."
+msgstr "Version the site and collaborate through branches and reviews."
 
 msgid "Verás a personas reales usar tu diseño y descubrirás lo que no funciona."
 msgstr "You'll watch real people use your design and discover what doesn't work."
@@ -6166,6 +6400,9 @@ msgstr "Common vulnerabilities, secure development and code review."
 
 msgid "Wallets y autocustodia: claves, respaldo y recepción"
 msgstr "Wallets and self-custody: keys, backup and receiving"
+
+msgid "Webhooks firmados: HMAC, reintentos y verificación"
+msgstr "Signed webhooks: HMAC, retries and verification"
 
 msgid "WebVTT es el formato que entiende la etiqueta track."
 msgstr "WebVTT is the format the track tag understands."

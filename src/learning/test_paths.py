@@ -153,3 +153,37 @@ class LearningPathTests(TestCase):
         CreatorProfile.objects.create(user=stranger, display_name="Tercera", status="approved")
         self.client.force_login(stranger)
         self.assertEqual(self.client.get(reverse("creator-path", args=[path.pk])).status_code, 404)
+
+
+class EditorialPathCatalogTests(TestCase):
+    def test_editorial_paths_use_catalog_courses_and_publish(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+
+        from content.course_catalog import load_catalog
+        from content.editorial_catalog import CATALOG
+
+        from .management.commands.load_learning_paths import PATHS
+
+        known = {course["title"] for course in load_catalog()} | {course["title"] for course in CATALOG}
+        for slug, _, _, _, steps in PATHS:
+            self.assertFalse({title for title, _, _ in steps} - known, slug)
+            self.assertGreaterEqual(sum(not optional for _, optional, _ in steps), 2, slug)
+        users = get_user_model().objects
+        creator = users.create_user("editorial.paths@example.invalid", account_type="creator")
+        CreatorProfile.objects.create(user=creator, display_name="BTC.EDU", status="approved")
+        admin = users.create_superuser("editorial.paths.admin@example.invalid")
+        for title in {title for *_, steps in PATHS for title, _, _ in steps}:
+            course = Course.objects.create(creator=creator, title=title, description="Descripción", status="published")
+            chapter = Chapter.objects.create(course=course, title="Inicio", status="published")
+            Lesson.objects.create(**EDUCATION_FIXTURE, chapter=chapter, title="Lección", body="Texto", status="published")
+            publish_course(course, admin)
+        call_command("load_learning_paths", stdout=StringIO())
+        self.assertEqual(LearningPath.objects.filter(published=True).count(), len(PATHS))
+        design = LearningPath.objects.get(slug="diseno-y-creacion-digital")
+        self.assertEqual([step.optional for step in design.steps.order_by("position")], [False, False, False, True])
+        web = LearningPath.objects.get(slug="desarrollo-web")
+        self.assertEqual(web.steps.filter(optional=False).count(), 3)
+        call_command("load_learning_paths", stdout=StringIO())
+        self.assertEqual(PathCourse.objects.count(), sum(len(steps) for *_, steps in PATHS))
